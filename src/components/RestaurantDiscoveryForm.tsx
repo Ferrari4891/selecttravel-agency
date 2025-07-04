@@ -30,40 +30,23 @@ interface Restaurant {
 }
 
 export const RestaurantDiscoveryForm = () => {
-  const [selectedRegion, setSelectedRegion] = useState<string>('');
-  const [selectedCountry, setSelectedCountry] = useState<string>('');
-  const [selectedCity, setSelectedCity] = useState<string>('');
+  const [selectedCategory, setSelectedCategory] = useState<string>('');
   const [isLoading, setIsLoading] = useState(false);
   const [restaurants, setRestaurants] = useState<Restaurant[]>([]);
-  const [currentStep, setCurrentStep] = useState(1);
   const { toast } = useToast();
 
-  const handleRegionChange = (value: string) => {
-    setSelectedRegion(value);
-    setSelectedCountry('');
-    setSelectedCity('');
-    setCurrentStep(2);
-    setRestaurants([]);
-  };
+  const categories = ['Eat', 'Stay', 'Drink', 'Play'];
 
-  const handleCountryChange = (value: string) => {
-    setSelectedCountry(value);
-    setSelectedCity('');
-    setCurrentStep(3);
-    setRestaurants([]);
-  };
-
-  const handleCityChange = (value: string) => {
-    setSelectedCity(value);
-    setCurrentStep(4);
+  const handleCategoryChange = (value: string) => {
+    setSelectedCategory(value);
     setRestaurants([]);
   };
 
   const searchRestaurants = async () => {
-    if (!selectedCity) {
+    if (!selectedCategory) {
       toast({
         title: "Selection Required",
-        description: "Please select a city before searching for restaurants.",
+        description: "Please select a category before searching.",
         variant: "destructive",
       });
       return;
@@ -76,17 +59,17 @@ export const RestaurantDiscoveryForm = () => {
       
       // Mock restaurant data for demonstration
       const mockRestaurants: Restaurant[] = Array.from({ length: 40 }, (_, i) => ({
-        name: `Restaurant ${i + 1}`,
-        address: `${i + 1} Main Street, ${selectedCity}, ${selectedCountry}`,
-        googleMapRef: `https://maps.google.com/?q=${i + 1}+Main+Street+${selectedCity}+${selectedCountry}`,
+        name: `${selectedCategory} Place ${i + 1}`,
+        address: `${i + 1} Main Street, Sample City, Sample Country`,
+        googleMapRef: `https://maps.google.com/?q=${i + 1}+Main+Street+Sample+City`,
         socialMediaLinks: {
-          facebook: `https://facebook.com/restaurant${i + 1}`,
-          instagram: `https://instagram.com/restaurant${i + 1}`,
+          facebook: `https://facebook.com/place${i + 1}`,
+          instagram: `https://instagram.com/place${i + 1}`,
         },
         contactDetails: {
           phone: `+1-555-${String(i + 100).padStart(4, '0')}`,
-          email: `contact@restaurant${i + 1}.com`,
-          website: `https://restaurant${i + 1}.com`,
+          email: `contact@place${i + 1}.com`,
+          website: `https://place${i + 1}.com`,
         },
         imageLinks: [`https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?w=400&h=300&fit=crop&crop=center&q=80`],
         rating: 3.5 + Math.random() * 1.5,
@@ -97,12 +80,12 @@ export const RestaurantDiscoveryForm = () => {
       setRestaurants(mockRestaurants);
       toast({
         title: "Success!",
-        description: `Found ${mockRestaurants.length} restaurants in ${selectedCity}`,
+        description: `Found ${mockRestaurants.length} places in ${selectedCategory}`,
       });
     } catch (error) {
       toast({
         title: "Error",
-        description: "Failed to fetch restaurant data. Please try again.",
+        description: "Failed to fetch data. Please try again.",
         variant: "destructive",
       });
     } finally {
@@ -153,7 +136,7 @@ export const RestaurantDiscoveryForm = () => {
     const link = document.createElement('a');
     const url = URL.createObjectURL(blob);
     link.setAttribute('href', url);
-    link.setAttribute('download', `restaurants_${selectedCity}_${selectedCountry}.csv`);
+    link.setAttribute('download', `${selectedCategory}_places.csv`);
     link.style.visibility = 'hidden';
     document.body.appendChild(link);
     link.click();
@@ -161,19 +144,8 @@ export const RestaurantDiscoveryForm = () => {
 
     toast({
       title: "CSV Downloaded",
-      description: "Restaurant data has been exported to CSV format.",
+      description: "Data has been exported to CSV format.",
     });
-  };
-
-  const getCurrentStepData = () => {
-    if (currentStep === 2 && selectedRegion) {
-      return regionData[selectedRegion]?.countries || [];
-    }
-    if (currentStep === 3 && selectedCountry) {
-      const region = regionData[selectedRegion];
-      return region?.countries.find(c => c.name === selectedCountry)?.cities || [];
-    }
-    return [];
   };
 
   return (
@@ -224,96 +196,42 @@ export const RestaurantDiscoveryForm = () => {
           <CardHeader>
             <CardTitle className="flex items-center gap-2">
               <MapPin className="h-5 w-5 text-primary" />
-              Location Selection
+              Category Selection
             </CardTitle>
             <CardDescription>
-              Choose your region, country, and city to discover the best restaurants
+              Choose a category to discover places
             </CardDescription>
           </CardHeader>
           <CardContent className="space-y-6">
-            <div className="flex flex-wrap gap-2 mb-4">
-              {[1, 2, 3, 4].map((step) => (
-                <Badge
-                  key={step}
-                  variant={currentStep >= step ? "default" : "secondary"}
-                  className="transition-all duration-300"
-                >
-                  Step {step}
-                </Badge>
-              ))}
-            </div>
-
-            <div className="grid gap-6 md:grid-cols-3">
-              <div className="space-y-2">
-                <label className="text-sm font-medium">Region</label>
-                <Select value={selectedRegion} onValueChange={handleRegionChange}>
-                  <SelectTrigger>
-                    <SelectValue placeholder="Select a region" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    {Object.keys(regionData).map((region) => (
-                      <SelectItem key={region} value={region}>
-                        {region}
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
-              </div>
-
-              <div className="space-y-2">
-                <label className="text-sm font-medium">Country</label>
-                <Select
-                  value={selectedCountry}
-                  onValueChange={handleCountryChange}
-                  disabled={!selectedRegion}
-                >
-                  <SelectTrigger>
-                    <SelectValue placeholder="Select a country" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    {currentStep >= 2 && getCurrentStepData().map((country: any) => (
-                      <SelectItem key={country.name} value={country.name}>
-                        {country.name}
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
-              </div>
-
-              <div className="space-y-2">
-                <label className="text-sm font-medium">City/County</label>
-                <Select
-                  value={selectedCity}
-                  onValueChange={handleCityChange}
-                  disabled={!selectedCountry}
-                >
-                  <SelectTrigger>
-                    <SelectValue placeholder="Select a city" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    {currentStep >= 3 && getCurrentStepData().map((city: string) => (
-                      <SelectItem key={city} value={city}>
-                        {city}
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
-              </div>
+            <div className="space-y-2">
+              <label className="text-sm font-medium">Category</label>
+              <Select value={selectedCategory} onValueChange={handleCategoryChange}>
+                <SelectTrigger>
+                  <SelectValue placeholder="Select a category" />
+                </SelectTrigger>
+                <SelectContent>
+                  {categories.map((category) => (
+                    <SelectItem key={category} value={category}>
+                      {category}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
             </div>
 
             <div className="flex gap-4 pt-4">
               <Button
                 onClick={searchRestaurants}
-                disabled={!selectedCity || isLoading}
+                disabled={!selectedCategory || isLoading}
                 className="flex-1"
               >
                 {isLoading ? (
                   <>
                     <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                    Searching Restaurants...
+                    Searching Places...
                   </>
                 ) : (
-                  'Search Restaurants'
+                  'Search Places'
                 )}
               </Button>
 
@@ -334,8 +252,8 @@ export const RestaurantDiscoveryForm = () => {
         {restaurants.length > 0 && (
           <RestaurantResults
             restaurants={restaurants}
-            selectedCity={selectedCity}
-            selectedCountry={selectedCountry}
+            selectedCity={selectedCategory}
+            selectedCountry=""
           />
         )}
       </div>
