@@ -3,7 +3,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Button } from '@/components/ui/button';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Badge } from '@/components/ui/badge';
-import { Loader2, MapPin, Download, Info, HelpCircle } from 'lucide-react';
+import { Loader2, MapPin, Download, Info, HelpCircle, Languages } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { regionData } from '@/data/locationData';
 import { RestaurantResults } from './RestaurantResults';
@@ -193,6 +193,21 @@ export const RestaurantDiscoveryForm = () => {
                 How To
               </Button>
             </Link>
+            <div className="flex items-center gap-2">
+              <Languages className="h-4 w-4 text-muted-foreground" />
+              <Select defaultValue="en">
+                <SelectTrigger className="w-32 h-9">
+                  <SelectValue />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="en">English</SelectItem>
+                  <SelectItem value="es">Español</SelectItem>
+                  <SelectItem value="fr">Français</SelectItem>
+                  <SelectItem value="de">Deutsch</SelectItem>
+                  <SelectItem value="it">Italiano</SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
           </div>
         </div>
         
