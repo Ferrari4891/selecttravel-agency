@@ -31,22 +31,49 @@ interface Restaurant {
 
 export const RestaurantDiscoveryForm = () => {
   const [selectedCategory, setSelectedCategory] = useState<string>('');
+  const [selectedRegion, setSelectedRegion] = useState<string>('');
+  const [selectedCountry, setSelectedCountry] = useState<string>('');
+  const [selectedCity, setSelectedCity] = useState<string>('');
   const [isLoading, setIsLoading] = useState(false);
   const [restaurants, setRestaurants] = useState<Restaurant[]>([]);
   const { toast } = useToast();
 
   const categories = ['Eat', 'Stay', 'Drink', 'Play'];
+  const regions = Object.keys(regionData);
+  const countries = selectedRegion ? regionData[selectedRegion as keyof typeof regionData]?.countries || [] : [];
+  const cities = selectedCountry ? countries.find(c => c.name === selectedCountry)?.cities || [] : [];
 
   const handleCategoryChange = (value: string) => {
     setSelectedCategory(value);
+    setSelectedRegion('');
+    setSelectedCountry('');
+    setSelectedCity('');
+    setRestaurants([]);
+  };
+
+  const handleRegionChange = (value: string) => {
+    setSelectedRegion(value);
+    setSelectedCountry('');
+    setSelectedCity('');
+    setRestaurants([]);
+  };
+
+  const handleCountryChange = (value: string) => {
+    setSelectedCountry(value);
+    setSelectedCity('');
+    setRestaurants([]);
+  };
+
+  const handleCityChange = (value: string) => {
+    setSelectedCity(value);
     setRestaurants([]);
   };
 
   const searchRestaurants = async () => {
-    if (!selectedCategory) {
+    if (!selectedCategory || !selectedRegion || !selectedCountry || !selectedCity) {
       toast({
-        title: "Selection Required",
-        description: "Please select a category before searching.",
+        title: "All Steps Required",
+        description: "Please complete all steps before getting your results.",
         variant: "destructive",
       });
       return;
@@ -60,8 +87,8 @@ export const RestaurantDiscoveryForm = () => {
       // Mock restaurant data for demonstration
       const mockRestaurants: Restaurant[] = Array.from({ length: 40 }, (_, i) => ({
         name: `${selectedCategory} Place ${i + 1}`,
-        address: `${i + 1} Main Street, Sample City, Sample Country`,
-        googleMapRef: `https://maps.google.com/?q=${i + 1}+Main+Street+Sample+City`,
+        address: `${i + 1} Main Street, ${selectedCity}, ${selectedCountry}`,
+        googleMapRef: `https://maps.google.com/?q=${i + 1}+Main+Street+${selectedCity}+${selectedCountry}`,
         socialMediaLinks: {
           facebook: `https://facebook.com/place${i + 1}`,
           instagram: `https://instagram.com/place${i + 1}`,
@@ -196,42 +223,104 @@ export const RestaurantDiscoveryForm = () => {
           <CardHeader>
             <CardTitle className="flex items-center gap-2">
               <MapPin className="h-5 w-5 text-primary" />
-              Category Selection
+              Choose Your Guidebook
             </CardTitle>
             <CardDescription>
-              Choose a category to discover places
+              Follow the 5 steps to discover the top 40 places
             </CardDescription>
           </CardHeader>
           <CardContent className="space-y-6">
-            <div className="space-y-2">
-              <label className="text-sm font-medium">Category</label>
-              <Select value={selectedCategory} onValueChange={handleCategoryChange}>
-                <SelectTrigger>
-                  <SelectValue placeholder="Select a category" />
-                </SelectTrigger>
-                <SelectContent>
-                  {categories.map((category) => (
-                    <SelectItem key={category} value={category}>
-                      {category}
-                    </SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
+            <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-4">
+              <div className="space-y-2">
+                <label className="text-sm font-medium">Step 1: Choose Category</label>
+                <Select value={selectedCategory} onValueChange={handleCategoryChange}>
+                  <SelectTrigger>
+                    <SelectValue placeholder="Select category" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {categories.map((category) => (
+                      <SelectItem key={category} value={category}>
+                        {category}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              </div>
+
+              <div className="space-y-2">
+                <label className="text-sm font-medium">Step 2: Select Region</label>
+                <Select 
+                  value={selectedRegion} 
+                  onValueChange={handleRegionChange}
+                  disabled={!selectedCategory}
+                >
+                  <SelectTrigger>
+                    <SelectValue placeholder="Select region" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {regions.map((region) => (
+                      <SelectItem key={region} value={region}>
+                        {region}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              </div>
+
+              <div className="space-y-2">
+                <label className="text-sm font-medium">Step 3: Select Country</label>
+                <Select 
+                  value={selectedCountry} 
+                  onValueChange={handleCountryChange}
+                  disabled={!selectedRegion}
+                >
+                  <SelectTrigger>
+                    <SelectValue placeholder="Select country" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {countries.map((country) => (
+                      <SelectItem key={country.name} value={country.name}>
+                        {country.name}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              </div>
+
+              <div className="space-y-2">
+                <label className="text-sm font-medium">Step 4: Select City</label>
+                <Select 
+                  value={selectedCity} 
+                  onValueChange={handleCityChange}
+                  disabled={!selectedCountry}
+                >
+                  <SelectTrigger>
+                    <SelectValue placeholder="Select city" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {cities.map((city) => (
+                      <SelectItem key={city} value={city}>
+                        {city}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              </div>
             </div>
 
             <div className="flex gap-4 pt-4">
               <Button
                 onClick={searchRestaurants}
-                disabled={!selectedCategory || isLoading}
+                disabled={!selectedCategory || !selectedRegion || !selectedCountry || !selectedCity || isLoading}
                 className="flex-1"
               >
                 {isLoading ? (
                   <>
                     <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                    Searching Places...
+                    Getting Your Results...
                   </>
                 ) : (
-                  'Search Places'
+                  'Step 5: Get My Results'
                 )}
               </Button>
 
@@ -252,8 +341,8 @@ export const RestaurantDiscoveryForm = () => {
         {restaurants.length > 0 && (
           <RestaurantResults
             restaurants={restaurants}
-            selectedCity={selectedCategory}
-            selectedCountry=""
+            selectedCity={selectedCity}
+            selectedCountry={selectedCountry}
           />
         )}
       </div>
