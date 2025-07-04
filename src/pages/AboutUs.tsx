@@ -1,0 +1,103 @@
+import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { ArrowLeft } from "lucide-react";
+import { Link } from "react-router-dom";
+
+const AboutUs = () => {
+  return (
+    <div className="min-h-screen bg-background p-6">
+      <div className="max-w-4xl mx-auto space-y-8">
+        <div className="flex items-center gap-4">
+          <Link to="/">
+            <Button variant="outline" size="sm">
+              <ArrowLeft className="h-4 w-4 mr-2" />
+              Back to Home
+            </Button>
+          </Link>
+        </div>
+
+        <div className="text-center space-y-4">
+          <h1 className="text-4xl font-bold bg-gradient-primary bg-clip-text text-transparent">
+            About smartguidebooks.com
+          </h1>
+          <p className="text-muted-foreground text-lg">
+            Your trusted companion for discovering exceptional dining experiences
+          </p>
+        </div>
+
+        <div className="grid gap-6 md:grid-cols-2">
+          <Card>
+            <CardHeader>
+              <CardTitle>Our Mission</CardTitle>
+              <CardDescription>What drives us every day</CardDescription>
+            </CardHeader>
+            <CardContent>
+              <p className="text-muted-foreground">
+                At smartguidebooks.com, we believe that great food brings people together. Our mission is to help you discover the most exceptional restaurants in any area, combining data from trusted sources like TripAdvisor, Yelp, and Google Reviews to give you the most comprehensive dining recommendations.
+              </p>
+            </CardContent>
+          </Card>
+
+          <Card>
+            <CardHeader>
+              <CardTitle>Our Story</CardTitle>
+              <CardDescription>How it all began</CardDescription>
+            </CardHeader>
+            <CardContent>
+              <p className="text-muted-foreground">
+                Founded by passionate food enthusiasts and travel experts, smartguidebooks.com was born from the frustration of spending hours researching restaurants when traveling. We wanted to create a simple, reliable way to find the top dining spots in any location, backed by real reviews and comprehensive data.
+              </p>
+            </CardContent>
+          </Card>
+
+          <Card>
+            <CardHeader>
+              <CardTitle>What Makes Us Different</CardTitle>
+              <CardDescription>Our unique approach</CardDescription>
+            </CardHeader>
+            <CardContent>
+              <ul className="space-y-2 text-muted-foreground">
+                <li>• Comprehensive data from multiple trusted review platforms</li>
+                <li>• Curated lists of the top 40 restaurants in each area</li>
+                <li>• Complete contact information and social media links</li>
+                <li>• Easy-to-use interface with intuitive navigation</li>
+                <li>• Regular updates to ensure accuracy and relevance</li>
+              </ul>
+            </CardContent>
+          </Card>
+
+          <Card>
+            <CardHeader>
+              <CardTitle>Our Team</CardTitle>
+              <CardDescription>The people behind the platform</CardDescription>
+            </CardHeader>
+            <CardContent>
+              <p className="text-muted-foreground">
+                Our team consists of experienced food critics, travel writers, data analysts, and software developers who share a common passion for exceptional dining experiences. We work tirelessly to ensure that every recommendation meets our high standards for quality and authenticity.
+              </p>
+            </CardContent>
+          </Card>
+        </div>
+
+        <Card>
+          <CardHeader>
+            <CardTitle className="text-center">Get in Touch</CardTitle>
+            <CardDescription className="text-center">We'd love to hear from you</CardDescription>
+          </CardHeader>
+          <CardContent className="text-center space-y-4">
+            <p className="text-muted-foreground">
+              Have questions, suggestions, or want to share your dining experiences? 
+              We're always eager to connect with fellow food enthusiasts.
+            </p>
+            <div className="flex justify-center gap-4">
+              <Button variant="outline">Contact Us</Button>
+              <Button variant="outline">Follow Us</Button>
+            </div>
+          </CardContent>
+        </Card>
+      </div>
+    </div>
+  );
+};
+
+export default AboutUs;

@@ -3,7 +3,8 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Button } from '@/components/ui/button';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Badge } from '@/components/ui/badge';
-import { Loader2, MapPin, Download } from 'lucide-react';
+import { Loader2, MapPin, Download, Info, HelpCircle } from 'lucide-react';
+import { Link } from 'react-router-dom';
 import { regionData } from '@/data/locationData';
 import { RestaurantResults } from './RestaurantResults';
 import { useToast } from '@/hooks/use-toast';
@@ -178,6 +179,23 @@ export const RestaurantDiscoveryForm = () => {
   return (
     <div className="min-h-screen bg-background p-6">
       <div className="max-w-4xl mx-auto space-y-8">
+        <div className="flex justify-between items-center">
+          <div className="flex gap-4">
+            <Link to="/about-us">
+              <Button variant="outline" size="sm">
+                <Info className="h-4 w-4 mr-2" />
+                About Us
+              </Button>
+            </Link>
+            <Link to="/how-to">
+              <Button variant="outline" size="sm">
+                <HelpCircle className="h-4 w-4 mr-2" />
+                How To
+              </Button>
+            </Link>
+          </div>
+        </div>
+        
         <div className="text-center space-y-4">
           <h1 className="text-4xl font-bold bg-gradient-primary bg-clip-text text-transparent">
             smartguidebooks.com
