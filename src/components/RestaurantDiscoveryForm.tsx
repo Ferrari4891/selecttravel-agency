@@ -180,10 +180,10 @@ export const RestaurantDiscoveryForm = () => {
       <div className="max-w-4xl mx-auto space-y-8">
         <div className="text-center space-y-4">
           <h1 className="text-4xl font-bold bg-gradient-primary bg-clip-text text-transparent">
-            Restaurant Discovery Tool
+            smartguidebooks.com
           </h1>
           <p className="text-muted-foreground text-lg">
-            Find the top 40 restaurants in your selected location from TripAdvisor, Yelp, and Google Reviews
+            Discover the TOP 40 restaurants in the area
           </p>
         </div>
 
