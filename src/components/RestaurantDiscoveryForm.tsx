@@ -51,6 +51,36 @@ export const RestaurantDiscoveryForm = () => {
     setRestaurants([]);
   };
 
+  const getTagline = () => {
+    switch (selectedCategory) {
+      case 'Eat':
+        return 'Discover the TOP 40 restaurants in the area';
+      case 'Drink':
+        return 'Discover the TOP 40 bars and cafes in the area';
+      case 'Stay':
+        return 'Discover the TOP 40 hotels and accommodations in the area';
+      case 'Play':
+        return 'Discover the TOP 40 entertainment venues in the area';
+      default:
+        return 'Discover the TOP 40 places in the area';
+    }
+  };
+
+  const getThemeClass = () => {
+    switch (selectedCategory) {
+      case 'Eat':
+        return 'theme-eat';
+      case 'Drink':
+        return 'theme-drink';
+      case 'Stay':
+        return 'theme-stay';
+      case 'Play':
+        return 'theme-play';
+      default:
+        return '';
+    }
+  };
+
   const handleRegionChange = (value: string) => {
     setSelectedRegion(value);
     setSelectedCountry('');
@@ -176,7 +206,7 @@ export const RestaurantDiscoveryForm = () => {
   };
 
   return (
-    <div className="min-h-screen bg-background p-6">
+    <div className={`min-h-screen bg-background p-6 ${getThemeClass()}`}>
       <div className="max-w-4xl mx-auto space-y-8">
         <div className="flex justify-between items-center">
           <div className="flex gap-4">
@@ -215,7 +245,7 @@ export const RestaurantDiscoveryForm = () => {
             smartguidebooks.com
           </h1>
           <p className="text-muted-foreground text-lg">
-            Discover the TOP 40 restaurants in the area
+            {getTagline()}
           </p>
         </div>
 

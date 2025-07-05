@@ -44,21 +44,44 @@ All colors MUST be HSL.
     --radius: 0.5rem;
 
     --sidebar-background: 0 0% 98%;
-
     --sidebar-foreground: 240 5.3% 26.1%;
-
     --sidebar-primary: 240 5.9% 10%;
-
     --sidebar-primary-foreground: 0 0% 98%;
-
     --sidebar-accent: 240 4.8% 95.9%;
-
     --sidebar-accent-foreground: 240 5.9% 10%;
-
     --sidebar-border: 220 13% 91%;
-
     --sidebar-ring: 217.2 91.2% 59.8%;
   }
+
+  /* Theme variants for categories */
+  .theme-eat {
+    --primary: 25 95% 53%;
+    --ring: 25 95% 53%;
+    --gradient-primary: linear-gradient(135deg, hsl(25, 95%, 53%), hsl(25, 95%, 63%));
+    --shadow-elegant: 0 10px 30px -10px hsl(25 95% 53% / 0.3);
+  }
+
+  .theme-drink {
+    --primary: 210 100% 50%;
+    --ring: 210 100% 50%;
+    --gradient-primary: linear-gradient(135deg, hsl(210, 100%, 50%), hsl(210, 100%, 60%));
+    --shadow-elegant: 0 10px 30px -10px hsl(210 100% 50% / 0.3);
+  }
+
+  .theme-stay {
+    --primary: 30 40% 60%;
+    --ring: 30 40% 60%;
+    --gradient-primary: linear-gradient(135deg, hsl(30, 40%, 60%), hsl(30, 40%, 70%));
+    --shadow-elegant: 0 10px 30px -10px hsl(30 40% 60% / 0.3);
+  }
+
+  .theme-play {
+    --primary: 300 30% 65%;
+    --ring: 300 30% 65%;
+    --gradient-primary: linear-gradient(135deg, hsl(300, 30%, 65%), hsl(300, 30%, 75%));
+    --shadow-elegant: 0 10px 30px -10px hsl(300 30% 65% / 0.3);
+  }
+
 
   .dark {
     --background: 222.2 84% 4.9%;
