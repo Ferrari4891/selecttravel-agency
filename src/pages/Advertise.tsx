@@ -159,7 +159,7 @@ const Advertise = () => {
                     variant={plan.name === "Serviced" ? "default" : "outline"}
                     className="w-full"
                   >
-                    Choose {plan.name}
+                    More Info {plan.name}
                   </Button>
                 </div>
               </CardContent>
