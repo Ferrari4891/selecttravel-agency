@@ -9,6 +9,10 @@ import { regionData } from '@/data/locationData';
 import { RestaurantResults } from './RestaurantResults';
 import { useToast } from '@/hooks/use-toast';
 import heroBackground from '@/assets/hero-background.jpg';
+import heroEat from '@/assets/hero-eat.jpg';
+import heroDrink from '@/assets/hero-drink.jpg';
+import heroStay from '@/assets/hero-stay.jpg';
+import heroPlay from '@/assets/hero-play.jpg';
 import eatIcon from '@/assets/eat-icon.jpg';
 import drinkIcon from '@/assets/drink-icon.jpg';
 import stayIcon from '@/assets/stay-icon.jpg';
@@ -88,6 +92,21 @@ export const RestaurantDiscoveryForm = () => {
         return 'theme-play';
       default:
         return '';
+    }
+  };
+
+  const getHeroImage = () => {
+    switch (selectedCategory) {
+      case 'Eat':
+        return heroEat;
+      case 'Drink':
+        return heroDrink;
+      case 'Stay':
+        return heroStay;
+      case 'Play':
+        return heroPlay;
+      default:
+        return heroBackground;
     }
   };
 
@@ -253,7 +272,7 @@ export const RestaurantDiscoveryForm = () => {
         <div 
           className="relative text-center space-y-4 py-16 px-8 rounded-lg overflow-hidden"
           style={{
-            backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url(${heroBackground})`,
+            backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url(${getHeroImage()})`,
             backgroundSize: 'cover',
             backgroundPosition: 'center'
           }}
