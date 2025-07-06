@@ -8,6 +8,11 @@ import { Link } from 'react-router-dom';
 import { regionData } from '@/data/locationData';
 import { RestaurantResults } from './RestaurantResults';
 import { useToast } from '@/hooks/use-toast';
+import heroBackground from '@/assets/hero-background.jpg';
+import eatIcon from '@/assets/eat-icon.jpg';
+import drinkIcon from '@/assets/drink-icon.jpg';
+import stayIcon from '@/assets/stay-icon.jpg';
+import playIcon from '@/assets/play-icon.jpg';
 
 interface Restaurant {
   name: string;
@@ -38,7 +43,12 @@ export const RestaurantDiscoveryForm = () => {
   const [restaurants, setRestaurants] = useState<Restaurant[]>([]);
   const { toast } = useToast();
 
-  const categories = ['Eat', 'Stay', 'Drink', 'Play'];
+  const categories = [
+    { name: 'Eat', icon: eatIcon },
+    { name: 'Stay', icon: stayIcon },
+    { name: 'Drink', icon: drinkIcon },
+    { name: 'Play', icon: playIcon }
+  ];
   const regions = Object.keys(regionData);
   const countries = selectedRegion ? regionData[selectedRegion as keyof typeof regionData]?.countries || [] : [];
   const cities = selectedCountry ? countries.find(c => c.name === selectedCountry)?.cities || [] : [];
@@ -240,11 +250,18 @@ export const RestaurantDiscoveryForm = () => {
           </div>
         </div>
         
-        <div className="text-center space-y-4">
-          <h1 className="text-4xl font-bold bg-gradient-primary bg-clip-text text-transparent">
+        <div 
+          className="relative text-center space-y-4 py-16 px-8 rounded-lg overflow-hidden"
+          style={{
+            backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url(${heroBackground})`,
+            backgroundSize: 'cover',
+            backgroundPosition: 'center'
+          }}
+        >
+          <h1 className="text-4xl font-bold text-white">
             smartguidebooks.com
           </h1>
-          <p className="text-muted-foreground text-lg">
+          <p className="text-white text-lg">
             {getTagline()}
           </p>
         </div>
@@ -269,8 +286,15 @@ export const RestaurantDiscoveryForm = () => {
                   </SelectTrigger>
                   <SelectContent>
                     {categories.map((category) => (
-                      <SelectItem key={category} value={category}>
-                        {category}
+                      <SelectItem key={category.name} value={category.name}>
+                        <div className="flex items-center gap-2">
+                          <img 
+                            src={category.icon} 
+                            alt={category.name}
+                            className="w-5 h-5 object-cover rounded"
+                          />
+                          {category.name}
+                        </div>
                       </SelectItem>
                     ))}
                   </SelectContent>
