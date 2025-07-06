@@ -29,26 +29,8 @@ import cityJuarez from '@/assets/city-juarez.jpg';
 import cityZapopan from '@/assets/city-zapopan.jpg';
 import cityMerida from '@/assets/city-merida.jpg';
 import citySanLuisPotosi from '@/assets/city-san-luis-potosi.jpg';
-import cityGuatemalaCity from '@/assets/city-guatemala-city.jpg';
-import cityMixco from '@/assets/city-mixco.jpg';
-import cityVillaNueva from '@/assets/city-villa-nueva.jpg';
-import cityPetapa from '@/assets/city-petapa.jpg';
-import citySanJuanSacatepequez from '@/assets/city-san-juan-sacatepequez.jpg';
-import cityQuetzaltenango from '@/assets/city-quetzaltenango.jpg';
-import cityVillaCanales from '@/assets/city-villa-canales.jpg';
-import cityEscuintla from '@/assets/city-escuintla.jpg';
-import cityChinautla from '@/assets/city-chinautla.jpg';
-import cityChimaltenango from '@/assets/city-chimaltenango.jpg';
-import citySanJoseCR from '@/assets/city-san-jose-cr.jpg';
-import cityCartago from '@/assets/city-cartago.jpg';
-import cityAlajuela from '@/assets/city-alajuela.jpg';
-import cityPuntarenas from '@/assets/city-puntarenas.jpg';
-import cityHeredia from '@/assets/city-heredia.jpg';
-import cityLimon from '@/assets/city-limon.jpg';
-import cityDesamparados from '@/assets/city-desamparados.jpg';
-import citySanIsidro from '@/assets/city-san-isidro.jpg';
-import cityCurridabat from '@/assets/city-curridabat.jpg';
-import citySanVicente from '@/assets/city-san-vicente.jpg';
+// Placeholder for cities without images yet
+import placeholderImage from '@/assets/placeholder-image-coming-soon.jpg';
 import cityKingston from '@/assets/city-kingston.jpg';
 import citySpanishTown from '@/assets/city-spanish-town.jpg';
 import cityPortmore from '@/assets/city-portmore.jpg';
@@ -240,28 +222,28 @@ export const cityImages: Record<string, string> = {
   "San Luis Potosí": citySanLuisPotosi,
   
   // North America - Guatemala
-  "Guatemala City": cityGuatemalaCity,
-  "Mixco": cityMixco,
-  "Villa Nueva": cityVillaNueva,
-  "Petapa": cityPetapa,
-  "San Juan Sacatepéquez": citySanJuanSacatepequez,
-  "Quetzaltenango": cityQuetzaltenango,
-  "Villa Canales": cityVillaCanales,
-  "Escuintla": cityEscuintla,
-  "Chinautla": cityChinautla,
-  "Chimaltenango": cityChimaltenango,
+  "Guatemala City": placeholderImage,
+  "Mixco": placeholderImage,
+  "Villa Nueva": placeholderImage,
+  "Petapa": placeholderImage,
+  "San Juan Sacatepéquez": placeholderImage,
+  "Quetzaltenango": placeholderImage,
+  "Villa Canales": placeholderImage,
+  "Escuintla": placeholderImage,
+  "Chinautla": placeholderImage,
+  "Chimaltenango": placeholderImage,
   
   // North America - Costa Rica
-  "San José": citySanJoseCR,
-  "Cartago": cityCartago,
-  "Alajuela": cityAlajuela,
-  "Puntarenas": cityPuntarenas,
-  "Heredia": cityHeredia,
-  "Limón": cityLimon,
-  "Desamparados": cityDesamparados,
-  "San Isidro": citySanIsidro,
-  "Curridabat": cityCurridabat,
-  "San Vicente": citySanVicente,
+  "San José": placeholderImage,
+  "Cartago": placeholderImage,
+  "Alajuela": placeholderImage,
+  "Puntarenas": placeholderImage,
+  "Heredia": placeholderImage,
+  "Limón": placeholderImage,
+  "Desamparados": placeholderImage,
+  "San Isidro": placeholderImage,
+  "Curridabat": placeholderImage,
+  "San Vicente": placeholderImage,
   
   // North America - Jamaica
   "Kingston": cityKingston,
