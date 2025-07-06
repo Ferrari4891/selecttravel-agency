@@ -4,7 +4,7 @@ import { Button } from '@/components/ui/button';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Badge } from '@/components/ui/badge';
 import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
-import { Loader2, MapPin, Download, Info, HelpCircle, Languages, Menu } from 'lucide-react';
+import { Loader2, MapPin, Download, Info, HelpCircle, Languages, Menu, Home } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { regionData } from '@/data/locationData';
 import { countryImages } from '@/data/countryImages';
@@ -298,7 +298,15 @@ export const RestaurantDiscoveryForm = () => {
   return (
     <div className={`min-h-screen bg-background p-6 ${getThemeClass()}`}>
       <div className="max-w-4xl mx-auto space-y-8">
-        <div className="flex justify-start items-center">
+        <div className="flex flex-col gap-2 justify-start items-start">
+          {/* Home Button */}
+          <Link to="/">
+            <Button variant="outline" size="sm">
+              <Home className="h-4 w-4 mr-2" />
+              Home
+            </Button>
+          </Link>
+          
           {/* Hamburger Menu - Visible on all screen sizes */}
           <div>
             <Sheet open={menuOpen} onOpenChange={setMenuOpen}>
@@ -371,7 +379,7 @@ export const RestaurantDiscoveryForm = () => {
           <CardHeader>
             <CardTitle className="flex items-center gap-2">
               <MapPin className="h-5 w-5 text-primary" />
-              Choose Your Guidebook
+              CHOOSE YOUR GUIDE
             </CardTitle>
             <CardDescription>
               Follow the 5 steps to discover the top 40 places
