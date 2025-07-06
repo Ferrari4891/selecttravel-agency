@@ -13,6 +13,11 @@ import heroEat from '@/assets/hero-eat.jpg';
 import heroDrink from '@/assets/hero-drink.jpg';
 import heroStay from '@/assets/hero-stay.jpg';
 import heroPlay from '@/assets/hero-play.jpg';
+import heroNorthAmerica from '@/assets/hero-north-america.jpg';
+import heroEurope from '@/assets/hero-europe.jpg';
+import heroAsia from '@/assets/hero-asia.jpg';
+import heroSouthAmerica from '@/assets/hero-south-america.jpg';
+import heroAfricaMiddleEast from '@/assets/hero-africa-middle-east.jpg';
 import eatIcon from '@/assets/eat-icon.jpg';
 import drinkIcon from '@/assets/drink-icon.jpg';
 import stayIcon from '@/assets/stay-icon.jpg';
@@ -96,18 +101,50 @@ export const RestaurantDiscoveryForm = () => {
   };
 
   const getHeroImage = () => {
-    switch (selectedCategory) {
-      case 'Eat':
-        return heroEat;
-      case 'Drink':
-        return heroDrink;
-      case 'Stay':
-        return heroStay;
-      case 'Play':
-        return heroPlay;
-      default:
-        return heroBackground;
+    // Priority order: City > Country > Region > Category > Default
+    if (selectedCity) {
+      // For now, return a placeholder - city images will be generated later
+      return heroBackground;
     }
+    
+    if (selectedCountry) {
+      // For now, return a placeholder - country images will be generated later
+      return heroBackground;
+    }
+    
+    if (selectedRegion) {
+      switch (selectedRegion) {
+        case 'North America':
+          return heroNorthAmerica;
+        case 'Europe':
+          return heroEurope;
+        case 'Asia':
+          return heroAsia;
+        case 'South America':
+          return heroSouthAmerica;
+        case 'Africa & Middle East':
+          return heroAfricaMiddleEast;
+        default:
+          return heroBackground;
+      }
+    }
+    
+    if (selectedCategory) {
+      switch (selectedCategory) {
+        case 'Eat':
+          return heroEat;
+        case 'Drink':
+          return heroDrink;
+        case 'Stay':
+          return heroStay;
+        case 'Play':
+          return heroPlay;
+        default:
+          return heroBackground;
+      }
+    }
+    
+    return heroBackground;
   };
 
   const handleRegionChange = (value: string) => {
