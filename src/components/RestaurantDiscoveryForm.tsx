@@ -300,8 +300,8 @@ export const RestaurantDiscoveryForm = () => {
       <div className="max-w-4xl mx-auto space-y-8">
         <div className="flex flex-col gap-2 justify-start items-start">
           {/* Home Button */}
-          <Link to="/">
-            <Button variant="outline" size="sm">
+          <Link to="/" className="inline-block">
+            <Button variant="outline" size="sm" className="cursor-pointer">
               <Home className="h-4 w-4 mr-2" />
               Home
             </Button>
