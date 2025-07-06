@@ -7,6 +7,7 @@ import { Loader2, MapPin, Download, Info, HelpCircle, Languages } from 'lucide-r
 import { Link } from 'react-router-dom';
 import { regionData } from '@/data/locationData';
 import { countryImages } from '@/data/countryImages';
+import { cityImages } from '@/data/cityImages';
 import { RestaurantResults } from './RestaurantResults';
 import { useToast } from '@/hooks/use-toast';
 import heroBackground from '@/assets/hero-background.jpg';
@@ -104,8 +105,7 @@ export const RestaurantDiscoveryForm = () => {
   const getHeroImage = () => {
     // Priority order: City > Country > Region > Category > Default
     if (selectedCity) {
-      // For now, return a placeholder - city images will be generated later
-      return heroBackground;
+      return cityImages[selectedCity] || heroBackground;
     }
     
     if (selectedCountry) {
