@@ -60,7 +60,7 @@ const AboutUs = () => {
             </CardHeader>
             <CardContent>
               <p className="text-muted-foreground">
-                Made by Seniors for Seniors! We don't want massive lists of choices when we travel we want value and to get value we understand the best source of truth is a variety of many people opinions. That's how we grade our curated lists by aggregating reviewers from three of the world's leading review websites - Google Reviews, Yelp and Trip Advisor.
+                Founded by seniors and travel experts, smartguidebooks.com was born from the frustration of spending hours researching restaurants when traveling. We wanted to create a simple, reliable way to find the top dining spots in any location, backed by real reviews and comprehensive data.
               </p>
             </CardContent>
           </Card>
