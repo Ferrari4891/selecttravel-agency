@@ -1,7 +1,9 @@
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Check, X } from "lucide-react";
+import { ScrollArea } from "@/components/ui/scroll-area";
+import { Check, X, Home } from "lucide-react";
+import { Link } from "react-router-dom";
 
 const Advertise = () => {
   const features = [
@@ -36,6 +38,16 @@ const Advertise = () => {
   return (
     <div className="min-h-screen bg-background">
       <div className="container mx-auto px-4 py-8">
+        {/* Mobile Back to Home Button */}
+        <div className="md:hidden mb-4">
+          <Link to="/">
+            <Button variant="outline" size="sm">
+              <Home className="h-4 w-4 mr-2" />
+              Back to Home
+            </Button>
+          </Link>
+        </div>
+
         <div className="text-center mb-8">
           <h1 className="text-4xl font-bold text-foreground mb-4">Advertise Your Business</h1>
           <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
@@ -44,7 +56,8 @@ const Advertise = () => {
           </p>
         </div>
 
-        <Card className="max-w-4xl mx-auto">
+        {/* Desktop Table View */}
+        <Card className="max-w-4xl mx-auto hidden md:block">
           <CardHeader>
             <CardTitle>Pricing Plans</CardTitle>
             <CardDescription>
@@ -52,7 +65,7 @@ const Advertise = () => {
             </CardDescription>
           </CardHeader>
           <CardContent>
-            <div className="overflow-x-auto">
+            <ScrollArea className="w-full">
               <Table>
                 <TableHeader>
                   <TableRow>
@@ -98,9 +111,46 @@ const Advertise = () => {
                   </TableRow>
                 </TableBody>
               </Table>
-            </div>
+            </ScrollArea>
           </CardContent>
         </Card>
+
+        {/* Mobile Stacked Cards View */}
+        <div className="md:hidden space-y-6">
+          {plans.map((plan) => (
+            <Card key={plan.name} className="shadow-lg">
+              <CardHeader className="text-center">
+                <CardTitle className="text-xl">{plan.name}</CardTitle>
+                <div className="text-2xl font-bold text-primary">{plan.price}</div>
+                <CardDescription>{plan.description}</CardDescription>
+              </CardHeader>
+              <CardContent>
+                <ScrollArea className="h-64">
+                  <div className="space-y-3">
+                    {features.map((feature, index) => (
+                      <div key={feature} className="flex items-center justify-between py-2 border-b border-border/50">
+                        <span className="text-sm font-medium">{feature}</span>
+                        {plan.features[index] ? (
+                          <Check className="h-5 w-5 text-green-500" />
+                        ) : (
+                          <X className="h-5 w-5 text-muted-foreground" />
+                        )}
+                      </div>
+                    ))}
+                  </div>
+                </ScrollArea>
+                <div className="mt-4">
+                  <Button 
+                    variant={plan.name === "Serviced" ? "default" : "outline"}
+                    className="w-full"
+                  >
+                    Choose {plan.name}
+                  </Button>
+                </div>
+              </CardContent>
+            </Card>
+          ))}
+        </div>
 
         <div className="text-center mt-8">
           <p className="text-sm text-muted-foreground">

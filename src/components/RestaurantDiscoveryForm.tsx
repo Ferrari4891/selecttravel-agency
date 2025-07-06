@@ -417,7 +417,7 @@ export const RestaurantDiscoveryForm = () => {
           <CardContent className="space-y-6">
             <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-4">
               <div className="space-y-2">
-                <label className="text-sm font-medium">Step 1: Choose Category</label>
+                <label className="text-sm font-bold uppercase">STEP 1: CHOOSE CATEGORY</label>
                 <Select value={selectedCategory} onValueChange={handleCategoryChange}>
                   <SelectTrigger className="font-bold">
                     <SelectValue placeholder="Select category" />
@@ -440,7 +440,7 @@ export const RestaurantDiscoveryForm = () => {
               </div>
 
               <div className="space-y-2">
-                <label className="text-sm font-medium">Step 2: Select Region</label>
+                <label className="text-sm font-bold uppercase">STEP 2: SELECT REGION</label>
                 <Select 
                   value={selectedRegion} 
                   onValueChange={handleRegionChange}
@@ -460,7 +460,7 @@ export const RestaurantDiscoveryForm = () => {
               </div>
 
               <div className="space-y-2">
-                <label className="text-sm font-medium">Step 3: Select Country</label>
+                <label className="text-sm font-bold uppercase">STEP 3: SELECT COUNTRY</label>
                 <Select 
                   value={selectedCountry} 
                   onValueChange={handleCountryChange}
@@ -480,7 +480,7 @@ export const RestaurantDiscoveryForm = () => {
               </div>
 
               <div className="space-y-2">
-                <label className="text-sm font-medium">Step 4: Select City</label>
+                <label className="text-sm font-bold uppercase">STEP 4: SELECT CITY</label>
                 <Select 
                   value={selectedCity} 
                   onValueChange={handleCityChange}
@@ -500,11 +500,11 @@ export const RestaurantDiscoveryForm = () => {
               </div>
             </div>
 
-            <div className="flex gap-4 pt-4">
+            <div className="flex flex-col gap-4 pt-4 items-center">
                 <Button
                 onClick={searchRestaurants}
                 disabled={!selectedCategory || !selectedRegion || !selectedCountry || !selectedCity || isLoading}
-                className="flex-1"
+                size="default"
               >
                 {isLoading ? (
                   <>
