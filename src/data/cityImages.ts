@@ -31,158 +31,6 @@ import cityMerida from '@/assets/city-merida.jpg';
 import citySanLuisPotosi from '@/assets/city-san-luis-potosi.jpg';
 // Placeholder for cities without images yet
 import placeholderImage from '@/assets/placeholder-image-coming-soon.jpg';
-import cityKingston from '@/assets/city-kingston.jpg';
-import citySpanishTown from '@/assets/city-spanish-town.jpg';
-import cityPortmore from '@/assets/city-portmore.jpg';
-import cityMayPen from '@/assets/city-may-pen.jpg';
-import cityOldHarbour from '@/assets/city-old-harbour.jpg';
-import cityMandeville from '@/assets/city-mandeville.jpg';
-import citySavannaLaMar from '@/assets/city-savanna-la-mar.jpg';
-import cityOchoRios from '@/assets/city-ocho-rios.jpg';
-import cityLinstead from '@/assets/city-linstead.jpg';
-import cityHalfWayTree from '@/assets/city-half-way-tree.jpg';
-import cityPanamaCity from '@/assets/city-panama-city.jpg';
-import citySanMiguelito from '@/assets/city-san-miguelito.jpg';
-import cityTocumen from '@/assets/city-tocumen.jpg';
-import cityDavid from '@/assets/city-david.jpg';
-import cityArraijan from '@/assets/city-arraijan.jpg';
-import cityColon from '@/assets/city-colon.jpg';
-import cityLaChorrera from '@/assets/city-la-chorrera.jpg';
-import cityPacora from '@/assets/city-pacora.jpg';
-import cityPenonome from '@/assets/city-penonome.jpg';
-import citySantiago from '@/assets/city-santiago-panama.jpg';
-import cityTegucigalpa from '@/assets/city-tegucigalpa.jpg';
-import citySanPedroSula from '@/assets/city-san-pedro-sula.jpg';
-import cityCholoma from '@/assets/city-choloma.jpg';
-import cityLaCeiba from '@/assets/city-la-ceiba.jpg';
-import cityElProgreso from '@/assets/city-el-progreso.jpg';
-import cityCholuteca from '@/assets/city-choluteca.jpg';
-import cityComayagua from '@/assets/city-comayagua.jpg';
-import cityPuertoCortes from '@/assets/city-puerto-cortes.jpg';
-import cityLaLima from '@/assets/city-la-lima.jpg';
-import cityDanli from '@/assets/city-danli.jpg';
-import citySanSalvador from '@/assets/city-san-salvador.jpg';
-import citySoyapango from '@/assets/city-soyapango.jpg';
-import citySantaAna from '@/assets/city-santa-ana.jpg';
-import citySanMiguel from '@/assets/city-san-miguel.jpg';
-import cityMejicanos from '@/assets/city-mejicanos.jpg';
-import citySantaTecla from '@/assets/city-santa-tecla.jpg';
-import cityApopa from '@/assets/city-apopa.jpg';
-import cityDelgado from '@/assets/city-delgado.jpg';
-import cityIlopango from '@/assets/city-ilopango.jpg';
-import cityCojutepeque from '@/assets/city-cojutepeque.jpg';
-import cityManagua from '@/assets/city-managua.jpg';
-import cityLeonNic from '@/assets/city-leon-nic.jpg';
-import cityMasaya from '@/assets/city-masaya.jpg';
-import cityMatagalpa from '@/assets/city-matagalpa.jpg';
-import cityChinandega from '@/assets/city-chinandega.jpg';
-import cityGranada from '@/assets/city-granada.jpg';
-import cityEsteli from '@/assets/city-esteli.jpg';
-import cityTipitapa from '@/assets/city-tipitapa.jpg';
-import cityJinotepe from '@/assets/city-jinotepe.jpg';
-import cityDiriamba from '@/assets/city-diriamba.jpg';
-
-// Europe
-import cityLondon from '@/assets/city-london.jpg';
-import cityBirmingham from '@/assets/city-birmingham.jpg';
-import cityManchester from '@/assets/city-manchester.jpg';
-import cityGlasgow from '@/assets/city-glasgow.jpg';
-import cityLiverpool from '@/assets/city-liverpool.jpg';
-import cityLeeds from '@/assets/city-leeds.jpg';
-import citySheffield from '@/assets/city-sheffield.jpg';
-import cityEdinburgh from '@/assets/city-edinburgh.jpg';
-import cityBristol from '@/assets/city-bristol.jpg';
-import cityCardiff from '@/assets/city-cardiff.jpg';
-import cityParis from '@/assets/city-paris.jpg';
-import cityLyon from '@/assets/city-lyon.jpg';
-import cityMarseille from '@/assets/city-marseille.jpg';
-import cityToulouse from '@/assets/city-toulouse.jpg';
-import cityNice from '@/assets/city-nice.jpg';
-import cityNantes from '@/assets/city-nantes.jpg';
-import cityMontpellier from '@/assets/city-montpellier.jpg';
-import cityStrasbourg from '@/assets/city-strasbourg.jpg';
-import cityBordeaux from '@/assets/city-bordeaux.jpg';
-import cityLille from '@/assets/city-lille.jpg';
-import cityBerlin from '@/assets/city-berlin.jpg';
-import cityHamburg from '@/assets/city-hamburg.jpg';
-import cityMunich from '@/assets/city-munich.jpg';
-import cityCologne from '@/assets/city-cologne.jpg';
-import cityFrankfurt from '@/assets/city-frankfurt.jpg';
-import cityStuttgart from '@/assets/city-stuttgart.jpg';
-import cityDusseldorf from '@/assets/city-dusseldorf.jpg';
-import cityLeipzig from '@/assets/city-leipzig.jpg';
-import cityDortmund from '@/assets/city-dortmund.jpg';
-import cityEssen from '@/assets/city-essen.jpg';
-import cityRome from '@/assets/city-rome.jpg';
-import cityMilan from '@/assets/city-milan.jpg';
-import cityNaples from '@/assets/city-naples.jpg';
-import cityTurin from '@/assets/city-turin.jpg';
-import cityPalermo from '@/assets/city-palermo.jpg';
-import cityGenoa from '@/assets/city-genoa.jpg';
-import cityBologna from '@/assets/city-bologna.jpg';
-import cityFlorence from '@/assets/city-florence.jpg';
-import cityBari from '@/assets/city-bari.jpg';
-import cityCatania from '@/assets/city-catania.jpg';
-import cityMadrid from '@/assets/city-madrid.jpg';
-import cityBarcelona from '@/assets/city-barcelona.jpg';
-import cityValencia from '@/assets/city-valencia.jpg';
-import citySeville from '@/assets/city-seville.jpg';
-import cityZaragoza from '@/assets/city-zaragoza.jpg';
-import cityMalaga from '@/assets/city-malaga.jpg';
-import cityMurcia from '@/assets/city-murcia.jpg';
-import cityPalma from '@/assets/city-palma.jpg';
-import cityLasPalmas from '@/assets/city-las-palmas.jpg';
-import cityBilbao from '@/assets/city-bilbao.jpg';
-import cityAmsterdam from '@/assets/city-amsterdam.jpg';
-import cityRotterdam from '@/assets/city-rotterdam.jpg';
-import cityTheHague from '@/assets/city-the-hague.jpg';
-import cityUtrecht from '@/assets/city-utrecht.jpg';
-import cityEindhoven from '@/assets/city-eindhoven.jpg';
-import cityGroningen from '@/assets/city-groningen.jpg';
-import cityTilburg from '@/assets/city-tilburg.jpg';
-import cityAlmere from '@/assets/city-almere.jpg';
-import cityBreda from '@/assets/city-breda.jpg';
-import cityNijmegen from '@/assets/city-nijmegen.jpg';
-import cityWarsaw from '@/assets/city-warsaw.jpg';
-import cityKrakow from '@/assets/city-krakow.jpg';
-import cityLodz from '@/assets/city-lodz.jpg';
-import cityWroclaw from '@/assets/city-wroclaw.jpg';
-import cityPoznan from '@/assets/city-poznan.jpg';
-import cityGdansk from '@/assets/city-gdansk.jpg';
-import citySzczecin from '@/assets/city-szczecin.jpg';
-import cityBydgoszcz from '@/assets/city-bydgoszcz.jpg';
-import cityLublin from '@/assets/city-lublin.jpg';
-import cityBialystok from '@/assets/city-bialystok.jpg';
-import cityLisbon from '@/assets/city-lisbon.jpg';
-import cityPorto from '@/assets/city-porto.jpg';
-import cityVilaNovaDeGaia from '@/assets/city-vila-nova-de-gaia.jpg';
-import cityAmadora from '@/assets/city-amadora.jpg';
-import cityBraga from '@/assets/city-braga.jpg';
-import cityAlmada from '@/assets/city-almada.jpg';
-import cityFunchal from '@/assets/city-funchal.jpg';
-import cityCoimbra from '@/assets/city-coimbra.jpg';
-import citySetubal from '@/assets/city-setubal.jpg';
-import cityAgualvaCacem from '@/assets/city-agualva-cacem.jpg';
-import cityStockholm from '@/assets/city-stockholm.jpg';
-import cityGothenburg from '@/assets/city-gothenburg.jpg';
-import cityMalmo from '@/assets/city-malmo.jpg';
-import cityUppsala from '@/assets/city-uppsala.jpg';
-import cityVasteras from '@/assets/city-vasteras.jpg';
-import cityOrebro from '@/assets/city-orebro.jpg';
-import cityLinkoping from '@/assets/city-linkoping.jpg';
-import cityHelsingborg from '@/assets/city-helsingborg.jpg';
-import cityJonkoping from '@/assets/city-jonkoping.jpg';
-import cityNorrkoping from '@/assets/city-norrkoping.jpg';
-import cityOslo from '@/assets/city-oslo.jpg';
-import cityBergen from '@/assets/city-bergen.jpg';
-import cityStavanger from '@/assets/city-stavanger.jpg';
-import cityTrondheim from '@/assets/city-trondheim.jpg';
-import cityDrammen from '@/assets/city-drammen.jpg';
-import cityFredrikstad from '@/assets/city-fredrikstad.jpg';
-import cityKristiansand from '@/assets/city-kristiansand.jpg';
-import citySandnes from '@/assets/city-sandnes.jpg';
-import cityTromso from '@/assets/city-tromso.jpg';
-import citySarpsborg from '@/assets/city-sarpsborg.jpg';
 
 export const cityImages: Record<string, string> = {
   // North America - United States
@@ -246,182 +94,278 @@ export const cityImages: Record<string, string> = {
   "San Vicente": placeholderImage,
   
   // North America - Jamaica
-  "Kingston": cityKingston,
-  "Spanish Town": citySpanishTown,
-  "Portmore": cityPortmore,
-  "May Pen": cityMayPen,
-  "Old Harbour": cityOldHarbour,
-  "Mandeville": cityMandeville,
-  "Savanna-la-Mar": citySavannaLaMar,
-  "Ocho Rios": cityOchoRios,
-  "Linstead": cityLinstead,
-  "Half Way Tree": cityHalfWayTree,
+  "Kingston": placeholderImage,
+  "Spanish Town": placeholderImage,
+  "Portmore": placeholderImage,
+  "May Pen": placeholderImage,
+  "Old Harbour": placeholderImage,
+  "Mandeville": placeholderImage,
+  "Savanna-la-Mar": placeholderImage,
+  "Ocho Rios": placeholderImage,
+  "Linstead": placeholderImage,
+  "Half Way Tree": placeholderImage,
   
   // North America - Panama
-  "Panama City": cityPanamaCity,
-  "San Miguelito": citySanMiguelito,
-  "Tocumen": cityTocumen,
-  "David": cityDavid,
-  "Arraiján": cityArraijan,
-  "Colón": cityColon,
-  "La Chorrera": cityLaChorrera,
-  "Pacora": cityPacora,
-  "Penonome": cityPenonome,
-  "Santiago": citySantiago,
+  "Panama City": placeholderImage,
+  "San Miguelito": placeholderImage,
+  "Tocumen": placeholderImage,
+  "David": placeholderImage,
+  "Arraiján": placeholderImage,
+  "Colón": placeholderImage,
+  "La Chorrera": placeholderImage,
+  "Pacora": placeholderImage,
+  "Penonome": placeholderImage,
+  "Santiago": placeholderImage,
   
   // North America - Honduras
-  "Tegucigalpa": cityTegucigalpa,
-  "San Pedro Sula": citySanPedroSula,
-  "Choloma": cityCholoma,
-  "La Ceiba": cityLaCeiba,
-  "El Progreso": cityElProgreso,
-  "Choluteca": cityCholuteca,
-  "Comayagua": cityComayagua,
-  "Puerto Cortés": cityPuertoCortes,
-  "La Lima": cityLaLima,
-  "Danlí": cityDanli,
+  "Tegucigalpa": placeholderImage,
+  "San Pedro Sula": placeholderImage,
+  "Choloma": placeholderImage,
+  "La Ceiba": placeholderImage,
+  "El Progreso": placeholderImage,
+  "Choluteca": placeholderImage,
+  "Comayagua": placeholderImage,
+  "Puerto Cortés": placeholderImage,
+  "La Lima": placeholderImage,
+  "Danlí": placeholderImage,
   
   // North America - El Salvador
-  "San Salvador": citySanSalvador,
-  "Soyapango": citySoyapango,
-  "Santa Ana": citySantaAna,
-  "San Miguel": citySanMiguel,
-  "Mejicanos": cityMejicanos,
-  "Santa Tecla": citySantaTecla,
-  "Apopa": cityApopa,
-  "Delgado": cityDelgado,
-  "Ilopango": cityIlopango,
-  "Cojutepeque": cityCojutepeque,
+  "San Salvador": placeholderImage,
+  "Soyapango": placeholderImage,
+  "Santa Ana": placeholderImage,
+  "San Miguel": placeholderImage,
+  "Mejicanos": placeholderImage,
+  "Santa Tecla": placeholderImage,
+  "Apopa": placeholderImage,
+  "Delgado": placeholderImage,
+  "Ilopango": placeholderImage,
+  "Cojutepeque": placeholderImage,
   
   // North America - Nicaragua
-  "Managua": cityManagua,
-  "León (Nicaragua)": cityLeonNic,
-  "Masaya": cityMasaya,
-  "Matagalpa": cityMatagalpa,
-  "Chinandega": cityChinandega,
-  "Granada": cityGranada,
-  "Estelí": cityEsteli,
-  "Tipitapa": cityTipitapa,
-  "Jinotepe": cityJinotepe,
-  "Diriamba": cityDiriamba,
+  "Managua": placeholderImage,
+  "León (Nicaragua)": placeholderImage,
+  "Masaya": placeholderImage,
+  "Matagalpa": placeholderImage,
+  "Chinandega": placeholderImage,
+  "Granada": placeholderImage,
+  "Estelí": placeholderImage,
+  "Tipitapa": placeholderImage,
+  "Jinotepe": placeholderImage,
+  "Diriamba": placeholderImage,
   
   // Europe - United Kingdom
-  "London": cityLondon,
-  "Birmingham": cityBirmingham,
-  "Manchester": cityManchester,
-  "Glasgow": cityGlasgow,
-  "Liverpool": cityLiverpool,
-  "Leeds": cityLeeds,
-  "Sheffield": citySheffield,
-  "Edinburgh": cityEdinburgh,
-  "Bristol": cityBristol,
-  "Cardiff": cityCardiff,
+  "London": placeholderImage,
+  "Birmingham": placeholderImage,
+  "Manchester": placeholderImage,
+  "Glasgow": placeholderImage,
+  "Liverpool": placeholderImage,
+  "Leeds": placeholderImage,
+  "Sheffield": placeholderImage,
+  "Edinburgh": placeholderImage,
+  "Bristol": placeholderImage,
+  "Cardiff": placeholderImage,
   
   // Europe - France
-  "Paris": cityParis,
-  "Lyon": cityLyon,
-  "Marseille": cityMarseille,
-  "Toulouse": cityToulouse,
-  "Nice": cityNice,
-  "Nantes": cityNantes,
-  "Montpellier": cityMontpellier,
-  "Strasbourg": cityStrasbourg,
-  "Bordeaux": cityBordeaux,
-  "Lille": cityLille,
+  "Paris": placeholderImage,
+  "Lyon": placeholderImage,
+  "Marseille": placeholderImage,
+  "Toulouse": placeholderImage,
+  "Nice": placeholderImage,
+  "Nantes": placeholderImage,
+  "Montpellier": placeholderImage,
+  "Strasbourg": placeholderImage,
+  "Bordeaux": placeholderImage,
+  "Lille": placeholderImage,
   
   // Europe - Germany
-  "Berlin": cityBerlin,
-  "Hamburg": cityHamburg,
-  "Munich": cityMunich,
-  "Cologne": cityCologne,
-  "Frankfurt": cityFrankfurt,
-  "Stuttgart": cityStuttgart,
-  "Düsseldorf": cityDusseldorf,
-  "Leipzig": cityLeipzig,
-  "Dortmund": cityDortmund,
-  "Essen": cityEssen,
+  "Berlin": placeholderImage,
+  "Hamburg": placeholderImage,
+  "Munich": placeholderImage,
+  "Cologne": placeholderImage,
+  "Frankfurt": placeholderImage,
+  "Stuttgart": placeholderImage,
+  "Düsseldorf": placeholderImage,
+  "Leipzig": placeholderImage,
+  "Dortmund": placeholderImage,
+  "Essen": placeholderImage,
   
   // Europe - Italy
-  "Rome": cityRome,
-  "Milan": cityMilan,
-  "Naples": cityNaples,
-  "Turin": cityTurin,
-  "Palermo": cityPalermo,
-  "Genoa": cityGenoa,
-  "Bologna": cityBologna,
-  "Florence": cityFlorence,
-  "Bari": cityBari,
-  "Catania": cityCatania,
+  "Rome": placeholderImage,
+  "Milan": placeholderImage,
+  "Naples": placeholderImage,
+  "Turin": placeholderImage,
+  "Palermo": placeholderImage,
+  "Genoa": placeholderImage,
+  "Bologna": placeholderImage,
+  "Florence": placeholderImage,
+  "Bari": placeholderImage,
+  "Catania": placeholderImage,
   
   // Europe - Spain
-  "Madrid": cityMadrid,
-  "Barcelona": cityBarcelona,
-  "Valencia": cityValencia,
-  "Seville": citySeville,
-  "Zaragoza": cityZaragoza,
-  "Málaga": cityMalaga,
-  "Murcia": cityMurcia,
-  "Palma": cityPalma,
-  "Las Palmas": cityLasPalmas,
-  "Bilbao": cityBilbao,
+  "Madrid": placeholderImage,
+  "Barcelona": placeholderImage,
+  "Valencia": placeholderImage,
+  "Seville": placeholderImage,
+  "Zaragoza": placeholderImage,
+  "Málaga": placeholderImage,
+  "Murcia": placeholderImage,
+  "Palma": placeholderImage,
+  "Las Palmas": placeholderImage,
+  "Bilbao": placeholderImage,
   
   // Europe - Netherlands
-  "Amsterdam": cityAmsterdam,
-  "Rotterdam": cityRotterdam,
-  "The Hague": cityTheHague,
-  "Utrecht": cityUtrecht,
-  "Eindhoven": cityEindhoven,
-  "Groningen": cityGroningen,
-  "Tilburg": cityTilburg,
-  "Almere": cityAlmere,
-  "Breda": cityBreda,
-  "Nijmegen": cityNijmegen,
+  "Amsterdam": placeholderImage,
+  "Rotterdam": placeholderImage,
+  "The Hague": placeholderImage,
+  "Utrecht": placeholderImage,
+  "Eindhoven": placeholderImage,
+  "Groningen": placeholderImage,
+  "Tilburg": placeholderImage,
+  "Almere": placeholderImage,
+  "Breda": placeholderImage,
+  "Nijmegen": placeholderImage,
   
   // Europe - Poland
-  "Warsaw": cityWarsaw,
-  "Kraków": cityKrakow,
-  "Łódź": cityLodz,
-  "Wrocław": cityWroclaw,
-  "Poznań": cityPoznan,
-  "Gdańsk": cityGdansk,
-  "Szczecin": citySzczecin,
-  "Bydgoszcz": cityBydgoszcz,
-  "Lublin": cityLublin,
-  "Białystok": cityBialystok,
+  "Warsaw": placeholderImage,
+  "Kraków": placeholderImage,
+  "Łódź": placeholderImage,
+  "Wrocław": placeholderImage,
+  "Poznań": placeholderImage,
+  "Gdańsk": placeholderImage,
+  "Szczecin": placeholderImage,
+  "Bydgoszcz": placeholderImage,
+  "Lublin": placeholderImage,
+  "Białystok": placeholderImage,
   
   // Europe - Portugal
-  "Lisbon": cityLisbon,
-  "Porto": cityPorto,
-  "Vila Nova de Gaia": cityVilaNovaDeGaia,
-  "Amadora": cityAmadora,
-  "Braga": cityBraga,
-  "Almada": cityAlmada,
-  "Funchal": cityFunchal,
-  "Coimbra": cityCoimbra,
-  "Setúbal": citySetubal,
-  "Agualva-Cacém": cityAgualvaCacem,
+  "Lisbon": placeholderImage,
+  "Porto": placeholderImage,
+  "Vila Nova de Gaia": placeholderImage,
+  "Amadora": placeholderImage,
+  "Braga": placeholderImage,
+  "Almada": placeholderImage,
+  "Funchal": placeholderImage,
+  "Coimbra": placeholderImage,
+  "Setúbal": placeholderImage,
+  "Agualva-Cacém": placeholderImage,
   
   // Europe - Sweden
-  "Stockholm": cityStockholm,
-  "Gothenburg": cityGothenburg,
-  "Malmö": cityMalmo,
-  "Uppsala": cityUppsala,
-  "Västerås": cityVasteras,
-  "Örebro": cityOrebro,
-  "Linköping": cityLinkoping,
-  "Helsingborg": cityHelsingborg,
-  "Jönköping": cityJonkoping,
-  "Norrköping": cityNorrkoping,
+  "Stockholm": placeholderImage,
+  "Gothenburg": placeholderImage,
+  "Malmö": placeholderImage,
+  "Uppsala": placeholderImage,
+  "Västerås": placeholderImage,
+  "Örebro": placeholderImage,
+  "Linköping": placeholderImage,
+  "Helsingborg": placeholderImage,
+  "Jönköping": placeholderImage,
+  "Norrköping": placeholderImage,
   
   // Europe - Norway
-  "Oslo": cityOslo,
-  "Bergen": cityBergen,
-  "Stavanger": cityStavanger,
-  "Trondheim": cityTrondheim,
-  "Drammen": cityDrammen,
-  "Fredrikstad": cityFredrikstad,
-  "Kristiansand": cityKristiansand,
-  "Sandnes": citySandnes,
-  "Tromsø": cityTromso,
-  "Sarpsborg": citySarpsborg,
+  "Oslo": placeholderImage,
+  "Bergen": placeholderImage,
+  "Stavanger": placeholderImage,
+  "Trondheim": placeholderImage,
+  "Drammen": placeholderImage,
+  "Fredrikstad": placeholderImage,
+  "Kristiansand": placeholderImage,
+  "Sandnes": placeholderImage,
+  "Tromsø": placeholderImage,
+  "Sarpsborg": placeholderImage,
+
+  // Asia - China
+  "Shanghai": placeholderImage,
+  "Beijing": placeholderImage,
+  "Shenzhen": placeholderImage,
+  "Guangzhou": placeholderImage,
+  "Tianjin": placeholderImage,
+  "Wuhan": placeholderImage,
+  "Dongguan": placeholderImage,
+  "Chengdu": placeholderImage,
+  "Nanjing": placeholderImage,
+  "Xi'an": placeholderImage,
+
+  // Asia - India
+  "Mumbai": placeholderImage,
+  "Delhi": placeholderImage,
+  "Bengaluru": placeholderImage,
+  "Hyderabad": placeholderImage,
+  "Ahmedabad": placeholderImage,
+  "Chennai": placeholderImage,
+  "Kolkata": placeholderImage,
+  "Surat": placeholderImage,
+  "Pune": placeholderImage,
+  "Jaipur": placeholderImage,
+
+  // Asia - Japan
+  "Tokyo": placeholderImage,
+  "Yokohama": placeholderImage,
+  "Osaka": placeholderImage,
+  "Nagoya": placeholderImage,
+  "Sapporo": placeholderImage,
+  "Fukuoka": placeholderImage,
+  "Kobe": placeholderImage,
+  "Kawasaki": placeholderImage,
+  "Kyoto": placeholderImage,
+  "Saitama": placeholderImage,
+
+  // Asia - South Korea
+  "Seoul": placeholderImage,
+  "Busan": placeholderImage,
+  "Incheon": placeholderImage,
+  "Daegu": placeholderImage,
+  "Daejeon": placeholderImage,
+  "Gwangju": placeholderImage,
+  "Suwon": placeholderImage,
+  "Ulsan": placeholderImage,
+  "Changwon": placeholderImage,
+  "Goyang": placeholderImage,
+
+  // South America - Brazil
+  "São Paulo": placeholderImage,
+  "Rio de Janeiro": placeholderImage,
+  "Brasília": placeholderImage,
+  "Salvador": placeholderImage,
+  "Fortaleza": placeholderImage,
+  "Belo Horizonte": placeholderImage,
+  "Manaus": placeholderImage,
+  "Curitiba": placeholderImage,
+  "Recife": placeholderImage,
+  "Porto Alegre": placeholderImage,
+
+  // South America - Argentina
+  "Buenos Aires": placeholderImage,
+  "Córdoba": placeholderImage,
+  "Rosario": placeholderImage,
+  "Mendoza": placeholderImage,
+  "Tucumán": placeholderImage,
+  "La Plata": placeholderImage,
+  "Mar del Plata": placeholderImage,
+  "Salta": placeholderImage,
+  "Santa Fe": placeholderImage,
+  "San Juan": placeholderImage,
+
+  // Africa & Middle East - Nigeria
+  "Lagos": placeholderImage,
+  "Kano": placeholderImage,
+  "Ibadan": placeholderImage,
+  "Kaduna": placeholderImage,
+  "Port Harcourt": placeholderImage,
+  "Benin City": placeholderImage,
+  "Maiduguri": placeholderImage,
+  "Zaria": placeholderImage,
+  "Aba": placeholderImage,
+  "Jos": placeholderImage,
+
+  // Africa & Middle East - South Africa
+  "Cape Town": placeholderImage,
+  "Johannesburg": placeholderImage,
+  "Durban": placeholderImage,
+  "Pretoria": placeholderImage,
+  "Port Elizabeth": placeholderImage,
+  "Pietermaritzburg": placeholderImage,
+  "Benoni": placeholderImage,
+  "Tembisa": placeholderImage,
+  "East London": placeholderImage,
+  "Vereeniging": placeholderImage,
 };
