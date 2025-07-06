@@ -73,18 +73,21 @@ export const RestaurantDiscoveryForm = () => {
   };
 
   const getTagline = () => {
-    switch (selectedCategory) {
-      case 'Eat':
-        return 'Discover the TOP 40 restaurants in the area';
-      case 'Drink':
-        return 'Discover the TOP 40 bars and cafes in the area';
-      case 'Stay':
-        return 'Discover the TOP 40 hotels and accommodations in the area';
-      case 'Play':
-        return 'Discover the TOP 40 entertainment venues in the area';
-      default:
-        return 'Discover the TOP 40 places in the area';
-    }
+    const baseText = () => {
+      switch (selectedCategory) {
+        case 'Eat':
+          return 'Discover the TOP 40 restaurants in the area';
+        case 'Drink':
+          return 'Discover the TOP 40 bars and cafes in the area';
+        case 'Stay':
+          return 'Discover the TOP 40 hotels and accommodations in the area';
+        case 'Play':
+          return 'Discover the TOP 40 entertainment venues in the area';
+        default:
+          return 'Discover the TOP 40 places in the area';
+      }
+    };
+    return `${baseText()}. All business listing ratings are based on Google Reviews, Yelp and Trip Advisor.`;
   };
 
   const getThemeClass = () => {
@@ -314,10 +317,10 @@ export const RestaurantDiscoveryForm = () => {
             backgroundPosition: 'center'
           }}
         >
-          <h1 className="text-4xl font-bold text-white">
+          <h1 className="text-2xl md:text-4xl font-bold text-white">
             smartguidebooks.com
           </h1>
-          <p className="text-white text-lg">
+          <p className="text-white text-sm md:text-lg px-4">
             {getTagline()}
           </p>
         </div>
@@ -337,7 +340,7 @@ export const RestaurantDiscoveryForm = () => {
               <div className="space-y-2">
                 <label className="text-sm font-medium">Step 1: Choose Category</label>
                 <Select value={selectedCategory} onValueChange={handleCategoryChange}>
-                  <SelectTrigger>
+                  <SelectTrigger className="font-bold">
                     <SelectValue placeholder="Select category" />
                   </SelectTrigger>
                   <SelectContent>
@@ -364,7 +367,7 @@ export const RestaurantDiscoveryForm = () => {
                   onValueChange={handleRegionChange}
                   disabled={!selectedCategory}
                 >
-                  <SelectTrigger>
+                  <SelectTrigger className="font-bold">
                     <SelectValue placeholder="Select region" />
                   </SelectTrigger>
                   <SelectContent>
@@ -384,7 +387,7 @@ export const RestaurantDiscoveryForm = () => {
                   onValueChange={handleCountryChange}
                   disabled={!selectedRegion}
                 >
-                  <SelectTrigger>
+                  <SelectTrigger className="font-bold">
                     <SelectValue placeholder="Select country" />
                   </SelectTrigger>
                   <SelectContent>
@@ -404,7 +407,7 @@ export const RestaurantDiscoveryForm = () => {
                   onValueChange={handleCityChange}
                   disabled={!selectedCountry}
                 >
-                  <SelectTrigger>
+                  <SelectTrigger className="font-bold">
                     <SelectValue placeholder="Select city" />
                   </SelectTrigger>
                   <SelectContent>
