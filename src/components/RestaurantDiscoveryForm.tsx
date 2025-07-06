@@ -310,6 +310,12 @@ export const RestaurantDiscoveryForm = () => {
                 How To
               </Button>
             </Link>
+            <Link to="/advertise">
+              <Button variant="outline" size="sm">
+                <Info className="h-4 w-4 mr-2" />
+                Advertise
+              </Button>
+            </Link>
             <div className="flex items-center gap-2">
               <Languages className="h-4 w-4 text-muted-foreground" />
               <Select defaultValue="en">
