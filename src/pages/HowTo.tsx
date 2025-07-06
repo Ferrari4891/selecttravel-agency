@@ -172,6 +172,30 @@ const HowTo = () => {
 
         <Card>
           <CardHeader>
+            <CardTitle className="text-center">How-To Video Guide</CardTitle>
+            <CardDescription className="text-center">Watch our step-by-step tutorial</CardDescription>
+          </CardHeader>
+          <CardContent>
+            <div className="flex justify-center">
+              <div className="w-full max-w-2xl">
+                <div className="relative aspect-video">
+                  <iframe 
+                    className="w-full h-full rounded-lg"
+                    src="https://www.youtube.com/embed/UVZmeJrFXS8?si=rVm2BTm6K34Ykrcd" 
+                    title="YouTube video player" 
+                    frameBorder="0" 
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+                    referrerPolicy="strict-origin-when-cross-origin" 
+                    allowFullScreen
+                  ></iframe>
+                </div>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+
+        <Card>
+          <CardHeader>
             <CardTitle className="flex items-center gap-2">
               <MapPin className="h-5 w-5" />
               Tips for the Best Experience
