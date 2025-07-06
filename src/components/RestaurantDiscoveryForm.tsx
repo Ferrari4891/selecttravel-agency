@@ -24,6 +24,10 @@ import eatIcon from '@/assets/eat-icon.jpg';
 import drinkIcon from '@/assets/drink-icon.jpg';
 import stayIcon from '@/assets/stay-icon.jpg';
 import playIcon from '@/assets/play-icon.jpg';
+import placeholderEat from '@/assets/placeholder-eat.jpg';
+import placeholderDrink from '@/assets/placeholder-drink.jpg';
+import placeholderStay from '@/assets/placeholder-stay.jpg';
+import placeholderPlay from '@/assets/placeholder-play.jpg';
 
 interface Restaurant {
   name: string;
@@ -105,14 +109,29 @@ export const RestaurantDiscoveryForm = () => {
     }
   };
 
+  const getCategoryPlaceholder = () => {
+    switch (selectedCategory) {
+      case 'Eat':
+        return placeholderEat;
+      case 'Drink':
+        return placeholderDrink;
+      case 'Stay':
+        return placeholderStay;
+      case 'Play':
+        return placeholderPlay;
+      default:
+        return heroBackground;
+    }
+  };
+
   const getHeroImage = () => {
     // Priority order: City > Country > Region > Category > Default
     if (selectedCity) {
-      return cityImages[selectedCity] || heroBackground;
+      return cityImages[selectedCity] || getCategoryPlaceholder();
     }
     
     if (selectedCountry) {
-      return countryImages[selectedCountry] || heroBackground;
+      return countryImages[selectedCountry] || getCategoryPlaceholder();
     }
     
     if (selectedRegion) {
@@ -128,7 +147,7 @@ export const RestaurantDiscoveryForm = () => {
         case 'Africa & Middle East':
           return heroAfricaMiddleEast;
         default:
-          return heroBackground;
+          return getCategoryPlaceholder();
       }
     }
     
