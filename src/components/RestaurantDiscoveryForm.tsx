@@ -57,7 +57,7 @@ export const RestaurantDiscoveryForm = () => {
   const [selectedCity, setSelectedCity] = useState<string>('');
   const [isLoading, setIsLoading] = useState(false);
   const [restaurants, setRestaurants] = useState<Restaurant[]>([]);
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [menuOpen, setMenuOpen] = useState(false);
   const { toast } = useToast();
 
   const categories = [
@@ -298,47 +298,10 @@ export const RestaurantDiscoveryForm = () => {
   return (
     <div className={`min-h-screen bg-background p-6 ${getThemeClass()}`}>
       <div className="max-w-4xl mx-auto space-y-8">
-        <div className="flex justify-between items-center">
-          {/* Desktop Menu - Hidden on mobile */}
-          <div className="hidden md:flex gap-4">
-            <Link to="/about-us">
-              <Button variant="outline" size="sm">
-                <Info className="h-4 w-4 mr-2" />
-                About Us
-              </Button>
-            </Link>
-            <Link to="/how-to">
-              <Button variant="outline" size="sm">
-                <HelpCircle className="h-4 w-4 mr-2" />
-                How To
-              </Button>
-            </Link>
-            <Link to="/advertise">
-              <Button variant="outline" size="sm">
-                <Info className="h-4 w-4 mr-2" />
-                Advertise
-              </Button>
-            </Link>
-            <div className="flex items-center gap-2">
-              <Languages className="h-4 w-4 text-muted-foreground" />
-              <Select defaultValue="en">
-                <SelectTrigger className="w-32 h-9">
-                  <SelectValue />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="en">English</SelectItem>
-                  <SelectItem value="es">Español</SelectItem>
-                  <SelectItem value="fr">Français</SelectItem>
-                  <SelectItem value="de">Deutsch</SelectItem>
-                  <SelectItem value="it">Italiano</SelectItem>
-                </SelectContent>
-              </Select>
-            </div>
-          </div>
-
-          {/* Mobile Menu - Visible only on mobile */}
-          <div className="md:hidden">
-            <Sheet open={mobileMenuOpen} onOpenChange={setMobileMenuOpen}>
+        <div className="flex justify-start items-center">
+          {/* Hamburger Menu - Visible on all screen sizes */}
+          <div>
+            <Sheet open={menuOpen} onOpenChange={setMenuOpen}>
               <SheetTrigger asChild>
                 <Button variant="outline" size="sm">
                   <Menu className="h-4 w-4" />
@@ -346,19 +309,19 @@ export const RestaurantDiscoveryForm = () => {
               </SheetTrigger>
               <SheetContent side="left" className="w-80">
                 <div className="flex flex-col gap-4 pt-6">
-                  <Link to="/about-us" onClick={() => setMobileMenuOpen(false)}>
+                  <Link to="/about-us" onClick={() => setMenuOpen(false)}>
                     <Button variant="ghost" className="w-full justify-start">
                       <Info className="h-4 w-4 mr-2" />
                       About Us
                     </Button>
                   </Link>
-                  <Link to="/how-to" onClick={() => setMobileMenuOpen(false)}>
+                  <Link to="/how-to" onClick={() => setMenuOpen(false)}>
                     <Button variant="ghost" className="w-full justify-start">
                       <HelpCircle className="h-4 w-4 mr-2" />
                       How To
                     </Button>
                   </Link>
-                  <Link to="/advertise" onClick={() => setMobileMenuOpen(false)}>
+                  <Link to="/advertise" onClick={() => setMenuOpen(false)}>
                     <Button variant="ghost" className="w-full justify-start">
                       <Info className="h-4 w-4 mr-2" />
                       Advertise
