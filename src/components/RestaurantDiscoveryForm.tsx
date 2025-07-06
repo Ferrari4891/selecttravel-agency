@@ -6,6 +6,7 @@ import { Badge } from '@/components/ui/badge';
 import { Loader2, MapPin, Download, Info, HelpCircle, Languages } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { regionData } from '@/data/locationData';
+import { countryImages } from '@/data/countryImages';
 import { RestaurantResults } from './RestaurantResults';
 import { useToast } from '@/hooks/use-toast';
 import heroBackground from '@/assets/hero-background.jpg';
@@ -108,8 +109,7 @@ export const RestaurantDiscoveryForm = () => {
     }
     
     if (selectedCountry) {
-      // For now, return a placeholder - country images will be generated later
-      return heroBackground;
+      return countryImages[selectedCountry] || heroBackground;
     }
     
     if (selectedRegion) {
