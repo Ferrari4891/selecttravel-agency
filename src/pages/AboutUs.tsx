@@ -33,7 +33,7 @@ const AboutUs = () => {
 
         <div className="text-center space-y-4">
           <h2 className="text-3xl font-bold bg-gradient-primary bg-clip-text text-transparent">
-            About smartguides.live
+            About smartguidebooks.com
           </h2>
           <p className="text-muted-foreground text-lg">
             Your trusted companion for discovering exceptional dining experiences
@@ -60,8 +60,7 @@ const AboutUs = () => {
             </CardHeader>
             <CardContent>
               <p className="text-muted-foreground">
-                Founded by passionate food enthusiasts and travel experts, smartguidebooks.com was born from the frustration of spending hours researching restaurants when traveling. We wanted to create a simple, reliable way to find the top dining spots in any location, backed by real reviews and comprehensive data.
-              </p>
+                Made by Seniors for Seniors! We don't want massive lists of choices when we travel we want value and to get value we understand the best source of truth is a variety of many people opinions. That's how we grade our curated lists by aggregating reviwers from three of the worlds leading review website - Google Reviews, Telp and Trip Advisor.
             </CardContent>
           </Card>
 
