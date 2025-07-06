@@ -397,7 +397,7 @@ export const RestaurantDiscoveryForm = () => {
           }}
         >
           <h1 className="text-2xl md:text-4xl font-bold text-white">
-            smartguidebooks.com
+            smartguides.live
           </h1>
           <p className="text-white text-sm md:text-lg px-4">
             {getTagline()}
