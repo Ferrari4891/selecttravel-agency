@@ -36,7 +36,7 @@ const AboutUs = () => {
             About smartguidebooks.com
           </h2>
           <p className="text-muted-foreground text-lg">
-            Your trusted companion for discovering exceptional dining experiences
+            Take less than 60 seconds to discover exceptional dining experiences
           </p>
         </div>
 
