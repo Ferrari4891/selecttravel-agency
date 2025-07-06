@@ -363,7 +363,7 @@ export const RestaurantDiscoveryForm = () => {
             </div>
 
             <div className="flex gap-4 pt-4">
-              <Button
+                <Button
                 onClick={searchRestaurants}
                 disabled={!selectedCategory || !selectedRegion || !selectedCountry || !selectedCity || isLoading}
                 className="flex-1"
@@ -371,10 +371,10 @@ export const RestaurantDiscoveryForm = () => {
                 {isLoading ? (
                   <>
                     <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                    Getting Your Results...
+                    Searching...
                   </>
                 ) : (
-                  'Step 5: Get My Results'
+                  'Search'
                 )}
               </Button>
 
