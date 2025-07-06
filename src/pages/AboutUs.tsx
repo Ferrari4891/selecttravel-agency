@@ -60,9 +60,8 @@ const AboutUs = () => {
             </CardHeader>
             <CardContent>
               <p className="text-muted-foreground">
-                Made by Seniors for Seniors! We don't want massive lists of choices when we travel we want value and to get value we understand the best source of truth is a variety of many people opinions. That's how we grade our curated lists by aggregating reviwers from three of the worlds leading review website - Google Reviews, Telp and Trip Advisor.
-              </p>
-            </CardContent>
+                <p Made by Seniors for Seniors! We don't want massive lists of choices when we travel we want value and to get value we understand the best source of truth is a variety of many people opinions. That's how we grade our curated lists by aggregating reviwers from three of the worlds leading review websites - Google Reviews, Yelp and Trip Advisor.</p>
+            </CardContent></p>
           </Card>
 
           <Card>
