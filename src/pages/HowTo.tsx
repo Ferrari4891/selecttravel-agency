@@ -2,11 +2,26 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { ArrowLeft, MapPin, Search, Download, Star } from "lucide-react";
 import { Link } from "react-router-dom";
+import heroHowTo from "@/assets/hero-how-to.jpg";
 
 const HowTo = () => {
   return (
-    <div className="min-h-screen bg-background p-6">
-      <div className="max-w-4xl mx-auto space-y-8">
+    <div className="min-h-screen bg-background">
+      {/* Hero Section */}
+      <div className="relative h-64 md:h-80 overflow-hidden">
+        <img 
+          src={heroHowTo} 
+          alt="How To Hero" 
+          className="w-full h-full object-cover"
+        />
+        <div className="absolute inset-0 bg-black/50 flex items-center justify-center">
+          <h1 className="text-4xl md:text-6xl font-bold text-white">
+            HOW TO
+          </h1>
+        </div>
+      </div>
+
+      <div className="max-w-4xl mx-auto p-6 space-y-8">
         <div className="flex items-center gap-4">
           <Link to="/">
             <Button variant="outline" size="sm">
@@ -17,9 +32,9 @@ const HowTo = () => {
         </div>
 
         <div className="text-center space-y-4">
-          <h1 className="text-4xl font-bold bg-gradient-primary bg-clip-text text-transparent">
+          <h2 className="text-3xl font-bold bg-gradient-primary bg-clip-text text-transparent">
             How to Use smartguidebooks.com
-          </h1>
+          </h2>
           <p className="text-muted-foreground text-lg">
             Your step-by-step guide to discovering amazing restaurants
           </p>

@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Check, X, Home } from "lucide-react";
 import { Link } from "react-router-dom";
+import heroAdvertise from "@/assets/hero-advertise.jpg";
 
 const Advertise = () => {
   const features = [
@@ -37,6 +38,20 @@ const Advertise = () => {
 
   return (
     <div className="min-h-screen bg-background">
+      {/* Hero Section */}
+      <div className="relative h-64 md:h-80 overflow-hidden">
+        <img 
+          src={heroAdvertise} 
+          alt="Advertise Hero" 
+          className="w-full h-full object-cover"
+        />
+        <div className="absolute inset-0 bg-black/50 flex items-center justify-center">
+          <h1 className="text-4xl md:text-6xl font-bold text-white">
+            ADVERTISE
+          </h1>
+        </div>
+      </div>
+
       <div className="container mx-auto px-4 py-8">
         {/* Mobile Back to Home Button */}
         <div className="md:hidden mb-4">
@@ -49,7 +64,7 @@ const Advertise = () => {
         </div>
 
         <div className="text-center mb-8">
-          <h1 className="text-4xl font-bold text-foreground mb-4">Advertise Your Business</h1>
+          <h2 className="text-3xl font-bold text-foreground mb-4">Advertise Your Business</h2>
           <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
             Choose the perfect plan to showcase your business and reach more customers. 
             All plans include access to our comprehensive business directory platform.
