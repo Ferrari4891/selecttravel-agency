@@ -25,7 +25,7 @@ const HowTo = () => {
 
         <div className="text-center space-y-4">
           <h2 className="text-3xl font-bold bg-gradient-primary bg-clip-text text-transparent">
-            How to Use smartguidebooks.com
+            How to Use smartguides.live
           </h2>
           <p className="text-muted-foreground text-lg">
             Your step-by-step guide to discovering amazing restaurants
