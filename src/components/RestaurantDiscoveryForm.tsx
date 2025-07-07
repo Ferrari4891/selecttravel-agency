@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -362,7 +363,7 @@ export const RestaurantDiscoveryForm = () => {
         </div>
         
         <div 
-          className="relative text-center space-y-4 py-16 px-8 rounded-lg overflow-hidden"
+          className="relative text-center space-y-4 py-16 px-8 overflow-hidden"
           style={{
             backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url(${getHeroImage()})`,
             backgroundSize: 'cover',
@@ -474,10 +475,16 @@ export const RestaurantDiscoveryForm = () => {
             </div>
 
             <div className="flex flex-col gap-4 pt-4 items-center">
-                <Button
+              <Button
                 onClick={searchRestaurants}
                 disabled={!selectedCategory || !selectedRegion || !selectedCountry || !selectedCity || isLoading}
                 size="default"
+                style={{
+                  backgroundColor: '#25d666',
+                  color: 'white',
+                  borderRadius: '0px'
+                }}
+                className="hover:bg-[#25d666]"
               >
                 {isLoading ? (
                   <>
@@ -485,7 +492,7 @@ export const RestaurantDiscoveryForm = () => {
                     Searching...
                   </>
                 ) : (
-                  'Search'
+                  'GET NOW!'
                 )}
               </Button>
 
