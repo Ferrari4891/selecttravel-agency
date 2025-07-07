@@ -369,7 +369,7 @@ export const RestaurantDiscoveryForm = () => {
             backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url(${getHeroImage()})`,
             backgroundSize: 'cover',
             backgroundPosition: 'center',
-            border: '4px solid white',
+            border: '8px solid white',
             boxShadow: `
               30px 0 30px -30px rgba(128, 128, 128, 0.3),
               -30px 0 30px -30px rgba(128, 128, 128, 0.3),
