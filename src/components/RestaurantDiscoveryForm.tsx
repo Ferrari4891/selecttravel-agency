@@ -375,7 +375,7 @@ export const RestaurantDiscoveryForm = () => {
         </div>
         
         <div 
-          className="relative text-center space-y-4 py-16 px-8 rounded-lg overflow-hidden"
+          className="relative text-center space-y-4 py-16 px-8 overflow-hidden"
           style={{
             backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url(${getHeroImage()})`,
             backgroundSize: 'cover',
@@ -491,6 +491,7 @@ export const RestaurantDiscoveryForm = () => {
                 onClick={searchRestaurants}
                 disabled={!selectedCategory || !selectedRegion || !selectedCountry || !selectedCity || isLoading}
                 size="default"
+                className="bg-blue-600 hover:bg-blue-700 text-white rounded-none"
               >
                 {isLoading ? (
                   <>

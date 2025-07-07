@@ -1,3 +1,4 @@
+
 import heroHowTo from "@/assets/hero-how-to.jpg";
 
 const HowToHero = () => {
