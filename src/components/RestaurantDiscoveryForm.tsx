@@ -319,6 +319,12 @@ export const RestaurantDiscoveryForm = () => {
               </SheetTrigger>
               <SheetContent side="left" className="w-80">
                 <div className="flex flex-col gap-4 pt-6">
+                  <Link to="/" onClick={() => setMenuOpen(false)}>
+                    <Button variant="ghost" className="w-full justify-start">
+                      <Home className="h-4 w-4 mr-2" />
+                      Home
+                    </Button>
+                  </Link>
                   <Link to="/about-us" onClick={() => setMenuOpen(false)}>
                     <Button variant="ghost" className="w-full justify-start">
                       <Info className="h-4 w-4 mr-2" />
