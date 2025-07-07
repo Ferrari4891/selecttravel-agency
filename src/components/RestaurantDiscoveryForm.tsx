@@ -364,11 +364,16 @@ export const RestaurantDiscoveryForm = () => {
         </div>
         
         <div 
-          className="relative text-center space-y-4 py-16 px-8 overflow-hidden"
+          className="relative text-center space-y-4 py-16 px-8 overflow-hidden border-4 border-white"
           style={{
             backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url(${getHeroImage()})`,
             backgroundSize: 'cover',
-            backgroundPosition: 'center'
+            backgroundPosition: 'center',
+            boxShadow: `
+              inset 30px 0 30px -30px rgba(0, 0, 0, 0.3),
+              inset -30px 0 30px -30px rgba(0, 0, 0, 0.3),
+              inset 0 -30px 30px -18px rgba(0, 0, 0, 0.3)
+            `
           }}
         >
           <h1 className="text-2xl md:text-4xl font-bold text-white">
@@ -481,11 +486,11 @@ export const RestaurantDiscoveryForm = () => {
                 disabled={!selectedCategory || !selectedRegion || !selectedCountry || !selectedCity || isLoading}
                 size="default"
                 style={{
-                  backgroundColor: '#25d666',
+                  backgroundColor: '#1a5f1a',
                   color: 'white',
                   borderRadius: '0px'
                 }}
-                className="hover:bg-[#25d666]"
+                className="hover:bg-[#1a5f1a]"
               >
                 {isLoading ? (
                   <>
@@ -522,4 +527,3 @@ export const RestaurantDiscoveryForm = () => {
     </div>
   );
 };
-
