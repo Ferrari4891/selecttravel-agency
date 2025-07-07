@@ -491,7 +491,14 @@ export const RestaurantDiscoveryForm = () => {
                 onClick={searchRestaurants}
                 disabled={!selectedCategory || !selectedRegion || !selectedCountry || !selectedCity || isLoading}
                 size="default"
-                className="bg-blue-600 hover:bg-blue-700 text-white rounded-none"
+                className="text-white rounded-none"
+                style={{ backgroundColor: '#2ECC71', borderColor: '#2ECC71' }}
+                onMouseEnter={(e) => {
+                  e.target.style.backgroundColor = '#27AE60';
+                }}
+                onMouseLeave={(e) => {
+                  e.target.style.backgroundColor = '#2ECC71';
+                }}
               >
                 {isLoading ? (
                   <>
