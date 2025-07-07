@@ -82,7 +82,7 @@ export const RestaurantDiscoveryForm = () => {
     const baseText = () => {
       switch (selectedCategory) {
         case 'Eat':
-          return 'Discover the TOP 40 restaurants in the area';
+          return 'Get the TOP 40 restaurants in the area';
         case 'Drink':
           return 'Discover the TOP 40 bars and cafes in the area';
         case 'Stay':
@@ -300,16 +300,9 @@ export const RestaurantDiscoveryForm = () => {
       <div className="max-w-4xl mx-auto space-y-8">
         <div className="flex flex-col gap-2 justify-start items-start">
           {/* Logo */}
-          <Link 
-            to="/" 
-            className="inline-block"
-            onClick={() => {
-              console.log('Logo clicked, navigating to home');
-              window.location.href = '/';
-            }}
-          >
-            <div className="flex items-center gap-2 p-2 border border-primary hover:bg-primary/5 transition-colors cursor-pointer">
-              <div className="w-8 h-8 bg-primary flex items-center justify-center">
+          <Link to="/" className="inline-block">
+            <div className="flex items-center gap-2 p-2 border border-primary rounded-lg hover:bg-primary/5 transition-colors cursor-pointer">
+              <div className="w-8 h-8 bg-primary rounded flex items-center justify-center">
                 <span className="text-white font-bold text-sm">SG</span>
               </div>
               <span className="font-bold text-primary text-lg">SmartGuides</span>
@@ -326,12 +319,6 @@ export const RestaurantDiscoveryForm = () => {
               </SheetTrigger>
               <SheetContent side="left" className="w-80">
                 <div className="flex flex-col gap-4 pt-6">
-                  <Link to="/" onClick={() => setMenuOpen(false)}>
-                    <Button variant="ghost" className="w-full justify-start">
-                      <Home className="h-4 w-4 mr-2" />
-                      Home
-                    </Button>
-                  </Link>
                   <Link to="/about-us" onClick={() => setMenuOpen(false)}>
                     <Button variant="ghost" className="w-full justify-start">
                       <Info className="h-4 w-4 mr-2" />
@@ -375,7 +362,7 @@ export const RestaurantDiscoveryForm = () => {
         </div>
         
         <div 
-          className="relative text-center space-y-4 py-16 px-8 overflow-hidden"
+          className="relative text-center space-y-4 py-16 px-8 rounded-lg overflow-hidden"
           style={{
             backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url(${getHeroImage()})`,
             backgroundSize: 'cover',
@@ -491,8 +478,6 @@ export const RestaurantDiscoveryForm = () => {
                 onClick={searchRestaurants}
                 disabled={!selectedCategory || !selectedRegion || !selectedCountry || !selectedCity || isLoading}
                 size="default"
-                className="text-white rounded-none"
-                style={{ backgroundColor: '#22C55E', borderColor: '#22C55E' }}
               >
                 {isLoading ? (
                   <>
@@ -500,7 +485,7 @@ export const RestaurantDiscoveryForm = () => {
                     Searching...
                   </>
                 ) : (
-                  'GET NOW!'
+                  'Search'
                 )}
               </Button>
 
