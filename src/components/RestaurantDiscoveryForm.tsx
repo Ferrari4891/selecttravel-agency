@@ -301,11 +301,12 @@ export const RestaurantDiscoveryForm = () => {
         <div className="flex flex-col gap-2 justify-start items-start">
           {/* Logo */}
           <Link to="/" className="inline-block">
-            <img 
-              src="/lovable-uploads/ca5da2d1-2b73-4f40-95ba-d7236cd4aa45.png" 
-              alt="SmartGuides Logo" 
-              className="h-12 w-auto cursor-pointer hover:opacity-80 transition-opacity"
-            />
+            <div className="flex items-center gap-2 p-2 border border-primary rounded-lg hover:bg-primary/5 transition-colors cursor-pointer">
+              <div className="w-8 h-8 bg-primary rounded flex items-center justify-center">
+                <span className="text-white font-bold text-sm">SG</span>
+              </div>
+              <span className="font-bold text-primary text-lg">SmartGuides</span>
+            </div>
           </Link>
           
           {/* Hamburger Menu - Visible on all screen sizes */}
