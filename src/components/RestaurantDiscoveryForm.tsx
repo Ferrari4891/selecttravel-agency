@@ -336,7 +336,7 @@ export const RestaurantDiscoveryForm = () => {
               <div className="space-y-2">
                 <label className="text-sm font-bold uppercase">STEP 1: CHOOSE CATEGORY</label>
                 <Select value={selectedCategory} onValueChange={handleCategoryChange}>
-                  <SelectTrigger className="font-bold">
+                  <SelectTrigger className="font-bold rounded-none">
                     <SelectValue placeholder="Select category" />
                   </SelectTrigger>
                   <SelectContent>
@@ -363,7 +363,7 @@ export const RestaurantDiscoveryForm = () => {
                   onValueChange={handleRegionChange}
                   disabled={!selectedCategory}
                 >
-                  <SelectTrigger className="font-bold">
+                  <SelectTrigger className="font-bold rounded-none">
                     <SelectValue placeholder="Select region" />
                   </SelectTrigger>
                   <SelectContent>
@@ -383,7 +383,7 @@ export const RestaurantDiscoveryForm = () => {
                   onValueChange={handleCountryChange}
                   disabled={!selectedRegion}
                 >
-                  <SelectTrigger className="font-bold">
+                  <SelectTrigger className="font-bold rounded-none">
                     <SelectValue placeholder="Select country" />
                   </SelectTrigger>
                   <SelectContent>
@@ -403,7 +403,7 @@ export const RestaurantDiscoveryForm = () => {
                   onValueChange={handleCityChange}
                   disabled={!selectedCountry}
                 >
-                  <SelectTrigger className="font-bold">
+                  <SelectTrigger className="font-bold rounded-none">
                     <SelectValue placeholder="Select city" />
                   </SelectTrigger>
                   <SelectContent>

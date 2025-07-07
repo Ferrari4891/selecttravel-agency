@@ -11,7 +11,7 @@ export const Navigation = () => {
   return (
     <div className="flex flex-col gap-2 justify-start items-start">
       {/* Logo */}
-      <Link to="/" className="inline-block">
+      <Link to="/" className="inline-block no-underline">
         <div className="flex items-center gap-2 p-2 border border-primary hover:bg-primary/5 transition-colors cursor-pointer">
           <div className="w-8 h-8 bg-primary flex items-center justify-center">
             <span className="text-white font-bold text-sm">SG</span>
