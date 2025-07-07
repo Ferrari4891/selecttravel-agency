@@ -299,12 +299,13 @@ export const RestaurantDiscoveryForm = () => {
     <div className={`min-h-screen bg-background p-6 ${getThemeClass()}`}>
       <div className="max-w-4xl mx-auto space-y-8">
         <div className="flex flex-col gap-2 justify-start items-start">
-          {/* Home Button */}
+          {/* Logo */}
           <Link to="/" className="inline-block">
-            <Button variant="outline" size="sm" className="cursor-pointer">
-              <Home className="h-4 w-4 mr-2" />
-              Home
-            </Button>
+            <img 
+              src="/lovable-uploads/ca5da2d1-2b73-4f40-95ba-d7236cd4aa45.png" 
+              alt="SmartGuides Logo" 
+              className="h-12 w-auto cursor-pointer hover:opacity-80 transition-opacity"
+            />
           </Link>
           
           {/* Hamburger Menu - Visible on all screen sizes */}
