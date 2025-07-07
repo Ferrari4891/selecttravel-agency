@@ -33,10 +33,10 @@ const AboutUs = () => {
 
         <div className="text-center space-y-4">
           <h2 className="text-3xl font-bold bg-gradient-primary bg-clip-text text-transparent">
-            About smartguidebooks.com
+            About smartguides.live
           </h2>
           <p className="text-muted-foreground text-lg">
-            Your trusted companion for discovering exceptional dining experiences
+            Your trusted companion for discovering reputable businesses worldwide in less than 60 seconds
           </p>
         </div>
 
@@ -48,7 +48,7 @@ const AboutUs = () => {
             </CardHeader>
             <CardContent>
               <p className="text-muted-foreground">
-                At smartguides.live, we believe that great food brings people together. Our mission is to help you discover the most exceptional restaurants in any area, combining data from trusted sources like TripAdvisor, Yelp, and Google Reviews to give you the most comprehensive dining recommendations.
+                At smartguidebooks.com, we believe that great food brings people together. Our mission is to help you discover the most exceptional restaurants in any area, combining data from trusted sources like TripAdvisor, Yelp, and Google Reviews to give you the most comprehensive dining recommendations.
               </p>
             </CardContent>
           </Card>
@@ -73,7 +73,7 @@ const AboutUs = () => {
             <CardContent>
               <ul className="space-y-2 text-muted-foreground">
                 <li>• Comprehensive data from multiple trusted review platforms</li>
-                <li>• Curated lists of the top 40 businesses in each location</li>
+                <li>• Curated lists of the top 40 restaurants in each area</li>
                 <li>• Complete contact information and social media links</li>
                 <li>• Easy-to-use interface with intuitive navigation</li>
                 <li>• Regular updates to ensure accuracy and relevance</li>
