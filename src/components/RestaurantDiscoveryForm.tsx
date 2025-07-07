@@ -163,11 +163,11 @@ export const RestaurantDiscoveryForm = () => {
         case 'Play':
           return heroPlay;
         default:
-          return heroBackground;
+          return '/lovable-uploads/651b1fe2-013b-44d5-b9db-a4a5ba2ca763.png';
       }
     }
     
-    return heroBackground;
+    return '/lovable-uploads/651b1fe2-013b-44d5-b9db-a4a5ba2ca763.png';
   };
 
   const handleRegionChange = (value: string) => {
