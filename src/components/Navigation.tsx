@@ -30,30 +30,30 @@ export const Navigation = () => {
           </SheetTrigger>
           <SheetContent side="left" className="w-80">
             <div className="flex flex-col gap-4 pt-6">
-              <Link to="/" onClick={() => setMenuOpen(false)}>
-                <Button variant="ghost" className="w-full justify-start">
+              <Button variant="ghost" className="w-full justify-start" asChild>
+                <Link to="/" onClick={() => setMenuOpen(false)}>
                   <Home className="h-4 w-4 mr-2" />
                   Home
-                </Button>
-              </Link>
-              <Link to="/about-us" onClick={() => setMenuOpen(false)}>
-                <Button variant="ghost" className="w-full justify-start">
+                </Link>
+              </Button>
+              <Button variant="ghost" className="w-full justify-start" asChild>
+                <Link to="/about-us" onClick={() => setMenuOpen(false)}>
                   <Info className="h-4 w-4 mr-2" />
                   About Us
-                </Button>
-              </Link>
-              <Link to="/how-to" onClick={() => setMenuOpen(false)}>
-                <Button variant="ghost" className="w-full justify-start">
+                </Link>
+              </Button>
+              <Button variant="ghost" className="w-full justify-start" asChild>
+                <Link to="/how-to" onClick={() => setMenuOpen(false)}>
                   <HelpCircle className="h-4 w-4 mr-2" />
                   How To
-                </Button>
-              </Link>
-              <Link to="/advertise" onClick={() => setMenuOpen(false)}>
-                <Button variant="ghost" className="w-full justify-start">
+                </Link>
+              </Button>
+              <Button variant="ghost" className="w-full justify-start" asChild>
+                <Link to="/advertise" onClick={() => setMenuOpen(false)}>
                   <Info className="h-4 w-4 mr-2" />
                   Advertise
-                </Button>
-              </Link>
+                </Link>
+              </Button>
               <div className="flex flex-col gap-2 pt-4 border-t">
                 <div className="flex items-center gap-2 px-3">
                   <Languages className="h-4 w-4 text-muted-foreground" />
