@@ -370,9 +370,9 @@ export const RestaurantDiscoveryForm = () => {
             backgroundSize: 'cover',
             backgroundPosition: 'center',
             boxShadow: `
-              inset 30px 0 30px -30px rgba(0, 0, 0, 0.3),
-              inset -30px 0 30px -30px rgba(0, 0, 0, 0.3),
-              inset 0 -30px 30px -18px rgba(0, 0, 0, 0.3)
+              inset 30px 0 30px -30px rgba(128, 128, 128, 0.3),
+              inset -30px 0 30px -30px rgba(128, 128, 128, 0.3),
+              inset 0 -30px 30px -18px rgba(128, 128, 128, 0.3)
             `
           }}
         >
@@ -486,11 +486,11 @@ export const RestaurantDiscoveryForm = () => {
                 disabled={!selectedCategory || !selectedRegion || !selectedCountry || !selectedCity || isLoading}
                 size="default"
                 style={{
-                  backgroundColor: '#1a5f1a',
+                  backgroundColor: '#00e676',
                   color: 'white',
                   borderRadius: '0px'
                 }}
-                className="hover:bg-[#1a5f1a]"
+                className="hover:bg-[#00e676]"
               >
                 {isLoading ? (
                   <>
