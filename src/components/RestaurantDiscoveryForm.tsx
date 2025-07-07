@@ -3,13 +3,13 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Button } from '@/components/ui/button';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Badge } from '@/components/ui/badge';
-import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
-import { Loader2, MapPin, Download, Info, HelpCircle, Languages, Menu, Home } from 'lucide-react';
+import { Loader2, MapPin, Download } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { regionData } from '@/data/locationData';
 import { countryImages } from '@/data/countryImages';
 import { cityImages } from '@/data/cityImages';
 import { RestaurantResults } from './RestaurantResults';
+import { Navigation } from './Navigation';
 import { useToast } from '@/hooks/use-toast';
 import heroBackground from '@/assets/hero-background.jpg';
 import heroEat from '@/assets/hero-eat.jpg';
@@ -57,7 +57,6 @@ export const RestaurantDiscoveryForm = () => {
   const [selectedCity, setSelectedCity] = useState<string>('');
   const [isLoading, setIsLoading] = useState(false);
   const [restaurants, setRestaurants] = useState<Restaurant[]>([]);
-  const [menuOpen, setMenuOpen] = useState(false);
   const { toast } = useToast();
 
   const categories = [
@@ -298,74 +297,7 @@ export const RestaurantDiscoveryForm = () => {
   return (
     <div className={`min-h-screen bg-background p-6 ${getThemeClass()}`}>
       <div className="max-w-4xl mx-auto space-y-8">
-        <div className="flex flex-col gap-2 justify-start items-start">
-          {/* Logo */}
-          <Link to="/" className="inline-block">
-            <div className="flex items-center gap-2 p-2 border border-primary hover:bg-primary/5 transition-colors cursor-pointer">
-              <div className="w-8 h-8 bg-primary flex items-center justify-center">
-                <span className="text-white font-bold text-sm">SG</span>
-              </div>
-              <span className="font-bold text-primary text-lg">SmartGuides</span>
-            </div>
-          </Link>
-          
-          {/* Hamburger Menu - Visible on all screen sizes */}
-          <div>
-            <Sheet open={menuOpen} onOpenChange={setMenuOpen}>
-              <SheetTrigger asChild>
-                <Button variant="outline" size="sm" className="rounded-none">
-                  <Menu className="h-4 w-4" />
-                </Button>
-              </SheetTrigger>
-              <SheetContent side="left" className="w-80">
-                <div className="flex flex-col gap-4 pt-6">
-                  <Link to="/" onClick={() => setMenuOpen(false)}>
-                    <Button variant="ghost" className="w-full justify-start">
-                      <Home className="h-4 w-4 mr-2" />
-                      Home
-                    </Button>
-                  </Link>
-                  <Link to="/about-us" onClick={() => setMenuOpen(false)}>
-                    <Button variant="ghost" className="w-full justify-start">
-                      <Info className="h-4 w-4 mr-2" />
-                      About Us
-                    </Button>
-                  </Link>
-                  <Link to="/how-to" onClick={() => setMenuOpen(false)}>
-                    <Button variant="ghost" className="w-full justify-start">
-                      <HelpCircle className="h-4 w-4 mr-2" />
-                      How To
-                    </Button>
-                  </Link>
-                  <Link to="/advertise" onClick={() => setMenuOpen(false)}>
-                    <Button variant="ghost" className="w-full justify-start">
-                      <Info className="h-4 w-4 mr-2" />
-                      Advertise
-                    </Button>
-                  </Link>
-                  <div className="flex flex-col gap-2 pt-4 border-t">
-                    <div className="flex items-center gap-2 px-3">
-                      <Languages className="h-4 w-4 text-muted-foreground" />
-                      <span className="text-sm font-medium">Language</span>
-                    </div>
-                    <Select defaultValue="en">
-                      <SelectTrigger className="w-full">
-                        <SelectValue />
-                      </SelectTrigger>
-                      <SelectContent>
-                        <SelectItem value="en">English</SelectItem>
-                        <SelectItem value="es">Español</SelectItem>
-                        <SelectItem value="fr">Français</SelectItem>
-                        <SelectItem value="de">Deutsch</SelectItem>
-                        <SelectItem value="it">Italiano</SelectItem>
-                      </SelectContent>
-                    </Select>
-                  </div>
-                </div>
-              </SheetContent>
-            </Sheet>
-          </div>
-        </div>
+        <Navigation />
         
         <div 
           className="relative text-center space-y-4 py-16 px-8 overflow-hidden"

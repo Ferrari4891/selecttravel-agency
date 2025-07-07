@@ -1,6 +1,7 @@
 import { Button } from "@/components/ui/button";
 import { ArrowLeft } from "lucide-react";
 import { Link } from "react-router-dom";
+import { Navigation } from "@/components/Navigation";
 import HowToHero from "@/components/how-to/HowToHero";
 import HowToSteps from "@/components/how-to/HowToSteps";
 import HowToFeatures from "@/components/how-to/HowToFeatures";
@@ -14,6 +15,8 @@ const HowTo = () => {
       <HowToHero />
 
       <div className="max-w-4xl mx-auto p-6 space-y-8">
+        <Navigation />
+        
         <div className="flex items-center gap-4">
           <Link to="/">
             <Button variant="outline" size="sm">

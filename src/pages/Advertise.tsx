@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Check, X, Home } from "lucide-react";
 import { Link } from "react-router-dom";
+import { Navigation } from "@/components/Navigation";
 import heroAdvertise from "@/assets/hero-advertise.jpg";
 
 const Advertise = () => {
@@ -53,6 +54,8 @@ const Advertise = () => {
       </div>
 
       <div className="container mx-auto px-4 py-8">
+        <Navigation />
+        
         {/* Back to Home Button */}
         <div className="mb-4">
           <Link to="/">
