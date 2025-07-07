@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -300,9 +301,16 @@ export const RestaurantDiscoveryForm = () => {
       <div className="max-w-4xl mx-auto space-y-8">
         <div className="flex flex-col gap-2 justify-start items-start">
           {/* Logo */}
-          <Link to="/" className="inline-block">
-            <div className="flex items-center gap-2 p-2 border border-primary rounded-lg hover:bg-primary/5 transition-colors cursor-pointer">
-              <div className="w-8 h-8 bg-primary rounded flex items-center justify-center">
+          <Link 
+            to="/" 
+            className="inline-block"
+            onClick={() => {
+              console.log('Logo clicked, navigating to home');
+              window.location.href = '/';
+            }}
+          >
+            <div className="flex items-center gap-2 p-2 border border-primary hover:bg-primary/5 transition-colors cursor-pointer">
+              <div className="w-8 h-8 bg-primary flex items-center justify-center">
                 <span className="text-white font-bold text-sm">SG</span>
               </div>
               <span className="font-bold text-primary text-lg">SmartGuides</span>
