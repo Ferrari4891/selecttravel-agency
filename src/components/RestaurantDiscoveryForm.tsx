@@ -364,15 +364,16 @@ export const RestaurantDiscoveryForm = () => {
         </div>
         
         <div 
-          className="relative text-center space-y-4 py-16 px-8 overflow-hidden border-4 border-white"
+          className="relative text-center space-y-4 py-16 px-8 overflow-hidden"
           style={{
             backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url(${getHeroImage()})`,
             backgroundSize: 'cover',
             backgroundPosition: 'center',
+            border: '4px solid white',
             boxShadow: `
-              inset 30px 0 30px -30px rgba(128, 128, 128, 0.3),
-              inset -30px 0 30px -30px rgba(128, 128, 128, 0.3),
-              inset 0 -30px 30px -18px rgba(128, 128, 128, 0.3)
+              30px 0 30px -30px rgba(128, 128, 128, 0.3),
+              -30px 0 30px -30px rgba(128, 128, 128, 0.3),
+              0 30px 30px -18px rgba(128, 128, 128, 0.3)
             `
           }}
         >
