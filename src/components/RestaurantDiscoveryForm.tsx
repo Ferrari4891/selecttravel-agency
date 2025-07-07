@@ -339,7 +339,7 @@ export const RestaurantDiscoveryForm = () => {
                   <SelectTrigger className="font-bold rounded-none">
                     <SelectValue placeholder="Select category" />
                   </SelectTrigger>
-                  <SelectContent>
+                  <SelectContent className="rounded-none">
                     {categories.map((category) => (
                       <SelectItem key={category.name} value={category.name}>
                         <div className="flex items-center gap-2">
@@ -366,7 +366,7 @@ export const RestaurantDiscoveryForm = () => {
                   <SelectTrigger className="font-bold rounded-none">
                     <SelectValue placeholder="Select region" />
                   </SelectTrigger>
-                  <SelectContent>
+                  <SelectContent className="rounded-none">
                     {regions.map((region) => (
                       <SelectItem key={region} value={region}>
                         {region}
@@ -386,7 +386,7 @@ export const RestaurantDiscoveryForm = () => {
                   <SelectTrigger className="font-bold rounded-none">
                     <SelectValue placeholder="Select country" />
                   </SelectTrigger>
-                  <SelectContent>
+                  <SelectContent className="rounded-none">
                     {countries.map((country) => (
                       <SelectItem key={country.name} value={country.name}>
                         {country.name}
@@ -406,7 +406,7 @@ export const RestaurantDiscoveryForm = () => {
                   <SelectTrigger className="font-bold rounded-none">
                     <SelectValue placeholder="Select city" />
                   </SelectTrigger>
-                  <SelectContent>
+                  <SelectContent className="rounded-none">
                     {cities.map((city) => (
                       <SelectItem key={city} value={city}>
                         {city}
