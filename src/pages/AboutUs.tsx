@@ -2,7 +2,6 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { ArrowLeft } from "lucide-react";
 import { Link } from "react-router-dom";
-import { Navigation } from "@/components/Navigation";
 import heroAboutUs from "@/assets/hero-about-us.jpg";
 
 const AboutUs = () => {
@@ -23,8 +22,6 @@ const AboutUs = () => {
       </div>
 
       <div className="max-w-4xl mx-auto p-6 space-y-8">
-        <Navigation />
-        
         <div className="flex items-center gap-4">
           <Link to="/">
             <Button variant="outline" size="sm">
@@ -36,7 +33,7 @@ const AboutUs = () => {
 
         <div className="text-center space-y-4">
           <h2 className="text-3xl font-bold bg-gradient-primary bg-clip-text text-transparent">
-            About smartguidebooks.com
+            About smartguides.live
           </h2>
           <p className="text-muted-foreground text-lg">
             Your trusted companion for discovering exceptional dining experiences
