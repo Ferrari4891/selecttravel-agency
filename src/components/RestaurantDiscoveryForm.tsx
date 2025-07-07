@@ -492,13 +492,7 @@ export const RestaurantDiscoveryForm = () => {
                 disabled={!selectedCategory || !selectedRegion || !selectedCountry || !selectedCity || isLoading}
                 size="default"
                 className="text-white rounded-none"
-                style={{ backgroundColor: '#2ECC71', borderColor: '#2ECC71' }}
-                onMouseEnter={(e) => {
-                  e.target.style.backgroundColor = '#27AE60';
-                }}
-                onMouseLeave={(e) => {
-                  e.target.style.backgroundColor = '#2ECC71';
-                }}
+                style={{ backgroundColor: '#22C55E', borderColor: '#22C55E' }}
               >
                 {isLoading ? (
                   <>
