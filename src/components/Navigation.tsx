@@ -11,14 +11,12 @@ export const Navigation = () => {
   return (
     <div className="flex flex-col gap-2 justify-start items-start">
       {/* Logo */}
-      <Link to="/" className="inline-block no-underline">
-        <div className="flex items-center gap-2 p-2 border border-primary hover:bg-primary/5 transition-colors cursor-pointer">
-          <div className="w-8 h-8 bg-primary flex items-center justify-center">
-            <span className="text-white font-bold text-sm">SG</span>
-          </div>
-          <span className="font-bold text-primary text-lg">SmartGuides</span>
+      <div className="flex items-center gap-2 p-2 border border-primary hover:bg-primary/5 transition-colors cursor-pointer" onClick={() => window.location.href = '/'}>
+        <div className="w-8 h-8 bg-primary flex items-center justify-center">
+          <span className="text-white font-bold text-sm">SG</span>
         </div>
-      </Link>
+        <span className="font-bold text-primary text-lg">SmartGuides</span>
+      </div>
       
       {/* Hamburger Menu */}
       <div>
@@ -30,11 +28,16 @@ export const Navigation = () => {
           </SheetTrigger>
           <SheetContent side="left" className="w-80">
             <div className="flex flex-col gap-4 pt-6">
-              <Button variant="ghost" className="w-full justify-start" asChild>
-                <Link to="/" onClick={() => setMenuOpen(false)}>
-                  <Home className="h-4 w-4 mr-2" />
-                  Home
-                </Link>
+              <Button 
+                variant="ghost" 
+                className="w-full justify-start" 
+                onClick={() => {
+                  setMenuOpen(false);
+                  window.location.href = '/';
+                }}
+              >
+                <Home className="h-4 w-4 mr-2" />
+                Home
               </Button>
               <Button variant="ghost" className="w-full justify-start" asChild>
                 <Link to="/about-us" onClick={() => setMenuOpen(false)}>
