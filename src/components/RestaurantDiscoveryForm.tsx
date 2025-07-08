@@ -82,15 +82,15 @@ export const RestaurantDiscoveryForm = () => {
     const baseText = () => {
       switch (selectedCategory) {
         case 'Eat':
-          return 'Discover the TOP 40 restaurants in the area';
+          return 'Discover the TOP 40 restaurants in the ciy selected';
         case 'Drink':
-          return 'Discover the TOP 40 bars and cafes in the area';
+          return 'Discover the TOP 40 bars and cafes in the city selected';
         case 'Stay':
-          return 'Discover the TOP 40 hotels and accommodations in the area';
+          return 'Discover the TOP 40 hotels and accommodations in the city selected';
         case 'Play':
-          return 'Discover the TOP 40 entertainment venues in the area';
+          return 'Discover the TOP 40 entertainment venues in the city selected';
         default:
-          return 'Discover the TOP 40 places in the area';
+          return 'Discover the TOP 40 places in the city selected';
       }
     };
     return `${baseText()}. All business listing ratings are based on Google Reviews, Yelp and Trip Advisor.`;
@@ -384,7 +384,7 @@ export const RestaurantDiscoveryForm = () => {
               CHOOSE YOUR GUIDE
             </CardTitle>
             <CardDescription>
-              Follow the 5 steps to discover the top 40 places in the location you select
+              Follow the 5 steps to discover the top 40 places
             </CardDescription>
           </CardHeader>
           <CardContent className="space-y-6">
