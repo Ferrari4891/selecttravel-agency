@@ -7,6 +7,7 @@ import Index from "./pages/Index";
 import AboutUs from "./pages/AboutUs";
 import HowTo from "./pages/HowTo";
 import Advertise from "./pages/Advertise";
+import Toolbox from "./pages/Toolbox";
 import NotFound from "./pages/NotFound";
 import Footer from "./components/Footer";
 
@@ -25,6 +26,7 @@ const App = () => (
               <Route path="/about-us" element={<AboutUs />} />
               <Route path="/how-to" element={<HowTo />} />
               <Route path="/advertise" element={<Advertise />} />
+              <Route path="/toolbox" element={<Toolbox />} />
               {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
               <Route path="*" element={<NotFound />} />
             </Routes>

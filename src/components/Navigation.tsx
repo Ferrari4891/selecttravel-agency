@@ -57,6 +57,12 @@ export const Navigation = () => {
                   Advertise
                 </Link>
               </Button>
+              <Button variant="ghost" className="w-full justify-start" asChild>
+                <Link to="/toolbox" onClick={() => setMenuOpen(false)}>
+                  <Info className="h-4 w-4 mr-2" />
+                  Toolbox
+                </Link>
+              </Button>
               <div className="flex flex-col gap-2 pt-4 border-t">
                 <div className="flex items-center gap-2 px-3">
                   <Languages className="h-4 w-4 text-muted-foreground" />

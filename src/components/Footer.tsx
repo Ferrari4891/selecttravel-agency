@@ -23,6 +23,12 @@ const Footer = () => {
           >
             How To
           </Link>
+          <Link 
+            to="/toolbox" 
+            className="hover:text-gray-300 transition-colors"
+          >
+            Toolbox
+          </Link>
           <a 
             href="mailto:contact@smartguides.live" 
             className="hover:text-gray-300 transition-colors"
