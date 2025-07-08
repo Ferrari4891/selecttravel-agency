@@ -337,6 +337,12 @@ export const RestaurantDiscoveryForm = () => {
                       Advertise
                     </Button>
                   </Link>
+                  <Link to="/toolbox" onClick={() => setMenuOpen(false)}>
+                    <Button variant="ghost" className="w-full justify-start">
+                      <Info className="h-4 w-4 mr-2" />
+                      Toolbox
+                    </Button>
+                  </Link>
                   <div className="flex flex-col gap-2 pt-4 border-t">
                     <div className="flex items-center gap-2 px-3">
                       <Languages className="h-4 w-4 text-muted-foreground" />
@@ -485,7 +491,7 @@ export const RestaurantDiscoveryForm = () => {
                     Searching...
                   </>
                 ) : (
-                  'Search'
+                  'GET NOW!'
                 )}
               </Button>
 
