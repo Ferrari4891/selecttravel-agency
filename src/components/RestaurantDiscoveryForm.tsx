@@ -3,13 +3,13 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Button } from '@/components/ui/button';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Badge } from '@/components/ui/badge';
-import { Loader2, MapPin, Download } from 'lucide-react';
+import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
+import { Loader2, MapPin, Download, Info, HelpCircle, Languages, Menu, Home } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { regionData } from '@/data/locationData';
 import { countryImages } from '@/data/countryImages';
 import { cityImages } from '@/data/cityImages';
 import { RestaurantResults } from './RestaurantResults';
-import { Navigation } from './Navigation';
 import { useToast } from '@/hooks/use-toast';
 import heroBackground from '@/assets/hero-background.jpg';
 import heroEat from '@/assets/hero-eat.jpg';
@@ -57,6 +57,7 @@ export const RestaurantDiscoveryForm = () => {
   const [selectedCity, setSelectedCity] = useState<string>('');
   const [isLoading, setIsLoading] = useState(false);
   const [restaurants, setRestaurants] = useState<Restaurant[]>([]);
+  const [menuOpen, setMenuOpen] = useState(false);
   const { toast } = useToast();
 
   const categories = [
@@ -81,7 +82,7 @@ export const RestaurantDiscoveryForm = () => {
     const baseText = () => {
       switch (selectedCategory) {
         case 'Eat':
-          return 'Get the TOP 40 restaurants in the area';
+          return 'Discover the TOP 40 restaurants in the area';
         case 'Drink':
           return 'Discover the TOP 40 bars and cafes in the area';
         case 'Stay':
@@ -163,11 +164,11 @@ export const RestaurantDiscoveryForm = () => {
         case 'Play':
           return heroPlay;
         default:
-          return '/lovable-uploads/651b1fe2-013b-44d5-b9db-a4a5ba2ca763.png';
+          return heroBackground;
       }
     }
     
-    return '/lovable-uploads/651b1fe2-013b-44d5-b9db-a4a5ba2ca763.png';
+    return heroBackground;
   };
 
   const handleRegionChange = (value: string) => {
@@ -297,20 +298,75 @@ export const RestaurantDiscoveryForm = () => {
   return (
     <div className={`min-h-screen bg-background p-6 ${getThemeClass()}`}>
       <div className="max-w-4xl mx-auto space-y-8">
-        <Navigation />
+        <div className="flex flex-col gap-2 justify-start items-start">
+          {/* Logo */}
+          <Link to="/" className="inline-block">
+            <div className="flex items-center gap-2 p-2 border border-primary rounded-lg hover:bg-primary/5 transition-colors cursor-pointer">
+              <div className="w-8 h-8 bg-primary rounded flex items-center justify-center">
+                <span className="text-white font-bold text-sm">SG</span>
+              </div>
+              <span className="font-bold text-primary text-lg">SmartGuides</span>
+            </div>
+          </Link>
+          
+          {/* Hamburger Menu - Visible on all screen sizes */}
+          <div>
+            <Sheet open={menuOpen} onOpenChange={setMenuOpen}>
+              <SheetTrigger asChild>
+                <Button variant="outline" size="sm">
+                  <Menu className="h-4 w-4" />
+                </Button>
+              </SheetTrigger>
+              <SheetContent side="left" className="w-80">
+                <div className="flex flex-col gap-4 pt-6">
+                  <Link to="/about-us" onClick={() => setMenuOpen(false)}>
+                    <Button variant="ghost" className="w-full justify-start">
+                      <Info className="h-4 w-4 mr-2" />
+                      About Us
+                    </Button>
+                  </Link>
+                  <Link to="/how-to" onClick={() => setMenuOpen(false)}>
+                    <Button variant="ghost" className="w-full justify-start">
+                      <HelpCircle className="h-4 w-4 mr-2" />
+                      How To
+                    </Button>
+                  </Link>
+                  <Link to="/advertise" onClick={() => setMenuOpen(false)}>
+                    <Button variant="ghost" className="w-full justify-start">
+                      <Info className="h-4 w-4 mr-2" />
+                      Advertise
+                    </Button>
+                  </Link>
+                  <div className="flex flex-col gap-2 pt-4 border-t">
+                    <div className="flex items-center gap-2 px-3">
+                      <Languages className="h-4 w-4 text-muted-foreground" />
+                      <span className="text-sm font-medium">Language</span>
+                    </div>
+                    <Select defaultValue="en">
+                      <SelectTrigger className="w-full">
+                        <SelectValue />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="en">English</SelectItem>
+                        <SelectItem value="es">Español</SelectItem>
+                        <SelectItem value="fr">Français</SelectItem>
+                        <SelectItem value="de">Deutsch</SelectItem>
+                        <SelectItem value="it">Italiano</SelectItem>
+                      </SelectContent>
+                    </Select>
+                  </div>
+                </div>
+              </SheetContent>
+            </Sheet>
+          </div>
+        </div>
         
         <div 
-          className="relative text-center space-y-4 py-16 px-8 overflow-hidden"
+          className="relative text-center space-y-4 py-16 px-8 rounded-lg overflow-hidden"
           style={{
             backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url(${getHeroImage()})`,
             backgroundSize: 'cover',
-            backgroundPosition: 'center',
-            border: '8px solid white',
-            boxShadow: `
-              30px 0 30px -30px rgba(128, 128, 128, 0.3),
-              -30px 0 30px -30px rgba(128, 128, 128, 0.3),
-              0 30px 30px -18px rgba(128, 128, 128, 0.3)
-            `
+            backgroundPosition: 'center'
           }}
         >
           <h1 className="text-2xl md:text-4xl font-bold text-white">
@@ -328,7 +384,7 @@ export const RestaurantDiscoveryForm = () => {
               CHOOSE YOUR GUIDE
             </CardTitle>
             <CardDescription>
-              Follow the 5 steps to discover the top 40 places
+              Follow the 5 steps to discover the top 40 places in the location you select
             </CardDescription>
           </CardHeader>
           <CardContent className="space-y-6">
@@ -336,10 +392,10 @@ export const RestaurantDiscoveryForm = () => {
               <div className="space-y-2">
                 <label className="text-sm font-bold uppercase">STEP 1: CHOOSE CATEGORY</label>
                 <Select value={selectedCategory} onValueChange={handleCategoryChange}>
-                  <SelectTrigger className="font-bold rounded-none">
+                  <SelectTrigger className="font-bold">
                     <SelectValue placeholder="Select category" />
                   </SelectTrigger>
-                  <SelectContent className="rounded-none">
+                  <SelectContent>
                     {categories.map((category) => (
                       <SelectItem key={category.name} value={category.name}>
                         <div className="flex items-center gap-2">
@@ -363,10 +419,10 @@ export const RestaurantDiscoveryForm = () => {
                   onValueChange={handleRegionChange}
                   disabled={!selectedCategory}
                 >
-                  <SelectTrigger className="font-bold rounded-none">
+                  <SelectTrigger className="font-bold">
                     <SelectValue placeholder="Select region" />
                   </SelectTrigger>
-                  <SelectContent className="rounded-none">
+                  <SelectContent>
                     {regions.map((region) => (
                       <SelectItem key={region} value={region}>
                         {region}
@@ -383,10 +439,10 @@ export const RestaurantDiscoveryForm = () => {
                   onValueChange={handleCountryChange}
                   disabled={!selectedRegion}
                 >
-                  <SelectTrigger className="font-bold rounded-none">
+                  <SelectTrigger className="font-bold">
                     <SelectValue placeholder="Select country" />
                   </SelectTrigger>
-                  <SelectContent className="rounded-none">
+                  <SelectContent>
                     {countries.map((country) => (
                       <SelectItem key={country.name} value={country.name}>
                         {country.name}
@@ -403,10 +459,10 @@ export const RestaurantDiscoveryForm = () => {
                   onValueChange={handleCityChange}
                   disabled={!selectedCountry}
                 >
-                  <SelectTrigger className="font-bold rounded-none">
+                  <SelectTrigger className="font-bold">
                     <SelectValue placeholder="Select city" />
                   </SelectTrigger>
-                  <SelectContent className="rounded-none">
+                  <SelectContent>
                     {cities.map((city) => (
                       <SelectItem key={city} value={city}>
                         {city}
@@ -418,16 +474,10 @@ export const RestaurantDiscoveryForm = () => {
             </div>
 
             <div className="flex flex-col gap-4 pt-4 items-center">
-              <Button
+                <Button
                 onClick={searchRestaurants}
                 disabled={!selectedCategory || !selectedRegion || !selectedCountry || !selectedCity || isLoading}
                 size="default"
-                style={{
-                  backgroundColor: '#00e676',
-                  color: 'white',
-                  borderRadius: '0px'
-                }}
-                className="hover:bg-[#00e676]"
               >
                 {isLoading ? (
                   <>
@@ -435,7 +485,7 @@ export const RestaurantDiscoveryForm = () => {
                     Searching...
                   </>
                 ) : (
-                  'GET NOW!'
+                  'Search'
                 )}
               </Button>
 
