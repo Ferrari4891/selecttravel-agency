@@ -15,7 +15,7 @@ export const Navigation = () => {
         <div className="w-8 h-8 bg-primary flex items-center justify-center">
           <span className="text-white font-bold text-sm">SG</span>
         </div>
-        <span className="font-bold text-primary text-lg">SmartGuides</span>
+        <span className="font-bold text-primary text-lg">SmartGuides.live</span>
       </div>
       
       {/* Hamburger Menu */}
