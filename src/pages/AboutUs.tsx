@@ -36,7 +36,7 @@ const AboutUs = () => {
             About smartguides.live
           </h2>
           <p className="text-muted-foreground text-lg">
-            Your trusted companion for discovering reputable businesses worldwide in less than 60 seconds
+            Your trusted companion for discovering exceptional dining experiences
           </p>
         </div>
 
