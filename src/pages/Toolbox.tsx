@@ -67,7 +67,7 @@ const Toolbox = () => {
       </div>
       
       {/* Hero Section */}
-      <div className="relative h-64 mb-8 border-8 border-white rounded-none shadow-[0_8px_0_0_rgba(169,169,169,0.5)]">
+      <div className="relative h-64 mb-8 border-8 border-white rounded-none shadow-[0_8px_12px_-4px_rgba(169,169,169,0.4),_-6px_8px_12px_-4px_rgba(169,169,169,0.3),_6px_8px_12px_-4px_rgba(169,169,169,0.3)]">
         <img 
           src={heroToolbox} 
           alt="Travel Toolbox" 
