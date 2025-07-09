@@ -88,7 +88,7 @@ const AboutUs = () => {
             </CardHeader>
             <CardContent>
               <p className="text-muted-foreground">
-                Our team consists senior experienced normal people who understand te simple principe of just give me what I asked for and satisfy my requirement that I can trust the source of the infomation you provide. Make it fast and really easy to use and don't give me too many choices I just want the best and authentic choices..
+                Our team consists senior experienced normal people who understand the simple principle of just giving me what I asked for and satisfy my requirement that I can trust the source of the infomation you provide. Make it fast and really easy to use and don't give me too many choices I just want the best and authentic choices..
               </p>
             </CardContent>
           </Card>
