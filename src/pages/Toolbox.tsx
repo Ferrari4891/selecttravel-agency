@@ -60,8 +60,10 @@ const Toolbox = () => {
 
   return (
     <div className="min-h-screen bg-background">
-      <div className="fixed top-6 left-6 z-50">
-        <Navigation />
+      <div className="max-w-7xl mx-auto px-6">
+        <div className="pt-6">
+          <Navigation />
+        </div>
       </div>
       
       {/* Hero Section */}

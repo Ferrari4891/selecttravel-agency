@@ -13,7 +13,7 @@ import HowToCTA from "@/components/how-to/HowToCTA";
 const HowTo = () => {
   return (
     <div className="min-h-screen bg-background">
-      <div className="fixed top-6 left-6 z-50">
+      <div className="max-w-4xl mx-auto p-6">
         <Navigation />
       </div>
       
