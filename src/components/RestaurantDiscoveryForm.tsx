@@ -301,11 +301,11 @@ export const RestaurantDiscoveryForm = () => {
         <div className="flex flex-col gap-2 justify-start items-start">
           {/* Logo */}
           <Link to="/" className="inline-block">
-            <div className="flex items-center gap-2 p-2 border border-primary rounded-lg hover:bg-primary/5 transition-colors cursor-pointer">
-              <div className="w-8 h-8 bg-primary rounded flex items-center justify-center">
-                <span className="text-white font-bold text-sm">SG</span>
+            <div className="flex items-center gap-2 p-2 border border-primary hover:bg-primary/5 transition-colors cursor-pointer">
+              <div className="w-8 h-8 bg-primary flex items-center justify-center">
+                <span className="text-white font-bold text-sm">SGL</span>
               </div>
-              <span className="font-bold text-primary text-lg">SmartGuides</span>
+              <span className="font-bold text-primary text-lg">SmartGuides.Live</span>
             </div>
           </Link>
           
@@ -368,7 +368,7 @@ export const RestaurantDiscoveryForm = () => {
         </div>
         
         <div 
-          className="relative text-center space-y-4 py-16 px-8 rounded-lg overflow-hidden"
+          className="relative text-center space-y-4 py-16 px-8 overflow-hidden border-8 border-white shadow-[0_8px_16px_rgba(0,0,0,0.3)]"
           style={{
             backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url(${getHeroImage()})`,
             backgroundSize: 'cover',
