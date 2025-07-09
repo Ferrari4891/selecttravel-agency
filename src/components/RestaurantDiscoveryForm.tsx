@@ -375,7 +375,7 @@ export const RestaurantDiscoveryForm = () => {
             backgroundPosition: 'center'
           }}
         >
-          <h1 className="text-2xl md:text-4xl font-bold text-white">
+          <h1 className="text-4xl md:text-6xl font-bold text-white">
             smartguides.live
           </h1>
           <p className="text-white text-sm md:text-lg px-4">
