@@ -9,15 +9,7 @@ export const Navigation = () => {
   const [menuOpen, setMenuOpen] = useState(false);
 
   return (
-    <div className="flex flex-col gap-2 justify-start items-start">
-      {/* Logo */}
-      <div className="flex items-center gap-2 p-2 border border-primary hover:bg-primary/5 transition-colors cursor-pointer" onClick={() => window.location.href = '/'} style={{"--primary": "200 98% 39%"} as React.CSSProperties}>
-        <div className="w-8 h-8 bg-primary flex items-center justify-center">
-          <span className="text-primary-foreground font-bold text-sm">SGL</span>
-        </div>
-        <span className="font-bold text-primary text-lg">SmartGuides.Live</span>
-      </div>
-      
+    <div className="flex items-center gap-4 justify-start">
       {/* Hamburger Menu */}
       <div>
         <Sheet open={menuOpen} onOpenChange={setMenuOpen}>
@@ -84,6 +76,14 @@ export const Navigation = () => {
             </div>
           </SheetContent>
         </Sheet>
+      </div>
+      
+      {/* Logo */}
+      <div className="flex items-center gap-2 p-2 border border-primary hover:bg-primary/5 transition-colors cursor-pointer" onClick={() => window.location.href = '/'} style={{"--primary": "200 98% 39%"} as React.CSSProperties}>
+        <div className="w-8 h-8 bg-primary flex items-center justify-center">
+          <span className="text-primary-foreground font-bold text-sm">SGL</span>
+        </div>
+        <span className="font-bold text-primary text-lg">SmartGuides.Live</span>
       </div>
     </div>
   );
