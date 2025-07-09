@@ -36,7 +36,7 @@ const AboutUs = () => {
             About smartguidebooks.com
           </h2>
           <p className="text-muted-foreground text-lg">
-            Your trusted companion for discovering exceptional dining experiences
+            Your trusted companion for discovering trustworthy businesses when you travel.
           </p>
         </div>
 
@@ -48,7 +48,7 @@ const AboutUs = () => {
             </CardHeader>
             <CardContent>
               <p className="text-muted-foreground">
-                At smartguides.live, we believe that that senior travelers want quick, simple and trustorthy businesses that wil satisfy their wants and needs, by combining data from trusted sources like TripAdvisor, Yelp, and Google Reviews to give you the top 40 businesses in the most popular categories we believe you will find using smartguides.live an enjoyable experience .
+                At smartguidebooks.com, we believe that great food brings people together. Our mission is to help you discover the most exceptional restaurants in any area, combining data from trusted sources like TripAdvisor, Yelp, and Google Reviews to give you the most comprehensive dining recommendations.
               </p>
             </CardContent>
           </Card>
