@@ -9,7 +9,6 @@ import HowTo from "./pages/HowTo";
 import Advertise from "./pages/Advertise";
 import Toolbox from "./pages/Toolbox";
 import NotFound from "./pages/NotFound";
-import Footer from "./components/Footer";
 
 const queryClient = new QueryClient();
 
@@ -19,20 +18,15 @@ const App = () => (
       <Toaster />
       <Sonner />
       <BrowserRouter>
-        <div className="min-h-screen flex flex-col">
-          <div className="flex-1">
-            <Routes>
-              <Route path="/" element={<Index />} />
-              <Route path="/about-us" element={<AboutUs />} />
-              <Route path="/how-to" element={<HowTo />} />
-              <Route path="/advertise" element={<Advertise />} />
-              <Route path="/toolbox" element={<Toolbox />} />
-              {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
-              <Route path="*" element={<NotFound />} />
-            </Routes>
-          </div>
-          <Footer />
-        </div>
+        <Routes>
+          <Route path="/" element={<Index />} />
+          <Route path="/about-us" element={<AboutUs />} />
+          <Route path="/how-to" element={<HowTo />} />
+          <Route path="/advertise" element={<Advertise />} />
+          <Route path="/toolbox" element={<Toolbox />} />
+          {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
+          <Route path="*" element={<NotFound />} />
+        </Routes>
       </BrowserRouter>
     </TooltipProvider>
   </QueryClientProvider>
