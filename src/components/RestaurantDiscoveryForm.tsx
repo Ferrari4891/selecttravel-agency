@@ -83,15 +83,15 @@ export const RestaurantDiscoveryForm = () => {
     const baseText = () => {
       switch (selectedCategory) {
         case 'Eat':
-          return 'Discover the TOP 40 restaurants in the ciy selected';
+          return 'Discover the TOP 20 restaurants in the ciy selected';
         case 'Drink':
-          return 'Discover the TOP 40 bars and cafes in the city selected';
+          return 'Discover the TOP 20 bars and cafes in the city selected';
         case 'Stay':
-          return 'Discover the TOP 40 hotels and accommodations in the city selected';
+          return 'Discover the TOP 20 hotels and accommodations in the city selected';
         case 'Play':
-          return 'Discover the TOP 40 entertainment venues in the city selected';
+          return 'Discover the TOP 20 entertainment venues in the city selected';
         default:
-          return 'Discover the TOP 40 places in the city selected';
+          return 'Discover the TOP 20 places in the city selected';
       }
     };
     return `${baseText()}. All business listing ratings are based on Google Reviews, Yelp and Trip Advisor.`;
@@ -206,7 +206,7 @@ export const RestaurantDiscoveryForm = () => {
       await new Promise(resolve => setTimeout(resolve, 3000));
       
       // Mock restaurant data for demonstration
-      const mockRestaurants: Restaurant[] = Array.from({ length: 40 }, (_, i) => ({
+      const mockRestaurants: Restaurant[] = Array.from({ length: 20 }, (_, i) => ({
         name: `${selectedCategory} Place ${i + 1}`,
         address: `${i + 1} Main Street, ${selectedCity}, ${selectedCountry}`,
         googleMapRef: `https://maps.google.com/?q=${i + 1}+Main+Street+${selectedCity}+${selectedCountry}`,
@@ -326,7 +326,7 @@ export const RestaurantDiscoveryForm = () => {
               CHOOSE YOUR GUIDE
             </CardTitle>
             <CardDescription>
-              Follow the 5 steps to discover the top 40 places
+              Follow the 5 steps to discover the top 20 places
             </CardDescription>
           </CardHeader>
           <CardContent className="space-y-6">
