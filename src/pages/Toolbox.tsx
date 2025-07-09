@@ -1,5 +1,6 @@
 import { Navigation } from "@/components/Navigation";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import Footer from "@/components/Footer";
 import heroToolbox from "@/assets/hero-toolbox.jpg";
 
 const Toolbox = () => {
@@ -107,6 +108,8 @@ const Toolbox = () => {
           </div>
         ))}
       </div>
+      
+      <Footer />
     </div>
   );
 };

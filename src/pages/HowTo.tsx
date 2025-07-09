@@ -2,6 +2,7 @@ import { Button } from "@/components/ui/button";
 import { ArrowLeft } from "lucide-react";
 import { Link } from "react-router-dom";
 import { Navigation } from "@/components/Navigation";
+import Footer from "@/components/Footer";
 import HowToHero from "@/components/how-to/HowToHero";
 import HowToSteps from "@/components/how-to/HowToSteps";
 import HowToFeatures from "@/components/how-to/HowToFeatures";
@@ -41,6 +42,8 @@ const HowTo = () => {
         <HowToTips />
         <HowToCTA />
       </div>
+      
+      <Footer />
     </div>
   );
 };
