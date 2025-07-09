@@ -48,7 +48,7 @@ const AboutUs = () => {
             </CardHeader>
             <CardContent>
               <p className="text-muted-foreground">
-                At smartguidebooks.com, we believe that great food brings people together. Our mission is to help you discover the most exceptional restaurants in any area, combining data from trusted sources like TripAdvisor, Yelp, and Google Reviews to give you the most comprehensive dining recommendations.
+                At smartguides.live, we believe that that senior travelers want quick, simple and trustorthy businesses that wil satisfy their wants and needs, by combining data from trusted sources like TripAdvisor, Yelp, and Google Reviews to give you the top 40 businesses in the most popular categories we believe you will find using smartguides.live an enjoyable experience .
               </p>
             </CardContent>
           </Card>
@@ -88,7 +88,7 @@ const AboutUs = () => {
             </CardHeader>
             <CardContent>
               <p className="text-muted-foreground">
-                Our team consists senior experienced normal people who understand the simple principle of just giving me what I asked for and satisfy my requirement that I can trust the source of the infomation you provide. Make it fast and really easy to use and don't give me too many choices I just want the best and authentic choices..
+                Our team consists senior experienced normal people who understand te simple principe of just give me what I asked for and satisfy my requirement that I can trust the source of the infomation you provide. Make it fast and really easy to use and don't give me too many choices I just want the best and authentic choices..
               </p>
             </CardContent>
           </Card>
