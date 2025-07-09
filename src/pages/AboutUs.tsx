@@ -88,7 +88,7 @@ const AboutUs = () => {
             </CardHeader>
             <CardContent>
               <p className="text-muted-foreground">
-                Our team consists of experienced food critics, travel writers, data analysts, and software developers who share a common passion for exceptional dining experiences. We work tirelessly to ensure that every recommendation meets our high standards for quality and authenticity.
+                Our team consists senior experienced normal people who understand te simple principe of just give me what I asked for and satisfy my requirement that I can trust the source of the infomation you provide. Make it fast and really easy to use and don't give me too many choices I just want the best and authentic choices..
               </p>
             </CardContent>
           </Card>
