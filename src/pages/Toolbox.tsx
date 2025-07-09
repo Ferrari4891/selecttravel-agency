@@ -71,7 +71,7 @@ const Toolbox = () => {
         <img 
           src={heroToolbox} 
           alt="Travel Toolbox" 
-          className="w-full h-full object-cover"
+          className="w-full h-full object-cover border-8 border-white rounded-none shadow-[0_8px_16px_rgba(0,0,0,0.3)]"
         />
         <div className="absolute inset-0 bg-black/50 flex items-center justify-center">
           <div className="text-center text-white">

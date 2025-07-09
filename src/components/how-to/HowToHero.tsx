@@ -3,7 +3,7 @@ import heroHowTo from "@/assets/hero-how-to.jpg";
 
 const HowToHero = () => {
   return (
-    <div className="relative h-64 md:h-80 overflow-hidden border-8 border-white shadow-[0_8px_16px_rgba(0,0,0,0.3)]">
+    <div className="relative h-64 md:h-80 overflow-hidden border-8 border-white rounded-none shadow-[0_8px_16px_rgba(0,0,0,0.3)]">
       <img 
         src={heroHowTo} 
         alt="How To Hero" 
