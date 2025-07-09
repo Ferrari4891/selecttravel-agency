@@ -298,7 +298,7 @@ export const RestaurantDiscoveryForm = () => {
 
   return (
     <div className={`min-h-screen bg-background ${getThemeClass()}`}>
-      <div className="absolute top-6 left-6 z-10">
+      <div className="fixed top-6 left-6 z-50">
         <Navigation />
       </div>
       <div className="max-w-4xl mx-auto space-y-8 p-6">
