@@ -486,10 +486,11 @@ export const RestaurantDiscoveryForm = () => {
             </div>
 
             <div className="flex flex-col gap-4 pt-4 items-center">
-                <Button
+              <Button
                 onClick={searchRestaurants}
                 disabled={!selectedCategory || !selectedRegion || !selectedCountry || !selectedCity || isLoading}
                 size="default"
+                className="rounded-none px-12"
               >
                 {isLoading ? (
                   <>
