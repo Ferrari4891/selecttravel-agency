@@ -49,7 +49,7 @@ const Advertise = () => {
         <img 
           src={heroAdvertise} 
           alt="Advertise Hero" 
-          className="w-full h-full object-cover border-8 border-white rounded-none shadow-[0_8px_0_0_rgba(169,169,169,0.5)]"
+          className="w-full h-full object-cover !border-8 !border-white rounded-none shadow-[0_8px_0_0_rgba(169,169,169,0.5)]"
         />
         <div className="absolute inset-0 bg-black/50 flex items-center justify-center">
           <h1 className="text-4xl md:text-6xl font-bold text-white">
