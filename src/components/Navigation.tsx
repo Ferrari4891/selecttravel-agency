@@ -14,7 +14,7 @@ export const Navigation = () => {
       <div>
         <Sheet open={menuOpen} onOpenChange={setMenuOpen}>
           <SheetTrigger asChild>
-            <Button variant="outline" size="sm" className="rounded-none">
+            <Button variant="outline" size="sm" className="rounded-none border border-primary">
               <Menu className="h-4 w-4" />
             </Button>
           </SheetTrigger>

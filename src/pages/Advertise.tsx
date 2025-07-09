@@ -40,6 +40,10 @@ const Advertise = () => {
 
   return (
     <div className="min-h-screen bg-background">
+      <div className="absolute top-6 left-6 z-10">
+        <Navigation />
+      </div>
+      
       {/* Hero Section */}
       <div className="relative h-64 md:h-80 overflow-hidden">
         <img 
@@ -55,8 +59,6 @@ const Advertise = () => {
       </div>
 
       <div className="container mx-auto px-4 py-8">
-        <Navigation />
-        
         {/* Back to Home Button */}
         <div className="mb-4">
           <Link to="/">

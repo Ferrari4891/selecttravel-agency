@@ -13,11 +13,13 @@ import HowToCTA from "@/components/how-to/HowToCTA";
 const HowTo = () => {
   return (
     <div className="min-h-screen bg-background">
+      <div className="absolute top-6 left-6 z-10">
+        <Navigation />
+      </div>
+      
       <HowToHero />
 
       <div className="max-w-4xl mx-auto p-6 space-y-8">
-        <Navigation />
-        
         <div className="flex items-center gap-4">
           <Link to="/">
             <Button variant="outline" size="sm">

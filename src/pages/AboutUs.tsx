@@ -3,11 +3,16 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { ArrowLeft } from "lucide-react";
 import { Link } from "react-router-dom";
 import Footer from "@/components/Footer";
+import { Navigation } from "@/components/Navigation";
 import heroAboutUs from "@/assets/hero-about-us.jpg";
 
 const AboutUs = () => {
   return (
     <div className="min-h-screen bg-background">
+      <div className="absolute top-6 left-6 z-10">
+        <Navigation />
+      </div>
+      
       {/* Hero Section */}
       <div className="relative h-64 md:h-80 overflow-hidden">
         <img 

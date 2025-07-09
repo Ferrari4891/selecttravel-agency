@@ -60,7 +60,7 @@ const Toolbox = () => {
 
   return (
     <div className="min-h-screen bg-background">
-      <div className="p-6">
+      <div className="absolute top-6 left-6 z-10">
         <Navigation />
       </div>
       
