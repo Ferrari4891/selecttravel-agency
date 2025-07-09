@@ -67,11 +67,11 @@ const Toolbox = () => {
       </div>
       
       {/* Hero Section */}
-      <div className="relative h-64 mb-8">
+      <div className="relative h-64 mb-8 border-8 border-white rounded-none shadow-[0_8px_0_0_rgba(169,169,169,0.5)]">
         <img 
           src={heroToolbox} 
           alt="Travel Toolbox" 
-          className="w-full h-full object-cover !border-8 !border-white rounded-none shadow-[0_8px_0_0_rgba(169,169,169,0.5)]"
+          className="w-full h-full object-cover"
         />
         <div className="absolute inset-0 bg-black/50 flex items-center justify-center">
           <div className="text-center text-white">
