@@ -33,10 +33,10 @@ const AboutUs = () => {
 
         <div className="text-center space-y-4">
           <h2 className="text-3xl font-bold bg-gradient-primary bg-clip-text text-transparent">
-            About smartguidebooks.com
+            About smartguides.live
           </h2>
           <p className="text-muted-foreground text-lg">
-            Your trusted companion for discovering trustworthy businesses when you travel.
+            Your trusted companion for discovering exceptional dining experiences
           </p>
         </div>
 
