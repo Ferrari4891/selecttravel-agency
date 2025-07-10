@@ -30,7 +30,6 @@ import placeholderEat from '@/assets/placeholder-eat.jpg';
 import placeholderDrink from '@/assets/placeholder-drink.jpg';
 import placeholderStay from '@/assets/placeholder-stay.jpg';
 import placeholderPlay from '@/assets/placeholder-play.jpg';
-
 interface Restaurant {
   name: string;
   address: string;
@@ -50,7 +49,6 @@ interface Restaurant {
   reviewCount: number;
   source: string;
 }
-
 export const RestaurantDiscoveryForm = () => {
   const [selectedCategory, setSelectedCategory] = useState<string>('');
   const [selectedRegion, setSelectedRegion] = useState<string>('');
@@ -59,18 +57,25 @@ export const RestaurantDiscoveryForm = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [restaurants, setRestaurants] = useState<Restaurant[]>([]);
   const [menuOpen, setMenuOpen] = useState(false);
-  const { toast } = useToast();
-
-  const categories = [
-    { name: 'Eat', icon: eatIcon },
-    { name: 'Stay', icon: stayIcon },
-    { name: 'Drink', icon: drinkIcon },
-    { name: 'Play', icon: playIcon }
-  ];
+  const {
+    toast
+  } = useToast();
+  const categories = [{
+    name: 'Eat',
+    icon: eatIcon
+  }, {
+    name: 'Stay',
+    icon: stayIcon
+  }, {
+    name: 'Drink',
+    icon: drinkIcon
+  }, {
+    name: 'Play',
+    icon: playIcon
+  }];
   const regions = Object.keys(regionData);
   const countries = selectedRegion ? regionData[selectedRegion as keyof typeof regionData]?.countries || [] : [];
   const cities = selectedCountry ? countries.find(c => c.name === selectedCountry)?.cities || [] : [];
-
   const handleCategoryChange = (value: string) => {
     setSelectedCategory(value);
     setSelectedRegion('');
@@ -78,7 +83,6 @@ export const RestaurantDiscoveryForm = () => {
     setSelectedCity('');
     setRestaurants([]);
   };
-
   const getTagline = () => {
     const baseText = () => {
       switch (selectedCategory) {
@@ -96,7 +100,6 @@ export const RestaurantDiscoveryForm = () => {
     };
     return `${baseText()}. All business listing ratings are based on Google Reviews, Yelp and Trip Advisor.`;
   };
-
   const getThemeClass = () => {
     switch (selectedCategory) {
       case 'Eat':
@@ -111,7 +114,6 @@ export const RestaurantDiscoveryForm = () => {
         return '';
     }
   };
-
   const getCategoryPlaceholder = () => {
     switch (selectedCategory) {
       case 'Eat':
@@ -126,17 +128,14 @@ export const RestaurantDiscoveryForm = () => {
         return heroBackground;
     }
   };
-
   const getHeroImage = () => {
     // Priority order: City > Country > Region > Category > Default
     if (selectedCity) {
       return cityImages[selectedCity] || getCategoryPlaceholder();
     }
-    
     if (selectedCountry) {
       return countryImages[selectedCountry] || getCategoryPlaceholder();
     }
-    
     if (selectedRegion) {
       switch (selectedRegion) {
         case 'North America':
@@ -153,7 +152,6 @@ export const RestaurantDiscoveryForm = () => {
           return getCategoryPlaceholder();
       }
     }
-    
     if (selectedCategory) {
       switch (selectedCategory) {
         case 'Eat':
@@ -168,119 +166,81 @@ export const RestaurantDiscoveryForm = () => {
           return heroBackground;
       }
     }
-    
     return heroBackground;
   };
-
   const handleRegionChange = (value: string) => {
     setSelectedRegion(value);
     setSelectedCountry('');
     setSelectedCity('');
     setRestaurants([]);
   };
-
   const handleCountryChange = (value: string) => {
     setSelectedCountry(value);
     setSelectedCity('');
     setRestaurants([]);
   };
-
   const handleCityChange = (value: string) => {
     setSelectedCity(value);
     setRestaurants([]);
   };
-
   const searchRestaurants = async () => {
     if (!selectedCategory || !selectedRegion || !selectedCountry || !selectedCity) {
       toast({
         title: "All Steps Required",
         description: "Please complete all steps before getting your results.",
-        variant: "destructive",
+        variant: "destructive"
       });
       return;
     }
-
     setIsLoading(true);
     try {
       // Simulate API call - In real implementation, this would call multiple APIs
       await new Promise(resolve => setTimeout(resolve, 3000));
-      
+
       // Mock restaurant data for demonstration
-      const mockRestaurants: Restaurant[] = Array.from({ length: 20 }, (_, i) => ({
+      const mockRestaurants: Restaurant[] = Array.from({
+        length: 20
+      }, (_, i) => ({
         name: `${selectedCategory} Place ${i + 1}`,
         address: `${i + 1} Main Street, ${selectedCity}, ${selectedCountry}`,
         googleMapRef: `https://maps.google.com/?q=${i + 1}+Main+Street+${selectedCity}+${selectedCountry}`,
         socialMediaLinks: {
           facebook: `https://facebook.com/place${i + 1}`,
-          instagram: `https://instagram.com/place${i + 1}`,
+          instagram: `https://instagram.com/place${i + 1}`
         },
         contactDetails: {
           phone: `+1-555-${String(i + 100).padStart(4, '0')}`,
           email: `contact@place${i + 1}.com`,
-          website: `https://place${i + 1}.com`,
+          website: `https://place${i + 1}.com`
         },
         imageLinks: [`https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?w=400&h=300&fit=crop&crop=center&q=80`],
         rating: 3.5 + Math.random() * 1.5,
         reviewCount: Math.floor(Math.random() * 500) + 50,
-        source: ['TripAdvisor', 'Yelp', 'Google Reviews'][Math.floor(Math.random() * 3)],
+        source: ['TripAdvisor', 'Yelp', 'Google Reviews'][Math.floor(Math.random() * 3)]
       }));
-
       setRestaurants(mockRestaurants);
       toast({
         title: "Success!",
-        description: `Found ${mockRestaurants.length} places in ${selectedCategory}`,
+        description: `Found ${mockRestaurants.length} places in ${selectedCategory}`
       });
     } catch (error) {
       toast({
         title: "Error",
         description: "Failed to fetch data. Please try again.",
-        variant: "destructive",
+        variant: "destructive"
       });
     } finally {
       setIsLoading(false);
     }
   };
-
   const exportToCSV = () => {
     if (restaurants.length === 0) return;
-
-    const csvHeaders = [
-      'Name',
-      'Address',
-      'Google Map Reference',
-      'Facebook',
-      'Instagram',
-      'Twitter',
-      'Phone',
-      'Email',
-      'Website',
-      'Image Links',
-      'Rating',
-      'Review Count',
-      'Source'
-    ];
-
-    const csvRows = restaurants.map(restaurant => [
-      restaurant.name,
-      restaurant.address,
-      restaurant.googleMapRef,
-      restaurant.socialMediaLinks.facebook || '',
-      restaurant.socialMediaLinks.instagram || '',
-      restaurant.socialMediaLinks.twitter || '',
-      restaurant.contactDetails.phone || '',
-      restaurant.contactDetails.email || '',
-      restaurant.contactDetails.website || '',
-      restaurant.imageLinks.join('; '),
-      restaurant.rating.toFixed(1),
-      restaurant.reviewCount,
-      restaurant.source
-    ]);
-
-    const csvContent = [csvHeaders, ...csvRows]
-      .map(row => row.map(field => `"${field}"`).join(','))
-      .join('\n');
-
-    const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+    const csvHeaders = ['Name', 'Address', 'Google Map Reference', 'Facebook', 'Instagram', 'Twitter', 'Phone', 'Email', 'Website', 'Image Links', 'Rating', 'Review Count', 'Source'];
+    const csvRows = restaurants.map(restaurant => [restaurant.name, restaurant.address, restaurant.googleMapRef, restaurant.socialMediaLinks.facebook || '', restaurant.socialMediaLinks.instagram || '', restaurant.socialMediaLinks.twitter || '', restaurant.contactDetails.phone || '', restaurant.contactDetails.email || '', restaurant.contactDetails.website || '', restaurant.imageLinks.join('; '), restaurant.rating.toFixed(1), restaurant.reviewCount, restaurant.source]);
+    const csvContent = [csvHeaders, ...csvRows].map(row => row.map(field => `"${field}"`).join(',')).join('\n');
+    const blob = new Blob([csvContent], {
+      type: 'text/csv;charset=utf-8;'
+    });
     const link = document.createElement('a');
     const url = URL.createObjectURL(blob);
     link.setAttribute('href', url);
@@ -289,28 +249,22 @@ export const RestaurantDiscoveryForm = () => {
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
-
     toast({
       title: "CSV Downloaded",
-      description: "Data has been exported to CSV format.",
+      description: "Data has been exported to CSV format."
     });
   };
-
-  return (
-    <div className={`min-h-screen bg-background ${getThemeClass()}`}>
+  return <div className={`min-h-screen bg-background ${getThemeClass()}`}>
       <div className="max-w-4xl mx-auto space-y-8 p-6">
         <div className="pt-0">
           <Navigation />
         </div>
         
-        <div 
-          className="relative text-center space-y-4 py-16 px-8 overflow-hidden border-8 border-white shadow-[0_8px_16px_rgba(0,0,0,0.3)]"
-          style={{
-            backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3)), url(${getHeroImage()})`,
-            backgroundSize: 'cover',
-            backgroundPosition: 'center'
-          }}
-        >
+        <div className="relative text-center space-y-4 py-16 px-8 overflow-hidden border-8 border-white shadow-[0_8px_16px_rgba(0,0,0,0.3)]" style={{
+        backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url(${getHeroImage()})`,
+        backgroundSize: 'cover',
+        backgroundPosition: 'center'
+      }}>
           <h1 className="text-4xl md:text-6xl font-bold text-white">
             smartguides.live
           </h1>
@@ -321,7 +275,7 @@ export const RestaurantDiscoveryForm = () => {
 
         <Card className="shadow-elegant">
           <CardHeader>
-            <CardTitle className="flex items-center gap-2">
+            <CardTitle className="flex items-center gap-2 text-7xl">
               <MapPin className="h-5 w-5 text-primary" />
               CHOOSE YOUR GUIDE
             </CardTitle>
@@ -338,124 +292,78 @@ export const RestaurantDiscoveryForm = () => {
                     <SelectValue placeholder="Select category" />
                   </SelectTrigger>
                   <SelectContent>
-                    {categories.map((category) => (
-                      <SelectItem key={category.name} value={category.name}>
+                    {categories.map(category => <SelectItem key={category.name} value={category.name}>
                         <div className="flex items-center gap-2">
-                          <img 
-                            src={category.icon} 
-                            alt={category.name}
-                            className="w-5 h-5 object-cover rounded"
-                          />
+                          <img src={category.icon} alt={category.name} className="w-5 h-5 object-cover rounded" />
                           {category.name}
                         </div>
-                      </SelectItem>
-                    ))}
+                      </SelectItem>)}
                   </SelectContent>
                 </Select>
               </div>
 
               <div className="space-y-2">
                 <label className="text-sm font-bold uppercase">STEP 2: SELECT REGION</label>
-                <Select 
-                  value={selectedRegion} 
-                  onValueChange={handleRegionChange}
-                  disabled={!selectedCategory}
-                >
+                <Select value={selectedRegion} onValueChange={handleRegionChange} disabled={!selectedCategory}>
                   <SelectTrigger className="font-bold">
                     <SelectValue placeholder="Select region" />
                   </SelectTrigger>
                   <SelectContent>
-                    {regions.map((region) => (
-                      <SelectItem key={region} value={region}>
+                    {regions.map(region => <SelectItem key={region} value={region}>
                         {region}
-                      </SelectItem>
-                    ))}
+                      </SelectItem>)}
                   </SelectContent>
                 </Select>
               </div>
 
               <div className="space-y-2">
                 <label className="text-sm font-bold uppercase">STEP 3: SELECT COUNTRY</label>
-                <Select 
-                  value={selectedCountry} 
-                  onValueChange={handleCountryChange}
-                  disabled={!selectedRegion}
-                >
+                <Select value={selectedCountry} onValueChange={handleCountryChange} disabled={!selectedRegion}>
                   <SelectTrigger className="font-bold">
                     <SelectValue placeholder="Select country" />
                   </SelectTrigger>
                   <SelectContent>
-                    {countries.map((country) => (
-                      <SelectItem key={country.name} value={country.name}>
+                    {countries.map(country => <SelectItem key={country.name} value={country.name}>
                         {country.name}
-                      </SelectItem>
-                    ))}
+                      </SelectItem>)}
                   </SelectContent>
                 </Select>
               </div>
 
               <div className="space-y-2">
                 <label className="text-sm font-bold uppercase">STEP 4: SELECT CITY</label>
-                <Select 
-                  value={selectedCity} 
-                  onValueChange={handleCityChange}
-                  disabled={!selectedCountry}
-                >
+                <Select value={selectedCity} onValueChange={handleCityChange} disabled={!selectedCountry}>
                   <SelectTrigger className="font-bold">
                     <SelectValue placeholder="Select city" />
                   </SelectTrigger>
                   <SelectContent>
-                    {cities.map((city) => (
-                      <SelectItem key={city} value={city}>
+                    {cities.map(city => <SelectItem key={city} value={city}>
                         {city}
-                      </SelectItem>
-                    ))}
+                      </SelectItem>)}
                   </SelectContent>
                 </Select>
               </div>
             </div>
 
             <div className="flex flex-col gap-4 pt-4 items-center">
-              <Button
-                onClick={searchRestaurants}
-                disabled={!selectedCategory || !selectedRegion || !selectedCountry || !selectedCity || isLoading}
-                size="default"
-                className="rounded-none px-12"
-              >
-                {isLoading ? (
-                  <>
+              <Button onClick={searchRestaurants} disabled={!selectedCategory || !selectedRegion || !selectedCountry || !selectedCity || isLoading} size="default" className="rounded-none px-12">
+                {isLoading ? <>
                     <Loader2 className="mr-2 h-4 w-4 animate-spin" />
                     Searching...
-                  </>
-                ) : (
-                  'GET NOW!'
-                )}
+                  </> : 'GET NOW!'}
               </Button>
 
-              {restaurants.length > 0 && (
-                <Button
-                  onClick={exportToCSV}
-                  variant="secondary"
-                  className="flex items-center gap-2"
-                >
+              {restaurants.length > 0 && <Button onClick={exportToCSV} variant="secondary" className="flex items-center gap-2">
                   <Download className="h-4 w-4" />
                   Export CSV
-                </Button>
-              )}
+                </Button>}
             </div>
           </CardContent>
         </Card>
 
-        {restaurants.length > 0 && (
-          <RestaurantResults
-            restaurants={restaurants}
-            selectedCity={selectedCity}
-            selectedCountry={selectedCountry}
-          />
-        )}
+        {restaurants.length > 0 && <RestaurantResults restaurants={restaurants} selectedCity={selectedCity} selectedCountry={selectedCountry} />}
       </div>
       
       <Footer themeClass={getThemeClass()} />
-    </div>
-  );
+    </div>;
 };
