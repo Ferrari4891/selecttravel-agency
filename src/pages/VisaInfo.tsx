@@ -4,7 +4,7 @@ import { ArrowLeft, ExternalLink } from "lucide-react";
 import { Link } from "react-router-dom";
 import Footer from "@/components/Footer";
 import { Navigation } from "@/components/Navigation";
-import heroBackground from "@/assets/hero-background.jpg";
+import heroVisaInfo from "@/assets/hero-visa-info.jpg";
 
 const VisaInfo = () => {
   const visaRequirements = [
@@ -115,7 +115,7 @@ const VisaInfo = () => {
       {/* Hero Section */}
       <div className="relative h-64 md:h-80 overflow-hidden border-8 border-white rounded-none shadow-[0_8px_12px_-4px_rgba(169,169,169,0.4),_-6px_8px_12px_-4px_rgba(169,169,169,0.3),_6px_8px_12px_-4px_rgba(169,169,169,0.3)]">
         <img 
-          src={heroBackground} 
+          src={heroVisaInfo} 
           alt="Visa Information Hero" 
           className="w-full h-full object-cover"
         />
