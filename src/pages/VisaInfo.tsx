@@ -5,12 +5,20 @@ import { Link } from "react-router-dom";
 import Footer from "@/components/Footer";
 import { Navigation } from "@/components/Navigation";
 import heroVisaInfo from "@/assets/hero-visa-info.jpg";
+import flagUS from "@/assets/flag-us.jpg";
+import flagUK from "@/assets/flag-uk.jpg";
+import flagCanada from "@/assets/flag-canada.jpg";
+import flagAustralia from "@/assets/flag-australia.jpg";
+import flagGermany from "@/assets/flag-germany.jpg";
+import flagJapan from "@/assets/flag-japan.jpg";
+import flagFrance from "@/assets/flag-france.jpg";
+import flagBrazil from "@/assets/flag-brazil.jpg";
 
 const VisaInfo = () => {
   const visaRequirements = [
     {
       country: "United States",
-      flag: "🇺🇸",
+      flag: flagUS,
       summary: "Most visitors need a valid passport and either an ESTA (for eligible countries) or a visa. ESTA allows stays up to 90 days for tourism or business.",
       website: "https://travel.state.gov/content/travel/en/us-visas.html",
       requirements: [
@@ -22,7 +30,7 @@ const VisaInfo = () => {
     },
     {
       country: "United Kingdom",
-      flag: "🇬🇧",
+      flag: flagUK,
       summary: "Visitors from many countries can enter visa-free for up to 6 months. EU citizens need valid passport. Others may require visitor visa.",
       website: "https://www.gov.uk/check-uk-visa",
       requirements: [
@@ -34,7 +42,7 @@ const VisaInfo = () => {
     },
     {
       country: "Canada",
-      flag: "🇨🇦",
+      flag: flagCanada,
       summary: "Most visitors need either an eTA (electronic Travel Authorization) or a visitor visa, plus a valid passport.",
       website: "https://www.canada.ca/en/immigration-refugees-citizenship/services/visit-canada.html",
       requirements: [
@@ -46,7 +54,7 @@ const VisaInfo = () => {
     },
     {
       country: "Australia",
-      flag: "🇦🇺",
+      flag: flagAustralia,
       summary: "All visitors need a valid visa and passport. Tourist visas allow stays from 3-12 months depending on visa type.",
       website: "https://immi.homeaffairs.gov.au/visas/getting-a-visa/visa-finder",
       requirements: [
@@ -58,7 +66,7 @@ const VisaInfo = () => {
     },
     {
       country: "Germany",
-      flag: "🇩🇪",
+      flag: flagGermany,
       summary: "EU citizens need valid ID. Others may enter visa-free for up to 90 days (Schengen rules) or require Schengen visa.",
       website: "https://www.germany.travel/en/ms/german-visa/german-visa.html",
       requirements: [
@@ -70,7 +78,7 @@ const VisaInfo = () => {
     },
     {
       country: "Japan",
-      flag: "🇯🇵",
+      flag: flagJapan,
       summary: "Many countries can enter visa-free for tourism (15-90 days). Others need tourist visa. Passport required for all visitors.",
       website: "https://www.mofa.go.jp/j_info/visit/visa/index.html",
       requirements: [
@@ -82,7 +90,7 @@ const VisaInfo = () => {
     },
     {
       country: "France",
-      flag: "🇫🇷",
+      flag: flagFrance,
       summary: "EU citizens need valid ID. Non-EU visitors can stay up to 90 days visa-free (if eligible) or need Schengen visa.",
       website: "https://france-visas.gouv.fr/en",
       requirements: [
@@ -94,7 +102,7 @@ const VisaInfo = () => {
     },
     {
       country: "Brazil",
-      flag: "🇧🇷",
+      flag: flagBrazil,
       summary: "Many countries can enter visa-free for tourism up to 90 days. Others require tourist visa. Yellow fever vaccination may be required.",
       website: "https://www.gov.br/mre/en/consular-services/visas",
       requirements: [
@@ -156,9 +164,11 @@ const VisaInfo = () => {
               <CardHeader>
                 <div className="flex items-center justify-between">
                   <div className="flex items-center gap-3">
-                    <span className="text-3xl" style={{ fontFamily: "'Apple Color Emoji', 'Segoe UI Emoji', 'Noto Color Emoji', sans-serif" }}>
-                      {country.flag}
-                    </span>
+                    <img 
+                      src={country.flag} 
+                      alt={`${country.country} flag`}
+                      className="w-8 h-6 object-cover rounded border"
+                    />
                     <CardTitle className="text-xl font-bold text-primary">
                       {country.country}
                     </CardTitle>
