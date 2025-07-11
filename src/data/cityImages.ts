@@ -43,6 +43,12 @@ import citySaoPaulo from '@/assets/city-sao-paulo.jpg';
 import cityBuenosAires from '@/assets/city-buenos-aires.jpg';
 import cityCapeTown from '@/assets/city-cape-town.jpg';
 import citySeoul from '@/assets/city-seoul.jpg';
+import cityMadrid from '@/assets/city-madrid.jpg';
+import cityShanghai from '@/assets/city-shanghai.jpg';
+import cityDelhi from '@/assets/city-delhi.jpg';
+import cityRioDeJaneiro from '@/assets/city-rio-de-janeiro.jpg';
+import cityJohannesburg from '@/assets/city-johannesburg.jpg';
+import cityLisbon from '@/assets/city-lisbon.jpg';
 
 // Placeholder for cities without images yet
 import placeholderImage from '@/assets/placeholder-image-coming-soon.jpg';
@@ -217,7 +223,7 @@ export const cityImages: Record<string, string> = {
   "Catania": placeholderImage,
   
   // Europe - Spain
-  "Madrid": placeholderImage,
+  "Madrid": cityMadrid,
   "Barcelona": cityBarcelona,
   "Valencia": placeholderImage,
   "Seville": placeholderImage,
@@ -253,7 +259,7 @@ export const cityImages: Record<string, string> = {
   "Białystok": placeholderImage,
   
   // Europe - Portugal
-  "Lisbon": placeholderImage,
+  "Lisbon": cityLisbon,
   "Porto": placeholderImage,
   "Vila Nova de Gaia": placeholderImage,
   "Amadora": placeholderImage,
@@ -289,7 +295,7 @@ export const cityImages: Record<string, string> = {
   "Sarpsborg": placeholderImage,
 
   // Asia - China
-  "Shanghai": placeholderImage,
+  "Shanghai": cityShanghai,
   "Beijing": placeholderImage,
   "Shenzhen": placeholderImage,
   "Guangzhou": placeholderImage,
@@ -302,7 +308,7 @@ export const cityImages: Record<string, string> = {
 
   // Asia - India
   "Mumbai": cityMumbai,
-  "Delhi": placeholderImage,
+  "Delhi": cityDelhi,
   "Bengaluru": placeholderImage,
   "Hyderabad": placeholderImage,
   "Ahmedabad": placeholderImage,
@@ -338,7 +344,7 @@ export const cityImages: Record<string, string> = {
 
   // South America - Brazil
   "São Paulo": citySaoPaulo,
-  "Rio de Janeiro": placeholderImage,
+  "Rio de Janeiro": cityRioDeJaneiro,
   "Brasília": placeholderImage,
   "Salvador": placeholderImage,
   "Fortaleza": placeholderImage,
@@ -374,7 +380,7 @@ export const cityImages: Record<string, string> = {
 
   // Africa & Middle East - South Africa
   "Cape Town": cityCapeTown,
-  "Johannesburg": placeholderImage,
+  "Johannesburg": cityJohannesburg,
   "Durban": placeholderImage,
   "Pretoria": placeholderImage,
   "Port Elizabeth": placeholderImage,
