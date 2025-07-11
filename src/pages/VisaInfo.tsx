@@ -156,7 +156,9 @@ const VisaInfo = () => {
               <CardHeader>
                 <div className="flex items-center justify-between">
                   <div className="flex items-center gap-3">
-                    <span className="text-3xl">{country.flag}</span>
+                    <span className="text-3xl" style={{ fontFamily: "'Apple Color Emoji', 'Segoe UI Emoji', 'Noto Color Emoji', sans-serif" }}>
+                      {country.flag}
+                    </span>
                     <CardTitle className="text-xl font-bold text-primary">
                       {country.country}
                     </CardTitle>
