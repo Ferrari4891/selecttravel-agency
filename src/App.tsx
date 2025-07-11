@@ -8,6 +8,7 @@ import AboutUs from "./pages/AboutUs";
 import HowTo from "./pages/HowTo";
 import Advertise from "./pages/Advertise";
 import Toolbox from "./pages/Toolbox";
+import VisaInfo from "./pages/VisaInfo";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -24,6 +25,7 @@ const App = () => (
           <Route path="/how-to" element={<HowTo />} />
           <Route path="/advertise" element={<Advertise />} />
           <Route path="/toolbox" element={<Toolbox />} />
+          <Route path="/visa-info" element={<VisaInfo />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Routes>

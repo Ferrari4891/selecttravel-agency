@@ -34,6 +34,12 @@ const Footer = ({ themeClass }: FooterProps) => {
             >
               Toolbox
             </Link>
+            <Link 
+              to="/visa-info" 
+              className="hover:opacity-80 transition-opacity"
+            >
+              Visa Info
+            </Link>
             <a 
               href="mailto:contact@smartguides.live" 
               className="hover:opacity-80 transition-opacity"
