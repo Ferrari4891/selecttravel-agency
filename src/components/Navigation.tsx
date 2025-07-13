@@ -1,49 +1,14 @@
 import React, { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { Menu, Home, Info, HelpCircle, Languages, Loader2 } from 'lucide-react';
+import { Menu, Home, Info, HelpCircle } from 'lucide-react';
 import { Link } from 'react-router-dom';
-import { useTranslation } from '@/components/TranslationProvider';
 
 export const Navigation = () => {
   const [menuOpen, setMenuOpen] = useState(false);
-  
-  // Safe hook usage with fallback
-  let translationState;
-  try {
-    translationState = useTranslation();
-  } catch (error) {
-    console.log('Translation context not available, using fallback');
-    translationState = {
-      currentLanguage: 'en',
-      setLanguage: (lang: string) => console.log('Fallback setLanguage:', lang),
-      isTranslating: false
-    };
-  }
-  
-  const { currentLanguage, setLanguage, isTranslating } = translationState;
-
-  const getLanguageFlag = (lang: string) => {
-    const flags: Record<string, string> = {
-      en: '🇺🇸',
-      es: '🇪🇸',
-      fr: '🇫🇷',
-      de: '🇩🇪',
-      it: '🇮🇹',
-      pt: '🇵🇹',
-      zh: '🇨🇳',
-      ja: '🇯🇵',
-      ko: '🇰🇷',
-      ar: '🇸🇦',
-      ru: '🇷🇺',
-      hi: '🇮🇳'
-    };
-    return flags[lang] || '🌐';
-  };
 
   return (
-    <div className="flex items-center gap-4 justify-between w-full">
+    <div className="flex items-center gap-4 justify-start w-full">
       <div className="flex items-center gap-4">
         {/* Hamburger Menu */}
         <div>
@@ -96,38 +61,6 @@ export const Navigation = () => {
                     Visa Info
                   </Link>
                 </Button>
-                <div className="flex flex-col gap-2 pt-4 border-t">
-                  <div className="flex items-center gap-2 px-3">
-                    {isTranslating ? (
-                      <Loader2 className="h-4 w-4 text-muted-foreground animate-spin" />
-                    ) : (
-                      <Languages className="h-4 w-4 text-muted-foreground" />
-                    )}
-                    <span className="text-sm font-medium">Language</span>
-                  </div>
-                  <Select value={currentLanguage} onValueChange={setLanguage}>
-                    <SelectTrigger className="w-full rounded-none">
-                      <div className="flex items-center gap-2">
-                        <span className="text-lg">{getLanguageFlag(currentLanguage)}</span>
-                        <SelectValue placeholder="Select language" />
-                      </div>
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectItem value="en">🇺🇸 English</SelectItem>
-                      <SelectItem value="es">🇪🇸 Español</SelectItem>
-                      <SelectItem value="fr">🇫🇷 Français</SelectItem>
-                      <SelectItem value="de">🇩🇪 Deutsch</SelectItem>
-                      <SelectItem value="it">🇮🇹 Italiano</SelectItem>
-                      <SelectItem value="pt">🇵🇹 Português</SelectItem>
-                      <SelectItem value="zh">🇨🇳 中文</SelectItem>
-                      <SelectItem value="ja">🇯🇵 日本語</SelectItem>
-                      <SelectItem value="ko">🇰🇷 한국어</SelectItem>
-                      <SelectItem value="ar">🇸🇦 العربية</SelectItem>
-                      <SelectItem value="ru">🇷🇺 Русский</SelectItem>
-                      <SelectItem value="hi">🇮🇳 हिन्दी</SelectItem>
-                    </SelectContent>
-                  </Select>
-                </div>
               </div>
             </SheetContent>
           </Sheet>
@@ -140,36 +73,6 @@ export const Navigation = () => {
           </div>
           <span className="font-bold text-primary text-lg">SmartGuides.Live</span>
         </div>
-      </div>
-
-      {/* Language Selector */}
-      <div className="flex items-center">
-        <Select value={currentLanguage} onValueChange={setLanguage}>
-          <SelectTrigger className="h-12 w-auto min-w-[120px] rounded-none border border-primary bg-background hover:bg-primary/5 transition-colors">
-            <div className="flex items-center gap-2">
-              {isTranslating ? (
-                <Loader2 className="h-4 w-4 animate-spin" />
-              ) : (
-                <span className="text-lg">{getLanguageFlag(currentLanguage)}</span>
-              )}
-              <SelectValue placeholder="Language" />
-            </div>
-          </SelectTrigger>
-          <SelectContent>
-            <SelectItem value="en">🇺🇸 English</SelectItem>
-            <SelectItem value="es">🇪🇸 Español</SelectItem>
-            <SelectItem value="fr">🇫🇷 Français</SelectItem>
-            <SelectItem value="de">🇩🇪 Deutsch</SelectItem>
-            <SelectItem value="it">🇮🇹 Italiano</SelectItem>
-            <SelectItem value="pt">🇵🇹 Português</SelectItem>
-            <SelectItem value="zh">🇨🇳 中文</SelectItem>
-            <SelectItem value="ja">🇯🇵 日본語</SelectItem>
-            <SelectItem value="ko">🇰🇷 한국어</SelectItem>
-            <SelectItem value="ar">🇸🇦 العربية</SelectItem>
-            <SelectItem value="ru">🇷🇺 Русский</SelectItem>
-            <SelectItem value="hi">🇮🇳 हिन्दी</SelectItem>
-          </SelectContent>
-        </Select>
       </div>
     </div>
   );

@@ -113,16 +113,12 @@ export const TranslationProvider: React.FC<{ children: React.ReactNode }> = ({ c
   return (
     <TranslationContext.Provider value={{ currentLanguage, setLanguage, isTranslating }}>
       {children}
-      {/* Visible Google Translate element for testing */}
-      <div id="google_translate_element" style={{ 
-        position: 'fixed', 
-        top: '10px', 
-        right: '10px', 
-        zIndex: 9999,
-        background: 'white',
-        padding: '10px',
-        border: '1px solid #ccc'
-      }}></div>
+      {/* Google Translate element styled like logo */}
+      <div 
+        id="google_translate_element" 
+        className="fixed top-4 right-4 z-50 border border-primary bg-background hover:bg-primary/5 transition-colors"
+        style={{"--primary": "200 98% 39%"} as React.CSSProperties}
+      ></div>
     </TranslationContext.Provider>
   );
 };
