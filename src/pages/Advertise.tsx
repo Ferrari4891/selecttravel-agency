@@ -7,50 +7,32 @@ import { Link } from "react-router-dom";
 import { Navigation } from "@/components/Navigation";
 import Footer from "@/components/Footer";
 import heroAdvertise from "@/assets/hero-advertise.jpg";
-
 const Advertise = () => {
-  const features = [
-    "Business listing visibility",
-    "Customer review management", 
-    "Social media integration",
-    "Analytics dashboard access",
-    "Priority customer support"
-  ];
-
-  const plans = [
-    {
-      name: "Trial",
-      price: "Free for 30 days",
-      description: "Perfect for testing our platform",
-      features: [true, false, false, false, false]
-    },
-    {
-      name: "DIY", 
-      price: "$10.00 per week",
-      description: "Self-service advertising solution",
-      features: [true, true, true, false, false]
-    },
-    {
-      name: "Serviced",
-      price: "$20.00 per week", 
-      description: "Full-service advertising management",
-      features: [true, true, true, true, true]
-    }
-  ];
-
-  return (
-    <div className="min-h-screen bg-background">
+  const features = ["Business listing visibility", "Customer review management", "Social media integration", "Analytics dashboard access", "Priority customer support"];
+  const plans = [{
+    name: "Trial",
+    price: "Free for 30 days",
+    description: "Perfect for testing our platform",
+    features: [true, false, false, false, false]
+  }, {
+    name: "DIY",
+    price: "$10.00 per week",
+    description: "Self-service advertising solution",
+    features: [true, true, true, false, false]
+  }, {
+    name: "Serviced",
+    price: "$20.00 per week",
+    description: "Full-service advertising management",
+    features: [true, true, true, true, true]
+  }];
+  return <div className="min-h-screen bg-background">
       <div className="container mx-auto px-4 py-8">
         <Navigation />
       </div>
       
       {/* Hero Section */}
       <div className="relative h-64 md:h-80 overflow-hidden border-8 border-white rounded-none shadow-[0_8px_12px_-4px_rgba(169,169,169,0.4),_-6px_8px_12px_-4px_rgba(169,169,169,0.3),_6px_8px_12px_-4px_rgba(169,169,169,0.3)]">
-        <img 
-          src={heroAdvertise} 
-          alt="Advertise Hero" 
-          className="w-full h-full object-cover"
-        />
+        <img src={heroAdvertise} alt="Advertise Hero" className="w-full h-full object-cover" />
         <div className="absolute inset-0 bg-black/20 flex items-center justify-center">
           <h1 className="text-4xl md:text-6xl font-bold text-white">
             ADVERTISE
@@ -58,7 +40,7 @@ const Advertise = () => {
         </div>
       </div>
 
-      <div className="container mx-auto px-4 py-8">
+      <div className="container mx-auto px-4 py-8 bg-sky-50">
         {/* Back to Home Button */}
         <div className="mb-4">
           <Link to="/">
@@ -80,7 +62,7 @@ const Advertise = () => {
         {/* Desktop Table View */}
         <Card className="max-w-4xl mx-auto hidden md:block">
           <CardHeader>
-            <CardTitle>Pricing Plans</CardTitle>
+            <CardTitle className="text-6xl text-blue-400">Pricing Plans</CardTitle>
             <CardDescription>
               Compare our advertising packages and find the right fit for your business needs
             </CardDescription>
@@ -91,44 +73,29 @@ const Advertise = () => {
                 <TableHeader>
                   <TableRow>
                     <TableHead className="w-1/4">Features</TableHead>
-                    {plans.map((plan) => (
-                      <TableHead key={plan.name} className="text-center">
+                    {plans.map(plan => <TableHead key={plan.name} className="text-center">
                         <div className="space-y-2">
                           <div className="font-semibold text-lg">{plan.name}</div>
                           <div className="text-primary font-bold">{plan.price}</div>
                           <div className="text-sm text-muted-foreground">{plan.description}</div>
                         </div>
-                      </TableHead>
-                    ))}
+                      </TableHead>)}
                   </TableRow>
                 </TableHeader>
                 <TableBody>
-                  {features.map((feature, index) => (
-                    <TableRow key={feature}>
+                  {features.map((feature, index) => <TableRow key={feature}>
                       <TableCell className="font-medium">{feature}</TableCell>
-                      {plans.map((plan) => (
-                        <TableCell key={plan.name} className="text-center">
-                          {plan.features[index] ? (
-                            <Check className="h-5 w-5 text-green-500 mx-auto" />
-                          ) : (
-                            <X className="h-5 w-5 text-muted-foreground mx-auto" />
-                          )}
-                        </TableCell>
-                      ))}
-                    </TableRow>
-                  ))}
+                      {plans.map(plan => <TableCell key={plan.name} className="text-center">
+                          {plan.features[index] ? <Check className="h-5 w-5 text-green-500 mx-auto" /> : <X className="h-5 w-5 text-muted-foreground mx-auto" />}
+                        </TableCell>)}
+                    </TableRow>)}
                   <TableRow>
                     <TableCell className="font-medium">Get Started</TableCell>
-                    {plans.map((plan) => (
-                      <TableCell key={plan.name} className="text-center">
-                        <Button 
-                          variant={plan.name === "Serviced" ? "default" : "outline"}
-                          className="w-full"
-                        >
+                    {plans.map(plan => <TableCell key={plan.name} className="text-center">
+                        <Button variant={plan.name === "Serviced" ? "default" : "outline"} className="w-full">
                           Choose {plan.name}
                         </Button>
-                      </TableCell>
-                    ))}
+                      </TableCell>)}
                   </TableRow>
                 </TableBody>
               </Table>
@@ -138,8 +105,7 @@ const Advertise = () => {
 
         {/* Mobile Stacked Cards View */}
         <div className="md:hidden space-y-6">
-          {plans.map((plan) => (
-            <Card key={plan.name} className="shadow-lg">
+          {plans.map(plan => <Card key={plan.name} className="shadow-lg">
               <CardHeader className="text-center">
                 <CardTitle className="text-xl">{plan.name}</CardTitle>
                 <div className="text-2xl font-bold text-primary">{plan.price}</div>
@@ -148,29 +114,19 @@ const Advertise = () => {
               <CardContent>
                 <ScrollArea className="h-64">
                   <div className="space-y-3">
-                    {features.map((feature, index) => (
-                      <div key={feature} className="flex items-center justify-between py-2 border-b border-border/50">
+                    {features.map((feature, index) => <div key={feature} className="flex items-center justify-between py-2 border-b border-border/50">
                         <span className="text-sm font-medium">{feature}</span>
-                        {plan.features[index] ? (
-                          <Check className="h-5 w-5 text-green-500" />
-                        ) : (
-                          <X className="h-5 w-5 text-muted-foreground" />
-                        )}
-                      </div>
-                    ))}
+                        {plan.features[index] ? <Check className="h-5 w-5 text-green-500" /> : <X className="h-5 w-5 text-muted-foreground" />}
+                      </div>)}
                   </div>
                 </ScrollArea>
                 <div className="mt-4">
-                  <Button 
-                    variant={plan.name === "Serviced" ? "default" : "outline"}
-                    className="w-full"
-                  >
+                  <Button variant={plan.name === "Serviced" ? "default" : "outline"} className="w-full">
                     More Info {plan.name}
                   </Button>
                 </div>
               </CardContent>
-            </Card>
-          ))}
+            </Card>)}
         </div>
 
         <div className="text-center mt-8">
@@ -181,8 +137,6 @@ const Advertise = () => {
       </div>
       
       <Footer />
-    </div>
-  );
+    </div>;
 };
-
 export default Advertise;
