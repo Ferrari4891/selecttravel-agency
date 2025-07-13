@@ -65,47 +65,49 @@ export const TranslationProvider: React.FC<{ children: React.ReactNode }> = ({ c
     setCurrentLanguage(language);
     localStorage.setItem('selectedLanguage', language);
     
-    // Try multiple methods to trigger translation
+    // Wait a bit for Google Translate to be ready
     setTimeout(() => {
-      // Method 1: Direct Google Translate API call
-      if (window.google && window.google.translate) {
-        try {
-          // Trigger translation by changing the select value
-          const selectElement = document.querySelector('.goog-te-combo') as HTMLSelectElement;
-          console.log('Found select element:', selectElement);
-          
-          if (selectElement) {
-            selectElement.value = language;
-            const event = new Event('change', { bubbles: true });
-            selectElement.dispatchEvent(event);
-            console.log('Dispatched change event for language:', language);
-          }
-          
-          // Method 2: Force page translation using Google's internal functions
-          if ((window as any).google?.translate?.TranslateService) {
-            const service = (window as any).google.translate.TranslateService.getInstance();
-            if (service) {
-              service.translatePage('en', language);
-              console.log('Used TranslateService to translate to:', language);
-            }
-          }
-        } catch (error) {
-          console.error('Translation error:', error);
-        }
-      }
+      const selectElement = document.querySelector('.goog-te-combo') as HTMLSelectElement;
+      console.log('Found Google Translate select:', selectElement);
       
-      // Method 3: URL-based translation (fallback)
-      if (language !== 'en') {
-        const currentUrl = window.location.href.split('#')[0];
-        const translateUrl = `https://translate.google.com/translate?sl=en&tl=${language}&u=${encodeURIComponent(currentUrl)}`;
-        console.log('Fallback: redirect to translate URL');
-        // Don't actually redirect, just log for debugging
+      if (selectElement) {
+        // Set the value and trigger the change event
+        selectElement.value = language;
+        
+        // Create and dispatch a proper change event
+        const changeEvent = new Event('change', { 
+          bubbles: true, 
+          cancelable: true 
+        });
+        selectElement.dispatchEvent(changeEvent);
+        
+        // Also try triggering with input event
+        const inputEvent = new Event('input', { 
+          bubbles: true, 
+          cancelable: true 
+        });
+        selectElement.dispatchEvent(inputEvent);
+        
+        console.log('Triggered Google Translate for language:', language);
+        
+        // Set translating to false after a delay
+        setTimeout(() => {
+          setIsTranslating(false);
+        }, 1500);
+      } else {
+        console.log('Google Translate select not found, trying again...');
+        // Retry after a longer delay
+        setTimeout(() => {
+          const retrySelect = document.querySelector('.goog-te-combo') as HTMLSelectElement;
+          if (retrySelect) {
+            retrySelect.value = language;
+            retrySelect.dispatchEvent(new Event('change', { bubbles: true }));
+            console.log('Retry successful for language:', language);
+          }
+          setIsTranslating(false);
+        }, 2000);
       }
-      
-      setTimeout(() => {
-        setIsTranslating(false);
-      }, 2000);
-    }, 1000);
+    }, 500);
   };
 
   return (
