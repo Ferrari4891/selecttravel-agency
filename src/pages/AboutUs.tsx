@@ -5,21 +5,15 @@ import { Link } from "react-router-dom";
 import Footer from "@/components/Footer";
 import { Navigation } from "@/components/Navigation";
 import heroAboutUs from "@/assets/hero-about-us.jpg";
-
 const AboutUs = () => {
-  return (
-    <div className="min-h-screen bg-background">
+  return <div className="min-h-screen bg-background">
       <div className="max-w-4xl mx-auto p-6">
         <Navigation />
       </div>
       
       {/* Hero Section */}
       <div className="relative h-64 md:h-80 overflow-hidden border-8 border-white rounded-none shadow-[0_8px_12px_-4px_rgba(169,169,169,0.4),_-6px_8px_12px_-4px_rgba(169,169,169,0.3),_6px_8px_12px_-4px_rgba(169,169,169,0.3)]">
-        <img 
-          src={heroAboutUs} 
-          alt="About Us Hero" 
-          className="w-full h-full object-cover"
-        />
+        <img src={heroAboutUs} alt="About Us Hero" className="w-full h-full object-cover" />
         <div className="absolute inset-0 bg-black/20 flex items-center justify-center">
           <h1 className="text-4xl md:text-6xl font-bold text-white">
             ABOUT US
@@ -38,7 +32,7 @@ const AboutUs = () => {
         </div>
 
         <div className="text-center space-y-4">
-          <h2 className="text-3xl font-bold bg-gradient-primary bg-clip-text text-transparent">
+          <h2 className="font-bold bg-gradient-primary bg-clip-text text-5xl text-sky-500">
             About smartguides.live
           </h2>
           <p className="text-muted-foreground text-lg">
@@ -119,8 +113,6 @@ const AboutUs = () => {
       </div>
       
       <Footer />
-    </div>
-  );
+    </div>;
 };
-
 export default AboutUs;
