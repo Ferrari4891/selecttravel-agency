@@ -255,7 +255,7 @@ export const RestaurantDiscoveryForm = () => {
     });
   };
   return <div className={`min-h-screen bg-background ${getThemeClass()}`}>
-      <div className="max-w-4xl mx-auto space-y-8 p-6 bg-zinc-100">
+      <div className="max-w-4xl mx-auto space-y-8 p-6 bg-blue-100">
         <div className="pt-0">
           <Navigation />
         </div>
@@ -274,7 +274,7 @@ export const RestaurantDiscoveryForm = () => {
         </div>
 
         <Card className="shadow-elegant">
-          <CardHeader className="bg-blue-100">
+          <CardHeader className="bg-blue-200">
             <CardTitle className="flex items-center gap-2 font-extrabold text-6xl text-blue-600">
               <MapPin className="h-5 w-5 text-primary" />
               CHOOSE YOUR GUIDE
