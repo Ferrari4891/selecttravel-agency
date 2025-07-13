@@ -132,18 +132,21 @@ All colors MUST be HSL.
     top: 0 !important; /* Override Google Translate body positioning */
   }
   
-  /* Hide Google Translate banner and elements */
-  .goog-te-banner-frame,
-  .goog-te-ftab,
-  .goog-te-balloon-frame {
+  /* Google Translate styling - make it visible for debugging */
+  .goog-te-banner-frame {
+    display: none !important;
+  }
+  
+  .goog-te-ftab {
     display: none !important;
   }
 
-  #google_translate_element {
-    display: none !important;
+  #google_translate_element .goog-te-gadget {
+    font-family: inherit !important;
+    font-size: 12px !important;
   }
 
-  .goog-te-combo {
-    display: none !important;
+  #google_translate_element .goog-te-combo {
+    margin: 0 !important;
   }
 }
