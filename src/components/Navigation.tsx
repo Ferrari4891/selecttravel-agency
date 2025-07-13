@@ -73,6 +73,11 @@ export const Navigation = () => {
           </div>
           <span className="font-bold text-primary text-lg">SmartGuides.Live</span>
         </div>
+
+        {/* Google Translate Widget */}
+        <div className="h-12 border border-primary hover:bg-primary/5 transition-colors" style={{"--primary": "200 98% 39%"} as React.CSSProperties}>
+          <div id="google_translate_element" className="h-full flex items-center"></div>
+        </div>
       </div>
     </div>
   );
