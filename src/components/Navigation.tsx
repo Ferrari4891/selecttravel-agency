@@ -49,7 +49,7 @@ export const Navigation = () => {
         <div>
           <Sheet open={menuOpen} onOpenChange={setMenuOpen}>
             <SheetTrigger asChild>
-              <Button variant="outline" className="h-12 px-3 border border-primary">
+              <Button variant="outline" className="h-12 px-3 rounded-none border border-primary">
                 <Menu className="h-4 w-4" />
               </Button>
             </SheetTrigger>
@@ -106,10 +106,10 @@ export const Navigation = () => {
                     <span className="text-sm font-medium">Language</span>
                   </div>
                   <Select value={currentLanguage} onValueChange={setLanguage}>
-                    <SelectTrigger className="w-full">
+                    <SelectTrigger className="w-full rounded-none">
                       <div className="flex items-center gap-2">
                         <span className="text-lg">{getLanguageFlag(currentLanguage)}</span>
-                        <SelectValue />
+                        <SelectValue placeholder="Select language" />
                       </div>
                     </SelectTrigger>
                     <SelectContent>
@@ -145,14 +145,14 @@ export const Navigation = () => {
       {/* Language Selector */}
       <div className="flex items-center">
         <Select value={currentLanguage} onValueChange={setLanguage}>
-          <SelectTrigger className="h-12 w-auto min-w-[120px] border border-primary bg-background hover:bg-primary/5 transition-colors">
+          <SelectTrigger className="h-12 w-auto min-w-[120px] rounded-none border border-primary bg-background hover:bg-primary/5 transition-colors">
             <div className="flex items-center gap-2">
               {isTranslating ? (
                 <Loader2 className="h-4 w-4 animate-spin" />
               ) : (
                 <span className="text-lg">{getLanguageFlag(currentLanguage)}</span>
               )}
-              <SelectValue />
+              <SelectValue placeholder="Language" />
             </div>
           </SelectTrigger>
           <SelectContent>
