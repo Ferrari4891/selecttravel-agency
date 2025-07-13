@@ -43,7 +43,7 @@ const AboutUs = () => {
         <div className="grid gap-6 md:grid-cols-2">
           <Card>
             <CardHeader>
-              <CardTitle>Our Mission</CardTitle>
+              <CardTitle className="text-3xl text-sky-400">Our Mission</CardTitle>
               <CardDescription>What drives us every day</CardDescription>
             </CardHeader>
             <CardContent>
@@ -55,7 +55,7 @@ const AboutUs = () => {
 
           <Card>
             <CardHeader>
-              <CardTitle>Our Story</CardTitle>
+              <CardTitle className="text-3xl text-sky-400">Our Story</CardTitle>
               <CardDescription>How it all began</CardDescription>
             </CardHeader>
             <CardContent>
