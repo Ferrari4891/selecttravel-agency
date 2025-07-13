@@ -146,6 +146,8 @@ All colors MUST be HSL.
     display: flex !important;
     align-items: center !important;
     padding: 0 12px !important;
+    position: relative !important;
+    overflow: hidden !important;
   }
 
   #google_translate_element .goog-te-gadget {
@@ -154,6 +156,17 @@ All colors MUST be HSL.
     height: 100% !important;
     display: flex !important;
     align-items: center !important;
+    width: 100% !important;
+    position: relative !important;
+  }
+
+  #google_translate_element .goog-te-gadget-simple {
+    background: transparent !important;
+    border: none !important;
+    height: 100% !important;
+    display: flex !important;
+    align-items: center !important;
+    width: 100% !important;
   }
 
   #google_translate_element .goog-te-combo {
@@ -165,10 +178,12 @@ All colors MUST be HSL.
     font-size: 14px !important;
     font-family: inherit !important;
     border-radius: 0 !important;
-    height: auto !important;
-    min-width: 200px !important;
-    width: auto !important;
+    height: 100% !important;
+    min-width: 180px !important;
+    width: 100% !important;
     outline: none !important;
+    position: relative !important;
+    z-index: 1 !important;
   }
 
   #google_translate_element .goog-te-combo:focus {
@@ -185,5 +200,11 @@ All colors MUST be HSL.
     content: '🌐 ';
     font-size: 16px;
     margin-right: 4px;
+  }
+
+  /* Force container positioning */
+  #google_translate_element * {
+    position: relative !important;
+    z-index: auto !important;
   }
 }
