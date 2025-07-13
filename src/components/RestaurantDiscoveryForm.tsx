@@ -279,9 +279,7 @@ export const RestaurantDiscoveryForm = () => {
               <MapPin className="h-5 w-5 text-primary" />
               CHOOSE YOUR GUIDE
             </CardTitle>
-            <CardDescription>
-              Follow the 5 steps to discover the top 20 places
-            </CardDescription>
+            <CardDescription>Follow the 5 steps to discover the top 20 Businesses in thousands of cities around the world in 60 seconds or less!</CardDescription>
           </CardHeader>
           <CardContent className="space-y-6 bg-blue-200">
             <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-4">
