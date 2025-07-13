@@ -49,7 +49,7 @@ export const Navigation = () => {
         <div>
           <Sheet open={menuOpen} onOpenChange={setMenuOpen}>
             <SheetTrigger asChild>
-              <Button variant="outline" className="h-12 px-3 rounded-none border border-primary">
+              <Button variant="outline" className="h-12 px-3 border border-primary">
                 <Menu className="h-4 w-4" />
               </Button>
             </SheetTrigger>
@@ -107,7 +107,10 @@ export const Navigation = () => {
                   </div>
                   <Select value={currentLanguage} onValueChange={setLanguage}>
                     <SelectTrigger className="w-full">
-                      <SelectValue />
+                      <div className="flex items-center gap-2">
+                        <span className="text-lg">{getLanguageFlag(currentLanguage)}</span>
+                        <SelectValue />
+                      </div>
                     </SelectTrigger>
                     <SelectContent>
                       <SelectItem value="en">🇺🇸 English</SelectItem>
@@ -142,7 +145,7 @@ export const Navigation = () => {
       {/* Language Selector */}
       <div className="flex items-center">
         <Select value={currentLanguage} onValueChange={setLanguage}>
-          <SelectTrigger className="h-12 w-auto min-w-[120px] rounded-none border border-primary bg-background hover:bg-primary/5 transition-colors">
+          <SelectTrigger className="h-12 w-auto min-w-[120px] border border-primary bg-background hover:bg-primary/5 transition-colors">
             <div className="flex items-center gap-2">
               {isTranslating ? (
                 <Loader2 className="h-4 w-4 animate-spin" />
@@ -160,7 +163,7 @@ export const Navigation = () => {
             <SelectItem value="it">🇮🇹 Italiano</SelectItem>
             <SelectItem value="pt">🇵🇹 Português</SelectItem>
             <SelectItem value="zh">🇨🇳 中文</SelectItem>
-            <SelectItem value="ja">🇯🇵 日本語</SelectItem>
+            <SelectItem value="ja">🇯🇵 日본語</SelectItem>
             <SelectItem value="ko">🇰🇷 한국어</SelectItem>
             <SelectItem value="ar">🇸🇦 العربية</SelectItem>
             <SelectItem value="ru">🇷🇺 Русский</SelectItem>
