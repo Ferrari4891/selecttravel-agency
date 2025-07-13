@@ -60,30 +60,34 @@ export const TranslationProvider: React.FC<{ children: React.ReactNode }> = ({ c
   }, []);
 
   const setLanguage = (language: string) => {
+    console.log('Setting language to:', language);
     setIsTranslating(true);
     setCurrentLanguage(language);
     localStorage.setItem('selectedLanguage', language);
     
-    // Trigger Google Translate
-    if (isGoogleTranslateLoaded && language !== 'en') {
-      const selectElement = document.querySelector('.goog-te-combo') as HTMLSelectElement;
-      if (selectElement) {
-        selectElement.value = language;
-        selectElement.dispatchEvent(new Event('change'));
-      }
-    } else if (language === 'en') {
-      // Reset to original language
-      const selectElement = document.querySelector('.goog-te-combo') as HTMLSelectElement;
-      if (selectElement) {
-        selectElement.value = 'en';
-        selectElement.dispatchEvent(new Event('change'));
-      }
-    }
-
-    // Hide translation loading after a delay
+    // Add a delay to ensure Google Translate is loaded
     setTimeout(() => {
-      setIsTranslating(false);
-    }, 2000);
+      // Trigger Google Translate
+      if (isGoogleTranslateLoaded) {
+        const selectElement = document.querySelector('.goog-te-combo') as HTMLSelectElement;
+        console.log('Google Translate select element:', selectElement);
+        
+        if (selectElement) {
+          selectElement.value = language;
+          selectElement.dispatchEvent(new Event('change'));
+          console.log('Language changed to:', language);
+        } else {
+          console.log('Google Translate select element not found');
+        }
+      } else {
+        console.log('Google Translate not loaded yet');
+      }
+      
+      // Hide translation loading after a delay
+      setTimeout(() => {
+        setIsTranslating(false);
+      }, 1000);
+    }, 500);
   };
 
   return (

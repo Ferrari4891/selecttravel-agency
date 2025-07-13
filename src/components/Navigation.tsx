@@ -8,7 +8,21 @@ import { useTranslation } from '@/components/TranslationProvider';
 
 export const Navigation = () => {
   const [menuOpen, setMenuOpen] = useState(false);
-  const { currentLanguage, setLanguage, isTranslating } = useTranslation();
+  
+  // Safe hook usage with fallback
+  let translationState;
+  try {
+    translationState = useTranslation();
+  } catch (error) {
+    console.log('Translation context not available, using fallback');
+    translationState = {
+      currentLanguage: 'en',
+      setLanguage: (lang: string) => console.log('Fallback setLanguage:', lang),
+      isTranslating: false
+    };
+  }
+  
+  const { currentLanguage, setLanguage, isTranslating } = translationState;
 
   return (
     <div className="flex items-center gap-4 justify-start">

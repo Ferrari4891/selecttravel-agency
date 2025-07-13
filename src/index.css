@@ -129,5 +129,21 @@ All colors MUST be HSL.
 
   body {
     @apply bg-background text-foreground;
+    top: 0 !important; /* Override Google Translate body positioning */
+  }
+  
+  /* Hide Google Translate banner and elements */
+  .goog-te-banner-frame,
+  .goog-te-ftab,
+  .goog-te-balloon-frame {
+    display: none !important;
+  }
+
+  #google_translate_element {
+    display: none !important;
+  }
+
+  .goog-te-combo {
+    display: none !important;
   }
 }
