@@ -2,11 +2,13 @@ import React, { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { Menu, Home, Info, HelpCircle, Languages } from 'lucide-react';
+import { Menu, Home, Info, HelpCircle, Languages, Loader2 } from 'lucide-react';
 import { Link } from 'react-router-dom';
+import { useTranslation } from '@/components/TranslationProvider';
 
 export const Navigation = () => {
   const [menuOpen, setMenuOpen] = useState(false);
+  const { currentLanguage, setLanguage, isTranslating } = useTranslation();
 
   return (
     <div className="flex items-center gap-4 justify-start">
@@ -63,19 +65,30 @@ export const Navigation = () => {
               </Button>
               <div className="flex flex-col gap-2 pt-4 border-t">
                 <div className="flex items-center gap-2 px-3">
-                  <Languages className="h-4 w-4 text-muted-foreground" />
+                  {isTranslating ? (
+                    <Loader2 className="h-4 w-4 text-muted-foreground animate-spin" />
+                  ) : (
+                    <Languages className="h-4 w-4 text-muted-foreground" />
+                  )}
                   <span className="text-sm font-medium">Language</span>
                 </div>
-                <Select defaultValue="en">
+                <Select value={currentLanguage} onValueChange={setLanguage}>
                   <SelectTrigger className="w-full">
                     <SelectValue />
                   </SelectTrigger>
                   <SelectContent>
-                    <SelectItem value="en">English</SelectItem>
-                    <SelectItem value="es">Español</SelectItem>
-                    <SelectItem value="fr">Français</SelectItem>
-                    <SelectItem value="de">Deutsch</SelectItem>
-                    <SelectItem value="it">Italiano</SelectItem>
+                    <SelectItem value="en">🇺🇸 English</SelectItem>
+                    <SelectItem value="es">🇪🇸 Español</SelectItem>
+                    <SelectItem value="fr">🇫🇷 Français</SelectItem>
+                    <SelectItem value="de">🇩🇪 Deutsch</SelectItem>
+                    <SelectItem value="it">🇮🇹 Italiano</SelectItem>
+                    <SelectItem value="pt">🇵🇹 Português</SelectItem>
+                    <SelectItem value="zh">🇨🇳 中文</SelectItem>
+                    <SelectItem value="ja">🇯🇵 日本語</SelectItem>
+                    <SelectItem value="ko">🇰🇷 한국어</SelectItem>
+                    <SelectItem value="ar">🇸🇦 العربية</SelectItem>
+                    <SelectItem value="ru">🇷🇺 Русский</SelectItem>
+                    <SelectItem value="hi">🇮🇳 हिन्दी</SelectItem>
                   </SelectContent>
                 </Select>
               </div>
