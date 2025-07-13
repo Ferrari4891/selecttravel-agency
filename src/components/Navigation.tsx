@@ -61,6 +61,11 @@ export const Navigation = () => {
                     Visa Info
                   </Link>
                 </Button>
+                
+                {/* Google Translate Widget */}
+                <div className="w-full border border-primary hover:bg-primary/5 transition-colors p-2" style={{"--primary": "200 98% 39%"} as React.CSSProperties}>
+                  <div id="google_translate_element" className="flex items-center"></div>
+                </div>
               </div>
             </SheetContent>
           </Sheet>
@@ -72,11 +77,6 @@ export const Navigation = () => {
             <span className="text-primary-foreground font-bold text-sm">SGL</span>
           </div>
           <span className="font-bold text-primary text-lg">SmartGuides.Live</span>
-        </div>
-
-        {/* Google Translate Widget */}
-        <div className="h-12 min-w-[200px] w-auto border border-primary hover:bg-primary/5 transition-colors" style={{"--primary": "200 98% 39%"} as React.CSSProperties}>
-          <div id="google_translate_element" className="h-full flex items-center"></div>
         </div>
       </div>
     </div>
