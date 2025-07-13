@@ -73,12 +73,12 @@ export const LanguageSelector: React.FC<LanguageSelectorProps> = ({ inMenu = fal
               <button
                 key={lang.code}
                 onClick={() => handleLanguageChange(lang.code)}
-                className={`flex items-center gap-2 w-full p-2 text-sm rounded hover:bg-muted/50 transition-colors ${
+                className={`flex items-center gap-3 w-full p-2 text-sm rounded hover:bg-muted/50 transition-colors ${
                   currentLanguage === lang.code ? 'bg-muted font-medium' : ''
                 }`}
                 disabled={isTranslating}
               >
-                <span className="text-lg">{lang.flag}</span>
+                <span className="text-xl leading-none" style={{ fontFamily: 'Apple Color Emoji, Segoe UI Emoji, Noto Color Emoji, serif' }}>{lang.flag}</span>
                 <span>{lang.name}</span>
               </button>
             ))}
@@ -101,7 +101,7 @@ export const LanguageSelector: React.FC<LanguageSelectorProps> = ({ inMenu = fal
         style={{"--primary": "200 98% 39%"} as React.CSSProperties}
         disabled={isTranslating}
       >
-        <span className="text-lg">{currentLang.flag}</span>
+        <span className="text-xl leading-none" style={{ fontFamily: 'Apple Color Emoji, Segoe UI Emoji, Noto Color Emoji, serif' }}>{currentLang.flag}</span>
         <span className="text-sm font-medium">{currentLang.name}</span>
         <ChevronDown className={`h-4 w-4 transition-transform ${isOpen ? 'rotate-180' : ''}`} />
       </button>
@@ -117,7 +117,7 @@ export const LanguageSelector: React.FC<LanguageSelectorProps> = ({ inMenu = fal
               }`}
               disabled={isTranslating}
             >
-              <span className="text-lg">{lang.flag}</span>
+              <span className="text-xl leading-none" style={{ fontFamily: 'Apple Color Emoji, Segoe UI Emoji, Noto Color Emoji, serif' }}>{lang.flag}</span>
               <span>{lang.name}</span>
             </button>
           ))}

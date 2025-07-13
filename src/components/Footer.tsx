@@ -1,4 +1,6 @@
 import { Link } from "react-router-dom";
+import { useState } from "react";
+import { LanguageSelector } from "@/components/LanguageSelector";
 
 interface FooterProps {
   themeClass?: string;
@@ -46,6 +48,9 @@ const Footer = ({ themeClass }: FooterProps) => {
             >
               Contact Us
             </a>
+            <div className="inline-block">
+              <LanguageSelector />
+            </div>
           </div>
         </div>
       </footer>
