@@ -41,15 +41,22 @@ export const TranslationProvider: React.FC<{ children: React.ReactNode }> = ({ c
       // Initialize Google Translate
       window.googleTranslateElementInit = () => {
         console.log('Google Translate initialized');
-        new window.google.translate.TranslateElement(
-          {
-            pageLanguage: 'en',
-            includedLanguages: 'en,es,fr,de,it,pt,zh,ja,ko,ar,ru,hi',
-            layout: 2,
-            autoDisplay: false,
-          },
-          'google_translate_element'
-        );
+        
+        // Try to find any google_translate_element
+        const elements = document.querySelectorAll('#google_translate_element');
+        const targetElement = elements[elements.length - 1]; // Use the last one found
+        
+        if (targetElement) {
+          new window.google.translate.TranslateElement(
+            {
+              pageLanguage: 'en',
+              includedLanguages: 'en,es,fr,de,it,pt,zh,ja,ko,ar,ru,hi',
+              layout: 2,
+              autoDisplay: false,
+            },
+            targetElement.id
+          );
+        }
         setIsScriptLoaded(true);
       };
 

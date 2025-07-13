@@ -3,6 +3,7 @@ import { Button } from '@/components/ui/button';
 import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
 import { Menu, Home, Info, HelpCircle } from 'lucide-react';
 import { Link } from 'react-router-dom';
+import { LanguageSelector } from '@/components/LanguageSelector';
 
 export const Navigation = () => {
   const [menuOpen, setMenuOpen] = useState(false);
@@ -62,10 +63,8 @@ export const Navigation = () => {
                   </Link>
                 </Button>
                 
-                {/* Google Translate Widget */}
-                <div className="w-full border border-primary hover:bg-primary/5 transition-colors p-2" style={{"--primary": "200 98% 39%"} as React.CSSProperties}>
-                  <div id="google_translate_element" className="flex items-center"></div>
-                </div>
+                {/* Language Selector */}
+                <LanguageSelector inMenu={true} onClose={() => setMenuOpen(false)} />
               </div>
             </SheetContent>
           </Sheet>

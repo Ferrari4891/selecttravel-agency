@@ -122,6 +122,23 @@ All colors MUST be HSL.
   }
 }
 
+/* Language selector dropdown styles */
+.language-dropdown {
+  background: hsl(var(--background));
+  border: 1px solid hsl(var(--border));
+  z-index: 9999;
+}
+
+.language-dropdown button:hover {
+  background: hsl(var(--muted));
+}
+
+/* Hide Google Translate elements */
+.goog-te-banner-frame,
+.goog-te-combo {
+  display: none !important;
+}
+
 @layer base {
   * {
     @apply border-border;
