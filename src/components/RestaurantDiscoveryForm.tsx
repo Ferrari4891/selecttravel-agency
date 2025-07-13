@@ -268,7 +268,7 @@ export const RestaurantDiscoveryForm = () => {
           <h1 className="text-4xl md:text-6xl font-bold text-white">
             smartguides.live
           </h1>
-          <p className="text-white text-sm md:text-lg px-4">
+          <p className="text-white text-sm px-4 md:text-base">
             {getTagline()}
           </p>
         </div>
