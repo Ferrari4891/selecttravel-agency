@@ -191,6 +191,13 @@ All colors MUST be HSL.
     box-shadow: none !important;
   }
 
+  /* Dropdown options hover styling */
+  #google_translate_element .goog-te-combo option:hover,
+  #google_translate_element .goog-te-combo option:focus {
+    background-color: white !important;
+    color: black !important;
+  }
+
   /* Hide Google Translate branding */
   #google_translate_element .goog-te-gadget-simple .goog-te-menu-value span:first-child {
     display: none;
