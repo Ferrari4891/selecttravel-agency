@@ -1,12 +1,11 @@
 import { Link } from "react-router-dom";
-import { useState } from "react";
-import { LanguageSelector } from "@/components/LanguageSelector";
 
 interface FooterProps {
   themeClass?: string;
+  onLanguageClick?: () => void;
 }
 
-const Footer = ({ themeClass }: FooterProps) => {
+const Footer = ({ themeClass, onLanguageClick }: FooterProps) => {
   return (
     <div className={themeClass}>
       <footer className="bg-primary text-primary-foreground py-8 mt-auto">
@@ -48,9 +47,12 @@ const Footer = ({ themeClass }: FooterProps) => {
             >
               Contact Us
             </a>
-            <div className="inline-block">
-              <LanguageSelector />
-            </div>
+            <button 
+              onClick={onLanguageClick}
+              className="hover:opacity-80 transition-opacity cursor-pointer bg-transparent border-none text-primary-foreground underline"
+            >
+              Language
+            </button>
           </div>
         </div>
       </footer>

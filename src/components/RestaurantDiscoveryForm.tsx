@@ -57,6 +57,7 @@ export const RestaurantDiscoveryForm = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [restaurants, setRestaurants] = useState<Restaurant[]>([]);
   const [menuOpen, setMenuOpen] = useState(false);
+  const [forceMenuOpen, setForceMenuOpen] = useState(false);
   const {
     toast
   } = useToast();
@@ -254,10 +255,19 @@ export const RestaurantDiscoveryForm = () => {
       description: "Data has been exported to CSV format."
     });
   };
+
+  const handleLanguageClick = () => {
+    setForceMenuOpen(true);
+    // Reset after a short delay to allow for future clicks
+    setTimeout(() => setForceMenuOpen(false), 100);
+  };
   return <div className={`min-h-screen bg-background ${getThemeClass()}`}>
       <div className="max-w-4xl mx-auto space-y-8 p-6 bg-blue-100">
         <div className="pt-0">
-          <Navigation />
+          <Navigation 
+            onMenuStateChange={setMenuOpen}
+            forceMenuOpen={forceMenuOpen}
+          />
         </div>
         
         <div className="relative text-center space-y-4 py-16 px-8 overflow-hidden border-8 border-white shadow-[0_8px_16px_rgba(0,0,0,0.3)]" style={{
@@ -362,6 +372,6 @@ export const RestaurantDiscoveryForm = () => {
         {restaurants.length > 0 && <RestaurantResults restaurants={restaurants} selectedCity={selectedCity} selectedCountry={selectedCountry} />}
       </div>
       
-      <Footer themeClass={getThemeClass()} />
+      <Footer themeClass={getThemeClass()} onLanguageClick={handleLanguageClick} />
     </div>;
 };

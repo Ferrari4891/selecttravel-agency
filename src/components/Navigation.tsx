@@ -5,15 +5,32 @@ import { Menu, Home, Info, HelpCircle } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { LanguageSelector } from '@/components/LanguageSelector';
 
-export const Navigation = () => {
+interface NavigationProps {
+  onMenuStateChange?: (isOpen: boolean) => void;
+  forceMenuOpen?: boolean;
+}
+
+export const Navigation = ({ onMenuStateChange, forceMenuOpen }: NavigationProps) => {
   const [menuOpen, setMenuOpen] = useState(false);
+
+  const handleMenuChange = (open: boolean) => {
+    setMenuOpen(open);
+    onMenuStateChange?.(open);
+  };
+
+  // Force open menu when requested from outside
+  React.useEffect(() => {
+    if (forceMenuOpen) {
+      handleMenuChange(true);
+    }
+  }, [forceMenuOpen]);
 
   return (
     <div className="flex items-center gap-4 justify-start w-full">
       <div className="flex items-center gap-4">
         {/* Hamburger Menu */}
         <div>
-          <Sheet open={menuOpen} onOpenChange={setMenuOpen}>
+          <Sheet open={menuOpen} onOpenChange={handleMenuChange}>
             <SheetTrigger asChild>
               <Button variant="outline" className="h-12 px-3 rounded-none border border-primary">
                 <Menu className="h-4 w-4" />

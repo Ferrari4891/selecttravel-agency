@@ -4,18 +4,18 @@ import { Button } from '@/components/ui/button';
 import { useTranslation } from '@/components/TranslationProvider';
 
 const languages = [
-  { code: 'en', name: 'English', flag: '🇺🇸' },
-  { code: 'es', name: 'Español', flag: '🇪🇸' },
-  { code: 'fr', name: 'Français', flag: '🇫🇷' },
-  { code: 'de', name: 'Deutsch', flag: '🇩🇪' },
-  { code: 'it', name: 'Italiano', flag: '🇮🇹' },
-  { code: 'pt', name: 'Português', flag: '🇵🇹' },
-  { code: 'zh', name: '中文', flag: '🇨🇳' },
-  { code: 'ja', name: '日本語', flag: '🇯🇵' },
-  { code: 'ko', name: '한국어', flag: '🇰🇷' },
-  { code: 'ar', name: 'العربية', flag: '🇸🇦' },
-  { code: 'ru', name: 'Русский', flag: '🇷🇺' },
-  { code: 'hi', name: 'हिंदी', flag: '🇮🇳' },
+  { code: 'en', name: 'English', flag: 'US' },
+  { code: 'es', name: 'Español', flag: 'ES' },
+  { code: 'fr', name: 'Français', flag: 'FR' },
+  { code: 'de', name: 'Deutsch', flag: 'DE' },
+  { code: 'it', name: 'Italiano', flag: 'IT' },
+  { code: 'pt', name: 'Português', flag: 'PT' },
+  { code: 'zh', name: '中文', flag: 'CN' },
+  { code: 'ja', name: '日本語', flag: 'JP' },
+  { code: 'ko', name: '한국어', flag: 'KR' },
+  { code: 'ar', name: 'العربية', flag: 'SA' },
+  { code: 'ru', name: 'Русский', flag: 'RU' },
+  { code: 'hi', name: 'हिंदी', flag: 'IN' },
 ];
 
 interface LanguageSelectorProps {
@@ -78,7 +78,7 @@ export const LanguageSelector: React.FC<LanguageSelectorProps> = ({ inMenu = fal
                 }`}
                 disabled={isTranslating}
               >
-                <span className="text-xl leading-none" style={{ fontFamily: 'Apple Color Emoji, Segoe UI Emoji, Noto Color Emoji, serif' }}>{lang.flag}</span>
+                <span className="text-xs font-bold bg-primary text-primary-foreground px-1 rounded">{lang.flag}</span>
                 <span>{lang.name}</span>
               </button>
             ))}
@@ -101,7 +101,7 @@ export const LanguageSelector: React.FC<LanguageSelectorProps> = ({ inMenu = fal
         style={{"--primary": "200 98% 39%"} as React.CSSProperties}
         disabled={isTranslating}
       >
-        <span className="text-xl leading-none" style={{ fontFamily: 'Apple Color Emoji, Segoe UI Emoji, Noto Color Emoji, serif' }}>{currentLang.flag}</span>
+        <span className="text-xs font-bold bg-primary text-primary-foreground px-1 rounded">{currentLang.flag}</span>
         <span className="text-sm font-medium">{currentLang.name}</span>
         <ChevronDown className={`h-4 w-4 transition-transform ${isOpen ? 'rotate-180' : ''}`} />
       </button>
@@ -117,7 +117,7 @@ export const LanguageSelector: React.FC<LanguageSelectorProps> = ({ inMenu = fal
               }`}
               disabled={isTranslating}
             >
-              <span className="text-xl leading-none" style={{ fontFamily: 'Apple Color Emoji, Segoe UI Emoji, Noto Color Emoji, serif' }}>{lang.flag}</span>
+              <span className="text-xs font-bold bg-primary text-primary-foreground px-1 rounded">{lang.flag}</span>
               <span>{lang.name}</span>
             </button>
           ))}
