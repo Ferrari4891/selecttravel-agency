@@ -21,7 +21,7 @@ const AboutUs = () => {
         </div>
       </div>
 
-      <div className="max-w-4xl mx-auto p-6 space-y-8">
+      <div className="max-w-4xl mx-auto p-6 space-y-8 bg-sky-50">
         <div className="flex items-center gap-4">
           <Link to="/">
             <Button variant="outline" size="sm">
@@ -44,7 +44,7 @@ const AboutUs = () => {
           <Card>
             <CardHeader>
               <CardTitle className="text-3xl text-sky-400">Our Mission</CardTitle>
-              <CardDescription>What drives us every day</CardDescription>
+              <CardDescription className="text-lg font-semibold">What drives us every day</CardDescription>
             </CardHeader>
             <CardContent>
               <p className="text-muted-foreground">At smartguides.live , we believe that your time is valuable and when you travel shoud be stress free. Our mission is to help you discover the most exceptional restaurants in any area, combining data from trusted sources like TripAdvisor, Yelp, and Google Reviews to give you the most comprehensive dining recommendations.</p>
