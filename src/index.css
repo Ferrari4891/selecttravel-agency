@@ -166,7 +166,8 @@ All colors MUST be HSL.
     font-family: inherit !important;
     border-radius: 0 !important;
     height: auto !important;
-    min-width: 140px !important;
+    min-width: 200px !important;
+    width: auto !important;
     outline: none !important;
   }
 
