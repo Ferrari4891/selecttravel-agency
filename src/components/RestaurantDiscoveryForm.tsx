@@ -255,7 +255,7 @@ export const RestaurantDiscoveryForm = () => {
     });
   };
   return <div className={`min-h-screen bg-background ${getThemeClass()}`}>
-      <div className="max-w-4xl mx-auto space-y-8 p-6">
+      <div className="max-w-4xl mx-auto space-y-8 p-6 bg-zinc-100">
         <div className="pt-0">
           <Navigation />
         </div>
@@ -274,8 +274,8 @@ export const RestaurantDiscoveryForm = () => {
         </div>
 
         <Card className="shadow-elegant">
-          <CardHeader>
-            <CardTitle className="flex items-center gap-2 text-7xl">
+          <CardHeader className="bg-blue-100">
+            <CardTitle className="flex items-center gap-2 font-extrabold text-6xl text-blue-600">
               <MapPin className="h-5 w-5 text-primary" />
               CHOOSE YOUR GUIDE
             </CardTitle>
@@ -283,7 +283,7 @@ export const RestaurantDiscoveryForm = () => {
               Follow the 5 steps to discover the top 20 places
             </CardDescription>
           </CardHeader>
-          <CardContent className="space-y-6">
+          <CardContent className="space-y-6 bg-blue-200">
             <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-4">
               <div className="space-y-2">
                 <label className="text-sm font-bold uppercase whitespace-nowrap">STEP 1: CHOOSE CATEGORY</label>
