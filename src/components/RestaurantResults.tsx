@@ -2,7 +2,7 @@ import React from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
-import { MapPin, Star, ExternalLink, Phone, Mail, Globe } from 'lucide-react';
+import { MapPin, Star, ExternalLink, Phone, Mail, Globe, Menu } from 'lucide-react';
 
 interface Restaurant {
   name: string;
@@ -17,6 +17,7 @@ interface Restaurant {
     phone?: string;
     email?: string;
     website?: string;
+    menuLink?: string;
   };
   imageLinks: string[];
   rating: number;
@@ -107,6 +108,18 @@ export const RestaurantResults: React.FC<RestaurantResultsProps> = ({
                       >
                         <Globe className="h-3 w-3" />
                         Website
+                      </Button>
+                    )}
+                    
+                    {restaurant.contactDetails.menuLink && (
+                      <Button
+                        variant="outline"
+                        size="sm"
+                        className="flex items-center gap-1 text-xs"
+                        onClick={() => window.open(restaurant.contactDetails.menuLink, '_blank')}
+                      >
+                        <Menu className="h-3 w-3" />
+                        Menu
                       </Button>
                     )}
                     

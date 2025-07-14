@@ -43,6 +43,7 @@ interface Restaurant {
     phone?: string;
     email?: string;
     website?: string;
+    menuLink?: string;
   };
   imageLinks: string[];
   rating: number;
@@ -232,6 +233,21 @@ export const RestaurantDiscoveryForm = () => {
         return `${randomName} ${randomType}`;
       };
 
+      // Working placeholder images from Unsplash
+      const placeholderImages = [
+        'https://images.unsplash.com/photo-1649972904349-6e44c42644a7?w=400&h=300&fit=crop&crop=center&q=80',
+        'https://images.unsplash.com/photo-1488590528505-98d2b5aba04b?w=400&h=300&fit=crop&crop=center&q=80',
+        'https://images.unsplash.com/photo-1518770660439-4636190af475?w=400&h=300&fit=crop&crop=center&q=80',
+        'https://images.unsplash.com/photo-1461749280684-dccba630e2f6?w=400&h=300&fit=crop&crop=center&q=80',
+        'https://images.unsplash.com/photo-1486312338219-ce68d2c6f44d?w=400&h=300&fit=crop&crop=center&q=80',
+        'https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?w=400&h=300&fit=crop&crop=center&q=80',
+        'https://images.unsplash.com/photo-1485827404703-89b55fcc595e?w=400&h=300&fit=crop&crop=center&q=80',
+        'https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?w=400&h=300&fit=crop&crop=center&q=80',
+        'https://images.unsplash.com/photo-1531297484001-80022131f5a1?w=400&h=300&fit=crop&crop=center&q=80',
+        'https://images.unsplash.com/photo-1487058792275-0ad4aaf24ca7?w=400&h=300&fit=crop&crop=center&q=80',
+        'https://images.unsplash.com/photo-1605810230434-7631ac76ec81?w=400&h=300&fit=crop&crop=center&q=80'
+      ];
+
       // Mock restaurant data - exactly 20 per category per city (USA only)
       const mockRestaurants: Restaurant[] = Array.from({
         length: 20
@@ -247,9 +263,10 @@ export const RestaurantDiscoveryForm = () => {
         contactDetails: {
           phone: `+1-${Math.floor(Math.random() * 900) + 100}-${Math.floor(Math.random() * 900) + 100}-${String(Math.floor(Math.random() * 9000) + 1000)}`,
           email: Math.random() > 0.4 ? `info@business${i + 1}.com` : undefined,
-          website: Math.random() > 0.3 ? `https://business${i + 1}.com` : undefined
+          website: Math.random() > 0.3 ? `https://business${i + 1}.com` : undefined,
+          menuLink: selectedCategory === 'Eat' && Math.random() > 0.4 ? `https://menu.business${i + 1}.com` : undefined
         },
-        imageLinks: [`https://images.unsplash.com/photo-${1500000000000 + Math.floor(Math.random() * 100000000)}?w=400&h=300&fit=crop&crop=center&q=80`],
+        imageLinks: [placeholderImages[i % placeholderImages.length]],
         rating: Math.max(3.0, 3.0 + Math.random() * 2.0), // Ensure 3+ star rating
         reviewCount: Math.floor(Math.random() * 800) + 50,
         source: ['Google Reviews', 'Yelp', 'TripAdvisor'][Math.floor(Math.random() * 3)]
