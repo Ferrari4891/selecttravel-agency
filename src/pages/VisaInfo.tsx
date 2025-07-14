@@ -95,8 +95,8 @@ const VisaInfo = () => {
           <p className="text-muted-foreground text-lg">
             Essential visa information for popular travel destinations
           </p>
-          <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-4 mt-6">
-            <p className="text-sm text-yellow-800">
+          <div className="bg-red-600 border border-red-600 rounded-lg p-4 mt-6">
+            <p className="text-sm text-white">
               <strong>Important:</strong> Visa requirements can change frequently. Always verify current requirements with official government sources before traveling.
             </p>
           </div>
