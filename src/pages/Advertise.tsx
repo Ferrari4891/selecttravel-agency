@@ -88,6 +88,16 @@ const Advertise = () => {
                         </TableCell>)}
                     </TableRow>)}
                   <TableRow>
+                    <TableCell className="font-medium">Calculate ROI</TableCell>
+                    {plans.map(plan => <TableCell key={plan.name} className="text-center">
+                        <Button variant={plan.name === "Serviced" ? "default" : "outline"} className="w-full" asChild>
+                          <Link to="/roi">
+                            Check ROI
+                          </Link>
+                        </Button>
+                      </TableCell>)}
+                  </TableRow>
+                  <TableRow>
                     <TableCell className="font-medium">Get Started</TableCell>
                     {plans.map(plan => <TableCell key={plan.name} className="text-center">
                         <Button variant={plan.name === "Serviced" ? "default" : "outline"} className="w-full">
@@ -118,7 +128,12 @@ const Advertise = () => {
                       </div>)}
                   </div>
                 </ScrollArea>
-                <div className="mt-4">
+                <div className="mt-4 space-y-2">
+                  <Button variant={plan.name === "Serviced" ? "default" : "outline"} className="w-full" asChild>
+                    <Link to="/roi">
+                      Check ROI
+                    </Link>
+                  </Button>
                   <Button variant={plan.name === "Serviced" ? "default" : "outline"} className="w-full">
                     More Info {plan.name}
                   </Button>
