@@ -41,7 +41,7 @@ const AboutUs = () => {
         </div>
 
         <div className="grid gap-6 md:grid-cols-2">
-          <Card>
+          <Card className="rounded-none">
             <CardHeader className="bg-sky-300">
               <CardTitle className="text-3xl text-slate-950">Our Mission</CardTitle>
               <CardDescription className="text-lg font-semibold">What drives us every day</CardDescription>
@@ -51,7 +51,7 @@ const AboutUs = () => {
             </CardContent>
           </Card>
 
-          <Card>
+          <Card className="rounded-none">
             <CardHeader className="bg-sky-300">
               <CardTitle className="text-3xl text-slate-950">Our Story</CardTitle>
               <CardDescription className="text-lg font-semibold">How it began</CardDescription>
@@ -63,7 +63,7 @@ const AboutUs = () => {
             </CardContent>
           </Card>
 
-          <Card>
+          <Card className="rounded-none">
             <CardHeader className="bg-sky-300">
               <CardTitle className="text-3xl text-slate-950">Points if Difference</CardTitle>
               <CardDescription className="text-lg font-semibold">Our unique approach</CardDescription>
@@ -79,7 +79,7 @@ const AboutUs = () => {
             </CardContent>
           </Card>
 
-          <Card>
+          <Card className="rounded-none">
             <CardHeader className="bg-sky-300">
               <CardTitle className="text-3xl text-slate-950">Our Team</CardTitle>
               <CardDescription className="text-lg font-semibold">The people behind the platform</CardDescription>
@@ -92,7 +92,7 @@ const AboutUs = () => {
           </Card>
         </div>
 
-        <Card>
+        <Card className="rounded-none">
           <CardHeader>
             <CardTitle className="text-center">Get in Touch</CardTitle>
             <CardDescription className="text-center">We'd love to hear from you</CardDescription>
