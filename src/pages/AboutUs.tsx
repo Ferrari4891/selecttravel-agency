@@ -54,7 +54,7 @@ const AboutUs = () => {
           <Card>
             <CardHeader>
               <CardTitle className="text-3xl text-sky-400">Our Story</CardTitle>
-              <CardDescription>How it all began</CardDescription>
+              <CardDescription className="text-lg font-semibold">How it began</CardDescription>
             </CardHeader>
             <CardContent>
               <p className="text-muted-foreground">
