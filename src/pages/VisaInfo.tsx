@@ -63,7 +63,7 @@ const VisaInfo = () => {
     website: "https://www.gov.br/mre/en/consular-services/visas",
     requirements: ["Valid passport (6+ months validity)", "Tourist visa (if required)", "Yellow fever vaccination (from certain countries)", "Proof of sufficient funds"]
   }];
-  return <div className="min-h-screen bg-background">
+  return <div className="min-h-screen bg-blue-50">
       <div className="max-w-4xl mx-auto p-6 bg-blue-50">
         <Navigation />
       </div>
