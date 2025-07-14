@@ -204,7 +204,6 @@ export const RestaurantDiscoveryForm = () => {
       });
       return;
     }
-
     setIsLoading(true);
     try {
       // Simulate API call - In real implementation, this would call multiple APIs
@@ -219,34 +218,15 @@ export const RestaurantDiscoveryForm = () => {
           'Stay': ['Hotel', 'Inn', 'Resort', 'Lodge', 'Suites', 'Boutique Hotel'],
           'Play': ['Entertainment Center', 'Theater', 'Club', 'Venue', 'Arena', 'Gaming Lounge']
         };
-        
-        const names = [
-          'Golden', 'Royal', 'Grand', 'Elite', 'Prime', 'Classic', 'Modern', 'Urban',
-          'Sunset', 'Riverside', 'Downtown', 'Central', 'Main Street', 'Corner',
-          'Blue Moon', 'Red Oak', 'Green Valley', 'Silver Star', 'Diamond'
-        ];
-        
+        const names = ['Golden', 'Royal', 'Grand', 'Elite', 'Prime', 'Classic', 'Modern', 'Urban', 'Sunset', 'Riverside', 'Downtown', 'Central', 'Main Street', 'Corner', 'Blue Moon', 'Red Oak', 'Green Valley', 'Silver Star', 'Diamond'];
         const type = businessTypes[category as keyof typeof businessTypes] || ['Place'];
         const randomName = names[Math.floor(Math.random() * names.length)];
         const randomType = type[Math.floor(Math.random() * type.length)];
-        
         return `${randomName} ${randomType}`;
       };
 
       // Working placeholder images from Unsplash
-      const placeholderImages = [
-        'https://images.unsplash.com/photo-1649972904349-6e44c42644a7?w=400&h=300&fit=crop&crop=center&q=80',
-        'https://images.unsplash.com/photo-1488590528505-98d2b5aba04b?w=400&h=300&fit=crop&crop=center&q=80',
-        'https://images.unsplash.com/photo-1518770660439-4636190af475?w=400&h=300&fit=crop&crop=center&q=80',
-        'https://images.unsplash.com/photo-1461749280684-dccba630e2f6?w=400&h=300&fit=crop&crop=center&q=80',
-        'https://images.unsplash.com/photo-1486312338219-ce68d2c6f44d?w=400&h=300&fit=crop&crop=center&q=80',
-        'https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?w=400&h=300&fit=crop&crop=center&q=80',
-        'https://images.unsplash.com/photo-1485827404703-89b55fcc595e?w=400&h=300&fit=crop&crop=center&q=80',
-        'https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?w=400&h=300&fit=crop&crop=center&q=80',
-        'https://images.unsplash.com/photo-1531297484001-80022131f5a1?w=400&h=300&fit=crop&crop=center&q=80',
-        'https://images.unsplash.com/photo-1487058792275-0ad4aaf24ca7?w=400&h=300&fit=crop&crop=center&q=80',
-        'https://images.unsplash.com/photo-1605810230434-7631ac76ec81?w=400&h=300&fit=crop&crop=center&q=80'
-      ];
+      const placeholderImages = ['https://images.unsplash.com/photo-1649972904349-6e44c42644a7?w=400&h=300&fit=crop&crop=center&q=80', 'https://images.unsplash.com/photo-1488590528505-98d2b5aba04b?w=400&h=300&fit=crop&crop=center&q=80', 'https://images.unsplash.com/photo-1518770660439-4636190af475?w=400&h=300&fit=crop&crop=center&q=80', 'https://images.unsplash.com/photo-1461749280684-dccba630e2f6?w=400&h=300&fit=crop&crop=center&q=80', 'https://images.unsplash.com/photo-1486312338219-ce68d2c6f44d?w=400&h=300&fit=crop&crop=center&q=80', 'https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?w=400&h=300&fit=crop&crop=center&q=80', 'https://images.unsplash.com/photo-1485827404703-89b55fcc595e?w=400&h=300&fit=crop&crop=center&q=80', 'https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?w=400&h=300&fit=crop&crop=center&q=80', 'https://images.unsplash.com/photo-1531297484001-80022131f5a1?w=400&h=300&fit=crop&crop=center&q=80', 'https://images.unsplash.com/photo-1487058792275-0ad4aaf24ca7?w=400&h=300&fit=crop&crop=center&q=80', 'https://images.unsplash.com/photo-1605810230434-7631ac76ec81?w=400&h=300&fit=crop&crop=center&q=80'];
 
       // Mock restaurant data - exactly 20 per category per city (USA only)
       const mockRestaurants: Restaurant[] = Array.from({
@@ -267,11 +247,11 @@ export const RestaurantDiscoveryForm = () => {
           menuLink: selectedCategory === 'Eat' && Math.random() > 0.4 ? `https://menu.business${i + 1}.com` : undefined
         },
         imageLinks: [placeholderImages[i % placeholderImages.length]],
-        rating: Math.max(3.0, 3.0 + Math.random() * 2.0), // Ensure 3+ star rating
+        rating: Math.max(3.0, 3.0 + Math.random() * 2.0),
+        // Ensure 3+ star rating
         reviewCount: Math.floor(Math.random() * 800) + 50,
         source: ['Google Reviews', 'Yelp', 'TripAdvisor'][Math.floor(Math.random() * 3)]
       }));
-
       setRestaurants(mockRestaurants);
       toast({
         title: "Success!",
@@ -308,48 +288,44 @@ export const RestaurantDiscoveryForm = () => {
       description: "Data has been exported to CSV format."
     });
   };
-
   const handleLanguageClick = () => {
     setForceMenuOpen(true);
     // Reset after a short delay to allow for future clicks
     setTimeout(() => setForceMenuOpen(false), 100);
   };
   return <div className={`min-h-screen bg-background ${getThemeClass()}`}>
-      <div className="max-w-4xl mx-auto space-y-4 sm:space-y-6 lg:space-y-8 p-3 sm:p-4 lg:p-6 bg-blue-100">
+      <div className="max-w-4xl mx-auto space-y-8 p-6 bg-blue-100">
         <div className="pt-0">
-          <Navigation 
-            onMenuStateChange={setMenuOpen}
-            forceMenuOpen={forceMenuOpen}
-          />
+          <Navigation onMenuStateChange={setMenuOpen} forceMenuOpen={forceMenuOpen} />
         </div>
         
-        <div className="relative text-center space-y-3 sm:space-y-4 py-8 sm:py-12 lg:py-16 px-4 sm:px-6 lg:px-8 overflow-hidden border-8 border-white shadow-[0_8px_16px_rgba(0,0,0,0.3)]" style={{
+        <div className="relative text-center space-y-4 py-16 px-8 overflow-hidden border-8 border-white shadow-[0_8px_16px_rgba(0,0,0,0.3)]" style={{
         backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3)), url(${getHeroImage()})`,
         backgroundSize: 'cover',
         backgroundPosition: 'center'
       }}>
-          <h1 className="text-2xl sm:text-4xl lg:text-6xl font-bold text-white leading-tight">
+          <h1 className="text-4xl md:text-6xl font-bold text-white">
             smartguides.live
           </h1>
-          <p className="text-white text-sm sm:text-base lg:text-lg px-2 sm:px-4 leading-relaxed">
+          <p className="text-white text-sm px-4 md:text-base">
             {getTagline()}
           </p>
         </div>
 
         <Card className="shadow-elegant">
-          <CardHeader className="bg-blue-200 p-4 sm:p-6">
-            <CardTitle className="flex items-center gap-2 font-extrabold text-blue-600 text-2xl sm:text-3xl lg:text-5xl">
-              <MapPin className="h-6 w-6 sm:h-8 sm:w-8 lg:h-10 lg:w-10 text-primary flex-shrink-0" />
-              <span className="leading-tight">CHOOSE YOUR GUIDE</span>
+          <CardHeader className="bg-blue-200">
+            <CardTitle className="flex items-center gap-2 font-extrabold text-blue-600 text-5xl">
+              <MapPin className="h-5 w-5 text-primary" />
+              CHOOSE YOUR GUIDE
             </CardTitle>
-            <CardDescription className="font-semibold text-slate-700 text-sm sm:text-base">Follow the 5 steps to discover the top 20 Businesses in thousands of cities around the world in 60 seconds or less!</CardDescription>
+            <CardDescription className="font-semibold text-slate-700">Follow the 5 steps to discover the top 20 Businesses in thousands of cities around the world in 60 seconds or less!</CardDescription>
           </CardHeader>
-          <CardContent className="space-y-4 sm:space-y-6 bg-blue-200 p-4 sm:p-6">
-            <div className="grid gap-4 sm:gap-6 grid-cols-1 sm:grid-cols-2 lg:grid-cols-4">
+          <CardContent className="space-y-6 bg-blue-200">
+            <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-4">
               <div className="space-y-2">
-                <label className="text-xs sm:text-sm font-bold uppercase block leading-tight">STEP 1: CHOOSE CATEGORY</label>
+                <label className="text-sm font-bold uppercase whitespace-nowrap">1: CHOOSE CATEGORY</label>
                 <Select value={selectedCategory} onValueChange={handleCategoryChange}>
-                  <SelectTrigger className="font-bold h-12 touch-target">
+                  <SelectTrigger className="font-bold">
                     <SelectValue placeholder="Select category" />
                   </SelectTrigger>
                   <SelectContent>
@@ -364,9 +340,9 @@ export const RestaurantDiscoveryForm = () => {
               </div>
 
               <div className="space-y-2">
-                <label className="text-xs sm:text-sm font-bold uppercase block leading-tight">STEP 2: SELECT REGION</label>
+                <label className="text-sm font-bold uppercase">2: SELECT REGION</label>
                 <Select value={selectedRegion} onValueChange={handleRegionChange} disabled={!selectedCategory}>
-                  <SelectTrigger className="font-bold h-12 touch-target">
+                  <SelectTrigger className="font-bold">
                     <SelectValue placeholder="Select region" />
                   </SelectTrigger>
                   <SelectContent>
@@ -378,9 +354,9 @@ export const RestaurantDiscoveryForm = () => {
               </div>
 
               <div className="space-y-2">
-                <label className="text-xs sm:text-sm font-bold uppercase block leading-tight">STEP 3: SELECT COUNTRY</label>
+                <label className="text-sm font-bold uppercase">STEP 3: SELECT COUNTRY</label>
                 <Select value={selectedCountry} onValueChange={handleCountryChange} disabled={!selectedRegion}>
-                  <SelectTrigger className="font-bold h-12 touch-target">
+                  <SelectTrigger className="font-bold">
                     <SelectValue placeholder="Select country" />
                   </SelectTrigger>
                   <SelectContent>
@@ -392,9 +368,9 @@ export const RestaurantDiscoveryForm = () => {
               </div>
 
               <div className="space-y-2">
-                <label className="text-xs sm:text-sm font-bold uppercase block leading-tight">STEP 4: SELECT CITY</label>
+                <label className="text-sm font-bold uppercase">STEP 4: SELECT CITY</label>
                 <Select value={selectedCity} onValueChange={handleCityChange} disabled={!selectedCountry}>
-                  <SelectTrigger className="font-bold h-12 touch-target">
+                  <SelectTrigger className="font-bold">
                     <SelectValue placeholder="Select city" />
                   </SelectTrigger>
                   <SelectContent>
@@ -407,12 +383,7 @@ export const RestaurantDiscoveryForm = () => {
             </div>
 
             <div className="flex flex-col gap-4 pt-4 items-center">
-              <Button 
-                onClick={searchRestaurants} 
-                disabled={!selectedCategory || !selectedRegion || !selectedCountry || !selectedCity || isLoading} 
-                size="default" 
-                className="rounded-none px-6 sm:px-12 h-12 w-full sm:w-auto touch-target text-base font-bold"
-              >
+              <Button onClick={searchRestaurants} disabled={!selectedCategory || !selectedRegion || !selectedCountry || !selectedCity || isLoading} size="default" className="rounded-none px-12">
                 {isLoading ? <>
                     <Loader2 className="mr-2 h-4 w-4 animate-spin" />
                     Searching...
