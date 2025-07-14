@@ -86,7 +86,7 @@ const ROI = () => {
           <CardContent className="space-y-6">
             {/* Average Customer Value */}
             <div className="space-y-2">
-              <Label htmlFor="customer-value">Average Customer Value</Label>
+              <Label htmlFor="customer-value" className="bg-sky-100">Average Customer Value</Label>
               <Select onValueChange={value => setCustomerValue(Number(value))}>
                 <SelectTrigger>
                   <SelectValue placeholder="Select average customer value" />
