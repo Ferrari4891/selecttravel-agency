@@ -141,7 +141,7 @@ const VisaInfo = () => {
           <h3 className="text-xl font-bold text-blue-900">
             Need More Information?
           </h3>
-          <p className="text-blue-800 text-sm">
+          <p className="text-white text-sm">
             Contact the embassy or consulate of your destination country for the most up-to-date visa requirements and application procedures.
           </p>
         </div>
