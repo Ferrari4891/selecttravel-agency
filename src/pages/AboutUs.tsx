@@ -65,7 +65,7 @@ const AboutUs = () => {
 
           <Card>
             <CardHeader>
-              <CardTitle>What Makes Us Different</CardTitle>
+              <CardTitle className="text-sky-400 text-3xl">Points if Difference</CardTitle>
               <CardDescription>Our unique approach</CardDescription>
             </CardHeader>
             <CardContent>
@@ -81,7 +81,7 @@ const AboutUs = () => {
 
           <Card>
             <CardHeader>
-              <CardTitle>Our Team</CardTitle>
+              <CardTitle className="text-3xl text-sky-400">Our Team</CardTitle>
               <CardDescription>The people behind the platform</CardDescription>
             </CardHeader>
             <CardContent>
