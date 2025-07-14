@@ -81,7 +81,7 @@ const VisaInfo = () => {
       <div className="max-w-4xl mx-auto p-6 space-y-8 bg-blue-50">
         <div className="flex items-center gap-4">
           <Link to="/">
-            <Button variant="outline" size="sm" className="shadow-blue-400 bg-blue-400 rounded">
+            <Button variant="outline" size="sm" className="shadow-gray-400 bg-white rounded">
               <ArrowLeft className="h-4 w-4 mr-2" />
               Back to Home
             </Button>
