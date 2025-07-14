@@ -52,8 +52,8 @@ const AboutUs = () => {
           </Card>
 
           <Card>
-            <CardHeader>
-              <CardTitle className="text-3xl text-sky-400">Our Story</CardTitle>
+            <CardHeader className="bg-sky-300">
+              <CardTitle className="text-3xl text-slate-950">Our Story</CardTitle>
               <CardDescription className="text-lg font-semibold">How it began</CardDescription>
             </CardHeader>
             <CardContent>
