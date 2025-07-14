@@ -354,7 +354,7 @@ export const RestaurantDiscoveryForm = () => {
               </div>
 
               <div className="space-y-2">
-                <label className="text-sm font-bold uppercase">STEP 3: SELECT COUNTRY</label>
+                <label className="text-sm font-bold uppercase">3: SELECT COUNTRY</label>
                 <Select value={selectedCountry} onValueChange={handleCountryChange} disabled={!selectedRegion}>
                   <SelectTrigger className="font-bold">
                     <SelectValue placeholder="Select country" />
