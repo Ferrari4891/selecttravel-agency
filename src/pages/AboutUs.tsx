@@ -80,8 +80,8 @@ const AboutUs = () => {
           </Card>
 
           <Card>
-            <CardHeader>
-              <CardTitle className="text-3xl text-sky-400">Our Team</CardTitle>
+            <CardHeader className="bg-sky-300">
+              <CardTitle className="text-3xl text-slate-950">Our Team</CardTitle>
               <CardDescription className="text-lg font-semibold">The people behind the platform</CardDescription>
             </CardHeader>
             <CardContent>
