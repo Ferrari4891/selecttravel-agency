@@ -149,6 +149,29 @@ All colors MUST be HSL.
     top: 0 !important; /* Override Google Translate body positioning */
   }
   
+  /* Mobile touch optimization */
+  @media (max-width: 768px) {
+    button, .touch-target {
+      min-height: 44px;
+      min-width: 44px;
+    }
+    
+    /* Improved mobile text readability */
+    body {
+      font-size: 16px;
+      line-height: 1.5;
+    }
+    
+    /* Better mobile spacing */
+    .mobile-padding {
+      padding: 0.75rem;
+    }
+    
+    .mobile-margin {
+      margin: 0.5rem 0;
+    }
+  }
+
   /* Google Translate Styling */
   .goog-te-banner-frame {
     display: none !important;

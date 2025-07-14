@@ -64,72 +64,72 @@ const VisaInfo = () => {
     requirements: ["Valid passport (6+ months validity)", "Tourist visa (if required)", "Yellow fever vaccination (from certain countries)", "Proof of sufficient funds"]
   }];
   return <div className="min-h-screen bg-background">
-      <div className="max-w-4xl mx-auto p-6 bg-blue-50">
+      <div className="max-w-4xl mx-auto p-3 sm:p-4 lg:p-6 bg-blue-50">
         <Navigation />
       </div>
       
       {/* Hero Section */}
-      <div className="relative h-64 md:h-80 overflow-hidden border-8 border-white rounded-none shadow-[0_8px_12px_-4px_rgba(169,169,169,0.4),_-6px_8px_12px_-4px_rgba(169,169,169,0.3),_6px_8px_12px_-4px_rgba(169,169,169,0.3)] bg-blue-50">
+      <div className="relative h-48 sm:h-64 lg:h-80 overflow-hidden border-8 border-white rounded-none shadow-[0_8px_12px_-4px_rgba(169,169,169,0.4),_-6px_8px_12px_-4px_rgba(169,169,169,0.3),_6px_8px_12px_-4px_rgba(169,169,169,0.3)] bg-blue-50">
         <img src={heroVisaInfo} alt="Visa Information Hero" className="w-full h-full object-cover" />
         <div className="absolute inset-0 bg-black/20 flex items-center justify-center">
-          <h1 className="text-4xl md:text-6xl font-bold text-white">
+          <h1 className="text-2xl sm:text-4xl lg:text-6xl font-bold text-white text-center px-4">
             VISA INFO
           </h1>
         </div>
       </div>
 
-      <div className="max-w-4xl mx-auto p-6 space-y-8 bg-blue-50">
+      <div className="max-w-4xl mx-auto p-3 sm:p-4 lg:p-6 space-y-6 sm:space-y-8 bg-blue-50">
         <div className="flex items-center gap-4">
           <Link to="/">
-            <Button variant="outline" size="sm" className="shadow-gray-400 bg-white rounded">
+            <Button variant="outline" size="sm" className="shadow-gray-400 bg-white rounded h-12 touch-target px-4">
               <ArrowLeft className="h-4 w-4 mr-2" />
-              Back to Home
+              <span className="text-sm sm:text-base">Back to Home</span>
             </Button>
           </Link>
         </div>
 
-        <div className="text-center space-y-4">
-          <h2 className="text-3xl font-bold bg-gradient-primary bg-clip-text text-transparent">
+        <div className="text-center space-y-4 px-2">
+          <h2 className="text-xl sm:text-2xl lg:text-3xl font-bold bg-gradient-primary bg-clip-text text-transparent">
             Visa Requirements by Country
           </h2>
-          <p className="text-muted-foreground text-lg">
+          <p className="text-muted-foreground text-base sm:text-lg">
             Essential visa information for popular travel destinations
           </p>
-          <div className="bg-red-600 border border-red-600 rounded-lg p-4 mt-6">
-            <p className="text-sm text-white">
+          <div className="bg-red-600 border border-red-600 rounded-lg p-4 sm:p-6 mt-6">
+            <p className="text-sm sm:text-base text-white leading-relaxed">
               <strong>Important:</strong> Visa requirements can change frequently. Always verify current requirements with official government sources before traveling.
             </p>
           </div>
         </div>
 
-        <div className="grid gap-6">
+        <div className="grid gap-4 sm:gap-6">
           {visaRequirements.map((country, index) => <Card key={index} className="border-2">
-              <CardHeader>
-                <div className="flex items-center justify-between">
+              <CardHeader className="p-4 sm:p-6">
+                <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 sm:gap-4">
                   <div className="flex items-center gap-3">
-                    <img src={country.flag} alt={`${country.country} flag`} className="w-8 h-6 object-cover rounded border" />
-                    <CardTitle className="text-xl font-bold text-primary">
+                    <img src={country.flag} alt={`${country.country} flag`} className="w-8 h-6 object-cover rounded border flex-shrink-0" />
+                    <CardTitle className="text-lg sm:text-xl font-bold text-primary">
                       {country.country}
                     </CardTitle>
                   </div>
-                  <Button asChild size="sm" variant="outline">
-                    <a href={country.website} target="_blank" rel="noopener noreferrer" className="flex items-center gap-2">
-                      Official Site
+                  <Button asChild size="sm" variant="outline" className="h-10 touch-target w-full sm:w-auto">
+                    <a href={country.website} target="_blank" rel="noopener noreferrer" className="flex items-center justify-center gap-2">
+                      <span className="text-sm">Official Site</span>
                       <ExternalLink className="h-4 w-4" />
                     </a>
                   </Button>
                 </div>
-                <CardDescription className="text-base">
+                <CardDescription className="text-sm sm:text-base leading-relaxed">
                   {country.summary}
                 </CardDescription>
               </CardHeader>
-              <CardContent>
+              <CardContent className="p-4 sm:p-6">
                 <div>
-                  <h4 className="font-semibold mb-3 text-primary">Key Requirements:</h4>
-                  <ul className="space-y-2">
-                    {country.requirements.map((requirement, reqIndex) => <li key={reqIndex} className="flex items-start gap-2">
-                        <span className="text-primary font-bold">•</span>
-                        <span className="text-sm">{requirement}</span>
+                  <h4 className="font-semibold mb-3 text-primary text-base sm:text-lg">Key Requirements:</h4>
+                  <ul className="space-y-2 sm:space-y-3">
+                    {country.requirements.map((requirement, reqIndex) => <li key={reqIndex} className="flex items-start gap-3">
+                        <span className="text-primary font-bold text-lg flex-shrink-0">•</span>
+                        <span className="text-sm sm:text-base leading-relaxed">{requirement}</span>
                       </li>)}
                   </ul>
                 </div>
@@ -137,11 +137,11 @@ const VisaInfo = () => {
             </Card>)}
         </div>
 
-        <div className="text-center space-y-4 bg-blue-50 border border-blue-200 rounded-lg p-6">
-          <h3 className="text-xl font-bold text-blue-900">
+        <div className="text-center space-y-4 bg-blue-50 border border-blue-200 rounded-lg p-4 sm:p-6">
+          <h3 className="text-lg sm:text-xl font-bold text-blue-900">
             Need More Information?
           </h3>
-          <p className="text-white text-sm">
+          <p className="text-blue-700 text-sm sm:text-base leading-relaxed">
             Contact the embassy or consulate of your destination country for the most up-to-date visa requirements and application procedures.
           </p>
         </div>

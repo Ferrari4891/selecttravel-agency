@@ -315,7 +315,7 @@ export const RestaurantDiscoveryForm = () => {
     setTimeout(() => setForceMenuOpen(false), 100);
   };
   return <div className={`min-h-screen bg-background ${getThemeClass()}`}>
-      <div className="max-w-4xl mx-auto space-y-8 p-6 bg-blue-100">
+      <div className="max-w-4xl mx-auto space-y-4 sm:space-y-6 lg:space-y-8 p-3 sm:p-4 lg:p-6 bg-blue-100">
         <div className="pt-0">
           <Navigation 
             onMenuStateChange={setMenuOpen}
@@ -323,33 +323,33 @@ export const RestaurantDiscoveryForm = () => {
           />
         </div>
         
-        <div className="relative text-center space-y-4 py-16 px-8 overflow-hidden border-8 border-white shadow-[0_8px_16px_rgba(0,0,0,0.3)]" style={{
+        <div className="relative text-center space-y-3 sm:space-y-4 py-8 sm:py-12 lg:py-16 px-4 sm:px-6 lg:px-8 overflow-hidden border-8 border-white shadow-[0_8px_16px_rgba(0,0,0,0.3)]" style={{
         backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3)), url(${getHeroImage()})`,
         backgroundSize: 'cover',
         backgroundPosition: 'center'
       }}>
-          <h1 className="text-4xl md:text-6xl font-bold text-white">
+          <h1 className="text-2xl sm:text-4xl lg:text-6xl font-bold text-white leading-tight">
             smartguides.live
           </h1>
-          <p className="text-white text-sm px-4 md:text-base">
+          <p className="text-white text-sm sm:text-base lg:text-lg px-2 sm:px-4 leading-relaxed">
             {getTagline()}
           </p>
         </div>
 
         <Card className="shadow-elegant">
-          <CardHeader className="bg-blue-200">
-            <CardTitle className="flex items-center gap-2 font-extrabold text-blue-600 text-5xl">
-              <MapPin className="h-5 w-5 text-primary" />
-              CHOOSE YOUR GUIDE
+          <CardHeader className="bg-blue-200 p-4 sm:p-6">
+            <CardTitle className="flex items-center gap-2 font-extrabold text-blue-600 text-2xl sm:text-3xl lg:text-5xl">
+              <MapPin className="h-6 w-6 sm:h-8 sm:w-8 lg:h-10 lg:w-10 text-primary flex-shrink-0" />
+              <span className="leading-tight">CHOOSE YOUR GUIDE</span>
             </CardTitle>
-            <CardDescription className="font-semibold text-slate-700">Follow the 5 steps to discover the top 20 Businesses in thousands of cities around the world in 60 seconds or less!</CardDescription>
+            <CardDescription className="font-semibold text-slate-700 text-sm sm:text-base">Follow the 5 steps to discover the top 20 Businesses in thousands of cities around the world in 60 seconds or less!</CardDescription>
           </CardHeader>
-          <CardContent className="space-y-6 bg-blue-200">
-            <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-4">
+          <CardContent className="space-y-4 sm:space-y-6 bg-blue-200 p-4 sm:p-6">
+            <div className="grid gap-4 sm:gap-6 grid-cols-1 sm:grid-cols-2 lg:grid-cols-4">
               <div className="space-y-2">
-                <label className="text-sm font-bold uppercase whitespace-nowrap">STEP 1: CHOOSE CATEGORY</label>
+                <label className="text-xs sm:text-sm font-bold uppercase block leading-tight">STEP 1: CHOOSE CATEGORY</label>
                 <Select value={selectedCategory} onValueChange={handleCategoryChange}>
-                  <SelectTrigger className="font-bold">
+                  <SelectTrigger className="font-bold h-12 touch-target">
                     <SelectValue placeholder="Select category" />
                   </SelectTrigger>
                   <SelectContent>
@@ -364,9 +364,9 @@ export const RestaurantDiscoveryForm = () => {
               </div>
 
               <div className="space-y-2">
-                <label className="text-sm font-bold uppercase">STEP 2: SELECT REGION</label>
+                <label className="text-xs sm:text-sm font-bold uppercase block leading-tight">STEP 2: SELECT REGION</label>
                 <Select value={selectedRegion} onValueChange={handleRegionChange} disabled={!selectedCategory}>
-                  <SelectTrigger className="font-bold">
+                  <SelectTrigger className="font-bold h-12 touch-target">
                     <SelectValue placeholder="Select region" />
                   </SelectTrigger>
                   <SelectContent>
@@ -378,9 +378,9 @@ export const RestaurantDiscoveryForm = () => {
               </div>
 
               <div className="space-y-2">
-                <label className="text-sm font-bold uppercase">STEP 3: SELECT COUNTRY</label>
+                <label className="text-xs sm:text-sm font-bold uppercase block leading-tight">STEP 3: SELECT COUNTRY</label>
                 <Select value={selectedCountry} onValueChange={handleCountryChange} disabled={!selectedRegion}>
-                  <SelectTrigger className="font-bold">
+                  <SelectTrigger className="font-bold h-12 touch-target">
                     <SelectValue placeholder="Select country" />
                   </SelectTrigger>
                   <SelectContent>
@@ -392,9 +392,9 @@ export const RestaurantDiscoveryForm = () => {
               </div>
 
               <div className="space-y-2">
-                <label className="text-sm font-bold uppercase">STEP 4: SELECT CITY</label>
+                <label className="text-xs sm:text-sm font-bold uppercase block leading-tight">STEP 4: SELECT CITY</label>
                 <Select value={selectedCity} onValueChange={handleCityChange} disabled={!selectedCountry}>
-                  <SelectTrigger className="font-bold">
+                  <SelectTrigger className="font-bold h-12 touch-target">
                     <SelectValue placeholder="Select city" />
                   </SelectTrigger>
                   <SelectContent>
@@ -407,7 +407,12 @@ export const RestaurantDiscoveryForm = () => {
             </div>
 
             <div className="flex flex-col gap-4 pt-4 items-center">
-              <Button onClick={searchRestaurants} disabled={!selectedCategory || !selectedRegion || !selectedCountry || !selectedCity || isLoading} size="default" className="rounded-none px-12">
+              <Button 
+                onClick={searchRestaurants} 
+                disabled={!selectedCategory || !selectedRegion || !selectedCountry || !selectedCity || isLoading} 
+                size="default" 
+                className="rounded-none px-6 sm:px-12 h-12 w-full sm:w-auto touch-target text-base font-bold"
+              >
                 {isLoading ? <>
                     <Loader2 className="mr-2 h-4 w-4 animate-spin" />
                     Searching...
