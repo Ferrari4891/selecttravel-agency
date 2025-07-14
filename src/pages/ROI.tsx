@@ -161,7 +161,7 @@ const ROI = () => {
         <div className="flex justify-center mt-8">
           <Button asChild size="default" className="rounded-none px-12">
             <Link to="/advertise">
-              GET NOW!
+              Back to Advertise
             </Link>
           </Button>
         </div>
