@@ -42,8 +42,8 @@ const AboutUs = () => {
 
         <div className="grid gap-6 md:grid-cols-2">
           <Card>
-            <CardHeader>
-              <CardTitle className="text-3xl text-sky-400">Our Mission</CardTitle>
+            <CardHeader className="bg-sky-300">
+              <CardTitle className="text-3xl text-slate-950">Our Mission</CardTitle>
               <CardDescription className="text-lg font-semibold">What drives us every day</CardDescription>
             </CardHeader>
             <CardContent>
