@@ -74,12 +74,12 @@ const ROI = () => {
 
         {/* ROI Calculator Card */}
         <Card className="max-w-2xl mx-auto">
-          <CardHeader>
-            <CardTitle className="text-2xl text-primary flex items-center gap-2">
+          <CardHeader className="bg-sky-200">
+            <CardTitle className="text-primary flex items-center gap-2 text-3xl">
               <Calculator className="h-6 w-6" />
               ROI Calculator
             </CardTitle>
-            <CardDescription>
+            <CardDescription className="text-slate-950 font-semibold">
               Enter your business details below to calculate your potential return on investment
             </CardDescription>
           </CardHeader>
