@@ -63,7 +63,7 @@ const VisaInfo = () => {
     website: "https://www.gov.br/mre/en/consular-services/visas",
     requirements: ["Valid passport (6+ months validity)", "Tourist visa (if required)", "Yellow fever vaccination (from certain countries)", "Proof of sufficient funds"]
   }];
-  return <div className="min-h-screen bg-blue-50">
+  return <div className="min-h-screen bg-background">
       <div className="max-w-4xl mx-auto p-6 bg-blue-50">
         <Navigation />
       </div>
@@ -81,7 +81,7 @@ const VisaInfo = () => {
       <div className="max-w-4xl mx-auto p-6 space-y-8 bg-blue-50">
         <div className="flex items-center gap-4">
           <Link to="/">
-            <Button variant="outline" size="sm">
+            <Button variant="outline" size="sm" className="shadow-blue-400 bg-blue-400 rounded">
               <ArrowLeft className="h-4 w-4 mr-2" />
               Back to Home
             </Button>
@@ -95,8 +95,8 @@ const VisaInfo = () => {
           <p className="text-muted-foreground text-lg">
             Essential visa information for popular travel destinations
           </p>
-          <div className="bg-red-500 border border-red-600 rounded-lg p-4 mt-6">
-            <p className="text-sm text-white">
+          <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-4 mt-6">
+            <p className="text-sm text-yellow-800">
               <strong>Important:</strong> Visa requirements can change frequently. Always verify current requirements with official government sources before traveling.
             </p>
           </div>
