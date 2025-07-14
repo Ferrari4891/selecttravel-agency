@@ -41,7 +41,7 @@ const ROI = () => {
   const customersPerWeekOptions = Array.from({
     length: 50
   }, (_, i) => i + 1);
-  return <div className="min-h-screen bg-background">
+  return <div className="min-h-screen bg-blue-50">
       <div className="container mx-auto px-4 py-8">
         <Navigation />
       </div>
@@ -57,7 +57,7 @@ const ROI = () => {
         </div>
       </div>
 
-      <div className="container mx-auto px-4 py-8 bg-sky-50">
+      <div className="container mx-auto px-4 py-8">
         {/* Back to Home Button */}
         <div className="mb-4">
           <Link to="/">
