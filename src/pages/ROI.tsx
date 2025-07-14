@@ -156,6 +156,15 @@ const ROI = () => {
               </div>}
           </CardContent>
         </Card>
+
+        {/* Back to Advertise Button - centered under ROI results */}
+        <div className="flex justify-center mt-8">
+          <Button asChild size="default" className="rounded-none px-12">
+            <Link to="/advertise">
+              GET NOW!
+            </Link>
+          </Button>
+        </div>
       </div>
       
       <Footer />
