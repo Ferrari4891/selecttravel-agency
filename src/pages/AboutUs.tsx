@@ -65,7 +65,7 @@ const AboutUs = () => {
 
           <Card>
             <CardHeader className="bg-sky-300">
-              <CardTitle className="text-sky-400 text-3xl">Points if Difference</CardTitle>
+              <CardTitle className="text-3xl text-slate-950">Points if Difference</CardTitle>
               <CardDescription className="text-lg font-semibold">Our unique approach</CardDescription>
             </CardHeader>
             <CardContent>
