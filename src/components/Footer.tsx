@@ -17,12 +17,20 @@ const Footer = ({ themeClass, onLanguageClick }: FooterProps) => {
             >
               About Us
             </Link>
-            <Link 
-              to="/advertise" 
-              className="hover:opacity-80 transition-opacity"
-            >
-              Advertise
-            </Link>
+            <div className="flex flex-col gap-2 text-center">
+              <Link 
+                to="/advertise" 
+                className="hover:opacity-80 transition-opacity"
+              >
+                Advertise
+              </Link>
+              <Link 
+                to="/roi" 
+                className="hover:opacity-80 transition-opacity text-sm text-primary-foreground/80"
+              >
+                ROI Calculator
+              </Link>
+            </div>
             <Link 
               to="/how-to" 
               className="hover:opacity-80 transition-opacity"

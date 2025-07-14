@@ -67,6 +67,12 @@ export const Navigation = ({ onMenuStateChange, forceMenuOpen }: NavigationProps
                     Advertise
                   </Link>
                 </Button>
+                <Button variant="ghost" className="w-full justify-start pl-8" asChild>
+                  <Link to="/roi" onClick={() => setMenuOpen(false)}>
+                    <Info className="h-4 w-4 mr-2" />
+                    ROI Calculator
+                  </Link>
+                </Button>
                 <Button variant="ghost" className="w-full justify-start" asChild>
                   <Link to="/toolbox" onClick={() => setMenuOpen(false)}>
                     <Info className="h-4 w-4 mr-2" />

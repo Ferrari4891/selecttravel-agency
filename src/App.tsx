@@ -8,6 +8,7 @@ import Index from "./pages/Index";
 import AboutUs from "./pages/AboutUs";
 import HowTo from "./pages/HowTo";
 import Advertise from "./pages/Advertise";
+import ROI from "./pages/ROI";
 import Toolbox from "./pages/Toolbox";
 import VisaInfo from "./pages/VisaInfo";
 import NotFound from "./pages/NotFound";
@@ -26,6 +27,7 @@ const App = () => (
             <Route path="/about-us" element={<AboutUs />} />
             <Route path="/how-to" element={<HowTo />} />
             <Route path="/advertise" element={<Advertise />} />
+            <Route path="/roi" element={<ROI />} />
             <Route path="/toolbox" element={<Toolbox />} />
             <Route path="/visa-info" element={<VisaInfo />} />
             {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
