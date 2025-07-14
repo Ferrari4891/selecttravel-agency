@@ -35,7 +35,7 @@ const AboutUs = () => {
           <h2 className="font-bold bg-gradient-primary bg-clip-text text-sky-500 text-6xl">
             About smartguides.live
           </h2>
-          <p className="text-lg font-medium text-blue-400">
+          <p className="text-lg font-medium text-slate-950">
             Get what you want or need when you travel!!
           </p>
         </div>
