@@ -387,7 +387,7 @@ export const RestaurantDiscoveryForm = () => {
                 {isLoading ? <>
                     <Loader2 className="mr-2 h-4 w-4 animate-spin" />
                     Searching...
-                  </> : 'GET NOW!'}
+                  </> : '5 GET NOW!'}
               </Button>
 
               {restaurants.length > 0 && <Button onClick={exportToCSV} variant="secondary" className="flex items-center gap-2">
