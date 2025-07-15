@@ -51,7 +51,7 @@ export const RestaurantResults: React.FC<RestaurantResultsProps> = ({
         <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
           {restaurants.map((restaurant, index) => (
             <Card key={index} className="group hover:shadow-lg transition-all duration-300 rounded-none">
-              <div className="aspect-video relative overflow-hidden rounded-t-lg">
+              <div className="aspect-video relative overflow-hidden rounded-t-none">
                 <img
                   src={restaurant.imageLinks[0]}
                   alt={restaurant.name}
