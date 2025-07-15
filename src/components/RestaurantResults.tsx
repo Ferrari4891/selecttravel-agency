@@ -91,7 +91,7 @@ export const RestaurantResults: React.FC<RestaurantResultsProps> = ({
                       <Button
                         variant="outline"
                         size="sm"
-                        className="flex items-center gap-1 text-xs"
+                        className="flex items-center gap-1 text-xs rounded-none"
                         onClick={() => window.open(`tel:${restaurant.contactDetails.phone}`)}
                       >
                         <Phone className="h-3 w-3" />
@@ -103,7 +103,7 @@ export const RestaurantResults: React.FC<RestaurantResultsProps> = ({
                       <Button
                         variant="outline"
                         size="sm"
-                        className="flex items-center gap-1 text-xs"
+                        className="flex items-center gap-1 text-xs rounded-none"
                         onClick={() => window.open(restaurant.contactDetails.website, '_blank')}
                       >
                         <Globe className="h-3 w-3" />
@@ -115,7 +115,7 @@ export const RestaurantResults: React.FC<RestaurantResultsProps> = ({
                       <Button
                         variant="outline"
                         size="sm"
-                        className="flex items-center gap-1 text-xs"
+                        className="flex items-center gap-1 text-xs rounded-none"
                         onClick={() => window.open(restaurant.contactDetails.menuLink, '_blank')}
                       >
                         <Menu className="h-3 w-3" />
@@ -126,7 +126,7 @@ export const RestaurantResults: React.FC<RestaurantResultsProps> = ({
                     <Button
                       variant="outline"
                       size="sm"
-                      className="flex items-center gap-1 text-xs col-span-2"
+                      className="flex items-center gap-1 text-xs col-span-2 rounded-none"
                       onClick={() => window.open(restaurant.googleMapRef, '_blank')}
                     >
                       <MapPin className="h-3 w-3" />
@@ -142,7 +142,7 @@ export const RestaurantResults: React.FC<RestaurantResultsProps> = ({
                         <Button
                           variant="ghost"
                           size="sm"
-                          className="p-2"
+                          className="p-2 rounded-none"
                           onClick={() => window.open(restaurant.socialMediaLinks.facebook, '_blank')}
                         >
                           <ExternalLink className="h-3 w-3" />
@@ -152,7 +152,7 @@ export const RestaurantResults: React.FC<RestaurantResultsProps> = ({
                         <Button
                           variant="ghost"
                           size="sm"
-                          className="p-2"
+                          className="p-2 rounded-none"
                           onClick={() => window.open(restaurant.socialMediaLinks.instagram, '_blank')}
                         >
                           <ExternalLink className="h-3 w-3" />
@@ -162,7 +162,7 @@ export const RestaurantResults: React.FC<RestaurantResultsProps> = ({
                         <Button
                           variant="ghost"
                           size="sm"
-                          className="p-2"
+                          className="p-2 rounded-none"
                           onClick={() => window.open(`mailto:${restaurant.contactDetails.email}`)}
                         >
                           <Mail className="h-3 w-3" />
