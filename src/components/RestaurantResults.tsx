@@ -37,7 +37,7 @@ export const RestaurantResults: React.FC<RestaurantResultsProps> = ({
   selectedCountry,
 }) => {
   return (
-    <Card className="shadow-elegant">
+    <Card className="shadow-elegant rounded-none">
       <CardHeader>
         <CardTitle className="flex items-center gap-2">
           <Star className="h-5 w-5 text-primary" />
@@ -50,7 +50,7 @@ export const RestaurantResults: React.FC<RestaurantResultsProps> = ({
       <CardContent>
         <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
           {restaurants.map((restaurant, index) => (
-            <Card key={index} className="group hover:shadow-lg transition-all duration-300">
+            <Card key={index} className="group hover:shadow-lg transition-all duration-300 rounded-none">
               <div className="aspect-video relative overflow-hidden rounded-t-lg">
                 <img
                   src={restaurant.imageLinks[0]}
