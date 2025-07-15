@@ -67,7 +67,7 @@ export const RestaurantResults: React.FC<RestaurantResultsProps> = ({
               <CardContent className="p-4">
                 <div className="space-y-3">
                   <div>
-                    <h3 className="font-semibold text-lg line-clamp-1">{restaurant.name}</h3>
+                    <h3 className="font-semibold text-lg line-clamp-1 uppercase">{restaurant.name}</h3>
                     <div className="flex items-center gap-2 mt-1">
                       <div className="flex items-center gap-1">
                         <Star className="h-4 w-4 fill-yellow-400 text-yellow-400" />
