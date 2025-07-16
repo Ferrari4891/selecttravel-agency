@@ -1,11 +1,11 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { MapPin } from "lucide-react";
 const HowToTips = () => {
-  return <Card>
+  return <Card className="text-sky-400 font-extrabold">
       <CardHeader>
-        <CardTitle className="flex items-center gap-2 text-sky-300">
+        <CardTitle className="flex items-center gap-2">
           <MapPin className="h-5 w-5" />
-          QUICK TIPS & TRICKS
+          Tips for the Best Experience
         </CardTitle>
       </CardHeader>
       <CardContent>
@@ -20,7 +20,7 @@ const HowToTips = () => {
             </ul>
           </div>
           <div>
-            <h4 className="font-semibold mb-2 text-primary">QUICK TIPS</h4>
+            <h4 className="font-semibold mb-2 text-primary">During Your Visit</h4>
             <ul className="space-y-1 text-muted-foreground text-sm">
               <li>• Use the Google Maps reference for easy navigation</li>
               <li>• Follow the restaurant's social media for specials</li>
