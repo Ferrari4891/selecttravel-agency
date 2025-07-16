@@ -6,7 +6,7 @@ const HowToCTA = () => {
     <div className="text-center">
       <Link to="/">
         <Button size="lg" className="bg-gradient-primary">
-          Start Discovering Restaurants
+          START HERE
         </Button>
       </Link>
     </div>
