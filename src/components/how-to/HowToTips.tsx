@@ -3,9 +3,9 @@ import { MapPin } from "lucide-react";
 const HowToTips = () => {
   return <Card>
       <CardHeader>
-        <CardTitle className="flex items-center gap-2">
+        <CardTitle className="flex items-center gap-2 text-sky-300">
           <MapPin className="h-5 w-5" />
-          Tips for the Best Experience
+          QUICK TIPS & TRICKS
         </CardTitle>
       </CardHeader>
       <CardContent>
