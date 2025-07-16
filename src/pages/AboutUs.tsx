@@ -67,7 +67,7 @@ const AboutUs = () => {
               <CardDescription className="text-lg font-semibold text-slate-50">With NO typing to get what you want.</CardDescription>
             </CardHeader>
             <CardContent>
-              <ul className="space-y-2 text-muted-foreground">
+              <ol className="space-y-2 text-muted-foreground">
                 <li>• Comprehensive data from multiple trusted review platforms</li>
                 <li>• Curated lists of the top 40 restaurants in each area</li>
                 <li>• Complete contact information and social media links</li>
