@@ -12,7 +12,7 @@ const HowToTips = () => {
         <div className="grid gap-4 md:grid-cols-2">
           <div>
             <h4 className="font-semibold mb-2 text-primary">BEFORE YOU VISIT THE BUSINESS</h4>
-            <ul className="space-y-1 text-muted-foreground text-sm">
+            <ul className="space-y-1 text-muted-foreground/60 text-sm">
               <li>• Check restaurant hours and availability</li>
               <li>• Make reservations for popular spots</li>
               <li>• Read recent reviews for current information</li>
@@ -20,8 +20,8 @@ const HowToTips = () => {
             </ul>
           </div>
           <div>
-            <h4 className="font-semibold mb-2 text-primary">During Your Visit</h4>
-            <ul className="space-y-1 text-muted-foreground text-sm">
+            <h4 className="font-semibold mb-2 text-primary/60">During Your Visit</h4>
+            <ul className="space-y-1 text-muted-foreground/60 text-sm">
               <li>• Use the Google Maps reference for easy navigation</li>
               <li>• Follow the restaurant's social media for specials</li>
               <li>• Ask about local recommendations from staff</li>
