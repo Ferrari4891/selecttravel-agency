@@ -20,7 +20,7 @@ const HowToTips = () => {
             </ul>
           </div>
           <div>
-            <h4 className="font-semibold mb-2 text-primary">During Your Visit</h4>
+            <h4 className="font-semibold mb-2 text-primary">QUICK TIPS</h4>
             <ul className="space-y-1 text-muted-foreground text-sm">
               <li>• Use the Google Maps reference for easy navigation</li>
               <li>• Follow the restaurant's social media for specials</li>
