@@ -98,10 +98,7 @@ const AboutUs = () => {
             <CardDescription className="text-center">We'd love to hear from you</CardDescription>
           </CardHeader>
           <CardContent className="text-center space-y-4">
-            <p className="text-muted-foreground">
-              Have questions, suggestions, or want to share your dining experiences? 
-              We're always eager to connect with fellow food enthusiasts.
-            </p>
+            <p className="text-muted-foreground">Have questions, suggestions, or want to share your dining experiences? We're always eager to connect with t.</p>
             <div className="flex justify-center gap-4">
               <Button variant="outline">Contact Us</Button>
               <Button variant="outline">Follow Us</Button>
