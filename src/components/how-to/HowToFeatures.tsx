@@ -1,11 +1,9 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Star, Download } from "lucide-react";
-
 const HowToFeatures = () => {
-  return (
-    <div className="grid gap-6 md:grid-cols-2">
+  return <div className="grid gap-6 md:grid-cols-2">
       <Card>
-        <CardHeader>
+        <CardHeader className="bg-sky-100">
           <CardTitle className="flex items-center gap-2">
             <Star className="h-5 w-5" />
             Understanding Our Results
@@ -70,8 +68,6 @@ const HowToFeatures = () => {
           </div>
         </CardContent>
       </Card>
-    </div>
-  );
+    </div>;
 };
-
 export default HowToFeatures;
