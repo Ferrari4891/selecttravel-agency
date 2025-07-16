@@ -64,7 +64,7 @@ const AboutUs = () => {
           <Card className="rounded-none">
             <CardHeader className="bg-sky-300">
               <CardTitle className="text-3xl text-slate-950 font-bold">Our 60 Second Rule!</CardTitle>
-              <CardDescription className="text-lg font-semibold text-slate-50">with NO typing to get what you want.</CardDescription>
+              <CardDescription className="text-lg font-semibold text-slate-50">With NO typing to get what you want.</CardDescription>
             </CardHeader>
             <CardContent>
               <ul className="space-y-2 text-muted-foreground">
