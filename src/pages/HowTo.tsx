@@ -8,6 +8,7 @@ import HowToSteps from "@/components/how-to/HowToSteps";
 import HowToFeatures from "@/components/how-to/HowToFeatures";
 import HowToVideo from "@/components/how-to/HowToVideo";
 import HowToTips from "@/components/how-to/HowToTips";
+import HowToTipsAndTricks from "@/components/how-to/HowToTipsAndTricks";
 import HowToCTA from "@/components/how-to/HowToCTA";
 const HowTo = () => {
   return <div className="min-h-screen bg-blue-50">
@@ -37,6 +38,7 @@ const HowTo = () => {
         <HowToSteps />
         <HowToFeatures />
         <HowToVideo />
+        <HowToTipsAndTricks />
         <HowToTips />
         <HowToCTA />
       </div>
