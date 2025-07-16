@@ -9,10 +9,8 @@ import HowToFeatures from "@/components/how-to/HowToFeatures";
 import HowToVideo from "@/components/how-to/HowToVideo";
 import HowToTips from "@/components/how-to/HowToTips";
 import HowToCTA from "@/components/how-to/HowToCTA";
-
 const HowTo = () => {
-  return (
-    <div className="min-h-screen bg-blue-50">
+  return <div className="min-h-screen bg-blue-50">
       <div className="max-w-4xl mx-auto p-6">
         <Navigation />
       </div>
@@ -33,9 +31,7 @@ const HowTo = () => {
           <h2 className="text-3xl font-bold bg-gradient-primary bg-clip-text text-transparent">
             How to Use smartguides.live
           </h2>
-          <p className="text-muted-foreground text-lg">
-            Your step-by-step guide to discovering amazing restaurants
-          </p>
+          <p className="text-muted-foreground text-lg">Your step-by-step guide to discovering top rated businesses in many categories in thousands of cities worldwide in 60 seconds or less with NO typing!!</p>
         </div>
 
         <HowToSteps />
@@ -46,8 +42,6 @@ const HowTo = () => {
       </div>
       
       <Footer />
-    </div>
-  );
+    </div>;
 };
-
 export default HowTo;
