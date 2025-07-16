@@ -16,7 +16,7 @@ const HowToTips = () => {
               <li>• Check restaurant hours and availability</li>
               <li>• Make reservations for popular spots</li>
               <li>• Read recent reviews for current information</li>
-              <li>• Consider dietary restrictions and preferences</li>
+              <li className="font-light">• Consider dietary restrictions and preferences</li>
             </ul>
           </div>
           <div>
