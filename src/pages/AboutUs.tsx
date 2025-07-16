@@ -43,7 +43,7 @@ const AboutUs = () => {
         <div className="grid gap-6 md:grid-cols-2">
           <Card className="rounded-none">
             <CardHeader className="bg-sky-300">
-              <CardTitle className="text-3xl text-slate-950">Our Mission</CardTitle>
+              <CardTitle className="text-3xl text-slate-950 font-bold">Our Mission</CardTitle>
               <CardDescription className="text-lg font-semibold">What drives us every day</CardDescription>
             </CardHeader>
             <CardContent>
@@ -65,7 +65,7 @@ const AboutUs = () => {
 
           <Card className="rounded-none">
             <CardHeader className="bg-sky-300">
-              <CardTitle className="text-3xl text-slate-950">Points if Difference</CardTitle>
+              <CardTitle className="text-3xl text-slate-950 font-bold">The 60 Second Rule!</CardTitle>
               <CardDescription className="text-lg font-semibold">Our unique approach</CardDescription>
             </CardHeader>
             <CardContent>
