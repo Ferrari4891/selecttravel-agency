@@ -28,7 +28,7 @@ const HowTo = () => {
         </div>
 
         <div className="text-center space-y-4">
-          <h2 className="text-3xl font-bold bg-gradient-primary bg-clip-text text-transparent">
+          <h2 className="font-bold bg-gradient-primary bg-clip-text text-transparent text-4xl">
             How to Use smartguides.live
           </h2>
           <p className="text-muted-foreground text-lg">Your step-by-step guide to discovering top rated businesses in many categories in thousands of cities worldwide in 60 seconds or less with NO typing!!</p>
