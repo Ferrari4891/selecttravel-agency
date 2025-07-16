@@ -18,9 +18,9 @@ const HowToSteps = () => {
               1
             </div>
             <div>
-              <h3 className="font-semibold mb-2">Select Your Region</h3>
+              <h3 className="font-semibold mb-2">Select Category</h3>
               <p className="text-muted-foreground">
-                Start by choosing from one of our 5 available regions: North America, Europe, Asia, South America, or Africa & Middle East.
+                Choose what you're looking for from our available categories: Eat, Drink, Stay, or Play. Each category is tailored to help you discover the best local experiences.
               </p>
             </div>
           </div>
@@ -30,9 +30,9 @@ const HowToSteps = () => {
               2
             </div>
             <div>
-              <h3 className="font-semibold mb-2">Choose Your Country</h3>
+              <h3 className="font-semibold mb-2">Select Your Region</h3>
               <p className="text-muted-foreground">
-                Once you've selected a region, pick from up to 10 countries available in that region. Each country has been carefully selected for its diverse culinary scene.
+                Choose from one of our 5 available regions: North America, Europe, Asia, South America, or Africa & Middle East.
               </p>
             </div>
           </div>
@@ -42,9 +42,9 @@ const HowToSteps = () => {
               3
             </div>
             <div>
-              <h3 className="font-semibold mb-2">Pick Your City or County</h3>
+              <h3 className="font-semibold mb-2">Choose Your Country</h3>
               <p className="text-muted-foreground">
-                Select the specific city or county where you want to find restaurants. Our database covers major metropolitan areas and popular tourist destinations.
+                Pick from up to 10 countries available in that region. Each country has been carefully selected for its diverse local scene.
               </p>
             </div>
           </div>
@@ -54,9 +54,21 @@ const HowToSteps = () => {
               4
             </div>
             <div>
-              <h3 className="font-semibold mb-2">Search for Restaurants</h3>
+              <h3 className="font-semibold mb-2">Pick Your City or County</h3>
               <p className="text-muted-foreground">
-                Click the "Find Restaurants" button to generate a curated list of the top 40 restaurants in your selected location.
+                Select the specific city or county where you want to find businesses. Our database covers major metropolitan areas and popular destinations.
+              </p>
+            </div>
+          </div>
+
+          <div className="flex gap-4">
+            <div className="flex-shrink-0 w-8 h-8 bg-primary text-primary-foreground rounded-full flex items-center justify-center font-semibold">
+              5
+            </div>
+            <div>
+              <h3 className="font-semibold mb-2">Find Results</h3>
+              <p className="text-muted-foreground">
+                Click the search button to generate a curated list of the top 40 businesses in your selected category and location.
               </p>
             </div>
           </div>
