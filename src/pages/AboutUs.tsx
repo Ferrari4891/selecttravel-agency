@@ -98,8 +98,8 @@ const AboutUs = () => {
           <CardContent className="text-center space-y-4">
             <p className="text-muted-foreground">Have questions, suggestions, or want to share your dining experiences? We're always eager to connect with t.</p>
             <div className="flex justify-center gap-4">
-              <Button variant="outline">Contact Us</Button>
-              <Button variant="outline">Follow Us</Button>
+              <Button variant="outline" className="rounded-none">Contact Us</Button>
+              <Button variant="outline" className="rounded-none">Follow Us</Button>
             </div>
           </CardContent>
         </Card>
