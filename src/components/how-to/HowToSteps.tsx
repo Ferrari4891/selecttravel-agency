@@ -1,9 +1,7 @@
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Search } from "lucide-react";
-
 const HowToSteps = () => {
-  return (
-    <Card>
+  return <Card>
       <CardHeader>
         <CardTitle className="flex items-center gap-2">
           <Search className="h-5 w-5" />
@@ -67,15 +65,11 @@ const HowToSteps = () => {
             </div>
             <div>
               <h3 className="font-semibold mb-2">Find Results</h3>
-              <p className="text-muted-foreground">
-                Click the search button to generate a curated list of the top 40 businesses in your selected category and location.
-              </p>
+              <p className="text-muted-foreground">Click the search button to generate a curated list of the top 20 businesses in your selected category and location.</p>
             </div>
           </div>
         </div>
       </CardContent>
-    </Card>
-  );
+    </Card>;
 };
-
 export default HowToSteps;
