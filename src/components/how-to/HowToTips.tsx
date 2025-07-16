@@ -1,9 +1,7 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { MapPin } from "lucide-react";
-
 const HowToTips = () => {
-  return (
-    <Card>
+  return <Card>
       <CardHeader>
         <CardTitle className="flex items-center gap-2">
           <MapPin className="h-5 w-5" />
@@ -13,7 +11,7 @@ const HowToTips = () => {
       <CardContent>
         <div className="grid gap-4 md:grid-cols-2">
           <div>
-            <h4 className="font-semibold mb-2 text-primary">Before You Go</h4>
+            <h4 className="font-semibold mb-2 text-primary">BEFORE YOU VISIT THE BUSINESS</h4>
             <ul className="space-y-1 text-muted-foreground text-sm">
               <li>• Check restaurant hours and availability</li>
               <li>• Make reservations for popular spots</li>
@@ -32,8 +30,6 @@ const HowToTips = () => {
           </div>
         </div>
       </CardContent>
-    </Card>
-  );
+    </Card>;
 };
-
 export default HowToTips;
