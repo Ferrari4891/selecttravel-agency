@@ -13,7 +13,7 @@ const HowToVideo = () => {
             <div className="relative aspect-video">
               <iframe 
                 className="w-full h-full rounded-lg"
-                src="https://www.youtube.com/embed/UVZmeJrFXS8?si=rVm2BTm6K34Ykrcd" 
+                src="https://www.youtube.com/embed/muUQB4LRCxw" 
                 title="YouTube video player" 
                 frameBorder="0" 
                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
