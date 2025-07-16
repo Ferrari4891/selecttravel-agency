@@ -5,7 +5,7 @@ const HowToTips = () => {
       <CardHeader>
         <CardTitle className="flex items-center gap-2">
           <MapPin className="h-5 w-5" />
-          Tips for the Best Experience
+          TIPS & TRICKS
         </CardTitle>
       </CardHeader>
       <CardContent>
