@@ -57,9 +57,7 @@ const AboutUs = () => {
               <CardDescription className="text-lg font-semibold text-slate-50">How it began</CardDescription>
             </CardHeader>
             <CardContent>
-              <p className="text-muted-foreground">
-                Founded by seniors for seniors, smartguides.live was born from the frustration of spending hours researching restaurants when traveling. We wanted to create a simple, reliable way to find the top dining spots in any location, backed by real reviews and comprehensive data.
-              </p>
+              <p className="text-muted-foreground">Founded by seniors for seniors, smartguides.live was born from the frustration of spending hours researching credible businesses when traveling. We wanted to create a simple, reliable way to find the best rated businesses in any location, backed by real reviews from real people and comprehensive data.</p>
             </CardContent>
           </Card>
 
