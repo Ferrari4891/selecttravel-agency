@@ -73,7 +73,7 @@ const AboutUs = () => {
                 <li>• Complete contact information and social media links</li>
                 <li>• Easy-to-use interface with intuitive navigation</li>
                 <li>• Regular updates to ensure accuracy and relevance</li>
-              </ul>
+              </ol>
             </CardContent>
           </Card>
 
