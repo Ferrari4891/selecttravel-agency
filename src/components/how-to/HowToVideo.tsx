@@ -12,7 +12,7 @@ const HowToVideo = () => {
           <div className="w-full max-w-2xl">
             <div className="relative aspect-video">
               <iframe 
-                className="w-full h-full rounded-lg"
+                className="w-full h-full rounded-none"
                 src="https://www.youtube.com/embed/muUQB4LRCxw" 
                 title="YouTube video player" 
                 frameBorder="0" 
