@@ -42,7 +42,7 @@ export const LoginForm = ({ onLogin }: LoginFormProps) => {
   return (
     <div className="min-h-screen bg-blue-50 flex flex-col items-center justify-center p-4">
       <div className="mb-8 text-center">
-        <h1 className="text-6xl font-bold text-primary mb-4">SGL</h1>
+        <h1 className="text-6xl font-bold text-primary mb-4">SMART GUIDES LIVE</h1>
         <p className="text-lg text-muted-foreground">Welcome to our platform</p>
       </div>
       
