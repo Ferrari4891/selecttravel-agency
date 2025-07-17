@@ -26,16 +26,26 @@ export const LoginForm = ({ onLogin }: LoginFormProps) => {
       
       console.log('=== LOGIN DEBUG ===');
       console.log('Domain:', window.location.hostname);
-      console.log('Original input:', { username, password });
-      console.log('Cleaned input:', { username: cleanUsername, password: cleanPassword });
-      console.log('Expected credentials:', { username: 'tester', passwords: ['test4891', 'TESTER4891'] });
+      console.log('Username entered:', `"${username}"`);
+      console.log('Password entered:', `"${password}"`);
+      console.log('Username cleaned:', `"${cleanUsername}"`);
+      console.log('Password cleaned:', `"${cleanPassword}"`);
       
-      const isValidUsername = cleanUsername === 'tester';
-      const isValidPassword = cleanPassword === 'test4891' || cleanPassword === 'TESTER4891';
+      // Accept multiple valid combinations
+      const validCredentials = [
+        { username: 'tester', password: 'test4891' },
+        { username: 'tester', password: 'TESTER4891' },
+        { username: 'tester', password: 'Test4891' },
+        { username: 'tester', password: 'tester4891' }
+      ];
       
-      console.log('Validation results:', { isValidUsername, isValidPassword });
+      const isValid = validCredentials.some(cred => 
+        cleanUsername === cred.username && cleanPassword === cred.password
+      );
       
-      if (isValidUsername && isValidPassword) {
+      console.log('Is valid login:', isValid);
+      
+      if (isValid) {
         console.log('LOGIN SUCCESS - Setting localStorage');
         localStorage.setItem('isAuthenticated', 'true');
         console.log('localStorage set, calling onLogin');
