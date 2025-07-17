@@ -21,8 +21,15 @@ export const LoginForm = ({ onLogin }: LoginFormProps) => {
 
     // Simulate loading
     setTimeout(() => {
-      console.log('Login attempt:', { username: username.trim().toLowerCase(), password: password.trim() });
-      if (username.trim().toLowerCase() === 'tester' && (password.trim() === 'test4891' || password.trim() === 'TESTER4891')) {
+      const cleanUsername = username.trim().toLowerCase();
+      const cleanPassword = password.trim().toLowerCase();
+      console.log('Login attempt:', { 
+        original: { username, password }, 
+        cleaned: { username: cleanUsername, password: cleanPassword },
+        expected: { username: 'tester', passwords: ['test4891', 'tester4891'] }
+      });
+      
+      if (cleanUsername === 'tester' && (cleanPassword === 'test4891' || cleanPassword === 'tester4891')) {
         localStorage.setItem('isAuthenticated', 'true');
         onLogin();
         toast({
