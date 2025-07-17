@@ -11,7 +11,7 @@ const HowToSteps = () => {
       </CardHeader>
       <CardContent>
         <div className="space-y-6">
-          <div className="flex gap-4">
+          <div className="flex gap-4 bg-blue-50">
             <div className="flex-shrink-0 w-8 h-8 bg-primary text-primary-foreground rounded-full flex items-center justify-center font-semibold">
               1
             </div>
@@ -39,7 +39,7 @@ const HowToSteps = () => {
             <div className="flex-shrink-0 w-8 h-8 bg-primary text-primary-foreground rounded-full flex items-center justify-center font-semibold">
               3
             </div>
-            <div>
+            <div className="bg-blue-50">
               <h3 className="font-semibold mb-2">Choose Your Country</h3>
               <p className="text-muted-foreground">
                 Pick from up to 10 countries available in that region. Each country has been carefully selected for its diverse local scene.
@@ -59,7 +59,7 @@ const HowToSteps = () => {
             </div>
           </div>
 
-          <div className="flex gap-4">
+          <div className="flex gap-4 bg-blue-50">
             <div className="flex-shrink-0 w-8 h-8 bg-primary text-primary-foreground rounded-full flex items-center justify-center font-semibold">
               5
             </div>
