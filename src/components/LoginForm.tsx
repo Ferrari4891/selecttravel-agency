@@ -16,6 +16,8 @@ export const LoginForm = ({ onLogin }: LoginFormProps) => {
   const { toast } = useToast();
 
   const handleSubmit = (e: React.FormEvent) => {
+    console.log('Form submitted!');
+    alert('Form submission started');
     e.preventDefault();
     setIsLoading(true);
     
