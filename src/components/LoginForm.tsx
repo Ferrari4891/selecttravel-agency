@@ -21,31 +21,23 @@ export const LoginForm = ({ onLogin }: LoginFormProps) => {
 
     // Simulate loading
     setTimeout(() => {
-      const cleanUsername = username.trim().toLowerCase();
-      const cleanPassword = password.trim();
+      console.log('Login attempt started');
       
-      console.log('=== LOGIN DEBUG ===');
-      console.log('Domain:', window.location.hostname);
-      console.log('Username entered:', `"${username}"`);
-      console.log('Password entered:', `"${password}"`);
-      console.log('Username cleaned:', `"${cleanUsername}"`);
-      console.log('Password cleaned:', `"${cleanPassword}"`);
-      
-      // Accept multiple valid combinations
-      const validCredentials = [
-        { username: 'tester', password: 'test4891' },
-        { username: 'tester', password: 'TESTER4891' },
-        { username: 'tester', password: 'Test4891' },
-        { username: 'tester', password: 'tester4891' }
-      ];
-      
-      const isValid = validCredentials.some(cred => 
-        cleanUsername === cred.username && cleanPassword === cred.password
+      // Very simple authentication - exact match
+      const isValidLogin = (
+        (username === 'Tester' && password === 'test4891') ||
+        (username === 'Tester' && password === 'TESTER4891') ||
+        (username === 'TESTER' && password === 'test4891') ||
+        (username === 'TESTER' && password === 'TESTER4891') ||
+        (username === 'tester' && password === 'test4891') ||
+        (username === 'tester' && password === 'TESTER4891')
       );
       
-      console.log('Is valid login:', isValid);
+      console.log('Username:', username);
+      console.log('Password:', password);
+      console.log('Valid login:', isValidLogin);
       
-      if (isValid) {
+      if (isValidLogin) {
         console.log('LOGIN SUCCESS - Setting localStorage');
         localStorage.setItem('isAuthenticated', 'true');
         console.log('localStorage set, calling onLogin');
