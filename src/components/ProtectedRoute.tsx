@@ -10,6 +10,10 @@ export const ProtectedRoute = ({ children }: ProtectedRouteProps) => {
 
   useEffect(() => {
     const authStatus = localStorage.getItem('isAuthenticated');
+    console.log('=== PROTECTED ROUTE DEBUG ===');
+    console.log('Domain:', window.location.hostname);
+    console.log('localStorage value:', authStatus);
+    console.log('Setting isAuthenticated to:', authStatus === 'true');
     setIsAuthenticated(authStatus === 'true');
   }, []);
 

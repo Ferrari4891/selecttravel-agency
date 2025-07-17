@@ -22,21 +22,30 @@ export const LoginForm = ({ onLogin }: LoginFormProps) => {
     // Simulate loading
     setTimeout(() => {
       const cleanUsername = username.trim().toLowerCase();
-      const cleanPassword = password.trim().toLowerCase();
-      console.log('Login attempt:', { 
-        original: { username, password }, 
-        cleaned: { username: cleanUsername, password: cleanPassword },
-        expected: { username: 'tester', passwords: ['test4891', 'tester4891'] }
-      });
+      const cleanPassword = password.trim();
       
-      if (cleanUsername === 'tester' && (cleanPassword === 'test4891' || cleanPassword === 'tester4891')) {
+      console.log('=== LOGIN DEBUG ===');
+      console.log('Domain:', window.location.hostname);
+      console.log('Original input:', { username, password });
+      console.log('Cleaned input:', { username: cleanUsername, password: cleanPassword });
+      console.log('Expected credentials:', { username: 'tester', passwords: ['test4891', 'TESTER4891'] });
+      
+      const isValidUsername = cleanUsername === 'tester';
+      const isValidPassword = cleanPassword === 'test4891' || cleanPassword === 'TESTER4891';
+      
+      console.log('Validation results:', { isValidUsername, isValidPassword });
+      
+      if (isValidUsername && isValidPassword) {
+        console.log('LOGIN SUCCESS - Setting localStorage');
         localStorage.setItem('isAuthenticated', 'true');
+        console.log('localStorage set, calling onLogin');
         onLogin();
         toast({
           title: "Login successful",
           description: "Welcome to SGL!",
         });
       } else {
+        console.log('LOGIN FAILED');
         toast({
           title: "Login failed",
           description: "Invalid username or password",
