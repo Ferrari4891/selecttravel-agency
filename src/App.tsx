@@ -6,6 +6,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { TranslationProvider } from "@/components/TranslationProvider";
 import { ProtectedRoute } from "@/components/ProtectedRoute";
 import Index from "./pages/Index";
+import GuideSelection from "./pages/GuideSelection";
 import AboutUs from "./pages/AboutUs";
 import HowTo from "./pages/HowTo";
 import Advertise from "./pages/Advertise";
@@ -25,7 +26,8 @@ const App = () => (
         <ProtectedRoute>
           <BrowserRouter>
             <Routes>
-              <Route path="/" element={<Index />} />
+              <Route path="/" element={<GuideSelection />} />
+              <Route path="/explore" element={<Index />} />
               <Route path="/about-us" element={<AboutUs />} />
               <Route path="/how-to" element={<HowTo />} />
               <Route path="/advertise" element={<Advertise />} />
