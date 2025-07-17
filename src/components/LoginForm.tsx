@@ -16,50 +16,34 @@ export const LoginForm = ({ onLogin }: LoginFormProps) => {
   const { toast } = useToast();
 
   const handleSubmit = (e: React.FormEvent) => {
-    console.log('Form submitted!');
-    alert('Form submission started');
     e.preventDefault();
     setIsLoading(true);
     
-    alert(`Attempting login with: ${username} / ${password}`);
-
-    // Simulate loading
-    setTimeout(() => {
-      console.log('Login attempt started');
-      
-      // Very simple authentication - exact match
-      const isValidLogin = (
-        (username === 'Tester' && password === 'test4891') ||
-        (username === 'Tester' && password === 'TESTER4891') ||
-        (username === 'TESTER' && password === 'test4891') ||
-        (username === 'TESTER' && password === 'TESTER4891') ||
-        (username === 'tester' && password === 'test4891') ||
-        (username === 'tester' && password === 'TESTER4891')
-      );
-      
-      console.log('Username:', username);
-      console.log('Password:', password);
-      console.log('Valid login:', isValidLogin);
-      
-      if (isValidLogin) {
-        console.log('LOGIN SUCCESS - Setting localStorage');
-        localStorage.setItem('isAuthenticated', 'true');
-        console.log('localStorage set, calling onLogin');
-        onLogin();
-        toast({
-          title: "Login successful",
-          description: "Welcome to SGL!",
-        });
-      } else {
-        console.log('LOGIN FAILED');
-        toast({
-          title: "Login failed",
-          description: "Invalid username or password",
-          variant: "destructive",
-        });
-      }
-      setIsLoading(false);
-    }, 1000);
+    // Immediate authentication without setTimeout
+    const isValidLogin = (
+      (username === 'Tester' && password === 'test4891') ||
+      (username === 'Tester' && password === 'TESTER4891') ||
+      (username === 'TESTER' && password === 'test4891') ||
+      (username === 'TESTER' && password === 'TESTER4891') ||
+      (username === 'tester' && password === 'test4891') ||
+      (username === 'tester' && password === 'TESTER4891')
+    );
+    
+    if (isValidLogin) {
+      localStorage.setItem('isAuthenticated', 'true');
+      onLogin();
+      toast({
+        title: "Login successful",
+        description: "Welcome to SGL!",
+      });
+    } else {
+      toast({
+        title: "Login failed",
+        description: "Invalid username or password",
+        variant: "destructive",
+      });
+    }
+    setIsLoading(false);
   };
 
   return (
