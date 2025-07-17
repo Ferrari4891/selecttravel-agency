@@ -21,7 +21,7 @@ export const LoginForm = ({ onLogin }: LoginFormProps) => {
 
     // Simulate loading
     setTimeout(() => {
-      if (username === 'Tester' && password === 'test4891') {
+      if (username === 'Tester' && (password === 'test4891' || password === 'TESTER4891')) {
         localStorage.setItem('isAuthenticated', 'true');
         onLogin();
         toast({
