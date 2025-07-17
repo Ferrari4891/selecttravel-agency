@@ -21,6 +21,7 @@ export const LoginForm = ({ onLogin }: LoginFormProps) => {
 
     // Simulate loading
     setTimeout(() => {
+      console.log('Login attempt:', { username: username.trim().toLowerCase(), password: password.trim() });
       if (username.trim().toLowerCase() === 'tester' && (password.trim() === 'test4891' || password.trim() === 'TESTER4891')) {
         localStorage.setItem('isAuthenticated', 'true');
         onLogin();
