@@ -18,6 +18,8 @@ export const LoginForm = ({ onLogin }: LoginFormProps) => {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     setIsLoading(true);
+    
+    alert(`Attempting login with: ${username} / ${password}`);
 
     // Simulate loading
     setTimeout(() => {
