@@ -41,7 +41,7 @@ const AboutUs = () => {
         <div className="grid gap-6 md:grid-cols-2">
           <Card className="rounded-none">
             <CardHeader className="bg-sky-300">
-              <CardTitle className="text-3xl text-slate-950 font-bold">Our Mission</CardTitle>
+              <CardTitle className="text-3xl text-slate-950 font-bold border-b-2 border-black pb-2">Our Mission</CardTitle>
               <CardDescription className="text-lg font-semibold text-slate-50">What drives us every day</CardDescription>
             </CardHeader>
             <CardContent>
@@ -51,7 +51,7 @@ const AboutUs = () => {
 
           <Card className="rounded-none">
             <CardHeader className="bg-sky-300">
-              <CardTitle className="text-3xl text-slate-950">Our Story</CardTitle>
+              <CardTitle className="text-3xl text-slate-950 border-b-2 border-black pb-2">Our Story</CardTitle>
               <CardDescription className="text-lg font-semibold text-slate-50">How it began</CardDescription>
             </CardHeader>
             <CardContent>
@@ -61,7 +61,7 @@ const AboutUs = () => {
 
           <Card className="rounded-none">
             <CardHeader className="bg-sky-300">
-              <CardTitle className="text-3xl text-slate-950 font-bold">Our 60 Second Rule!</CardTitle>
+              <CardTitle className="text-3xl text-slate-950 font-bold border-b-2 border-black pb-2">Our 60 Second Rule!</CardTitle>
               <CardDescription className="text-lg font-semibold text-slate-50">With NO typing to get what you want.</CardDescription>
             </CardHeader>
             <CardContent>
@@ -77,7 +77,7 @@ const AboutUs = () => {
 
           <Card className="rounded-none">
             <CardHeader className="bg-sky-300">
-              <CardTitle className="text-3xl text-slate-950">Our Team</CardTitle>
+              <CardTitle className="text-3xl text-slate-950 border-b-2 border-black pb-2">Our Team</CardTitle>
               <CardDescription className="text-lg font-semibold text-slate-50">The people behind the platform</CardDescription>
             </CardHeader>
             <CardContent>
@@ -90,7 +90,7 @@ const AboutUs = () => {
 
         <Card className="rounded-none">
           <CardHeader>
-            <CardTitle className="text-center">Get in Touch</CardTitle>
+            <CardTitle className="text-center border-b-2 border-black pb-2">Get in Touch</CardTitle>
             <CardDescription className="text-center">We'd love to hear from you</CardDescription>
           </CardHeader>
           <CardContent className="text-center space-y-4">
