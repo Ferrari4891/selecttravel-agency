@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
-import { Menu, Home, Info, HelpCircle } from 'lucide-react';
+import { Menu, Home, Info, HelpCircle, Users } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { LanguageSelector } from '@/components/LanguageSelector';
 
@@ -86,9 +86,15 @@ export const Navigation = ({ onMenuStateChange, forceMenuOpen }: NavigationProps
                 <Button variant="ghost" className="w-full justify-start h-12 text-left touch-target" asChild>
                   <Link to="/visa-info" onClick={() => setMenuOpen(false)}>
                     <Info className="h-5 w-5 mr-3" />
-                    <span className="text-base">Visa Info</span>
-                  </Link>
-                </Button>
+                   <span className="text-base">Visa Info</span>
+                 </Link>
+               </Button>
+               <Button variant="ghost" className="w-full justify-start h-12 text-left touch-target" asChild>
+                 <Link to="/members" onClick={() => setMenuOpen(false)}>
+                   <Users className="h-5 w-5 mr-3" />
+                   <span className="text-base">Members</span>
+                 </Link>
+               </Button>
                 
                 {/* Language Selector */}
                 <LanguageSelector inMenu={true} onClose={() => setMenuOpen(false)} />
