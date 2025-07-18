@@ -2,7 +2,7 @@ import React from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
-import { MapPin, Star, ExternalLink, Phone, Mail, Globe, Menu } from 'lucide-react';
+import { MapPin, Star, ExternalLink, Phone, Mail, Globe, Menu, Bookmark } from 'lucide-react';
 
 interface Restaurant {
   name: string;
@@ -126,11 +126,25 @@ export const RestaurantResults: React.FC<RestaurantResultsProps> = ({
                     <Button
                       variant="outline"
                       size="sm"
-                      className="flex items-center gap-1 text-xs col-span-2 rounded-none"
+                      className="flex items-center gap-1 text-xs rounded-none"
                       onClick={() => window.open(restaurant.googleMapRef, '_blank')}
                     >
                       <MapPin className="h-3 w-3" />
                       View on Maps
+                    </Button>
+
+                    <Button
+                      variant="default"
+                      size="sm"
+                      className="flex items-center gap-1 text-xs col-span-2 rounded-none bg-primary hover:bg-primary/90"
+                      onClick={() => {
+                        // Add save functionality here
+                        console.log('Saved restaurant:', restaurant.name);
+                        // You can implement actual save logic here
+                      }}
+                    >
+                      <Bookmark className="h-3 w-3" />
+                      SAVE
                     </Button>
                   </div>
 
