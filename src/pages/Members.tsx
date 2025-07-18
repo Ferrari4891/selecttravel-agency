@@ -113,7 +113,7 @@ const Members = () => {
                   </div>
                 </div>
                 
-                <div className="flex justify-center mt-8">
+                <div className="flex justify-center mt-8 bg-slate-50">
                   <button className="bg-primary hover:bg-primary/90 h-10 px-8 py-2 inline-flex items-center justify-center gap-2 whitespace-nowrap text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 text-blue-400">
                     SAVE PREFERENCES
                   </button>
