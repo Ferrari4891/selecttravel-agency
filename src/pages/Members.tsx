@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Navigation } from "@/components/Navigation";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Checkbox } from "@/components/ui/checkbox";
+import { Button } from "@/components/ui/button";
 import Footer from "@/components/Footer";
 import heroImage from "@/assets/hero-members.jpg";
 const Members = () => {
@@ -113,10 +114,10 @@ const Members = () => {
                   </div>
                 </div>
                 
-                <div className="flex justify-center mt-8 bg-white">
-                  <button className="bg-blue-400 hover:bg-blue-400/90 h-10 px-8 py-2 inline-flex items-center justify-center gap-2 whitespace-nowrap text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 text-white">
+                <div className="flex justify-center mt-8">
+                  <Button className="bg-blue-400 hover:bg-blue-400/90 text-white font-medium">
                     SAVE PREFERENCES
-                  </button>
+                  </Button>
                 </div>
               </div>
             </CardContent>
