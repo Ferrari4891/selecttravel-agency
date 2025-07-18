@@ -43,7 +43,7 @@ const Members = () => {
       <div className="container mx-auto px-4 pb-12">
         <div className="max-w-4xl mx-auto">
           <Card className="mb-8">
-            <CardHeader>
+            <CardHeader className="bg-sky-100">
               <CardTitle className="text-center text-2xl border-b-2 border-black pb-2 font-bold">
                 Discover the Best Places - Completely Free!
               </CardTitle>
