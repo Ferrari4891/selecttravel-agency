@@ -4,7 +4,6 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Checkbox } from "@/components/ui/checkbox";
 import Footer from "@/components/Footer";
 import heroImage from "@/assets/hero-members.jpg";
-
 const Members = () => {
   const [preferences, setPreferences] = useState({
     wheelchairAccess: false,
@@ -14,32 +13,26 @@ const Members = () => {
     publicTransport: false,
     preference1: false,
     preference2: false,
-    preference3: false,
+    preference3: false
   });
-
   const handlePreferenceChange = (key: string, checked: boolean) => {
     setPreferences(prev => ({
       ...prev,
       [key]: checked
     }));
   };
-
-  return (
-    <div className="min-h-screen bg-blue-50">
+  return <div className="min-h-screen bg-blue-50">
       <Navigation />
       
       {/* Hero Section */}
       <div className="relative w-full h-96 mb-8">
-        <div 
-          className="w-full h-full bg-cover bg-center relative"
-          style={{
-            backgroundImage: `url(${heroImage})`,
-            border: '8px solid white',
-            boxShadow: '0 8px 12px -4px rgba(169, 169, 169, 0.4)'
-          }}
-        >
+        <div className="w-full h-full bg-cover bg-center relative" style={{
+        backgroundImage: `url(${heroImage})`,
+        border: '8px solid white',
+        boxShadow: '0 8px 12px -4px rgba(169, 169, 169, 0.4)'
+      }}>
           <div className="absolute inset-0 bg-black bg-opacity-40 flex items-center justify-center">
-            <h1 className="text-white text-4xl md:text-6xl font-bold text-center">
+            <h1 className="text-white text-4xl font-bold text-center md:text-9xl">
               Members
             </h1>
           </div>
@@ -51,7 +44,7 @@ const Members = () => {
         <div className="max-w-4xl mx-auto">
           <Card className="mb-8">
             <CardHeader>
-              <CardTitle className="text-center text-2xl border-b-2 border-black pb-2">
+              <CardTitle className="text-center text-2xl border-b-2 border-black pb-2 font-bold">
                 Discover the Best Places - Completely Free!
               </CardTitle>
             </CardHeader>
@@ -66,113 +59,57 @@ const Members = () => {
                 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   <div className="flex items-center space-x-3">
-                    <Checkbox
-                      id="wheelchairAccess"
-                      checked={preferences.wheelchairAccess}
-                      onCheckedChange={(checked) => handlePreferenceChange('wheelchairAccess', checked as boolean)}
-                    />
-                    <label
-                      htmlFor="wheelchairAccess"
-                      className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
-                    >
+                    <Checkbox id="wheelchairAccess" checked={preferences.wheelchairAccess} onCheckedChange={checked => handlePreferenceChange('wheelchairAccess', checked as boolean)} />
+                    <label htmlFor="wheelchairAccess" className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
                       Wheelchair Access
                     </label>
                   </div>
 
                   <div className="flex items-center space-x-3">
-                    <Checkbox
-                      id="openHours"
-                      checked={preferences.openHours}
-                      onCheckedChange={(checked) => handlePreferenceChange('openHours', checked as boolean)}
-                    />
-                    <label
-                      htmlFor="openHours"
-                      className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
-                    >
+                    <Checkbox id="openHours" checked={preferences.openHours} onCheckedChange={checked => handlePreferenceChange('openHours', checked as boolean)} />
+                    <label htmlFor="openHours" className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
                       Extended Open Hours
                     </label>
                   </div>
 
                   <div className="flex items-center space-x-3">
-                    <Checkbox
-                      id="glutenFree"
-                      checked={preferences.glutenFree}
-                      onCheckedChange={(checked) => handlePreferenceChange('glutenFree', checked as boolean)}
-                    />
-                    <label
-                      htmlFor="glutenFree"
-                      className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
-                    >
+                    <Checkbox id="glutenFree" checked={preferences.glutenFree} onCheckedChange={checked => handlePreferenceChange('glutenFree', checked as boolean)} />
+                    <label htmlFor="glutenFree" className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
                       Gluten Free Options
                     </label>
                   </div>
 
                   <div className="flex items-center space-x-3">
-                    <Checkbox
-                      id="lowNoise"
-                      checked={preferences.lowNoise}
-                      onCheckedChange={(checked) => handlePreferenceChange('lowNoise', checked as boolean)}
-                    />
-                    <label
-                      htmlFor="lowNoise"
-                      className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
-                    >
+                    <Checkbox id="lowNoise" checked={preferences.lowNoise} onCheckedChange={checked => handlePreferenceChange('lowNoise', checked as boolean)} />
+                    <label htmlFor="lowNoise" className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
                       Low Noise Environment
                     </label>
                   </div>
 
                   <div className="flex items-center space-x-3">
-                    <Checkbox
-                      id="publicTransport"
-                      checked={preferences.publicTransport}
-                      onCheckedChange={(checked) => handlePreferenceChange('publicTransport', checked as boolean)}
-                    />
-                    <label
-                      htmlFor="publicTransport"
-                      className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
-                    >
+                    <Checkbox id="publicTransport" checked={preferences.publicTransport} onCheckedChange={checked => handlePreferenceChange('publicTransport', checked as boolean)} />
+                    <label htmlFor="publicTransport" className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
                       Public Transport Access
                     </label>
                   </div>
 
                   <div className="flex items-center space-x-3">
-                    <Checkbox
-                      id="preference1"
-                      checked={preferences.preference1}
-                      onCheckedChange={(checked) => handlePreferenceChange('preference1', checked as boolean)}
-                    />
-                    <label
-                      htmlFor="preference1"
-                      className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
-                    >
+                    <Checkbox id="preference1" checked={preferences.preference1} onCheckedChange={checked => handlePreferenceChange('preference1', checked as boolean)} />
+                    <label htmlFor="preference1" className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
                       Pet Friendly Venues
                     </label>
                   </div>
 
                   <div className="flex items-center space-x-3">
-                    <Checkbox
-                      id="preference2"
-                      checked={preferences.preference2}
-                      onCheckedChange={(checked) => handlePreferenceChange('preference2', checked as boolean)}
-                    />
-                    <label
-                      htmlFor="preference2"
-                      className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
-                    >
+                    <Checkbox id="preference2" checked={preferences.preference2} onCheckedChange={checked => handlePreferenceChange('preference2', checked as boolean)} />
+                    <label htmlFor="preference2" className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
                       Outdoor Seating Available
                     </label>
                   </div>
 
                   <div className="flex items-center space-x-3">
-                    <Checkbox
-                      id="preference3"
-                      checked={preferences.preference3}
-                      onCheckedChange={(checked) => handlePreferenceChange('preference3', checked as boolean)}
-                    />
-                    <label
-                      htmlFor="preference3"
-                      className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
-                    >
+                    <Checkbox id="preference3" checked={preferences.preference3} onCheckedChange={checked => handlePreferenceChange('preference3', checked as boolean)} />
+                    <label htmlFor="preference3" className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
                       Senior Discounts Available
                     </label>
                   </div>
@@ -184,8 +121,6 @@ const Members = () => {
       </div>
 
       <Footer />
-    </div>
-  );
+    </div>;
 };
-
 export default Members;
