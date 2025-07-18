@@ -1,8 +1,8 @@
 import { useState } from "react";
 import { Navigation } from "@/components/Navigation";
-import Footer from "@/components/Footer";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Checkbox } from "@/components/ui/checkbox";
+import Footer from "@/components/Footer";
 import heroImage from "@/assets/hero-members.jpg";
 
 const Members = () => {
