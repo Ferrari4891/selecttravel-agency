@@ -34,6 +34,9 @@ const Footer = ({
             <Link to="/members" className="hover:opacity-80 transition-opacity">
               Members
             </Link>
+            <Link to="/join-free" className="hover:opacity-80 transition-opacity">
+              Join Free
+            </Link>
             <a href="mailto:contact@smartguides.live" className="hover:opacity-80 transition-opacity">
               Contact Us
             </a>

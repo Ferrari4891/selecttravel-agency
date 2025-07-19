@@ -89,13 +89,19 @@ export const Navigation = ({ onMenuStateChange, forceMenuOpen }: NavigationProps
                    <span className="text-base">Visa Info</span>
                  </Link>
                </Button>
-               <Button variant="ghost" className="w-full justify-start h-12 text-left touch-target" asChild>
-                 <Link to="/members" onClick={() => setMenuOpen(false)}>
-                   <Users className="h-5 w-5 mr-3" />
-                   <span className="text-base">Members</span>
-                 </Link>
-               </Button>
-                
+                <Button variant="ghost" className="w-full justify-start h-12 text-left touch-target" asChild>
+                  <Link to="/members" onClick={() => setMenuOpen(false)}>
+                    <Users className="h-5 w-5 mr-3" />
+                    <span className="text-base">Members</span>
+                  </Link>
+                </Button>
+                <Button variant="ghost" className="w-full justify-start h-12 text-left touch-target" asChild>
+                  <Link to="/join-free" onClick={() => setMenuOpen(false)}>
+                    <Users className="h-5 w-5 mr-3" />
+                    <span className="text-base">Join Free</span>
+                  </Link>
+                </Button>
+                 
                 {/* Language Selector */}
                 <LanguageSelector inMenu={true} onClose={() => setMenuOpen(false)} />
               </div>

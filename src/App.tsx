@@ -14,6 +14,7 @@ import ROI from "./pages/ROI";
 import Toolbox from "./pages/Toolbox";
 import VisaInfo from "./pages/VisaInfo";
 import Members from "./pages/Members";
+import JoinFree from "./pages/JoinFree";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -35,6 +36,7 @@ const App = () => (
               <Route path="/toolbox" element={<Toolbox />} />
               <Route path="/visa-info" element={<VisaInfo />} />
               <Route path="/members" element={<Members />} />
+              <Route path="/join-free" element={<JoinFree />} />
               {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
               <Route path="*" element={<NotFound />} />
             </Routes>
