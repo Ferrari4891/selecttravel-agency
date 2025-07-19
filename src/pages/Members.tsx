@@ -46,7 +46,7 @@ const Members = () => {
         <div className="max-w-4xl mx-auto">
           <Card className="mb-8">
             <CardHeader className="bg-blue-200">
-              <CardTitle className="text-center border-b-2 border-black pb-2 text-3xl text-blue-400 font-extrabold"> CHOOSE YOUR PREFERENCES AND SAVE </CardTitle>
+              <CardTitle className="text-center border-b-2 border-black pb-2 text-3xl text-blue-400 font-extrabold">SELECT & SAVE YOUR PREFERENCES</CardTitle>
             </CardHeader>
             <CardContent className="pt-6">
               <p className="text-lg text-center mb-8 text-gray-700">
