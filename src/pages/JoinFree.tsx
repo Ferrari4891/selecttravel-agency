@@ -38,7 +38,7 @@ const JoinFree = () => {
       <main className="flex-1 flex items-center justify-center px-4 py-12">
         <div className="w-full max-w-md">
           <div className="bg-white p-8 shadow-lg">
-            <h1 className="text-3xl font-bold text-center mb-8 text-gray-900">Join Free</h1>
+            <h1 className="text-base font-bold text-center mb-8 text-gray-900">Join FREE and as a member you can set your preferences and save them. Get special offers direct to you whenever you travel.</h1>
             
             <form onSubmit={handleSubmit} className="space-y-6">
               <div>
