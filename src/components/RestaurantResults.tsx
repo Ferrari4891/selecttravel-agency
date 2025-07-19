@@ -57,15 +57,7 @@ export const RestaurantResults: React.FC<RestaurantResultsProps> = ({
                   alt={restaurant.name}
                   className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
                 />
-                 <div className="absolute top-3 right-3 flex gap-2">
-                   {selectedCountry === 'United States' && (
-                     <div className="bg-black rounded-sm px-2 py-1 flex items-center gap-1">
-                       <svg className="h-4 w-4 text-white" viewBox="0 0 24 24" fill="currentColor">
-                         <path d="M17.625 6.625h-6.25v1.5h6.25v-1.5zm0 2.5h-6.25v1.5h6.25v-1.5zm0 2.5h-6.25v1.5h6.25v-1.5zm0 2.5h-6.25v1.5h6.25v-1.5zm0 2.5h-6.25v1.5h6.25v-1.5zM6.375 6.625h1.5v1.5h-1.5v-1.5zm0 2.5h1.5v1.5h-1.5v-1.5zm0 2.5h1.5v1.5h-1.5v-1.5zm0 2.5h1.5v1.5h-1.5v-1.5zm0 2.5h1.5v1.5h-1.5v-1.5z"/>
-                       </svg>
-                       <span className="text-white text-xs font-semibold">UBER</span>
-                     </div>
-                   )}
+                 <div className="absolute top-3 right-3">
                    <Badge variant="secondary" className="bg-background/80 backdrop-blur-sm">
                      {restaurant.source}
                    </Badge>
@@ -76,15 +68,23 @@ export const RestaurantResults: React.FC<RestaurantResultsProps> = ({
                 <div className="space-y-3">
                   <div>
                     <h3 className="font-semibold text-lg line-clamp-1 uppercase">{restaurant.name}</h3>
-                    <div className="flex items-center gap-2 mt-1">
-                      <div className="flex items-center gap-1">
-                        <Star className="h-4 w-4 fill-yellow-400 text-yellow-400" />
-                        <span className="text-sm font-medium">{restaurant.rating.toFixed(1)}</span>
-                      </div>
-                      <span className="text-xs text-muted-foreground">
-                        ({restaurant.reviewCount} reviews)
-                      </span>
-                    </div>
+                     <div className="flex items-center gap-2 mt-1">
+                       <div className="flex items-center gap-1">
+                         <Star className="h-4 w-4 fill-yellow-400 text-yellow-400" />
+                         <span className="text-sm font-medium">{restaurant.rating.toFixed(1)}</span>
+                       </div>
+                       <span className="text-xs text-muted-foreground">
+                         ({restaurant.reviewCount} reviews)
+                       </span>
+                       {selectedCountry === 'United States' && (
+                         <div className="bg-black rounded-sm px-2 py-1 flex items-center gap-1 ml-auto">
+                           <svg className="h-3 w-3 text-white" viewBox="0 0 24 24" fill="currentColor">
+                             <path d="M17.625 6.625h-6.25v1.5h6.25v-1.5zm0 2.5h-6.25v1.5h6.25v-1.5zm0 2.5h-6.25v1.5h6.25v-1.5zm0 2.5h-6.25v1.5h6.25v-1.5zm0 2.5h-6.25v1.5h6.25v-1.5zM6.375 6.625h1.5v1.5h-1.5v-1.5zm0 2.5h1.5v1.5h-1.5v-1.5zm0 2.5h1.5v1.5h-1.5v-1.5zm0 2.5h1.5v1.5h-1.5v-1.5zm0 2.5h1.5v1.5h-1.5v-1.5z"/>
+                           </svg>
+                           <span className="text-white text-xs font-semibold">UBER</span>
+                         </div>
+                       )}
+                     </div>
                   </div>
 
                   <div className="flex items-start gap-2">
