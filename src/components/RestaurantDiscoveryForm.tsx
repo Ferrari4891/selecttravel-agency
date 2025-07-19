@@ -168,7 +168,7 @@ export const RestaurantDiscoveryForm = () => {
           return heroBackground;
       }
     }
-    return heroBackground;
+    return '/lovable-uploads/77ea3d0b-72bf-4312-91e7-76d3574d3e68.png';
   };
   const handleRegionChange = (value: string) => {
     setSelectedRegion(value);
