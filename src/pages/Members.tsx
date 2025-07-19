@@ -13,7 +13,9 @@ const Members = () => {
     publicTransport: false,
     preference1: false,
     preference2: false,
-    preference3: false
+    preference3: false,
+    onlineBooking: false,
+    airConditioned: false
   });
   const handlePreferenceChange = (key: string, checked: boolean) => {
     setPreferences(prev => ({
@@ -109,6 +111,20 @@ const Members = () => {
                     <Checkbox id="preference3" checked={preferences.preference3} onCheckedChange={checked => handlePreferenceChange('preference3', checked as boolean)} />
                     <label htmlFor="preference3" className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
                       Senior Discounts Available
+                    </label>
+                  </div>
+
+                  <div className="flex items-center space-x-3">
+                    <Checkbox id="onlineBooking" checked={preferences.onlineBooking} onCheckedChange={checked => handlePreferenceChange('onlineBooking', checked as boolean)} />
+                    <label htmlFor="onlineBooking" className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
+                      Online Booking Available
+                    </label>
+                  </div>
+
+                  <div className="flex items-center space-x-3">
+                    <Checkbox id="airConditioned" checked={preferences.airConditioned} onCheckedChange={checked => handlePreferenceChange('airConditioned', checked as boolean)} />
+                    <label htmlFor="airConditioned" className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
+                      Air Conditioned
                     </label>
                   </div>
                 </div>
