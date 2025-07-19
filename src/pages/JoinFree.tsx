@@ -3,6 +3,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { AspectRatio } from "@/components/ui/aspect-ratio";
 import Footer from "@/components/Footer";
 import { Navigation } from "@/components/Navigation";
 import { LanguageSelector } from "@/components/LanguageSelector";
@@ -33,7 +34,18 @@ const JoinFree = () => {
         <div className="w-full max-w-md">
           <div className="bg-white p-8 shadow-lg">
             <h5 className="font-bold text-center mb-4 text-blue-400 text-3xl">FREE MEMBERSHIP</h5>
-            <h1 className="text-base font-bold text-center mb-8 text-gray-900">Join FREE and as a member you can set your preferences and save them. You can save your favourite places, Get special offers direct to you whenever you travel.</h1>
+            
+            <div className="mb-6">
+              <AspectRatio ratio={16 / 9}>
+                <img 
+                  src="/lovable-uploads/55f9f492-d0b5-4c28-8bb5-3f736f565164.png" 
+                  alt="Smart Guides Live - Experience the World, Your Way" 
+                  className="w-full h-full object-cover border-8 border-white shadow-lg"
+                />
+              </AspectRatio>
+            </div>
+            
+            <h1 className="text-base font-light text-center mb-8 text-gray-900">Join FREE and as a member you can set your preferences and save them. You can save your favourite places, Get special offers direct to you whenever you travel.</h1>
             
             <form onSubmit={handleSubmit} className="space-y-6">
               <div>
