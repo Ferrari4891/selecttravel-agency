@@ -27,7 +27,7 @@ const JoinFree = () => {
     }));
   };
   return <div className="min-h-screen bg-blue-50 flex flex-col">
-      <Navigation />
+      <Navigation className="font-light" />
       
       <main className="flex-1 flex items-center justify-center px-4 py-12">
         <div className="w-full max-w-md">
