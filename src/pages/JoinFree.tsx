@@ -6,7 +6,6 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import Footer from "@/components/Footer";
 import { Navigation } from "@/components/Navigation";
 import { LanguageSelector } from "@/components/LanguageSelector";
-
 const JoinFree = () => {
   const [formData, setFormData] = useState({
     firstName: "",
@@ -15,30 +14,25 @@ const JoinFree = () => {
     age: "",
     country: ""
   });
-
   const [showLanguageSelector, setShowLanguageSelector] = useState(false);
-
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     console.log("Form submitted:", formData);
     // Handle form submission here
   };
-
   const handleInputChange = (field: string, value: string) => {
     setFormData(prev => ({
       ...prev,
       [field]: value
     }));
   };
-
-  return (
-    <div className="min-h-screen bg-blue-50 flex flex-col">
+  return <div className="min-h-screen bg-blue-50 flex flex-col">
       <Navigation />
       
       <main className="flex-1 flex items-center justify-center px-4 py-12">
         <div className="w-full max-w-md">
           <div className="bg-white p-8 shadow-lg">
-            <h5 className="text-lg font-bold text-center mb-4 text-blue-400">FREE MEMBERSHIP</h5>
+            <h5 className="font-bold text-center mb-4 text-blue-400 text-3xl">FREE MEMBERSHIP</h5>
             <h1 className="text-base font-bold text-center mb-8 text-gray-900">Join FREE and as a member you can set your preferences and save them. Get special offers direct to you whenever you travel.</h1>
             
             <form onSubmit={handleSubmit} className="space-y-6">
@@ -46,35 +40,21 @@ const JoinFree = () => {
                 <Label htmlFor="firstName" className="text-sm font-medium text-gray-700">
                   First Name
                 </Label>
-                <Input
-                  id="firstName"
-                  type="text"
-                  value={formData.firstName}
-                  onChange={(e) => handleInputChange("firstName", e.target.value)}
-                  className="mt-1"
-                  required
-                />
+                <Input id="firstName" type="text" value={formData.firstName} onChange={e => handleInputChange("firstName", e.target.value)} className="mt-1" required />
               </div>
 
               <div>
                 <Label htmlFor="email" className="text-sm font-medium text-gray-700">
                   Email Address
                 </Label>
-                <Input
-                  id="email"
-                  type="email"
-                  value={formData.email}
-                  onChange={(e) => handleInputChange("email", e.target.value)}
-                  className="mt-1"
-                  required
-                />
+                <Input id="email" type="email" value={formData.email} onChange={e => handleInputChange("email", e.target.value)} className="mt-1" required />
               </div>
 
               <div>
                 <Label htmlFor="gender" className="text-sm font-medium text-gray-700">
                   Gender
                 </Label>
-                <Select value={formData.gender} onValueChange={(value) => handleInputChange("gender", value)}>
+                <Select value={formData.gender} onValueChange={value => handleInputChange("gender", value)}>
                   <SelectTrigger className="mt-1">
                     <SelectValue placeholder="Select gender" />
                   </SelectTrigger>
@@ -91,23 +71,14 @@ const JoinFree = () => {
                 <Label htmlFor="age" className="text-sm font-medium text-gray-700">
                   Age
                 </Label>
-                <Input
-                  id="age"
-                  type="number"
-                  min="13"
-                  max="120"
-                  value={formData.age}
-                  onChange={(e) => handleInputChange("age", e.target.value)}
-                  className="mt-1"
-                  required
-                />
+                <Input id="age" type="number" min="13" max="120" value={formData.age} onChange={e => handleInputChange("age", e.target.value)} className="mt-1" required />
               </div>
 
               <div>
                 <Label htmlFor="country" className="text-sm font-medium text-gray-700">
                   Country
                 </Label>
-                <Select value={formData.country} onValueChange={(value) => handleInputChange("country", value)}>
+                <Select value={formData.country} onValueChange={value => handleInputChange("country", value)}>
                   <SelectTrigger className="mt-1">
                     <SelectValue placeholder="Select country" />
                   </SelectTrigger>
@@ -133,10 +104,7 @@ const JoinFree = () => {
               </div>
 
               <div className="pt-4">
-                <button
-                  type="submit"
-                  className="w-full bg-blue-400 hover:bg-blue-500 text-white font-medium py-3 px-6 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
-                >
+                <button type="submit" className="w-full bg-blue-400 hover:bg-blue-500 text-white font-medium py-3 px-6 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2">
                   JOIN FREE!
                 </button>
               </div>
@@ -145,15 +113,9 @@ const JoinFree = () => {
         </div>
       </main>
 
-      <Footer 
-        onLanguageClick={() => setShowLanguageSelector(true)}
-      />
+      <Footer onLanguageClick={() => setShowLanguageSelector(true)} />
       
-      {showLanguageSelector && (
-        <LanguageSelector onClose={() => setShowLanguageSelector(false)} />
-      )}
-    </div>
-  );
+      {showLanguageSelector && <LanguageSelector onClose={() => setShowLanguageSelector(false)} />}
+    </div>;
 };
-
 export default JoinFree;
