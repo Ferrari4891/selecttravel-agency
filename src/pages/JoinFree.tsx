@@ -27,13 +27,13 @@ const JoinFree = () => {
     }));
   };
   return <div className="min-h-screen bg-blue-50 flex flex-col">
-      <Navigation className="font-light" />
+      <Navigation />
       
       <main className="flex-1 flex items-center justify-center px-4 py-12">
         <div className="w-full max-w-md">
           <div className="bg-white p-8 shadow-lg">
             <h5 className="font-bold text-center mb-4 text-blue-400 text-3xl">FREE MEMBERSHIP</h5>
-            <h1 className="text-base font-bold text-center mb-8 text-gray-900">Join FREE and as a member you can set your preferences and save them. Get special offers direct to you whenever you travel.</h1>
+            <h1 className="text-base font-bold text-center mb-8 text-gray-900">Join FREE and as a member you can set your preferences and save them. You can save your favourite places, Get special offers direct to you whenever you travel.</h1>
             
             <form onSubmit={handleSubmit} className="space-y-6">
               <div>
