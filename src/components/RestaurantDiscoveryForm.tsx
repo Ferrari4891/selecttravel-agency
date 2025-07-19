@@ -168,7 +168,7 @@ export const RestaurantDiscoveryForm = () => {
           return heroBackground;
       }
     }
-    return '/lovable-uploads/77ea3d0b-72bf-4312-91e7-76d3574d3e68.png';
+    return heroBackground;
   };
   const handleRegionChange = (value: string) => {
     setSelectedRegion(value);
@@ -304,7 +304,7 @@ export const RestaurantDiscoveryForm = () => {
         backgroundSize: 'cover',
         backgroundPosition: 'center'
       }}>
-          <h1 className="text-4xl md:text-6xl font-bold text-white">
+          <h1 className="text-4xl font-bold text-white md:text-5xl">
             smartguides.live
           </h1>
           <p className="text-white text-sm px-4 md:text-base">
