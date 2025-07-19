@@ -57,11 +57,19 @@ export const RestaurantResults: React.FC<RestaurantResultsProps> = ({
                   alt={restaurant.name}
                   className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
                 />
-                <div className="absolute top-3 right-3">
-                  <Badge variant="secondary" className="bg-background/80 backdrop-blur-sm">
-                    {restaurant.source}
-                  </Badge>
-                </div>
+                 <div className="absolute top-3 right-3 flex gap-2">
+                   {selectedCountry === 'United States' && (
+                     <div className="bg-black rounded-sm px-2 py-1 flex items-center gap-1">
+                       <svg className="h-4 w-4 text-white" viewBox="0 0 24 24" fill="currentColor">
+                         <path d="M17.625 6.625h-6.25v1.5h6.25v-1.5zm0 2.5h-6.25v1.5h6.25v-1.5zm0 2.5h-6.25v1.5h6.25v-1.5zm0 2.5h-6.25v1.5h6.25v-1.5zm0 2.5h-6.25v1.5h6.25v-1.5zM6.375 6.625h1.5v1.5h-1.5v-1.5zm0 2.5h1.5v1.5h-1.5v-1.5zm0 2.5h1.5v1.5h-1.5v-1.5zm0 2.5h1.5v1.5h-1.5v-1.5zm0 2.5h1.5v1.5h-1.5v-1.5z"/>
+                       </svg>
+                       <span className="text-white text-xs font-semibold">UBER</span>
+                     </div>
+                   )}
+                   <Badge variant="secondary" className="bg-background/80 backdrop-blur-sm">
+                     {restaurant.source}
+                   </Badge>
+                 </div>
               </div>
               
               <CardContent className="p-4">
