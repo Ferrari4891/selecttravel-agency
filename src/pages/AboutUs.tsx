@@ -65,7 +65,7 @@ Founded by seniors for seniors, smartguides.live was born from the frustration o
 
           <Card className="rounded-none">
             <CardHeader className="bg-sky-300">
-              <CardTitle className="text-3xl text-slate-950 font-bold">Our 60 Second Rule!</CardTitle>
+              <CardTitle className="text-3xl text-slate-950 font-bold">The 60 Second Rule!</CardTitle>
               <CardDescription className="text-lg font-semibold text-slate-50">With NO typing to get what you want.</CardDescription>
             </CardHeader>
             <CardContent>
