@@ -82,7 +82,7 @@ Founded by seniors for seniors, smartguides.live was born from the frustration o
           <Card className="rounded-none">
             <CardHeader className="bg-sky-300">
               <CardTitle className="text-3xl text-slate-950 font-bold">Our Team</CardTitle>
-              <CardDescription className="text-lg font-semibold text-slate-50">The people behind the platform</CardDescription>
+              <CardDescription className="text-lg font-semibold text-slate-50">Keeping it fast & simple</CardDescription>
             </CardHeader>
             <CardContent>
               <p className="text-muted-foreground">
