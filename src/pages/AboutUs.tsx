@@ -45,7 +45,9 @@ const AboutUs = () => {
               <CardDescription className="text-lg font-semibold text-slate-50">Why we enjoy making Smart Guides</CardDescription>
             </CardHeader>
             <CardContent>
-              <p className="text-muted-foreground">At smartguides.live , we believe that your time is valuable and when you travel should be stress free. Our mission is to help you discover top rated businesses in a variety of categories worldwide.  By combining data from trusted sources like TripAdvisor, Yelp, and Google Reviews to give you the top 20 recommendations in a wide range of cities..</p>
+              <p className="text-muted-foreground">
+
+At smartguides.live , we believe that your time is valuable and when you travel should be stress free. Our mission is to help you discover top rated businesses in a variety of categories worldwide.  By combining data from trusted sources like TripAdvisor, Yelp, and Google Reviews to give you the top 20 recommendations in a wide range of cities..</p>
             </CardContent>
           </Card>
 
@@ -55,7 +57,9 @@ const AboutUs = () => {
               <CardDescription className="text-lg font-semibold text-slate-50">Why we created Smart Guides</CardDescription>
             </CardHeader>
             <CardContent>
-              <p className="text-muted-foreground">Founded by seniors for seniors, smartguides.live was born from the frustration of spending hours researching credible businesses when traveling. We wanted to create a simple, reliable way to find the best rated businesses in any location, backed by real reviews from real people and comprehensive data.</p>
+              <p className="text-muted-foreground">
+
+Founded by seniors for seniors, smartguides.live was born from the frustration of spending hours researching credible businesses when traveling. We wanted to create a simple, reliable way to find the best rated businesses in any location, backed by real reviews from real people and comprehensive data.</p>
             </CardContent>
           </Card>
 
@@ -82,8 +86,8 @@ const AboutUs = () => {
             </CardHeader>
             <CardContent>
               <p className="text-muted-foreground">
-                Our team consists senior experienced normal people who understand te simple principe of just give me what I asked for and satisfy my requirement that I can trust the source of the infomation you provide. Make it fast and really easy to use and don't give me too many choices I just want the best and authentic choices..
-              </p>
+
+Our team consists senior experienced normal people who understand the simple principle of just give me what I asked for and satisfy my requirement that I can trust the source of the information you provide. Make it fast and really easy to use and don't give me too many choices I just want the best and authentic choices..</p>
             </CardContent>
           </Card>
         </div>
