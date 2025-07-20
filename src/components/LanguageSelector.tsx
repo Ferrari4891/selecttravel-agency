@@ -97,8 +97,7 @@ export const LanguageSelector: React.FC<LanguageSelectorProps> = ({ inMenu = fal
     <div className="relative">
       <button
         onClick={() => setIsOpen(!isOpen)}
-        className="flex items-center gap-2 h-12 px-3 border border-primary hover:bg-primary/5 transition-colors"
-        style={{"--primary": "200 98% 39%"} as React.CSSProperties}
+        className="flex items-center gap-2 h-10 px-3 border border-border/50 hover:bg-muted/50 transition-colors rounded"
         disabled={isTranslating}
       >
         <span className="text-xs font-bold bg-primary text-primary-foreground px-1 rounded">{currentLang.flag}</span>
@@ -107,7 +106,7 @@ export const LanguageSelector: React.FC<LanguageSelectorProps> = ({ inMenu = fal
       </button>
 
       {isOpen && (
-        <div className="absolute top-full left-0 right-0 mt-1 bg-background border border-border rounded-md shadow-lg z-50 max-h-60 overflow-y-auto">
+        <div className="absolute top-full left-0 right-0 mt-1 bg-background border border-border rounded-md shadow-sm z-50 max-h-60 overflow-y-auto">
           {languages.map((lang) => (
             <button
               key={lang.code}
