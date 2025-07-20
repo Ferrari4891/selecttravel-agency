@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Navigation } from "@/components/Navigation";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Checkbox } from "@/components/ui/checkbox";
+import { LanguageSelector } from "@/components/LanguageSelector";
 import Footer from "@/components/Footer";
 import heroImage from "@/assets/hero-members.jpg";
 const Members = () => {
@@ -126,6 +127,13 @@ const Members = () => {
                     <label htmlFor="airConditioned" className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
                       Air Conditioned
                     </label>
+                  </div>
+
+                  <div className="flex items-center space-x-3">
+                    <div className="flex items-center space-x-2">
+                      <span className="text-sm font-medium leading-none">Preferred Language:</span>
+                      <LanguageSelector />
+                    </div>
                   </div>
                 </div>
                 
