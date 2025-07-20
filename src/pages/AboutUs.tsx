@@ -42,7 +42,7 @@ const AboutUs = () => {
           <Card className="rounded-none">
             <CardHeader className="bg-sky-300">
               <CardTitle className="text-3xl text-slate-950 font-bold">Our Mission</CardTitle>
-              <CardDescription className="text-lg font-semibold text-slate-50">What drives us every day</CardDescription>
+              <CardDescription className="text-lg font-semibold text-slate-50">Why we enjoy making Smart Guides</CardDescription>
             </CardHeader>
             <CardContent>
               <p className="text-muted-foreground">At smartguides.live , we believe that your time is valuable and when you travel should be stress free. Our mission is to help you discover top rated businesses in a variety of categories worldwide.  By combining data from trusted sources like TripAdvisor, Yelp, and Google Reviews to give you the top 20 recommendations in a wide range of cities..</p>
