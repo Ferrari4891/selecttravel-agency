@@ -70,7 +70,7 @@ Founded by seniors for seniors, smartguides.live was born from the frustration o
             </CardHeader>
             <CardContent>
               <ol className="space-y-2 text-muted-foreground">
-                <li>• Comprehensive data from multiple trusted review platforms</li>
+                <li>• Data from multiple trusted review platforms</li>
                 <li>• lists of top 20 businesses in cities worldwide.</li>
                 <li>• Complete contact information and social media links</li>
                 <li>• Easy-to-use interface with intuitive navigation</li>
