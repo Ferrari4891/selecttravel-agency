@@ -71,7 +71,7 @@ Founded by seniors for seniors, smartguides.live was born from the frustration o
             <CardContent>
               <ol className="space-y-2 text-muted-foreground">
                 <li>• Comprehensive data from multiple trusted review platforms</li>
-                <li>• Curated lists of the top 40 restaurants in each area</li>
+                <li>• Curated lists of the top 20 business in cities worldwide.</li>
                 <li>• Complete contact information and social media links</li>
                 <li>• Easy-to-use interface with intuitive navigation</li>
                 <li>• Regular updates to ensure accuracy and relevance</li>
