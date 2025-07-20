@@ -74,7 +74,7 @@ Founded by seniors for seniors, smartguides.live was born from the frustration o
                 <li>• lists of top 20 businesses in cities worldwide.</li>
                 <li>• Get a business listing in 60 seconds or less!</li>
                 <li>• Easy-to-use interface with intuitive navigation</li>
-                <li>• Regular updates to ensure accuracy and relevance</li>
+                <li>• Daily updates to ensure accuracy and relevance</li>
               </ol>
             </CardContent>
           </Card>
