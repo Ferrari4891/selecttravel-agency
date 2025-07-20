@@ -52,7 +52,7 @@ const AboutUs = () => {
           <Card className="rounded-none">
             <CardHeader className="bg-sky-300">
               <CardTitle className="text-3xl text-slate-950 font-bold">Our Story</CardTitle>
-              <CardDescription className="text-lg font-semibold text-slate-50">How it began</CardDescription>
+              <CardDescription className="text-lg font-semibold text-slate-50">Why we created Smart Guides</CardDescription>
             </CardHeader>
             <CardContent>
               <p className="text-muted-foreground">Founded by seniors for seniors, smartguides.live was born from the frustration of spending hours researching credible businesses when traveling. We wanted to create a simple, reliable way to find the best rated businesses in any location, backed by real reviews from real people and comprehensive data.</p>
