@@ -308,7 +308,7 @@ export const RestaurantDiscoveryForm = () => {
             smartguides.live
           </h1>
           {selectedCity && (
-            <h2 className="text-6xl font-extrabold text-white uppercase md:text-8xl mb-4">
+            <h2 className="text-2xl font-extrabold text-white uppercase sm:text-4xl md:text-6xl lg:text-8xl mb-4">
               {selectedCity}
             </h2>
           )}
