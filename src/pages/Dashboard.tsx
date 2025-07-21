@@ -73,7 +73,7 @@ const Dashboard = () => {
   }
 
   return (
-    <div className="min-h-screen bg-blue-50">
+    <div className="min-h-screen bg-sky-100">
       <header className="bg-white shadow-sm border-b-8 border-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center py-6">
