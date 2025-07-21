@@ -33,7 +33,7 @@ const Index = () => {
         <div className="relative z-10 container mx-auto px-4 py-20">
           <div className="text-center">
             <h1 className="text-4xl md:text-6xl font-bold text-white mb-6">
-              Discover Amazing Restaurants & Manage Your Business
+              PERSONALISED SMART GUIDES
             </h1>
             <p className="text-xl text-white mb-8 max-w-3xl mx-auto">
               Find the best dining experiences in cities around the world or manage your business with our comprehensive platform.
