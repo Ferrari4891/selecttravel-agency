@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
-import { Menu, Home, Info, HelpCircle, Users } from 'lucide-react';
+import { Menu, Home, Info, HelpCircle, Users, Building2 } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { LanguageSelector } from '@/components/LanguageSelector';
+import { useAuth } from '@/contexts/AuthContext';
 
 interface NavigationProps {
   onMenuStateChange?: (isOpen: boolean) => void;
@@ -12,6 +13,7 @@ interface NavigationProps {
 
 export const Navigation = ({ onMenuStateChange, forceMenuOpen }: NavigationProps) => {
   const [menuOpen, setMenuOpen] = useState(false);
+  const { user } = useAuth();
 
   const handleMenuChange = (open: boolean) => {
     setMenuOpen(open);
@@ -101,6 +103,23 @@ export const Navigation = ({ onMenuStateChange, forceMenuOpen }: NavigationProps
                     <span className="text-base">Join Free</span>
                   </Link>
                 </Button>
+                
+                {/* Business Login/Dashboard */}
+                {user ? (
+                  <Button variant="ghost" className="w-full justify-start h-12 text-left touch-target" asChild>
+                    <Link to="/dashboard" onClick={() => setMenuOpen(false)}>
+                      <Building2 className="h-5 w-5 mr-3" />
+                      <span className="text-base">Business Dashboard</span>
+                    </Link>
+                  </Button>
+                ) : (
+                  <Button variant="ghost" className="w-full justify-start h-12 text-left touch-target" asChild>
+                    <Link to="/auth" onClick={() => setMenuOpen(false)}>
+                      <Building2 className="h-5 w-5 mr-3" />
+                      <span className="text-base">Business Login</span>
+                    </Link>
+                  </Button>
+                )}
                  
                 {/* Language Selector */}
                 <LanguageSelector inMenu={true} onClose={() => setMenuOpen(false)} />

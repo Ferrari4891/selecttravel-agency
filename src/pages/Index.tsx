@@ -39,29 +39,6 @@ const Index = () => {
               Find the best dining experiences in cities around the world or manage your business with our comprehensive platform.
             </p>
             
-            {/* Business Management CTA */}
-            <div className="mb-8">
-              {user ? (
-                <Link to="/dashboard">
-                  <Button size="lg" className="bg-white text-blue-600 hover:bg-gray-100">
-                    Go to Business Dashboard
-                  </Button>
-                </Link>
-              ) : (
-                <div className="space-x-4">
-                  <Link to="/auth">
-                    <Button size="lg" className="bg-white text-blue-600 hover:bg-gray-100">
-                      Business Login
-                    </Button>
-                  </Link>
-                  <Link to="/auth">
-                    <Button size="lg" variant="outline" className="text-white border-white hover:bg-white hover:text-blue-600">
-                      Start Your Business Account
-                    </Button>
-                  </Link>
-                </div>
-              )}
-            </div>
           </div>
 
           {/* Restaurant Discovery Form */}
