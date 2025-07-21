@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -8,6 +9,8 @@ import { Navigation } from "@/components/Navigation";
 import Footer from "@/components/Footer";
 import heroAdvertise from "@/assets/hero-advertise.jpg";
 const Advertise = () => {
+  const [selectedPlan, setSelectedPlan] = useState('monthly');
+  
   const features = [
     "Business Profile Management",
     "Analytics Dashboard",
@@ -23,21 +26,21 @@ const Advertise = () => {
     {
       id: "basic",
       name: "Basic",
-      price: "$29/month",
+      price: { monthly: 29, quarterly: 79, annual: 299 },
       description: "Perfect for small businesses starting out",
       features: [true, true, true, false, false, false, false, false]
     },
     {
       id: "premium", 
       name: "Premium",
-      price: "$79/month",
+      price: { monthly: 79, quarterly: 219, annual: 799 },
       description: "Advanced features for growing businesses",
       features: [true, true, true, true, true, true, true, false]
     },
     {
       id: "enterprise",
       name: "Enterprise", 
-      price: "$199/month",
+      price: { monthly: 199, quarterly: 549, annual: 1999 },
       description: "Complete solution for large organizations",
       features: [true, true, true, true, true, true, true, true]
     }
@@ -74,6 +77,36 @@ const Advertise = () => {
           </p>
         </div>
 
+        {/* Billing Cycle Selection */}
+        <div className="flex justify-center mb-8">
+          <div className="bg-white border-8 border-white shadow-md rounded-none p-1">
+            <div className="flex">
+              {[
+                { id: 'monthly', label: 'Monthly' },
+                { id: 'quarterly', label: 'Quarterly', savings: '10%' },
+                { id: 'annual', label: 'Annual', savings: '20%' }
+              ].map((cycle) => (
+                <button
+                  key={cycle.id}
+                  onClick={() => setSelectedPlan(cycle.id)}
+                  className={`px-4 py-2 text-sm font-medium transition-colors ${
+                    selectedPlan === cycle.id
+                      ? 'bg-primary text-primary-foreground'
+                      : 'text-muted-foreground hover:text-foreground'
+                  }`}
+                >
+                  {cycle.label}
+                  {cycle.savings && (
+                    <span className="ml-1 text-xs">
+                      (Save {cycle.savings})
+                    </span>
+                  )}
+                </button>
+              ))}
+            </div>
+          </div>
+        </div>
+
         {/* Desktop Table View */}
         <Card className="max-w-4xl mx-auto hidden md:block">
           <CardHeader>
@@ -91,7 +124,13 @@ const Advertise = () => {
                     {plans.map(plan => <TableHead key={plan.name} className="text-center">
                         <div className="space-y-2">
                           <div className="font-semibold text-lg">{plan.name}</div>
-                          <div className="text-primary font-bold">{plan.price}</div>
+                          <div className="text-primary font-bold">
+                            ${plan.price[selectedPlan as keyof typeof plan.price]}
+                            <span className="text-sm font-normal text-muted-foreground">
+                              /{selectedPlan === 'monthly' ? 'mo' : 
+                                 selectedPlan === 'quarterly' ? 'quarter' : 'year'}
+                            </span>
+                          </div>
                           <div className="text-sm text-muted-foreground">{plan.description}</div>
                         </div>
                       </TableHead>)}
@@ -133,7 +172,13 @@ const Advertise = () => {
           {plans.map(plan => <Card key={plan.name} className="shadow-lg">
               <CardHeader className="text-center">
                 <CardTitle className="text-xl">{plan.name}</CardTitle>
-                <div className="text-2xl font-bold text-primary">{plan.price}</div>
+                <div className="text-2xl font-bold text-primary">
+                  ${plan.price[selectedPlan as keyof typeof plan.price]}
+                  <span className="text-sm font-normal text-muted-foreground">
+                    /{selectedPlan === 'monthly' ? 'mo' : 
+                       selectedPlan === 'quarterly' ? 'quarter' : 'year'}
+                  </span>
+                </div>
                 <CardDescription>{plan.description}</CardDescription>
               </CardHeader>
               <CardContent>
