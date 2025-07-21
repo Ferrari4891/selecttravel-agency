@@ -10,7 +10,7 @@ import { regionData } from '@/data/locationData';
 import { countryImages } from '@/data/countryImages';
 import { cityImages } from '@/data/cityImages';
 import { RestaurantResults } from './RestaurantResults';
-import Footer from './Footer';
+
 import { useToast } from '@/hooks/use-toast';
 import heroBackground from '@/assets/hero-background.jpg';
 import heroEat from '@/assets/hero-eat.jpg';
@@ -398,9 +398,6 @@ export const RestaurantDiscoveryForm = () => {
           </CardContent>
         </Card>
 
-        {restaurants.length > 0 && <RestaurantResults restaurants={restaurants} selectedCity={selectedCity} selectedCountry={selectedCountry} selectedCategory={selectedCategory} />}
       </div>
-      
-      <Footer themeClass={getThemeClass()} />
     </div>;
 };
