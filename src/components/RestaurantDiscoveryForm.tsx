@@ -307,6 +307,11 @@ export const RestaurantDiscoveryForm = () => {
           <h1 className="text-4xl font-bold text-white md:text-5xl">
             smartguides.live
           </h1>
+          {selectedCity && (
+            <h2 className="text-6xl font-extrabold text-white uppercase md:text-8xl mb-4">
+              {selectedCity}
+            </h2>
+          )}
           <p className="text-white text-sm px-4 md:text-base">
             {getTagline()}
           </p>
