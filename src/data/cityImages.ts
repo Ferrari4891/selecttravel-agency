@@ -9,6 +9,38 @@ import citySanAntonio from '@/assets/city-san-antonio.jpg';
 import citySanDiego from '@/assets/city-san-diego.jpg';
 import cityDallas from '@/assets/city-dallas.jpg';
 import citySanJoseUS from '@/assets/city-san-jose.jpg';
+// New US city imports
+import cityAustin from '@/assets/city-austin.jpg';
+import citySeattle from '@/assets/city-seattle.jpg';
+import cityDenver from '@/assets/city-denver.jpg';
+import cityBoston from '@/assets/city-boston.jpg';
+import cityLasVegas from '@/assets/city-las-vegas.jpg';
+import cityMiami from '@/assets/city-miami.jpg';
+import cityAtlanta from '@/assets/city-atlanta.jpg';
+import cityPortland from '@/assets/city-portland.jpg';
+import cityNashville from '@/assets/city-nashville.jpg';
+import cityDetroit from '@/assets/city-detroit.jpg';
+import cityCharlotte from '@/assets/city-charlotte.jpg';
+import cityJacksonville from '@/assets/city-jacksonville.jpg';
+import cityFortWorth from '@/assets/city-fort-worth.jpg';
+import cityColumbus from '@/assets/city-columbus.jpg';
+import cityMemphis from '@/assets/city-memphis.jpg';
+import cityBaltimore from '@/assets/city-baltimore.jpg';
+import cityMilwaukee from '@/assets/city-milwaukee.jpg';
+import cityOklahomaCity from '@/assets/city-oklahoma-city.jpg';
+import cityLouisville from '@/assets/city-louisville.jpg';
+import cityNewOrleans from '@/assets/city-new-orleans.jpg';
+import cityMinneapolis from '@/assets/city-minneapolis.jpg';
+import cityCleveland from '@/assets/city-cleveland.jpg';
+import cityPittsburgh from '@/assets/city-pittsburgh.jpg';
+import cityCincinnati from '@/assets/city-cincinnati.jpg';
+import cityTampa from '@/assets/city-tampa.jpg';
+import cityOrlando from '@/assets/city-orlando.jpg';
+import cityHonolulu from '@/assets/city-honolulu.jpg';
+import cityAnchorage from '@/assets/city-anchorage.jpg';
+import cityRaleigh from '@/assets/city-raleigh.jpg';
+import citySacramento from '@/assets/city-sacramento.jpg';
+// Canada imports
 import cityToronto from '@/assets/city-toronto.jpg';
 import cityVancouver from '@/assets/city-vancouver.jpg';
 import cityMontreal from '@/assets/city-montreal.jpg';
@@ -19,6 +51,7 @@ import cityMississauga from '@/assets/city-mississauga.jpg';
 import cityWinnipeg from '@/assets/city-winnipeg.jpg';
 import cityQuebecCity from '@/assets/city-quebec-city.jpg';
 import cityHamilton from '@/assets/city-hamilton.jpg';
+// Mexico imports
 import cityMexicoCity from '@/assets/city-mexico-city.jpg';
 import cityGuadalajara from '@/assets/city-guadalajara.jpg';
 import cityMonterrey from '@/assets/city-monterrey.jpg';
@@ -65,6 +98,92 @@ export const cityImages: Record<string, string> = {
   "San Diego": citySanDiego,
   "Dallas": cityDallas,
   "San Jose": citySanJoseUS,
+  "Austin": cityAustin,
+  "Jacksonville": cityJacksonville,
+  "Fort Worth": cityFortWorth,
+  "Columbus": cityColumbus,
+  "Charlotte": cityCharlotte,
+  "Seattle": citySeattle,
+  "Denver": cityDenver,
+  "El Paso": placeholderImage,
+  "Detroit": cityDetroit,
+  "Boston": cityBoston,
+  "Memphis": cityMemphis,
+  "Nashville": cityNashville,
+  "Portland": cityPortland,
+  "Oklahoma City": cityOklahomaCity,
+  "Las Vegas": cityLasVegas,
+  "Louisville": cityLouisville,
+  "Baltimore": cityBaltimore,
+  "Milwaukee": cityMilwaukee,
+  "Albuquerque": placeholderImage,
+  "Tucson": placeholderImage,
+  "Fresno": placeholderImage,
+  "Sacramento": citySacramento,
+  "Kansas City": placeholderImage,
+  "Mesa": placeholderImage,
+  "Atlanta": cityAtlanta,
+  "Omaha": placeholderImage,
+  "Colorado Springs": placeholderImage,
+  "Raleigh": cityRaleigh,
+  "Miami": cityMiami,
+  "Long Beach": placeholderImage,
+  "Virginia Beach": placeholderImage,
+  "Oakland": placeholderImage,
+  "Minneapolis": cityMinneapolis,
+  "Tampa": cityTampa,
+  "Tulsa": placeholderImage,
+  "Arlington": placeholderImage,
+  "New Orleans": cityNewOrleans,
+  "Wichita": placeholderImage,
+  "Cleveland": cityCleveland,
+  "Bakersfield": placeholderImage,
+  "Honolulu": cityHonolulu,
+  "Anaheim": placeholderImage,
+  "Aurora": placeholderImage,
+  "Santa Ana": placeholderImage,
+  "St. Louis": placeholderImage,
+  "Riverside": placeholderImage,
+  "Corpus Christi": placeholderImage,
+  "Lexington": placeholderImage,
+  "Pittsburgh": cityPittsburgh,
+  "Anchorage": cityAnchorage,
+  "Stockton": placeholderImage,
+  "Cincinnati": cityCincinnati,
+  "St. Paul": placeholderImage,
+  "Toledo": placeholderImage,
+  "Newark": placeholderImage,
+  "Greensboro": placeholderImage,
+  "Plano": placeholderImage,
+  "Henderson": placeholderImage,
+  "Lincoln": placeholderImage,
+  "Buffalo": placeholderImage,
+  "Jersey City": placeholderImage,
+  "Chula Vista": placeholderImage,
+  "Fort Wayne": placeholderImage,
+  "Orlando": cityOrlando,
+  "St. Petersburg": placeholderImage,
+  "Chandler": placeholderImage,
+  "Laredo": placeholderImage,
+  "Norfolk": placeholderImage,
+  "Durham": placeholderImage,
+  "Madison": placeholderImage,
+  "Lubbock": placeholderImage,
+  "Irvine": placeholderImage,
+  "Winston-Salem": placeholderImage,
+  "Glendale": placeholderImage,
+  "Garland": placeholderImage,
+  "Hialeah": placeholderImage,
+  "Reno": placeholderImage,
+  "Chesapeake": placeholderImage,
+  "Gilbert": placeholderImage,
+  "Baton Rouge": placeholderImage,
+  "Irving": placeholderImage,
+  "Scottsdale": placeholderImage,
+  "North Las Vegas": placeholderImage,
+  "Fremont": placeholderImage,
+  "Boise": placeholderImage,
+  "Richmond": placeholderImage,
   
   // North America - Canada
   "Toronto": cityToronto,
@@ -153,7 +272,7 @@ export const cityImages: Record<string, string> = {
   // North America - El Salvador
   "San Salvador": placeholderImage,
   "Soyapango": placeholderImage,
-  "Santa Ana": placeholderImage,
+  "Santa Ana (El Salvador)": placeholderImage,
   "San Miguel": placeholderImage,
   "Mejicanos": placeholderImage,
   "Santa Tecla": placeholderImage,
