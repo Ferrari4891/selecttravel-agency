@@ -23,6 +23,10 @@ const businessSchema = z.object({
   state: z.string().optional(),
   country: z.string().optional(),
   postal_code: z.string().optional(),
+  facebook: z.string().optional(),
+  instagram: z.string().optional(),
+  twitter: z.string().optional(),
+  linkedin: z.string().optional(),
 });
 
 type BusinessFormData = z.infer<typeof businessSchema>;
@@ -36,6 +40,17 @@ interface BusinessProfileProps {
 const businessTypes = [
   'Restaurant', 'Retail', 'Service', 'Technology', 'Healthcare', 
   'Finance', 'Education', 'Manufacturing', 'Real Estate', 'Other'
+];
+
+const countries = [
+  'United States', 'Canada', 'United Kingdom', 'Australia', 'Germany', 
+  'France', 'Italy', 'Spain', 'Netherlands', 'Belgium', 'Switzerland',
+  'Austria', 'Sweden', 'Norway', 'Denmark', 'Finland', 'Ireland',
+  'Portugal', 'Greece', 'Poland', 'Czech Republic', 'Hungary',
+  'Japan', 'South Korea', 'Singapore', 'Hong Kong', 'New Zealand',
+  'Brazil', 'Mexico', 'Argentina', 'Chile', 'Colombia', 'Peru',
+  'India', 'China', 'Thailand', 'Malaysia', 'Indonesia', 'Philippines',
+  'South Africa', 'Egypt', 'Israel', 'UAE', 'Saudi Arabia', 'Turkey'
 ];
 
 export const BusinessProfile: React.FC<BusinessProfileProps> = ({
@@ -61,6 +76,10 @@ export const BusinessProfile: React.FC<BusinessProfileProps> = ({
       state: business?.state || '',
       country: business?.country || '',
       postal_code: business?.postal_code || '',
+      facebook: business?.facebook || '',
+      instagram: business?.instagram || '',
+      twitter: business?.twitter || '',
+      linkedin: business?.linkedin || '',
     },
   });
 
@@ -102,6 +121,10 @@ export const BusinessProfile: React.FC<BusinessProfileProps> = ({
             state: data.state,
             country: data.country,
             postal_code: data.postal_code,
+            facebook: data.facebook,
+            instagram: data.instagram,
+            twitter: data.twitter,
+            linkedin: data.linkedin,
           })
           .select()
           .single();
@@ -254,9 +277,20 @@ export const BusinessProfile: React.FC<BusinessProfileProps> = ({
             render={({ field }) => (
               <FormItem>
                 <FormLabel>Country</FormLabel>
-                <FormControl>
-                  <Input {...field} />
-                </FormControl>
+                <Select onValueChange={field.onChange} defaultValue={field.value}>
+                  <FormControl>
+                    <SelectTrigger>
+                      <SelectValue placeholder="Select country" />
+                    </SelectTrigger>
+                  </FormControl>
+                  <SelectContent>
+                    {countries.map((country) => (
+                      <SelectItem key={country} value={country}>
+                        {country}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
                 <FormMessage />
               </FormItem>
             )}
@@ -294,6 +328,79 @@ export const BusinessProfile: React.FC<BusinessProfileProps> = ({
             </FormItem>
           )}
         />
+
+        <div className="space-y-4">
+          <h3 className="text-lg font-medium">Social Media</h3>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <FormField
+              control={form.control}
+              name="facebook"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Facebook</FormLabel>
+                  <FormControl>
+                    <Input 
+                      {...field} 
+                      placeholder="https://facebook.com/yourpage"
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+
+            <FormField
+              control={form.control}
+              name="instagram"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Instagram</FormLabel>
+                  <FormControl>
+                    <Input 
+                      {...field} 
+                      placeholder="https://instagram.com/youraccount"
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+
+            <FormField
+              control={form.control}
+              name="twitter"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Twitter/X</FormLabel>
+                  <FormControl>
+                    <Input 
+                      {...field} 
+                      placeholder="https://twitter.com/youraccount"
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+
+            <FormField
+              control={form.control}
+              name="linkedin"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>LinkedIn</FormLabel>
+                  <FormControl>
+                    <Input 
+                      {...field} 
+                      placeholder="https://linkedin.com/company/yourcompany"
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+          </div>
+        </div>
 
         <Button type="submit" disabled={loading} className="w-full">
           {loading ? "Saving..." : business ? "Update Profile" : "Create Profile"}

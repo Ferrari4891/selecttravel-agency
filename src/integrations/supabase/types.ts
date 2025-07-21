@@ -115,7 +115,10 @@ export type Database = {
           created_at: string
           description: string | null
           email: string | null
+          facebook: string | null
           id: string
+          instagram: string | null
+          linkedin: string | null
           logo_url: string | null
           phone: string | null
           postal_code: string | null
@@ -124,6 +127,7 @@ export type Database = {
           subscription_end_date: string | null
           subscription_status: string | null
           subscription_tier: string | null
+          twitter: string | null
           updated_at: string
           user_id: string
           website: string | null
@@ -137,7 +141,10 @@ export type Database = {
           created_at?: string
           description?: string | null
           email?: string | null
+          facebook?: string | null
           id?: string
+          instagram?: string | null
+          linkedin?: string | null
           logo_url?: string | null
           phone?: string | null
           postal_code?: string | null
@@ -146,6 +153,7 @@ export type Database = {
           subscription_end_date?: string | null
           subscription_status?: string | null
           subscription_tier?: string | null
+          twitter?: string | null
           updated_at?: string
           user_id: string
           website?: string | null
@@ -159,7 +167,10 @@ export type Database = {
           created_at?: string
           description?: string | null
           email?: string | null
+          facebook?: string | null
           id?: string
+          instagram?: string | null
+          linkedin?: string | null
           logo_url?: string | null
           phone?: string | null
           postal_code?: string | null
@@ -168,6 +179,7 @@ export type Database = {
           subscription_end_date?: string | null
           subscription_status?: string | null
           subscription_tier?: string | null
+          twitter?: string | null
           updated_at?: string
           user_id?: string
           website?: string | null
