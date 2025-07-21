@@ -398,6 +398,7 @@ export const RestaurantDiscoveryForm = () => {
           </CardContent>
         </Card>
 
+        {restaurants.length > 0 && <RestaurantResults restaurants={restaurants} selectedCity={selectedCity} selectedCountry={selectedCountry} selectedCategory={selectedCategory} />}
       </div>
     </div>;
 };
