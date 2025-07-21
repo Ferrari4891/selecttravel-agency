@@ -8,23 +8,40 @@ import { Navigation } from "@/components/Navigation";
 import Footer from "@/components/Footer";
 import heroAdvertise from "@/assets/hero-advertise.jpg";
 const Advertise = () => {
-  const features = ["Business listing visibility", "Customer review management", "Social media integration", "Analytics dashboard access", "Priority customer support"];
-  const plans = [{
-    name: "Trial",
-    price: "Free for 30 days",
-    description: "Perfect for testing our platform",
-    features: [true, false, false, false, false]
-  }, {
-    name: "DIY",
-    price: "$10.00 per week",
-    description: "Self-service advertising solution",
-    features: [true, true, true, false, false]
-  }, {
-    name: "Serviced",
-    price: "$20.00 per week",
-    description: "Full-service advertising management",
-    features: [true, true, true, true, true]
-  }];
+  const features = [
+    "Business Profile Management",
+    "Analytics Dashboard",
+    "Mobile App Access",
+    "Team Management",
+    "Custom Integrations",
+    "API Access",
+    "Priority Support",
+    "Unlimited Records"
+  ];
+  
+  const plans = [
+    {
+      id: "basic",
+      name: "Basic",
+      price: "$29/month",
+      description: "Perfect for small businesses starting out",
+      features: [true, true, true, false, false, false, false, false]
+    },
+    {
+      id: "premium", 
+      name: "Premium",
+      price: "$79/month",
+      description: "Advanced features for growing businesses",
+      features: [true, true, true, true, true, true, true, false]
+    },
+    {
+      id: "enterprise",
+      name: "Enterprise", 
+      price: "$199/month",
+      description: "Complete solution for large organizations",
+      features: [true, true, true, true, true, true, true, true]
+    }
+  ];
   return <div className="min-h-screen bg-background">
       <div className="container mx-auto px-4 py-8">
         <Navigation />
@@ -90,7 +107,7 @@ const Advertise = () => {
                   <TableRow>
                     <TableCell className="font-medium">Calculate ROI</TableCell>
                     {plans.map(plan => <TableCell key={plan.name} className="text-center">
-                        <Button variant={plan.name === "Serviced" ? "default" : "outline"} className="w-full" asChild>
+                        <Button variant={plan.name === "Enterprise" ? "default" : "outline"} className="w-full" asChild>
                           <Link to="/roi">
                             Check ROI
                           </Link>
@@ -100,7 +117,7 @@ const Advertise = () => {
                   <TableRow>
                     <TableCell className="font-medium">Get Started</TableCell>
                     {plans.map(plan => <TableCell key={plan.name} className="text-center">
-                        <Button variant={plan.name === "Serviced" ? "default" : "outline"} className="w-full">
+                        <Button variant={plan.name === "Enterprise" ? "default" : "outline"} className="w-full">
                           Choose {plan.name}
                         </Button>
                       </TableCell>)}
@@ -129,12 +146,12 @@ const Advertise = () => {
                   </div>
                 </ScrollArea>
                 <div className="mt-4 space-y-2">
-                  <Button variant={plan.name === "Serviced" ? "default" : "outline"} className="w-full" asChild>
+                  <Button variant={plan.name === "Enterprise" ? "default" : "outline"} className="w-full" asChild>
                     <Link to="/roi">
                       Check ROI
                     </Link>
                   </Button>
-                  <Button variant={plan.name === "Serviced" ? "default" : "outline"} className="w-full">
+                  <Button variant={plan.name === "Enterprise" ? "default" : "outline"} className="w-full">
                     More Info {plan.name}
                   </Button>
                 </div>
