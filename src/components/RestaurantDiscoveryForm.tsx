@@ -401,6 +401,6 @@ export const RestaurantDiscoveryForm = () => {
         {restaurants.length > 0 && <RestaurantResults restaurants={restaurants} selectedCity={selectedCity} selectedCountry={selectedCountry} selectedCategory={selectedCategory} />}
       </div>
       
-      <Footer themeClass={getThemeClass()} onLanguageClick={handleLanguageClick} />
+      <Footer themeClass={getThemeClass()} />
     </div>;
 };

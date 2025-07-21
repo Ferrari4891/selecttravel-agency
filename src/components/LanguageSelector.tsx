@@ -97,12 +97,12 @@ export const LanguageSelector: React.FC<LanguageSelectorProps> = ({ inMenu = fal
     <div className="relative">
       <button
         onClick={() => setIsOpen(!isOpen)}
-        className="flex items-center gap-2 h-10 px-3 border border-border/50 hover:bg-muted/50 transition-colors rounded"
+        className="flex items-center gap-2 h-10 px-3 border border-white/50 hover:bg-white/10 transition-colors rounded text-white"
         disabled={isTranslating}
       >
-        <span className="text-xs font-bold bg-primary text-primary-foreground px-1 rounded">{currentLang.flag}</span>
-        <span className="text-sm font-medium">{currentLang.name}</span>
-        <ChevronDown className={`h-4 w-4 transition-transform ${isOpen ? 'rotate-180' : ''}`} />
+        <span className="text-xs font-bold bg-white text-primary px-1 rounded">{currentLang.flag}</span>
+        <span className="text-sm font-medium text-white">{currentLang.name}</span>
+        <ChevronDown className={`h-4 w-4 transition-transform text-white ${isOpen ? 'rotate-180' : ''}`} />
       </button>
 
       {isOpen && (

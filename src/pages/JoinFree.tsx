@@ -121,7 +121,7 @@ const JoinFree = () => {
         </div>
       </main>
 
-      <Footer onLanguageClick={() => setShowLanguageSelector(true)} />
+      <Footer />
       
       {showLanguageSelector && <LanguageSelector onClose={() => setShowLanguageSelector(false)} />}
     </div>;

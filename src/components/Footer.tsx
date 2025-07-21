@@ -1,18 +1,26 @@
 import { Link } from "react-router-dom";
+import { useAuth } from "@/contexts/AuthContext";
+
 interface FooterProps {
   themeClass?: string;
-  onLanguageClick?: () => void;
 }
-const Footer = ({
-  themeClass,
-  onLanguageClick
-}: FooterProps) => {
-  return <div className={themeClass}>
+
+const Footer = ({ themeClass }: FooterProps) => {
+  const { user } = useAuth();
+
+  return (
+    <div className={themeClass}>
       <footer className="text-primary-foreground py-8 mt-auto bg-sky-500">
         <div className="max-w-4xl mx-auto px-6">
           <div className="flex flex-wrap justify-center gap-8 text-center">
+            <Link to="/" className="hover:opacity-80 transition-opacity">
+              Home
+            </Link>
             <Link to="/about-us" className="hover:opacity-80 transition-opacity">
               About Us
+            </Link>
+            <Link to="/how-to" className="hover:opacity-80 transition-opacity">
+              How To
             </Link>
             <div className="flex flex-col gap-2 text-center">
               <Link to="/advertise" className="hover:opacity-80 transition-opacity">
@@ -22,9 +30,6 @@ const Footer = ({
                 ROI Calculator
               </Link>
             </div>
-            <Link to="/how-to" className="hover:opacity-80 transition-opacity">
-              How To
-            </Link>
             <Link to="/toolbox" className="hover:opacity-80 transition-opacity">
               Toolbox
             </Link>
@@ -37,15 +42,22 @@ const Footer = ({
             <Link to="/join-free" className="hover:opacity-80 transition-opacity">
               Join Free
             </Link>
+            {user ? (
+              <Link to="/dashboard" className="hover:opacity-80 transition-opacity">
+                Business Dashboard
+              </Link>
+            ) : (
+              <Link to="/auth" className="hover:opacity-80 transition-opacity">
+                Business Login
+              </Link>
+            )}
             <a href="mailto:contact@smartguides.live" className="hover:opacity-80 transition-opacity">
               Contact Us
             </a>
-            <button onClick={onLanguageClick} className="hover:opacity-80 transition-opacity cursor-pointer bg-transparent border-none text-primary-foreground underline">
-              Language
-            </button>
           </div>
         </div>
       </footer>
-    </div>;
+    </div>
+  );
 };
 export default Footer;
