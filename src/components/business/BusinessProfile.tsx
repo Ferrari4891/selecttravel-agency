@@ -38,8 +38,7 @@ interface BusinessProfileProps {
 }
 
 const businessTypes = [
-  'Restaurant', 'Retail', 'Service', 'Technology', 'Healthcare', 
-  'Finance', 'Education', 'Manufacturing', 'Real Estate', 'Other'
+  'Eat', 'Stay', 'Drink', 'Shop', 'Play'
 ];
 
 const countries = [
