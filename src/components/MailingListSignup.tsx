@@ -7,9 +7,10 @@ import { useToast } from '@/hooks/use-toast';
 
 interface MailingListSignupProps {
   location?: string;
+  category?: string;
 }
 
-export const MailingListSignup: React.FC<MailingListSignupProps> = ({ location }) => {
+export const MailingListSignup: React.FC<MailingListSignupProps> = ({ location, category }) => {
   const [email, setEmail] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [isSubscribed, setIsSubscribed] = useState(false);
@@ -61,7 +62,7 @@ export const MailingListSignup: React.FC<MailingListSignupProps> = ({ location }
             <div>
               <h3 className="font-semibold text-lg text-primary">Welcome to the Club!</h3>
               <p className="text-sm text-muted-foreground mt-1">
-                You'll receive exclusive {location ? `${location} ` : ''}dining recommendations and special offers.
+                You'll receive exclusive {location ? `${location} ` : ''}{category ? `${category.toLowerCase()} ` : 'dining '}recommendations and special offers.
               </p>
             </div>
           </div>
@@ -81,9 +82,9 @@ export const MailingListSignup: React.FC<MailingListSignupProps> = ({ location }
           
           <div className="flex-1 space-y-4">
             <div>
-              <h3 className="font-semibold text-lg">Get Exclusive {location ? `${location} ` : ''}Food Alerts</h3>
+              <h3 className="font-semibold text-lg">Get Exclusive {location ? `${location} ` : ''}{category ? `${category} ` : 'Food '}Alerts</h3>
               <p className="text-sm text-muted-foreground mt-1">
-                Join thousands of food lovers getting the best dining recommendations, hidden gems, and exclusive offers delivered weekly.
+                Join thousands of {category ? `${category.toLowerCase()} ` : 'food '}lovers getting the best {category ? `${category.toLowerCase()} ` : 'dining '}recommendations, hidden gems, and exclusive offers delivered weekly.
               </p>
             </div>
             

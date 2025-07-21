@@ -30,12 +30,14 @@ interface RestaurantResultsProps {
   restaurants: Restaurant[];
   selectedCity: string;
   selectedCountry: string;
+  selectedCategory?: string;
 }
 
 export const RestaurantResults: React.FC<RestaurantResultsProps> = ({
   restaurants,
   selectedCity,
   selectedCountry,
+  selectedCategory,
 }) => {
   return (
     <Card className="shadow-elegant rounded-none">
@@ -206,7 +208,7 @@ export const RestaurantResults: React.FC<RestaurantResultsProps> = ({
             if (index === 1) {
               items.push(
                 <div key="mailing-list" className="md:col-span-2 lg:col-span-1">
-                  <MailingListSignup location={`${selectedCity}, ${selectedCountry}`} />
+                  <MailingListSignup location={`${selectedCity}, ${selectedCountry}`} category={selectedCategory} />
                 </div>
               );
             }
