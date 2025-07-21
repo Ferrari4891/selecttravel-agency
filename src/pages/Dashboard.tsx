@@ -114,7 +114,7 @@ const Dashboard = () => {
             </TabsList>
 
             <TabsContent value="profile">
-              <Card className="border-8 border-white shadow-md">
+              <Card className="border-8 border-white shadow-md bg-sky-100">
                 <CardHeader>
                   <CardTitle>Business Profile</CardTitle>
                   <CardDescription>
