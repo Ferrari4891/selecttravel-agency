@@ -68,6 +68,15 @@ const citiesByCountry: Record<string, string[]> = {
   'South Korea': ['Seoul', 'Busan', 'Incheon', 'Daegu', 'Daejeon', 'Gwangju', 'Suwon', 'Ulsan', 'Changwon', 'Goyang', 'Yongin', 'Seongnam', 'Bucheon', 'Ansan', 'Jeonju', 'Anyang', 'Cheongju', 'Cheonan', 'Namyangju', 'Hwaseong', 'Pohang', 'Uijeongbu', 'Siheung', 'Gimhae', 'Pyeongtaek', 'Gunpo', 'Jinju', 'Osan', 'Iksan', 'Yangsan']
 };
 
+const statesByCity: Record<string, string> = {
+  // United States
+  'New York': 'New York', 'Los Angeles': 'California', 'Chicago': 'Illinois', 'Houston': 'Texas', 'Phoenix': 'Arizona', 'Philadelphia': 'Pennsylvania', 'San Antonio': 'Texas', 'San Diego': 'California', 'Dallas': 'Texas', 'San Jose': 'California', 'Austin': 'Texas', 'Jacksonville': 'Florida', 'Fort Worth': 'Texas', 'Columbus': 'Ohio', 'Charlotte': 'North Carolina', 'San Francisco': 'California', 'Indianapolis': 'Indiana', 'Seattle': 'Washington', 'Denver': 'Colorado', 'Washington DC': 'District of Columbia', 'Boston': 'Massachusetts', 'El Paso': 'Texas', 'Nashville': 'Tennessee', 'Detroit': 'Michigan', 'Oklahoma City': 'Oklahoma', 'Portland': 'Oregon', 'Las Vegas': 'Nevada', 'Memphis': 'Tennessee', 'Louisville': 'Kentucky', 'Baltimore': 'Maryland', 'Milwaukee': 'Wisconsin', 'Albuquerque': 'New Mexico', 'Tucson': 'Arizona', 'Fresno': 'California', 'Sacramento': 'California', 'Kansas City': 'Missouri', 'Mesa': 'Arizona', 'Atlanta': 'Georgia', 'Omaha': 'Nebraska', 'Colorado Springs': 'Colorado', 'Raleigh': 'North Carolina', 'Miami': 'Florida', 'Virginia Beach': 'Virginia', 'Oakland': 'California', 'Minneapolis': 'Minnesota', 'Tulsa': 'Oklahoma', 'Arlington': 'Texas', 'Tampa': 'Florida', 'New Orleans': 'Louisiana', 'Wichita': 'Kansas',
+  // Canada
+  'Toronto': 'Ontario', 'Montreal': 'Quebec', 'Vancouver': 'British Columbia', 'Calgary': 'Alberta', 'Edmonton': 'Alberta', 'Ottawa': 'Ontario', 'Mississauga': 'Ontario', 'Winnipeg': 'Manitoba', 'Quebec City': 'Quebec', 'Hamilton': 'Ontario', 'Brampton': 'Ontario', 'Surrey': 'British Columbia', 'Laval': 'Quebec', 'Halifax': 'Nova Scotia', 'London': 'Ontario', 'Markham': 'Ontario', 'Vaughan': 'Ontario', 'Gatineau': 'Quebec', 'Saskatoon': 'Saskatchewan', 'Longueuil': 'Quebec', 'Burnaby': 'British Columbia', 'Regina': 'Saskatchewan', 'Richmond': 'British Columbia', 'Richmond Hill': 'Ontario', 'Oakville': 'Ontario', 'Burlington': 'Ontario', 'Sherbrooke': 'Quebec', 'Oshawa': 'Ontario', 'Saguenay': 'Quebec', 'Lévis': 'Quebec', 'Barrie': 'Ontario', 'Abbotsford': 'British Columbia', 'Coquitlam': 'British Columbia', 'Trois-Rivières': 'Quebec', 'St. Catharines': 'Ontario', 'Guelph': 'Ontario', 'Cambridge': 'Ontario', 'Whitby': 'Ontario', 'Kelowna': 'British Columbia', 'Kingston': 'Ontario',
+  // Australia  
+  'Sydney': 'New South Wales', 'Melbourne': 'Victoria', 'Brisbane': 'Queensland', 'Perth': 'Western Australia', 'Adelaide': 'South Australia', 'Gold Coast': 'Queensland', 'Newcastle': 'New South Wales', 'Canberra': 'Australian Capital Territory', 'Central Coast': 'New South Wales', 'Wollongong': 'New South Wales', 'Logan City': 'Queensland', 'Geelong': 'Victoria', 'Hobart': 'Tasmania', 'Townsville': 'Queensland', 'Cairns': 'Queensland', 'Darwin': 'Northern Territory', 'Toowoomba': 'Queensland', 'Ballarat': 'Victoria', 'Bendigo': 'Victoria', 'Albury': 'New South Wales', 'Launceston': 'Tasmania', 'Mackay': 'Queensland', 'Rockhampton': 'Queensland', 'Bunbury': 'Western Australia', 'Bundaberg': 'Queensland', 'Coffs Harbour': 'New South Wales', 'Wagga Wagga': 'New South Wales', 'Hervey Bay': 'Queensland', 'Mildura': 'Victoria', 'Shepparton': 'Victoria'
+};
+
 export const BusinessProfile: React.FC<BusinessProfileProps> = ({
   business,
   onBusinessCreated,
@@ -98,6 +107,7 @@ export const BusinessProfile: React.FC<BusinessProfileProps> = ({
   });
 
   const watchedCountry = form.watch('country');
+  const watchedCity = form.watch('city');
 
   const onSubmit = async (data: BusinessFormData) => {
     if (!user) return;
@@ -297,7 +307,16 @@ export const BusinessProfile: React.FC<BusinessProfileProps> = ({
             render={({ field }) => (
               <FormItem>
                 <FormLabel>City</FormLabel>
-                <Select onValueChange={field.onChange} defaultValue={field.value}>
+                <Select 
+                  onValueChange={(value) => {
+                    field.onChange(value);
+                    // Set state automatically when city is selected
+                    if (statesByCity[value]) {
+                      form.setValue('state', statesByCity[value]);
+                    }
+                  }} 
+                  defaultValue={field.value}
+                >
                   <FormControl>
                     <SelectTrigger>
                       <SelectValue placeholder={watchedCountry ? "Select city" : "Select country first"} />
@@ -337,7 +356,7 @@ export const BusinessProfile: React.FC<BusinessProfileProps> = ({
             name="postal_code"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Postal Code</FormLabel>
+                <FormLabel>Postal Code / Zip Code</FormLabel>
                 <FormControl>
                   <Input {...field} />
                 </FormControl>
