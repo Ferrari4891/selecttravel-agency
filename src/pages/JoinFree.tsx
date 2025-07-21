@@ -33,15 +33,11 @@ const JoinFree = () => {
       <main className="flex-1 flex items-center justify-center px-4 py-12">
         <div className="w-full max-w-md">
           <div className="bg-white p-8 shadow-lg">
-            <h5 className="font-bold text-center mb-4 text-blue-400 text-3xl">FREE MEMBERSHIP</h5>
+            <h5 className="font-bold text-center mb-4 text-blue-400 text-3xl">FREE PUBLIC MEMBERSHIP</h5>
             
             <div className="mb-6">
               <AspectRatio ratio={16 / 9}>
-                <img 
-                  src="/lovable-uploads/55f9f492-d0b5-4c28-8bb5-3f736f565164.png" 
-                  alt="Smart Guides Live - Experience the World, Your Way" 
-                  className="w-full h-full object-cover border-8 border-white shadow-lg"
-                />
+                <img src="/lovable-uploads/55f9f492-d0b5-4c28-8bb5-3f736f565164.png" alt="Smart Guides Live - Experience the World, Your Way" className="w-full h-full object-cover border-8 border-white shadow-lg" />
               </AspectRatio>
             </div>
             
