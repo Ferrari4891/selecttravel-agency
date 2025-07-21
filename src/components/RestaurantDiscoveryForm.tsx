@@ -304,7 +304,7 @@ export const RestaurantDiscoveryForm = () => {
         backgroundSize: 'cover',
         backgroundPosition: 'center'
       }}>
-          <h1 className="text-4xl font-bold text-white md:text-5xl">
+          <h1 className="text-xl font-bold text-white sm:text-2xl md:text-4xl lg:text-5xl">
             smartguides.live
           </h1>
           {selectedCity && (
