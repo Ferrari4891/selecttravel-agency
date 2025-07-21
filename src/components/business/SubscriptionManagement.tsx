@@ -11,27 +11,27 @@ interface SubscriptionManagementProps {
 
 const subscriptionPlans = [
   {
-    id: 'basic',
-    name: 'Basic',
-    price: { monthly: 29, quarterly: 79, annual: 299 },
+    id: 'trial',
+    name: '60 Day Trial',
+    price: { monthly: 0, quarterly: 0, annual: 0 },
     features: [
       'Business Profile Management',
       'Basic Analytics Dashboard',
-      'Up to 1,000 records',
+      'Up to 100 records',
       'Email Support',
       'Mobile App Access'
     ],
     limitations: [
-      'Limited to 5 team members',
-      'Basic reporting only'
+      'Limited to 60 days',
+      'Basic features only'
     ]
   },
   {
-    id: 'premium',
-    name: 'Premium',
-    price: { monthly: 79, quarterly: 219, annual: 799 },
+    id: 'diy',
+    name: 'DIY Plan',
+    price: { monthly: 90, quarterly: 243, annual: 864 },
     features: [
-      'Everything in Basic',
+      'Everything in Trial',
       'Advanced Analytics & Reports',
       'Up to 10,000 records',
       'Priority Support',
@@ -41,22 +41,24 @@ const subscriptionPlans = [
       'Data Export/Import'
     ],
     limitations: [
-      'Limited to 25 team members'
+      'Self-service support',
+      'Limited customization'
     ]
   },
   {
-    id: 'enterprise',
-    name: 'Enterprise',
-    price: { monthly: 199, quarterly: 549, annual: 1999 },
+    id: 'fullservice',
+    name: 'FULL SERVICE PLAN',
+    price: { monthly: 160, quarterly: 432, annual: 1536 },
     features: [
-      'Everything in Premium',
+      'Everything in DIY Plan',
       'Unlimited Records',
       'White-label Options',
       'Dedicated Account Manager',
       'Custom Development',
       'Advanced Security Features',
       'Unlimited Team Members',
-      'SLA Guarantee'
+      'SLA Guarantee',
+      'Full Service Support'
     ],
     limitations: []
   }
@@ -160,7 +162,7 @@ export const SubscriptionManagement: React.FC<SubscriptionManagementProps> = ({ 
                 isCurrentPlan ? 'ring-2 ring-blue-500' : ''
               }`}
             >
-              {plan.id === 'premium' && (
+              {plan.id === 'diy' && (
                 <div className="absolute -top-3 left-1/2 transform -translate-x-1/2">
                   <Badge className="bg-blue-600">Most Popular</Badge>
                 </div>
@@ -233,7 +235,7 @@ export const SubscriptionManagement: React.FC<SubscriptionManagementProps> = ({ 
                 Upgrade to unlock advanced features and continue managing your business effectively.
               </p>
               <div className="text-sm text-gray-500">
-                Trial includes basic features for 14 days
+                Trial includes basic features for 60 days
               </div>
             </div>
           </CardContent>
