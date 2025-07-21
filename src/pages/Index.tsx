@@ -36,7 +36,7 @@ const Index = () => {
               PERSONALISED SMART GUIDES
             </h1>
             <p className="text-xl text-white mb-8 max-w-3xl mx-auto">
-              Create your own custom Guides to
+              MAKE IT PERSONAL!
             </p>
             
           </div>
