@@ -131,7 +131,7 @@ const Dashboard = () => {
             </TabsContent>
 
             <TabsContent value="analytics">
-              <Card className="border-8 border-white shadow-md">
+              <Card className="border-8 border-white shadow-md bg-sky-100">
                 <CardHeader>
                   <CardTitle>Business Analytics</CardTitle>
                   <CardDescription>
@@ -145,7 +145,7 @@ const Dashboard = () => {
             </TabsContent>
 
             <TabsContent value="subscription">
-              <Card className="border-8 border-white shadow-md">
+              <Card className="border-8 border-white shadow-md bg-sky-100">
                 <CardHeader>
                   <CardTitle>Subscription Management</CardTitle>
                   <CardDescription>
