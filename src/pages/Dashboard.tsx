@@ -66,7 +66,7 @@ const Dashboard = () => {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-blue-50 flex items-center justify-center">
+      <div className="min-h-screen bg-sky-100 flex items-center justify-center">
         <div>Loading...</div>
       </div>
     );
