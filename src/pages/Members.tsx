@@ -38,7 +38,7 @@ const Members = () => {
           <div className="absolute top-0 right-8 z-20 h-full flex items-center">
             <div className="relative">
               {/* Large price tag shape */}
-              <div className="bg-red-600 text-white w-48 h-80 relative shadow-2xl">
+              <div className="bg-red-600 text-white w-48 h-80 relative shadow-2xl border-4 border-white">
                 {/* Hole at top */}
                 <div className="absolute top-6 left-1/2 transform -translate-x-1/2 w-6 h-6 bg-white rounded-full shadow-inner"></div>
                 
