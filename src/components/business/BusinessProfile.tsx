@@ -10,6 +10,7 @@ import { Textarea } from '@/components/ui/textarea';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
 import { useToast } from '@/hooks/use-toast';
+import { BusinessHours } from './BusinessHours';
 
 const businessSchema = z.object({
   business_name: z.string().min(1, 'Business name is required'),
@@ -84,6 +85,17 @@ export const BusinessProfile: React.FC<BusinessProfileProps> = ({
   const { user } = useAuth();
   const [loading, setLoading] = useState(false);
   const { toast } = useToast();
+  const [businessHours, setBusinessHours] = useState(
+    business?.business_hours || {
+      monday: { open: '09:00', close: '17:00', closed: false },
+      tuesday: { open: '09:00', close: '17:00', closed: false },
+      wednesday: { open: '09:00', close: '17:00', closed: false },
+      thursday: { open: '09:00', close: '17:00', closed: false },
+      friday: { open: '09:00', close: '17:00', closed: false },
+      saturday: { open: '10:00', close: '16:00', closed: false },
+      sunday: { open: '10:00', close: '16:00', closed: true }
+    }
+  );
   const form = useForm<BusinessFormData>({
     resolver: zodResolver(businessSchema),
     defaultValues: {
@@ -117,7 +129,10 @@ export const BusinessProfile: React.FC<BusinessProfileProps> = ({
         // Update existing business
         const { data: updatedBusiness, error } = await supabase
           .from('businesses')
-          .update(data)
+          .update({
+            ...data,
+            business_hours: businessHours
+          })
           .eq('id', business.id)
           .select()
           .single();
@@ -150,6 +165,7 @@ export const BusinessProfile: React.FC<BusinessProfileProps> = ({
             instagram: data.instagram,
             twitter: data.twitter,
             linkedin: data.linkedin,
+            business_hours: businessHours,
           })
           .select()
           .single();
@@ -455,6 +471,12 @@ export const BusinessProfile: React.FC<BusinessProfileProps> = ({
             />
           </div>
         </div>
+
+        <BusinessHours
+          control={form.control}
+          businessHours={businessHours}
+          onBusinessHoursChange={setBusinessHours}
+        />
 
         <Button type="submit" disabled={loading} className="w-full">
           {loading ? "Saving..." : business ? "Update Profile" : "Create Profile"}
