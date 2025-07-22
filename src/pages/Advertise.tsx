@@ -32,7 +32,7 @@ const Advertise = () => {
     },
     {
       id: "economy", 
-      name: "Economy Class",
+      name: "Business Class",
       price: { monthly: 45, quarterly: 121.5, annual: 486 },
       description: "Perfect for businesses who want to manage themselves - 10% off yearly",
       features: [true, true, true, true, true, true, true, false]

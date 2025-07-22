@@ -28,7 +28,7 @@ const subscriptionPlans = [
   },
   {
     id: 'economy',
-    name: 'Economy Class',
+    name: 'Business Class',
     price: { monthly: 45, quarterly: 121.5, annual: 486 },
     features: [
       'Everything in Free Plan',
