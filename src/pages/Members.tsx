@@ -44,7 +44,7 @@ const Members = () => {
                 
                 {/* Main text area */}
                 <div className="pt-16 px-6 text-center h-48 flex flex-col justify-center">
-                  <div className="text-4xl font-black tracking-wide mb-2 font-sans">FREE</div>
+                  <div className="text-5xl font-black tracking-wide mb-2 font-sans">FREE!</div>
                   <div className="text-lg font-bold uppercase tracking-widest">Membership</div>
                 </div>
                 
@@ -63,7 +63,7 @@ const Members = () => {
           <div className="md:hidden absolute bottom-8 left-1/2 transform -translate-x-1/2 z-20">
             <div className="bg-red-600 text-white w-64 h-20 relative shadow-lg border-4 border-white flex items-center justify-center">
               <div className="text-center">
-                <div className="text-2xl font-black tracking-wide font-sans">FREE</div>
+                <div className="text-3xl font-black tracking-wide font-sans">FREE!</div>
                 <div className="text-sm font-bold uppercase tracking-widest">MEMBERSHIP FOREVER</div>
               </div>
             </div>
