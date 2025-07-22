@@ -26,21 +26,21 @@ const Advertise = () => {
     {
       id: "trial",
       name: "Economy Class",
-      price: { monthly: 0, quarterly: 0, annual: 0 },
+      price: { monthly: 0, annual: 0 },
       description: "Free forever",
       features: [true, true, true, false, false, false, false, false]
     },
     {
       id: "economy", 
       name: "Business Class",
-      price: { monthly: 45, quarterly: 121.5, annual: 486 },
+      price: { monthly: 45, annual: 486 },
       description: "Perfect for businesses who want to manage themselves - 10% off yearly",
       features: [true, true, true, true, true, true, true, false]
     },
     {
       id: "firstclass",
       name: "First Class", 
-      price: { monthly: 90, quarterly: 243, annual: 864 },
+      price: { monthly: 90, annual: 864 },
       description: "Complete solution with full service support - 20% off annually",
       features: [true, true, true, true, true, true, true, true]
     }
@@ -83,7 +83,6 @@ const Advertise = () => {
             <div className="flex">
               {[
                 { id: 'monthly', label: 'Monthly' },
-                { id: 'quarterly', label: 'Quarterly', savings: '10%' },
                 { id: 'annual', label: 'Annual', savings: '20%' }
               ].map((cycle) => (
                 <button
@@ -127,8 +126,7 @@ const Advertise = () => {
                           <div className="text-primary font-bold text-center">
                             ${plan.price[selectedPlan as keyof typeof plan.price]}
                             <span className="text-sm font-normal text-muted-foreground">
-                              /{selectedPlan === 'monthly' ? 'mo' : 
-                                 selectedPlan === 'quarterly' ? 'quarter' : 'year'}
+                               /{selectedPlan === 'monthly' ? 'mo' : 'year'}
                             </span>
                           </div>
                           <div className="text-sm text-muted-foreground text-center">{plan.description}</div>
@@ -175,8 +173,7 @@ const Advertise = () => {
                 <div className="text-2xl font-bold text-primary">
                   ${plan.price[selectedPlan as keyof typeof plan.price]}
                   <span className="text-sm font-normal text-muted-foreground">
-                    /{selectedPlan === 'monthly' ? 'mo' : 
-                       selectedPlan === 'quarterly' ? 'quarter' : 'year'}
+                     /{selectedPlan === 'monthly' ? 'mo' : 'year'}
                   </span>
                 </div>
                 <CardDescription>{plan.description}</CardDescription>

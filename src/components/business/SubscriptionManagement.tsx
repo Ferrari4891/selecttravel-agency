@@ -13,7 +13,7 @@ const subscriptionPlans = [
   {
     id: 'trial',
     name: 'Economy Class - Free',
-    price: { monthly: 0, quarterly: 0, annual: 0 },
+    price: { monthly: 0, annual: 0 },
     features: [
       'Business Profile Management',
       'Basic Analytics Dashboard',
@@ -29,7 +29,7 @@ const subscriptionPlans = [
   {
     id: 'economy',
     name: 'Business Class',
-    price: { monthly: 45, quarterly: 121.5, annual: 486 },
+    price: { monthly: 45, annual: 486 },
     features: [
       'Everything in Free Plan',
       'Advanced Analytics & Reports',
@@ -48,7 +48,7 @@ const subscriptionPlans = [
   {
     id: 'firstclass',
     name: 'First Class',
-    price: { monthly: 90, quarterly: 243, annual: 864 },
+    price: { monthly: 90, annual: 864 },
     features: [
       'Everything in Economy Class',
       'Unlimited Records',
@@ -125,7 +125,6 @@ export const SubscriptionManagement: React.FC<SubscriptionManagementProps> = ({ 
           <div className="flex">
             {[
               { id: 'monthly', label: 'Monthly' },
-              { id: 'quarterly', label: 'Quarterly', savings: '10%' },
               { id: 'annual', label: 'Annual', savings: '20%' }
             ].map((cycle) => (
               <button
@@ -173,8 +172,7 @@ export const SubscriptionManagement: React.FC<SubscriptionManagementProps> = ({ 
                 <div className="text-3xl font-bold">
                   ${price}
                   <span className="text-sm font-normal text-gray-600">
-                    /{selectedPlan === 'monthly' ? 'mo' : 
-                       selectedPlan === 'quarterly' ? 'quarter' : 'year'}
+                     /{selectedPlan === 'monthly' ? 'mo' : 'year'}
                   </span>
                 </div>
               </CardHeader>
