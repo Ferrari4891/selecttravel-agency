@@ -35,7 +35,7 @@ const Members = () => {
         boxShadow: '0 8px 12px -4px rgba(169, 169, 169, 0.4)'
       }}>
           {/* Desktop: Full-Height Price Tag */}
-          <div className="hidden md:block absolute top-0 right-8 z-20 h-full flex items-center">
+          <div className="hidden md:block absolute top-1/2 right-8 z-20 transform -translate-y-1/2">
             <div className="relative">
               {/* Large price tag shape */}
               <div className="bg-red-600 text-white w-48 h-80 relative shadow-2xl border-4 border-white">
