@@ -24,8 +24,18 @@ const Members = () => {
       [key]: checked
     }));
   };
-  return <div className="min-h-screen bg-blue-50">
+  return <div className="min-h-screen bg-blue-50 relative">
       <Navigation />
+      
+      {/* Red FREE! Ribbon */}
+      <div className="fixed top-4 right-4 z-50">
+        <div className="relative">
+          <div className="bg-red-600 text-white font-bold text-sm px-4 py-2 transform rotate-12 shadow-lg">
+            FREE!
+          </div>
+          <div className="absolute -bottom-1 left-1/2 transform -translate-x-1/2 w-0 h-0 border-l-8 border-r-8 border-t-8 border-l-transparent border-r-transparent border-t-red-700"></div>
+        </div>
+      </div>
       
       {/* Hero Section */}
       <div className="relative w-full h-96 mb-8">
