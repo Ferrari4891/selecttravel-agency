@@ -122,7 +122,7 @@ const Advertise = () => {
                     <TableHead className="w-1/4 text-left">Features</TableHead>
                     {plans.map(plan => (
                       <TableHead key={plan.name} className="text-center">
-                        <div className="bg-blue-400 text-white p-4 rounded-none mb-2">
+                        <div className="bg-blue-400 text-white p-4 rounded-none mb-2 min-h-[120px] flex flex-col justify-center">
                           <div className="font-bold text-lg">{plan.name}</div>
                           <div className="text-2xl font-bold mt-1">
                             ${plan.price[selectedPlan as keyof typeof plan.price]}
