@@ -235,7 +235,7 @@ export const SubscriptionManagement: React.FC<SubscriptionManagementProps> = ({ 
                 Upgrade to unlock advanced features and continue managing your business effectively.
               </p>
               <div className="text-sm text-gray-500">
-                Trial includes basic features for 60 days
+                Economy class is FREE forever
               </div>
             </div>
           </CardContent>
