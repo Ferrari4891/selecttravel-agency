@@ -149,7 +149,7 @@ export const SubscriptionManagement: React.FC<SubscriptionManagementProps> = ({ 
       </div>
 
       {/* Subscription Plans */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+      <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
         {subscriptionPlans.map((plan) => {
           const isCurrentPlan = currentTier === plan.id;
           const price = plan.price[selectedPlan as keyof typeof plan.price];
