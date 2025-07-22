@@ -8,25 +8,21 @@ import { useAuth } from "@/contexts/AuthContext";
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
 import heroBackground from "@/assets/hero-background.jpg";
-
 const Index = () => {
   const [selectedCity, setSelectedCity] = useState<string>("");
   const [selectedCountry, setSelectedCountry] = useState<string>("");
   const [selectedRestaurants, setSelectedRestaurants] = useState<any[]>([]);
-  const { user } = useAuth();
-
-  return (
-    <div className="min-h-screen bg-blue-50">
+  const {
+    user
+  } = useAuth();
+  return <div className="min-h-screen bg-blue-50">
       <Navigation />
       
       {/* Hero Section */}
       <section className="relative min-h-screen flex items-center justify-center">
-        <div 
-          className="absolute inset-0 bg-cover bg-center bg-no-repeat border-8 border-white shadow-lg"
-          style={{
-            backgroundImage: `url(${heroBackground})`,
-          }}
-        >
+        <div className="absolute inset-0 bg-cover bg-center bg-no-repeat border-8 border-white shadow-lg" style={{
+        backgroundImage: `url(${heroBackground})`
+      }}>
           <div className="absolute inset-0 bg-black bg-opacity-50"></div>
         </div>
         
@@ -35,9 +31,7 @@ const Index = () => {
             <h1 className="text-4xl md:text-6xl font-bold text-white mb-6">
               PERSONALISED SMART GUIDES
             </h1>
-            <p className="text-xl text-white mb-8 max-w-3xl mx-auto">
-              MAKE IT PERSONAL!
-            </p>
+            <p className="text-xl text-white mb-8 max-w-3xl mx-auto">LET'S MAKE IT PERSONAL!</p>
             
           </div>
 
@@ -53,22 +47,13 @@ const Index = () => {
       </section>
 
       {/* Restaurant Results */}
-      {selectedRestaurants.length > 0 && (
-        <section className="py-16">
+      {selectedRestaurants.length > 0 && <section className="py-16">
           <div className="container mx-auto px-4">
-            <RestaurantResults 
-              restaurants={selectedRestaurants}
-              selectedCity={selectedCity}
-              selectedCountry={selectedCountry}
-            />
+            <RestaurantResults restaurants={selectedRestaurants} selectedCity={selectedCity} selectedCountry={selectedCountry} />
           </div>
-        </section>
-      )}
+        </section>}
 
       <Footer />
-    </div>
-  );
-
+    </div>;
 };
-
 export default Index;
