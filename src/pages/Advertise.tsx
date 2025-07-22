@@ -27,7 +27,7 @@ const Advertise = () => {
       id: "trial",
       name: "Economy Class",
       price: { monthly: 0, quarterly: 0, annual: 0 },
-      description: "Free trial for 60 days",
+      description: "Free forever",
       features: [true, true, true, false, false, false, false, false]
     },
     {

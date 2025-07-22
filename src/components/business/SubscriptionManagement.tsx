@@ -22,7 +22,7 @@ const subscriptionPlans = [
       'Mobile App Access'
     ],
     limitations: [
-      'Limited to 60 days',
+      'Free forever',
       'Basic features only'
     ]
   },
