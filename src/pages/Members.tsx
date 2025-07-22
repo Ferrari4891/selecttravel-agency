@@ -34,13 +34,28 @@ const Members = () => {
         border: '8px solid white',
         boxShadow: '0 8px 12px -4px rgba(169, 169, 169, 0.4)'
       }}>
-          {/* Large FREE! Ribbon */}
-          <div className="absolute top-8 right-8 z-10">
+          {/* Impactful FREE! Sale Sign */}
+          <div className="absolute top-4 right-4 z-20 transform rotate-12">
             <div className="relative">
-              <div className="bg-red-600 text-white font-bold text-2xl px-8 py-4 transform rotate-12 shadow-xl border-2 border-red-700">
-                FREE!
+              {/* Main sale sign */}
+              <div className="bg-gradient-to-br from-red-500 via-red-600 to-red-700 text-white font-black text-5xl px-12 py-8 shadow-2xl border-8 border-white transform hover:scale-105 transition-transform duration-300">
+                <div className="text-center">
+                  <div className="text-6xl font-black tracking-wider drop-shadow-lg">FREE!</div>
+                  <div className="text-xl font-bold mt-2 tracking-widest">FOREVER</div>
+                </div>
+                {/* Decorative corners */}
+                <div className="absolute top-2 left-2 w-4 h-4 bg-yellow-400"></div>
+                <div className="absolute top-2 right-2 w-4 h-4 bg-yellow-400"></div>
+                <div className="absolute bottom-2 left-2 w-4 h-4 bg-yellow-400"></div>
+                <div className="absolute bottom-2 right-2 w-4 h-4 bg-yellow-400"></div>
               </div>
-              <div className="absolute -bottom-2 left-1/2 transform -translate-x-1/2 w-0 h-0 border-l-12 border-r-12 border-t-12 border-l-transparent border-r-transparent border-t-red-700"></div>
+              
+              {/* Glow effect */}
+              <div className="absolute inset-0 bg-gradient-to-br from-red-400 to-red-600 blur-lg opacity-50 -z-10 scale-110"></div>
+              
+              {/* Sale burst background */}
+              <div className="absolute -inset-8 bg-yellow-400 transform rotate-45 -z-20 opacity-80"></div>
+              <div className="absolute -inset-6 bg-orange-400 transform -rotate-45 -z-20 opacity-60"></div>
             </div>
           </div>
           
