@@ -25,7 +25,7 @@ const Advertise = () => {
   const plans = [
     {
       id: "trial",
-      name: "Economy Class - Free",
+      name: "Economy Class",
       price: { monthly: 0, quarterly: 0, annual: 0 },
       description: "Free trial for 60 days",
       features: [true, true, true, false, false, false, false, false]
@@ -117,34 +117,34 @@ const Advertise = () => {
           </CardHeader>
           <CardContent>
             <ScrollArea className="w-full">
-              <Table>
+                <Table>
                 <TableHeader>
                   <TableRow>
-                    <TableHead className="w-1/4">Features</TableHead>
+                    <TableHead className="w-1/4 text-left">Features</TableHead>
                     {plans.map(plan => <TableHead key={plan.name} className="text-center">
                         <div className="space-y-2">
-                          <div className="font-semibold text-lg">{plan.name}</div>
-                          <div className="text-primary font-bold">
+                          <div className="font-semibold text-lg text-center">{plan.name}</div>
+                          <div className="text-primary font-bold text-center">
                             ${plan.price[selectedPlan as keyof typeof plan.price]}
                             <span className="text-sm font-normal text-muted-foreground">
                               /{selectedPlan === 'monthly' ? 'mo' : 
                                  selectedPlan === 'quarterly' ? 'quarter' : 'year'}
                             </span>
                           </div>
-                          <div className="text-sm text-muted-foreground">{plan.description}</div>
+                          <div className="text-sm text-muted-foreground text-center">{plan.description}</div>
                         </div>
                       </TableHead>)}
                   </TableRow>
                 </TableHeader>
                 <TableBody>
                   {features.map((feature, index) => <TableRow key={feature}>
-                      <TableCell className="font-medium">{feature}</TableCell>
+                      <TableCell className="font-medium text-left">{feature}</TableCell>
                       {plans.map(plan => <TableCell key={plan.name} className="text-center">
                           {plan.features[index] ? <Check className="h-5 w-5 text-green-500 mx-auto" /> : <X className="h-5 w-5 text-muted-foreground mx-auto" />}
                         </TableCell>)}
                     </TableRow>)}
                   <TableRow>
-                    <TableCell className="font-medium">Calculate ROI</TableCell>
+                    <TableCell className="font-medium text-left">Calculate ROI</TableCell>
                     {plans.map(plan => <TableCell key={plan.name} className="text-center">
                         <Button variant={plan.name === "First Class" ? "default" : "outline"} className="w-full" asChild>
                           <Link to="/roi">
@@ -154,7 +154,7 @@ const Advertise = () => {
                       </TableCell>)}
                   </TableRow>
                   <TableRow>
-                    <TableCell className="font-medium">Get Started</TableCell>
+                    <TableCell className="font-medium text-left">Get Started</TableCell>
                     {plans.map(plan => <TableCell key={plan.name} className="text-center">
                         <Button variant={plan.name === "First Class" ? "default" : "outline"} className="w-full">
                           Choose {plan.name}
