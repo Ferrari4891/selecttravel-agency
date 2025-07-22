@@ -120,18 +120,20 @@ const Advertise = () => {
                 <TableHeader>
                   <TableRow>
                     <TableHead className="w-1/4 text-left">Features</TableHead>
-                    {plans.map(plan => <TableHead key={plan.name} className="text-center">
-                        <div className="space-y-2">
-                          <div className="font-semibold text-lg text-center">{plan.name}</div>
-                          <div className="text-primary font-bold text-center">
+                    {plans.map(plan => (
+                      <TableHead key={plan.name} className="text-center">
+                        <div className="bg-blue-400 text-white p-4 rounded-none mb-2">
+                          <div className="font-bold text-lg">{plan.name}</div>
+                          <div className="text-2xl font-bold mt-1">
                             ${plan.price[selectedPlan as keyof typeof plan.price]}
-                            <span className="text-sm font-normal text-muted-foreground">
+                            <span className="text-sm font-normal">
                                /{selectedPlan === 'monthly' ? 'mo' : 'year'}
                             </span>
                           </div>
-                          <div className="text-sm text-muted-foreground text-center">{plan.description}</div>
+                          <div className="text-sm mt-1">{plan.description}</div>
                         </div>
-                      </TableHead>)}
+                      </TableHead>
+                    ))}
                   </TableRow>
                 </TableHeader>
                 <TableBody>
