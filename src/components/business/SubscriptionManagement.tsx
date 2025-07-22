@@ -95,7 +95,9 @@ export const SubscriptionManagement: React.FC<SubscriptionManagementProps> = ({ 
             <div>
               <div className="flex items-center gap-2">
                 <h3 className="text-lg font-semibold">
-                  {currentTier === 'trial' ? 'Trial' : 
+                  {currentTier === 'trial' ? 'Economy Class - Free' : 
+                   currentTier === 'economy' ? 'Business Class' :
+                   currentTier === 'firstclass' ? 'First Class' :
                    currentTier.charAt(0).toUpperCase() + currentTier.slice(1)} Plan
                 </h3>
                 <Badge variant={currentStatus === 'active' ? 'default' : 'secondary'}>
