@@ -229,7 +229,7 @@ export const SubscriptionManagement: React.FC<SubscriptionManagementProps> = ({ 
           <CardContent className="pt-6">
             <div className="text-center">
               <h3 className="text-lg font-semibold mb-2">
-                You're currently on a free trial
+                Your Currently In Economy Class
               </h3>
               <p className="text-gray-600 mb-4">
                 Upgrade to unlock advanced features and continue managing your business effectively.
