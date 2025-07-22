@@ -34,8 +34,8 @@ const Members = () => {
         border: '8px solid white',
         boxShadow: '0 8px 12px -4px rgba(169, 169, 169, 0.4)'
       }}>
-          {/* Full-Height FREE Membership Price Tag */}
-          <div className="absolute top-0 right-8 z-20 h-full flex items-center">
+          {/* Desktop: Full-Height Price Tag */}
+          <div className="hidden md:block absolute top-0 right-8 z-20 h-full flex items-center">
             <div className="relative">
               {/* Large price tag shape */}
               <div className="bg-red-600 text-white w-48 h-80 relative shadow-2xl border-4 border-white">
@@ -56,6 +56,16 @@ const Members = () => {
               
               {/* Tag string */}
               <div className="absolute top-4 left-1/2 transform -translate-x-1/2 w-1 h-8 bg-gray-400 shadow-sm"></div>
+            </div>
+          </div>
+
+          {/* Mobile: Landscape Sign */}
+          <div className="md:hidden absolute bottom-8 left-1/2 transform -translate-x-1/2 z-20">
+            <div className="bg-red-600 text-white w-64 h-20 relative shadow-lg border-4 border-white flex items-center justify-center">
+              <div className="text-center">
+                <div className="text-2xl font-black tracking-wide font-sans">FREE</div>
+                <div className="text-sm font-bold uppercase tracking-widest">MEMBERSHIP FOREVER</div>
+              </div>
             </div>
           </div>
           
