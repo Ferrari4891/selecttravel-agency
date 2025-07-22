@@ -12,7 +12,7 @@ interface SubscriptionManagementProps {
 const subscriptionPlans = [
   {
     id: 'trial',
-    name: '60 Day Trial',
+    name: 'Economy Class - Free',
     price: { monthly: 0, quarterly: 0, annual: 0 },
     features: [
       'Business Profile Management',
@@ -27,11 +27,11 @@ const subscriptionPlans = [
     ]
   },
   {
-    id: 'diy',
-    name: 'DIY Plan',
-    price: { monthly: 90, quarterly: 243, annual: 864 },
+    id: 'economy',
+    name: 'Economy Class',
+    price: { monthly: 45, quarterly: 121.5, annual: 486 },
     features: [
-      'Everything in Trial',
+      'Everything in Free Plan',
       'Advanced Analytics & Reports',
       'Up to 10,000 records',
       'Priority Support',
@@ -46,11 +46,11 @@ const subscriptionPlans = [
     ]
   },
   {
-    id: 'fullservice',
-    name: 'FULL SERVICE PLAN',
-    price: { monthly: 160, quarterly: 432, annual: 1536 },
+    id: 'firstclass',
+    name: 'First Class',
+    price: { monthly: 90, quarterly: 243, annual: 864 },
     features: [
-      'Everything in DIY Plan',
+      'Everything in Economy Class',
       'Unlimited Records',
       'White-label Options',
       'Dedicated Account Manager',
@@ -162,7 +162,7 @@ export const SubscriptionManagement: React.FC<SubscriptionManagementProps> = ({ 
                 isCurrentPlan ? 'ring-2 ring-blue-500' : ''
               }`}
             >
-              {plan.id === 'diy' && (
+              {plan.id === 'economy' && (
                 <div className="absolute -top-3 left-1/2 transform -translate-x-1/2">
                   <Badge className="bg-blue-600">Most Popular</Badge>
                 </div>

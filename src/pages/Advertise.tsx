@@ -25,23 +25,23 @@ const Advertise = () => {
   const plans = [
     {
       id: "trial",
-      name: "60 Day Trial",
+      name: "Economy Class - Free",
       price: { monthly: 0, quarterly: 0, annual: 0 },
       description: "Free trial for 60 days",
       features: [true, true, true, false, false, false, false, false]
     },
     {
-      id: "diy", 
-      name: "DIY Plan",
-      price: { monthly: 90, quarterly: 243, annual: 864 },
-      description: "Perfect for businesses who want to manage themselves",
+      id: "economy", 
+      name: "Economy Class",
+      price: { monthly: 45, quarterly: 121.5, annual: 486 },
+      description: "Perfect for businesses who want to manage themselves - 10% off yearly",
       features: [true, true, true, true, true, true, true, false]
     },
     {
-      id: "fullservice",
-      name: "FULL SERVICE PLAN", 
-      price: { monthly: 160, quarterly: 432, annual: 1536 },
-      description: "Complete solution with full service support",
+      id: "firstclass",
+      name: "First Class", 
+      price: { monthly: 90, quarterly: 243, annual: 864 },
+      description: "Complete solution with full service support - 20% off annually",
       features: [true, true, true, true, true, true, true, true]
     }
   ];
@@ -146,7 +146,7 @@ const Advertise = () => {
                   <TableRow>
                     <TableCell className="font-medium">Calculate ROI</TableCell>
                     {plans.map(plan => <TableCell key={plan.name} className="text-center">
-                        <Button variant={plan.name === "FULL SERVICE PLAN" ? "default" : "outline"} className="w-full" asChild>
+                        <Button variant={plan.name === "First Class" ? "default" : "outline"} className="w-full" asChild>
                           <Link to="/roi">
                             Check ROI
                           </Link>
@@ -156,7 +156,7 @@ const Advertise = () => {
                   <TableRow>
                     <TableCell className="font-medium">Get Started</TableCell>
                     {plans.map(plan => <TableCell key={plan.name} className="text-center">
-                        <Button variant={plan.name === "FULL SERVICE PLAN" ? "default" : "outline"} className="w-full">
+                        <Button variant={plan.name === "First Class" ? "default" : "outline"} className="w-full">
                           Choose {plan.name}
                         </Button>
                       </TableCell>)}
@@ -191,12 +191,12 @@ const Advertise = () => {
                   </div>
                 </ScrollArea>
                 <div className="mt-4 space-y-2">
-                  <Button variant={plan.name === "FULL SERVICE PLAN" ? "default" : "outline"} className="w-full" asChild>
+                  <Button variant={plan.name === "First Class" ? "default" : "outline"} className="w-full" asChild>
                     <Link to="/roi">
                       Check ROI
                     </Link>
                   </Button>
-                  <Button variant={plan.name === "FULL SERVICE PLAN" ? "default" : "outline"} className="w-full">
+                  <Button variant={plan.name === "First Class" ? "default" : "outline"} className="w-full">
                     More Info {plan.name}
                   </Button>
                 </div>
