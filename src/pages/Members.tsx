@@ -34,28 +34,28 @@ const Members = () => {
         border: '8px solid white',
         boxShadow: '0 8px 12px -4px rgba(169, 169, 169, 0.4)'
       }}>
-          {/* Impactful FREE! Sale Sign */}
-          <div className="absolute top-4 right-4 z-20 transform rotate-12">
+          {/* FREE Membership Price Tag */}
+          <div className="absolute top-6 right-6 z-20">
             <div className="relative">
-              {/* Main sale sign */}
-              <div className="bg-gradient-to-br from-red-500 via-red-600 to-red-700 text-white font-black text-5xl px-12 py-8 shadow-2xl border-8 border-white transform hover:scale-105 transition-transform duration-300">
-                <div className="text-center">
-                  <div className="text-6xl font-black tracking-wider drop-shadow-lg">FREE!</div>
-                  <div className="text-xl font-bold mt-2 tracking-widest">FOREVER</div>
+              {/* Price tag shape */}
+              <div className="bg-red-600 text-white w-32 h-40 relative shadow-lg">
+                {/* Hole at top */}
+                <div className="absolute top-3 left-1/2 transform -translate-x-1/2 w-3 h-3 bg-white rounded-full"></div>
+                
+                {/* Main text */}
+                <div className="pt-8 px-3 text-center">
+                  <div className="text-2xl font-bold tracking-wide">FREE</div>
+                  <div className="text-sm font-medium mt-1 italic">Membership</div>
                 </div>
-                {/* Decorative corners */}
-                <div className="absolute top-2 left-2 w-4 h-4 bg-yellow-400"></div>
-                <div className="absolute top-2 right-2 w-4 h-4 bg-yellow-400"></div>
-                <div className="absolute bottom-2 left-2 w-4 h-4 bg-yellow-400"></div>
-                <div className="absolute bottom-2 right-2 w-4 h-4 bg-yellow-400"></div>
+                
+                {/* White price area */}
+                <div className="absolute bottom-4 left-2 right-2 bg-white h-16 flex items-center justify-center">
+                  <div className="text-red-600 font-bold text-lg">FOREVER</div>
+                </div>
               </div>
               
-              {/* Glow effect */}
-              <div className="absolute inset-0 bg-gradient-to-br from-red-400 to-red-600 blur-lg opacity-50 -z-10 scale-110"></div>
-              
-              {/* Sale burst background */}
-              <div className="absolute -inset-8 bg-yellow-400 transform rotate-45 -z-20 opacity-80"></div>
-              <div className="absolute -inset-6 bg-orange-400 transform -rotate-45 -z-20 opacity-60"></div>
+              {/* Tag string */}
+              <div className="absolute top-1 left-1/2 transform -translate-x-1/2 w-0.5 h-4 bg-gray-300"></div>
             </div>
           </div>
           
