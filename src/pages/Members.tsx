@@ -34,28 +34,28 @@ const Members = () => {
         border: '8px solid white',
         boxShadow: '0 8px 12px -4px rgba(169, 169, 169, 0.4)'
       }}>
-          {/* FREE Membership Price Tag */}
-          <div className="absolute top-6 right-6 z-20">
+          {/* Full-Height FREE Membership Price Tag */}
+          <div className="absolute top-0 right-8 z-20 h-full flex items-center">
             <div className="relative">
-              {/* Price tag shape */}
-              <div className="bg-red-600 text-white w-32 h-40 relative shadow-lg">
+              {/* Large price tag shape */}
+              <div className="bg-red-600 text-white w-48 h-80 relative shadow-2xl">
                 {/* Hole at top */}
-                <div className="absolute top-3 left-1/2 transform -translate-x-1/2 w-3 h-3 bg-white rounded-full"></div>
+                <div className="absolute top-6 left-1/2 transform -translate-x-1/2 w-6 h-6 bg-white rounded-full shadow-inner"></div>
                 
-                {/* Main text */}
-                <div className="pt-8 px-3 text-center">
-                  <div className="text-2xl font-bold tracking-wide">FREE</div>
-                  <div className="text-sm font-medium mt-1 italic">Membership</div>
+                {/* Main text area */}
+                <div className="pt-16 px-6 text-center h-48 flex flex-col justify-center">
+                  <div className="text-4xl font-black tracking-wide mb-2 font-sans">FREE</div>
+                  <div className="text-lg font-bold uppercase tracking-widest">Membership</div>
                 </div>
                 
                 {/* White price area */}
-                <div className="absolute bottom-4 left-2 right-2 bg-white h-16 flex items-center justify-center">
-                  <div className="text-red-600 font-bold text-lg">FOREVER</div>
+                <div className="absolute bottom-8 left-4 right-4 bg-white h-20 flex items-center justify-center shadow-inner">
+                  <div className="text-red-600 font-black text-2xl tracking-wide">FOREVER</div>
                 </div>
               </div>
               
               {/* Tag string */}
-              <div className="absolute top-1 left-1/2 transform -translate-x-1/2 w-0.5 h-4 bg-gray-300"></div>
+              <div className="absolute top-4 left-1/2 transform -translate-x-1/2 w-1 h-8 bg-gray-400 shadow-sm"></div>
             </div>
           </div>
           
