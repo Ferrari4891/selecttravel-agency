@@ -122,7 +122,7 @@ const Advertise = () => {
                     <TableHead className="w-1/4 text-left">Features</TableHead>
                     {plans.map(plan => (
                       <TableHead key={plan.name} className="text-center">
-                        <div className="bg-blue-400 text-white p-4 rounded-none mb-2 min-h-[140px] flex flex-col justify-between">
+                        <div className="bg-blue-400 text-white p-4 rounded-none mb-2 h-[160px] flex flex-col justify-between text-center">
                           <div className="font-bold text-lg">{plan.name}</div>
                           <div className="text-2xl font-bold">
                             ${plan.price[selectedPlan as keyof typeof plan.price]}
@@ -130,7 +130,7 @@ const Advertise = () => {
                                /{selectedPlan === 'monthly' ? 'mo' : 'year'}
                             </span>
                           </div>
-                          <div className="text-sm text-center leading-tight">{plan.description}</div>
+                          <div className="text-sm leading-tight px-2">{plan.description}</div>
                         </div>
                       </TableHead>
                     ))}
