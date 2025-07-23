@@ -328,7 +328,7 @@ export const RestaurantDiscoveryForm = () => {
           <CardContent className="space-y-6 bg-blue-200">
             <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-4">
               <div className="space-y-2">
-                <label className="text-sm font-bold uppercase whitespace-nowrap">1: CHOOSE CATEGORY</label>
+                <label className="text-sm font-bold uppercase whitespace-nowrap">1: SELECT CATEGORY</label>
                 <Select value={selectedCategory} onValueChange={handleCategoryChange}>
                   <SelectTrigger className="font-bold">
                     <SelectValue placeholder="Select category" />
