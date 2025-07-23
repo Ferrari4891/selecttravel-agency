@@ -321,7 +321,7 @@ export const RestaurantDiscoveryForm = () => {
           <CardHeader className="bg-blue-200">
             <CardTitle className="flex items-center gap-2 text-5xl font-bold text-blue-400">
               <MapPin className="h-5 w-5 text-primary" />
-              SELECT A GUIDE
+              SELECT YOUR GUIDE
             </CardTitle>
             <CardDescription className="font-semibold text-slate-700">Follow the 5 steps to discover the top 20 Businesses in thousands of cities around the world in 60 seconds or less!</CardDescription>
           </CardHeader>
