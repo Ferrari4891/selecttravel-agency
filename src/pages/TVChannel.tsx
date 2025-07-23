@@ -2,7 +2,7 @@ import { Navigation } from "@/components/Navigation";
 import Footer from "@/components/Footer";
 import { LanguageSelector } from "@/components/LanguageSelector";
 import { AspectRatio } from "@/components/ui/aspect-ratio";
-import heroTVChannel from "@/assets/hero-background.jpg";
+import heroTVChannel from "@/assets/hero-tv-channel.jpg";
 
 const TVChannel = () => {
   return (
