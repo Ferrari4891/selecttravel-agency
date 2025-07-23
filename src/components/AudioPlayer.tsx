@@ -53,16 +53,24 @@ const AudioPlayer = ({ src, className = "" }: AudioPlayerProps) => {
 
   const togglePlayback = async () => {
     const audio = audioRef.current;
-    if (!audio || !audioUrl) return;
+    console.log('Toggle playback clicked. Audio element:', audio, 'Audio URL:', audioUrl);
+    
+    if (!audio || !audioUrl) {
+      console.log('Missing audio element or URL');
+      return;
+    }
 
     try {
       if (isPlaying) {
         audio.pause();
         audio.currentTime = 0;
         setIsPlaying(false);
+        console.log('Audio stopped');
       } else {
+        console.log('Attempting to play audio');
         await audio.play();
         setIsPlaying(true);
+        console.log('Audio started playing');
       }
     } catch (error) {
       console.error('Audio playback error:', error);
