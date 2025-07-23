@@ -16,6 +16,7 @@ import Toolbox from "./pages/Toolbox";
 import VisaInfo from "./pages/VisaInfo";
 import Members from "./pages/Members";
 import JoinFree from "./pages/JoinFree";
+import TVChannel from "./pages/TVChannel";
 import Dashboard from "./pages/Dashboard";
 import Auth from "./pages/Auth";
 import NotFound from "./pages/NotFound";
@@ -41,6 +42,7 @@ const App = () => (
               <Route path="/visa-info" element={<VisaInfo />} />
               <Route path="/members" element={<Members />} />
               <Route path="/join-free" element={<JoinFree />} />
+              <Route path="/tv-channel" element={<TVChannel />} />
               <Route 
                 path="/dashboard" 
                 element={

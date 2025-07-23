@@ -36,6 +36,9 @@ const Footer = ({ themeClass }: FooterProps) => {
             <Link to="/visa-info" className="hover:opacity-80 transition-opacity">
               Visa Info
             </Link>
+            <Link to="/tv-channel" className="hover:opacity-80 transition-opacity">
+              TV Channel
+            </Link>
             <Link to="/members" className="hover:opacity-80 transition-opacity">
               Members
             </Link>
