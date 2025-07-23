@@ -1,16 +1,39 @@
 import { useState, useRef, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Play, Square } from "lucide-react";
+import { supabase } from "@/integrations/supabase/client";
 
 interface AudioPlayerProps {
-  src: string;
+  src: string; // Now expects just the filename, e.g., "our-mission.wav"
   className?: string;
 }
 
 const AudioPlayer = ({ src, className = "" }: AudioPlayerProps) => {
   const [isPlaying, setIsPlaying] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  const [audioUrl, setAudioUrl] = useState<string>("");
   const audioRef = useRef<HTMLAudioElement>(null);
+
+  useEffect(() => {
+    const getAudioUrl = async () => {
+      try {
+        setIsLoading(true);
+        const { data } = supabase.storage
+          .from('audio-files')
+          .getPublicUrl(src);
+        
+        setAudioUrl(data.publicUrl);
+      } catch (error) {
+        console.error('Error getting audio URL:', error);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    if (src) {
+      getAudioUrl();
+    }
+  }, [src]);
 
   useEffect(() => {
     const audio = audioRef.current;
@@ -37,11 +60,11 @@ const AudioPlayer = ({ src, className = "" }: AudioPlayerProps) => {
       audio.removeEventListener('loadstart', handleLoadStart);
       audio.removeEventListener('canplay', handleCanPlay);
     };
-  }, []);
+  }, [audioUrl]);
 
   const togglePlayback = async () => {
     const audio = audioRef.current;
-    if (!audio) return;
+    if (!audio || !audioUrl) return;
 
     try {
       if (isPlaying) {
@@ -62,7 +85,7 @@ const AudioPlayer = ({ src, className = "" }: AudioPlayerProps) => {
     <div className={`flex items-center gap-2 ${className}`}>
       <Button
         onClick={togglePlayback}
-        disabled={isLoading}
+        disabled={isLoading || !audioUrl}
         variant="outline"
         size="sm"
         className="flex items-center gap-2"
@@ -79,7 +102,7 @@ const AudioPlayer = ({ src, className = "" }: AudioPlayerProps) => {
           </>
         )}
       </Button>
-      <audio ref={audioRef} src={src} preload="metadata" />
+      {audioUrl && <audio ref={audioRef} src={audioUrl} preload="metadata" />}
     </div>
   );
 };

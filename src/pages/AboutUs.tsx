@@ -50,7 +50,7 @@ const AboutUs = () => {
               <p className="text-muted-foreground">
 
 At smartguides.live , we believe that your time is valuable and when you travel should be stress free. Our mission is to help you discover top rated businesses in a variety of categories worldwide.  By combining data from trusted sources like TripAdvisor, Yelp, and Google Reviews to give you the top 20 recommendations in a wide range of cities..</p>
-              <AudioPlayer src="/audio/our-mission.wav" />
+              <AudioPlayer src="our-mission.wav" />
             </CardContent>
           </Card>
 
@@ -63,7 +63,7 @@ At smartguides.live , we believe that your time is valuable and when you travel 
               <p className="text-muted-foreground">
 
 Founded by seniors for seniors, smartguides.live was born from the frustration of spending hours researching credible businesses when traveling. We wanted to create a simple, reliable way to find the best rated businesses in any location, backed by real reviews from real people and comprehensive data.</p>
-              <AudioPlayer src="/audio/our-story.wav" />
+              <AudioPlayer src="our-story.wav" />
             </CardContent>
           </Card>
 
@@ -80,7 +80,7 @@ Founded by seniors for seniors, smartguides.live was born from the frustration o
                 <li>• Easy-to-use interface with intuitive navigation</li>
                 <li>• Daily updates to ensure accuracy and relevance</li>
               </ol>
-              <AudioPlayer src="/audio/60-second-rule.wav" />
+              <AudioPlayer src="60-second-rule.wav" />
             </CardContent>
           </Card>
 
@@ -93,7 +93,7 @@ Founded by seniors for seniors, smartguides.live was born from the frustration o
               <p className="text-muted-foreground">
 
 Our team consists senior experienced normal people who understand the simple principle of just give me what I asked for and satisfy my requirement that I can trust the source of the information you provide. Make it fast and really easy to use and don't give me too many choices I just want the best and authentic choices..</p>
-              <AudioPlayer src="/audio/our-team.wav" />
+              <AudioPlayer src="our-team.wav" />
             </CardContent>
           </Card>
         </div>
@@ -105,7 +105,7 @@ Our team consists senior experienced normal people who understand the simple pri
           </CardHeader>
           <CardContent className="text-center space-y-4">
             <p className="text-muted-foreground">Have questions, suggestions, or want to share your dining experiences? We're always eager to connect with t.</p>
-            <AudioPlayer src="/audio/get-in-touch.wav" />
+            <AudioPlayer src="get-in-touch.wav" />
             <div className="flex justify-center gap-4">
               <Button variant="outline" className="rounded-none">Contact Us</Button>
               <Button variant="outline" className="rounded-none">Follow Us</Button>
