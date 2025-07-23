@@ -25,7 +25,20 @@ const AudioPlayer = ({ src, className = "" }: AudioPlayerProps) => {
           .getPublicUrl(src);
         
         console.log('Audio URL generated:', data.publicUrl);
-        setAudioUrl(data.publicUrl);
+        
+        // Test if the URL is actually accessible
+        try {
+          const response = await fetch(data.publicUrl, { method: 'HEAD' });
+          console.log('Audio file accessibility check:', response.status, response.statusText);
+          if (response.ok) {
+            setAudioUrl(data.publicUrl);
+          } else {
+            console.error('Audio file not accessible:', response.status);
+          }
+        } catch (fetchError) {
+          console.error('Error checking audio file:', fetchError);
+        }
+        
         setIsLoading(false);
       } catch (error) {
         console.error('Error getting audio URL:', error);
@@ -99,7 +112,7 @@ const AudioPlayer = ({ src, className = "" }: AudioPlayerProps) => {
           </>
         )}
       </Button>
-      {audioUrl && <audio ref={audioRef} preload="metadata" crossOrigin="anonymous"><source src={audioUrl} type="audio/wav" /></audio>}
+      {audioUrl && <audio ref={audioRef} src={audioUrl} preload="metadata" />}
     </div>
   );
 };
