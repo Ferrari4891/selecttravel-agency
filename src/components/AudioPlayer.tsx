@@ -44,22 +44,10 @@ const AudioPlayer = ({ src, className = "" }: AudioPlayerProps) => {
       setIsPlaying(false);
     };
 
-    const handleLoadStart = () => {
-      setIsLoading(true);
-    };
-
-    const handleCanPlay = () => {
-      setIsLoading(false);
-    };
-
     audio.addEventListener('ended', handleEnded);
-    audio.addEventListener('loadstart', handleLoadStart);
-    audio.addEventListener('canplay', handleCanPlay);
 
     return () => {
       audio.removeEventListener('ended', handleEnded);
-      audio.removeEventListener('loadstart', handleLoadStart);
-      audio.removeEventListener('canplay', handleCanPlay);
     };
   }, [audioUrl]);
 
