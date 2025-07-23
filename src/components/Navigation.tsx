@@ -14,6 +14,8 @@ interface NavigationProps {
 export const Navigation = ({ onMenuStateChange, forceMenuOpen }: NavigationProps) => {
   const [menuOpen, setMenuOpen] = useState(false);
   const [advertiseExpanded, setAdvertiseExpanded] = useState(false);
+  const [toolboxExpanded, setToolboxExpanded] = useState(false);
+  const [membersExpanded, setMembersExpanded] = useState(false);
   const { user } = useAuth();
 
   const handleMenuChange = (open: boolean) => {
@@ -100,30 +102,71 @@ export const Navigation = ({ onMenuStateChange, forceMenuOpen }: NavigationProps
                     </Button>
                   </div>
                 )}
-                <Button variant="ghost" className="w-full justify-start h-12 text-left touch-target" asChild>
-                  <Link to="/toolbox" onClick={() => setMenuOpen(false)}>
-                    <Info className="h-5 w-5 mr-3" />
-                    <span className="text-base">Toolbox</span>
-                  </Link>
+                {/* Toolbox with dropdown */}
+                <Button 
+                  variant="ghost" 
+                  className="w-full justify-start h-12 text-left touch-target" 
+                  onClick={() => setToolboxExpanded(!toolboxExpanded)}
+                >
+                  <Info className="h-5 w-5 mr-3" />
+                  <span className="text-base">Toolbox</span>
+                  {toolboxExpanded ? (
+                    <ChevronDown className="h-4 w-4 ml-auto" />
+                  ) : (
+                    <ChevronRight className="h-4 w-4 ml-auto" />
+                  )}
                 </Button>
-                <Button variant="ghost" className="w-full justify-start h-12 text-left touch-target" asChild>
-                  <Link to="/visa-info" onClick={() => setMenuOpen(false)}>
-                    <Info className="h-5 w-5 mr-3" />
-                   <span className="text-base">Visa Info</span>
-                 </Link>
-               </Button>
-                <Button variant="ghost" className="w-full justify-start h-12 text-left touch-target" asChild>
-                  <Link to="/members" onClick={() => setMenuOpen(false)}>
-                    <Users className="h-5 w-5 mr-3" />
-                    <span className="text-base">Members</span>
-                  </Link>
+                
+                {/* Toolbox sub-menu */}
+                {toolboxExpanded && (
+                  <div className="ml-4 space-y-1">
+                    <Button variant="ghost" className="w-full justify-start h-12 text-left touch-target" asChild>
+                      <Link to="/toolbox" onClick={() => setMenuOpen(false)}>
+                        <Info className="h-5 w-5 mr-3" />
+                        <span className="text-base">Toolbox Info</span>
+                      </Link>
+                    </Button>
+                    <Button variant="ghost" className="w-full justify-start h-12 text-left touch-target" asChild>
+                      <Link to="/visa-info" onClick={() => setMenuOpen(false)}>
+                        <Info className="h-5 w-5 mr-3" />
+                        <span className="text-base">Visa Info</span>
+                      </Link>
+                    </Button>
+                  </div>
+                )}
+                
+                {/* Members with dropdown */}
+                <Button 
+                  variant="ghost" 
+                  className="w-full justify-start h-12 text-left touch-target" 
+                  onClick={() => setMembersExpanded(!membersExpanded)}
+                >
+                  <Users className="h-5 w-5 mr-3" />
+                  <span className="text-base">Members</span>
+                  {membersExpanded ? (
+                    <ChevronDown className="h-4 w-4 ml-auto" />
+                  ) : (
+                    <ChevronRight className="h-4 w-4 ml-auto" />
+                  )}
                 </Button>
-                <Button variant="ghost" className="w-full justify-start h-12 text-left touch-target" asChild>
-                  <Link to="/join-free" onClick={() => setMenuOpen(false)}>
-                    <Users className="h-5 w-5 mr-3" />
-                    <span className="text-base">Join Free</span>
-                  </Link>
-                </Button>
+                
+                {/* Members sub-menu */}
+                {membersExpanded && (
+                  <div className="ml-4 space-y-1">
+                    <Button variant="ghost" className="w-full justify-start h-12 text-left touch-target" asChild>
+                      <Link to="/members" onClick={() => setMenuOpen(false)}>
+                        <Users className="h-5 w-5 mr-3" />
+                        <span className="text-base">Members Info</span>
+                      </Link>
+                    </Button>
+                    <Button variant="ghost" className="w-full justify-start h-12 text-left touch-target" asChild>
+                      <Link to="/join-free" onClick={() => setMenuOpen(false)}>
+                        <Users className="h-5 w-5 mr-3" />
+                        <span className="text-base">Join Free</span>
+                      </Link>
+                    </Button>
+                  </div>
+                )}
                 
                 {/* Language Selector */}
                 <LanguageSelector inMenu={true} onClose={() => setMenuOpen(false)} />
