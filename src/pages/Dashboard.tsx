@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { useAuth } from '@/contexts/AuthContext';
 import { supabase } from '@/integrations/supabase/client';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
@@ -8,6 +9,7 @@ import { BusinessProfile } from '@/components/business/BusinessProfile';
 import { BusinessAnalytics } from '@/components/business/BusinessAnalytics';
 import { SubscriptionManagement } from '@/components/business/SubscriptionManagement';
 import { useToast } from '@/hooks/use-toast';
+import { Home } from 'lucide-react';
 
 interface Business {
   id: string;
@@ -24,6 +26,7 @@ const Dashboard = () => {
   const [business, setBusiness] = useState<Business | null>(null);
   const [loading, setLoading] = useState(true);
   const { toast } = useToast();
+  const navigate = useNavigate();
 
   useEffect(() => {
     if (user) {
@@ -74,6 +77,16 @@ const Dashboard = () => {
 
   return (
     <div className="min-h-screen bg-sky-100">
+      {/* Home Button */}
+      <Button 
+        variant="outline" 
+        className="fixed top-4 left-4 z-10" 
+        onClick={() => navigate('/')}
+      >
+        <Home className="h-4 w-4 mr-2" />
+        Home
+      </Button>
+      
       <header className="bg-white shadow-sm border-b-8 border-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center py-6">

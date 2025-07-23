@@ -43,7 +43,7 @@ export const Navigation = ({ onMenuStateChange, forceMenuOpen }: NavigationProps
               </Button>
             </SheetTrigger>
             <SheetContent side="left" className="w-[85vw] sm:w-80 max-w-sm">
-              <div className="flex flex-col gap-3 pt-6">
+              <div className="flex flex-col gap-3 pt-6 h-full">{/* Added h-full for full height */}
                 <Button 
                   variant="ghost" 
                   className="w-full justify-start h-12 text-left touch-target" 
@@ -104,25 +104,27 @@ export const Navigation = ({ onMenuStateChange, forceMenuOpen }: NavigationProps
                   </Link>
                 </Button>
                 
-                {/* Business Login/Dashboard */}
-                {user ? (
-                  <Button variant="ghost" className="w-full justify-start h-12 text-left touch-target" asChild>
-                    <Link to="/dashboard" onClick={() => setMenuOpen(false)}>
-                      <Building2 className="h-5 w-5 mr-3" />
-                      <span className="text-base">Business Dashboard</span>
-                    </Link>
-                  </Button>
-                ) : (
-                  <Button variant="ghost" className="w-full justify-start h-12 text-left touch-target" asChild>
-                    <Link to="/auth" onClick={() => setMenuOpen(false)}>
-                      <Building2 className="h-5 w-5 mr-3" />
-                      <span className="text-base">Business Login</span>
-                    </Link>
-                  </Button>
-                )}
-                 
                 {/* Language Selector */}
                 <LanguageSelector inMenu={true} onClose={() => setMenuOpen(false)} />
+                
+                {/* Business Login/Dashboard - Placed at bottom */}
+                <div className="mt-auto pt-4 border-t border-gray-200">
+                  {user ? (
+                    <Button variant="ghost" className="w-full justify-start h-12 text-left touch-target" asChild>
+                      <Link to="/dashboard" onClick={() => setMenuOpen(false)}>
+                        <Building2 className="h-5 w-5 mr-3" />
+                        <span className="text-base">Business Dashboard</span>
+                      </Link>
+                    </Button>
+                  ) : (
+                    <Button variant="ghost" className="w-full justify-start h-12 text-left touch-target" asChild>
+                      <Link to="/auth" onClick={() => setMenuOpen(false)}>
+                        <Building2 className="h-5 w-5 mr-3" />
+                        <span className="text-base">Business Login</span>
+                      </Link>
+                    </Button>
+                  )}
+                </div>
               </div>
             </SheetContent>
           </Sheet>

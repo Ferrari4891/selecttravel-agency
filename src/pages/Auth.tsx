@@ -7,6 +7,7 @@ import { Label } from '@/components/ui/label';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { useAuth } from '@/contexts/AuthContext';
 import { useToast } from '@/hooks/use-toast';
+import { Home } from 'lucide-react';
 
 const Auth = () => {
   const [email, setEmail] = useState('');
@@ -83,6 +84,16 @@ const Auth = () => {
 
   return (
     <div className="min-h-screen bg-blue-50 flex items-center justify-center p-4">
+      {/* Home Button */}
+      <Button 
+        variant="outline" 
+        className="fixed top-4 left-4 z-10" 
+        onClick={() => navigate('/')}
+      >
+        <Home className="h-4 w-4 mr-2" />
+        Home
+      </Button>
+      
       <Card className="w-full max-w-md">
         <CardHeader>
           <CardTitle>Business Management Platform</CardTitle>
