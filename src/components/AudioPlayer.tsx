@@ -99,7 +99,7 @@ const AudioPlayer = ({ src, className = "" }: AudioPlayerProps) => {
           </>
         )}
       </Button>
-      {audioUrl && <audio ref={audioRef} src={audioUrl} preload="metadata" />}
+      {audioUrl && <audio ref={audioRef} preload="metadata" crossOrigin="anonymous"><source src={audioUrl} type="audio/wav" /></audio>}
     </div>
   );
 };
