@@ -77,24 +77,24 @@ const Dashboard = () => {
 
   return (
     <div className="min-h-screen bg-sky-100">
-      {/* Home Button */}
-      <Button 
-        variant="outline" 
-        className="fixed top-4 left-4 z-10" 
-        onClick={() => navigate('/')}
-      >
-        <Home className="h-4 w-4 mr-2" />
-        Home
-      </Button>
-      
       <header className="bg-white shadow-sm border-b-8 border-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center py-6">
-            <h1 className="text-3xl font-bold text-gray-900">
-              Business Dashboard
-            </h1>
+            <div className="flex flex-col gap-3">
+              <h1 className="text-3xl font-bold text-gray-900">
+                Business Dashboard
+              </h1>
+              <Button 
+                variant="outline" 
+                className="w-fit" 
+                onClick={() => navigate('/')}
+              >
+                <Home className="h-4 w-4 mr-2" />
+                Home
+              </Button>
+            </div>
             <div className="flex items-center gap-4">
-              <span className="text-sm text-gray-600">
+              <span className="text-sm text-gray-600 hidden sm:block">
                 Welcome, {user?.email}
               </span>
               <Button onClick={signOut} variant="outline">
