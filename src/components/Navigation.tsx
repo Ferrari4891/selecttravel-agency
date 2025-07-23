@@ -132,14 +132,15 @@ export const Navigation = ({ onMenuStateChange, forceMenuOpen }: NavigationProps
                         <span className="text-base">Visa Info</span>
                       </Link>
                     </Button>
-                    <Button variant="ghost" className="w-full justify-start h-12 text-left touch-target" asChild>
-                      <Link to="/tv-channel" onClick={() => setMenuOpen(false)}>
-                        <Info className="h-5 w-5 mr-3" />
-                        <span className="text-base">TV Channel</span>
-                      </Link>
-                    </Button>
                   </div>
                 )}
+                
+                <Button variant="ghost" className="w-full justify-start h-12 text-left touch-target" asChild>
+                  <Link to="/tv-channel" onClick={() => setMenuOpen(false)}>
+                    <Info className="h-5 w-5 mr-3" />
+                    <span className="text-base">TV Channel</span>
+                  </Link>
+                </Button>
                 
                 {/* Members with dropdown */}
                 <Button 

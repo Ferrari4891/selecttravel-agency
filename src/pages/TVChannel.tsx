@@ -15,7 +15,7 @@ const TVChannel = () => {
           <img 
             src={heroTVChannel} 
             alt="TV Channel Hero" 
-            className="w-full h-full object-cover border-8 border-white shadow-lg"
+            className="w-full h-full object-cover border-8 border-white shadow-[0_8px_12px_-4px_rgba(169,169,169,0.4),_-6px_8px_12px_-4px_rgba(169,169,169,0.3),_6px_8px_12px_-4px_rgba(169,169,169,0.3)]"
             style={{ borderRadius: '0px' }}
           />
           <div className="absolute inset-0 bg-black/40 flex items-center justify-center">
