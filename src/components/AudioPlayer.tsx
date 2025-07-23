@@ -16,23 +16,24 @@ const AudioPlayer = ({ src, className = "" }: AudioPlayerProps) => {
 
   useEffect(() => {
     const getAudioUrl = async () => {
+      if (!src) return;
+      
       try {
         setIsLoading(true);
         const { data } = supabase.storage
           .from('audio-files')
           .getPublicUrl(src);
         
+        console.log('Audio URL generated:', data.publicUrl);
         setAudioUrl(data.publicUrl);
+        setIsLoading(false);
       } catch (error) {
         console.error('Error getting audio URL:', error);
-      } finally {
         setIsLoading(false);
       }
     };
 
-    if (src) {
-      getAudioUrl();
-    }
+    getAudioUrl();
   }, [src]);
 
   useEffect(() => {
