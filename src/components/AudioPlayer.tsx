@@ -112,7 +112,14 @@ const AudioPlayer = ({ src, className = "" }: AudioPlayerProps) => {
           </>
         )}
       </Button>
-      {audioUrl && <audio ref={audioRef} src={audioUrl} preload="metadata" />}
+      {audioUrl && (
+        <>
+          <a href={audioUrl} target="_blank" rel="noopener noreferrer" className="text-xs text-blue-500 underline">
+            Test File
+          </a>
+          <audio ref={audioRef} src={audioUrl} preload="metadata" />
+        </>
+      )}
     </div>
   );
 };
