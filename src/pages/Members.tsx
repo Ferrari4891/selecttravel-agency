@@ -34,30 +34,6 @@ const Members = () => {
         border: '8px solid white',
         boxShadow: '0 8px 12px -4px rgba(169, 169, 169, 0.4)'
       }}>
-          {/* Desktop: Full-Height Price Tag */}
-          <div className="hidden md:block absolute top-1/2 right-8 z-20 transform -translate-y-1/2">
-            <div className="relative">
-              {/* Large price tag shape */}
-              <div className="bg-red-600 text-white w-48 h-80 relative shadow-2xl border-4 border-white">
-                {/* Hole at top */}
-                <div className="absolute top-6 left-1/2 transform -translate-x-1/2 w-6 h-6 bg-white rounded-full shadow-inner"></div>
-                
-                {/* Main text area */}
-                <div className="pt-16 px-6 text-center h-48 flex flex-col justify-center">
-                  <div className="text-5xl font-black tracking-wide mb-2 font-sans">FREE!</div>
-                  <div className="text-lg font-bold uppercase tracking-widest">Membership</div>
-                </div>
-                
-                {/* White price area */}
-                <div className="absolute bottom-8 left-4 right-4 bg-white h-20 flex items-center justify-center shadow-inner">
-                  <div className="text-red-600 font-black text-2xl tracking-wide">FOREVER</div>
-                </div>
-              </div>
-              
-              {/* Tag string */}
-              <div className="absolute top-4 left-1/2 transform -translate-x-1/2 w-1 h-8 bg-gray-400 shadow-sm"></div>
-            </div>
-          </div>
 
           {/* Mobile: Small Landscape Sign */}
           <div className="sm:hidden absolute bottom-8 left-1/2 transform -translate-x-1/2 z-20">
