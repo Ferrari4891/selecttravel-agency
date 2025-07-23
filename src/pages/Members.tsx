@@ -59,12 +59,22 @@ const Members = () => {
             </div>
           </div>
 
-          {/* Mobile: Landscape Sign */}
-          <div className="md:hidden absolute bottom-8 left-1/2 transform -translate-x-1/2 z-20">
+          {/* Mobile: Small Landscape Sign */}
+          <div className="sm:hidden absolute bottom-8 left-1/2 transform -translate-x-1/2 z-20">
             <div className="bg-red-600 text-white w-64 h-20 relative shadow-lg border-4 border-white flex items-center justify-center">
               <div className="text-center">
                 <div className="text-3xl font-black tracking-wide font-sans">FREE!</div>
                 <div className="text-sm font-bold uppercase tracking-widest">MEMBERSHIP FOREVER</div>
+              </div>
+            </div>
+          </div>
+
+          {/* Tablet: Medium Landscape Sign */}
+          <div className="hidden sm:block lg:hidden absolute bottom-12 left-1/2 transform -translate-x-1/2 z-20">
+            <div className="bg-red-600 text-white w-80 h-24 relative shadow-lg border-4 border-white flex items-center justify-center">
+              <div className="text-center">
+                <div className="text-4xl font-black tracking-wide font-sans">FREE!</div>
+                <div className="text-base font-bold uppercase tracking-widest">MEMBERSHIP FOREVER</div>
               </div>
             </div>
           </div>
