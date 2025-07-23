@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
-import { Menu, Home, Info, HelpCircle, Users, Building2 } from 'lucide-react';
+import { Menu, Home, Info, HelpCircle, Users, Building2, ChevronDown, ChevronRight } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { LanguageSelector } from '@/components/LanguageSelector';
 import { useAuth } from '@/contexts/AuthContext';
@@ -13,6 +13,7 @@ interface NavigationProps {
 
 export const Navigation = ({ onMenuStateChange, forceMenuOpen }: NavigationProps) => {
   const [menuOpen, setMenuOpen] = useState(false);
+  const [advertiseExpanded, setAdvertiseExpanded] = useState(false);
   const { user } = useAuth();
 
   const handleMenuChange = (open: boolean) => {
@@ -67,18 +68,38 @@ export const Navigation = ({ onMenuStateChange, forceMenuOpen }: NavigationProps
                     <span className="text-base">How To</span>
                   </Link>
                 </Button>
-                <Button variant="ghost" className="w-full justify-start h-12 text-left touch-target" asChild>
-                  <Link to="/advertise" onClick={() => setMenuOpen(false)}>
-                    <Info className="h-5 w-5 mr-3" />
-                    <span className="text-base">Advertise</span>
-                  </Link>
+                {/* Advertise with dropdown */}
+                <Button 
+                  variant="ghost" 
+                  className="w-full justify-start h-12 text-left touch-target" 
+                  onClick={() => setAdvertiseExpanded(!advertiseExpanded)}
+                >
+                  <Info className="h-5 w-5 mr-3" />
+                  <span className="text-base">Advertise</span>
+                  {advertiseExpanded ? (
+                    <ChevronDown className="h-4 w-4 ml-auto" />
+                  ) : (
+                    <ChevronRight className="h-4 w-4 ml-auto" />
+                  )}
                 </Button>
-                <Button variant="ghost" className="w-full justify-start h-12 text-left touch-target pl-6" asChild>
-                  <Link to="/roi" onClick={() => setMenuOpen(false)}>
-                    <Info className="h-5 w-5 mr-3" />
-                    <span className="text-base">ROI Calculator</span>
-                  </Link>
-                </Button>
+                
+                {/* Advertise sub-menu */}
+                {advertiseExpanded && (
+                  <div className="ml-4 space-y-1">
+                    <Button variant="ghost" className="w-full justify-start h-12 text-left touch-target" asChild>
+                      <Link to="/advertise" onClick={() => setMenuOpen(false)}>
+                        <Info className="h-5 w-5 mr-3" />
+                        <span className="text-base">Advertise Info</span>
+                      </Link>
+                    </Button>
+                    <Button variant="ghost" className="w-full justify-start h-12 text-left touch-target" asChild>
+                      <Link to="/roi" onClick={() => setMenuOpen(false)}>
+                        <Info className="h-5 w-5 mr-3" />
+                        <span className="text-base">ROI Calculator</span>
+                      </Link>
+                    </Button>
+                  </div>
+                )}
                 <Button variant="ghost" className="w-full justify-start h-12 text-left touch-target" asChild>
                   <Link to="/toolbox" onClick={() => setMenuOpen(false)}>
                     <Info className="h-5 w-5 mr-3" />
