@@ -11,7 +11,7 @@ import HowToTips from "@/components/how-to/HowToTips";
 import HowToTipsAndTricks from "@/components/how-to/HowToTipsAndTricks";
 import HowToCTA from "@/components/how-to/HowToCTA";
 const HowTo = () => {
-  return <div className="min-h-screen bg-blue-50">
+  return <div className="min-h-screen bg-background">
       <div className="max-w-4xl mx-auto p-6">
         <Navigation />
       </div>

@@ -15,7 +15,7 @@ const Index = () => {
   const {
     user
   } = useAuth();
-  return <div className="min-h-screen bg-blue-50">
+  return <div className="min-h-screen bg-background">
       <Navigation />
       
       {/* Hero Section */}
