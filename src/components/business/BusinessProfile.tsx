@@ -215,7 +215,7 @@ export const BusinessProfile: React.FC<BusinessProfileProps> = ({
                       <SelectValue placeholder="Select business type" />
                     </SelectTrigger>
                   </FormControl>
-                  <SelectContent>
+                  <SelectContent className="w-full min-w-[200px]">
                     {businessTypes.map((type) => (
                       <SelectItem key={type} value={type}>
                         {type}
