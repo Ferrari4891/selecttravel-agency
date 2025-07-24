@@ -104,13 +104,15 @@ const Index = () => {
           <div className="absolute inset-0 bg-black/20"></div>
           
           <div className="relative z-10 h-full flex items-center justify-center px-4">
-            <div className="text-center">
-              <h1 className="text-2xl sm:text-4xl md:text-6xl font-bold text-white mb-4 sm:mb-6">
-                PERSONALISED SMART GUIDES
-              </h1>
+          <div className="text-center">
+            <h1 className="text-2xl sm:text-4xl md:text-6xl font-bold text-white mb-4 sm:mb-6">
+              {selectedCity || selectedCountry || selectedRegion || "PERSONALISED SMART GUIDES"}
+            </h1>
+            {!selectedCity && !selectedCountry && !selectedRegion && (
               <p className="text-sm sm:text-xl text-white mb-4 max-w-3xl mx-auto">LET'S MAKE IT PERSONAL!</p>
-              <p className="text-lg sm:text-2xl font-semibold text-white">www.smartguides.live</p>
-            </div>
+            )}
+            <p className="text-lg sm:text-2xl font-semibold text-white">www.smartguides.live</p>
+          </div>
           </div>
         </div>
 
