@@ -43,6 +43,10 @@ const Index = () => {
     { src: heroPlay, alt: "Play" }
   ];
 
+  // Debug logging
+  console.log("Carousel state:", { selectedCity, selectedCountry, selectedRegion });
+  console.log("Carousel images:", carouselImages);
+
   const getCategoryPlaceholder = () => {
     switch (selectedCategory) {
       case 'Eat':
@@ -106,30 +110,34 @@ const Index = () => {
         {/* Hero Section */}
         <div className="relative overflow-hidden border-8 border-white shadow-[0_8px_16px_rgba(0,0,0,0.3)] bg-background aspect-[16/9] mb-8">
           {!selectedCity && !selectedCountry && !selectedRegion ? (
-            <Carousel 
-              className="w-full h-full"
-              plugins={[
-                Autoplay({
-                  delay: 2000,
-                })
-              ]}
-              opts={{
-                align: "start",
-                loop: true,
-              }}
-            >
-              <CarouselContent className="h-full">
-                {carouselImages.map((image, index) => (
-                  <CarouselItem key={index} className="h-full relative">
-                    <img 
-                      src={image.src} 
-                      alt={image.alt} 
-                      className="absolute inset-0 w-full h-full object-cover" 
-                    />
-                  </CarouselItem>
-                ))}
-              </CarouselContent>
-            </Carousel>
+            <div className="absolute inset-0">
+              <Carousel 
+                className="w-full h-full"
+                plugins={[
+                  Autoplay({
+                    delay: 2000,
+                  })
+                ]}
+                opts={{
+                  align: "start",
+                  loop: true,
+                }}
+              >
+                <CarouselContent className="h-full -ml-0">
+                  {carouselImages.map((image, index) => (
+                    <CarouselItem key={index} className="h-full pl-0 basis-full">
+                      <div className="w-full h-full">
+                        <img 
+                          src={image.src} 
+                          alt={image.alt} 
+                          className="w-full h-full object-cover" 
+                        />
+                      </div>
+                    </CarouselItem>
+                  ))}
+                </CarouselContent>
+              </Carousel>
+            </div>
           ) : (
             <img 
               src={getHeroImage()} 
