@@ -120,7 +120,7 @@ const Index = () => {
             >
               <CarouselContent className="h-full">
                 {carouselImages.map((image, index) => (
-                  <CarouselItem key={index} className="h-full">
+                  <CarouselItem key={index} className="h-full relative">
                     <img 
                       src={image.src} 
                       alt={image.alt} 
