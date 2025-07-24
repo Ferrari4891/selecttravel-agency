@@ -115,7 +115,7 @@ const Index = () => {
                 className="w-full h-full"
                 plugins={[
                   Autoplay({
-                    delay: 2000,
+                    delay: 4000,
                   })
                 ]}
                 opts={{
