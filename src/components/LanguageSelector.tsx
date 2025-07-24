@@ -45,11 +45,10 @@ export const LanguageSelector: React.FC<LanguageSelectorProps> = ({ inMenu = fal
   }, []);
 
   const handleLanguageChange = (langCode: string) => {
-    if (isReady) {
-      setLanguage(langCode);
-      setIsOpen(false);
-      onClose?.();
-    }
+    console.log('Language change requested:', langCode);
+    setLanguage(langCode);
+    setIsOpen(false);
+    onClose?.();
   };
 
   if (inMenu) {
