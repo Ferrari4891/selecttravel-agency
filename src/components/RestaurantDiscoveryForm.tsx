@@ -348,6 +348,7 @@ export const RestaurantDiscoveryForm = () => {
             alt="Hero" 
             className="absolute inset-0 w-full h-full object-cover" 
           />
+          <div className="absolute inset-0 bg-black/20"></div>
           <div className="relative z-10">
             <h1 className="text-xl font-bold text-white sm:text-2xl md:text-4xl lg:text-5xl">
               smartguides.live
