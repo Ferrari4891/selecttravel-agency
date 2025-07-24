@@ -40,7 +40,7 @@ const Toolbox = () => {
     title: "Local Transportation Apps",
     description: "Master public transit in any city with transportation apps. Real-time schedules, route planning, and mobile ticketing options. Navigate like a local and save money on transportation."
   }]];
-  return <div className="min-h-screen bg-blue-50">
+  return <div className="min-h-screen bg-background">
       <div className="max-w-7xl mx-auto px-6">
         <div className="pt-6">
           <Navigation />

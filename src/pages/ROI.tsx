@@ -41,7 +41,7 @@ const ROI = () => {
   const customersPerWeekOptions = Array.from({
     length: 50
   }, (_, i) => i + 1);
-  return <div className="min-h-screen bg-blue-50">
+  return <div className="min-h-screen bg-background">
       <div className="container mx-auto px-4 py-8">
         <Navigation />
       </div>
@@ -69,7 +69,7 @@ const ROI = () => {
         </div>
 
         <div className="text-center mb-8">
-          <h2 className="text-3xl font-bold mb-4 text-blue-400">Calculate Your Return on Investment</h2>
+          <h2 className="text-3xl font-bold mb-4 text-foreground">Calculate Your Return on Investment</h2>
           <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
             Use our ROI calculator to see how our advertising plans can benefit your business.
           </p>
@@ -77,19 +77,19 @@ const ROI = () => {
 
         {/* ROI Calculator Card */}
         <Card className="max-w-2xl mx-auto">
-          <CardHeader className="bg-sky-200">
+          <CardHeader className="bg-background">
             <CardTitle className="text-primary flex items-center gap-2 text-3xl">
               <Calculator className="h-6 w-6" />
               ROI Calculator
             </CardTitle>
-            <CardDescription className="text-slate-950 font-semibold">
+            <CardDescription className="text-foreground font-semibold">
               Enter your business details below to calculate your potential return on investment
             </CardDescription>
           </CardHeader>
           <CardContent className="space-y-6">
             {/* Average Customer Value */}
             <div className="space-y-2">
-              <Label htmlFor="customer-value" className="bg-sky-100">Average Customer Value</Label>
+              <Label htmlFor="customer-value">Average Customer Value</Label>
               <Select onValueChange={value => setCustomerValue(Number(value))}>
                 <SelectTrigger>
                   <SelectValue placeholder="Select average customer value" />

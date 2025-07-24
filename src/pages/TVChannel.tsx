@@ -6,7 +6,7 @@ import heroTVChannel from "@/assets/hero-tv-channel.jpg";
 
 const TVChannel = () => {
   return (
-    <div className="min-h-screen bg-blue-50">
+    <div className="min-h-screen bg-background">
       <Navigation />
       
       {/* Hero Section */}

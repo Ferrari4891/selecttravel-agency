@@ -27,13 +27,13 @@ const JoinFree = () => {
       [field]: value
     }));
   };
-  return <div className="min-h-screen bg-blue-50 flex flex-col">
+  return <div className="min-h-screen bg-background flex flex-col">
       <Navigation />
       
       <main className="flex-1 flex items-center justify-center px-4 py-12">
         <div className="w-full max-w-md">
           <div className="bg-white p-8 shadow-lg">
-            <h5 className="font-bold text-center mb-4 text-blue-400 text-3xl">FREE PUBLIC MEMBERSHIP</h5>
+            <h5 className="font-bold text-center mb-4 text-foreground text-3xl">FREE PUBLIC MEMBERSHIP</h5>
             
             <div className="mb-6">
               <AspectRatio ratio={16 / 9}>
@@ -112,7 +112,7 @@ const JoinFree = () => {
               </div>
 
               <div className="pt-4">
-                <button type="submit" className="w-full bg-blue-400 hover:bg-blue-500 text-white font-medium py-3 px-6 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2">
+                <button type="submit" className="w-full bg-primary hover:bg-primary/90 text-primary-foreground font-medium py-3 px-6 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2">
                   JOIN FREE!
                 </button>
               </div>

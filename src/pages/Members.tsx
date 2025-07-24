@@ -24,16 +24,16 @@ const Members = () => {
       [key]: checked
     }));
   };
-  return <div className="min-h-screen bg-blue-50">
+  return <div className="min-h-screen bg-background">
       <Navigation />
       
       {/* Hero Section */}
       <div className="relative w-full h-96 mb-8">
-        <div className="w-full h-full bg-cover bg-center relative" style={{
-        backgroundImage: `url(${heroImage})`,
+        <div className="w-full h-full bg-background relative" style={{
         border: '8px solid white',
         boxShadow: '0 8px 12px -4px rgba(169, 169, 169, 0.4)'
       }}>
+          <img src={heroImage} alt="Members" className="w-full h-full object-cover" />
 
           {/* Mobile: Small Landscape Sign */}
           <div className="sm:hidden absolute bottom-8 left-1/2 transform -translate-x-1/2 z-20">
@@ -67,8 +67,8 @@ const Members = () => {
       <div className="container mx-auto px-4 pb-12">
         <div className="max-w-4xl mx-auto">
           <Card className="mb-8">
-            <CardHeader className="bg-blue-200">
-              <CardTitle className="text-center border-b-2 border-black pb-2 text-3xl text-blue-400 font-extrabold">SELECT & SAVE YOUR PREFERENCES</CardTitle>
+            <CardHeader className="bg-background">
+              <CardTitle className="text-center border-b-2 border-black pb-2 text-3xl text-foreground font-extrabold">SELECT & SAVE YOUR PREFERENCES</CardTitle>
             </CardHeader>
             <CardContent className="pt-6">
               <p className="text-lg text-center mb-8 text-gray-700">
@@ -159,7 +159,7 @@ const Members = () => {
                 </div>
                 
                 <div className="flex justify-center mt-8 bg-white">
-                  <button className="bg-blue-400 hover:bg-blue-500 h-10 px-8 py-2 inline-flex items-center justify-center gap-2 whitespace-nowrap text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 text-white">
+                  <button className="bg-primary hover:bg-primary/90 h-10 px-8 py-2 inline-flex items-center justify-center gap-2 whitespace-nowrap text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 text-primary-foreground">
                     SAVE PREFERENCES
                   </button>
                 </div>

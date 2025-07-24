@@ -202,7 +202,7 @@ export const Navigation = ({ onMenuStateChange, forceMenuOpen }: NavigationProps
         </div>
 
         {/* Logo */}
-        <div className="flex items-center gap-2 h-12 px-2 sm:px-3 border border-primary hover:bg-primary/5 transition-colors cursor-pointer touch-target" onClick={() => window.location.href = '/'} style={{"--primary": "200 98% 39%"} as React.CSSProperties}>
+        <div className="flex items-center gap-2 h-12 px-2 sm:px-3 border border-primary hover:bg-primary/5 transition-colors cursor-pointer touch-target" onClick={() => window.location.href = '/'}>
           <div className="w-8 h-8 bg-primary flex items-center justify-center">
             <span className="text-primary-foreground font-bold text-xs sm:text-sm">SGL</span>
           </div>

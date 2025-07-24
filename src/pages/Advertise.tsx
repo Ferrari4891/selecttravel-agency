@@ -58,7 +58,7 @@ const Advertise = () => {
         </div>
       </div>
 
-      <div className="container mx-auto px-4 py-8 bg-sky-50">
+      <div className="container mx-auto px-4 py-8 bg-background">
         {/* Back to Home Button */}
         <div className="mb-4">
           <Link to="/">
@@ -109,7 +109,7 @@ const Advertise = () => {
         {/* Desktop Table View */}
         <Card className="max-w-4xl mx-auto hidden md:block">
           <CardHeader>
-            <CardTitle className="text-6xl text-blue-400">Pricing Plans</CardTitle>
+            <CardTitle className="text-6xl text-foreground">Pricing Plans</CardTitle>
             <CardDescription>
               Compare our advertising packages and find the right fit for your business needs
             </CardDescription>
@@ -122,7 +122,7 @@ const Advertise = () => {
                     <TableHead className="w-1/4 text-left">Features</TableHead>
                     {plans.map(plan => (
                       <TableHead key={plan.name} className="text-center">
-                        <div className="bg-blue-400 text-white p-4 rounded-none mb-2 h-[160px] flex flex-col justify-between text-center">
+                        <div className="bg-primary text-primary-foreground p-4 rounded-none mb-2 h-[160px] flex flex-col justify-between text-center">
                           <div className="font-bold text-lg">{plan.name}</div>
                           <div className="text-2xl font-bold">
                             ${plan.price[selectedPlan as keyof typeof plan.price]}

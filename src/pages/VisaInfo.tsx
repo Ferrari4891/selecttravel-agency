@@ -64,12 +64,12 @@ const VisaInfo = () => {
     requirements: ["Valid passport (6+ months validity)", "Tourist visa (if required)", "Yellow fever vaccination (from certain countries)", "Proof of sufficient funds"]
   }];
   return <div className="min-h-screen bg-background">
-      <div className="max-w-4xl mx-auto p-3 sm:p-4 lg:p-6 bg-blue-50">
+      <div className="max-w-4xl mx-auto p-3 sm:p-4 lg:p-6 bg-background">
         <Navigation />
       </div>
       
       {/* Hero Section */}
-      <div className="relative h-48 sm:h-64 lg:h-80 overflow-hidden border-8 border-white rounded-none shadow-[0_8px_12px_-4px_rgba(169,169,169,0.4),_-6px_8px_12px_-4px_rgba(169,169,169,0.3),_6px_8px_12px_-4px_rgba(169,169,169,0.3)] bg-blue-50">
+      <div className="relative h-48 sm:h-64 lg:h-80 overflow-hidden border-8 border-white rounded-none shadow-[0_8px_12px_-4px_rgba(169,169,169,0.4),_-6px_8px_12px_-4px_rgba(169,169,169,0.3),_6px_8px_12px_-4px_rgba(169,169,169,0.3)] bg-background">
         <img src={heroVisaInfo} alt="Visa Information Hero" className="w-full h-full object-cover" />
         <div className="absolute inset-0 bg-black/20 flex items-center justify-center">
           <h1 className="text-2xl sm:text-4xl lg:text-6xl font-bold text-white text-center px-4">
@@ -78,7 +78,7 @@ const VisaInfo = () => {
         </div>
       </div>
 
-      <div className="max-w-4xl mx-auto p-3 sm:p-4 lg:p-6 space-y-6 sm:space-y-8 bg-blue-50">
+      <div className="max-w-4xl mx-auto p-3 sm:p-4 lg:p-6 space-y-6 sm:space-y-8 bg-background">
         <div className="flex items-center gap-4">
           <Link to="/">
             <Button variant="outline" size="sm" className="shadow-gray-400 bg-white rounded h-12 touch-target px-4">
@@ -137,11 +137,11 @@ const VisaInfo = () => {
             </Card>)}
         </div>
 
-        <div className="text-center space-y-4 bg-blue-50 border border-blue-200 rounded-lg p-4 sm:p-6">
-          <h3 className="text-lg sm:text-xl font-bold text-blue-900">
+        <div className="text-center space-y-4 bg-background border border-border rounded-lg p-4 sm:p-6">
+          <h3 className="text-lg sm:text-xl font-bold text-foreground">
             Need More Information?
           </h3>
-          <p className="text-blue-700 text-sm sm:text-base leading-relaxed">
+          <p className="text-muted-foreground text-sm sm:text-base leading-relaxed">
             Contact the embassy or consulate of your destination country for the most up-to-date visa requirements and application procedures.
           </p>
         </div>

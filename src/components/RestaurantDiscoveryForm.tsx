@@ -294,38 +294,41 @@ export const RestaurantDiscoveryForm = () => {
     setTimeout(() => setForceMenuOpen(false), 100);
   };
   return <div className={`min-h-screen bg-background ${getThemeClass()}`}>
-      <div className="max-w-4xl mx-auto space-y-8 p-6 bg-blue-100">
+      <div className="max-w-4xl mx-auto space-y-8 p-6 bg-background">
         <div className="pt-0">
           <Navigation onMenuStateChange={setMenuOpen} forceMenuOpen={forceMenuOpen} />
         </div>
         
-        <div className="relative text-center space-y-4 py-16 px-8 overflow-hidden border-8 border-white shadow-[0_8px_16px_rgba(0,0,0,0.3)]" style={{
-        backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3)), url(${getHeroImage()})`,
-        backgroundSize: 'cover',
-        backgroundPosition: 'center'
-      }}>
-          <h1 className="text-xl font-bold text-white sm:text-2xl md:text-4xl lg:text-5xl">
-            smartguides.live
-          </h1>
-          {selectedCity && (
-            <h2 className="text-2xl font-extrabold text-white uppercase sm:text-4xl md:text-6xl lg:text-8xl mb-4">
-              {selectedCity}
-            </h2>
-          )}
-          <p className="text-white text-sm px-4 md:text-base">
-            {getTagline()}
-          </p>
+        <div className="relative text-center space-y-4 py-16 px-8 overflow-hidden border-8 border-white shadow-[0_8px_16px_rgba(0,0,0,0.3)] bg-background">
+          <img 
+            src={getHeroImage()} 
+            alt="Hero" 
+            className="absolute inset-0 w-full h-full object-cover opacity-20" 
+          />
+          <div className="relative z-10">
+            <h1 className="text-xl font-bold text-foreground sm:text-2xl md:text-4xl lg:text-5xl">
+              smartguides.live
+            </h1>
+            {selectedCity && (
+              <h2 className="text-2xl font-extrabold text-foreground uppercase sm:text-4xl md:text-6xl lg:text-8xl mb-4">
+                {selectedCity}
+              </h2>
+            )}
+            <p className="text-foreground text-sm px-4 md:text-base">
+              {getTagline()}
+            </p>
+          </div>
         </div>
 
         <Card className="shadow-elegant">
-          <CardHeader className="bg-blue-200">
-            <CardTitle className="flex items-center gap-2 text-5xl font-bold text-blue-400">
+          <CardHeader className="bg-background">
+            <CardTitle className="flex items-center gap-2 text-5xl font-bold text-foreground">
               <MapPin className="h-5 w-5 text-primary" />
               SELECT YOUR GUIDE
             </CardTitle>
-            <CardDescription className="font-semibold text-slate-700">Follow the 5 steps to discover the top 20 Businesses in thousands of cities around the world in 60 seconds or less!</CardDescription>
+            <CardDescription className="font-semibold text-muted-foreground">Follow the 5 steps to discover the top 20 Businesses in thousands of cities around the world in 60 seconds or less!</CardDescription>
           </CardHeader>
-          <CardContent className="space-y-6 bg-blue-200">
+          <CardContent className="space-y-6 bg-background">
             <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-4">
               <div className="space-y-2">
                 <label className="text-sm font-bold uppercase whitespace-nowrap">1: SELECT CATEGORY</label>

@@ -111,7 +111,7 @@ export const LanguageSelector: React.FC<LanguageSelectorProps> = ({ inMenu = fal
                 onClick={() => handleLanguageChange(lang.code)}
                 className={`flex items-center gap-3 w-full p-3 text-left rounded-md transition-all duration-150 ${
                   currentLanguage === lang.code 
-                    ? 'bg-blue-50 text-blue-700 font-medium' 
+                    ? 'bg-secondary text-secondary-foreground font-medium' 
                     : 'text-gray-700 hover:bg-gray-50'
                 }`}
                 disabled={isTranslating}

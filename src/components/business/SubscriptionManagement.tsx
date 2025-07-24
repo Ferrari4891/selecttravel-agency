@@ -134,7 +134,7 @@ export const SubscriptionManagement: React.FC<SubscriptionManagementProps> = ({ 
                 onClick={() => setSelectedPlan(cycle.id)}
                 className={`px-4 py-2 rounded text-sm font-medium transition-colors ${
                   selectedPlan === cycle.id
-                    ? 'bg-blue-600 text-white'
+                    ? 'bg-primary text-primary-foreground'
                     : 'text-gray-600 hover:text-gray-900'
                 }`}
               >
@@ -165,7 +165,7 @@ export const SubscriptionManagement: React.FC<SubscriptionManagementProps> = ({ 
             >
               {plan.id === 'economy' && (
                 <div className="absolute -top-3 left-1/2 transform -translate-x-1/2">
-                  <Badge className="bg-blue-600">Most Popular</Badge>
+                  <Badge className="bg-primary text-primary-foreground">Most Popular</Badge>
                 </div>
               )}
               
@@ -225,7 +225,7 @@ export const SubscriptionManagement: React.FC<SubscriptionManagementProps> = ({ 
 
       {/* Trial Information */}
       {currentTier === 'trial' && (
-        <Card className="border-8 border-white shadow-md bg-blue-50">
+        <Card className="border-8 border-white shadow-md bg-background">
           <CardContent className="pt-6">
             <div className="text-center">
               <h3 className="text-lg font-semibold mb-2">
