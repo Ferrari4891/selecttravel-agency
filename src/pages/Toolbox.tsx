@@ -50,7 +50,7 @@ const Toolbox = () => {
       {/* Hero Section */}
       <div className="relative h-64 mb-8 border-8 border-white rounded-none shadow-[0_8px_12px_-4px_rgba(169,169,169,0.4),_-6px_8px_12px_-4px_rgba(169,169,169,0.3),_6px_8px_12px_-4px_rgba(169,169,169,0.3)]">
         <img src={heroToolbox} alt="Travel Toolbox" className="w-full h-full object-cover" />
-        <div className="absolute inset-0 bg-black/20 flex items-center justify-center">
+        <div className="absolute inset-0 flex items-center justify-center">
           <div className="text-center text-white">
             <h1 className="text-4xl font-bold mb-2">Travel Toolbox</h1>
             <p className="text-xl">Essential Apps & Websites for Smart Travelers</p>
