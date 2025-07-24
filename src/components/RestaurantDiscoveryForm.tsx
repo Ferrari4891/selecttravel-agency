@@ -342,27 +342,6 @@ export const RestaurantDiscoveryForm = () => {
           <Navigation onMenuStateChange={setMenuOpen} forceMenuOpen={forceMenuOpen} />
         </div>
         
-        <div className="relative text-center space-y-4 py-16 px-8 overflow-hidden border-8 border-white shadow-[0_8px_16px_rgba(0,0,0,0.3)] bg-background">
-          <img 
-            src={getHeroImage()} 
-            alt="Hero" 
-            className="absolute inset-0 w-full h-full object-cover" 
-          />
-          <div className="absolute inset-0 bg-black/20"></div>
-          <div className="relative z-10">
-            <h1 className="text-xl font-bold text-white sm:text-2xl md:text-4xl lg:text-5xl">
-              smartguides.live
-            </h1>
-            {selectedCity && (
-              <h2 className="text-base font-extrabold text-white uppercase sm:text-xl md:text-2xl lg:text-4xl mb-4">
-                {selectedCity}
-              </h2>
-            )}
-            <p className="text-white text-sm px-4 md:text-base">
-              {getTagline()}
-            </p>
-          </div>
-        </div>
 
         <Card className="shadow-elegant">
           <CardHeader className="bg-background">
