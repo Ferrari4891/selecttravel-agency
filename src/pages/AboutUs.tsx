@@ -34,8 +34,8 @@ const AboutUs = () => {
         </div>
 
         <div className="text-center space-y-4">
-          <h2 className="font-bold text-black text-6xl">
-            About smartguides.live
+          <h2 className="font-bold text-black text-3xl md:text-6xl">
+            About Smart Guides
           </h2>
           <p className="text-lg font-medium text-black">Get what you want or need when you travel in 60 seconds or less with NO typing!!</p>
         </div>
