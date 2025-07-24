@@ -19,15 +19,8 @@ export const LoginForm = ({ onLogin }: LoginFormProps) => {
     e.preventDefault();
     setIsLoading(true);
     
-    // Immediate authentication without setTimeout
-    const isValidLogin = (
-      (username === 'Tester' && password === 'test4891') ||
-      (username === 'Tester' && password === 'TESTER4891') ||
-      (username === 'TESTER' && password === 'test4891') ||
-      (username === 'TESTER' && password === 'TESTER4891') ||
-      (username === 'tester' && password === 'test4891') ||
-      (username === 'tester' && password === 'TESTER4891')
-    );
+    // Simple credential check for front-end access
+    const isValidLogin = (username === 'TESTER' && password === 'tester4891');
     
     if (isValidLogin) {
       localStorage.setItem('isAuthenticated', 'true');
