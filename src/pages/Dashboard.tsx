@@ -79,13 +79,14 @@ const Dashboard = () => {
     <div className="min-h-screen bg-sky-100">
       <header className="bg-white shadow-sm border-b-8 border-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex justify-between items-center py-6">
-            <div className="flex flex-col gap-3">
-              <h1 className="text-3xl font-bold text-gray-900">
+          <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center py-4 sm:py-6 gap-4">
+            <div className="flex flex-col gap-2">
+              <h1 className="text-xl sm:text-2xl lg:text-3xl font-bold text-gray-900">
                 Business Dashboard
               </h1>
               <Button 
                 variant="outline" 
+                size="sm"
                 className="w-fit" 
                 onClick={() => navigate('/')}
               >
@@ -93,11 +94,11 @@ const Dashboard = () => {
                 Home
               </Button>
             </div>
-            <div className="flex items-center gap-4">
-              <span className="text-sm text-gray-600 hidden sm:block">
+            <div className="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-4">
+              <span className="text-xs sm:text-sm text-gray-600">
                 Welcome, {user?.email}
               </span>
-              <Button onClick={signOut} variant="outline">
+              <Button onClick={signOut} variant="outline" size="sm" className="w-fit">
                 Sign Out
               </Button>
             </div>
@@ -120,10 +121,10 @@ const Dashboard = () => {
           </Card>
         ) : (
           <Tabs defaultValue="profile" className="space-y-6">
-            <TabsList className="grid w-full grid-cols-3">
-              <TabsTrigger value="profile">Business Profile</TabsTrigger>
-              <TabsTrigger value="analytics">Analytics</TabsTrigger>
-              <TabsTrigger value="subscription">Subscription</TabsTrigger>
+            <TabsList className="grid w-full grid-cols-1 sm:grid-cols-3 h-auto">
+              <TabsTrigger value="profile" className="text-xs sm:text-sm">Business Profile</TabsTrigger>
+              <TabsTrigger value="analytics" className="text-xs sm:text-sm">Analytics</TabsTrigger>
+              <TabsTrigger value="subscription" className="text-xs sm:text-sm">Subscription</TabsTrigger>
             </TabsList>
 
             <TabsContent value="profile">

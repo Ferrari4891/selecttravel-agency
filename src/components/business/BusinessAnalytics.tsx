@@ -149,7 +149,7 @@ export const BusinessAnalytics: React.FC<BusinessAnalyticsProps> = ({ businessId
           </CardDescription>
         </CardHeader>
         <CardContent>
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
             <div>
               <Label htmlFor="metric_name">Metric Type</Label>
               <Select 
@@ -202,7 +202,7 @@ export const BusinessAnalytics: React.FC<BusinessAnalyticsProps> = ({ businessId
 
       {/* Metrics Summary */}
       {Object.keys(metricSummary).length > 0 && (
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
           {Object.entries(metricSummary).slice(0, 6).map(([metric, data]) => (
             <Card key={metric} className="border-8 border-white shadow-md">
               <CardHeader className="pb-2">
@@ -221,7 +221,7 @@ export const BusinessAnalytics: React.FC<BusinessAnalyticsProps> = ({ businessId
 
       {/* Charts */}
       {uniqueMetrics.length > 0 && (
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        <div className="grid grid-cols-1 xl:grid-cols-2 gap-4 sm:gap-6">
           {uniqueMetrics.slice(0, 4).map((metric) => {
             const chartData = getChartData(metric);
             if (chartData.length === 0) return null;
