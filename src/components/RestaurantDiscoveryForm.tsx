@@ -303,18 +303,18 @@ export const RestaurantDiscoveryForm = () => {
           <img 
             src={getHeroImage()} 
             alt="Hero" 
-            className="absolute inset-0 w-full h-full object-cover opacity-20" 
+            className="absolute inset-0 w-full h-full object-cover" 
           />
           <div className="relative z-10">
-            <h1 className="text-xl font-bold text-foreground sm:text-2xl md:text-4xl lg:text-5xl">
+            <h1 className="text-xl font-bold text-white sm:text-2xl md:text-4xl lg:text-5xl">
               smartguides.live
             </h1>
             {selectedCity && (
-              <h2 className="text-2xl font-extrabold text-foreground uppercase sm:text-4xl md:text-6xl lg:text-8xl mb-4">
+              <h2 className="text-2xl font-extrabold text-white uppercase sm:text-4xl md:text-6xl lg:text-8xl mb-4">
                 {selectedCity}
               </h2>
             )}
-            <p className="text-foreground text-sm px-4 md:text-base">
+            <p className="text-white text-sm px-4 md:text-base">
               {getTagline()}
             </p>
           </div>
