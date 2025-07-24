@@ -51,7 +51,11 @@ interface Restaurant {
   reviewCount: number;
   source: string;
 }
-export const RestaurantDiscoveryForm = () => {
+interface RestaurantDiscoveryFormProps {
+  onSelectionChange?: (category: string, region: string, country: string, city: string) => void;
+}
+
+export const RestaurantDiscoveryForm = ({ onSelectionChange }: RestaurantDiscoveryFormProps) => {
   const [selectedCategory, setSelectedCategory] = useState<string>('');
   const [selectedRegion, setSelectedRegion] = useState<string>('');
   const [selectedCountry, setSelectedCountry] = useState<string>('');
@@ -86,6 +90,7 @@ export const RestaurantDiscoveryForm = () => {
     setSelectedCountry('');
     setSelectedCity('');
     setRestaurants([]);
+    onSelectionChange?.(value, '', '', '');
   };
   const getTagline = () => {
     const baseText = () => {
@@ -177,16 +182,19 @@ export const RestaurantDiscoveryForm = () => {
     setSelectedCountry('');
     setSelectedCity('');
     setRestaurants([]);
+    onSelectionChange?.(selectedCategory, value, '', '');
   };
   const handleCountryChange = (value: string) => {
     setSelectedCountry(value);
     setSelectedCity('');
     setRestaurants([]);
+    onSelectionChange?.(selectedCategory, selectedRegion, value, '');
   };
   const handleCityChange = (value: string) => {
     setSelectedCity(value);
     setCitySearchInput('');
     setRestaurants([]);
+    onSelectionChange?.(selectedCategory, selectedRegion, selectedCountry, value);
   };
 
   // Helper function to get all cities across all countries
@@ -216,6 +224,7 @@ export const RestaurantDiscoveryForm = () => {
       setSelectedCity(foundCity);
       setCitySearchInput('');
       setRestaurants([]);
+      onSelectionChange?.(selectedCategory, selectedRegion, selectedCountry, foundCity);
       toast({
         title: "City Found",
         description: `Selected ${foundCity}`,

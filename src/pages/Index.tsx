@@ -8,13 +8,87 @@ import { useAuth } from "@/contexts/AuthContext";
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
 import heroBackground from "@/assets/hero-background.jpg";
+import { regionData } from '@/data/locationData';
+import { countryImages } from '@/data/countryImages';
+import { cityImages } from '@/data/cityImages';
+import heroEat from '@/assets/hero-eat.jpg';
+import heroDrink from '@/assets/hero-drink.jpg';
+import heroStay from '@/assets/hero-stay.jpg';
+import heroPlay from '@/assets/hero-play.jpg';
+import heroNorthAmerica from '@/assets/hero-north-america.jpg';
+import heroEurope from '@/assets/hero-europe.jpg';
+import heroAsia from '@/assets/hero-asia.jpg';
+import heroSouthAmerica from '@/assets/hero-south-america.jpg';
+import heroAfricaMiddleEast from '@/assets/hero-africa-middle-east.jpg';
+import placeholderEat from '@/assets/placeholder-eat.jpg';
+import placeholderDrink from '@/assets/placeholder-drink.jpg';
+import placeholderStay from '@/assets/placeholder-stay.jpg';
+import placeholderPlay from '@/assets/placeholder-play.jpg';
 const Index = () => {
-  const [selectedCity, setSelectedCity] = useState<string>("");
+  const [selectedCategory, setSelectedCategory] = useState<string>("");
+  const [selectedRegion, setSelectedRegion] = useState<string>("");
   const [selectedCountry, setSelectedCountry] = useState<string>("");
+  const [selectedCity, setSelectedCity] = useState<string>("");
   const [selectedRestaurants, setSelectedRestaurants] = useState<any[]>([]);
   const {
     user
   } = useAuth();
+
+  const getCategoryPlaceholder = () => {
+    switch (selectedCategory) {
+      case 'Eat':
+        return placeholderEat;
+      case 'Drink':
+        return placeholderDrink;
+      case 'Stay':
+        return placeholderStay;
+      case 'Play':
+        return placeholderPlay;
+      default:
+        return heroBackground;
+    }
+  };
+
+  const getHeroImage = () => {
+    // Priority order: City > Country > Region > Category > Default
+    if (selectedCity) {
+      return cityImages[selectedCity] || heroBackground;
+    }
+    if (selectedCountry) {
+      return countryImages[selectedCountry] || getCategoryPlaceholder();
+    }
+    if (selectedRegion) {
+      switch (selectedRegion) {
+        case 'North America':
+          return heroNorthAmerica;
+        case 'Europe':
+          return heroEurope;
+        case 'Asia':
+          return heroAsia;
+        case 'South America':
+          return heroSouthAmerica;
+        case 'Africa & Middle East':
+          return heroAfricaMiddleEast;
+        default:
+          return getCategoryPlaceholder();
+      }
+    }
+    if (selectedCategory) {
+      switch (selectedCategory) {
+        case 'Eat':
+          return heroEat;
+        case 'Drink':
+          return heroDrink;
+        case 'Stay':
+          return heroStay;
+        case 'Play':
+          return heroPlay;
+        default:
+          return heroBackground;
+      }
+    }
+    return heroBackground;
+  };
   return <div className="min-h-screen bg-background">
       <Navigation />
       
@@ -23,7 +97,7 @@ const Index = () => {
         {/* Hero Section */}
         <div className="relative overflow-hidden border-8 border-white shadow-[0_8px_16px_rgba(0,0,0,0.3)] bg-background aspect-video mb-8">
           <img 
-            src={heroBackground} 
+            src={getHeroImage()} 
             alt="Hero" 
             className="absolute inset-0 w-full h-full object-cover" 
           />
@@ -41,7 +115,14 @@ const Index = () => {
         </div>
 
         <div className="max-w-4xl mx-auto px-6">
-          <RestaurantDiscoveryForm />
+          <RestaurantDiscoveryForm 
+            onSelectionChange={(category, region, country, city) => {
+              setSelectedCategory(category);
+              setSelectedRegion(region);
+              setSelectedCountry(country);
+              setSelectedCity(city);
+            }}
+          />
         </div>
         
         <div className="absolute top-4 right-4 z-20">
