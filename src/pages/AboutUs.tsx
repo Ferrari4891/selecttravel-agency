@@ -23,7 +23,7 @@ const AboutUs = () => {
         </div>
       </div>
 
-      <div className="max-w-4xl mx-auto p-6 space-y-8 bg-sky-50">
+      <div className="max-w-4xl mx-auto p-6 space-y-8 bg-white">
         <div className="flex items-center gap-4">
           <Link to="/">
             <Button variant="outline" size="sm">
@@ -34,17 +34,17 @@ const AboutUs = () => {
         </div>
 
         <div className="text-center space-y-4">
-          <h2 className="font-bold bg-gradient-primary bg-clip-text text-sky-500 text-6xl">
+          <h2 className="font-bold text-black text-6xl">
             About smartguides.live
           </h2>
-          <p className="text-lg font-medium text-slate-950">Get what you want or need when you travel in 60 seconds or less with NO typing!!</p>
+          <p className="text-lg font-medium text-black">Get what you want or need when you travel in 60 seconds or less with NO typing!!</p>
         </div>
 
         <div className="grid gap-6 md:grid-cols-2">
           <Card className="rounded-none flex flex-col h-full">
-            <CardHeader className="bg-sky-300">
-              <CardTitle className="text-3xl text-slate-950 font-bold">Our Mission</CardTitle>
-              <CardDescription className="text-lg font-semibold text-slate-50">Why we enjoy making Smart Guides</CardDescription>
+            <CardHeader className="bg-black">
+              <CardTitle className="text-3xl text-white font-bold">Our Mission</CardTitle>
+              <CardDescription className="text-lg font-semibold text-white">Why we enjoy making Smart Guides</CardDescription>
             </CardHeader>
             <CardContent className="flex flex-col flex-1 justify-between space-y-4">
               <p className="text-muted-foreground">
@@ -57,9 +57,9 @@ At smartguides.live , we believe that your time is valuable and when you travel 
           </Card>
 
           <Card className="rounded-none flex flex-col h-full">
-            <CardHeader className="bg-sky-300">
-              <CardTitle className="text-3xl text-slate-950 font-bold">Our Story</CardTitle>
-              <CardDescription className="text-lg font-semibold text-slate-50">Why we created Smart Guides</CardDescription>
+            <CardHeader className="bg-black">
+              <CardTitle className="text-3xl text-white font-bold">Our Story</CardTitle>
+              <CardDescription className="text-lg font-semibold text-white">Why we created Smart Guides</CardDescription>
             </CardHeader>
             <CardContent className="flex flex-col flex-1 justify-between space-y-4">
               <p className="text-muted-foreground">
@@ -72,9 +72,9 @@ Founded by seniors for seniors, smartguides.live was born from the frustration o
           </Card>
 
           <Card className="rounded-none flex flex-col h-full">
-            <CardHeader className="bg-sky-300">
-              <CardTitle className="text-3xl text-slate-950 font-bold">The 60 Second Rule!</CardTitle>
-              <CardDescription className="text-lg font-semibold text-slate-50">With NO typing to get what you want.</CardDescription>
+            <CardHeader className="bg-black">
+              <CardTitle className="text-3xl text-white font-bold">The 60 Second Rule!</CardTitle>
+              <CardDescription className="text-lg font-semibold text-white">With NO typing to get what you want.</CardDescription>
             </CardHeader>
             <CardContent className="flex flex-col flex-1 justify-between space-y-4">
               <ol className="space-y-2 text-muted-foreground">
@@ -91,9 +91,9 @@ Founded by seniors for seniors, smartguides.live was born from the frustration o
           </Card>
 
           <Card className="rounded-none flex flex-col h-full">
-            <CardHeader className="bg-sky-300">
-              <CardTitle className="text-3xl text-slate-950 font-bold">Our Team</CardTitle>
-              <CardDescription className="text-lg font-semibold text-slate-50">Keeping it fast & simple</CardDescription>
+            <CardHeader className="bg-black">
+              <CardTitle className="text-3xl text-white font-bold">Our Team</CardTitle>
+              <CardDescription className="text-lg font-semibold text-white">Keeping it fast & simple</CardDescription>
             </CardHeader>
             <CardContent className="flex flex-col flex-1 justify-between space-y-4">
               <p className="text-muted-foreground">

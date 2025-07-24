@@ -11,7 +11,7 @@ const Footer = ({ themeClass }: FooterProps) => {
 
   return (
     <div className={themeClass}>
-      <footer className="text-primary-foreground py-8 mt-auto bg-sky-500">
+      <footer className="text-foreground py-8 mt-auto bg-white border-t-2 border-black">
         <div className="max-w-4xl mx-auto px-6">
           <div className="flex flex-wrap justify-center gap-8 text-center">
             <Link to="/" className="hover:opacity-80 transition-opacity">
