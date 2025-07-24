@@ -32,17 +32,57 @@ const App = () => (
           <Sonner />
           <BrowserRouter>
             <Routes>
-              <Route path="/" element={<Index />} />
+              <Route path="/" element={
+                <ProtectedRoute>
+                  <Index />
+                </ProtectedRoute>
+              } />
               <Route path="/auth" element={<Auth />} />
-              <Route path="/about-us" element={<AboutUs />} />
-              <Route path="/how-to" element={<HowTo />} />
-              <Route path="/advertise" element={<Advertise />} />
-              <Route path="/roi" element={<ROI />} />
-              <Route path="/toolbox" element={<Toolbox />} />
-              <Route path="/visa-info" element={<VisaInfo />} />
-              <Route path="/members" element={<Members />} />
-              <Route path="/join-free" element={<JoinFree />} />
-              <Route path="/tv-channel" element={<TVChannel />} />
+              <Route path="/about-us" element={
+                <ProtectedRoute>
+                  <AboutUs />
+                </ProtectedRoute>
+              } />
+              <Route path="/how-to" element={
+                <ProtectedRoute>
+                  <HowTo />
+                </ProtectedRoute>
+              } />
+              <Route path="/advertise" element={
+                <ProtectedRoute>
+                  <Advertise />
+                </ProtectedRoute>
+              } />
+              <Route path="/roi" element={
+                <ProtectedRoute>
+                  <ROI />
+                </ProtectedRoute>
+              } />
+              <Route path="/toolbox" element={
+                <ProtectedRoute>
+                  <Toolbox />
+                </ProtectedRoute>
+              } />
+              <Route path="/visa-info" element={
+                <ProtectedRoute>
+                  <VisaInfo />
+                </ProtectedRoute>
+              } />
+              <Route path="/members" element={
+                <ProtectedRoute>
+                  <Members />
+                </ProtectedRoute>
+              } />
+              <Route path="/join-free" element={
+                <ProtectedRoute>
+                  <JoinFree />
+                </ProtectedRoute>
+              } />
+              <Route path="/tv-channel" element={
+                <ProtectedRoute>
+                  <TVChannel />
+                </ProtectedRoute>
+              } />
               <Route 
                 path="/dashboard" 
                 element={
