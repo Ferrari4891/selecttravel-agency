@@ -34,7 +34,8 @@ const Index = () => {
               <h1 className="text-2xl sm:text-4xl md:text-6xl font-bold text-white mb-4 sm:mb-6">
                 PERSONALISED SMART GUIDES
               </h1>
-              <p className="text-sm sm:text-xl text-white mb-8 max-w-3xl mx-auto">LET'S MAKE IT PERSONAL!</p>
+              <p className="text-sm sm:text-xl text-white mb-4 max-w-3xl mx-auto">LET'S MAKE IT PERSONAL!</p>
+              <p className="text-lg sm:text-2xl font-semibold text-white">www.smartguides.live</p>
             </div>
           </div>
         </div>

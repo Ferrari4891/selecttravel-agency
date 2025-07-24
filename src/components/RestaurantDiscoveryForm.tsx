@@ -338,11 +338,6 @@ export const RestaurantDiscoveryForm = () => {
   };
   return <div className={`min-h-screen bg-background ${getThemeClass()}`}>
       <div className="max-w-4xl mx-auto space-y-8 p-6 bg-background">
-        <div className="pt-0">
-          <Navigation onMenuStateChange={setMenuOpen} forceMenuOpen={forceMenuOpen} />
-        </div>
-        
-
         <Card className="shadow-elegant">
           <CardHeader className="bg-background">
             <CardTitle className="flex items-center gap-2 text-5xl font-bold text-foreground">
