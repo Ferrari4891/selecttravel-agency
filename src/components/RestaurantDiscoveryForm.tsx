@@ -3,7 +3,8 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Button } from '@/components/ui/button';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Badge } from '@/components/ui/badge';
-import { Loader2, MapPin, Download } from 'lucide-react';
+import { Input } from '@/components/ui/input';
+import { Loader2, MapPin, Download, Search } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { Navigation } from './Navigation';
 import { regionData } from '@/data/locationData';
@@ -55,6 +56,7 @@ export const RestaurantDiscoveryForm = () => {
   const [selectedRegion, setSelectedRegion] = useState<string>('');
   const [selectedCountry, setSelectedCountry] = useState<string>('');
   const [selectedCity, setSelectedCity] = useState<string>('');
+  const [citySearchInput, setCitySearchInput] = useState<string>('');
   const [isLoading, setIsLoading] = useState(false);
   const [restaurants, setRestaurants] = useState<Restaurant[]>([]);
   const [menuOpen, setMenuOpen] = useState(false);
@@ -131,9 +133,9 @@ export const RestaurantDiscoveryForm = () => {
     }
   };
   const getHeroImage = () => {
-    // Priority order: City > Country > Region > Category > Default
+  // Priority order: City > Country > Region > Category > Default
     if (selectedCity) {
-      return cityImages[selectedCity] || getCategoryPlaceholder();
+      return cityImages[selectedCity] || heroBackground;
     }
     if (selectedCountry) {
       return countryImages[selectedCountry] || getCategoryPlaceholder();
@@ -183,7 +185,48 @@ export const RestaurantDiscoveryForm = () => {
   };
   const handleCityChange = (value: string) => {
     setSelectedCity(value);
+    setCitySearchInput('');
     setRestaurants([]);
+  };
+
+  // Helper function to get all cities across all countries
+  const getAllCities = () => {
+    const allCities: string[] = [];
+    Object.values(regionData).forEach(region => {
+      region.countries.forEach(country => {
+        allCities.push(...country.cities);
+      });
+    });
+    return allCities;
+  };
+
+  const handleCitySearch = () => {
+    const searchTerm = citySearchInput.trim().toLowerCase();
+    const allCities = getAllCities();
+    
+    // Find exact match first
+    let foundCity = allCities.find(city => city.toLowerCase() === searchTerm);
+    
+    // If no exact match, try partial match
+    if (!foundCity) {
+      foundCity = allCities.find(city => city.toLowerCase().includes(searchTerm));
+    }
+
+    if (foundCity) {
+      setSelectedCity(foundCity);
+      setCitySearchInput('');
+      setRestaurants([]);
+      toast({
+        title: "City Found",
+        description: `Selected ${foundCity}`,
+      });
+    } else {
+      toast({
+        title: "City Not Found",
+        description: "Sorry, your choice is not listed. Please try a different city or select from the dropdown.",
+        variant: "destructive"
+      });
+    }
   };
   const searchRestaurants = async () => {
     if (!selectedCategory || !selectedRegion || !selectedCountry || !selectedCity) {
@@ -310,7 +353,7 @@ export const RestaurantDiscoveryForm = () => {
               smartguides.live
             </h1>
             {selectedCity && (
-              <h2 className="text-2xl font-extrabold text-white uppercase sm:text-4xl md:text-6xl lg:text-8xl mb-4">
+              <h2 className="text-base font-extrabold text-white uppercase sm:text-xl md:text-2xl lg:text-4xl mb-4">
                 {selectedCity}
               </h2>
             )}
@@ -387,6 +430,28 @@ export const RestaurantDiscoveryForm = () => {
                       </SelectItem>)}
                   </SelectContent>
                 </Select>
+                
+                {selectedCountry && (
+                  <div className="mt-3 space-y-2">
+                    <label className="text-xs font-medium text-muted-foreground">Or search for a city:</label>
+                    <div className="flex gap-2">
+                      <Input
+                        placeholder="Enter city name"
+                        value={citySearchInput}
+                        onChange={(e) => setCitySearchInput(e.target.value)}
+                        className="text-sm"
+                      />
+                      <Button
+                        size="sm"
+                        variant="outline"
+                        onClick={handleCitySearch}
+                        disabled={!citySearchInput.trim()}
+                      >
+                        <Search className="h-4 w-4" />
+                      </Button>
+                    </div>
+                  </div>
+                )}
               </div>
             </div>
 
