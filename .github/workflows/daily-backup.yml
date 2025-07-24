@@ -1,0 +1,71 @@
+name: Daily Code Backup (Only If Changes)
+
+on:
+  schedule:
+    # Run daily at 2 AM UTC (adjust timezone as needed)
+    - cron: '0 2 * * *'
+  workflow_dispatch: # Allows manual triggering
+
+jobs:
+  backup-if-changed:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0 # Fetch all history for change detection
+
+      - name: Check for changes in last 24 hours
+        id: check-changes
+        run: |
+          # Check if there are any commits in the last 24 hours
+          CHANGES=$(git log --since="24 hours ago" --oneline)
+          if [ -z "$CHANGES" ]; then
+            echo "No changes in the last 24 hours. Skipping backup."
+            echo "has_changes=false" >> $GITHUB_OUTPUT
+          else
+            echo "Changes detected in the last 24 hours:"
+            echo "$CHANGES"
+            echo "has_changes=true" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Create backup archive
+        if: steps.check-changes.outputs.has_changes == 'true'
+        run: |
+          # Create timestamp for backup
+          TIMESTAMP=$(date +%Y%m%d_%H%M%S)
+          
+          # Create backup directory
+          mkdir -p backups
+          
+          # Create tar archive of source code (excluding node_modules, .git, etc.)
+          tar -czf "backups/code_backup_${TIMESTAMP}.tar.gz" \
+            --exclude='node_modules' \
+            --exclude='.git' \
+            --exclude='dist' \
+            --exclude='build' \
+            --exclude='*.log' \
+            --exclude='.env*' \
+            .
+          
+          echo "Backup created: code_backup_${TIMESTAMP}.tar.gz"
+          ls -la backups/
+
+      - name: Upload backup as artifact
+        if: steps.check-changes.outputs.has_changes == 'true'
+        uses: actions/upload-artifact@v4
+        with:
+          name: daily-code-backup-${{ github.run_number }}
+          path: backups/
+          retention-days: 30 # Keep backups for 30 days
+
+      - name: Backup summary
+        run: |
+          if [ "${{ steps.check-changes.outputs.has_changes }}" == "true" ]; then
+            echo "✅ Backup completed successfully"
+            echo "📦 Backup artifact uploaded with 30-day retention"
+            echo "🕐 Next backup: Tomorrow at 2 AM UTC"
+          else
+            echo "⏭️ No changes detected - backup skipped"
+            echo "🕐 Next check: Tomorrow at 2 AM UTC"
+          fi
