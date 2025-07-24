@@ -84,10 +84,6 @@ export const LanguageSelector: React.FC<LanguageSelectorProps> = ({ inMenu = fal
           </div>
         )}
         
-        {/* Hidden Google Translate element */}
-        <div className="hidden">
-          <div id="google_translate_element"></div>
-        </div>
       </div>
     );
   }
@@ -131,10 +127,6 @@ export const LanguageSelector: React.FC<LanguageSelectorProps> = ({ inMenu = fal
         </div>
       )}
 
-      {/* Hidden Google Translate element for top menu */}
-      <div className="hidden">
-        <div id="google_translate_element"></div>
-      </div>
     </div>
   );
 };

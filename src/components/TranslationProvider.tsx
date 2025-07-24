@@ -13,7 +13,14 @@ declare global {
     googleTranslateElementInit: () => void;
     google: {
       translate: {
-        TranslateElement: new (options: any, element: string) => any;
+        TranslateElement: {
+          new (options: any, element: string): any;
+          InlineLayout: {
+            SIMPLE: number;
+            HORIZONTAL: number;
+            VERTICAL: number;
+          };
+        };
       };
     };
   }
@@ -31,35 +38,35 @@ export const TranslationProvider: React.FC<{ children: React.ReactNode }> = ({ c
       setCurrentLanguage(savedLanguage);
     }
 
-    // Load Google Translate script
-    const existingScript = document.querySelector('script[src*="translate.google.com"]');
-    if (!existingScript) {
-      const script = document.createElement('script');
-      script.src = 'https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit';
-      script.async = true;
-      
-      // Initialize Google Translate
+    // Load Google Translate script only once
+    if (!window.google?.translate?.TranslateElement) {
+      // Initialize Google Translate callback first
       window.googleTranslateElementInit = () => {
         console.log('Google Translate initialized');
         
-        // Try to find any google_translate_element
-        const elements = document.querySelectorAll('#google_translate_element');
-        const targetElement = elements[elements.length - 1]; // Use the last one found
-        
-        if (targetElement) {
+        // Create the translate element in a visible but hidden container
+        const container = document.getElementById('google_translate_element');
+        if (container && window.google?.translate?.TranslateElement) {
           new window.google.translate.TranslateElement(
             {
               pageLanguage: 'en',
-              includedLanguages: 'en,es,fr,de,it,pt,zh,ja,ko,ar,ru,hi',
+              includedLanguages: 'en,es,fr,de,it,pt,zh-cn,ja,ko,ar,ru,hi',
               layout: 2,
               autoDisplay: false,
+              multilanguagePage: true
             },
-            targetElement.id
+            'google_translate_element'
           );
+          setIsScriptLoaded(true);
+          console.log('Google Translate element created');
         }
-        setIsScriptLoaded(true);
       };
 
+      // Load the script
+      const script = document.createElement('script');
+      script.src = 'https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit';
+      script.async = true;
+      script.onerror = () => console.error('Failed to load Google Translate script');
       document.head.appendChild(script);
     } else {
       setIsScriptLoaded(true);
@@ -72,56 +79,77 @@ export const TranslationProvider: React.FC<{ children: React.ReactNode }> = ({ c
     setCurrentLanguage(language);
     localStorage.setItem('selectedLanguage', language);
     
-    // Wait a bit for Google Translate to be ready
-    setTimeout(() => {
+    // Map language codes to Google Translate format
+    const languageMap: { [key: string]: string } = {
+      'en': 'en',
+      'es': 'es', 
+      'fr': 'fr',
+      'de': 'de',
+      'it': 'it',
+      'pt': 'pt',
+      'zh': 'zh-cn',
+      'ja': 'ja',
+      'ko': 'ko',
+      'ar': 'ar',
+      'ru': 'ru',
+      'hi': 'hi'
+    };
+
+    const googleLangCode = languageMap[language] || language;
+    
+    // Function to attempt translation
+    const attemptTranslation = (retryCount = 0) => {
       const selectElement = document.querySelector('.goog-te-combo') as HTMLSelectElement;
-      console.log('Found Google Translate select:', selectElement);
+      console.log('Attempting translation, retry:', retryCount, 'select found:', !!selectElement);
       
       if (selectElement) {
-        // Set the value and trigger the change event
-        selectElement.value = language;
-        
-        // Create and dispatch a proper change event
-        const changeEvent = new Event('change', { 
-          bubbles: true, 
-          cancelable: true 
-        });
-        selectElement.dispatchEvent(changeEvent);
-        
-        // Also try triggering with input event
-        const inputEvent = new Event('input', { 
-          bubbles: true, 
-          cancelable: true 
-        });
-        selectElement.dispatchEvent(inputEvent);
-        
-        console.log('Triggered Google Translate for language:', language);
-        
-        // Set translating to false after a delay
-        setTimeout(() => {
+        // Reset to English first if not already English
+        if (language !== 'en' && selectElement.value !== 'en') {
+          selectElement.value = 'en';
+          selectElement.dispatchEvent(new Event('change', { bubbles: true }));
+          
+          // Wait a moment then translate to target language
+          setTimeout(() => {
+            selectElement.value = googleLangCode;
+            selectElement.dispatchEvent(new Event('change', { bubbles: true }));
+            console.log('Translation triggered for:', googleLangCode);
+            setIsTranslating(false);
+          }, 1000);
+        } else {
+          // Direct translation
+          selectElement.value = googleLangCode;
+          selectElement.dispatchEvent(new Event('change', { bubbles: true }));
+          console.log('Direct translation triggered for:', googleLangCode);
           setIsTranslating(false);
-        }, 1500);
+        }
+      } else if (retryCount < 5) {
+        // Retry up to 5 times with increasing delay
+        setTimeout(() => attemptTranslation(retryCount + 1), 1000 * (retryCount + 1));
       } else {
-        console.log('Google Translate select not found, trying again...');
-        // Retry after a longer delay
-        setTimeout(() => {
-          const retrySelect = document.querySelector('.goog-te-combo') as HTMLSelectElement;
-          if (retrySelect) {
-            retrySelect.value = language;
-            retrySelect.dispatchEvent(new Event('change', { bubbles: true }));
-            console.log('Retry successful for language:', language);
-          }
-          setIsTranslating(false);
-        }, 2000);
+        console.error('Google Translate element not found after multiple retries');
+        setIsTranslating(false);
       }
-    }, 500);
+    };
+
+    // Start translation attempt
+    setTimeout(attemptTranslation, 500);
   };
 
   return (
     <TranslationContext.Provider value={{ currentLanguage, setLanguage, isTranslating }}>
       {children}
-      {/* Google Translate element will be rendered in Navigation */}
-      <div id="google_translate_element_placeholder" style={{ display: 'none' }}></div>
+      {/* Google Translate element - positioned off-screen but accessible */}
+      <div 
+        id="google_translate_element" 
+        style={{ 
+          position: 'absolute', 
+          left: '-9999px', 
+          top: '-9999px',
+          width: '1px',
+          height: '1px',
+          overflow: 'hidden'
+        }}
+      ></div>
     </TranslationContext.Provider>
   );
 };
