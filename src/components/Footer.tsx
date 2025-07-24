@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
 import { useAuth } from "@/contexts/AuthContext";
+import { LanguageSelector } from "@/components/LanguageSelector";
 
 interface FooterProps {
   themeClass?: string;
@@ -57,6 +58,9 @@ const Footer = ({ themeClass }: FooterProps) => {
             <a href="mailto:contact@smartguides.live" className="hover:opacity-80 transition-opacity">
               Contact Us
             </a>
+            <div className="flex justify-center">
+              <LanguageSelector inMenu={false} onClose={() => {}} />
+            </div>
           </div>
         </div>
       </footer>

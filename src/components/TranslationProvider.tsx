@@ -99,40 +99,62 @@ export const TranslationProvider: React.FC<{ children: React.ReactNode }> = ({ c
     
     // Function to attempt translation
     const attemptTranslation = (retryCount = 0) => {
-      const selectElement = document.querySelector('.goog-te-combo') as HTMLSelectElement;
+      // Look for both possible selectors
+      const selectElement = document.querySelector('.goog-te-combo') as HTMLSelectElement || 
+                           document.querySelector('select.goog-te-combo') as HTMLSelectElement ||
+                           document.querySelector('#\\:0\\.targetLanguage') as HTMLSelectElement ||
+                           document.querySelector('select[class*="goog-te"]') as HTMLSelectElement;
+      
       console.log('Attempting translation, retry:', retryCount, 'select found:', !!selectElement);
+      console.log('Available selects:', document.querySelectorAll('select').length);
       
       if (selectElement) {
-        // Reset to English first if not already English
-        if (language !== 'en' && selectElement.value !== 'en') {
-          selectElement.value = 'en';
-          selectElement.dispatchEvent(new Event('change', { bubbles: true }));
-          
-          // Wait a moment then translate to target language
-          setTimeout(() => {
-            selectElement.value = googleLangCode;
-            selectElement.dispatchEvent(new Event('change', { bubbles: true }));
-            console.log('Translation triggered for:', googleLangCode);
-            setIsTranslating(false);
-          }, 1000);
-        } else {
-          // Direct translation
+        console.log('Current select value:', selectElement.value);
+        console.log('Target language code:', googleLangCode);
+        
+        try {
+          // Set the value directly
           selectElement.value = googleLangCode;
-          selectElement.dispatchEvent(new Event('change', { bubbles: true }));
-          console.log('Direct translation triggered for:', googleLangCode);
+          
+          // Trigger multiple events to ensure Google Translate responds
+          const events = ['change', 'input', 'click'];
+          events.forEach(eventType => {
+            const event = new Event(eventType, { 
+              bubbles: true, 
+              cancelable: true 
+            });
+            selectElement.dispatchEvent(event);
+          });
+          
+          console.log('Translation events dispatched for:', googleLangCode);
+          setTimeout(() => setIsTranslating(false), 2000);
+          
+        } catch (error) {
+          console.error('Error during translation:', error);
           setIsTranslating(false);
         }
-      } else if (retryCount < 5) {
-        // Retry up to 5 times with increasing delay
-        setTimeout(() => attemptTranslation(retryCount + 1), 1000 * (retryCount + 1));
+      } else if (retryCount < 10) {
+        // Increase retry attempts and check more frequently
+        console.log('Retrying in', (retryCount + 1) * 500, 'ms');
+        setTimeout(() => attemptTranslation(retryCount + 1), (retryCount + 1) * 500);
       } else {
         console.error('Google Translate element not found after multiple retries');
+        console.log('All selects on page:', Array.from(document.querySelectorAll('select')).map(s => ({
+          id: s.id,
+          className: s.className,
+          value: s.value
+        })));
         setIsTranslating(false);
       }
     };
 
-    // Start translation attempt
-    setTimeout(attemptTranslation, 500);
+    // Start translation attempt immediately if script is ready
+    if (isScriptLoaded) {
+      attemptTranslation();
+    } else {
+      // Wait for script to load
+      setTimeout(attemptTranslation, 1000);
+    }
   };
 
   return (
