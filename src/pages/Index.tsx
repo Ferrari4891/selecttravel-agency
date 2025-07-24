@@ -7,6 +7,8 @@ import Footer from "@/components/Footer";
 import { useAuth } from "@/contexts/AuthContext";
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
+import { Carousel, CarouselContent, CarouselItem } from "@/components/ui/carousel";
+import Autoplay from "embla-carousel-autoplay";
 import heroBackground from "@/assets/hero-background.jpg";
 import { regionData } from '@/data/locationData';
 import { countryImages } from '@/data/countryImages';
@@ -33,6 +35,13 @@ const Index = () => {
   const {
     user
   } = useAuth();
+
+  const carouselImages = [
+    { src: heroEat, alt: "Eat" },
+    { src: heroStay, alt: "Stay" },
+    { src: heroDrink, alt: "Drink" },
+    { src: heroPlay, alt: "Play" }
+  ];
 
   const getCategoryPlaceholder = () => {
     switch (selectedCategory) {
@@ -96,11 +105,38 @@ const Index = () => {
       <section className="py-8">
         {/* Hero Section */}
         <div className="relative overflow-hidden border-8 border-white shadow-[0_8px_16px_rgba(0,0,0,0.3)] bg-background aspect-video mb-8">
-          <img 
-            src={getHeroImage()} 
-            alt="Hero" 
-            className="absolute inset-0 w-full h-full object-cover" 
-          />
+          {!selectedCity && !selectedCountry && !selectedRegion ? (
+            <Carousel 
+              className="w-full h-full"
+              plugins={[
+                Autoplay({
+                  delay: 4000,
+                })
+              ]}
+              opts={{
+                align: "start",
+                loop: true,
+              }}
+            >
+              <CarouselContent className="h-full">
+                {carouselImages.map((image, index) => (
+                  <CarouselItem key={index} className="h-full">
+                    <img 
+                      src={image.src} 
+                      alt={image.alt} 
+                      className="absolute inset-0 w-full h-full object-cover" 
+                    />
+                  </CarouselItem>
+                ))}
+              </CarouselContent>
+            </Carousel>
+          ) : (
+            <img 
+              src={getHeroImage()} 
+              alt="Hero" 
+              className="absolute inset-0 w-full h-full object-cover" 
+            />
+          )}
           <div className="absolute inset-0 bg-black/20"></div>
           
           <div className="relative z-10 h-full flex items-center justify-center px-4">
@@ -109,7 +145,7 @@ const Index = () => {
               {selectedCity || selectedCountry || selectedRegion || "PERSONALISED SMART GUIDES"}
             </h1>
             {!selectedCity && !selectedCountry && !selectedRegion && (
-              <p className="text-sm sm:text-xl text-white mb-4 max-w-3xl mx-auto">LET'S MAKE IT PERSONAL!</p>
+              <p className="text-sm sm:text-xl text-white mb-4 max-w-3xl mx-auto">LET'S GET PERSONAL!</p>
             )}
             <p className="text-lg sm:text-2xl font-semibold text-white">www.smartguides.live</p>
           </div>
