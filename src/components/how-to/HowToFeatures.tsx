@@ -3,7 +3,7 @@ import { Star, Download } from "lucide-react";
 const HowToFeatures = () => {
   return <div className="grid gap-6 md:grid-cols-2">
       <Card>
-        <CardHeader className="bg-sky-100">
+        <CardHeader className="bg-foreground text-background">
           <CardTitle className="flex items-center gap-2">
             <Star className="h-5 w-5" />
             Understanding Our Results
@@ -36,7 +36,7 @@ const HowToFeatures = () => {
       </Card>
 
       <Card>
-        <CardHeader className="bg-sky-100">
+        <CardHeader className="bg-foreground text-background">
           <CardTitle className="flex items-center gap-2">
             <Download className="h-5 w-5" />
             Exporting Your Results

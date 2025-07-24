@@ -1,7 +1,7 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { MapPin } from "lucide-react";
 const HowToTips = () => {
-  return <Card className="text-sky-400 font-extrabold">
+  return <Card className="text-foreground font-extrabold">
       <CardHeader>
         <CardTitle className="flex items-center gap-2">
           <MapPin className="h-5 w-5" />

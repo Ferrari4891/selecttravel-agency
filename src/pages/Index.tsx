@@ -104,13 +104,13 @@ const Index = () => {
       {/* Restaurant Discovery Form */}
       <section className="py-8">
         {/* Hero Section */}
-        <div className="relative overflow-hidden border-8 border-white shadow-[0_8px_16px_rgba(0,0,0,0.3)] bg-background aspect-video mb-8">
+        <div className="relative overflow-hidden border-8 border-white shadow-[0_8px_16px_rgba(0,0,0,0.3)] bg-background aspect-[16/9] mb-8">
           {!selectedCity && !selectedCountry && !selectedRegion ? (
             <Carousel 
               className="w-full h-full"
               plugins={[
                 Autoplay({
-                  delay: 4000,
+                  delay: 2000,
                 })
               ]}
               opts={{
