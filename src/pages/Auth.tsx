@@ -84,15 +84,7 @@ const Auth = () => {
 
   return (
     <div className="min-h-screen bg-background flex items-center justify-center p-4">
-      {/* Home Button */}
-      <Button 
-        variant="outline" 
-        className="fixed top-4 left-4 z-10" 
-        onClick={() => navigate('/')}
-      >
-        <Home className="h-4 w-4 mr-2" />
-        Home
-      </Button>
+      {/* Home Button - only show if user is not trying to access protected content */}
       
       <Card className="w-full max-w-md">
         <CardHeader>
