@@ -354,7 +354,7 @@ export const RestaurantDiscoveryForm = ({ onSelectionChange }: RestaurantDiscove
               <MapPin className="h-5 w-5 text-primary" />
               SELECT YOUR GUIDE
             </CardTitle>
-            <CardDescription className="font-semibold text-muted-foreground">Follow the 5 steps to discover the top 20 Businesses in thousands of cities around the world in 60 seconds or less!</CardDescription>
+            <CardDescription className="font-semibold text-muted-foreground">Follow the 5 steps below and choose how many businesses you want shown. Get 3 star + Businesses in thousands of cities worldwide in 60 seconds or less with NO typing!</CardDescription>
           </CardHeader>
           <CardContent className="space-y-6 bg-background">
             <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-4">
@@ -459,7 +459,7 @@ export const RestaurantDiscoveryForm = ({ onSelectionChange }: RestaurantDiscove
                   {isLoading ? <>
                       <Loader2 className="mr-2 h-4 w-4 animate-spin" />
                       Searching...
-                    </> : '5 GET NOW!'}
+                    </> : '5. GET NOW!'}
                 </Button>
               </div>
 
