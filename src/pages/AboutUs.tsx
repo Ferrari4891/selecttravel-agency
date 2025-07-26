@@ -49,7 +49,7 @@ const AboutUs = () => {
             <CardContent className="flex flex-col flex-1 justify-between space-y-4">
               <p className="text-muted-foreground">
 
-At smartguides.live , we believe that your time is valuable and when you travel should be stress free. Our mission is to help you discover top rated businesses in a variety of categories worldwide.  By combining data from trusted sources like TripAdvisor, Yelp, and Google Reviews to give you the top 20 recommendations in a wide range of cities..</p>
+At smartguidebooks.com , we believe that your time is valuable and when you travel should be stress free. Our mission is to help you discover top rated businesses in a variety of categories worldwide.  By combining data from trusted sources like TripAdvisor, Yelp, and Google Reviews to give you the top 20 recommendations in a wide range of cities..</p>
               <div className="mt-auto">
                 <AudioPlayer src="our-mission.wav" />
               </div>
@@ -64,7 +64,7 @@ At smartguides.live , we believe that your time is valuable and when you travel 
             <CardContent className="flex flex-col flex-1 justify-between space-y-4">
               <p className="text-muted-foreground">
 
-Founded by seniors for seniors, smartguides.live was born from the frustration of spending hours researching credible businesses when traveling. We wanted to create a simple, reliable way to find the best rated businesses in any location, backed by real reviews from real people and comprehensive data.</p>
+Founded by seniors for seniors, smartguidebooks.com was born from the frustration of spending hours researching credible businesses when traveling. We wanted to create a simple, reliable way to find the best rated businesses in any location, backed by real reviews from real people and comprehensive data.</p>
               <div className="mt-auto">
                 <AudioPlayer src="our-story.wav" />
               </div>

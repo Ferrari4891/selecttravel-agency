@@ -155,7 +155,7 @@ const Index = () => {
             {!selectedCity && !selectedCountry && !selectedRegion && (
               <p className="text-sm sm:text-xl text-white mb-4 max-w-3xl mx-auto">LET'S GET PERSONAL!</p>
             )}
-            <p className="text-lg sm:text-2xl font-semibold text-white">www.smartguides.live</p>
+            <p className="text-lg sm:text-2xl font-semibold text-white">www.smartguidebooks.com</p>
           </div>
           </div>
         </div>

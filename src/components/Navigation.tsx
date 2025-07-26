@@ -206,7 +206,7 @@ export const Navigation = ({ onMenuStateChange, forceMenuOpen }: NavigationProps
           <div className="w-8 h-8 bg-primary flex items-center justify-center">
             <span className="text-primary-foreground font-bold text-xs sm:text-sm">SGL</span>
           </div>
-          <span className="font-bold text-primary text-sm sm:text-lg hidden xs:block sm:block">SmartGuides.Live</span>
+          <span className="font-bold text-primary text-sm sm:text-lg hidden xs:block sm:block">SmartGuideBooks.com</span>
           <span className="font-bold text-primary text-sm block xs:hidden sm:hidden">SGL</span>
         </div>
       </div>

@@ -55,7 +55,7 @@ const Footer = ({ themeClass }: FooterProps) => {
                 Business Login
               </Link>
             )}
-            <a href="mailto:contact@smartguides.live" className="hover:opacity-80 transition-opacity">
+            <a href="mailto:contact@smartguidebooks.com" className="hover:opacity-80 transition-opacity">
               Contact Us
             </a>
             <div className="flex justify-center">
