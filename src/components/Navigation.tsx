@@ -5,6 +5,7 @@ import { Menu, Home, Info, HelpCircle, Users, Building2, ChevronDown, ChevronRig
 import { Link } from 'react-router-dom';
 import { LanguageSelector } from '@/components/LanguageSelector';
 import { useAuth } from '@/contexts/AuthContext';
+import { useToast } from '@/hooks/use-toast';
 
 interface NavigationProps {
   onMenuStateChange?: (isOpen: boolean) => void;
@@ -17,6 +18,7 @@ export const Navigation = ({ onMenuStateChange, forceMenuOpen }: NavigationProps
   const [toolboxExpanded, setToolboxExpanded] = useState(false);
   const [membersExpanded, setMembersExpanded] = useState(false);
   const { user } = useAuth();
+  const { toast } = useToast();
 
   const handleMenuChange = (open: boolean) => {
     setMenuOpen(open);
@@ -29,6 +31,16 @@ export const Navigation = ({ onMenuStateChange, forceMenuOpen }: NavigationProps
       handleMenuChange(true);
     }
   }, [forceMenuOpen]);
+
+  const handleSiteLogout = () => {
+    localStorage.removeItem('siteAuthenticated');
+    toast({
+      title: "Logged Out",
+      description: "You have been logged out of the site.",
+    });
+    setMenuOpen(false);
+    window.location.href = '/';
+  };
 
   return (
     <div className="flex items-center gap-2 sm:gap-4 justify-start w-full">
@@ -177,6 +189,15 @@ export const Navigation = ({ onMenuStateChange, forceMenuOpen }: NavigationProps
                 
                 {/* Language Selector */}
                 <LanguageSelector inMenu={true} onClose={() => setMenuOpen(false)} />
+                
+                {/* Site Logout Button */}
+                <Button 
+                  variant="destructive" 
+                  className="w-full justify-start h-12 text-left touch-target mt-2" 
+                  onClick={handleSiteLogout}
+                >
+                  <span className="text-base">Site Logout</span>
+                </Button>
                 
                 {/* Business Login/Dashboard - Placed at bottom */}
                 <div className="mt-auto pt-4 border-t border-gray-200">
