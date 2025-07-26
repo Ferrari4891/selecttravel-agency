@@ -63,6 +63,7 @@ export const RestaurantDiscoveryForm = ({ onSelectionChange }: RestaurantDiscove
   const [citySearchInput, setCitySearchInput] = useState<string>('');
   const [isLoading, setIsLoading] = useState(false);
   const [restaurants, setRestaurants] = useState<Restaurant[]>([]);
+  const [resultCount, setResultCount] = useState<number>(20);
   const [menuOpen, setMenuOpen] = useState(false);
   const [forceMenuOpen, setForceMenuOpen] = useState(false);
   const {
@@ -96,15 +97,15 @@ export const RestaurantDiscoveryForm = ({ onSelectionChange }: RestaurantDiscove
     const baseText = () => {
       switch (selectedCategory) {
         case 'Eat':
-          return 'Discover the TOP 20 restaurants in the ciy selected';
+          return `Discover the TOP ${resultCount} restaurants in the city selected`;
         case 'Drink':
-          return 'Discover the TOP 20 bars and cafes in the city selected';
+          return `Discover the TOP ${resultCount} bars and cafes in the city selected`;
         case 'Stay':
-          return 'Discover the TOP 20 hotels and accommodations in the city selected';
+          return `Discover the TOP ${resultCount} hotels and accommodations in the city selected`;
         case 'Play':
-          return 'Discover the TOP 20 entertainment venues in the city selected';
+          return `Discover the TOP ${resultCount} entertainment venues in the city selected`;
         default:
-          return 'Discover the TOP 20 places in the city selected';
+          return `Discover the TOP ${resultCount} places in the city selected`;
       }
     };
     return `${baseText()}. All business listing ratings are based on Google Reviews, Yelp and Trip Advisor.`;
@@ -280,9 +281,9 @@ export const RestaurantDiscoveryForm = ({ onSelectionChange }: RestaurantDiscove
       // Working placeholder images from Unsplash
       const placeholderImages = ['https://images.unsplash.com/photo-1649972904349-6e44c42644a7?w=400&h=300&fit=crop&crop=center&q=80', 'https://images.unsplash.com/photo-1488590528505-98d2b5aba04b?w=400&h=300&fit=crop&crop=center&q=80', 'https://images.unsplash.com/photo-1518770660439-4636190af475?w=400&h=300&fit=crop&crop=center&q=80', 'https://images.unsplash.com/photo-1461749280684-dccba630e2f6?w=400&h=300&fit=crop&crop=center&q=80', 'https://images.unsplash.com/photo-1486312338219-ce68d2c6f44d?w=400&h=300&fit=crop&crop=center&q=80', 'https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?w=400&h=300&fit=crop&crop=center&q=80', 'https://images.unsplash.com/photo-1485827404703-89b55fcc595e?w=400&h=300&fit=crop&crop=center&q=80', 'https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?w=400&h=300&fit=crop&crop=center&q=80', 'https://images.unsplash.com/photo-1531297484001-80022131f5a1?w=400&h=300&fit=crop&crop=center&q=80', 'https://images.unsplash.com/photo-1487058792275-0ad4aaf24ca7?w=400&h=300&fit=crop&crop=center&q=80', 'https://images.unsplash.com/photo-1605810230434-7631ac76ec81?w=400&h=300&fit=crop&crop=center&q=80'];
 
-      // Mock restaurant data - exactly 20 per category per city (USA only)
+      // Mock restaurant data - dynamic count per category per city (USA only)
       const mockRestaurants: Restaurant[] = Array.from({
-        length: 20
+        length: resultCount
       }, (_, i) => ({
         name: getBusinessName(selectedCategory, i),
         address: `${Math.floor(Math.random() * 9999) + 1} ${['Main St', 'Broadway', 'First Ave', 'Oak St', 'Park Ave', 'Center St'][Math.floor(Math.random() * 6)]}, ${selectedCity}, ${selectedCountry}`,
@@ -307,7 +308,7 @@ export const RestaurantDiscoveryForm = ({ onSelectionChange }: RestaurantDiscove
       setRestaurants(mockRestaurants);
       toast({
         title: "Success!",
-        description: `Found exactly 20 ${selectedCategory.toLowerCase()} businesses in ${selectedCity} with 3+ star ratings`
+        description: `Found exactly ${resultCount} ${selectedCategory.toLowerCase()} businesses in ${selectedCity} with 3+ star ratings`
       });
     } catch (error) {
       toast({
@@ -440,12 +441,27 @@ export const RestaurantDiscoveryForm = ({ onSelectionChange }: RestaurantDiscove
             </div>
 
             <div className="flex flex-col gap-4 pt-4 items-center">
-              <Button onClick={searchRestaurants} disabled={!selectedCategory || !selectedRegion || !selectedCountry || !selectedCity || isLoading} size="default" className="rounded-none px-12">
-                {isLoading ? <>
-                    <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                    Searching...
-                  </> : '5 GET NOW!'}
-              </Button>
+              <div className="flex items-center gap-4">
+                <div className="space-y-2">
+                  <label className="text-sm font-bold uppercase">RESULTS COUNT</label>
+                  <Select value={resultCount.toString()} onValueChange={(value) => setResultCount(parseInt(value))}>
+                    <SelectTrigger className="font-bold w-32">
+                      <SelectValue />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="3">3 Results</SelectItem>
+                      <SelectItem value="10">10 Results</SelectItem>
+                      <SelectItem value="20">20 Results</SelectItem>
+                    </SelectContent>
+                  </Select>
+                </div>
+                <Button onClick={searchRestaurants} disabled={!selectedCategory || !selectedRegion || !selectedCountry || !selectedCity || isLoading} size="default" className="rounded-none px-12 mt-6">
+                  {isLoading ? <>
+                      <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                      Searching...
+                    </> : '5 GET NOW!'}
+                </Button>
+              </div>
 
               {restaurants.length > 0 && <Button onClick={exportToCSV} variant="secondary" className="flex items-center gap-2">
                   <Download className="h-4 w-4" />
