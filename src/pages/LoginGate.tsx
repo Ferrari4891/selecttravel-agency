@@ -25,15 +25,25 @@ const LoginGate = () => {
     e.preventDefault();
     setIsLoading(true);
 
+    console.log('Login attempt with:', { username, password });
+
     // Check credentials
     if (username === 'TESTER' && password === 'tester4891') {
+      console.log('Credentials valid, setting authentication...');
       localStorage.setItem('siteAuthenticated', 'true');
+      console.log('localStorage set:', localStorage.getItem('siteAuthenticated'));
+      
       toast({
         title: "Login Successful",
         description: "Welcome to Smart Guide Books!",
       });
-      navigate('/');
+      
+      // Force a page reload to ensure the auth guard picks up the change
+      setTimeout(() => {
+        window.location.href = '/';
+      }, 1000);
     } else {
+      console.log('Invalid credentials');
       toast({
         title: "Login Failed",
         description: "Invalid username or password. Please try again.",
