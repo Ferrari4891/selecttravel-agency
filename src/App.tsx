@@ -6,6 +6,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { TranslationProvider } from "@/components/TranslationProvider";
 import { AuthProvider } from "@/contexts/AuthContext";
 import { ProtectedRoute } from "@/components/ProtectedRoute";
+import SiteAuthGuard from "@/components/SiteAuthGuard";
 import Index from "./pages/Index";
 import GuideSelection from "./pages/GuideSelection";
 import AboutUs from "./pages/AboutUs";
@@ -31,7 +32,8 @@ const App = () => (
           <Toaster />
           <Sonner />
           <BrowserRouter>
-            <Routes>
+            <SiteAuthGuard>
+              <Routes>
               <Route path="/" element={<Index />} />
               <Route path="/auth" element={<Auth />} />
               <Route path="/about-us" element={
@@ -90,6 +92,7 @@ const App = () => (
               {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
               <Route path="*" element={<NotFound />} />
             </Routes>
+            </SiteAuthGuard>
           </BrowserRouter>
         </AuthProvider>
       </TranslationProvider>
