@@ -32,67 +32,74 @@ const App = () => (
           <Toaster />
           <Sonner />
           <BrowserRouter>
-            <SiteAuthGuard>
-              <Routes>
-                <Route path="/" element={<Index />} />
-                <Route path="/auth" element={<Auth />} />
-                <Route path="/about-us" element={
-                  <ProtectedRoute>
-                    <AboutUs />
-                  </ProtectedRoute>
-                } />
-                <Route path="/how-to" element={
-                  <ProtectedRoute>
-                    <HowTo />
-                  </ProtectedRoute>
-                } />
-                <Route path="/advertise" element={
-                  <ProtectedRoute>
-                    <Advertise />
-                  </ProtectedRoute>
-                } />
-                <Route path="/roi" element={
-                  <ProtectedRoute>
-                    <ROI />
-                  </ProtectedRoute>
-                } />
-                <Route path="/toolbox" element={
-                  <ProtectedRoute>
-                    <Toolbox />
-                  </ProtectedRoute>
-                } />
-                <Route path="/visa-info" element={
-                  <ProtectedRoute>
-                    <VisaInfo />
-                  </ProtectedRoute>
-                } />
-                <Route path="/members" element={
-                  <ProtectedRoute>
-                    <Members />
-                  </ProtectedRoute>
-                } />
-                <Route path="/join-free" element={
-                  <ProtectedRoute>
-                    <JoinFree />
-                  </ProtectedRoute>
-                } />
-                <Route path="/tv-channel" element={
-                  <ProtectedRoute>
-                    <TVChannel />
-                  </ProtectedRoute>
-                } />
-                <Route 
-                  path="/dashboard" 
-                  element={
-                    <ProtectedRoute>
-                      <Dashboard />
-                    </ProtectedRoute>
-                  } 
-                />
-                {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
-                <Route path="*" element={<NotFound />} />
-              </Routes>
-            </SiteAuthGuard>
+            <Routes>
+              {/* Auth route accessible without site authentication */}
+              <Route path="/auth" element={<Auth />} />
+              
+              {/* All other routes require site authentication */}
+              <Route path="/*" element={
+                <SiteAuthGuard>
+                  <Routes>
+                    <Route path="/" element={<Index />} />
+                    <Route path="/about-us" element={
+                      <ProtectedRoute>
+                        <AboutUs />
+                      </ProtectedRoute>
+                    } />
+                    <Route path="/how-to" element={
+                      <ProtectedRoute>
+                        <HowTo />
+                      </ProtectedRoute>
+                    } />
+                    <Route path="/advertise" element={
+                      <ProtectedRoute>
+                        <Advertise />
+                      </ProtectedRoute>
+                    } />
+                    <Route path="/roi" element={
+                      <ProtectedRoute>
+                        <ROI />
+                      </ProtectedRoute>
+                    } />
+                    <Route path="/toolbox" element={
+                      <ProtectedRoute>
+                        <Toolbox />
+                      </ProtectedRoute>
+                    } />
+                    <Route path="/visa-info" element={
+                      <ProtectedRoute>
+                        <VisaInfo />
+                      </ProtectedRoute>
+                    } />
+                    <Route path="/members" element={
+                      <ProtectedRoute>
+                        <Members />
+                      </ProtectedRoute>
+                    } />
+                    <Route path="/join-free" element={
+                      <ProtectedRoute>
+                        <JoinFree />
+                      </ProtectedRoute>
+                    } />
+                    <Route path="/tv-channel" element={
+                      <ProtectedRoute>
+                        <TVChannel />
+                      </ProtectedRoute>
+                    } />
+                    <Route 
+                      path="/dashboard" 
+                      element={
+                        <ProtectedRoute>
+                          <Dashboard />
+                        </ProtectedRoute>
+                      } 
+                    />
+                    {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
+                    <Route path="*" element={<NotFound />} />
+                  </Routes>
+                </SiteAuthGuard>
+              } />
+            </Routes>
           </BrowserRouter>
         </AuthProvider>
       </TranslationProvider>
