@@ -2,6 +2,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Button } from '@/components/ui/button';
 import { Navigation } from '@/components/Navigation';
 import Footer from '@/components/Footer';
+import VoiceInteraction from '@/components/VoiceInteraction';
 import { MapPin, Star, Clock, Users } from 'lucide-react';
 
 const guides = [
@@ -55,6 +56,12 @@ const GuideSelection = () => {
   const handleSelectGuide = (guideId: number) => {
     console.log(`Selected guide with ID: ${guideId}`);
     // Add guide selection logic here
+  };
+
+  const handleVoiceSearchComplete = (city: string, activity: string, resultCount: number) => {
+    console.log(`Voice search: ${activity} in ${city}, ${resultCount} results`);
+    // Here you would typically trigger the actual search with these parameters
+    // For now, we'll just log the results
   };
 
   return (
@@ -140,6 +147,7 @@ const GuideSelection = () => {
       </div>
 
       <Footer />
+      <VoiceInteraction onSearchComplete={handleVoiceSearchComplete} />
     </div>
   );
 };
