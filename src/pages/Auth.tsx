@@ -8,6 +8,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { useAuth } from '@/contexts/AuthContext';
 import { useToast } from '@/hooks/use-toast';
 import { Home } from 'lucide-react';
+import { Navigation } from '@/components/Navigation';
 
 const Auth = () => {
   const [email, setEmail] = useState('');
@@ -83,7 +84,9 @@ const Auth = () => {
   };
 
   return (
-    <div className="min-h-screen bg-background flex items-center justify-center p-4">
+    <div className="min-h-screen bg-background">
+      <Navigation />
+      <div className="flex items-center justify-center p-4 pt-20">
       {/* Home Button - only show if user is not trying to access protected content */}
       
       <Card className="w-full max-w-md">
@@ -158,6 +161,7 @@ const Auth = () => {
           </Tabs>
         </CardContent>
       </Card>
+      </div>
     </div>
   );
 };
