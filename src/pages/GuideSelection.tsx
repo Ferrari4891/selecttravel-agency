@@ -9,6 +9,12 @@ import { EnhancedCityInput } from '@/components/EnhancedCityInput';
 import { Star, Search } from 'lucide-react';
 import { useState } from 'react';
 import { toast } from 'sonner';
+import { Carousel, CarouselContent, CarouselItem } from "@/components/ui/carousel";
+import Autoplay from "embla-carousel-autoplay";
+import heroEat from '@/assets/hero-eat.jpg';
+import heroDrink from '@/assets/hero-drink.jpg';
+import heroStay from '@/assets/hero-stay.jpg';
+import heroPlay from '@/assets/hero-play.jpg';
 
 const categories = [
   { value: 'eat', label: 'Eat' },
@@ -33,6 +39,13 @@ const GuideSelection = () => {
   const [selectedCity, setSelectedCity] = useState('');
   const [selectedResults, setSelectedResults] = useState('');
   const [isLoading, setIsLoading] = useState(false);
+
+  const carouselImages = [
+    { src: heroEat, alt: "Eat" },
+    { src: heroStay, alt: "Stay" },
+    { src: heroDrink, alt: "Drink" },
+    { src: heroPlay, alt: "Play" }
+  ];
 
   const handleGetNow = async () => {
     if (!selectedCategory || !selectedCity || !selectedResults) {
@@ -67,6 +80,51 @@ const GuideSelection = () => {
   return (
     <div className="min-h-screen bg-background">
       <Navigation />
+      
+      {/* Hero Carousel Section */}
+      <section className="py-8">
+        <div className="relative overflow-hidden border-8 border-white shadow-[0_8px_16px_rgba(0,0,0,0.3)] bg-background aspect-[16/9] mb-8">
+          <div className="absolute inset-0">
+            <Carousel 
+              className="w-full h-full"
+              plugins={[
+                Autoplay({
+                  delay: 4000,
+                })
+              ]}
+              opts={{
+                align: "start",
+                loop: true,
+              }}
+            >
+              <CarouselContent className="h-full -ml-0">
+                {carouselImages.map((image, index) => (
+                  <CarouselItem key={index} className="h-full pl-0 basis-full">
+                    <div className="w-full h-full">
+                      <img 
+                        src={image.src} 
+                        alt={image.alt} 
+                        className="w-full h-full object-cover" 
+                      />
+                    </div>
+                  </CarouselItem>
+                ))}
+              </CarouselContent>
+            </Carousel>
+          </div>
+          <div className="absolute inset-0 bg-black/20"></div>
+          
+          <div className="relative z-10 h-full flex items-center justify-center px-4">
+            <div className="text-center">
+              <h1 className="text-2xl sm:text-4xl md:text-6xl font-bold text-white mb-4 sm:mb-6">
+                CHOOSE YOUR SMART GUIDE
+              </h1>
+              <p className="text-sm sm:text-xl text-white mb-4 max-w-3xl mx-auto">Find Expert Local Guides!</p>
+              <p className="text-lg sm:text-2xl font-semibold text-white">www.smartguidebooks.com</p>
+            </div>
+          </div>
+        </div>
+      </section>
       
       <div className="container mx-auto px-4 py-8">
         <div className="text-center mb-12">
