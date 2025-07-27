@@ -20,7 +20,7 @@ const Auth = () => {
 
   useEffect(() => {
     if (user) {
-      navigate('/');
+      navigate('/user-dashboard');
     }
   }, [user, navigate]);
 
@@ -41,7 +41,7 @@ const Auth = () => {
           title: "Welcome back!",
           description: "Successfully signed in.",
         });
-        navigate('/');
+        navigate('/user-dashboard');
       }
     } catch (error) {
       toast({
@@ -91,9 +91,9 @@ const Auth = () => {
       
       <Card className="w-full max-w-md">
         <CardHeader>
-          <CardTitle>Business Management Platform</CardTitle>
+          <CardTitle>Member Authentication</CardTitle>
           <CardDescription>
-            Sign in to manage your business or create a new account
+            Sign in to save your preferences or create a new account
           </CardDescription>
         </CardHeader>
         <CardContent>

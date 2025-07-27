@@ -1,31 +1,62 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { AspectRatio } from "@/components/ui/aspect-ratio";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import Footer from "@/components/Footer";
 import { Navigation } from "@/components/Navigation";
-import { LanguageSelector } from "@/components/LanguageSelector";
+import { useAuth } from "@/contexts/AuthContext";
+import { toast } from "sonner";
 const JoinFree = () => {
-  const [formData, setFormData] = useState({
-    firstName: "",
-    email: "",
-    gender: "",
-    age: "",
-    country: ""
-  });
-  const [showLanguageSelector, setShowLanguageSelector] = useState(false);
-  const handleSubmit = (e: React.FormEvent) => {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [loading, setLoading] = useState(false);
+  const { signIn, signUp, user } = useAuth();
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (user) {
+      navigate('/user-dashboard');
+    }
+  }, [user, navigate]);
+
+  const handleSignIn = async (e: React.FormEvent) => {
     e.preventDefault();
-    console.log("Form submitted:", formData);
-    // Handle form submission here
+    setLoading(true);
+    
+    try {
+      const { error } = await signIn(email, password);
+      if (error) {
+        toast.error(error.message);
+      } else {
+        toast.success("Welcome back!");
+        navigate('/user-dashboard');
+      }
+    } catch (error) {
+      toast.error("An unexpected error occurred.");
+    } finally {
+      setLoading(false);
+    }
   };
-  const handleInputChange = (field: string, value: string) => {
-    setFormData(prev => ({
-      ...prev,
-      [field]: value
-    }));
+
+  const handleSignUp = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setLoading(true);
+    
+    try {
+      const { error } = await signUp(email, password);
+      if (error) {
+        toast.error(error.message);
+      } else {
+        toast.success("Check your email for confirmation!");
+      }
+    } catch (error) {
+      toast.error("An unexpected error occurred.");
+    } finally {
+      setLoading(false);
+    }
   };
   return <div className="min-h-screen bg-background flex flex-col">
       <Navigation />
@@ -43,87 +74,85 @@ const JoinFree = () => {
             
             <h1 className="text-base font-light text-center mb-8 text-gray-900">Join FREE and as a member you can set your preferences and save them. You can save your favourite places, Get special offers direct to you whenever you travel.</h1>
             
-            <form onSubmit={handleSubmit} className="space-y-6">
-              <div>
-                <Label htmlFor="firstName" className="text-sm font-medium text-gray-700">
-                  First Name
-                </Label>
-                <Input id="firstName" type="text" value={formData.firstName} onChange={e => handleInputChange("firstName", e.target.value)} className="mt-1" required />
-              </div>
-
-              <div>
-                <Label htmlFor="email" className="text-sm font-medium text-gray-700">
-                  Email Address
-                </Label>
-                <Input id="email" type="email" value={formData.email} onChange={e => handleInputChange("email", e.target.value)} className="mt-1" required />
-              </div>
-
-              <div>
-                <Label htmlFor="gender" className="text-sm font-medium text-gray-700">
-                  Gender
-                </Label>
-                <Select value={formData.gender} onValueChange={value => handleInputChange("gender", value)}>
-                  <SelectTrigger className="mt-1">
-                    <SelectValue placeholder="Select gender" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="male">Male</SelectItem>
-                    <SelectItem value="female">Female</SelectItem>
-                    <SelectItem value="other">Other</SelectItem>
-                    <SelectItem value="prefer-not-to-say">Prefer not to say</SelectItem>
-                  </SelectContent>
-                </Select>
-              </div>
-
-              <div>
-                <Label htmlFor="age" className="text-sm font-medium text-gray-700">
-                  Age
-                </Label>
-                <Input id="age" type="number" min="13" max="120" value={formData.age} onChange={e => handleInputChange("age", e.target.value)} className="mt-1" required />
-              </div>
-
-              <div>
-                <Label htmlFor="country" className="text-sm font-medium text-gray-700">
-                  Country
-                </Label>
-                <Select value={formData.country} onValueChange={value => handleInputChange("country", value)}>
-                  <SelectTrigger className="mt-1">
-                    <SelectValue placeholder="Select country" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="us">United States</SelectItem>
-                    <SelectItem value="ca">Canada</SelectItem>
-                    <SelectItem value="uk">United Kingdom</SelectItem>
-                    <SelectItem value="au">Australia</SelectItem>
-                    <SelectItem value="de">Germany</SelectItem>
-                    <SelectItem value="fr">France</SelectItem>
-                    <SelectItem value="es">Spain</SelectItem>
-                    <SelectItem value="it">Italy</SelectItem>
-                    <SelectItem value="jp">Japan</SelectItem>
-                    <SelectItem value="kr">South Korea</SelectItem>
-                    <SelectItem value="cn">China</SelectItem>
-                    <SelectItem value="in">India</SelectItem>
-                    <SelectItem value="br">Brazil</SelectItem>
-                    <SelectItem value="mx">Mexico</SelectItem>
-                    <SelectItem value="ar">Argentina</SelectItem>
-                    <SelectItem value="other">Other</SelectItem>
-                  </SelectContent>
-                </Select>
-              </div>
-
-              <div className="pt-4">
-                <button type="submit" className="w-full bg-primary hover:bg-primary/90 text-primary-foreground font-medium py-3 px-6 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2">
-                  JOIN FREE!
-                </button>
-              </div>
-            </form>
+            <Tabs defaultValue="signup" className="w-full">
+              <TabsList className="grid w-full grid-cols-2 mb-6">
+                <TabsTrigger value="signup">Sign Up</TabsTrigger>
+                <TabsTrigger value="signin">Sign In</TabsTrigger>
+              </TabsList>
+              
+              <TabsContent value="signup">
+                <form onSubmit={handleSignUp} className="space-y-4">
+                  <div>
+                    <Label htmlFor="signup-email" className="text-sm font-medium text-gray-700">
+                      Email Address
+                    </Label>
+                    <Input 
+                      id="signup-email" 
+                      type="email" 
+                      value={email} 
+                      onChange={(e) => setEmail(e.target.value)} 
+                      className="mt-1" 
+                      required 
+                    />
+                  </div>
+                  <div>
+                    <Label htmlFor="signup-password" className="text-sm font-medium text-gray-700">
+                      Password
+                    </Label>
+                    <Input 
+                      id="signup-password" 
+                      type="password" 
+                      value={password} 
+                      onChange={(e) => setPassword(e.target.value)} 
+                      className="mt-1" 
+                      required 
+                    />
+                  </div>
+                  <Button type="submit" className="w-full" disabled={loading}>
+                    {loading ? "Creating account..." : "JOIN FREE!"}
+                  </Button>
+                </form>
+              </TabsContent>
+              
+              <TabsContent value="signin">
+                <form onSubmit={handleSignIn} className="space-y-4">
+                  <div>
+                    <Label htmlFor="signin-email" className="text-sm font-medium text-gray-700">
+                      Email Address
+                    </Label>
+                    <Input 
+                      id="signin-email" 
+                      type="email" 
+                      value={email} 
+                      onChange={(e) => setEmail(e.target.value)} 
+                      className="mt-1" 
+                      required 
+                    />
+                  </div>
+                  <div>
+                    <Label htmlFor="signin-password" className="text-sm font-medium text-gray-700">
+                      Password
+                    </Label>
+                    <Input 
+                      id="signin-password" 
+                      type="password" 
+                      value={password} 
+                      onChange={(e) => setPassword(e.target.value)} 
+                      className="mt-1" 
+                      required 
+                    />
+                  </div>
+                  <Button type="submit" className="w-full" disabled={loading}>
+                    {loading ? "Signing in..." : "Sign In"}
+                  </Button>
+                </form>
+              </TabsContent>
+            </Tabs>
           </div>
         </div>
       </main>
 
       <Footer />
-      
-      {showLanguageSelector && <LanguageSelector onClose={() => setShowLanguageSelector(false)} />}
     </div>;
 };
 export default JoinFree;

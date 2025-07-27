@@ -237,6 +237,60 @@ export type Database = {
         }
         Relationships: []
       }
+      user_preferences: {
+        Row: {
+          air_conditioned: boolean | null
+          created_at: string
+          extended_hours: boolean | null
+          gluten_free: boolean | null
+          id: string
+          low_noise: boolean | null
+          online_booking: boolean | null
+          outdoor_seating: boolean | null
+          pet_friendly: boolean | null
+          preferred_language: string | null
+          public_transport: boolean | null
+          senior_discounts: boolean | null
+          updated_at: string
+          user_id: string
+          wheelchair_access: boolean | null
+        }
+        Insert: {
+          air_conditioned?: boolean | null
+          created_at?: string
+          extended_hours?: boolean | null
+          gluten_free?: boolean | null
+          id?: string
+          low_noise?: boolean | null
+          online_booking?: boolean | null
+          outdoor_seating?: boolean | null
+          pet_friendly?: boolean | null
+          preferred_language?: string | null
+          public_transport?: boolean | null
+          senior_discounts?: boolean | null
+          updated_at?: string
+          user_id: string
+          wheelchair_access?: boolean | null
+        }
+        Update: {
+          air_conditioned?: boolean | null
+          created_at?: string
+          extended_hours?: boolean | null
+          gluten_free?: boolean | null
+          id?: string
+          low_noise?: boolean | null
+          online_booking?: boolean | null
+          outdoor_seating?: boolean | null
+          pet_friendly?: boolean | null
+          preferred_language?: string | null
+          public_transport?: boolean | null
+          senior_discounts?: boolean | null
+          updated_at?: string
+          user_id?: string
+          wheelchair_access?: boolean | null
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never

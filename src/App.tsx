@@ -19,6 +19,7 @@ import Members from "./pages/Members";
 import JoinFree from "./pages/JoinFree";
 import TVChannel from "./pages/TVChannel";
 import Dashboard from "./pages/Dashboard";
+import UserDashboard from "./pages/UserDashboard";
 import Auth from "./pages/Auth";
 import NotFound from "./pages/NotFound";
 
@@ -55,6 +56,14 @@ const App = () => (
                       element={
                         <ProtectedRoute>
                           <Dashboard />
+                        </ProtectedRoute>
+                      } 
+                    />
+                    <Route 
+                      path="/user-dashboard" 
+                      element={
+                        <ProtectedRoute>
+                          <UserDashboard />
                         </ProtectedRoute>
                       } 
                     />
