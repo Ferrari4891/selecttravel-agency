@@ -7,7 +7,7 @@ const HowToSteps = () => {
           <Search className="h-5 w-5" />
           Getting Started
         </CardTitle>
-        <CardDescription>Follow these simple steps to getting you the top 20 businesses in the city of your choice </CardDescription>
+        <CardDescription>Follow these simple steps to get your customized list of top-rated businesses in your chosen city</CardDescription>
       </CardHeader>
       <CardContent>
         <div className="space-y-6">
@@ -54,7 +54,7 @@ const HowToSteps = () => {
             <div>
               <h3 className="font-semibold mb-2">Pick Your City or County</h3>
               <p className="text-muted-foreground">
-                Select the specific city or county where you want to find businesses. Our database covers major metropolitan areas and popular destinations.
+                Select from the dropdown list or type in your own city name. Currently supporting USA cities only, with more countries coming soon.
               </p>
             </div>
           </div>
@@ -64,8 +64,8 @@ const HowToSteps = () => {
               5
             </div>
             <div>
-              <h3 className="font-semibold mb-2">Find Results</h3>
-              <p className="text-muted-foreground">Click the search button to generate a curated list of the top 20 businesses in your selected category and location.</p>
+              <h3 className="font-semibold mb-2">Choose Number of Results & Find Businesses</h3>
+              <p className="text-muted-foreground">Select how many businesses you want to see (up to 20), then click the search button to generate your customized list of top-rated businesses with 3+ star ratings.</p>
             </div>
           </div>
         </div>
