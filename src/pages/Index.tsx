@@ -160,7 +160,7 @@ const Index = () => {
           </div>
         </div>
 
-        <div className="max-w-4xl mx-auto px-6">
+        <div className="w-[95%] sm:w-[90%] md:max-w-4xl lg:max-w-6xl mx-auto px-2 sm:px-4 md:px-6">
           <RestaurantDiscoveryForm 
             onSelectionChange={(category, region, country, city) => {
               setSelectedCategory(category);
