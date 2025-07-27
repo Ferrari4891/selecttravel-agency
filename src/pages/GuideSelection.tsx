@@ -1,12 +1,12 @@
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Navigation } from '@/components/Navigation';
 import Footer from '@/components/Footer';
 import VoiceInteraction from '@/components/VoiceInteraction';
-import { MapPin, Star, Search } from 'lucide-react';
+import { EnhancedCityInput } from '@/components/EnhancedCityInput';
+import { Star, Search } from 'lucide-react';
 import { useState } from 'react';
 import { toast } from 'sonner';
 
@@ -105,22 +105,11 @@ const GuideSelection = () => {
             </div>
 
             {/* Step 2: Select City */}
-            <div className="space-y-2">
-              <Label htmlFor="city" className="text-base font-semibold">
-                2. Select City
-              </Label>
-              <div className="relative">
-                <MapPin className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground w-4 h-4" />
-                <Input
-                  id="city"
-                  type="text"
-                  placeholder="Enter city name"
-                  value={selectedCity}
-                  onChange={(e) => setSelectedCity(e.target.value)}
-                  className="pl-10"
-                />
-              </div>
-            </div>
+            <EnhancedCityInput
+              value={selectedCity}
+              onChange={setSelectedCity}
+              placeholder="Enter or select a city"
+            />
 
             {/* Step 3: Select Results */}
             <div className="space-y-2">
