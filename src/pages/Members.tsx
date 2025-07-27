@@ -71,10 +71,8 @@ const Members = () => {
               <CardTitle className="text-center border-b-2 border-black pb-2 text-3xl text-foreground font-extrabold">SELECT & SAVE YOUR PREFERENCES</CardTitle>
             </CardHeader>
             <CardContent className="pt-6">
-              <p className="text-lg text-center mb-8 text-gray-700">
-                Getting the best places to eat, drink, stay and shop is absolutely free! 
-                Help us personalize your experience by selecting your preferences below.
-              </p>
+              <p className="text-lg text-center mb-8 text-gray-700">Getting the best places to eat, drink, stay and shop is absolutely free! Help us personalize your experience by selecting your preferences below.
+To </p>
               
               <div className="space-y-6">
                 <h3 className="text-xl font-semibold mb-4">Please tick any of the checkboxes below to record your preferences:</h3>
