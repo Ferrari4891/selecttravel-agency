@@ -415,32 +415,13 @@ export const RestaurantDiscoveryForm = ({ onSelectionChange }: RestaurantDiscove
                       </SelectItem>)}
                   </SelectContent>
                 </Select>
-                
-                {selectedCountry && (
-                  <div className="mt-3 space-y-2">
-                    <label className="text-xs font-medium text-muted-foreground">Or search for a city:</label>
-                    <div className="flex gap-2">
-                      <Input
-                        placeholder="Enter city name"
-                        value={citySearchInput}
-                        onChange={(e) => setCitySearchInput(e.target.value)}
-                        className="text-sm"
-                      />
-                      <Button
-                        size="sm"
-                        variant="outline"
-                        onClick={handleCitySearch}
-                        disabled={!citySearchInput.trim()}
-                      >
-                        <Search className="h-4 w-4" />
-                      </Button>
-                    </div>
-                  </div>
-                )}
               </div>
             </div>
 
-            <div className="grid gap-6 md:grid-cols-2 pt-4">
+            <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-4 pt-4">
+              <div></div>
+              <div></div>
+              
               <div className="space-y-2">
                 <label className="text-sm font-bold uppercase">5: RESULTS COUNT (3+ Star Minimum)</label>
                 <div className="flex gap-2">
@@ -465,14 +446,37 @@ export const RestaurantDiscoveryForm = ({ onSelectionChange }: RestaurantDiscove
                   />
                 </div>
               </div>
-              
-              <div className="flex items-end">
-                <Button onClick={searchRestaurants} disabled={!selectedCategory || !selectedRegion || !selectedCountry || !selectedCity || isLoading} size="default" className="rounded-none px-12">
-                  {isLoading ? <>
-                      <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                      Searching...
-                    </> : 'GET NOW!'}
-                </Button>
+
+              <div className="space-y-2">
+                {selectedCountry && (
+                  <>
+                    <label className="text-xs font-medium text-muted-foreground">Or search for a city:</label>
+                    <div className="flex gap-2">
+                      <Input
+                        placeholder="Enter city name"
+                        value={citySearchInput}
+                        onChange={(e) => setCitySearchInput(e.target.value)}
+                        className="text-sm"
+                      />
+                      <Button
+                        size="sm"
+                        variant="outline"
+                        onClick={handleCitySearch}
+                        disabled={!citySearchInput.trim()}
+                      >
+                        <Search className="h-4 w-4" />
+                      </Button>
+                    </div>
+                    <div className="pt-2">
+                      <Button onClick={searchRestaurants} disabled={!selectedCategory || !selectedRegion || !selectedCountry || !selectedCity || isLoading} size="default" className="rounded-none px-12 w-full">
+                        {isLoading ? <>
+                            <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                            Searching...
+                          </> : 'GET NOW!'}
+                      </Button>
+                    </div>
+                  </>
+                )}
               </div>
             </div>
 
