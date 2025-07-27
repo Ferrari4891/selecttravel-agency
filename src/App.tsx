@@ -42,6 +42,7 @@ const App = () => (
                 <SiteAuthGuard>
                   <Routes>
                     <Route path="/" element={<Index />} />
+                    <Route path="/guide-selection" element={<GuideSelection />} />
                     <Route path="/about-us" element={<AboutUs />} />
                     <Route path="/how-to" element={<HowTo />} />
                     <Route path="/advertise" element={<Advertise />} />
