@@ -356,120 +356,155 @@ export const RestaurantDiscoveryForm = ({ onSelectionChange }: RestaurantDiscove
             </CardTitle>
             <CardDescription className="font-semibold text-muted-foreground">Follow the 5 steps below and choose how many businesses you want shown. Get 3 star + Businesses in thousands of cities worldwide in 60 seconds or less with NO typing!</CardDescription>
           </CardHeader>
-          <CardContent className="space-y-6 bg-background">
-            <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-4">
-              <div className="space-y-2">
-                <label className="text-sm font-bold uppercase whitespace-nowrap">1: SELECT CATEGORY</label>
+          <CardContent className="space-y-8 bg-background">
+            {/* Professional step-by-step layout */}
+            <div className="space-y-6">
+              {/* Step 1: Category */}
+              <div className="space-y-3">
+                <label className="text-sm font-bold uppercase tracking-wide text-foreground">1: SELECT CATEGORY</label>
                 <Select value={selectedCategory} onValueChange={handleCategoryChange}>
-                  <SelectTrigger className="font-bold">
-                    <SelectValue placeholder="Select category" />
+                  <SelectTrigger className="font-bold h-12">
+                    <SelectValue placeholder="Choose your category" />
                   </SelectTrigger>
                   <SelectContent>
                     {categories.map(category => <SelectItem key={category.name} value={category.name}>
-                        <div className="flex items-center gap-2">
-                          <img src={category.icon} alt={category.name} className="w-5 h-5 object-cover rounded" />
-                          {category.name}
+                        <div className="flex items-center gap-3">
+                          <img src={category.icon} alt={category.name} className="w-6 h-6 object-cover rounded" />
+                          <span className="font-medium">{category.name}</span>
                         </div>
                       </SelectItem>)}
                   </SelectContent>
                 </Select>
               </div>
 
-              <div className="space-y-2">
-                <label className="text-sm font-bold uppercase">2: SELECT REGION</label>
+              {/* Step 2: Region */}
+              <div className="space-y-3">
+                <label className="text-sm font-bold uppercase tracking-wide text-foreground">2: SELECT REGION</label>
                 <Select value={selectedRegion} onValueChange={handleRegionChange} disabled={!selectedCategory}>
-                  <SelectTrigger className="font-bold">
-                    <SelectValue placeholder="Select region" />
+                  <SelectTrigger className="font-bold h-12">
+                    <SelectValue placeholder="Choose your region" />
                   </SelectTrigger>
                   <SelectContent>
                     {regions.map(region => <SelectItem key={region} value={region}>
-                        {region}
+                        <span className="font-medium">{region}</span>
                       </SelectItem>)}
                   </SelectContent>
                 </Select>
               </div>
 
-              <div className="space-y-2">
-                <label className="text-sm font-bold uppercase">3: SELECT COUNTRY</label>
+              {/* Step 3: Country */}
+              <div className="space-y-3">
+                <label className="text-sm font-bold uppercase tracking-wide text-foreground">3: SELECT COUNTRY</label>
                 <Select value={selectedCountry} onValueChange={handleCountryChange} disabled={!selectedRegion}>
-                  <SelectTrigger className="font-bold">
-                    <SelectValue placeholder="Select country" />
+                  <SelectTrigger className="font-bold h-12">
+                    <SelectValue placeholder="Choose your country" />
                   </SelectTrigger>
                   <SelectContent>
                     {countries.map(country => <SelectItem key={country.name} value={country.name}>
-                        {country.name}
+                        <span className="font-medium">{country.name}</span>
                       </SelectItem>)}
                   </SelectContent>
                 </Select>
-                
-                <div className="mt-4 space-y-2">
-                  <label className="text-sm font-bold uppercase">5: RESULTS COUNT (3+ Star Minimum)</label>
-                  <div className="flex gap-2">
+              </div>
+
+              {/* Step 4: City */}
+              <div className="space-y-3">
+                <label className="text-sm font-bold uppercase tracking-wide text-foreground">4: SELECT CITY</label>
+                <div className="grid gap-4 md:grid-cols-2">
+                  {/* City Dropdown */}
+                  <div className="space-y-2">
+                    <label className="text-xs font-medium text-muted-foreground">Choose from list:</label>
+                    <Select value={selectedCity} onValueChange={handleCityChange} disabled={!selectedCountry}>
+                      <SelectTrigger className="font-bold h-12">
+                        <SelectValue placeholder="Select city" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        {cities.map(city => <SelectItem key={city} value={city}>
+                            <span className="font-medium">{city}</span>
+                          </SelectItem>)}
+                      </SelectContent>
+                    </Select>
+                  </div>
+                  
+                  {/* City Search */}
+                  {selectedCountry && (
+                    <div className="space-y-2">
+                      <label className="text-xs font-medium text-muted-foreground">Or search by name:</label>
+                      <div className="flex gap-2">
+                        <Input
+                          placeholder="Enter city name"
+                          value={citySearchInput}
+                          onChange={(e) => setCitySearchInput(e.target.value)}
+                          className="font-medium h-12"
+                        />
+                        <Button
+                          size="default"
+                          variant="outline"
+                          onClick={handleCitySearch}
+                          disabled={!citySearchInput.trim()}
+                          className="px-4 h-12"
+                        >
+                          <Search className="h-4 w-4" />
+                        </Button>
+                      </div>
+                    </div>
+                  )}
+                </div>
+              </div>
+
+              {/* Step 5: Results Count */}
+              <div className="space-y-3">
+                <label className="text-sm font-bold uppercase tracking-wide text-foreground">5: SELECT RESULTS (3+ Star Minimum)</label>
+                <div className="grid gap-4 md:grid-cols-2">
+                  {/* Preset Options */}
+                  <div className="space-y-2">
+                    <label className="text-xs font-medium text-muted-foreground">Quick select:</label>
                     <Select value={resultCount.toString()} onValueChange={(value) => setResultCount(parseInt(value))}>
-                      <SelectTrigger className="font-bold">
+                      <SelectTrigger className="font-bold h-12">
                         <SelectValue />
                       </SelectTrigger>
                       <SelectContent>
                         <SelectItem value="1">1 Result</SelectItem>
                         <SelectItem value="3">3 Results</SelectItem>
                         <SelectItem value="10">10 Results</SelectItem>
+                        <SelectItem value="20">20 Results</SelectItem>
                       </SelectContent>
                     </Select>
+                  </div>
+                  
+                  {/* Custom Number Input */}
+                  <div className="space-y-2">
+                    <label className="text-xs font-medium text-muted-foreground">Or enter custom amount:</label>
                     <Input
                       type="number"
-                      placeholder="Or enter number"
+                      placeholder="Enter number (1-100)"
                       min="1"
                       max="100"
                       value={resultCount}
                       onChange={(e) => setResultCount(parseInt(e.target.value) || 1)}
-                      className="w-32"
+                      className="font-bold h-12"
                     />
                   </div>
                 </div>
               </div>
 
-              <div className="space-y-2">
-                <label className="text-sm font-bold uppercase">4: SELECT CITY</label>
-                <Select value={selectedCity} onValueChange={handleCityChange} disabled={!selectedCountry}>
-                  <SelectTrigger className="font-bold">
-                    <SelectValue placeholder="Select city" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    {cities.map(city => <SelectItem key={city} value={city}>
-                        {city}
-                      </SelectItem>)}
-                  </SelectContent>
-                </Select>
-                
-                {selectedCountry && (
-                  <div className="mt-3 space-y-2">
-                    <label className="text-xs font-medium text-muted-foreground">Or search for a city:</label>
-                    <div className="flex gap-2">
-                      <Input
-                        placeholder="Enter city name"
-                        value={citySearchInput}
-                        onChange={(e) => setCitySearchInput(e.target.value)}
-                        className="text-sm"
-                      />
-                      <Button
-                        size="sm"
-                        variant="outline"
-                        onClick={handleCitySearch}
-                        disabled={!citySearchInput.trim()}
-                      >
-                        <Search className="h-4 w-4" />
-                      </Button>
-                    </div>
-                    <div className="pt-2">
-                      <Button onClick={searchRestaurants} disabled={!selectedCategory || !selectedRegion || !selectedCountry || !selectedCity || isLoading} size="default" className="rounded-none px-12 w-full">
-                        {isLoading ? <>
-                            <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                            Searching...
-                          </> : 'GET NOW!'}
-                      </Button>
-                    </div>
-                  </div>
-                )}
+              {/* Get Results Button */}
+              <div className="pt-4">
+                <Button 
+                  onClick={searchRestaurants} 
+                  disabled={!selectedCategory || !selectedRegion || !selectedCountry || !selectedCity || isLoading} 
+                  size="lg" 
+                  className="w-full h-14 text-lg font-bold bg-black text-white hover:bg-gray-800 rounded-none"
+                >
+                  {isLoading ? (
+                    <>
+                      <Loader2 className="mr-3 h-5 w-5 animate-spin" />
+                      Searching...
+                    </>
+                  ) : (
+                    'GET NOW!'
+                  )}
+                </Button>
               </div>
             </div>
 
