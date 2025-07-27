@@ -347,7 +347,7 @@ export const RestaurantDiscoveryForm = ({ onSelectionChange }: RestaurantDiscove
     setTimeout(() => setForceMenuOpen(false), 100);
   };
   return <div className={`min-h-screen bg-background ${getThemeClass()}`}>
-      <div className="max-w-4xl mx-auto space-y-8 p-6 bg-background">
+      <div className="w-[90%] sm:max-w-2xl md:max-w-4xl lg:max-w-6xl mx-auto space-y-8 p-4 sm:p-6 bg-background">
         <Card className="shadow-elegant">
           <CardHeader className="bg-background">
             <CardTitle className="flex items-center gap-2 text-5xl font-bold text-foreground">
