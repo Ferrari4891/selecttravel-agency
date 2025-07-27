@@ -440,34 +440,50 @@ export const RestaurantDiscoveryForm = ({ onSelectionChange }: RestaurantDiscove
               </div>
             </div>
 
-            <div className="flex flex-col gap-4 pt-4 items-center">
-              <div className="flex items-center gap-4">
-                <div className="space-y-2">
-                  <label className="text-sm font-bold uppercase">RESULTS COUNT</label>
+            <div className="grid gap-6 md:grid-cols-2 pt-4">
+              <div className="space-y-2">
+                <label className="text-sm font-bold uppercase">5: RESULTS COUNT (3+ Star Minimum)</label>
+                <div className="flex gap-2">
                   <Select value={resultCount.toString()} onValueChange={(value) => setResultCount(parseInt(value))}>
-                    <SelectTrigger className="font-bold w-32">
+                    <SelectTrigger className="font-bold">
                       <SelectValue />
                     </SelectTrigger>
                     <SelectContent>
+                      <SelectItem value="1">1 Result</SelectItem>
                       <SelectItem value="3">3 Results</SelectItem>
                       <SelectItem value="10">10 Results</SelectItem>
-                      <SelectItem value="20">20 Results</SelectItem>
                     </SelectContent>
                   </Select>
+                  <Input
+                    type="number"
+                    placeholder="Or enter number"
+                    min="1"
+                    max="100"
+                    value={resultCount}
+                    onChange={(e) => setResultCount(parseInt(e.target.value) || 1)}
+                    className="w-32"
+                  />
                 </div>
-                <Button onClick={searchRestaurants} disabled={!selectedCategory || !selectedRegion || !selectedCountry || !selectedCity || isLoading} size="default" className="rounded-none px-12 mt-6">
+              </div>
+              
+              <div className="flex items-end">
+                <Button onClick={searchRestaurants} disabled={!selectedCategory || !selectedRegion || !selectedCountry || !selectedCity || isLoading} size="default" className="rounded-none px-12">
                   {isLoading ? <>
                       <Loader2 className="mr-2 h-4 w-4 animate-spin" />
                       Searching...
-                    </> : '5. GET NOW!'}
+                    </> : 'GET NOW!'}
                 </Button>
               </div>
+            </div>
 
-              {restaurants.length > 0 && <Button onClick={exportToCSV} variant="secondary" className="flex items-center gap-2">
+            {restaurants.length > 0 && (
+              <div className="flex justify-center pt-4">
+                <Button onClick={exportToCSV} variant="secondary" className="flex items-center gap-2">
                   <Download className="h-4 w-4" />
                   Export CSV
-                </Button>}
-            </div>
+                </Button>
+              </div>
+            )}
           </CardContent>
         </Card>
 
