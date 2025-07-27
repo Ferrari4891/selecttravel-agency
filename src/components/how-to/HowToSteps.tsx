@@ -65,7 +65,7 @@ const HowToSteps = () => {
             </div>
             <div>
               <h3 className="font-semibold mb-2">Choose Number of Results & Find Businesses</h3>
-              <p className="text-muted-foreground">Select how many businesses you want to see (up to 20), then click the search button to generate your customized list of top-rated businesses with 3+ star ratings.</p>
+              <p className="text-muted-foreground">Select how many businesses you want to see from the drop down menu or enter your own amount, then click the search button to generate your customized list of top-rated businesses with 3+ star ratings.</p>
             </div>
           </div>
         </div>
