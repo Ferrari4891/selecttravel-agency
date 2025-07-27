@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
-import { Menu, Home, Info, HelpCircle, Users, Building2, ChevronDown, ChevronRight } from 'lucide-react';
+import { Menu, Home, Info, HelpCircle, Users, Building2, ChevronDown, ChevronRight, Search } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { LanguageSelector } from '@/components/LanguageSelector';
 import { useAuth } from '@/contexts/AuthContext';
@@ -69,12 +69,18 @@ export const Navigation = ({ onMenuStateChange, forceMenuOpen }: NavigationProps
                 >
                   <Home className="h-5 w-5 mr-3" />
                   <span className="text-base">Home</span>
-                </Button>
-                <Button variant="ghost" className="w-full justify-start h-12 text-left touch-target" asChild>
-                  <Link to="/about-us" onClick={() => setMenuOpen(false)}>
-                    <Info className="h-5 w-5 mr-3" />
-                    <span className="text-base">About Us</span>
-                  </Link>
+                 </Button>
+                 <Button variant="ghost" className="w-full justify-start h-12 text-left touch-target" asChild>
+                   <Link to="/guide-selection" onClick={() => setMenuOpen(false)}>
+                     <Search className="h-5 w-5 mr-3" />
+                     <span className="text-base">Guide Selection</span>
+                   </Link>
+                 </Button>
+                 <Button variant="ghost" className="w-full justify-start h-12 text-left touch-target" asChild>
+                   <Link to="/about-us" onClick={() => setMenuOpen(false)}>
+                     <Info className="h-5 w-5 mr-3" />
+                     <span className="text-base">About Us</span>
+                   </Link>
                 </Button>
                 <Button variant="ghost" className="w-full justify-start h-12 text-left touch-target" asChild>
                   <Link to="/how-to" onClick={() => setMenuOpen(false)}>
