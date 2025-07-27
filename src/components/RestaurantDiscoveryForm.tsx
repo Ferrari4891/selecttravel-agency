@@ -401,6 +401,31 @@ export const RestaurantDiscoveryForm = ({ onSelectionChange }: RestaurantDiscove
                       </SelectItem>)}
                   </SelectContent>
                 </Select>
+                
+                <div className="mt-4 space-y-2">
+                  <label className="text-sm font-bold uppercase">5: RESULTS COUNT (3+ Star Minimum)</label>
+                  <div className="flex gap-2">
+                    <Select value={resultCount.toString()} onValueChange={(value) => setResultCount(parseInt(value))}>
+                      <SelectTrigger className="font-bold">
+                        <SelectValue />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="1">1 Result</SelectItem>
+                        <SelectItem value="3">3 Results</SelectItem>
+                        <SelectItem value="10">10 Results</SelectItem>
+                      </SelectContent>
+                    </Select>
+                    <Input
+                      type="number"
+                      placeholder="Or enter number"
+                      min="1"
+                      max="100"
+                      value={resultCount}
+                      onChange={(e) => setResultCount(parseInt(e.target.value) || 1)}
+                      className="w-32"
+                    />
+                  </div>
+                </div>
               </div>
 
               <div className="space-y-2">
@@ -415,41 +440,9 @@ export const RestaurantDiscoveryForm = ({ onSelectionChange }: RestaurantDiscove
                       </SelectItem>)}
                   </SelectContent>
                 </Select>
-              </div>
-            </div>
-
-            <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-4 pt-4">
-              <div></div>
-              <div></div>
-              
-              <div className="space-y-2">
-                <label className="text-sm font-bold uppercase">5: RESULTS COUNT (3+ Star Minimum)</label>
-                <div className="flex gap-2">
-                  <Select value={resultCount.toString()} onValueChange={(value) => setResultCount(parseInt(value))}>
-                    <SelectTrigger className="font-bold">
-                      <SelectValue />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectItem value="1">1 Result</SelectItem>
-                      <SelectItem value="3">3 Results</SelectItem>
-                      <SelectItem value="10">10 Results</SelectItem>
-                    </SelectContent>
-                  </Select>
-                  <Input
-                    type="number"
-                    placeholder="Or enter number"
-                    min="1"
-                    max="100"
-                    value={resultCount}
-                    onChange={(e) => setResultCount(parseInt(e.target.value) || 1)}
-                    className="w-32"
-                  />
-                </div>
-              </div>
-
-              <div className="space-y-2">
+                
                 {selectedCountry && (
-                  <>
+                  <div className="mt-3 space-y-2">
                     <label className="text-xs font-medium text-muted-foreground">Or search for a city:</label>
                     <div className="flex gap-2">
                       <Input
@@ -475,7 +468,7 @@ export const RestaurantDiscoveryForm = ({ onSelectionChange }: RestaurantDiscove
                           </> : 'GET NOW!'}
                       </Button>
                     </div>
-                  </>
+                  </div>
                 )}
               </div>
             </div>
