@@ -72,6 +72,49 @@ const Lab: React.FC = () => {
     return country?.cities || [];
   }, [selectedCountry, countries]);
 
+  // Get hero image based on selections
+  const getHeroImage = () => {
+    // Priority: City > Country > Region > Category > Default rotation
+    if (selectedCity) {
+      // For now, use category-specific images when city is selected
+      // In a real app, you'd have city-specific images
+      return getCategoryImage();
+    }
+    if (selectedCountry) {
+      // Use region-specific images for countries
+      return getRegionImage();
+    }
+    if (selectedRegion) {
+      return getRegionImage();
+    }
+    if (selectedCategory) {
+      return getCategoryImage();
+    }
+    // Default: rotate through all images
+    return carouselImages[carouselIndex];
+  };
+
+  const getCategoryImage = () => {
+    switch (selectedCategory) {
+      case 'eat': return heroEat;
+      case 'drink': return heroDrink;
+      case 'stay': return heroStay;
+      case 'play': return heroPlay;
+      default: return heroBackground;
+    }
+  };
+
+  const getRegionImage = () => {
+    switch (selectedRegion) {
+      case 'North America': return heroNorthAmerica;
+      case 'Europe': return heroEurope;
+      case 'Asia': return heroAsia;
+      case 'South America': return heroSouthAmerica;
+      case 'Africa & Middle East': return heroAfricaMiddleEast;
+      default: return getCategoryImage();
+    }
+  };
+
   // Carousel images with senior couples only
   const carouselImages = [
     heroEat,
@@ -81,7 +124,8 @@ const Lab: React.FC = () => {
   ];
 
   const getCarouselImage = () => {
-    return carouselImages[carouselIndex];
+    // Use dynamic hero image based on selections
+    return getHeroImage();
   };
 
   // Carousel rotation effect
@@ -481,8 +525,27 @@ const Lab: React.FC = () => {
             </div>
             
             <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-              {businesses.map((business, index) => (
+              {businesses.map((business, index) => {
+                // Placeholder images for businesses
+                const placeholderImages = [
+                  'https://via.placeholder.com/400x300/FF6B6B/FFFFFF?text=Business+1',
+                  'https://via.placeholder.com/400x300/4ECDC4/FFFFFF?text=Business+2',
+                  'https://via.placeholder.com/400x300/45B7D1/FFFFFF?text=Business+3',
+                  'https://via.placeholder.com/400x300/96CEB4/FFFFFF?text=Business+4',
+                  'https://via.placeholder.com/400x300/FFEAA7/000000?text=Business+5'
+                ];
+                
+                return (
                 <Card key={index} className="border-2 border-gray-300 shadow-lg">
+                  {/* Add placeholder image */}
+                  <div className="aspect-video relative overflow-hidden">
+                    <img
+                      src={placeholderImages[index % placeholderImages.length]}
+                      alt={business.name}
+                      className="w-full h-full object-cover"
+                    />
+                  </div>
+                  
                   <CardContent className="p-4 space-y-3">
                     <div className="flex justify-between items-start">
                       <h3 className="font-bold text-lg text-black">{business.name}</h3>
@@ -567,11 +630,26 @@ const Lab: React.FC = () => {
                             </Button>
                           )}
                         </div>
-                      )}
-                    </div>
-                  </CardContent>
-                </Card>
-              ))}
+                       )}
+                       
+                       {/* Save Button - spans full width with black background */}
+                       <Button
+                         className="w-full bg-black text-white hover:bg-gray-800 rounded-none mt-2"
+                         onClick={() => {
+                           // TODO: Add save functionality
+                           toast({
+                             title: "Save Feature",
+                             description: "Save functionality coming soon!",
+                           });
+                         }}
+                       >
+                         SAVE
+                       </Button>
+                     </div>
+                   </CardContent>
+                 </Card>
+                 );
+               })}
             </div>
           </div>
         )}

@@ -107,21 +107,30 @@ export const RestaurantResults: React.FC<RestaurantResultsProps> = ({
       setSavingIndex(null);
     }
   };
-  console.log('RestaurantResults rendering with:', { 
+  // Force debugging
+  console.log('🔥 RestaurantResults component IS RENDERING 🔥');
+  console.log('RestaurantResults data:', { 
     restaurantCount: restaurants.length, 
     firstRestaurant: restaurants[0],
-    user: user ? 'logged in' : 'not logged in'
+    user: user ? 'logged in' : 'not logged in',
+    selectedCity,
+    selectedCountry
   });
 
+  // Add alert for debugging
+  if (restaurants.length > 0) {
+    console.log('🚨 RESTAURANTS FOUND - COMPONENT SHOULD BE VISIBLE 🚨');
+  }
+
   return (
-    <Card className="shadow-elegant rounded-none">
-      <CardHeader>
+    <Card className="shadow-elegant rounded-none border-4 border-red-500">
+      <CardHeader className="bg-yellow-200">
         <CardTitle className="flex items-center gap-2">
           <Star className="h-5 w-5 text-primary" />
-          Top Restaurants in {selectedCity}, {selectedCountry}
+          ⚠️ TESTING - Top Restaurants in {selectedCity}, {selectedCountry}
         </CardTitle>
         <CardDescription>
-          {restaurants.length} restaurants found from TripAdvisor, Yelp, and Google Reviews
+          🔥 DEBUGGING: {restaurants.length} restaurants found from TripAdvisor, Yelp, and Google Reviews
         </CardDescription>
       </CardHeader>
       <CardContent>
