@@ -205,18 +205,24 @@ const Index: React.FC = () => {
   };
 
   const handleGetNow = async () => {
+    console.log('🚀 handleGetNow called!');
     setIsLoading(true);
     try {
+      console.log('⏱️ Starting 3-second delay...');
       // Simulate API call with 3-second delay
       await new Promise(resolve => setTimeout(resolve, 3000));
+      console.log('✅ Delay complete, generating businesses...');
       const mockData = generateMockBusinesses();
+      console.log('📋 Generated businesses:', mockData);
       setBusinesses(mockData);
       setShowResults(true);
+      console.log('🎯 Set showResults to true, businesses length:', mockData.length);
       toast({
         title: "Success!",
         description: `Found ${mockData.length} businesses in ${selectedCity}, ${selectedCountry}`,
       });
     } catch (error) {
+      console.error('❌ Error in handleGetNow:', error);
       toast({
         title: "Error",
         description: "Failed to fetch business data. Please try again.",
@@ -224,6 +230,7 @@ const Index: React.FC = () => {
       });
     } finally {
       setIsLoading(false);
+      console.log('🏁 handleGetNow finished');
     }
   };
 
@@ -286,7 +293,11 @@ const Index: React.FC = () => {
           <div 
             className="absolute inset-0 transition-opacity duration-1000"
             style={{
-              backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)), url(${getCarouselImage()})`,
+              backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)), url(${(() => {
+                const heroImage = getCarouselImage();
+                console.log('🖼️ Hero image URL being used:', heroImage);
+                return heroImage;
+              })()})`,
               backgroundSize: 'cover',
               backgroundPosition: 'center'
             }}
@@ -515,7 +526,10 @@ const Index: React.FC = () => {
         </Card>
 
         {/* Results Section - DEBUG VERSION */}
-        {showResults && businesses.length > 0 && (
+        {(() => {
+          console.log('🔍 Results render check:', { showResults, businessesLength: businesses.length });
+          return showResults && businesses.length > 0;
+        })() && (
           <div className="mt-8 space-y-6">
             <div className="flex justify-between items-center">
               <h2 className="text-2xl font-bold text-black">
@@ -535,28 +549,37 @@ const Index: React.FC = () => {
               {businesses.map((business, index) => {
                 console.log(`🏪 Rendering business ${index}:`, business.name);
                 
-                // Placeholder images for businesses
+                // Placeholder images for businesses - FIXED URLS
                 const placeholderImages = [
-                  'https://via.placeholder.com/400x300/FF6B6B/FFFFFF?text=Business+1',
-                  'https://via.placeholder.com/400x300/4ECDC4/FFFFFF?text=Business+2',
-                  'https://via.placeholder.com/400x300/45B7D1/FFFFFF?text=Business+3',
-                  'https://via.placeholder.com/400x300/96CEB4/FFFFFF?text=Business+4',
-                  'https://via.placeholder.com/400x300/FFEAA7/000000?text=Business+5'
+                  'https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=400&h=300&fit=crop&q=80',
+                  'https://images.unsplash.com/photo-1567620905732-2d1ec7ab7445?w=400&h=300&fit=crop&q=80',
+                  'https://images.unsplash.com/photo-1551218808-94e220e084d2?w=400&h=300&fit=crop&q=80',
+                  'https://images.unsplash.com/photo-1552566499-dfd8fa52cd2c?w=400&h=300&fit=crop&q=80',
+                  'https://images.unsplash.com/photo-1559339352-11d035aa65de?w=400&h=300&fit=crop&q=80'
                 ];
+                
+                const imageUrl = placeholderImages[index % placeholderImages.length];
+                console.log(`🖼️ Using image URL for business ${index}:`, imageUrl);
                 
                 return (
                 <Card key={index} className="border-2 border-gray-300 shadow-lg">
                   {/* Add placeholder image */}
-                  <div className="aspect-video relative overflow-hidden bg-red-500">
+                  <div className="aspect-video relative overflow-hidden">
                     <img
-                      src={placeholderImages[index % placeholderImages.length]}
+                      src={imageUrl}
                       alt={business.name}
                       className="w-full h-full object-cover"
                       onError={(e) => {
-                        console.log('❌ Image failed to load:', placeholderImages[index % placeholderImages.length]);
+                        console.log('❌ Image failed to load:', imageUrl);
+                        const target = e.target as HTMLImageElement;
+                        target.style.backgroundColor = '#FF6B6B';
+                        target.style.display = 'flex';
+                        target.style.alignItems = 'center';
+                        target.style.justifyContent = 'center';
+                        target.alt = 'Image Failed';
                       }}
                       onLoad={() => {
-                        console.log('✅ Image loaded successfully:', placeholderImages[index % placeholderImages.length]);
+                        console.log('✅ Image loaded successfully:', imageUrl);
                       }}
                     />
                   </div>
