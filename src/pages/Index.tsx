@@ -10,6 +10,7 @@ import { LanguageSelector } from '@/components/LanguageSelector';
 import { Utensils, Coffee, Bed, Gamepad2, MapPin, Download, RotateCcw, Loader2, Search } from 'lucide-react';
 import { Input } from '@/components/ui/input';
 import { regionData } from '@/data/locationData';
+import SaveBusinessButton from '@/components/SaveBusinessButton';
 
 // Import hero images
 import heroEat from '@/assets/hero-eat.jpg';
@@ -35,10 +36,12 @@ interface Business {
   email: string;
   website: string;
   mapLink: string;
+  googleMapRef?: string;
   facebook?: string;
   instagram?: string;
   twitter?: string;
   image: string;
+  imageLinks?: string;
   source: string;
 }
 
@@ -745,18 +748,30 @@ const Index: React.FC = () => {
                       )}
                        
                        {/* Save Button - spans full width with black background */}
-                       <Button
-                         className="w-full bg-black text-white hover:bg-gray-800 rounded-none mt-2"
-                         onClick={() => {
-                           // TODO: Add save functionality
-                           toast({
-                             title: "Save Feature",
-                             description: "Save functionality coming soon!",
-                           });
+                       <SaveBusinessButton
+                         restaurant={{
+                           name: business.name,
+                           address: business.address || "",
+                           googleMapRef: business.googleMapRef || "",
+                           socialMediaLinks: {
+                             facebook: business.facebook,
+                             instagram: business.instagram,
+                             twitter: business.twitter,
+                           },
+                           contactDetails: {
+                             phone: business.phone,
+                             email: business.email,
+                             website: business.website,
+                           },
+                           imageLinks: business.imageLinks ? business.imageLinks.split(',') : [],
+                           rating: business.rating || 0,
+                           reviewCount: business.reviewCount || 0,
+                           source: business.source || "Local",
                          }}
-                       >
-                         SAVE
-                       </Button>
+                         selectedCity={selectedCity}
+                         selectedCountry={selectedCountry}
+                         selectedCategory={selectedCategory}
+                       />
                      </div>
                    </CardContent>
                  </Card>
