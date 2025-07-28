@@ -189,10 +189,73 @@ export type Database = {
         }
         Relationships: []
       }
+      collection_shares: {
+        Row: {
+          collection_id: string
+          created_at: string
+          expires_at: string | null
+          id: string
+          share_token: string
+        }
+        Insert: {
+          collection_id: string
+          created_at?: string
+          expires_at?: string | null
+          id?: string
+          share_token?: string
+        }
+        Update: {
+          collection_id?: string
+          created_at?: string
+          expires_at?: string | null
+          id?: string
+          share_token?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "collection_shares_collection_id_fkey"
+            columns: ["collection_id"]
+            isOneToOne: false
+            referencedRelation: "collections"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      collections: {
+        Row: {
+          created_at: string
+          description: string | null
+          id: string
+          is_public: boolean
+          name: string
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          description?: string | null
+          id?: string
+          is_public?: boolean
+          name: string
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          description?: string | null
+          id?: string
+          is_public?: boolean
+          name?: string
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
       saved_restaurants: {
         Row: {
           category: string | null
           city: string
+          collection_id: string | null
           country: string
           created_at: string
           id: string
@@ -205,6 +268,7 @@ export type Database = {
         Insert: {
           category?: string | null
           city: string
+          collection_id?: string | null
           country: string
           created_at?: string
           id?: string
@@ -217,6 +281,7 @@ export type Database = {
         Update: {
           category?: string | null
           city?: string
+          collection_id?: string | null
           country?: string
           created_at?: string
           id?: string
@@ -226,7 +291,15 @@ export type Database = {
           updated_at?: string
           user_id?: string
         }
-        Relationships: []
+        Relationships: [
+          {
+            foreignKeyName: "saved_restaurants_collection_id_fkey"
+            columns: ["collection_id"]
+            isOneToOne: false
+            referencedRelation: "collections"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       "Test Eat": {
         Row: {
