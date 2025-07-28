@@ -7,7 +7,7 @@ import { TranslationProvider } from "@/components/TranslationProvider";
 import { AuthProvider } from "@/contexts/AuthContext";
 import { ProtectedRoute } from "@/components/ProtectedRoute";
 import SiteAuthGuard from "@/components/SiteAuthGuard";
-import Index from "./pages/Index";
+import Lab from "./pages/Lab";
 import GuideSelection from "./pages/GuideSelection";
 import AboutUs from "./pages/AboutUs";
 import HowTo from "./pages/HowTo";
@@ -41,7 +41,7 @@ const App = () => (
               <Route path="/*" element={
                 <SiteAuthGuard>
                   <Routes>
-                    <Route path="/" element={<Index />} />
+                    <Route path="/" element={<Lab />} />
                     <Route path="/guide-selection" element={<GuideSelection />} />
                     <Route path="/about-us" element={<AboutUs />} />
                     <Route path="/how-to" element={<HowTo />} />
