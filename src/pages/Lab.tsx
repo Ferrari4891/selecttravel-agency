@@ -50,6 +50,7 @@ const Lab: React.FC = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [businesses, setBusinesses] = useState<Business[]>([]);
   const [showResults, setShowResults] = useState(false);
+  const [carouselIndex, setCarouselIndex] = useState(0);
 
   const categories = [
     { value: 'eat', label: 'Eat', icon: Utensils },
@@ -71,51 +72,33 @@ const Lab: React.FC = () => {
     return country?.cities || [];
   }, [selectedCountry, countries]);
 
-  const getHeroImage = () => {
-    if (selectedCity) {
-      // Try to get city-specific image or country-specific
-      return heroBackground;
-    }
-    if (selectedCountry) {
-      return heroBackground;
-    }
-    if (selectedRegion) {
-      switch (selectedRegion) {
-        case 'North America': return heroNorthAmerica;
-        case 'Europe': return heroEurope;
-        case 'Asia': return heroAsia;
-        case 'South America': return heroSouthAmerica;
-        case 'Africa & Middle East': return heroAfricaMiddleEast;
-        default: return heroBackground;
-      }
-    }
-    if (selectedCategory) {
-      switch (selectedCategory) {
-        case 'eat': return heroEat;
-        case 'drink': return heroDrink;
-        case 'stay': return heroStay;
-        case 'play': return heroPlay;
-        default: return heroBackground;
-      }
-    }
-    return heroBackground;
+  // Carousel images representing senior couples for each section
+  const carouselImages = [
+    heroEat,
+    heroDrink, 
+    heroStay,
+    heroPlay,
+    heroNorthAmerica,
+    heroEurope,
+    heroAsia,
+    heroSouthAmerica,
+    heroAfricaMiddleEast
+  ];
+
+  const getCarouselImage = () => {
+    return carouselImages[carouselIndex];
   };
 
-  const getHeroTitle = () => {
-    if (selectedCity) {
-      return `THE LAB - ${selectedCity}, ${selectedCountry}`;
-    }
-    if (selectedCountry) {
-      return `THE LAB - ${selectedCountry}`;
-    }
-    if (selectedRegion) {
-      return `THE LAB - ${selectedRegion}`;
-    }
-    if (selectedCategory) {
-      return `THE LAB - ${categories.find(c => c.value === selectedCategory)?.label}`;
-    }
-    return 'THE LAB - smartguides.live';
-  };
+  // Carousel rotation effect
+  React.useEffect(() => {
+    const interval = setInterval(() => {
+      setCarouselIndex((prevIndex) => 
+        (prevIndex + 1) % carouselImages.length
+      );
+    }, 2000); // 2 second delay
+
+    return () => clearInterval(interval);
+  }, [carouselImages.length]);
 
   const generateMockBusinesses = (): Business[] => {
     const businessNames = [
@@ -248,21 +231,32 @@ const Lab: React.FC = () => {
       <Navigation />
       <LanguageSelector />
 
-      {/* Hero Section */}
-      <div 
-        className="relative text-center space-y-4 py-16 px-8 overflow-hidden border-8 border-white shadow-[0_8px_16px_rgba(0,0,0,0.3)] mx-6 mt-6"
-        style={{
-          backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3)), url(${getHeroImage()})`,
-          backgroundSize: 'cover',
-          backgroundPosition: 'center'
-        }}
-      >
-        <h1 className="text-white font-bold text-4xl md:text-6xl">
-          {getHeroTitle()}
-        </h1>
-        <p className="text-white text-lg md:text-xl max-w-2xl mx-auto">
-          Progressive Business Discovery Interface
-        </p>
+      {/* Hero Section - Carousel */}
+      <div className="relative text-center space-y-4 py-16 px-8 overflow-hidden border-8 border-white shadow-[0_8px_16px_rgba(0,0,0,0.3)] mx-6 mt-6">
+        <div className="relative w-full h-full">
+          {/* Rotating Background Images */}
+          <div 
+            className="absolute inset-0 transition-opacity duration-1000"
+            style={{
+              backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)), url(${getCarouselImage()})`,
+              backgroundSize: 'cover',
+              backgroundPosition: 'center'
+            }}
+          />
+          
+          {/* Text Overlay */}
+          <div className="relative z-10 space-y-4">
+            <h1 className="text-white font-bold text-4xl md:text-6xl">
+              Personalized Guide Books
+            </h1>
+            <p className="text-white text-lg md:text-xl max-w-2xl mx-auto">
+              Let's get personal
+            </p>
+            <p className="text-white text-sm md:text-base">
+              www.smartguidebooks.com
+            </p>
+          </div>
+        </div>
       </div>
 
       {/* Main Content */}
@@ -288,22 +282,22 @@ const Lab: React.FC = () => {
         {(selectedCategory || selectedRegion || selectedCountry || selectedCity) && (
           <div className="flex flex-wrap gap-2 justify-center mb-6">
             {selectedCategory && (
-              <Badge variant="secondary" className="bg-black text-white text-sm px-3 py-1">
+              <Badge variant="secondary" className="bg-black text-white text-sm px-3 py-1 rounded-none">
                 {categories.find(c => c.value === selectedCategory)?.label}
               </Badge>
             )}
             {selectedRegion && (
-              <Badge variant="secondary" className="bg-black text-white text-sm px-3 py-1">
+              <Badge variant="secondary" className="bg-black text-white text-sm px-3 py-1 rounded-none">
                 {selectedRegion}
               </Badge>
             )}
             {selectedCountry && (
-              <Badge variant="secondary" className="bg-black text-white text-sm px-3 py-1">
+              <Badge variant="secondary" className="bg-black text-white text-sm px-3 py-1 rounded-none">
                 {selectedCountry}
               </Badge>
             )}
             {selectedCity && (
-              <Badge variant="secondary" className="bg-black text-white text-sm px-3 py-1">
+              <Badge variant="secondary" className="bg-black text-white text-sm px-3 py-1 rounded-none">
                 {selectedCity}
               </Badge>
             )}
