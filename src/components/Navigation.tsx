@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
-import { Menu, Home, Info, HelpCircle, Users, Building2, ChevronDown, ChevronRight, Search } from 'lucide-react';
+import { Menu, Home, Info, HelpCircle, Users, Building2, ChevronDown, ChevronRight, Search, Bookmark } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { LanguageSelector } from '@/components/LanguageSelector';
 import { useAuth } from '@/contexts/AuthContext';
@@ -202,12 +202,20 @@ export const Navigation = ({ onMenuStateChange, forceMenuOpen }: NavigationProps
                 {/* Business Login/Dashboard - Placed at bottom */}
                 <div className="mt-auto pt-4 border-t border-gray-200">
                   {user ? (
-                    <Button variant="ghost" className="w-full justify-start h-12 text-left touch-target" asChild>
-                      <Link to="/dashboard" onClick={() => setMenuOpen(false)}>
-                        <Building2 className="h-5 w-5 mr-3" />
-                        <span className="text-base">Business Dashboard</span>
-                      </Link>
-                    </Button>
+                    <div className="space-y-1">
+                      <Button variant="ghost" className="w-full justify-start h-12 text-left touch-target" asChild>
+                        <Link to="/dashboard" onClick={() => setMenuOpen(false)}>
+                          <Building2 className="h-5 w-5 mr-3" />
+                          <span className="text-base">Business Dashboard</span>
+                        </Link>
+                      </Button>
+                      <Button variant="ghost" className="w-full justify-start h-12 text-left touch-target" asChild>
+                        <Link to="/collections" onClick={() => setMenuOpen(false)}>
+                          <Bookmark className="h-5 w-5 mr-3" />
+                          <span className="text-base">My Collections</span>
+                        </Link>
+                      </Button>
+                    </div>
                   ) : (
                     <Button variant="ghost" className="w-full justify-start h-12 text-left touch-target" asChild>
                       <Link to="/auth" onClick={() => setMenuOpen(false)}>

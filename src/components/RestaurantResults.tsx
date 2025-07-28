@@ -3,12 +3,9 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
-import { MapPin, Star, ExternalLink, Phone, Mail, Globe, Menu, Bookmark } from 'lucide-react';
+import { MapPin, Star, ExternalLink, Phone, Mail, Globe, Menu } from 'lucide-react';
 import { MailingListSignup } from './MailingListSignup';
-import { useAuth } from '@/contexts/AuthContext';
-import { supabase } from '@/integrations/supabase/client';
-import { useToast } from '@/hooks/use-toast';
-import { useNavigate } from 'react-router-dom';
+import SaveBusinessButton from './SaveBusinessButton';
 
 interface Restaurant {
   name: string;
@@ -44,10 +41,6 @@ export const RestaurantResults: React.FC<RestaurantResultsProps> = ({
   selectedCountry,
   selectedCategory,
 }) => {
-  const { user } = useAuth();
-  const { toast } = useToast();
-  const navigate = useNavigate();
-  const [savingIndex, setSavingIndex] = useState<number | null>(null);
 
   // Placeholder images for restaurants - using different sources
   const placeholderImages = [
@@ -58,61 +51,11 @@ export const RestaurantResults: React.FC<RestaurantResultsProps> = ({
     'https://via.placeholder.com/400x300/FFEAA7/000000?text=Restaurant+5'
   ];
 
-  const handleSaveRestaurant = async (restaurant: Restaurant, index: number) => {
-    if (!user) {
-      // User is not logged in - they need to be a member
-      return;
-    }
-
-    setSavingIndex(index);
-    
-    try {
-      const { error } = await supabase
-        .from('saved_restaurants')
-        .insert({
-          user_id: user.id,
-          restaurant_name: restaurant.name,
-          restaurant_address: restaurant.address,
-          restaurant_data: JSON.parse(JSON.stringify(restaurant)),
-          city: selectedCity,
-          country: selectedCountry,
-          category: selectedCategory
-        });
-
-      if (error) {
-        if (error.code === '23505') { // Unique constraint violation
-          toast({
-            title: "Restaurant Already Saved",
-            description: "This restaurant is already in your favorites.",
-            variant: "default",
-          });
-        } else {
-          throw error;
-        }
-      } else {
-        toast({
-          title: "Restaurant Saved!",
-          description: "Added to your dashboard favorites.",
-          variant: "default",
-        });
-      }
-    } catch (error) {
-      console.error('Error saving restaurant:', error);
-      toast({
-        title: "Error",
-        description: "Failed to save restaurant. Please try again.",
-        variant: "destructive",
-      });
-    } finally {
-      setSavingIndex(null);
-    }
-  };
   // Force debugging
   console.log('🔥 RestaurantResults component IS RENDERING 🔥');
   console.log('RestaurantResults data:', { 
     restaurantCount: restaurants.length, 
     firstRestaurant: restaurants[0],
-    user: user ? 'logged in' : 'not logged in',
     selectedCity,
     selectedCountry
   });
@@ -237,17 +180,14 @@ export const RestaurantResults: React.FC<RestaurantResultsProps> = ({
                         View on Maps
                       </Button>
 
-                       {/* Always show save button for testing */}
-                       <Button
-                         variant="default"
-                         size="sm"
-                         className="flex items-center gap-1 text-xs col-span-2 rounded-none bg-black text-white hover:bg-black/90"
-                         onClick={() => user ? handleSaveRestaurant(restaurant, index) : console.log('Would show dropdown')}
-                         disabled={savingIndex === index}
-                       >
-                         <Bookmark className="h-3 w-3" />
-                         {savingIndex === index ? 'SAVING...' : 'SAVE'}
-                       </Button>
+                        <div className="col-span-2">
+                          <SaveBusinessButton
+                            restaurant={restaurant}
+                            selectedCity={selectedCity}
+                            selectedCountry={selectedCountry}
+                            selectedCategory={selectedCategory}
+                          />
+                        </div>
                     </div>
 
                     {(restaurant.socialMediaLinks.facebook || 

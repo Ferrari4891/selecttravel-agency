@@ -21,6 +21,8 @@ import TVChannel from "./pages/TVChannel";
 import Dashboard from "./pages/Dashboard";
 import UserDashboard from "./pages/UserDashboard";
 import Auth from "./pages/Auth";
+import Collections from "./pages/Collections";
+import SharedCollection from "./pages/SharedCollection";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -68,6 +70,15 @@ const App = () => (
                         </ProtectedRoute>
                       } 
                     />
+                    <Route 
+                      path="/collections" 
+                      element={
+                        <ProtectedRoute>
+                          <Collections />
+                        </ProtectedRoute>
+                      } 
+                    />
+                    <Route path="/shared/:token" element={<SharedCollection />} />
                     {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
                     <Route path="*" element={<NotFound />} />
                   </Routes>
