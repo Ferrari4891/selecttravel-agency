@@ -189,6 +189,45 @@ export type Database = {
         }
         Relationships: []
       }
+      saved_restaurants: {
+        Row: {
+          category: string | null
+          city: string
+          country: string
+          created_at: string
+          id: string
+          restaurant_address: string
+          restaurant_data: Json
+          restaurant_name: string
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          category?: string | null
+          city: string
+          country: string
+          created_at?: string
+          id?: string
+          restaurant_address: string
+          restaurant_data: Json
+          restaurant_name: string
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          category?: string | null
+          city?: string
+          country?: string
+          created_at?: string
+          id?: string
+          restaurant_address?: string
+          restaurant_data?: Json
+          restaurant_name?: string
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
       "Test Eat": {
         Row: {
           Address: string
