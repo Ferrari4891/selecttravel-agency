@@ -445,11 +445,11 @@ const Index: React.FC = () => {
                 )}
 
                 {/* Selection Interface */}
-                <div className="bg-white/95 backdrop-blur-sm p-6 rounded-none border-2 border-white">
+                <div className="p-6">
                   {/* Step 1: Category Selection */}
                   {currentStep === 1 && (
                     <div className="space-y-4">
-                      <h2 className="text-xl font-bold text-center text-black">1: Select Category</h2>
+                      <h2 className="text-xl font-bold text-center text-white">1: Select Category</h2>
                       <Select onValueChange={handleCategorySelect}>
                         <SelectTrigger className="h-16 border-2 border-gray-400 text-lg rounded-none">
                           <SelectValue placeholder="Choose your category..." />
@@ -474,7 +474,7 @@ const Index: React.FC = () => {
                   {/* Step 2: Region Selection */}
                   {currentStep === 2 && (
                     <div className="space-y-4">
-                      <h2 className="text-xl font-bold text-center text-black">2: Select Region</h2>
+                      <h2 className="text-xl font-bold text-center text-white">2: Select Region</h2>
                       <Select onValueChange={handleRegionSelect}>
                         <SelectTrigger className="h-16 border-2 border-gray-400 text-lg rounded-none">
                           <SelectValue placeholder="Choose a region..." />
@@ -493,7 +493,7 @@ const Index: React.FC = () => {
                   {/* Step 3: Country Selection */}
                   {currentStep === 3 && (
                     <div className="space-y-4">
-                      <h2 className="text-xl font-bold text-center text-black">3: Select Country</h2>
+                      <h2 className="text-xl font-bold text-center text-white">3: Select Country</h2>
                       <Select onValueChange={handleCountrySelect}>
                         <SelectTrigger className="h-16 border-2 border-gray-400 text-lg rounded-none">
                           <SelectValue placeholder="Choose a country..." />
@@ -512,7 +512,7 @@ const Index: React.FC = () => {
                   {/* Step 4: City Selection */}
                   {currentStep === 4 && (
                     <div className="space-y-4">
-                      <h2 className="text-xl font-bold text-center text-black">4: Select City</h2>
+                      <h2 className="text-xl font-bold text-center text-white">4: Select City</h2>
                       <div className="space-y-3">
                         <Select onValueChange={(value) => {
                           setSelectedCity(value);
@@ -529,7 +529,7 @@ const Index: React.FC = () => {
                             ))}
                           </SelectContent>
                         </Select>
-                        <div className="text-center text-gray-600 text-sm">
+                        <div className="text-center text-white text-sm">
                           Or type city name:
                         </div>
                         <div className="flex gap-2">
@@ -558,7 +558,7 @@ const Index: React.FC = () => {
                   {/* Step 5: Result Count Selection & Get Results */}
                   {currentStep === 5 && (
                     <div className="space-y-4">
-                      <h2 className="text-xl font-bold text-center text-black">5: Select Number of Results</h2>
+                      <h2 className="text-xl font-bold text-center text-white">5: Select Number of Results</h2>
                       <Select value={resultCount.toString()} onValueChange={(value) => setResultCount(Number(value))}>
                         <SelectTrigger className="h-16 border-2 border-gray-400 text-lg rounded-none">
                           <SelectValue />
