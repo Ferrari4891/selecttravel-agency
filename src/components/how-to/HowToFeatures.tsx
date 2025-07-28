@@ -13,7 +13,7 @@ const HowToFeatures = () => {
           <ul className="space-y-3 text-muted-foreground">
             <li className="flex items-start gap-2">
               <span className="text-primary">•</span>
-              <span>Restaurants are ranked based on combined ratings from TripAdvisor, Yelp, and Google Reviews</span>
+              <span>Restaurants are ranked based on combined ratings from TripAdvisor, Yelp, and Google Reviews members can choose star ratings.</span>
             </li>
             <li className="flex items-start gap-2">
               <span className="text-primary">•</span>
@@ -21,15 +21,15 @@ const HowToFeatures = () => {
             </li>
             <li className="flex items-start gap-2">
               <span className="text-primary">•</span>
-              <span>Google Maps references are provided for easy navigation</span>
+              <span>Google Maps references are provided for easy navigation.</span>
             </li>
             <li className="flex items-start gap-2">
               <span className="text-primary">•</span>
-              <span>Social media links help you explore more about each restaurant</span>
+              <span>Social media links help you explore more about each business.</span>
             </li>
             <li className="flex items-start gap-2">
               <span className="text-primary">•</span>
-              <span>High-quality images showcase the dining experience</span>
+              <span>High-quality images showcase the business</span>
             </li>
           </ul>
         </CardContent>
