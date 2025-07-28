@@ -334,14 +334,14 @@ const Index: React.FC = () => {
       <Navigation />
       <LanguageSelector />
 
-      {/* Hero Section - Carousel */}
+      {/* Hero Section - Carousel with Overlay Controls */}
       <div className="relative mx-6 mt-6 border-8 border-white shadow-[0_8px_16px_rgba(0,0,0,0.3)]">
         <div className="relative w-full aspect-video overflow-hidden">
           {/* Rotating Background Images with Fallback */}
           <div 
             className="absolute inset-0 transition-opacity duration-1000"
             style={{
-              backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)), url(${(() => {
+              backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url(${(() => {
                 const heroImage = getCarouselImage();
                 console.log('🖼️ Hero image URL being used:', heroImage);
                 return heroImage;
@@ -352,266 +352,269 @@ const Index: React.FC = () => {
             onError={(e) => {
               console.log('❌ Hero image failed to load, using coming soon placeholder');
               const target = e.target as HTMLDivElement;
-              target.style.backgroundImage = `linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)), url(${placeholderComingSoon})`;
+              target.style.backgroundImage = `linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url(${placeholderComingSoon})`;
             }}
           />
           
-          {/* Text Overlay */}
-          <div className="relative z-10 flex flex-col justify-center items-center h-full px-4 py-8 text-center">
-            {/* City Name Display - only when city image is shown */}
-            {selectedCity && cityImages[selectedCity] && (
-              <h1 className="text-white font-bold text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl leading-tight">
-                {selectedCity.toUpperCase()}
-              </h1>
-            )}
-            
-            {/* Default content - when no city is selected */}
-            {!selectedCity && (
-              <>
+          {/* Overlay Content */}
+          <div className="absolute inset-0 z-10 flex flex-col">
+            {/* Top Section - Title */}
+            <div className="flex-shrink-0 flex flex-col justify-center items-center text-center px-4 py-4">
+              {/* City Name Display - only when city image is shown */}
+              {selectedCity && cityImages[selectedCity] && (
                 <h1 className="text-white font-bold text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl leading-tight">
-                  Personalized Guide Books
+                  {selectedCity.toUpperCase()}
                 </h1>
-                <p className="text-white text-sm sm:text-base md:text-lg lg:text-xl mt-2 md:mt-4">
-                  Let's get personal
-                </p>
-                <p className="text-white text-xs sm:text-sm md:text-base mt-1 md:mt-2">
-                  www.smartguidebooks.com
-                </p>
-              </>
-            )}
-          </div>
-        </div>
-      </div>
-
-      {/* Main Content */}
-      <div className="container mx-auto px-4 py-8 max-w-4xl">
-        
-        {/* Progress Indicator */}
-        <div className="flex justify-center space-x-8 mb-8">
-          {[
-            { step: 1, label: 'Category' },
-            { step: 2, label: 'Region' },
-            { step: 3, label: 'Country' },
-            { step: 4, label: 'City' },
-            { step: 5, label: 'Get Now!' }
-          ].map(({ step, label }) => (
-            <div key={step} className="flex flex-col items-center space-y-2">
-              <button
-                onClick={() => handleStepNavigation(step)}
-                className={`w-8 h-8 rounded-none flex items-center justify-center border-2 font-medium transition-colors cursor-pointer hover:scale-110 ${
-                  step <= currentStep 
-                    ? 'bg-black text-white border-black' 
-                    : 'bg-white text-gray-400 border-gray-300 hover:border-gray-400'
-                }`}
-              >
-                {step}
-              </button>
-              <button
-                onClick={() => handleStepNavigation(step)}
-                className={`text-xs font-medium transition-colors cursor-pointer hover:text-black ${
-                  step <= currentStep ? 'text-black' : 'text-gray-400'
-                }`}
-              >
-                {label}
-              </button>
+              )}
+              
+              {/* Default content - when no city is selected */}
+              {!selectedCity && (
+                <>
+                  <h1 className="text-white font-bold text-xl sm:text-2xl md:text-3xl lg:text-4xl xl:text-5xl leading-tight">
+                    Personalized Guide Books
+                  </h1>
+                  <p className="text-white text-xs sm:text-sm md:text-base lg:text-lg mt-1 md:mt-2">
+                    Let's get personal
+                  </p>
+                  <p className="text-white text-xs sm:text-xs md:text-sm mt-1">
+                    www.smartguidebooks.com
+                  </p>
+                </>
+              )}
             </div>
-          ))}
-        </div>
 
-        {/* Current Selections */}
-        {(selectedCategory || selectedRegion || selectedCountry || selectedCity) && (
-          <div className="flex flex-wrap gap-2 justify-center mb-6">
-            {selectedCategory && (
-              <Badge variant="secondary" className="bg-black text-white text-sm px-3 py-1 rounded-none">
-                {categories.find(c => c.value === selectedCategory)?.label}
-              </Badge>
-            )}
-            {selectedRegion && (
-              <Badge variant="secondary" className="bg-black text-white text-sm px-3 py-1 rounded-none">
-                {selectedRegion}
-              </Badge>
-            )}
-            {selectedCountry && (
-              <Badge variant="secondary" className="bg-black text-white text-sm px-3 py-1 rounded-none">
-                {selectedCountry}
-              </Badge>
-            )}
-            {selectedCity && (
-              <Badge variant="secondary" className="bg-black text-white text-sm px-3 py-1 rounded-none">
-                {selectedCity}
-              </Badge>
-            )}
-          </div>
-        )}
+            {/* Middle Section - Selection Interface */}
+            <div className="flex-1 flex items-center justify-center px-4">
+              <div className="w-full max-w-2xl">
+                {/* Progress Indicator */}
+                <div className="flex justify-center space-x-4 mb-6">
+                  {[
+                    { step: 1, label: 'Category' },
+                    { step: 2, label: 'Region' },
+                    { step: 3, label: 'Country' },
+                    { step: 4, label: 'City' },
+                    { step: 5, label: 'Get Now!' }
+                  ].map(({ step, label }) => (
+                    <div key={step} className="flex flex-col items-center space-y-1">
+                      <button
+                        onClick={() => handleStepNavigation(step)}
+                        className={`w-6 h-6 rounded-none flex items-center justify-center border-2 font-medium transition-colors cursor-pointer hover:scale-110 ${
+                          step <= currentStep 
+                            ? 'bg-white text-black border-white' 
+                            : 'bg-transparent text-white border-white/50 hover:border-white'
+                        }`}
+                      >
+                        {step}
+                      </button>
+                      <button
+                        onClick={() => handleStepNavigation(step)}
+                        className={`text-xs font-medium transition-colors cursor-pointer hover:text-white ${
+                          step <= currentStep ? 'text-white' : 'text-white/70'
+                        }`}
+                      >
+                        {label}
+                      </button>
+                    </div>
+                  ))}
+                </div>
 
-        {/* Progressive Selection Interface */}
-        <Card className="max-w-4xl mx-auto border-2 border-gray-300 shadow-lg">
-          <CardContent className="p-8">
-            
-            {/* Step 1: Category Selection */}
-            {currentStep === 1 && (
-              <div className="space-y-6">
-                <h2 className="text-2xl font-bold text-center text-black">1: Select Category</h2>
-                <Select onValueChange={handleCategorySelect}>
-                  <SelectTrigger className="h-20 max-w-4xl mx-auto border-2 border-gray-400 text-lg rounded-none">
-                    <SelectValue placeholder="Choose your category..." />
-                  </SelectTrigger>
-                  <SelectContent className="max-w-4xl rounded-none">
-                    {categories.map((category) => {
-                      const IconComponent = category.icon;
-                      return (
-                        <SelectItem key={category.value} value={category.value} className="text-lg py-3 rounded-none">
-                          <div className="flex items-center gap-3">
-                            <IconComponent className="h-6 w-6" />
-                            <span className="font-medium">{category.label}</span>
-                          </div>
-                        </SelectItem>
-                      );
-                    })}
-                  </SelectContent>
-                </Select>
-              </div>
-            )}
-
-            {/* Step 2: Region Selection */}
-            {currentStep === 2 && (
-              <div className="space-y-6">
-                <h2 className="text-2xl font-bold text-center text-black">2: Select Region</h2>
-                <Select onValueChange={handleRegionSelect}>
-                  <SelectTrigger className="h-20 max-w-4xl mx-auto border-2 border-gray-400 text-lg rounded-none">
-                    <SelectValue placeholder="Choose a region..." />
-                  </SelectTrigger>
-                  <SelectContent className="max-w-4xl rounded-none">
-                    {regions.map((region) => (
-                      <SelectItem key={region} value={region} className="text-lg py-3 rounded-none">
-                        {region}
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
-              </div>
-            )}
-
-            {/* Step 3: Country Selection */}
-            {currentStep === 3 && (
-              <div className="space-y-6">
-                <h2 className="text-2xl font-bold text-center text-black">3: Select Country</h2>
-                <Select onValueChange={handleCountrySelect}>
-                  <SelectTrigger className="h-20 max-w-4xl mx-auto border-2 border-gray-400 text-lg rounded-none">
-                    <SelectValue placeholder="Choose a country..." />
-                  </SelectTrigger>
-                  <SelectContent className="max-w-4xl rounded-none">
-                    {countries.map((country) => (
-                      <SelectItem key={country.name} value={country.name} className="text-lg py-3 rounded-none">
-                        {country.name}
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
-              </div>
-            )}
-
-            {/* Step 4: City Selection */}
-            {currentStep === 4 && (
-              <div className="space-y-6">
-                <h2 className="text-2xl font-bold text-center text-black">4: Select City</h2>
-                <div className="space-y-4">
-                  <Select onValueChange={(value) => {
-                    setSelectedCity(value);
-                    setCurrentStep(5);
-                  }}>
-                    <SelectTrigger className="h-20 max-w-4xl mx-auto border-2 border-gray-400 text-lg rounded-none">
-                      <SelectValue placeholder="Choose a city..." />
-                    </SelectTrigger>
-                    <SelectContent className="max-w-4xl rounded-none">
-                      {cities.map((city) => (
-                        <SelectItem key={city} value={city} className="text-lg py-3 rounded-none">
-                          {city}
-                        </SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
-                  <div className="text-center text-gray-600 text-sm">
-                    Or type city name:
+                {/* Current Selections */}
+                {(selectedCategory || selectedRegion || selectedCountry || selectedCity) && (
+                  <div className="flex flex-wrap gap-2 justify-center mb-4">
+                    {selectedCategory && (
+                      <Badge variant="secondary" className="bg-white text-black text-xs px-2 py-1 rounded-none">
+                        {categories.find(c => c.value === selectedCategory)?.label}
+                      </Badge>
+                    )}
+                    {selectedRegion && (
+                      <Badge variant="secondary" className="bg-white text-black text-xs px-2 py-1 rounded-none">
+                        {selectedRegion}
+                      </Badge>
+                    )}
+                    {selectedCountry && (
+                      <Badge variant="secondary" className="bg-white text-black text-xs px-2 py-1 rounded-none">
+                        {selectedCountry}
+                      </Badge>
+                    )}
+                    {selectedCity && (
+                      <Badge variant="secondary" className="bg-white text-black text-xs px-2 py-1 rounded-none">
+                        {selectedCity}
+                      </Badge>
+                    )}
                   </div>
-                  <div className="flex gap-2">
-                    <Input
-                      value={citySearchInput}
-                      onChange={(e) => setCitySearchInput(e.target.value)}
-                      placeholder="Type city name to search..."
-                      className="h-20 text-lg border-2 border-gray-400 rounded-none"
-                    />
-                    <Button
-                      onClick={() => {
-                        if (citySearchInput.trim()) {
-                          setSelectedCity(citySearchInput.trim());
+                )}
+
+                {/* Selection Interface */}
+                <div className="bg-white/95 backdrop-blur-sm p-6 rounded-none border-2 border-white">
+                  {/* Step 1: Category Selection */}
+                  {currentStep === 1 && (
+                    <div className="space-y-4">
+                      <h2 className="text-xl font-bold text-center text-black">1: Select Category</h2>
+                      <Select onValueChange={handleCategorySelect}>
+                        <SelectTrigger className="h-16 border-2 border-gray-400 text-lg rounded-none">
+                          <SelectValue placeholder="Choose your category..." />
+                        </SelectTrigger>
+                        <SelectContent className="rounded-none">
+                          {categories.map((category) => {
+                            const IconComponent = category.icon;
+                            return (
+                              <SelectItem key={category.value} value={category.value} className="text-lg py-3 rounded-none">
+                                <div className="flex items-center gap-3">
+                                  <IconComponent className="h-6 w-6" />
+                                  <span className="font-medium">{category.label}</span>
+                                </div>
+                              </SelectItem>
+                            );
+                          })}
+                        </SelectContent>
+                      </Select>
+                    </div>
+                  )}
+
+                  {/* Step 2: Region Selection */}
+                  {currentStep === 2 && (
+                    <div className="space-y-4">
+                      <h2 className="text-xl font-bold text-center text-black">2: Select Region</h2>
+                      <Select onValueChange={handleRegionSelect}>
+                        <SelectTrigger className="h-16 border-2 border-gray-400 text-lg rounded-none">
+                          <SelectValue placeholder="Choose a region..." />
+                        </SelectTrigger>
+                        <SelectContent className="rounded-none">
+                          {regions.map((region) => (
+                            <SelectItem key={region} value={region} className="text-lg py-3 rounded-none">
+                              {region}
+                            </SelectItem>
+                          ))}
+                        </SelectContent>
+                      </Select>
+                    </div>
+                  )}
+
+                  {/* Step 3: Country Selection */}
+                  {currentStep === 3 && (
+                    <div className="space-y-4">
+                      <h2 className="text-xl font-bold text-center text-black">3: Select Country</h2>
+                      <Select onValueChange={handleCountrySelect}>
+                        <SelectTrigger className="h-16 border-2 border-gray-400 text-lg rounded-none">
+                          <SelectValue placeholder="Choose a country..." />
+                        </SelectTrigger>
+                        <SelectContent className="rounded-none">
+                          {countries.map((country) => (
+                            <SelectItem key={country.name} value={country.name} className="text-lg py-3 rounded-none">
+                              {country.name}
+                            </SelectItem>
+                          ))}
+                        </SelectContent>
+                      </Select>
+                    </div>
+                  )}
+
+                  {/* Step 4: City Selection */}
+                  {currentStep === 4 && (
+                    <div className="space-y-4">
+                      <h2 className="text-xl font-bold text-center text-black">4: Select City</h2>
+                      <div className="space-y-3">
+                        <Select onValueChange={(value) => {
+                          setSelectedCity(value);
                           setCurrentStep(5);
-                        }
-                      }}
-                      className="h-20 px-6 bg-black text-white hover:bg-gray-800 rounded-none"
+                        }}>
+                          <SelectTrigger className="h-16 border-2 border-gray-400 text-lg rounded-none">
+                            <SelectValue placeholder="Choose a city..." />
+                          </SelectTrigger>
+                          <SelectContent className="rounded-none">
+                            {cities.map((city) => (
+                              <SelectItem key={city} value={city} className="text-lg py-3 rounded-none">
+                                {city}
+                              </SelectItem>
+                            ))}
+                          </SelectContent>
+                        </Select>
+                        <div className="text-center text-gray-600 text-sm">
+                          Or type city name:
+                        </div>
+                        <div className="flex gap-2">
+                          <Input
+                            value={citySearchInput}
+                            onChange={(e) => setCitySearchInput(e.target.value)}
+                            placeholder="Type city name to search..."
+                            className="h-16 text-lg border-2 border-gray-400 rounded-none"
+                          />
+                          <Button
+                            onClick={() => {
+                              if (citySearchInput.trim()) {
+                                setSelectedCity(citySearchInput.trim());
+                                setCurrentStep(5);
+                              }
+                            }}
+                            className="h-16 px-6 bg-black text-white hover:bg-gray-800 rounded-none"
+                          >
+                            <Search className="h-6 w-6" />
+                          </Button>
+                        </div>
+                      </div>
+                    </div>
+                  )}
+
+                  {/* Step 5: Result Count Selection & Get Results */}
+                  {currentStep === 5 && (
+                    <div className="space-y-4">
+                      <h2 className="text-xl font-bold text-center text-black">5: Select Number of Results</h2>
+                      <Select value={resultCount.toString()} onValueChange={(value) => setResultCount(Number(value))}>
+                        <SelectTrigger className="h-16 border-2 border-gray-400 text-lg rounded-none">
+                          <SelectValue />
+                        </SelectTrigger>
+                        <SelectContent className="rounded-none">
+                          {[1, 3, 5, 10, 15, 20, 25, 30, 40, 50].map((count) => (
+                            <SelectItem key={count} value={count.toString()} className="text-lg py-3 rounded-none">
+                              {count} Result{count !== 1 ? 's' : ''}
+                            </SelectItem>
+                          ))}
+                        </SelectContent>
+                      </Select>
+                    </div>
+                  )}
+
+                  {/* Action Buttons */}
+                  <div className="flex gap-4 justify-center pt-6">
+                    <Button
+                      onClick={handleGetNow}
+                      disabled={!isComplete || isLoading}
+                      className="bg-black text-white hover:bg-gray-800 disabled:bg-gray-300 disabled:text-gray-500 rounded-none"
                     >
-                      <Search className="h-6 w-6" />
+                      {isLoading ? (
+                        <>
+                          <Loader2 className="h-4 w-4 mr-2 animate-spin" />
+                          Loading...
+                        </>
+                      ) : (
+                        'GET NOW!'
+                      )}
+                    </Button>
+                    
+                    <Button
+                      onClick={handleGetAgain}
+                      variant="outline"
+                      className="border-2 border-gray-400 hover:bg-gray-100 rounded-none"
+                      disabled={isLoading}
+                    >
+                      <RotateCcw className="h-4 w-4 mr-2" />
+                      Get Again
                     </Button>
                   </div>
                 </div>
               </div>
-            )}
-
-            {/* Step 5: Result Count Selection & Get Results */}
-            {currentStep === 5 && (
-              <div className="space-y-6">
-                <h2 className="text-2xl font-bold text-center text-black">5: Select Number of Results</h2>
-                <Select value={resultCount.toString()} onValueChange={(value) => setResultCount(Number(value))}>
-                  <SelectTrigger className="h-20 max-w-4xl mx-auto border-2 border-gray-400 text-lg rounded-none">
-                    <SelectValue />
-                  </SelectTrigger>
-                  <SelectContent className="rounded-none">
-                    {[1, 3, 5, 10, 15, 20, 25, 30, 40, 50].map((count) => (
-                      <SelectItem key={count} value={count.toString()} className="text-lg py-3 rounded-none">
-                        {count} Result{count !== 1 ? 's' : ''}
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
-              </div>
-            )}
-
-            {/* Action Buttons */}
-            <div className="flex gap-4 justify-center pt-8">
-              <Button
-                onClick={handleGetNow}
-                disabled={!isComplete || isLoading}
-                className="bg-black text-white hover:bg-gray-800 disabled:bg-gray-300 disabled:text-gray-500 rounded-none"
-              >
-                {isLoading ? (
-                  <>
-                    <Loader2 className="h-4 w-4 mr-2 animate-spin" />
-                    Loading...
-                  </>
-                ) : (
-                  'GET NOW!'
-                )}
-              </Button>
-              
-              <Button
-                onClick={handleGetAgain}
-                variant="outline"
-                className="border-2 border-gray-400 hover:bg-gray-100 rounded-none"
-                disabled={isLoading}
-              >
-                <RotateCcw className="h-4 w-4 mr-2" />
-                Get Again
-              </Button>
             </div>
-          </CardContent>
-        </Card>
+          </div>
+        </div>
+      </div>
 
-        {/* Results Section - DEBUG VERSION */}
-        {(() => {
-          console.log('🔍 Results render check:', { showResults, businessesLength: businesses.length });
-          return showResults && businesses.length > 0;
-        })() && (
-          <div className="mt-8 space-y-6">
+      {/* Results Section - appears below the carousel */}
+      {(() => {
+        console.log('🔍 Results render check:', { showResults, businessesLength: businesses.length });
+        return showResults && businesses.length > 0;
+      })() && (
+        <div className="container mx-auto px-4 py-8 max-w-6xl">
+          <div className="space-y-6">
             <div className="flex justify-between items-center">
               <h2 className="text-2xl font-bold text-black">
                 🔥 FOUND {businesses.length} {selectedCategory} options in {selectedCity} 🔥
@@ -779,8 +782,8 @@ const Index: React.FC = () => {
                })}
             </div>
           </div>
-        )}
-      </div>
+        </div>
+      )}
 
       <Footer />
     </div>
