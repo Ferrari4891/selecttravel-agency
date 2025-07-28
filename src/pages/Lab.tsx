@@ -72,25 +72,34 @@ const Lab: React.FC = () => {
     return country?.cities || [];
   }, [selectedCountry, countries]);
 
-  // Get hero image based on selections
+  // Get hero image based on selections - DEBUG VERSION
   const getHeroImage = () => {
+    console.log('🎯 getHeroImage called with:', { 
+      selectedCity, 
+      selectedCountry, 
+      selectedRegion, 
+      selectedCategory 
+    });
+    
     // Priority: City > Country > Region > Category > Default rotation
     if (selectedCity) {
-      // For now, use category-specific images when city is selected
-      // In a real app, you'd have city-specific images
+      console.log('🏙️ Using city-based image (category)');
       return getCategoryImage();
     }
     if (selectedCountry) {
-      // Use region-specific images for countries
+      console.log('🌍 Using country-based image (region)');
       return getRegionImage();
     }
     if (selectedRegion) {
+      console.log('🗺️ Using region-based image');
       return getRegionImage();
     }
     if (selectedCategory) {
+      console.log('📁 Using category-based image');
       return getCategoryImage();
     }
     // Default: rotate through all images
+    console.log('🔄 Using default carousel image');
     return carouselImages[carouselIndex];
   };
 
@@ -507,12 +516,12 @@ const Lab: React.FC = () => {
           </CardContent>
         </Card>
 
-        {/* Results Section */}
+        {/* Results Section - DEBUG VERSION */}
         {showResults && businesses.length > 0 && (
           <div className="mt-8 space-y-6">
             <div className="flex justify-between items-center">
               <h2 className="text-2xl font-bold text-black">
-                Found {businesses.length} {selectedCategory} options in {selectedCity}
+                🔥 FOUND {businesses.length} {selectedCategory} options in {selectedCity} 🔥
               </h2>
               <Button
                 onClick={exportToCSV}
@@ -526,6 +535,8 @@ const Lab: React.FC = () => {
             
             <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
               {businesses.map((business, index) => {
+                console.log(`🏪 Rendering business ${index}:`, business.name);
+                
                 // Placeholder images for businesses
                 const placeholderImages = [
                   'https://via.placeholder.com/400x300/FF6B6B/FFFFFF?text=Business+1',
@@ -538,11 +549,17 @@ const Lab: React.FC = () => {
                 return (
                 <Card key={index} className="border-2 border-gray-300 shadow-lg">
                   {/* Add placeholder image */}
-                  <div className="aspect-video relative overflow-hidden">
+                  <div className="aspect-video relative overflow-hidden bg-red-500">
                     <img
                       src={placeholderImages[index % placeholderImages.length]}
                       alt={business.name}
                       className="w-full h-full object-cover"
+                      onError={(e) => {
+                        console.log('❌ Image failed to load:', placeholderImages[index % placeholderImages.length]);
+                      }}
+                      onLoad={() => {
+                        console.log('✅ Image loaded successfully:', placeholderImages[index % placeholderImages.length]);
+                      }}
                     />
                   </div>
                   
