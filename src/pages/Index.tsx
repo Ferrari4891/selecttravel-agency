@@ -335,8 +335,8 @@ const Index: React.FC = () => {
       <LanguageSelector />
 
       {/* Hero Section - Carousel with Overlay Controls */}
-      <div className="relative mx-2 sm:mx-6 mt-6 border-4 sm:border-8 border-white shadow-[0_8px_16px_rgba(0,0,0,0.3)]">
-        <div className="relative w-full aspect-[4/3] sm:aspect-video overflow-hidden">
+      <div className="relative mx-2 sm:mx-6 mt-2 border-4 sm:border-8 border-white shadow-[0_8px_16px_rgba(0,0,0,0.3)]">
+        <div className="relative w-full aspect-[3/4] sm:aspect-[5/4] md:aspect-video overflow-hidden">
           {/* Rotating Background Images with Fallback */}
           <div 
             className="absolute inset-0 transition-opacity duration-1000"
