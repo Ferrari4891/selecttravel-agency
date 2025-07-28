@@ -498,7 +498,7 @@ const Index: React.FC = () => {
                         <SelectTrigger className="h-12 sm:h-16 border-2 border-gray-400 text-base sm:text-lg rounded-none">
                           <SelectValue placeholder="Choose a country..." />
                         </SelectTrigger>
-                        <SelectContent className="rounded-none">
+                        <SelectContent className="rounded-none z-50 bg-white">
                           {countries.map((country) => (
                             <SelectItem key={country.name} value={country.name} className="text-base sm:text-lg py-2 sm:py-3 rounded-none">
                               {country.name}
@@ -575,15 +575,15 @@ const Index: React.FC = () => {
                   )}
 
                   {/* Action Buttons */}
-                  <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center pt-4 sm:pt-6">
+                  <div className="flex gap-2 sm:gap-4 justify-center pt-4 sm:pt-6">
                     <Button
                       onClick={handleGetNow}
                       disabled={!isComplete || isLoading}
-                      className="w-full sm:w-auto bg-green-600 text-white hover:bg-green-700 disabled:bg-gray-300 disabled:text-gray-500 rounded-none h-12 sm:h-auto text-base sm:text-sm"
+                      className="flex-1 sm:w-auto bg-green-600 text-white hover:bg-green-700 disabled:bg-gray-300 disabled:text-gray-500 rounded-none h-12 sm:h-auto text-xs sm:text-sm px-2 sm:px-4"
                     >
                       {isLoading ? (
                         <>
-                          <Loader2 className="h-4 w-4 mr-2 animate-spin" />
+                          <Loader2 className="h-4 w-4 mr-1 animate-spin" />
                           Loading...
                         </>
                       ) : (
@@ -594,10 +594,10 @@ const Index: React.FC = () => {
                     <Button
                       onClick={handleGetAgain}
                       variant="outline"
-                      className="w-full sm:w-auto border-2 border-gray-400 hover:bg-gray-100 rounded-none h-12 sm:h-auto text-base sm:text-sm"
+                      className="flex-1 sm:w-auto border-2 border-gray-400 hover:bg-gray-100 rounded-none h-12 sm:h-auto text-xs sm:text-sm px-2 sm:px-4"
                       disabled={isLoading}
                     >
-                      <RotateCcw className="h-4 w-4 mr-2" />
+                      <RotateCcw className="h-4 w-4 mr-1" />
                       Get Again
                     </Button>
                   </div>

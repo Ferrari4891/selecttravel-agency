@@ -13,7 +13,7 @@ const Footer = ({ themeClass }: FooterProps) => {
     <div className={themeClass}>
       <footer className="text-foreground py-4 mt-auto bg-white">
         <div className="max-w-4xl mx-auto px-4">
-          <div className="flex flex-wrap justify-center gap-4 text-center">
+          <div className="flex flex-wrap justify-center gap-3 sm:gap-4 text-center text-sm sm:text-base">
             <Link to="/" className="hover:opacity-80 transition-opacity">
               Home
             </Link>
