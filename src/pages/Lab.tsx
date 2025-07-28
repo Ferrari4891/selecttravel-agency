@@ -382,6 +382,24 @@ const Lab: React.FC = () => {
               <div className="space-y-6">
                 <h2 className="text-2xl font-bold text-center text-black">4: Select City</h2>
                 <div className="space-y-4">
+                  <Select onValueChange={(value) => {
+                    setSelectedCity(value);
+                    setCurrentStep(5);
+                  }}>
+                    <SelectTrigger className="h-20 max-w-4xl mx-auto border-2 border-gray-400 text-lg rounded-none">
+                      <SelectValue placeholder="Choose a city..." />
+                    </SelectTrigger>
+                    <SelectContent className="max-w-4xl rounded-none">
+                      {cities.map((city) => (
+                        <SelectItem key={city} value={city} className="text-lg py-3 rounded-none">
+                          {city}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                  <div className="text-center text-gray-600 text-sm">
+                    Or type city name:
+                  </div>
                   <div className="flex gap-2">
                     <Input
                       value={citySearchInput}
@@ -403,24 +421,6 @@ const Lab: React.FC = () => {
                       <Search className="h-5 w-5" />
                     </Button>
                   </div>
-                  <div className="text-center text-gray-600 text-sm">
-                    Or select from dropdown:
-                  </div>
-                  <Select onValueChange={(value) => {
-                    setSelectedCity(value);
-                    setCurrentStep(5);
-                  }}>
-                    <SelectTrigger className="h-20 max-w-4xl mx-auto border-2 border-gray-400 text-lg rounded-none">
-                      <SelectValue placeholder="Choose a city..." />
-                    </SelectTrigger>
-                    <SelectContent className="max-w-4xl rounded-none">
-                      {cities.map((city) => (
-                        <SelectItem key={city} value={city} className="text-lg py-3 rounded-none">
-                          {city}
-                        </SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
                 </div>
               </div>
             )}
@@ -434,7 +434,7 @@ const Lab: React.FC = () => {
                     <SelectValue placeholder={`${resultCount} results`} />
                   </SelectTrigger>
                   <SelectContent className="max-w-4xl rounded-none">
-                    {[10, 20, 30, 50].map((count) => (
+                    {[1, 5, 10, 20, 30, 40, 50].map((count) => (
                       <SelectItem key={count} value={count.toString()} className="text-lg py-3 rounded-none">
                         {count} results
                       </SelectItem>
