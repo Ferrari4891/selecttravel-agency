@@ -335,8 +335,8 @@ const Index: React.FC = () => {
       <LanguageSelector />
 
       {/* Hero Section - Carousel with Overlay Controls */}
-      <div className="relative mx-6 mt-6 border-8 border-white shadow-[0_8px_16px_rgba(0,0,0,0.3)]">
-        <div className="relative w-full aspect-video overflow-hidden">
+      <div className="relative mx-2 sm:mx-6 mt-6 border-4 sm:border-8 border-white shadow-[0_8px_16px_rgba(0,0,0,0.3)]">
+        <div className="relative w-full aspect-[4/3] sm:aspect-video overflow-hidden">
           {/* Rotating Background Images with Fallback */}
           <div 
             className="absolute inset-0 transition-opacity duration-1000"
@@ -359,10 +359,10 @@ const Index: React.FC = () => {
           {/* Overlay Content */}
           <div className="absolute inset-0 z-10 flex flex-col">
             {/* Top Section - Title */}
-            <div className="flex-shrink-0 flex flex-col justify-center items-center text-center px-4 py-4">
+            <div className="flex-shrink-0 flex flex-col justify-center items-center text-center px-2 sm:px-4 py-2 sm:py-4">
               {/* City Name Display - only when city image is shown */}
               {selectedCity && cityImages[selectedCity] && (
-                <h1 className="text-white font-bold text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl leading-tight">
+                <h1 className="text-white font-bold text-lg sm:text-2xl md:text-3xl lg:text-4xl xl:text-5xl leading-tight">
                   {selectedCity.toUpperCase()}
                 </h1>
               )}
@@ -370,13 +370,13 @@ const Index: React.FC = () => {
               {/* Default content - when no city is selected */}
               {!selectedCity && (
                 <>
-                  <h1 className="text-white font-bold text-xl sm:text-2xl md:text-3xl lg:text-4xl xl:text-5xl leading-tight">
+                  <h1 className="text-white font-bold text-sm sm:text-xl md:text-2xl lg:text-3xl xl:text-4xl leading-tight">
                     Personalized Guide Books
                   </h1>
-                  <p className="text-white text-xs sm:text-sm md:text-base lg:text-lg mt-1 md:mt-2">
+                  <p className="text-white text-xs sm:text-sm md:text-base lg:text-lg mt-1">
                     Let's get personal
                   </p>
-                  <p className="text-white text-xs sm:text-xs md:text-sm mt-1">
+                  <p className="text-white text-xs md:text-sm mt-1">
                     www.smartguidebooks.com
                   </p>
                 </>
@@ -384,10 +384,10 @@ const Index: React.FC = () => {
             </div>
 
             {/* Middle Section - Selection Interface */}
-            <div className="flex-1 flex items-center justify-center px-4">
-              <div className="w-full max-w-2xl">
+            <div className="flex-1 flex items-center justify-center px-2 sm:px-4">
+              <div className="w-full max-w-sm sm:max-w-2xl">
                 {/* Progress Indicator */}
-                <div className="flex justify-center space-x-4 mb-6">
+                <div className="flex justify-center space-x-2 sm:space-x-4 mb-4 sm:mb-6">
                   {[
                     { step: 1, label: 'Category' },
                     { step: 2, label: 'Region' },
@@ -398,7 +398,7 @@ const Index: React.FC = () => {
                     <div key={step} className="flex flex-col items-center space-y-1">
                       <button
                         onClick={() => handleStepNavigation(step)}
-                        className={`w-6 h-6 rounded-none flex items-center justify-center border-2 font-medium transition-colors cursor-pointer hover:scale-110 ${
+                        className={`w-5 h-5 sm:w-6 sm:h-6 rounded-none flex items-center justify-center border-2 font-medium transition-colors cursor-pointer hover:scale-110 text-xs sm:text-sm ${
                           step <= currentStep 
                             ? 'bg-white text-black border-white' 
                             : 'bg-transparent text-white border-white/50 hover:border-white'
@@ -408,7 +408,7 @@ const Index: React.FC = () => {
                       </button>
                       <button
                         onClick={() => handleStepNavigation(step)}
-                        className={`text-xs font-medium transition-colors cursor-pointer hover:text-white ${
+                        className={`text-xs font-medium transition-colors cursor-pointer hover:text-white hidden sm:block ${
                           step <= currentStep ? 'text-white' : 'text-white/70'
                         }`}
                       >
@@ -420,7 +420,7 @@ const Index: React.FC = () => {
 
                 {/* Current Selections */}
                 {(selectedCategory || selectedRegion || selectedCountry || selectedCity) && (
-                  <div className="flex flex-wrap gap-2 justify-center mb-4">
+                  <div className="flex flex-wrap gap-1 sm:gap-2 justify-center mb-3 sm:mb-4">
                     {selectedCategory && (
                       <Badge variant="secondary" className="bg-white text-black text-xs px-2 py-1 rounded-none">
                         {categories.find(c => c.value === selectedCategory)?.label}
@@ -445,22 +445,22 @@ const Index: React.FC = () => {
                 )}
 
                 {/* Selection Interface */}
-                <div className="p-6">
+                <div className="p-3 sm:p-6">
                   {/* Step 1: Category Selection */}
                   {currentStep === 1 && (
-                    <div className="space-y-4">
-                      <h2 className="text-xl font-bold text-center text-white">1: Select Category</h2>
+                    <div className="space-y-3 sm:space-y-4">
+                      <h2 className="text-lg sm:text-xl font-bold text-center text-white">1: Select Category</h2>
                       <Select onValueChange={handleCategorySelect}>
-                        <SelectTrigger className="h-16 border-2 border-gray-400 text-lg rounded-none">
+                        <SelectTrigger className="h-12 sm:h-16 border-2 border-gray-400 text-base sm:text-lg rounded-none">
                           <SelectValue placeholder="Choose your category..." />
                         </SelectTrigger>
                         <SelectContent className="rounded-none">
                           {categories.map((category) => {
                             const IconComponent = category.icon;
                             return (
-                              <SelectItem key={category.value} value={category.value} className="text-lg py-3 rounded-none">
-                                <div className="flex items-center gap-3">
-                                  <IconComponent className="h-6 w-6" />
+                              <SelectItem key={category.value} value={category.value} className="text-base sm:text-lg py-2 sm:py-3 rounded-none">
+                                <div className="flex items-center gap-2 sm:gap-3">
+                                  <IconComponent className="h-5 w-5 sm:h-6 sm:w-6" />
                                   <span className="font-medium">{category.label}</span>
                                 </div>
                               </SelectItem>
@@ -473,15 +473,15 @@ const Index: React.FC = () => {
 
                   {/* Step 2: Region Selection */}
                   {currentStep === 2 && (
-                    <div className="space-y-4">
-                      <h2 className="text-xl font-bold text-center text-white">2: Select Region</h2>
+                    <div className="space-y-3 sm:space-y-4">
+                      <h2 className="text-lg sm:text-xl font-bold text-center text-white">2: Select Region</h2>
                       <Select onValueChange={handleRegionSelect}>
-                        <SelectTrigger className="h-16 border-2 border-gray-400 text-lg rounded-none">
+                        <SelectTrigger className="h-12 sm:h-16 border-2 border-gray-400 text-base sm:text-lg rounded-none">
                           <SelectValue placeholder="Choose a region..." />
                         </SelectTrigger>
                         <SelectContent className="rounded-none">
                           {regions.map((region) => (
-                            <SelectItem key={region} value={region} className="text-lg py-3 rounded-none">
+                            <SelectItem key={region} value={region} className="text-base sm:text-lg py-2 sm:py-3 rounded-none">
                               {region}
                             </SelectItem>
                           ))}
@@ -492,15 +492,15 @@ const Index: React.FC = () => {
 
                   {/* Step 3: Country Selection */}
                   {currentStep === 3 && (
-                    <div className="space-y-4">
-                      <h2 className="text-xl font-bold text-center text-white">3: Select Country</h2>
+                    <div className="space-y-3 sm:space-y-4">
+                      <h2 className="text-lg sm:text-xl font-bold text-center text-white">3: Select Country</h2>
                       <Select onValueChange={handleCountrySelect}>
-                        <SelectTrigger className="h-16 border-2 border-gray-400 text-lg rounded-none">
+                        <SelectTrigger className="h-12 sm:h-16 border-2 border-gray-400 text-base sm:text-lg rounded-none">
                           <SelectValue placeholder="Choose a country..." />
                         </SelectTrigger>
                         <SelectContent className="rounded-none">
                           {countries.map((country) => (
-                            <SelectItem key={country.name} value={country.name} className="text-lg py-3 rounded-none">
+                            <SelectItem key={country.name} value={country.name} className="text-base sm:text-lg py-2 sm:py-3 rounded-none">
                               {country.name}
                             </SelectItem>
                           ))}
@@ -511,19 +511,19 @@ const Index: React.FC = () => {
 
                   {/* Step 4: City Selection */}
                   {currentStep === 4 && (
-                    <div className="space-y-4">
-                      <h2 className="text-xl font-bold text-center text-white">4: Select City</h2>
+                    <div className="space-y-3 sm:space-y-4">
+                      <h2 className="text-lg sm:text-xl font-bold text-center text-white">4: Select City</h2>
                       <div className="space-y-3">
                         <Select onValueChange={(value) => {
                           setSelectedCity(value);
                           setCurrentStep(5);
                         }}>
-                          <SelectTrigger className="h-16 border-2 border-gray-400 text-lg rounded-none">
+                          <SelectTrigger className="h-12 sm:h-16 border-2 border-gray-400 text-base sm:text-lg rounded-none">
                             <SelectValue placeholder="Choose a city..." />
                           </SelectTrigger>
                           <SelectContent className="rounded-none">
                             {cities.map((city) => (
-                              <SelectItem key={city} value={city} className="text-lg py-3 rounded-none">
+                              <SelectItem key={city} value={city} className="text-base sm:text-lg py-2 sm:py-3 rounded-none">
                                 {city}
                               </SelectItem>
                             ))}
@@ -537,7 +537,7 @@ const Index: React.FC = () => {
                             value={citySearchInput}
                             onChange={(e) => setCitySearchInput(e.target.value)}
                             placeholder="Type city name to search..."
-                            className="h-16 text-lg border-2 border-gray-400 rounded-none"
+                            className="h-12 sm:h-16 text-base sm:text-lg border-2 border-gray-400 rounded-none"
                           />
                           <Button
                             onClick={() => {
@@ -546,9 +546,9 @@ const Index: React.FC = () => {
                                 setCurrentStep(5);
                               }
                             }}
-                            className="h-16 px-6 bg-black text-white hover:bg-gray-800 rounded-none"
+                            className="h-12 sm:h-16 px-4 sm:px-6 bg-black text-white hover:bg-gray-800 rounded-none"
                           >
-                            <Search className="h-6 w-6" />
+                            <Search className="h-5 w-5 sm:h-6 sm:w-6" />
                           </Button>
                         </div>
                       </div>
@@ -557,15 +557,15 @@ const Index: React.FC = () => {
 
                   {/* Step 5: Result Count Selection & Get Results */}
                   {currentStep === 5 && (
-                    <div className="space-y-4">
-                      <h2 className="text-xl font-bold text-center text-white">5: Select Number of Results</h2>
+                    <div className="space-y-3 sm:space-y-4">
+                      <h2 className="text-lg sm:text-xl font-bold text-center text-white">5: Select Number of Results</h2>
                       <Select value={resultCount.toString()} onValueChange={(value) => setResultCount(Number(value))}>
-                        <SelectTrigger className="h-16 border-2 border-gray-400 text-lg rounded-none">
+                        <SelectTrigger className="h-12 sm:h-16 border-2 border-gray-400 text-base sm:text-lg rounded-none">
                           <SelectValue />
                         </SelectTrigger>
                         <SelectContent className="rounded-none">
                           {[1, 3, 5, 10, 15, 20, 25, 30, 40, 50].map((count) => (
-                            <SelectItem key={count} value={count.toString()} className="text-lg py-3 rounded-none">
+                            <SelectItem key={count} value={count.toString()} className="text-base sm:text-lg py-2 sm:py-3 rounded-none">
                               {count} Result{count !== 1 ? 's' : ''}
                             </SelectItem>
                           ))}
@@ -575,11 +575,11 @@ const Index: React.FC = () => {
                   )}
 
                   {/* Action Buttons */}
-                  <div className="flex gap-4 justify-center pt-6">
+                  <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center pt-4 sm:pt-6">
                     <Button
                       onClick={handleGetNow}
                       disabled={!isComplete || isLoading}
-                      className="bg-green-600 text-white hover:bg-green-700 disabled:bg-gray-300 disabled:text-gray-500 rounded-none"
+                      className="w-full sm:w-auto bg-green-600 text-white hover:bg-green-700 disabled:bg-gray-300 disabled:text-gray-500 rounded-none h-12 sm:h-auto text-base sm:text-sm"
                     >
                       {isLoading ? (
                         <>
@@ -594,7 +594,7 @@ const Index: React.FC = () => {
                     <Button
                       onClick={handleGetAgain}
                       variant="outline"
-                      className="border-2 border-gray-400 hover:bg-gray-100 rounded-none"
+                      className="w-full sm:w-auto border-2 border-gray-400 hover:bg-gray-100 rounded-none h-12 sm:h-auto text-base sm:text-sm"
                       disabled={isLoading}
                     >
                       <RotateCcw className="h-4 w-4 mr-2" />
