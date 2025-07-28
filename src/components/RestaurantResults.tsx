@@ -49,13 +49,13 @@ export const RestaurantResults: React.FC<RestaurantResultsProps> = ({
   const navigate = useNavigate();
   const [savingIndex, setSavingIndex] = useState<number | null>(null);
 
-  // Placeholder images for restaurants
+  // Placeholder images for restaurants - using different sources
   const placeholderImages = [
-    'https://images.unsplash.com/photo-1488590528505-98d2b5aba04b?w=400&h=300&fit=crop',
-    'https://images.unsplash.com/photo-1518770660439-4636190af475?w=400&h=300&fit=crop',
-    'https://images.unsplash.com/photo-1487058792275-0ad4aaf24ca7?w=400&h=300&fit=crop',
-    'https://images.unsplash.com/photo-1500375592092-40eb2168fd21?w=400&h=300&fit=crop',
-    'https://images.unsplash.com/photo-1470813740244-df37b8c1edcb?w=400&h=300&fit=crop'
+    'https://via.placeholder.com/400x300/FF6B6B/FFFFFF?text=Restaurant+1',
+    'https://via.placeholder.com/400x300/4ECDC4/FFFFFF?text=Restaurant+2',
+    'https://via.placeholder.com/400x300/45B7D1/FFFFFF?text=Restaurant+3',
+    'https://via.placeholder.com/400x300/96CEB4/FFFFFF?text=Restaurant+4',
+    'https://via.placeholder.com/400x300/FFEAA7/000000?text=Restaurant+5'
   ];
 
   const handleSaveRestaurant = async (restaurant: Restaurant, index: number) => {
@@ -140,13 +140,9 @@ export const RestaurantResults: React.FC<RestaurantResultsProps> = ({
               <Card key={`restaurant-${index}`} className="group hover:shadow-lg transition-all duration-300 rounded-none">
                  <div className="aspect-video relative overflow-hidden rounded-t-none">
                    <img
-                     src={restaurant.imageLinks[0] || placeholderImages[index % placeholderImages.length]}
+                     src={placeholderImages[index % placeholderImages.length]}
                      alt={restaurant.name}
                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
-                     onError={(e) => {
-                       const target = e.target as HTMLImageElement;
-                       target.src = placeholderImages[index % placeholderImages.length];
-                     }}
                    />
                    <div className="absolute top-3 right-3">
                      <Badge variant="secondary" className="bg-background/80 backdrop-blur-sm">
@@ -232,57 +228,17 @@ export const RestaurantResults: React.FC<RestaurantResultsProps> = ({
                         View on Maps
                       </Button>
 
-                       {user ? (
-                         <Button
-                           variant="default"
-                           size="sm"
-                           className="flex items-center gap-1 text-xs col-span-2 rounded-none bg-black text-white hover:bg-black/90"
-                           onClick={() => handleSaveRestaurant(restaurant, index)}
-                           disabled={savingIndex === index}
-                         >
-                           <Bookmark className="h-3 w-3" />
-                           {savingIndex === index ? 'SAVING...' : 'SAVE'}
-                         </Button>
-                       ) : (
-                         <DropdownMenu>
-                           <DropdownMenuTrigger asChild>
-                             <Button
-                               variant="default"
-                               size="sm"
-                               className="flex items-center gap-1 text-xs col-span-2 rounded-none bg-black text-white hover:bg-black/90"
-                             >
-                               <Bookmark className="h-3 w-3" />
-                               SAVE
-                             </Button>
-                           </DropdownMenuTrigger>
-                           <DropdownMenuContent className="w-64 p-4 bg-white border shadow-lg rounded-none">
-                             <div className="space-y-3">
-                               <p className="text-sm font-medium">Save Your Favorite Places</p>
-                               <p className="text-xs text-muted-foreground">
-                                 You need to be a member to save favorite places. Membership is free!
-                               </p>
-                               <div className="flex gap-2">
-                                 <Button
-                                   size="sm"
-                                   className="rounded-none"
-                                   onClick={() => navigate('/join-free')}
-                                 >
-                                   Join Now
-                                 </Button>
-                                 <DropdownMenuItem asChild>
-                                   <Button
-                                     variant="outline"
-                                     size="sm"
-                                     className="rounded-none"
-                                   >
-                                     Not Now
-                                   </Button>
-                                 </DropdownMenuItem>
-                               </div>
-                             </div>
-                           </DropdownMenuContent>
-                         </DropdownMenu>
-                       )}
+                       {/* Always show save button for testing */}
+                       <Button
+                         variant="default"
+                         size="sm"
+                         className="flex items-center gap-1 text-xs col-span-2 rounded-none bg-black text-white hover:bg-black/90"
+                         onClick={() => user ? handleSaveRestaurant(restaurant, index) : console.log('Would show dropdown')}
+                         disabled={savingIndex === index}
+                       >
+                         <Bookmark className="h-3 w-3" />
+                         {savingIndex === index ? 'SAVING...' : 'SAVE'}
+                       </Button>
                     </div>
 
                     {(restaurant.socialMediaLinks.facebook || 
