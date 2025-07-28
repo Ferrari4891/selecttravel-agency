@@ -7,7 +7,8 @@ import { toast } from '@/hooks/use-toast';
 import { Navigation } from '@/components/Navigation';
 import Footer from '@/components/Footer';
 import { LanguageSelector } from '@/components/LanguageSelector';
-import { Utensils, Coffee, Bed, Gamepad2, MapPin, Download, RotateCcw, Loader2 } from 'lucide-react';
+import { Utensils, Coffee, Bed, Gamepad2, MapPin, Download, RotateCcw, Loader2, Search } from 'lucide-react';
+import { Input } from '@/components/ui/input';
 import { regionData } from '@/data/locationData';
 
 // Import hero images
@@ -39,11 +40,13 @@ interface Business {
 }
 
 const Lab: React.FC = () => {
-  const [currentStep, setCurrentStep] = useState<1 | 2 | 3 | 4>(1);
+  const [currentStep, setCurrentStep] = useState<1 | 2 | 3 | 4 | 5>(1);
   const [selectedCategory, setSelectedCategory] = useState<string>('');
   const [selectedRegion, setSelectedRegion] = useState<string>('');
   const [selectedCountry, setSelectedCountry] = useState<string>('');
   const [selectedCity, setSelectedCity] = useState<string>('');
+  const [citySearchInput, setCitySearchInput] = useState<string>('');
+  const [resultCount, setResultCount] = useState<number>(20);
   const [isLoading, setIsLoading] = useState(false);
   const [businesses, setBusinesses] = useState<Business[]>([]);
   const [showResults, setShowResults] = useState(false);
@@ -121,10 +124,17 @@ const Lab: React.FC = () => {
       'Adventure Sports Center', 'Entertainment Complex', 'Wine Bar & Lounge',
       'Family Restaurant', 'Boutique Inn', 'Gaming Center', 'Coffee Roasters',
       'Fine Dining House', 'Beach Resort', 'Sports Bar', 'Luxury Lodge',
-      'Activity Center'
+      'Activity Center', 'Central Plaza', 'Metro Grill', 'Riverside Cafe',
+      'Downtown Lounge', 'Grand Hotel', 'City Center', 'Royal Restaurant',
+      'Elite Bistro', 'Premium Venue', 'Classic Eatery', 'Modern Bar',
+      'Urban Lodge', 'Sunset Restaurant', 'Golden Cafe', 'Prime Location',
+      'Central Hub', 'Main Street Grill', 'Plaza Hotel', 'Metro Bar',
+      'Downtown Restaurant', 'City Cafe', 'Grand Lounge', 'Elite Hotel',
+      'Premium Restaurant', 'Classic Bar', 'Modern Hotel', 'Urban Cafe',
+      'Riverside Restaurant', 'Central Lounge', 'Metro Hotel', 'Plaza Bar'
     ];
 
-    return businessNames.map((name, index) => ({
+    return businessNames.slice(0, resultCount).map((name, index) => ({
       name,
       address: `${100 + index} Main Street, ${selectedCity}, ${selectedCountry}`,
       rating: parseFloat((3.0 + Math.random() * 2).toFixed(1)),
@@ -260,10 +270,10 @@ const Lab: React.FC = () => {
         
         {/* Progress Indicator */}
         <div className="flex justify-center space-x-4 mb-8">
-          {[1, 2, 3, 4].map((step) => (
+          {[1, 2, 3, 4, 5].map((step) => (
             <div
               key={step}
-              className={`w-8 h-8 rounded-full flex items-center justify-center border-2 font-medium ${
+              className={`w-8 h-8 rounded-none flex items-center justify-center border-2 font-medium ${
                 step <= currentStep 
                   ? 'bg-black text-white border-black' 
                   : 'bg-white text-gray-400 border-gray-300'
@@ -307,30 +317,32 @@ const Lab: React.FC = () => {
             {/* Step 1: Category Selection */}
             {currentStep === 1 && (
               <div className="space-y-6">
-                <h2 className="text-2xl font-bold text-center text-black">Select Category</h2>
-                <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-                  {categories.map((category) => {
-                    const IconComponent = category.icon;
-                    return (
-                      <Button
-                        key={category.value}
-                        variant="outline"
-                        className="h-20 flex-col space-y-2 border-2 border-gray-400 hover:bg-black hover:text-white hover:border-black rounded-none"
-                        onClick={() => handleCategorySelect(category.value)}
-                      >
-                        <IconComponent className="h-6 w-6" />
-                        <span className="text-sm font-medium">{category.label}</span>
-                      </Button>
-                    );
-                  })}
-                </div>
+                <h2 className="text-2xl font-bold text-center text-black">1: Select Category</h2>
+                <Select onValueChange={handleCategorySelect}>
+                  <SelectTrigger className="h-20 max-w-4xl mx-auto border-2 border-gray-400 text-lg rounded-none">
+                    <SelectValue placeholder="Choose your category..." />
+                  </SelectTrigger>
+                  <SelectContent className="max-w-4xl rounded-none">
+                    {categories.map((category) => {
+                      const IconComponent = category.icon;
+                      return (
+                        <SelectItem key={category.value} value={category.value} className="text-lg py-3 rounded-none">
+                          <div className="flex items-center gap-3">
+                            <IconComponent className="h-6 w-6" />
+                            <span className="font-medium">{category.label}</span>
+                          </div>
+                        </SelectItem>
+                      );
+                    })}
+                  </SelectContent>
+                </Select>
               </div>
             )}
 
             {/* Step 2: Region Selection */}
             {currentStep === 2 && (
               <div className="space-y-6">
-                <h2 className="text-2xl font-bold text-center text-black">Select Region</h2>
+                <h2 className="text-2xl font-bold text-center text-black">2: Select Region</h2>
                 <Select onValueChange={handleRegionSelect}>
                   <SelectTrigger className="h-20 max-w-4xl mx-auto border-2 border-gray-400 text-lg rounded-none">
                     <SelectValue placeholder="Choose a region..." />
@@ -349,7 +361,7 @@ const Lab: React.FC = () => {
             {/* Step 3: Country Selection */}
             {currentStep === 3 && (
               <div className="space-y-6">
-                <h2 className="text-2xl font-bold text-center text-black">Select Country</h2>
+                <h2 className="text-2xl font-bold text-center text-black">3: Select Country</h2>
                 <Select onValueChange={handleCountrySelect}>
                   <SelectTrigger className="h-20 max-w-4xl mx-auto border-2 border-gray-400 text-lg rounded-none">
                     <SelectValue placeholder="Choose a country..." />
@@ -368,15 +380,63 @@ const Lab: React.FC = () => {
             {/* Step 4: City Selection */}
             {currentStep === 4 && (
               <div className="space-y-6">
-                <h2 className="text-2xl font-bold text-center text-black">Select City</h2>
-                <Select onValueChange={handleCitySelect}>
+                <h2 className="text-2xl font-bold text-center text-black">4: Select City</h2>
+                <div className="space-y-4">
+                  <div className="flex gap-2">
+                    <Input
+                      value={citySearchInput}
+                      onChange={(e) => setCitySearchInput(e.target.value)}
+                      placeholder="Type city name to search..."
+                      className="h-20 text-lg border-2 border-gray-400 rounded-none"
+                    />
+                    <Button
+                      onClick={() => {
+                        if (citySearchInput.trim()) {
+                          setSelectedCity(citySearchInput.trim());
+                          setCitySearchInput('');
+                          setCurrentStep(5);
+                        }
+                      }}
+                      disabled={!citySearchInput.trim()}
+                      className="h-20 bg-black text-white hover:bg-gray-800 rounded-none px-6"
+                    >
+                      <Search className="h-5 w-5" />
+                    </Button>
+                  </div>
+                  <div className="text-center text-gray-600 text-sm">
+                    Or select from dropdown:
+                  </div>
+                  <Select onValueChange={(value) => {
+                    setSelectedCity(value);
+                    setCurrentStep(5);
+                  }}>
+                    <SelectTrigger className="h-20 max-w-4xl mx-auto border-2 border-gray-400 text-lg rounded-none">
+                      <SelectValue placeholder="Choose a city..." />
+                    </SelectTrigger>
+                    <SelectContent className="max-w-4xl rounded-none">
+                      {cities.map((city) => (
+                        <SelectItem key={city} value={city} className="text-lg py-3 rounded-none">
+                          {city}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                </div>
+              </div>
+            )}
+
+            {/* Step 5: Result Count Selection */}
+            {currentStep === 5 && (
+              <div className="space-y-6">
+                <h2 className="text-2xl font-bold text-center text-black">5: How Many Results?</h2>
+                <Select onValueChange={(value) => setResultCount(Number(value))}>
                   <SelectTrigger className="h-20 max-w-4xl mx-auto border-2 border-gray-400 text-lg rounded-none">
-                    <SelectValue placeholder="Choose a city..." />
+                    <SelectValue placeholder={`${resultCount} results`} />
                   </SelectTrigger>
                   <SelectContent className="max-w-4xl rounded-none">
-                    {cities.map((city) => (
-                      <SelectItem key={city} value={city} className="text-lg py-3 rounded-none">
-                        {city}
+                    {[10, 20, 30, 50].map((count) => (
+                      <SelectItem key={count} value={count.toString()} className="text-lg py-3 rounded-none">
+                        {count} results
                       </SelectItem>
                     ))}
                   </SelectContent>
@@ -386,16 +446,6 @@ const Lab: React.FC = () => {
 
             {/* Action Buttons */}
             <div className="flex justify-center space-x-4 mt-8">
-              <Button
-                onClick={handleGetAgain}
-                variant="outline"
-                className="border-2 border-gray-400 hover:bg-gray-100 rounded-none"
-                disabled={isLoading}
-              >
-                <RotateCcw className="h-4 w-4 mr-2" />
-                Get Again
-              </Button>
-              
               <Button
                 onClick={handleGetNow}
                 disabled={!isComplete || isLoading}
@@ -409,6 +459,16 @@ const Lab: React.FC = () => {
                 ) : (
                   'GET NOW!'
                 )}
+              </Button>
+              
+              <Button
+                onClick={handleGetAgain}
+                variant="outline"
+                className="border-2 border-gray-400 hover:bg-gray-100 rounded-none"
+                disabled={isLoading}
+              >
+                <RotateCcw className="h-4 w-4 mr-2" />
+                Get Again
               </Button>
             </div>
           </CardContent>
