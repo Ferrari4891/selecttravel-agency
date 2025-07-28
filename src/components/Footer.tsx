@@ -46,6 +46,16 @@ const Footer = ({ themeClass }: FooterProps) => {
             <Link to="/join-free" className="hover:opacity-80 transition-opacity">
               Join Free
             </Link>
+            {user && (
+              <>
+                <Link to="/user-dashboard" className="hover:opacity-80 transition-opacity">
+                  My Preferences
+                </Link>
+                <Link to="/collections" className="hover:opacity-80 transition-opacity">
+                  My Collections
+                </Link>
+              </>
+            )}
             {user ? (
               <Link to="/dashboard" className="hover:opacity-80 transition-opacity">
                 Business Dashboard
