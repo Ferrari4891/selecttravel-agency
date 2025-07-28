@@ -579,7 +579,7 @@ const Index: React.FC = () => {
                     <Button
                       onClick={handleGetNow}
                       disabled={!isComplete || isLoading}
-                      className="bg-black text-white hover:bg-gray-800 disabled:bg-gray-300 disabled:text-gray-500 rounded-none"
+                      className="bg-green-600 text-white hover:bg-green-700 disabled:bg-gray-300 disabled:text-gray-500 rounded-none"
                     >
                       {isLoading ? (
                         <>
