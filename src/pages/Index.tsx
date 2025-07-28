@@ -265,6 +265,30 @@ const Index: React.FC = () => {
     setShowResults(false);
   };
 
+  const handleStepNavigation = (step: number) => {
+    // Only allow navigation to current step or previous steps
+    if (step <= currentStep) {
+      setCurrentStep(step as 1 | 2 | 3 | 4 | 5);
+      
+      // Reset selections based on which step we're going back to
+      if (step === 1) {
+        setSelectedCategory('');
+        setSelectedRegion('');
+        setSelectedCountry('');
+        setSelectedCity('');
+      } else if (step === 2) {
+        setSelectedRegion('');
+        setSelectedCountry('');
+        setSelectedCity('');
+      } else if (step === 3) {
+        setSelectedCountry('');
+        setSelectedCity('');
+      } else if (step === 4) {
+        setSelectedCity('');
+      }
+    }
+  };
+
   const exportToCSV = () => {
     const headers = ['Name', 'Address', 'Rating', 'Reviews', 'Phone', 'Email', 'Website', 'Maps Link', 'Facebook', 'Instagram', 'Twitter'];
     const csvContent = [
@@ -333,7 +357,7 @@ const Index: React.FC = () => {
           <div className="relative z-10 flex flex-col justify-center items-center h-full px-4 py-8 text-center">
             {/* City Name Display - only when city image is shown */}
             {selectedCity && cityImages[selectedCity] && (
-              <h1 className="text-white font-bold text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl leading-tight">
+              <h1 className="text-white font-bold text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl leading-tight">
                 {selectedCity.toUpperCase()}
               </h1>
             )}
@@ -360,17 +384,33 @@ const Index: React.FC = () => {
       <div className="container mx-auto px-4 py-8 max-w-4xl">
         
         {/* Progress Indicator */}
-        <div className="flex justify-center space-x-4 mb-8">
-          {[1, 2, 3, 4, 5].map((step) => (
-            <div
-              key={step}
-              className={`w-8 h-8 rounded-none flex items-center justify-center border-2 font-medium ${
-                step <= currentStep 
-                  ? 'bg-black text-white border-black' 
-                  : 'bg-white text-gray-400 border-gray-300'
-              }`}
-            >
-              {step}
+        <div className="flex justify-center space-x-8 mb-8">
+          {[
+            { step: 1, label: 'Category' },
+            { step: 2, label: 'Region' },
+            { step: 3, label: 'Country' },
+            { step: 4, label: 'City' },
+            { step: 5, label: 'Get Now!' }
+          ].map(({ step, label }) => (
+            <div key={step} className="flex flex-col items-center space-y-2">
+              <button
+                onClick={() => handleStepNavigation(step)}
+                className={`w-8 h-8 rounded-none flex items-center justify-center border-2 font-medium transition-colors cursor-pointer hover:scale-110 ${
+                  step <= currentStep 
+                    ? 'bg-black text-white border-black' 
+                    : 'bg-white text-gray-400 border-gray-300 hover:border-gray-400'
+                }`}
+              >
+                {step}
+              </button>
+              <button
+                onClick={() => handleStepNavigation(step)}
+                className={`text-xs font-medium transition-colors cursor-pointer hover:text-black ${
+                  step <= currentStep ? 'text-black' : 'text-gray-400'
+                }`}
+              >
+                {label}
+              </button>
             </div>
           ))}
         </div>
