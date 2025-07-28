@@ -10,41 +10,35 @@ import Footer from "@/components/Footer";
 import heroAdvertise from "@/assets/hero-advertise.jpg";
 const Advertise = () => {
   const [selectedPlan, setSelectedPlan] = useState('monthly');
-  
-  const features = [
-    "Business Profile Management",
-    "Analytics Dashboard",
-    "Mobile App Access",
-    "Team Management",
-    "Custom Integrations",
-    "API Access",
-    "Priority Support",
-    "Unlimited Records"
-  ];
-  
-  const plans = [
-    {
-      id: "trial",
-      name: "Economy Class",
-      price: { monthly: 0, annual: 0 },
-      description: "Free forever",
-      features: [true, true, true, false, false, false, false, false]
+  const features = ["Business Profile Management", "Analytics Dashboard", "Mobile App Access", "Team Management", "Custom Integrations", "API Access", "Priority Support", "Unlimited Records"];
+  const plans = [{
+    id: "trial",
+    name: "Economy Class",
+    price: {
+      monthly: 0,
+      annual: 0
     },
-    {
-      id: "economy", 
-      name: "Business Class",
-      price: { monthly: 45, annual: 486 },
-      description: "Perfect for businesses who want to manage themselves - 10% off yearly",
-      features: [true, true, true, true, true, true, true, false]
+    description: "Free forever",
+    features: [true, true, true, false, false, false, false, false]
+  }, {
+    id: "economy",
+    name: "Business Class",
+    price: {
+      monthly: 45,
+      annual: 486
     },
-    {
-      id: "firstclass",
-      name: "First Class", 
-      price: { monthly: 90, annual: 864 },
-      description: "Complete solution with full service support - 20% off annually",
-      features: [true, true, true, true, true, true, true, true]
-    }
-  ];
+    description: "Perfect for businesses who want to manage themselves - 10% off yearly",
+    features: [true, true, true, true, true, true, true, false]
+  }, {
+    id: "firstclass",
+    name: "First Class",
+    price: {
+      monthly: 90,
+      annual: 864
+    },
+    description: "Complete solution with full service support - 20% off annually",
+    features: [true, true, true, true, true, true, true, true]
+  }];
   return <div className="min-h-screen bg-background">
       <div className="container mx-auto px-4 py-8">
         <Navigation />
@@ -81,27 +75,19 @@ const Advertise = () => {
         <div className="flex justify-center mb-8">
           <div className="bg-white border-8 border-white shadow-md rounded-none p-1">
             <div className="flex">
-              {[
-                { id: 'monthly', label: 'Monthly' },
-                { id: 'annual', label: 'Annual', savings: '20%' }
-              ].map((cycle) => (
-                <button
-                  key={cycle.id}
-                  onClick={() => setSelectedPlan(cycle.id)}
-                  className={`px-4 py-2 text-sm font-medium transition-colors ${
-                    selectedPlan === cycle.id
-                      ? 'bg-primary text-primary-foreground'
-                      : 'text-muted-foreground hover:text-foreground'
-                  }`}
-                >
+              {[{
+              id: 'monthly',
+              label: 'Monthly'
+            }, {
+              id: 'annual',
+              label: 'Annual',
+              savings: '20%'
+            }].map(cycle => <button key={cycle.id} onClick={() => setSelectedPlan(cycle.id)} className={`px-4 py-2 text-sm font-medium transition-colors ${selectedPlan === cycle.id ? 'bg-primary text-primary-foreground' : 'text-muted-foreground hover:text-foreground'}`}>
                   {cycle.label}
-                  {cycle.savings && (
-                    <span className="ml-1 text-xs">
+                  {cycle.savings && <span className="ml-1 text-xs">
                       (Save {cycle.savings})
-                    </span>
-                  )}
-                </button>
-              ))}
+                    </span>}
+                </button>)}
             </div>
           </div>
         </div>
@@ -110,9 +96,7 @@ const Advertise = () => {
         <Card className="max-w-4xl mx-auto hidden md:block">
           <CardHeader>
             <CardTitle className="text-6xl text-foreground">Pricing Plans</CardTitle>
-            <CardDescription>
-              Compare our advertising packages and find the right fit for your business needs
-            </CardDescription>
+            <CardDescription>Compare our advertising packages and find the right fit for your business needs.</CardDescription>
           </CardHeader>
           <CardContent>
             <ScrollArea className="w-full">
@@ -120,8 +104,7 @@ const Advertise = () => {
                 <TableHeader>
                   <TableRow>
                     <TableHead className="w-1/4 text-left">Features</TableHead>
-                    {plans.map(plan => (
-                      <TableHead key={plan.name} className="text-center">
+                    {plans.map(plan => <TableHead key={plan.name} className="text-center">
                         <div className="bg-primary text-primary-foreground p-4 rounded-none mb-2 h-[160px] flex flex-col justify-between text-center">
                           <div className="font-bold text-lg">{plan.name}</div>
                           <div className="text-2xl font-bold">
@@ -132,8 +115,7 @@ const Advertise = () => {
                           </div>
                           <div className="text-sm leading-tight px-2">{plan.description}</div>
                         </div>
-                      </TableHead>
-                    ))}
+                      </TableHead>)}
                   </TableRow>
                 </TableHeader>
                 <TableBody>
