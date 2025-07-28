@@ -331,15 +331,27 @@ const Index: React.FC = () => {
           
           {/* Text Overlay */}
           <div className="relative z-10 flex flex-col justify-center items-center h-full px-4 py-8 text-center">
-            <h1 className="text-white font-bold text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl leading-tight">
-              Personalized Guide Books
-            </h1>
-            <p className="text-white text-sm sm:text-base md:text-lg lg:text-xl mt-2 md:mt-4">
-              Let's get personal
-            </p>
-            <p className="text-white text-xs sm:text-sm md:text-base mt-1 md:mt-2">
-              www.smartguidebooks.com
-            </p>
+            {/* City Name Display - only when city image is shown */}
+            {selectedCity && cityImages[selectedCity] && (
+              <h1 className="text-white font-bold text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl leading-tight">
+                {selectedCity.toUpperCase()}
+              </h1>
+            )}
+            
+            {/* Default content - when no city is selected */}
+            {!selectedCity && (
+              <>
+                <h1 className="text-white font-bold text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl leading-tight">
+                  Personalized Guide Books
+                </h1>
+                <p className="text-white text-sm sm:text-base md:text-lg lg:text-xl mt-2 md:mt-4">
+                  Let's get personal
+                </p>
+                <p className="text-white text-xs sm:text-sm md:text-base mt-1 md:mt-2">
+                  www.smartguidebooks.com
+                </p>
+              </>
+            )}
           </div>
         </div>
       </div>
