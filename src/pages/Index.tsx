@@ -22,6 +22,9 @@ import heroAsia from '@/assets/hero-asia.jpg';
 import heroSouthAmerica from '@/assets/hero-south-america.jpg';
 import heroAfricaMiddleEast from '@/assets/hero-africa-middle-east.jpg';
 import heroBackground from '@/assets/hero-background.jpg';
+import placeholderComingSoon from '@/assets/placeholder-image-coming-soon.jpg';
+import { cityImages } from '@/data/cityImages';
+import { countryImages } from '@/data/countryImages';
 
 interface Business {
   name: string;
@@ -72,7 +75,7 @@ const Index: React.FC = () => {
     return country?.cities || [];
   }, [selectedCountry, countries]);
 
-  // Get hero image based on selections - DEBUG VERSION
+  // Get hero image based on selections with proper priority and fallbacks
   const getHeroImage = () => {
     console.log('🎯 getHeroImage called with:', { 
       selectedCity, 
@@ -83,12 +86,19 @@ const Index: React.FC = () => {
     
     // Priority: City > Country > Region > Category > Default rotation
     if (selectedCity) {
-      console.log('🏙️ Using city-based image (category)');
-      return getCategoryImage();
+      console.log('🏙️ Using city-based image');
+      const cityImage = cityImages[selectedCity];
+      if (cityImage && cityImage !== placeholderComingSoon) {
+        console.log('✅ Found specific city image:', cityImage);
+        return cityImage;
+      } else {
+        console.log('⚠️ City image not found or placeholder, using country image');
+        return getCountryImageWithFallback();
+      }
     }
     if (selectedCountry) {
-      console.log('🌍 Using country-based image (region)');
-      return getRegionImage();
+      console.log('🌍 Using country-based image');
+      return getCountryImageWithFallback();
     }
     if (selectedRegion) {
       console.log('🗺️ Using region-based image');
@@ -101,6 +111,17 @@ const Index: React.FC = () => {
     // Default: rotate through all images
     console.log('🔄 Using default carousel image');
     return carouselImages[carouselIndex];
+  };
+
+  const getCountryImageWithFallback = () => {
+    const countryImage = countryImages[selectedCountry];
+    if (countryImage) {
+      console.log('✅ Found specific country image:', countryImage);
+      return countryImage;
+    } else {
+      console.log('⚠️ Country image not found, using region image');
+      return getRegionImage();
+    }
   };
 
   const getCategoryImage = () => {
@@ -289,7 +310,7 @@ const Index: React.FC = () => {
       {/* Hero Section - Carousel */}
       <div className="relative mx-6 mt-6 border-8 border-white shadow-[0_8px_16px_rgba(0,0,0,0.3)]">
         <div className="relative w-full aspect-video overflow-hidden">
-          {/* Rotating Background Images */}
+          {/* Rotating Background Images with Fallback */}
           <div 
             className="absolute inset-0 transition-opacity duration-1000"
             style={{
@@ -300,6 +321,11 @@ const Index: React.FC = () => {
               })()})`,
               backgroundSize: 'cover',
               backgroundPosition: 'center'
+            }}
+            onError={(e) => {
+              console.log('❌ Hero image failed to load, using coming soon placeholder');
+              const target = e.target as HTMLDivElement;
+              target.style.backgroundImage = `linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)), url(${placeholderComingSoon})`;
             }}
           />
           
@@ -570,13 +596,9 @@ const Index: React.FC = () => {
                       alt={business.name}
                       className="w-full h-full object-cover"
                       onError={(e) => {
-                        console.log('❌ Image failed to load:', imageUrl);
+                        console.log('❌ Image failed to load:', imageUrl, 'using coming soon placeholder');
                         const target = e.target as HTMLImageElement;
-                        target.style.backgroundColor = '#FF6B6B';
-                        target.style.display = 'flex';
-                        target.style.alignItems = 'center';
-                        target.style.justifyContent = 'center';
-                        target.alt = 'Image Failed';
+                        target.src = placeholderComingSoon;
                       }}
                       onLoad={() => {
                         console.log('✅ Image loaded successfully:', imageUrl);
