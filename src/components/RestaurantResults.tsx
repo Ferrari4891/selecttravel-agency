@@ -107,6 +107,12 @@ export const RestaurantResults: React.FC<RestaurantResultsProps> = ({
       setSavingIndex(null);
     }
   };
+  console.log('RestaurantResults rendering with:', { 
+    restaurantCount: restaurants.length, 
+    firstRestaurant: restaurants[0],
+    user: user ? 'logged in' : 'not logged in'
+  });
+
   return (
     <Card className="shadow-elegant rounded-none">
       <CardHeader>
@@ -122,6 +128,12 @@ export const RestaurantResults: React.FC<RestaurantResultsProps> = ({
         <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
           {restaurants.map((restaurant, index) => {
             const items = [];
+            
+            console.log(`Restaurant ${index}:`, { 
+              name: restaurant.name, 
+              imageLinks: restaurant.imageLinks,
+              hasPlaceholder: !restaurant.imageLinks[0] 
+            });
             
             // Add restaurant card
             items.push(
