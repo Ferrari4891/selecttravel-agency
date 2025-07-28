@@ -72,17 +72,12 @@ const Lab: React.FC = () => {
     return country?.cities || [];
   }, [selectedCountry, countries]);
 
-  // Carousel images representing senior couples for each section
+  // Carousel images with senior couples only
   const carouselImages = [
     heroEat,
     heroDrink, 
     heroStay,
-    heroPlay,
-    heroNorthAmerica,
-    heroEurope,
-    heroAsia,
-    heroSouthAmerica,
-    heroAfricaMiddleEast
+    heroPlay
   ];
 
   const getCarouselImage = () => {
@@ -232,8 +227,8 @@ const Lab: React.FC = () => {
       <LanguageSelector />
 
       {/* Hero Section - Carousel */}
-      <div className="relative text-center space-y-4 py-16 px-8 overflow-hidden border-8 border-white shadow-[0_8px_16px_rgba(0,0,0,0.3)] mx-6 mt-6">
-        <div className="relative w-full h-full">
+      <div className="relative mx-6 mt-6 border-8 border-white shadow-[0_8px_16px_rgba(0,0,0,0.3)]">
+        <div className="relative w-full aspect-video overflow-hidden">
           {/* Rotating Background Images */}
           <div 
             className="absolute inset-0 transition-opacity duration-1000"
@@ -245,14 +240,14 @@ const Lab: React.FC = () => {
           />
           
           {/* Text Overlay */}
-          <div className="relative z-10 space-y-4">
-            <h1 className="text-white font-bold text-4xl md:text-6xl">
+          <div className="relative z-10 flex flex-col justify-center items-center h-full px-4 py-8 text-center">
+            <h1 className="text-white font-bold text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl leading-tight">
               Personalized Guide Books
             </h1>
-            <p className="text-white text-lg md:text-xl max-w-2xl mx-auto">
+            <p className="text-white text-sm sm:text-base md:text-lg lg:text-xl mt-2 md:mt-4">
               Let's get personal
             </p>
-            <p className="text-white text-sm md:text-base">
+            <p className="text-white text-xs sm:text-sm md:text-base mt-1 md:mt-2">
               www.smartguidebooks.com
             </p>
           </div>
