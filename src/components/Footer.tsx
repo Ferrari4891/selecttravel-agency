@@ -17,9 +17,6 @@ const Footer = ({ themeClass }: FooterProps) => {
             <Link to="/" className="hover:opacity-80 transition-opacity">
               Home
             </Link>
-            <Link to="/guide-selection" className="hover:opacity-80 transition-opacity">
-              Guide Selection
-            </Link>
             <Link to="/about-us" className="hover:opacity-80 transition-opacity">
               About Us
             </Link>

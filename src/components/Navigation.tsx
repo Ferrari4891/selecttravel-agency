@@ -71,12 +71,6 @@ export const Navigation = ({ onMenuStateChange, forceMenuOpen }: NavigationProps
                   <span className="text-base">Home</span>
                  </Button>
                  <Button variant="ghost" className="w-full justify-start h-12 text-left touch-target" asChild>
-                   <Link to="/guide-selection" onClick={() => setMenuOpen(false)}>
-                     <Search className="h-5 w-5 mr-3" />
-                     <span className="text-base">Guide Selection</span>
-                   </Link>
-                 </Button>
-                 <Button variant="ghost" className="w-full justify-start h-12 text-left touch-target" asChild>
                    <Link to="/about-us" onClick={() => setMenuOpen(false)}>
                      <Info className="h-5 w-5 mr-3" />
                      <span className="text-base">About Us</span>
