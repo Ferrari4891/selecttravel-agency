@@ -13,17 +13,17 @@ const HowToTips = () => {
           <div>
             <h4 className="font-semibold mb-2 text-primary">BEFORE YOU VISIT THE BUSINESS</h4>
             <ul className="space-y-1 text-base font-light text-black">
-              <li>• Check restaurant hours and availability</li>
+              <li>• Check opening hours and availability</li>
               <li>• Make reservations for popular spots</li>
               <li className="text-base font-light">• Read recent reviews for current information</li>
-              <li className="font-light">• Consider dietary restrictions and preferences</li>
+              <li className="font-light">• Consider transport options.</li>
             </ul>
           </div>
           <div>
             <h4 className="font-semibold mb-2 text-primary">DURING YOUR VISIT</h4>
             <ul className="space-y-1 text-base font-light text-black">
               <li>• Use the Google Maps reference for easy navigation</li>
-              <li>• Follow the restaurant's social media for specials</li>
+              <li>• Follow the businesse's social media for specials</li>
               <li>• Ask about local recommendations from staff</li>
               <li>• Share your experience with others</li>
             </ul>
