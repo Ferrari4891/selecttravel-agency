@@ -1,9 +1,14 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
 import { MapPin, Star, ExternalLink, Phone, Mail, Globe, Menu, Bookmark } from 'lucide-react';
 import { MailingListSignup } from './MailingListSignup';
+import { useAuth } from '@/contexts/AuthContext';
+import { supabase } from '@/integrations/supabase/client';
+import { useToast } from '@/hooks/use-toast';
+import { useNavigate } from 'react-router-dom';
 
 interface Restaurant {
   name: string;
@@ -39,6 +44,69 @@ export const RestaurantResults: React.FC<RestaurantResultsProps> = ({
   selectedCountry,
   selectedCategory,
 }) => {
+  const { user } = useAuth();
+  const { toast } = useToast();
+  const navigate = useNavigate();
+  const [savingIndex, setSavingIndex] = useState<number | null>(null);
+
+  // Placeholder images for restaurants
+  const placeholderImages = [
+    'https://images.unsplash.com/photo-1488590528505-98d2b5aba04b?w=400&h=300&fit=crop',
+    'https://images.unsplash.com/photo-1518770660439-4636190af475?w=400&h=300&fit=crop',
+    'https://images.unsplash.com/photo-1487058792275-0ad4aaf24ca7?w=400&h=300&fit=crop',
+    'https://images.unsplash.com/photo-1500375592092-40eb2168fd21?w=400&h=300&fit=crop',
+    'https://images.unsplash.com/photo-1470813740244-df37b8c1edcb?w=400&h=300&fit=crop'
+  ];
+
+  const handleSaveRestaurant = async (restaurant: Restaurant, index: number) => {
+    if (!user) {
+      // User is not logged in - they need to be a member
+      return;
+    }
+
+    setSavingIndex(index);
+    
+    try {
+      const { error } = await supabase
+        .from('saved_restaurants')
+        .insert({
+          user_id: user.id,
+          restaurant_name: restaurant.name,
+          restaurant_address: restaurant.address,
+          restaurant_data: JSON.parse(JSON.stringify(restaurant)),
+          city: selectedCity,
+          country: selectedCountry,
+          category: selectedCategory
+        });
+
+      if (error) {
+        if (error.code === '23505') { // Unique constraint violation
+          toast({
+            title: "Restaurant Already Saved",
+            description: "This restaurant is already in your favorites.",
+            variant: "default",
+          });
+        } else {
+          throw error;
+        }
+      } else {
+        toast({
+          title: "Restaurant Saved!",
+          description: "Added to your dashboard favorites.",
+          variant: "default",
+        });
+      }
+    } catch (error) {
+      console.error('Error saving restaurant:', error);
+      toast({
+        title: "Error",
+        description: "Failed to save restaurant. Please try again.",
+        variant: "destructive",
+      });
+    } finally {
+      setSavingIndex(null);
+    }
+  };
   return (
     <Card className="shadow-elegant rounded-none">
       <CardHeader>
@@ -58,12 +126,16 @@ export const RestaurantResults: React.FC<RestaurantResultsProps> = ({
             // Add restaurant card
             items.push(
               <Card key={`restaurant-${index}`} className="group hover:shadow-lg transition-all duration-300 rounded-none">
-                <div className="aspect-video relative overflow-hidden rounded-t-none">
-                  <img
-                    src={restaurant.imageLinks[0]}
-                    alt={restaurant.name}
-                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
-                  />
+                 <div className="aspect-video relative overflow-hidden rounded-t-none">
+                   <img
+                     src={restaurant.imageLinks[0] || placeholderImages[index % placeholderImages.length]}
+                     alt={restaurant.name}
+                     className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                     onError={(e) => {
+                       const target = e.target as HTMLImageElement;
+                       target.src = placeholderImages[index % placeholderImages.length];
+                     }}
+                   />
                    <div className="absolute top-3 right-3">
                      <Badge variant="secondary" className="bg-background/80 backdrop-blur-sm">
                        {restaurant.source}
@@ -148,19 +220,57 @@ export const RestaurantResults: React.FC<RestaurantResultsProps> = ({
                         View on Maps
                       </Button>
 
-                      <Button
-                        variant="default"
-                        size="sm"
-                        className="flex items-center gap-1 text-xs col-span-2 rounded-none bg-primary hover:bg-primary/90"
-                        onClick={() => {
-                          // Add save functionality here
-                          console.log('Saved restaurant:', restaurant.name);
-                          // You can implement actual save logic here
-                        }}
-                      >
-                        <Bookmark className="h-3 w-3" />
-                        SAVE
-                      </Button>
+                       {user ? (
+                         <Button
+                           variant="default"
+                           size="sm"
+                           className="flex items-center gap-1 text-xs col-span-2 rounded-none bg-black text-white hover:bg-black/90"
+                           onClick={() => handleSaveRestaurant(restaurant, index)}
+                           disabled={savingIndex === index}
+                         >
+                           <Bookmark className="h-3 w-3" />
+                           {savingIndex === index ? 'SAVING...' : 'SAVE'}
+                         </Button>
+                       ) : (
+                         <DropdownMenu>
+                           <DropdownMenuTrigger asChild>
+                             <Button
+                               variant="default"
+                               size="sm"
+                               className="flex items-center gap-1 text-xs col-span-2 rounded-none bg-black text-white hover:bg-black/90"
+                             >
+                               <Bookmark className="h-3 w-3" />
+                               SAVE
+                             </Button>
+                           </DropdownMenuTrigger>
+                           <DropdownMenuContent className="w-64 p-4 bg-white border shadow-lg rounded-none">
+                             <div className="space-y-3">
+                               <p className="text-sm font-medium">Save Your Favorite Places</p>
+                               <p className="text-xs text-muted-foreground">
+                                 You need to be a member to save favorite places. Membership is free!
+                               </p>
+                               <div className="flex gap-2">
+                                 <Button
+                                   size="sm"
+                                   className="rounded-none"
+                                   onClick={() => navigate('/join-free')}
+                                 >
+                                   Join Now
+                                 </Button>
+                                 <DropdownMenuItem asChild>
+                                   <Button
+                                     variant="outline"
+                                     size="sm"
+                                     className="rounded-none"
+                                   >
+                                     Not Now
+                                   </Button>
+                                 </DropdownMenuItem>
+                               </div>
+                             </div>
+                           </DropdownMenuContent>
+                         </DropdownMenu>
+                       )}
                     </div>
 
                     {(restaurant.socialMediaLinks.facebook || 
