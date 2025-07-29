@@ -481,8 +481,8 @@ export const MobileRestaurantForm = ({ onSelectionChange }: MobileRestaurantForm
 
               {/* Step 5: Results Count - Always visible like desktop */}
               <div className="space-y-2">
-                <label className="text-sm font-bold uppercase tracking-wide">5: SELECT HOW MANY RESULTS</label>
-                <Select value={resultCount.toString()} onValueChange={handleResultCountChange}>
+                <label className="text-sm font-bold uppercase tracking-wide">5: SELECT RESULTS (3+ Star Minimum)</label>
+                <Select value={resultCount.toString()} onValueChange={(value) => setResultCount(parseInt(value))}>
                   <SelectTrigger className="font-bold h-12">
                     <SelectValue />
                   </SelectTrigger>
