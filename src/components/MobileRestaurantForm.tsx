@@ -116,6 +116,7 @@ export const MobileRestaurantForm = ({ onSelectionChange }: MobileRestaurantForm
   };
 
   const handleCategoryChange = (value: string) => {
+    console.log('🔥 Category changed to:', value);
     setSelectedCategory(value);
     setSelectedRegion('');
     setSelectedCountry('');
@@ -124,9 +125,11 @@ export const MobileRestaurantForm = ({ onSelectionChange }: MobileRestaurantForm
     setIsGetNowActive(false);
     setRestaurants([]);
     onSelectionChange?.(value, '', '', '');
+    console.log('🔥 Category state updated');
   };
 
   const handleRegionChange = (value: string) => {
+    console.log('🔥 Region changed to:', value);
     setSelectedRegion(value);
     setSelectedCountry('');
     setSelectedCity('');
@@ -134,24 +137,30 @@ export const MobileRestaurantForm = ({ onSelectionChange }: MobileRestaurantForm
     setIsGetNowActive(false);
     setRestaurants([]);
     onSelectionChange?.(selectedCategory, value, '', '');
+    console.log('🔥 Region state updated');
   };
 
   const handleCountryChange = (value: string) => {
+    console.log('🔥 Country changed to:', value);
     setSelectedCountry(value);
     setSelectedCity('');
     setShowResultsOptions(false);
     setIsGetNowActive(false);
     setRestaurants([]);
     onSelectionChange?.(selectedCategory, selectedRegion, value, '');
+    console.log('🔥 Country state updated, cities available:', countries.find(c => c.name === value)?.cities.length || 0);
   };
 
   const handleCityChange = (value: string) => {
+    console.log('🔥 City changed to:', value);
+    console.log('🔥 Current states:', { selectedCategory, selectedRegion, selectedCountry });
     setSelectedCity(value);
     setCitySearchInput('');
     setShowResultsOptions(true);
     setIsGetNowActive(false);
     setRestaurants([]);
     onSelectionChange?.(selectedCategory, selectedRegion, selectedCountry, value);
+    console.log('🔥 City state updated, showResultsOptions set to true');
   };
 
   const getAllCities = () => {
