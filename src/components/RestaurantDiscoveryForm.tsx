@@ -452,60 +452,64 @@ export const RestaurantDiscoveryForm = ({ onSelectionChange }: RestaurantDiscove
                 </div>
               </div>
 
-              {/* Step 5: Results Count */}
-              <div className="space-y-3">
-                <label className="text-sm font-bold uppercase tracking-wide text-foreground">5: SELECT RESULTS (3+ Star Minimum)</label>
-                <div className="grid gap-4 md:grid-cols-2">
-                  {/* Preset Options */}
-                  <div className="space-y-2">
-                    <label className="text-xs font-medium text-muted-foreground">Quick select:</label>
-                    <Select value={resultCount.toString()} onValueChange={(value) => setResultCount(parseInt(value))}>
-                      <SelectTrigger className="font-bold h-12">
-                        <SelectValue />
-                      </SelectTrigger>
-                      <SelectContent>
-                        <SelectItem value="1">1 Result</SelectItem>
-                        <SelectItem value="3">3 Results</SelectItem>
-                        <SelectItem value="10">10 Results</SelectItem>
-                        <SelectItem value="20">20 Results</SelectItem>
-                      </SelectContent>
-                    </Select>
-                  </div>
-                  
-                  {/* Custom Number Input */}
-                  <div className="space-y-2">
-                    <label className="text-xs font-medium text-muted-foreground">Or enter custom amount:</label>
-                    <Input
-                      type="number"
-                      placeholder="Enter number (1-100)"
-                      min="1"
-                      max="100"
-                      value={resultCount}
-                      onChange={(e) => setResultCount(parseInt(e.target.value) || 1)}
-                      className="font-bold h-12"
-                    />
+              {/* Step 5: Results Count - Only show when city is selected */}
+              {selectedCity && (
+                <div className="space-y-3">
+                  <label className="text-sm font-bold uppercase tracking-wide text-foreground">5: SELECT RESULTS (3+ Star Minimum)</label>
+                  <div className="grid gap-4 md:grid-cols-2">
+                    {/* Preset Options */}
+                    <div className="space-y-2">
+                      <label className="text-xs font-medium text-muted-foreground">Quick select:</label>
+                      <Select value={resultCount.toString()} onValueChange={(value) => setResultCount(parseInt(value))}>
+                        <SelectTrigger className="font-bold h-12">
+                          <SelectValue />
+                        </SelectTrigger>
+                        <SelectContent>
+                          <SelectItem value="1">1 Result</SelectItem>
+                          <SelectItem value="3">3 Results</SelectItem>
+                          <SelectItem value="10">10 Results</SelectItem>
+                          <SelectItem value="20">20 Results</SelectItem>
+                        </SelectContent>
+                      </Select>
+                    </div>
+                    
+                    {/* Custom Number Input */}
+                    <div className="space-y-2">
+                      <label className="text-xs font-medium text-muted-foreground">Or enter custom amount:</label>
+                      <Input
+                        type="number"
+                        placeholder="Enter number (1-100)"
+                        min="1"
+                        max="100"
+                        value={resultCount}
+                        onChange={(e) => setResultCount(parseInt(e.target.value) || 1)}
+                        className="font-bold h-12"
+                      />
+                    </div>
                   </div>
                 </div>
-              </div>
+              )}
 
-              {/* Get Results Button */}
-              <div className="pt-4">
-                <Button 
-                  onClick={searchRestaurants} 
-                  disabled={!selectedCategory || !selectedRegion || !selectedCountry || !selectedCity || isLoading} 
-                  size="lg" 
-                  className="w-full h-14 text-lg font-bold bg-black text-white hover:bg-gray-800 rounded-none"
-                >
-                  {isLoading ? (
-                    <>
-                      <Loader2 className="mr-3 h-5 w-5 animate-spin" />
-                      Searching...
-                    </>
-                  ) : (
-                    'GET NOW!'
-                  )}
-                </Button>
-              </div>
+              {/* Get Results Button - Only show when city is selected */}
+              {selectedCity && (
+                <div className="pt-4">
+                  <Button 
+                    onClick={searchRestaurants} 
+                    disabled={!selectedCategory || !selectedRegion || !selectedCountry || !selectedCity || isLoading} 
+                    size="lg" 
+                    className="w-full h-14 text-lg font-bold bg-black text-white hover:bg-gray-800 rounded-none"
+                  >
+                    {isLoading ? (
+                      <>
+                        <Loader2 className="mr-3 h-5 w-5 animate-spin" />
+                        Searching...
+                      </>
+                    ) : (
+                      'GET NOW!'
+                    )}
+                  </Button>
+                </div>
+              )}
             </div>
 
             {restaurants.length > 0 && (
