@@ -480,7 +480,14 @@ export const MobileRestaurantForm = ({ onSelectionChange }: MobileRestaurantForm
               </div>
 
               {/* Step 5: Results Count - Always show when country is selected, like desktop */}
-              {selectedCountry && (
+              {(() => {
+                console.log('🐛 STEP 5 RENDER CHECK:', {
+                  selectedCountry,
+                  shouldShow: !!selectedCountry,
+                  allStates: { selectedCategory, selectedRegion, selectedCountry, selectedCity }
+                });
+                return !!selectedCountry;
+              })() && (
                 <div className="space-y-2">
                   <label className="text-sm font-bold uppercase tracking-wide">5: SELECT HOW MANY RESULTS</label>
                   <Select value={resultCount.toString()} onValueChange={handleResultCountChange}>
