@@ -424,20 +424,15 @@ export const MobileRestaurantForm = ({ onSelectionChange }: MobileRestaurantForm
                 {/* City search input below dropdown */}
                 {selectedCountry && (
                   <div className="space-y-2">
-                    <label className="text-xs font-medium text-muted-foreground">Type in a city:</label>
+                    <label className="text-xs font-medium text-muted-foreground">Or search by name:</label>
                     <div className="flex gap-2">
                       <Input
                         key={`city-input-${formKey}`}
-                        placeholder="type in a city"
+                        placeholder="Enter city name"
                         value={citySearchInput}
                         onChange={(e) => setCitySearchInput(e.target.value)}
                         onKeyDown={(e) => {
                           if (e.key === 'Enter' && citySearchInput.trim()) {
-                            handleCitySearch();
-                          }
-                        }}
-                        onBlur={() => {
-                          if (citySearchInput.trim()) {
                             handleCitySearch();
                           }
                         }}
@@ -461,7 +456,7 @@ export const MobileRestaurantForm = ({ onSelectionChange }: MobileRestaurantForm
               {selectedCity && (
                 <div className="space-y-3">
                   <label className="text-sm font-bold uppercase tracking-wide text-foreground">5: SELECT RESULTS (3+ Star Minimum)</label>
-                  <div className="space-y-4">
+                  <div className="grid gap-4 md:grid-cols-2">
                     {/* Preset Options */}
                     <div className="space-y-2">
                       <label className="text-xs font-medium text-muted-foreground">Quick select:</label>
