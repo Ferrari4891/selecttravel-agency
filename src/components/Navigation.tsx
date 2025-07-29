@@ -43,7 +43,7 @@ export const Navigation = ({ onMenuStateChange, forceMenuOpen }: NavigationProps
   };
 
   return (
-    <div className="flex items-center gap-2 sm:gap-4 justify-start w-full">
+    <div className="flex items-center gap-2 sm:gap-4 justify-between w-full p-4 bg-transparent absolute top-0 left-0 right-0 z-50 md:relative md:bg-white md:p-0">
       <div className="flex items-center gap-2 sm:gap-4">
         {/* Hamburger Menu */}
         <div>
@@ -51,7 +51,7 @@ export const Navigation = ({ onMenuStateChange, forceMenuOpen }: NavigationProps
             <SheetTrigger asChild>
               <Button 
                 variant="outline" 
-                className="h-12 w-12 sm:h-12 sm:px-3 rounded-none border border-primary touch-target"
+                className="h-12 w-12 sm:h-12 sm:px-3 rounded-none border border-white md:border-primary touch-target text-white md:text-black hover:bg-white/10 md:hover:bg-primary/5"
                 size="sm"
               >
                 <Menu className="h-5 w-5 sm:h-4 sm:w-4" />
@@ -247,12 +247,12 @@ export const Navigation = ({ onMenuStateChange, forceMenuOpen }: NavigationProps
         </div>
 
         {/* Logo */}
-        <div className="flex items-center gap-2 h-12 px-2 sm:px-3 border border-primary hover:bg-primary/5 transition-colors cursor-pointer touch-target" onClick={() => window.location.href = '/'}>
-          <div className="w-8 h-8 bg-primary flex items-center justify-center">
-            <span className="text-primary-foreground font-bold text-xs sm:text-sm">SGL</span>
+        <div className="flex items-center gap-2 h-12 px-2 sm:px-3 border border-white md:border-primary hover:bg-white/10 md:hover:bg-primary/5 transition-colors cursor-pointer touch-target" onClick={() => window.location.href = '/'}>
+          <div className="w-8 h-8 bg-white md:bg-primary flex items-center justify-center">
+            <span className="text-black md:text-primary-foreground font-bold text-xs sm:text-sm">SGL</span>
           </div>
-          <span className="font-bold text-primary text-sm sm:text-lg hidden xs:block sm:block">SmartGuideBooks.com</span>
-          <span className="font-bold text-primary text-sm block xs:hidden sm:hidden">SGL</span>
+          <span className="font-bold text-white md:text-primary text-sm sm:text-lg hidden xs:block sm:block">SmartGuideBooks.com</span>
+          <span className="font-bold text-white md:text-primary text-sm block xs:hidden sm:hidden">SGL</span>
         </div>
       </div>
     </div>
