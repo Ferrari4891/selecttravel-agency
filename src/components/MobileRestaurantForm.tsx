@@ -470,9 +470,9 @@ export const MobileRestaurantForm = ({ onSelectionChange }: MobileRestaurantForm
                 )}
               </div>
 
-              {/* Step 5: Results Count - ALWAYS VISIBLE */}
-              <div className="space-y-2">
-                <label className="text-sm font-bold uppercase tracking-wide">5: SELECT RESULTS (3+ Star Minimum)</label>
+              {/* Step 5: Results Count */}
+              <div className="space-y-3">
+                <label className="text-sm font-bold uppercase tracking-wide text-foreground">5: SELECT RESULTS (3+ Star Minimum)</label>
                 <Select value={resultCount.toString()} onValueChange={(value) => setResultCount(parseInt(value))}>
                   <SelectTrigger className="font-bold h-12">
                     <SelectValue />
@@ -486,7 +486,7 @@ export const MobileRestaurantForm = ({ onSelectionChange }: MobileRestaurantForm
                 </Select>
               </div>
 
-              {/* Buttons - ALWAYS VISIBLE */}
+              {/* Buttons */}
               <div className="space-y-2">
                 <Button 
                   onClick={searchRestaurants} 
