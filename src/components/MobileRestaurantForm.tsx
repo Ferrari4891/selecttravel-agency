@@ -65,6 +65,13 @@ export const MobileRestaurantForm = ({ onSelectionChange }: MobileRestaurantForm
 
   const { toast } = useToast();
 
+  // Debug effect to track showResultsOptions changes
+  React.useEffect(() => {
+    console.log('🔄 showResultsOptions changed to:', showResultsOptions);
+    console.log('🔄 Current city:', selectedCity);
+    console.log('🔄 Should Step 5 render?', showResultsOptions && selectedCity);
+  }, [showResultsOptions, selectedCity]);
+
   const categories = [
     { name: 'Eat', icon: eatIcon },
     { name: 'Stay', icon: stayIcon },
