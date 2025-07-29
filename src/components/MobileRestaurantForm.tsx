@@ -61,6 +61,7 @@ export const MobileRestaurantForm = ({ onSelectionChange }: MobileRestaurantForm
   const [resultCount, setResultCount] = useState<number>(20);
   const [showResultsOptions, setShowResultsOptions] = useState(false);
   const [isGetNowActive, setIsGetNowActive] = useState(false);
+  const [formKey, setFormKey] = useState<number>(0);
 
   const { toast } = useToast();
 
@@ -287,6 +288,7 @@ export const MobileRestaurantForm = ({ onSelectionChange }: MobileRestaurantForm
   };
 
   const handleGetAgain = () => {
+    console.log('🔄 Resetting form completely');
     setSelectedCategory('');
     setSelectedRegion('');
     setSelectedCountry('');
@@ -296,6 +298,8 @@ export const MobileRestaurantForm = ({ onSelectionChange }: MobileRestaurantForm
     setIsGetNowActive(false);
     setRestaurants([]);
     setResultCount(20);
+    setFormKey(prev => prev + 1); // Force re-render of all Select components
+    console.log('🔄 Form reset complete');
   };
 
   const exportToCSV = () => {
@@ -356,11 +360,11 @@ export const MobileRestaurantForm = ({ onSelectionChange }: MobileRestaurantForm
                 Follow the steps below and get 3+ star businesses in 60 seconds!
               </CardDescription>
             </CardHeader>
-            <CardContent className="space-y-4">
+            <CardContent className="space-y-4" key={formKey}>
               {/* Step 1: Category */}
               <div className="space-y-2">
                 <label className="text-sm font-bold uppercase tracking-wide">1: SELECT CATEGORY</label>
-                <Select value={selectedCategory} onValueChange={handleCategoryChange}>
+                <Select key={`category-${formKey}`} value={selectedCategory} onValueChange={handleCategoryChange}>
                   <SelectTrigger className="font-bold h-12">
                     <SelectValue placeholder="Choose your category" />
                   </SelectTrigger>
@@ -380,7 +384,7 @@ export const MobileRestaurantForm = ({ onSelectionChange }: MobileRestaurantForm
               {/* Step 2: Region */}
               <div className="space-y-2">
                 <label className="text-sm font-bold uppercase tracking-wide">2: SELECT REGION</label>
-                <Select value={selectedRegion} onValueChange={handleRegionChange} disabled={!selectedCategory}>
+                <Select key={`region-${formKey}`} value={selectedRegion} onValueChange={handleRegionChange} disabled={!selectedCategory}>
                   <SelectTrigger className="font-bold h-12">
                     <SelectValue placeholder="Choose your region" />
                   </SelectTrigger>
@@ -397,7 +401,7 @@ export const MobileRestaurantForm = ({ onSelectionChange }: MobileRestaurantForm
               {/* Step 3: Country */}
               <div className="space-y-2">
                 <label className="text-sm font-bold uppercase tracking-wide">3: SELECT COUNTRY</label>
-                <Select value={selectedCountry} onValueChange={handleCountryChange} disabled={!selectedRegion}>
+                <Select key={`country-${formKey}`} value={selectedCountry} onValueChange={handleCountryChange} disabled={!selectedRegion}>
                   <SelectTrigger className="font-bold h-12">
                     <SelectValue placeholder="Choose your country" />
                   </SelectTrigger>
@@ -419,7 +423,7 @@ export const MobileRestaurantForm = ({ onSelectionChange }: MobileRestaurantForm
                 {selectedCountry && (
                   <div className="space-y-2">
                     <label className="text-xs font-medium text-muted-foreground">Choose from list:</label>
-                    <Select value={selectedCity} onValueChange={handleCityChange} disabled={!selectedCountry}>
+                    <Select key={`city-${formKey}`} value={selectedCity} onValueChange={handleCityChange} disabled={!selectedCountry}>
                       <SelectTrigger className="font-bold h-12">
                         <SelectValue placeholder="Select city" />
                       </SelectTrigger>
@@ -447,6 +451,7 @@ export const MobileRestaurantForm = ({ onSelectionChange }: MobileRestaurantForm
                     <label className="text-xs font-medium text-muted-foreground">Type in a city:</label>
                     <div className="flex gap-2">
                       <Input
+                        key={`city-input-${formKey}`}
                         placeholder="type in a city"
                         value={citySearchInput}
                         onChange={(e) => setCitySearchInput(e.target.value)}
@@ -470,7 +475,7 @@ export const MobileRestaurantForm = ({ onSelectionChange }: MobileRestaurantForm
               {showResultsOptions && (
                 <div className="space-y-2">
                   <label className="text-sm font-bold uppercase tracking-wide">5: SELECT HOW MANY RESULTS</label>
-                  <Select value={resultCount.toString()} onValueChange={handleResultCountChange}>
+                  <Select key={`results-${formKey}`} value={resultCount.toString()} onValueChange={handleResultCountChange}>
                     <SelectTrigger className="font-bold h-12">
                       <SelectValue />
                     </SelectTrigger>
