@@ -624,7 +624,7 @@ const Index: React.FC = () => {
                           <Button
                             onClick={handleGetNow}
                             disabled={isLoading}
-                            className="flex-1 h-12 bg-gray-900 hover:bg-gray-800 text-white border-2 border-gray-900 text-base font-bold rounded-none"
+                            className="flex-1 h-12 bg-green-600 hover:bg-green-700 text-white border-2 border-green-600 text-base font-bold rounded-none"
                           >
                             {isLoading ? (
                               <>
@@ -641,7 +641,7 @@ const Index: React.FC = () => {
                           <Button
                             onClick={handleGetAgain}
                             variant="outline"
-                            className="flex-1 h-12 border-2 border-white text-white hover:bg-white hover:text-black rounded-none"
+                            className="flex-1 h-12 border-2 border-white text-black bg-white hover:bg-gray-100 rounded-none"
                           >
                             <RotateCcw className="h-4 w-4 mr-1" />
                             Get Again
@@ -676,11 +676,11 @@ const Index: React.FC = () => {
                 <div className="grid gap-6">
                   {businesses.map((business, index) => {
                     const placeholderImages = [
-                      'https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=400&h=300&fit=crop&q=80',
-                      'https://images.unsplash.com/photo-1567620905732-2d1ec7ab7445?w=400&h=300&fit=crop&q=80',
-                      'https://images.unsplash.com/photo-1551218808-94e220e084d2?w=400&h=300&fit=crop&q=80',
-                      'https://images.unsplash.com/photo-1552566499-dfd8fa52cd2c?w=400&h=300&fit=crop&q=80',
-                      'https://images.unsplash.com/photo-1559339352-11d035aa65de?w=400&h=300&fit=crop&q=80'
+                      'https://images.unsplash.com/photo-1527576539890-dfa815648363?w=400&h=300&fit=crop&q=80&sat=-100',
+                      'https://images.unsplash.com/photo-1527576539890-dfa815648363?w=400&h=300&fit=crop&q=80&sat=-100',
+                      'https://images.unsplash.com/photo-1527576539890-dfa815648363?w=400&h=300&fit=crop&q=80&sat=-100',
+                      'https://images.unsplash.com/photo-1527576539890-dfa815648363?w=400&h=300&fit=crop&q=80&sat=-100',
+                      'https://images.unsplash.com/photo-1527576539890-dfa815648363?w=400&h=300&fit=crop&q=80&sat=-100'
                     ];
                     
                     const imageUrl = placeholderImages[index % placeholderImages.length];
@@ -710,76 +710,68 @@ const Index: React.FC = () => {
                           
                           <p className="text-gray-700 text-sm">{business.address}</p>
                           
-                          <div className="space-y-2">
+                          <div className="space-y-3">
                             <div className="flex space-x-2">
                               <Button
                                 size="sm"
-                                variant="outline"
-                                className="flex-1 border-gray-400 rounded-none"
+                                className="flex-1 bg-black text-white hover:bg-gray-800 rounded-none"
                                 onClick={() => window.open(`tel:${business.phone}`, '_self')}
                               >
-                                Call
+                                📞 Call
                               </Button>
                               <Button
                                 size="sm"
-                                variant="outline"
-                                className="flex-1 border-gray-400 rounded-none"
+                                className="flex-1 bg-black text-white hover:bg-gray-800 rounded-none"
                                 onClick={() => window.open(business.website, '_blank')}
                               >
-                                Website
+                                🌐 Website
                               </Button>
                             </div>
                             
                             <div className="flex space-x-2">
                               <Button
                                 size="sm"
-                                variant="outline"
-                                className="flex-1 border-gray-400 rounded-none"
+                                className="flex-1 bg-black text-white hover:bg-gray-800 rounded-none"
                                 onClick={() => window.open(business.mapLink, '_blank')}
                               >
-                                <MapPin className="h-3 w-3 mr-1" />
-                                Map
+                                📍 Maps
                               </Button>
                               <Button
                                 size="sm"
-                                variant="outline"
-                                className="flex-1 border-gray-400 rounded-none"
+                                className="flex-1 bg-black text-white hover:bg-gray-800 rounded-none"
                                 onClick={() => window.open(`mailto:${business.email}`, '_self')}
                               >
-                                Email
+                                ✉️ Email
                               </Button>
                             </div>
                             
                             {(business.facebook || business.instagram || business.twitter) && (
-                              <div className="flex space-x-2 pt-2">
+                              <div className="flex space-x-2">
                                 {business.facebook && (
                                   <Button
                                     size="sm"
-                                    variant="outline"
-                                    className="flex-1 border-gray-400 rounded-none"
+                                    className="flex-1 bg-black text-white hover:bg-gray-800 rounded-none"
                                     onClick={() => window.open(business.facebook, '_blank')}
                                   >
-                                    FB
+                                    📘 Facebook
                                   </Button>
                                 )}
                                 {business.instagram && (
                                   <Button
                                     size="sm"
-                                    variant="outline"
-                                    className="flex-1 border-gray-400 rounded-none"
+                                    className="flex-1 bg-black text-white hover:bg-gray-800 rounded-none"
                                     onClick={() => window.open(business.instagram, '_blank')}
                                   >
-                                    IG
+                                    📷 Instagram
                                   </Button>
                                 )}
                                 {business.twitter && (
                                   <Button
                                     size="sm"
-                                    variant="outline"
-                                    className="flex-1 border-gray-400 rounded-none"
+                                    className="flex-1 bg-black text-white hover:bg-gray-800 rounded-none"
                                     onClick={() => window.open(business.twitter, '_blank')}
                                   >
-                                    X
+                                    🐦 Twitter
                                   </Button>
                                 )}
                               </div>
