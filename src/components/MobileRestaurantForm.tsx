@@ -479,15 +479,11 @@ export const MobileRestaurantForm = ({ onSelectionChange }: MobileRestaurantForm
                 )}
               </div>
 
-              {/* Step 5: Results Count - Show when city is selected */}
-              {(() => {
-                console.log('🔍 Render check - showResultsOptions:', showResultsOptions, 'selectedCity:', selectedCity);
-                return null;
-              })()}
-              {showResultsOptions && (
+              {/* Step 5: Results Count - Always show when country is selected, like desktop */}
+              {selectedCountry && (
                 <div className="space-y-2">
                   <label className="text-sm font-bold uppercase tracking-wide">5: SELECT HOW MANY RESULTS</label>
-                  <Select key={`results-${formKey}`} value={resultCount.toString()} onValueChange={handleResultCountChange}>
+                  <Select value={resultCount.toString()} onValueChange={handleResultCountChange}>
                     <SelectTrigger className="font-bold h-12">
                       <SelectValue />
                     </SelectTrigger>
@@ -501,12 +497,12 @@ export const MobileRestaurantForm = ({ onSelectionChange }: MobileRestaurantForm
                 </div>
               )}
 
-              {/* Buttons - Show when city is selected */}
-              {showResultsOptions && (
+              {/* Buttons - Show when country is selected, like desktop */}
+              {selectedCountry && (
                 <div className="space-y-2">
                   <Button 
                     onClick={searchRestaurants} 
-                    disabled={!isGetNowActive || isLoading} 
+                    disabled={!selectedCategory || !selectedRegion || !selectedCountry || !selectedCity || isLoading} 
                     size="lg" 
                     className="w-full h-14 text-lg font-bold bg-black text-white hover:bg-gray-800 rounded-none"
                   >
