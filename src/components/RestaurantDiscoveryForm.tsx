@@ -222,10 +222,25 @@ export const RestaurantDiscoveryForm = ({ onSelectionChange }: RestaurantDiscove
     }
 
     if (foundCity) {
+      // Find the region and country for this city
+      let foundRegion = '';
+      let foundCountry = '';
+      
+      Object.entries(regionData).forEach(([regionName, region]) => {
+        region.countries.forEach(country => {
+          if (country.cities.includes(foundCity!)) {
+            foundRegion = regionName;
+            foundCountry = country.name;
+          }
+        });
+      });
+
       setSelectedCity(foundCity);
+      setSelectedRegion(foundRegion);
+      setSelectedCountry(foundCountry);
       setCitySearchInput('');
       setRestaurants([]);
-      onSelectionChange?.(selectedCategory, selectedRegion, selectedCountry, foundCity);
+      onSelectionChange?.(selectedCategory, foundRegion, foundCountry, foundCity);
       toast({
         title: "City Found",
         description: `Selected ${foundCity}`,
