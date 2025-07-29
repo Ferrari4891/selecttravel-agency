@@ -287,11 +287,13 @@ const Dashboard = () => {
             </TabsList>
 
             <TabsContent value="preferences" className="space-y-6">
-              <Card>
-                <CardHeader>
-                  <CardTitle className="text-center border-b-2 border-black pb-2 text-2xl text-foreground font-extrabold">
-                    YOUR PREFERENCES
+                <Card>
+                <CardHeader className="pb-4">
+                  <CardTitle className="flex items-center justify-between text-2xl font-bold text-foreground">
+                    <span>Your Preferences</span>
+                    <Badge variant="secondary" className="text-sm">Settings</Badge>
                   </CardTitle>
+                  <div className="w-full h-px bg-border mt-3"></div>
                 </CardHeader>
                 <CardContent className="pt-6">
                   <p className="text-lg text-center mb-8 text-gray-700">
@@ -433,8 +435,11 @@ const Dashboard = () => {
             </TabsContent>
 
             <TabsContent value="collections" className="space-y-6">
-              <div className="flex justify-between items-center">
-                <h3 className="text-xl font-semibold">My Collections</h3>
+              <div className="flex items-center justify-between bg-muted/30 rounded-lg p-6 border">
+                <div className="flex items-center gap-3">
+                  <h3 className="text-2xl font-bold text-foreground">My Collections</h3>
+                  <Badge variant="secondary" className="text-sm">{collections.length} total</Badge>
+                </div>
                 <Button variant="outline" asChild>
                   <a href="/collections">
                     <Plus className="w-4 h-4 mr-2" />
@@ -478,8 +483,11 @@ const Dashboard = () => {
             </TabsContent>
 
             <TabsContent value="saved" className="space-y-6">
-              <div className="flex justify-between items-center">
-                <h3 className="text-xl font-semibold">Recently Saved Businesses</h3>
+              <div className="flex items-center justify-between bg-muted/30 rounded-lg p-6 border">
+                <div className="flex items-center gap-3">
+                  <h3 className="text-2xl font-bold text-foreground">Recently Saved Businesses</h3>
+                  <Badge variant="secondary" className="text-sm">{recentRestaurants.length} recent</Badge>
+                </div>
                 <Button variant="outline" asChild>
                   <a href="/collections">
                     <Eye className="w-4 h-4 mr-2" />
