@@ -450,6 +450,11 @@ export const RestaurantDiscoveryForm = ({ onSelectionChange }: RestaurantDiscove
                           placeholder="Enter city name"
                           value={citySearchInput}
                           onChange={(e) => setCitySearchInput(e.target.value)}
+                          onKeyDown={(e) => {
+                            if (e.key === 'Enter' && citySearchInput.trim()) {
+                              handleCitySearch();
+                            }
+                          }}
                           className="font-medium h-12"
                         />
                         <Button
