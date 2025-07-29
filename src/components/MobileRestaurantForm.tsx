@@ -137,15 +137,19 @@ export const MobileRestaurantForm = ({ onSelectionChange }: MobileRestaurantForm
   };
 
   const handleCountryChange = (value: string) => {
+    console.log('Country changed to:', value);
     setSelectedCountry(value);
     setSelectedCity('');
     setShowResultsOptions(false);
     setIsGetNowActive(false);
     setRestaurants([]);
+    console.log('Countries available:', countries.length);
+    console.log('Cities available:', selectedRegion ? countries.find(c => c.name === value)?.cities.length : 0);
     onSelectionChange?.(selectedCategory, selectedRegion, value, '');
   };
 
   const handleCityChange = (value: string) => {
+    console.log('City changed to:', value);
     setSelectedCity(value);
     setCitySearchInput('');
     setShowResultsOptions(true);
