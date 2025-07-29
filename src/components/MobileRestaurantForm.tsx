@@ -504,7 +504,7 @@ export const MobileRestaurantForm = ({ onSelectionChange }: MobileRestaurantForm
                     onClick={searchRestaurants} 
                     disabled={!selectedCategory || !selectedRegion || !selectedCountry || !selectedCity || isLoading} 
                     size="lg" 
-                    className="w-full h-14 text-lg font-bold bg-black text-white hover:bg-gray-800 rounded-none"
+                    className="w-full h-14 text-lg font-bold bg-green-600 text-white hover:bg-green-700 rounded-none disabled:bg-gray-300 disabled:text-gray-500"
                   >
                     {isLoading ? (
                       <>
@@ -512,7 +512,7 @@ export const MobileRestaurantForm = ({ onSelectionChange }: MobileRestaurantForm
                         Searching...
                       </>
                     ) : (
-                      'GET NOW!'
+                      'GET NOW'
                     )}
                   </Button>
                   
@@ -520,7 +520,7 @@ export const MobileRestaurantForm = ({ onSelectionChange }: MobileRestaurantForm
                     onClick={handleGetAgain} 
                     variant="outline"
                     size="lg" 
-                    className="w-full h-12 text-lg font-bold rounded-none"
+                    className="w-full h-12 text-lg font-bold text-black border-black hover:bg-gray-100 rounded-none"
                   >
                     GET AGAIN
                   </Button>
