@@ -59,18 +59,15 @@ export const MobileRestaurantForm = ({ onSelectionChange }: MobileRestaurantForm
   const [isLoading, setIsLoading] = useState(false);
   const [restaurants, setRestaurants] = useState<Restaurant[]>([]);
   const [resultCount, setResultCount] = useState<number>(20);
-  const [showResultsOptions, setShowResultsOptions] = useState(false);
   const [isGetNowActive, setIsGetNowActive] = useState(false);
   const [formKey, setFormKey] = useState<number>(0);
 
   const { toast } = useToast();
 
-  // Debug effect to track showResultsOptions changes
+  // Debug effect to track city changes
   React.useEffect(() => {
-    console.log('🔄 showResultsOptions changed to:', showResultsOptions);
     console.log('🔄 Current city:', selectedCity);
-    console.log('🔄 Should Step 5 render?', showResultsOptions && selectedCity);
-  }, [showResultsOptions, selectedCity]);
+  }, [selectedCity]);
 
   const categories = [
     { name: 'Eat', icon: eatIcon },
@@ -129,7 +126,6 @@ export const MobileRestaurantForm = ({ onSelectionChange }: MobileRestaurantForm
     setSelectedRegion('');
     setSelectedCountry('');
     setSelectedCity('');
-    setShowResultsOptions(false);
     setIsGetNowActive(false);
     setRestaurants([]);
     onSelectionChange?.(value, '', '', '');
@@ -141,7 +137,6 @@ export const MobileRestaurantForm = ({ onSelectionChange }: MobileRestaurantForm
     setSelectedRegion(value);
     setSelectedCountry('');
     setSelectedCity('');
-    setShowResultsOptions(false);
     setIsGetNowActive(false);
     setRestaurants([]);
     onSelectionChange?.(selectedCategory, value, '', '');
@@ -152,7 +147,6 @@ export const MobileRestaurantForm = ({ onSelectionChange }: MobileRestaurantForm
     console.log('🔥 Country changed to:', value);
     setSelectedCountry(value);
     setSelectedCity('');
-    setShowResultsOptions(false);
     setIsGetNowActive(false);
     setRestaurants([]);
     onSelectionChange?.(selectedCategory, selectedRegion, value, '');
@@ -164,12 +158,10 @@ export const MobileRestaurantForm = ({ onSelectionChange }: MobileRestaurantForm
     console.log('🔥 Current states:', { selectedCategory, selectedRegion, selectedCountry });
     setSelectedCity(value);
     setCitySearchInput('');
-    setShowResultsOptions(true);
     setIsGetNowActive(false);
     setRestaurants([]);
     onSelectionChange?.(selectedCategory, selectedRegion, selectedCountry, value);
-    console.log('🔥 City state updated, showResultsOptions set to true');
-    console.log('🔥 showResultsOptions should now be:', true);
+    console.log('🔥 City state updated');
   };
 
   const getAllCities = () => {
@@ -195,7 +187,7 @@ export const MobileRestaurantForm = ({ onSelectionChange }: MobileRestaurantForm
     if (foundCity) {
       setSelectedCity(foundCity);
       setCitySearchInput('');
-      setShowResultsOptions(true);
+      
       setIsGetNowActive(false);
       setRestaurants([]);
       onSelectionChange?.(selectedCategory, selectedRegion, selectedCountry, foundCity);
@@ -302,7 +294,6 @@ export const MobileRestaurantForm = ({ onSelectionChange }: MobileRestaurantForm
     setSelectedCountry('');
     setSelectedCity('');
     setCitySearchInput('');
-    setShowResultsOptions(false);
     setIsGetNowActive(false);
     setRestaurants([]);
     setResultCount(20);
