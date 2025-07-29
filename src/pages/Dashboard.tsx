@@ -76,27 +76,41 @@ const Dashboard = () => {
   const loadUserData = async () => {
     try {
       setLoading(true);
-      await Promise.all([
+      // Load data sequentially with timeouts to prevent hanging
+      await Promise.race([
         loadUserPreferences(),
+        new Promise((_, reject) => setTimeout(() => reject(new Error('Preferences timeout')), 5000))
+      ]).catch(err => console.warn('Preferences failed:', err));
+
+      await Promise.race([
         loadCollections(),
-        loadRecentRestaurants()
-      ]);
+        new Promise((_, reject) => setTimeout(() => reject(new Error('Collections timeout')), 5000))
+      ]).catch(err => console.warn('Collections failed:', err));
+
+      await Promise.race([
+        loadRecentRestaurants(),
+        new Promise((_, reject) => setTimeout(() => reject(new Error('Restaurants timeout')), 5000))
+      ]).catch(err => console.warn('Restaurants failed:', err));
+
     } catch (error) {
       console.error('Error loading user data:', error);
+      toast.error('Some data could not be loaded');
     } finally {
       setLoading(false);
     }
   };
 
   const loadUserPreferences = async () => {
+    if (!user?.id) return;
+    
     try {
       const { data, error } = await supabase
         .from('user_preferences')
         .select('*')
-        .eq('user_id', user?.id)
-        .single();
+        .eq('user_id', user.id)
+        .maybeSingle();
 
-      if (error && error.code !== 'PGRST116') {
+      if (error) {
         console.error('Error loading preferences:', error);
         return;
       }
@@ -110,40 +124,57 @@ const Dashboard = () => {
   };
 
   const loadCollections = async () => {
+    if (!user?.id) return;
+    
     try {
-      const { data, error } = await supabase
+      // Simplified query without complex joins
+      const { data: collectionsData, error: collectionsError } = await supabase
         .from('collections')
-        .select(`
-          id,
-          name,
-          description,
-          is_public,
-          created_at,
-          saved_restaurants(count)
-        `)
-        .eq('user_id', user?.id)
+        .select('id, name, description, is_public, created_at')
+        .eq('user_id', user.id)
         .order('created_at', { ascending: false })
         .limit(5);
 
-      if (error) throw error;
+      if (collectionsError) throw collectionsError;
 
-      const collectionsWithCount = data?.map(collection => ({
-        ...collection,
-        restaurantCount: collection.saved_restaurants?.[0]?.count || 0
-      })) || [];
+      // Get counts separately to avoid complex join issues
+      const collectionsWithCount = await Promise.all(
+        (collectionsData || []).map(async (collection) => {
+          try {
+            const { count } = await supabase
+              .from('saved_restaurants')
+              .select('*', { count: 'exact', head: true })
+              .eq('collection_id', collection.id);
+
+            return {
+              ...collection,
+              restaurantCount: count || 0
+            };
+          } catch (error) {
+            console.warn('Error getting count for collection:', collection.id);
+            return {
+              ...collection,
+              restaurantCount: 0
+            };
+          }
+        })
+      );
 
       setCollections(collectionsWithCount);
     } catch (error) {
       console.error('Error loading collections:', error);
+      setCollections([]); // Set empty array on error
     }
   };
 
   const loadRecentRestaurants = async () => {
+    if (!user?.id) return;
+    
     try {
       const { data, error } = await supabase
         .from('saved_restaurants')
         .select('*')
-        .eq('user_id', user?.id)
+        .eq('user_id', user.id)
         .order('created_at', { ascending: false })
         .limit(6);
 
@@ -151,6 +182,7 @@ const Dashboard = () => {
       setRecentRestaurants(data || []);
     } catch (error) {
       console.error('Error loading recent restaurants:', error);
+      setRecentRestaurants([]); // Set empty array on error
     }
   };
 
