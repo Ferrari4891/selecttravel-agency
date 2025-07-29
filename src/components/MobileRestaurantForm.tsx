@@ -479,30 +479,21 @@ export const MobileRestaurantForm = ({ onSelectionChange }: MobileRestaurantForm
                 )}
               </div>
 
-              {/* Step 5: Results Count - Always show when country is selected, like desktop */}
-              {(() => {
-                console.log('🐛 STEP 5 RENDER CHECK:', {
-                  selectedCountry,
-                  shouldShow: !!selectedCountry,
-                  allStates: { selectedCategory, selectedRegion, selectedCountry, selectedCity }
-                });
-                return !!selectedCountry;
-              })() && (
-                <div className="space-y-2">
-                  <label className="text-sm font-bold uppercase tracking-wide">5: SELECT HOW MANY RESULTS</label>
-                  <Select value={resultCount.toString()} onValueChange={handleResultCountChange}>
-                    <SelectTrigger className="font-bold h-12">
-                      <SelectValue />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectItem value="1">1 Result</SelectItem>
-                      <SelectItem value="3">3 Results</SelectItem>
-                      <SelectItem value="10">10 Results</SelectItem>
-                      <SelectItem value="20">20 Results</SelectItem>
-                    </SelectContent>
-                  </Select>
-                </div>
-              )}
+              {/* Step 5: Results Count - Always visible like desktop */}
+              <div className="space-y-2">
+                <label className="text-sm font-bold uppercase tracking-wide">5: SELECT HOW MANY RESULTS</label>
+                <Select value={resultCount.toString()} onValueChange={handleResultCountChange}>
+                  <SelectTrigger className="font-bold h-12">
+                    <SelectValue />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="1">1 Result</SelectItem>
+                    <SelectItem value="3">3 Results</SelectItem>
+                    <SelectItem value="10">10 Results</SelectItem>
+                    <SelectItem value="20">20 Results</SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
 
               {/* Buttons - Show when country is selected, like desktop */}
               {selectedCountry && (
