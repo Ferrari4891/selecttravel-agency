@@ -431,7 +431,7 @@ export const MobileRestaurantForm = ({ onSelectionChange }: MobileRestaurantForm
                 {selectedCountry && (
                   <div className="space-y-2">
                     <label className="text-xs font-medium text-muted-foreground">Choose from list:</label>
-                    <Select key={`city-${formKey}`} value={selectedCity} onValueChange={handleCityChange} disabled={!selectedCountry}>
+                    <Select value={selectedCity} onValueChange={handleCityChange} disabled={!selectedCountry}>
                       <SelectTrigger className="font-bold h-12">
                         <SelectValue placeholder="Select city" />
                       </SelectTrigger>
