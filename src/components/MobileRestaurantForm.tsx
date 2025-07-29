@@ -59,7 +59,6 @@ export const MobileRestaurantForm = ({ onSelectionChange }: MobileRestaurantForm
   const [isLoading, setIsLoading] = useState(false);
   const [restaurants, setRestaurants] = useState<Restaurant[]>([]);
   const [resultCount, setResultCount] = useState<number>(20);
-  const [isGetNowActive, setIsGetNowActive] = useState(false);
   const [formKey, setFormKey] = useState<number>(0);
 
   const { toast } = useToast();
@@ -126,7 +125,6 @@ export const MobileRestaurantForm = ({ onSelectionChange }: MobileRestaurantForm
     setSelectedRegion('');
     setSelectedCountry('');
     setSelectedCity('');
-    setIsGetNowActive(false);
     setRestaurants([]);
     onSelectionChange?.(value, '', '', '');
     console.log('🔥 Category state updated');
@@ -137,7 +135,6 @@ export const MobileRestaurantForm = ({ onSelectionChange }: MobileRestaurantForm
     setSelectedRegion(value);
     setSelectedCountry('');
     setSelectedCity('');
-    setIsGetNowActive(false);
     setRestaurants([]);
     onSelectionChange?.(selectedCategory, value, '', '');
     console.log('🔥 Region state updated');
@@ -147,7 +144,6 @@ export const MobileRestaurantForm = ({ onSelectionChange }: MobileRestaurantForm
     console.log('🔥 Country changed to:', value);
     setSelectedCountry(value);
     setSelectedCity('');
-    setIsGetNowActive(false);
     setRestaurants([]);
     onSelectionChange?.(selectedCategory, selectedRegion, value, '');
     console.log('🔥 Country state updated, cities available:', countries.find(c => c.name === value)?.cities.length || 0);
@@ -158,7 +154,6 @@ export const MobileRestaurantForm = ({ onSelectionChange }: MobileRestaurantForm
     console.log('🔥 Current states:', { selectedCategory, selectedRegion, selectedCountry });
     setSelectedCity(value);
     setCitySearchInput('');
-    setIsGetNowActive(false);
     setRestaurants([]);
     onSelectionChange?.(selectedCategory, selectedRegion, selectedCountry, value);
     console.log('🔥 City state updated');
@@ -188,7 +183,6 @@ export const MobileRestaurantForm = ({ onSelectionChange }: MobileRestaurantForm
       setSelectedCity(foundCity);
       setCitySearchInput('');
       
-      setIsGetNowActive(false);
       setRestaurants([]);
       onSelectionChange?.(selectedCategory, selectedRegion, selectedCountry, foundCity);
       toast({
@@ -204,10 +198,6 @@ export const MobileRestaurantForm = ({ onSelectionChange }: MobileRestaurantForm
     }
   };
 
-  const handleResultCountChange = (value: string) => {
-    setResultCount(parseInt(value));
-    setIsGetNowActive(true);
-  };
 
   const searchRestaurants = async () => {
     if (!selectedCategory || !selectedRegion || !selectedCountry || !selectedCity) {
@@ -287,19 +277,6 @@ export const MobileRestaurantForm = ({ onSelectionChange }: MobileRestaurantForm
     }
   };
 
-  const handleGetAgain = () => {
-    console.log('🔄 Resetting form completely');
-    setSelectedCategory('');
-    setSelectedRegion('');
-    setSelectedCountry('');
-    setSelectedCity('');
-    setCitySearchInput('');
-    setIsGetNowActive(false);
-    setRestaurants([]);
-    setResultCount(20);
-    setFormKey(prev => prev + 1); // Force re-render of all Select components
-    console.log('🔄 Form reset complete');
-  };
 
   const exportToCSV = () => {
     if (restaurants.length === 0) return;
@@ -486,13 +463,13 @@ export const MobileRestaurantForm = ({ onSelectionChange }: MobileRestaurantForm
                 </Select>
               </div>
 
-              {/* Buttons */}
-              <div className="space-y-2">
+              {/* Get Results Button */}
+              <div className="pt-4">
                 <Button 
                   onClick={searchRestaurants} 
                   disabled={!selectedCategory || !selectedRegion || !selectedCountry || !selectedCity || isLoading} 
                   size="lg" 
-                  className="w-full h-14 text-lg font-bold bg-green-600 text-white hover:bg-green-700 rounded-none disabled:bg-gray-300 disabled:text-gray-500"
+                  className="w-full h-14 text-lg font-bold bg-black text-white hover:bg-gray-800 rounded-none"
                 >
                   {isLoading ? (
                     <>
@@ -502,15 +479,6 @@ export const MobileRestaurantForm = ({ onSelectionChange }: MobileRestaurantForm
                   ) : (
                     'GET NOW!'
                   )}
-                </Button>
-                
-                <Button 
-                  onClick={handleGetAgain} 
-                  variant="outline"
-                  size="lg" 
-                  className="w-full h-12 text-lg font-bold text-black border-black hover:bg-gray-100 rounded-none"
-                >
-                  GET AGAIN
                 </Button>
               </div>
             </CardContent>
