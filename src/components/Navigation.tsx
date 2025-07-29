@@ -51,7 +51,7 @@ export const Navigation = ({ onMenuStateChange, forceMenuOpen }: NavigationProps
             <SheetTrigger asChild>
               <Button 
                 variant="outline" 
-                className="h-12 w-12 sm:h-12 sm:px-3 rounded-none border border-white md:border-primary touch-target text-white md:text-black hover:bg-white/10 md:hover:bg-primary/5"
+                className="h-12 w-12 sm:h-12 sm:px-3 rounded-none border border-black md:border-primary touch-target text-black md:text-black hover:bg-white/10 md:hover:bg-primary/5"
                 size="sm"
               >
                 <Menu className="h-5 w-5 sm:h-4 sm:w-4" />
