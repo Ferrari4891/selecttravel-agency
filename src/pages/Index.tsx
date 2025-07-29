@@ -228,6 +228,69 @@ const Index: React.FC = () => {
 
   const handleCitySelect = (city: string) => {
     setSelectedCity(city);
+    setCurrentStep(5);
+  };
+
+  // Helper function to get all cities across all countries
+  const getAllCities = () => {
+    const allCities: string[] = [];
+    Object.values(regionData).forEach(region => {
+      region.countries.forEach(country => {
+        allCities.push(...country.cities);
+      });
+    });
+    return allCities;
+  };
+
+  const handleCitySearch = () => {
+    const searchTerm = citySearchInput.trim().toLowerCase();
+    const allCities = getAllCities();
+    
+    // Find exact match first
+    let foundCity = allCities.find(city => city.toLowerCase() === searchTerm);
+    
+    // If no exact match, try partial match
+    if (!foundCity) {
+      foundCity = allCities.find(city => city.toLowerCase().includes(searchTerm));
+    }
+
+    if (foundCity) {
+      // Find the region and country for this city
+      let foundRegion = '';
+      let foundCountry = '';
+      
+      Object.entries(regionData).forEach(([regionName, region]) => {
+        region.countries.forEach(country => {
+          if (country.cities.includes(foundCity!)) {
+            foundRegion = regionName;
+            foundCountry = country.name;
+          }
+        });
+      });
+
+      setSelectedCity(foundCity);
+      setSelectedRegion(foundRegion);
+      setSelectedCountry(foundCountry);
+      setCitySearchInput('');
+      setCurrentStep(5);
+      toast({
+        title: "City Found",
+        description: `Selected ${foundCity}`,
+      });
+    } else {
+      toast({
+        title: "City Not Found",
+        description: "Sorry, your choice is not listed. Please try a different city or select from the dropdown.",
+        variant: "destructive"
+      });
+    }
+  };
+
+  const handleCityInputKeyDown = (e: React.KeyboardEvent) => {
+    if (e.key === 'Enter') {
+      e.preventDefault();
+      handleCitySearch();
+    }
   };
 
   const handleGetNow = async () => {
@@ -494,18 +557,29 @@ const Index: React.FC = () => {
                     </div>
                   )}
 
-                  {/* Step 4: City Selection */}
+                   {/* Step 4: City Selection */}
                   {currentStep === 4 && (
                     <div className="space-y-4">
                       <h2 className="text-lg font-bold text-center text-white">4: Select City</h2>
                       <div className="space-y-3">
-                        <Input
-                          type="text"
-                          placeholder="Search cities..."
-                          value={citySearchInput}
-                          onChange={(e) => setCitySearchInput(e.target.value)}
-                          className="h-12 border-2 border-gray-400 text-base rounded-none bg-white"
-                        />
+                        <div className="flex gap-2">
+                          <Input
+                            type="text"
+                            placeholder="Search cities..."
+                            value={citySearchInput}
+                            onChange={(e) => setCitySearchInput(e.target.value)}
+                            onKeyDown={handleCityInputKeyDown}
+                            className="h-12 border-2 border-gray-400 text-base rounded-none bg-white"
+                          />
+                          <Button
+                            onClick={handleCitySearch}
+                            variant="outline"
+                            size="sm"
+                            className="h-12 px-3 rounded-none border-2 border-white bg-white text-black hover:bg-gray-100"
+                          >
+                            <Search className="h-4 w-4" />
+                          </Button>
+                        </div>
                         <Select onValueChange={handleCitySelect}>
                           <SelectTrigger className="h-12 border-2 border-gray-400 text-base rounded-none z-50 bg-white">
                             <SelectValue placeholder="Choose a city..." />
