@@ -496,7 +496,7 @@ export const MobileRestaurantForm = ({ onSelectionChange }: MobileRestaurantForm
                     onClick={searchRestaurants} 
                     disabled={!isGetNowActive || isLoading} 
                     size="lg" 
-                    className="w-full h-14 text-lg font-bold bg-black text-white hover:bg-gray-800"
+                    className="w-full h-14 text-lg font-bold bg-black text-white hover:bg-gray-800 rounded-none"
                   >
                     {isLoading ? (
                       <>
@@ -512,7 +512,7 @@ export const MobileRestaurantForm = ({ onSelectionChange }: MobileRestaurantForm
                     onClick={handleGetAgain} 
                     variant="outline"
                     size="lg" 
-                    className="w-full h-12 text-lg font-bold"
+                    className="w-full h-12 text-lg font-bold rounded-none"
                   >
                     GET AGAIN
                   </Button>
@@ -527,7 +527,7 @@ export const MobileRestaurantForm = ({ onSelectionChange }: MobileRestaurantForm
       {restaurants.length > 0 && (
         <div className="p-4 space-y-4">
           <div className="flex justify-center">
-            <Button onClick={exportToCSV} variant="secondary" className="flex items-center gap-2">
+            <Button onClick={exportToCSV} variant="secondary" className="flex items-center gap-2 rounded-none">
               <Download className="h-4 w-4" />
               Export CSV
             </Button>

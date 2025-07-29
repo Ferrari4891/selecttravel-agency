@@ -22,7 +22,7 @@ export const ProtectedRoute = ({ children }: ProtectedRouteProps) => {
       <div className="min-h-screen bg-background flex items-center justify-center">
         <div className="text-center">
           <div className="bg-black text-white px-6 py-3 rounded-lg sm:bg-primary sm:text-primary-foreground">
-            <h1 className="text-6xl font-bold mb-8">SGL</h1>
+            <h1 className="text-6xl font-bold mb-8">SGB</h1>
           </div>
           <div className="flex space-x-2 justify-center mt-8">
             <div className="w-3 h-3 bg-foreground rounded-full animate-bounce sm:bg-primary"></div>

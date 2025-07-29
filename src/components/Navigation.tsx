@@ -249,10 +249,10 @@ export const Navigation = ({ onMenuStateChange, forceMenuOpen }: NavigationProps
         {/* Logo */}
         <div className="flex items-center gap-2 h-12 px-2 sm:px-3 border border-white md:border-primary hover:bg-white/10 md:hover:bg-primary/5 transition-colors cursor-pointer touch-target" onClick={() => window.location.href = '/'}>
           <div className="w-8 h-8 bg-white md:bg-primary flex items-center justify-center">
-            <span className="text-black md:text-primary-foreground font-bold text-xs sm:text-sm">SGL</span>
+            <span className="text-black md:text-primary-foreground font-bold text-xs sm:text-sm">SGB</span>
           </div>
           <span className="font-bold text-white md:text-primary text-sm sm:text-lg hidden xs:block sm:block">SmartGuideBooks.com</span>
-          <span className="font-bold text-white md:text-primary text-sm block xs:hidden sm:hidden">SGL</span>
+          <span className="font-bold text-white md:text-primary text-sm block xs:hidden sm:hidden">SGB</span>
         </div>
       </div>
     </div>
