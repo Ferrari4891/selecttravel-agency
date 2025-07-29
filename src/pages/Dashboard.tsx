@@ -435,12 +435,12 @@ const Dashboard = () => {
             </TabsContent>
 
             <TabsContent value="collections" className="space-y-6">
-              <div className="flex items-center justify-between bg-muted/30 rounded-lg p-6 border">
+              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 bg-muted/30 rounded-lg p-6 border">
                 <div className="flex items-center gap-3">
-                  <h3 className="text-2xl font-bold text-foreground">My Collections</h3>
+                  <h3 className="text-xl sm:text-2xl font-bold text-foreground">My Collections</h3>
                   <Badge variant="secondary" className="text-sm">{collections.length} total</Badge>
                 </div>
-                <Button variant="outline" asChild>
+                <Button variant="outline" asChild className="w-fit">
                   <a href="/collections">
                     <Plus className="w-4 h-4 mr-2" />
                     Manage All
@@ -483,12 +483,12 @@ const Dashboard = () => {
             </TabsContent>
 
             <TabsContent value="saved" className="space-y-6">
-              <div className="flex items-center justify-between bg-muted/30 rounded-lg p-6 border">
+              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 bg-muted/30 rounded-lg p-6 border">
                 <div className="flex items-center gap-3">
-                  <h3 className="text-2xl font-bold text-foreground">Recently Saved Businesses</h3>
+                  <h3 className="text-xl sm:text-2xl font-bold text-foreground">Recently Saved Businesses</h3>
                   <Badge variant="secondary" className="text-sm">{recentRestaurants.length} recent</Badge>
                 </div>
-                <Button variant="outline" asChild>
+                <Button variant="outline" asChild className="w-fit">
                   <a href="/collections">
                     <Eye className="w-4 h-4 mr-2" />
                     View All
