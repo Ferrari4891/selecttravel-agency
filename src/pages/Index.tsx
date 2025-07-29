@@ -675,6 +675,7 @@ const Index: React.FC = () => {
                 
                 <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
                   {businesses.map((business, index) => {
+                    // Using the same working placeholder images as desktop
                     const placeholderImages = [
                       'https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=400&h=300&fit=crop&q=80',
                       'https://images.unsplash.com/photo-1567620905732-2d1ec7ab7445?w=400&h=300&fit=crop&q=80',
