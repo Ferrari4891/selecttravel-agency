@@ -1,37 +1,210 @@
-import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useState, useEffect } from "react";
+import { useAuth } from "@/contexts/AuthContext";
+import { supabase } from "@/integrations/supabase/client";
 import { Navigation } from "@/components/Navigation";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Checkbox } from "@/components/ui/checkbox";
 import { LanguageSelector } from "@/components/LanguageSelector";
+import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
 import Footer from "@/components/Footer";
+import { toast } from "sonner";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Star, MapPin, Phone, Globe, Eye, Plus } from 'lucide-react';
 import heroImage from "@/assets/hero-members.jpg";
 
-const Dashboard = () => {
-  const navigate = useNavigate();
-  const [preferences, setPreferences] = useState({
-    wheelchairAccess: false,
-    openHours: false,
-    glutenFree: false,
-    lowNoise: false,
-    publicTransport: false,
-    preference1: false,
-    preference2: false,
-    preference3: false,
-    onlineBooking: false,
-    airConditioned: false
-  });
+interface UserPreferences {
+  wheelchair_access: boolean;
+  extended_hours: boolean;
+  gluten_free: boolean;
+  low_noise: boolean;
+  public_transport: boolean;
+  pet_friendly: boolean;
+  outdoor_seating: boolean;
+  senior_discounts: boolean;
+  online_booking: boolean;
+  air_conditioned: boolean;
+  preferred_language: string;
+}
 
-  const handlePreferenceChange = (key: string, checked: boolean) => {
+interface Collection {
+  id: string;
+  name: string;
+  description: string | null;
+  is_public: boolean;
+  created_at: string;
+  restaurantCount?: number;
+}
+
+interface SavedRestaurant {
+  id: string;
+  restaurant_name: string;
+  restaurant_address: string;
+  city: string;
+  country: string;
+  category: string | null;
+  restaurant_data: any;
+  created_at: string;
+}
+
+const Dashboard = () => {
+  const { user, signOut } = useAuth();
+  const [preferences, setPreferences] = useState<UserPreferences>({
+    wheelchair_access: false,
+    extended_hours: false,
+    gluten_free: false,
+    low_noise: false,
+    public_transport: false,
+    pet_friendly: false,
+    outdoor_seating: false,
+    senior_discounts: false,
+    online_booking: false,
+    air_conditioned: false,
+    preferred_language: 'en'
+  });
+  const [collections, setCollections] = useState<Collection[]>([]);
+  const [recentRestaurants, setRecentRestaurants] = useState<SavedRestaurant[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [saving, setSaving] = useState(false);
+
+  useEffect(() => {
+    if (user) {
+      loadUserData();
+    }
+  }, [user]);
+
+  const loadUserData = async () => {
+    try {
+      setLoading(true);
+      await Promise.all([
+        loadUserPreferences(),
+        loadCollections(),
+        loadRecentRestaurants()
+      ]);
+    } catch (error) {
+      console.error('Error loading user data:', error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const loadUserPreferences = async () => {
+    try {
+      const { data, error } = await supabase
+        .from('user_preferences')
+        .select('*')
+        .eq('user_id', user?.id)
+        .single();
+
+      if (error && error.code !== 'PGRST116') {
+        console.error('Error loading preferences:', error);
+        return;
+      }
+
+      if (data) {
+        setPreferences(data);
+      }
+    } catch (error) {
+      console.error('Error loading preferences:', error);
+    }
+  };
+
+  const loadCollections = async () => {
+    try {
+      const { data, error } = await supabase
+        .from('collections')
+        .select(`
+          id,
+          name,
+          description,
+          is_public,
+          created_at,
+          saved_restaurants(count)
+        `)
+        .eq('user_id', user?.id)
+        .order('created_at', { ascending: false })
+        .limit(5);
+
+      if (error) throw error;
+
+      const collectionsWithCount = data?.map(collection => ({
+        ...collection,
+        restaurantCount: collection.saved_restaurants?.[0]?.count || 0
+      })) || [];
+
+      setCollections(collectionsWithCount);
+    } catch (error) {
+      console.error('Error loading collections:', error);
+    }
+  };
+
+  const loadRecentRestaurants = async () => {
+    try {
+      const { data, error } = await supabase
+        .from('saved_restaurants')
+        .select('*')
+        .eq('user_id', user?.id)
+        .order('created_at', { ascending: false })
+        .limit(6);
+
+      if (error) throw error;
+      setRecentRestaurants(data || []);
+    } catch (error) {
+      console.error('Error loading recent restaurants:', error);
+    }
+  };
+
+  const handlePreferenceChange = (key: keyof UserPreferences, checked: boolean | string) => {
     setPreferences(prev => ({
       ...prev,
       [key]: checked
     }));
   };
 
-  const handleSavePreferences = () => {
-    navigate('/join-free');
+  const handleSavePreferences = async () => {
+    if (!user) return;
+
+    setSaving(true);
+    try {
+      const { error } = await supabase
+        .from('user_preferences')
+        .upsert({
+          user_id: user.id,
+          ...preferences
+        });
+
+      if (error) {
+        console.error('Error saving preferences:', error);
+        toast.error('Failed to save preferences');
+        return;
+      }
+
+      toast.success('Preferences saved successfully!');
+    } catch (error) {
+      console.error('Error saving preferences:', error);
+      toast.error('Failed to save preferences');
+    } finally {
+      setSaving(false);
+    }
   };
+
+  const handleSignOut = async () => {
+    try {
+      await signOut();
+      toast.success('Signed out successfully');
+    } catch (error) {
+      console.error('Error signing out:', error);
+      toast.error('Failed to sign out');
+    }
+  };
+
+  if (loading) {
+    return (
+      <div className="min-h-screen bg-background flex items-center justify-center">
+        <div className="text-lg">Loading...</div>
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen bg-background">
@@ -44,138 +217,305 @@ const Dashboard = () => {
           boxShadow: '0 8px 12px -4px rgba(169, 169, 169, 0.4)'
         }}>
           <img src={heroImage} alt="Dashboard" className="w-full h-full object-cover" />
-
-          {/* Mobile: Small Landscape Sign */}
-          <div className="sm:hidden absolute bottom-8 left-1/2 transform -translate-x-1/2 z-20">
-            <div className="bg-red-600 text-white w-64 h-20 relative shadow-lg border-4 border-white flex items-center justify-center">
-              <div className="text-center">
-                <div className="text-3xl font-black tracking-wide font-sans">FREE!</div>
-                <div className="text-sm font-bold uppercase tracking-widest">MEMBERSHIP FOREVER</div>
-              </div>
-            </div>
-          </div>
-
-          {/* Tablet: Medium Landscape Sign */}
-          <div className="hidden sm:block lg:hidden absolute bottom-12 left-1/2 transform -translate-x-1/2 z-20">
-            <div className="bg-red-600 text-white w-72 h-20 relative shadow-lg border-4 border-white flex items-center justify-center">
-              <div className="text-center">
-                <div className="text-3xl font-black tracking-wide font-sans">FREE!</div>
-                <div className="text-sm font-bold uppercase tracking-widest">MEMBERSHIP FOREVER</div>
-              </div>
-            </div>
-          </div>
           
           <div className="absolute inset-0 bg-black bg-opacity-40 flex items-center justify-center">
-            <h1 className="text-white text-4xl font-bold text-center md:text-9xl">
-              Dashboard
-            </h1>
+            <div className="text-center text-white">
+              <h1 className="text-4xl font-bold mb-4 md:text-9xl">My Dashboard</h1>
+              <p className="text-lg">Welcome back, {user?.email}</p>
+            </div>
           </div>
         </div>
       </div>
 
       {/* Content Section */}
       <div className="container mx-auto px-4 pb-12">
-        <div className="max-w-4xl mx-auto">
-          <Card className="mb-8">
-            <CardHeader className="bg-background">
-              <CardTitle className="text-center border-b-2 border-black pb-2 text-3xl text-foreground font-extrabold">SELECT & SAVE YOUR PREFERENCES</CardTitle>
-            </CardHeader>
-            <CardContent className="pt-6">
-              <p className="text-lg text-center mb-8 text-gray-700">Getting the best places to eat, drink, stay and shop is absolutely free! Help us personalize your experience by selecting your preferences below.</p>
-              
-              <div className="space-y-6">
-                <h3 className="text-xl font-semibold mb-4">Please tick any of the checkboxes below to record your preferences:</h3>
-                
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  <div className="flex items-center space-x-3">
-                    <Checkbox id="wheelchairAccess" checked={preferences.wheelchairAccess} onCheckedChange={checked => handlePreferenceChange('wheelchairAccess', checked as boolean)} />
-                    <label htmlFor="wheelchairAccess" className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
-                      Wheelchair Access
-                    </label>
-                  </div>
+        <div className="max-w-7xl mx-auto">
+          <div className="flex justify-between items-center mb-6">
+            <h2 className="text-2xl font-bold">Dashboard Overview</h2>
+            <Button variant="outline" onClick={handleSignOut}>
+              Sign Out
+            </Button>
+          </div>
 
-                  <div className="flex items-center space-x-3">
-                    <Checkbox id="openHours" checked={preferences.openHours} onCheckedChange={checked => handlePreferenceChange('openHours', checked as boolean)} />
-                    <label htmlFor="openHours" className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
-                      Extended Open Hours
-                    </label>
-                  </div>
+          <Tabs defaultValue="preferences" className="w-full">
+            <TabsList className="grid w-full grid-cols-2 lg:grid-cols-3">
+              <TabsTrigger value="preferences">My Preferences</TabsTrigger>
+              <TabsTrigger value="collections">My Collections</TabsTrigger>
+              <TabsTrigger value="saved">Recent Saves</TabsTrigger>
+            </TabsList>
 
-                  <div className="flex items-center space-x-3">
-                    <Checkbox id="glutenFree" checked={preferences.glutenFree} onCheckedChange={checked => handlePreferenceChange('glutenFree', checked as boolean)} />
-                    <label htmlFor="glutenFree" className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
-                      Gluten Free Options
-                    </label>
-                  </div>
+            <TabsContent value="preferences" className="space-y-6">
+              <Card>
+                <CardHeader>
+                  <CardTitle className="text-center border-b-2 border-black pb-2 text-2xl text-foreground font-extrabold">
+                    YOUR PREFERENCES
+                  </CardTitle>
+                </CardHeader>
+                <CardContent className="pt-6">
+                  <p className="text-lg text-center mb-8 text-gray-700">
+                    Update your preferences to personalize your recommendations.
+                  </p>
+                  
+                  <div className="space-y-6">
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                      <div className="flex items-center space-x-3">
+                        <Checkbox 
+                          id="wheelchair_access" 
+                          checked={preferences.wheelchair_access} 
+                          onCheckedChange={checked => handlePreferenceChange('wheelchair_access', checked as boolean)} 
+                        />
+                        <label htmlFor="wheelchair_access" className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
+                          Wheelchair Access
+                        </label>
+                      </div>
 
-                  <div className="flex items-center space-x-3">
-                    <Checkbox id="lowNoise" checked={preferences.lowNoise} onCheckedChange={checked => handlePreferenceChange('lowNoise', checked as boolean)} />
-                    <label htmlFor="lowNoise" className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
-                      Low Noise Environment
-                    </label>
-                  </div>
+                      <div className="flex items-center space-x-3">
+                        <Checkbox 
+                          id="extended_hours" 
+                          checked={preferences.extended_hours} 
+                          onCheckedChange={checked => handlePreferenceChange('extended_hours', checked as boolean)} 
+                        />
+                        <label htmlFor="extended_hours" className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
+                          Extended Open Hours
+                        </label>
+                      </div>
 
-                  <div className="flex items-center space-x-3">
-                    <Checkbox id="publicTransport" checked={preferences.publicTransport} onCheckedChange={checked => handlePreferenceChange('publicTransport', checked as boolean)} />
-                    <label htmlFor="publicTransport" className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
-                      Public Transport Access
-                    </label>
-                  </div>
+                      <div className="flex items-center space-x-3">
+                        <Checkbox 
+                          id="gluten_free" 
+                          checked={preferences.gluten_free} 
+                          onCheckedChange={checked => handlePreferenceChange('gluten_free', checked as boolean)} 
+                        />
+                        <label htmlFor="gluten_free" className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
+                          Gluten Free Options
+                        </label>
+                      </div>
 
-                  <div className="flex items-center space-x-3">
-                    <Checkbox id="preference1" checked={preferences.preference1} onCheckedChange={checked => handlePreferenceChange('preference1', checked as boolean)} />
-                    <label htmlFor="preference1" className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
-                      Pet Friendly Venues
-                    </label>
-                  </div>
+                      <div className="flex items-center space-x-3">
+                        <Checkbox 
+                          id="low_noise" 
+                          checked={preferences.low_noise} 
+                          onCheckedChange={checked => handlePreferenceChange('low_noise', checked as boolean)} 
+                        />
+                        <label htmlFor="low_noise" className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
+                          Low Noise Environment
+                        </label>
+                      </div>
 
-                  <div className="flex items-center space-x-3">
-                    <Checkbox id="preference2" checked={preferences.preference2} onCheckedChange={checked => handlePreferenceChange('preference2', checked as boolean)} />
-                    <label htmlFor="preference2" className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
-                      Outdoor Seating Available
-                    </label>
-                  </div>
+                      <div className="flex items-center space-x-3">
+                        <Checkbox 
+                          id="public_transport" 
+                          checked={preferences.public_transport} 
+                          onCheckedChange={checked => handlePreferenceChange('public_transport', checked as boolean)} 
+                        />
+                        <label htmlFor="public_transport" className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
+                          Public Transport Access
+                        </label>
+                      </div>
 
-                  <div className="flex items-center space-x-3">
-                    <Checkbox id="preference3" checked={preferences.preference3} onCheckedChange={checked => handlePreferenceChange('preference3', checked as boolean)} />
-                    <label htmlFor="preference3" className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
-                      Senior Discounts Available
-                    </label>
-                  </div>
+                      <div className="flex items-center space-x-3">
+                        <Checkbox 
+                          id="pet_friendly" 
+                          checked={preferences.pet_friendly} 
+                          onCheckedChange={checked => handlePreferenceChange('pet_friendly', checked as boolean)} 
+                        />
+                        <label htmlFor="pet_friendly" className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
+                          Pet Friendly Venues
+                        </label>
+                      </div>
 
-                  <div className="flex items-center space-x-3">
-                    <Checkbox id="onlineBooking" checked={preferences.onlineBooking} onCheckedChange={checked => handlePreferenceChange('onlineBooking', checked as boolean)} />
-                    <label htmlFor="onlineBooking" className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
-                      Online Booking Available
-                    </label>
-                  </div>
+                      <div className="flex items-center space-x-3">
+                        <Checkbox 
+                          id="outdoor_seating" 
+                          checked={preferences.outdoor_seating} 
+                          onCheckedChange={checked => handlePreferenceChange('outdoor_seating', checked as boolean)} 
+                        />
+                        <label htmlFor="outdoor_seating" className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
+                          Outdoor Seating Available
+                        </label>
+                      </div>
 
-                  <div className="flex items-center space-x-3">
-                    <Checkbox id="airConditioned" checked={preferences.airConditioned} onCheckedChange={checked => handlePreferenceChange('airConditioned', checked as boolean)} />
-                    <label htmlFor="airConditioned" className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
-                      Air Conditioned
-                    </label>
-                  </div>
+                      <div className="flex items-center space-x-3">
+                        <Checkbox 
+                          id="senior_discounts" 
+                          checked={preferences.senior_discounts} 
+                          onCheckedChange={checked => handlePreferenceChange('senior_discounts', checked as boolean)} 
+                        />
+                        <label htmlFor="senior_discounts" className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
+                          Senior Discounts Available
+                        </label>
+                      </div>
 
-                  <div className="flex items-center space-x-3">
-                    <div className="flex items-center space-x-2">
-                      <span className="text-sm font-medium leading-none">Preferred Language:</span>
-                      <LanguageSelector />
+                      <div className="flex items-center space-x-3">
+                        <Checkbox 
+                          id="online_booking" 
+                          checked={preferences.online_booking} 
+                          onCheckedChange={checked => handlePreferenceChange('online_booking', checked as boolean)} 
+                        />
+                        <label htmlFor="online_booking" className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
+                          Online Booking Available
+                        </label>
+                      </div>
+
+                      <div className="flex items-center space-x-3">
+                        <Checkbox 
+                          id="air_conditioned" 
+                          checked={preferences.air_conditioned} 
+                          onCheckedChange={checked => handlePreferenceChange('air_conditioned', checked as boolean)} 
+                        />
+                        <label htmlFor="air_conditioned" className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
+                          Air Conditioned
+                        </label>
+                      </div>
+
+                      <div className="flex items-center space-x-3">
+                        <div className="flex items-center space-x-2">
+                          <span className="text-sm font-medium leading-none">Preferred Language:</span>
+                          <LanguageSelector />
+                        </div>
+                      </div>
+                    </div>
+                    
+                    <div className="flex justify-center mt-8">
+                      <Button 
+                        onClick={handleSavePreferences}
+                        disabled={saving}
+                        className="px-8"
+                      >
+                        {saving ? 'SAVING...' : 'SAVE PREFERENCES'}
+                      </Button>
                     </div>
                   </div>
-                </div>
-                
-                <div className="flex justify-center mt-8 bg-white">
-                  <button 
-                    onClick={handleSavePreferences}
-                    className="bg-primary hover:bg-primary/90 h-10 px-8 py-2 inline-flex items-center justify-center gap-2 whitespace-nowrap text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 text-primary-foreground"
-                  >
-                    SAVE PREFERENCES
-                  </button>
-                </div>
+                </CardContent>
+              </Card>
+            </TabsContent>
+
+            <TabsContent value="collections" className="space-y-6">
+              <div className="flex justify-between items-center">
+                <h3 className="text-xl font-semibold">My Collections</h3>
+                <Button variant="outline" asChild>
+                  <a href="/collections">
+                    <Plus className="w-4 h-4 mr-2" />
+                    Manage All
+                  </a>
+                </Button>
               </div>
-            </CardContent>
-          </Card>
+              
+              {collections.length === 0 ? (
+                <Card>
+                  <CardContent className="p-8 text-center text-muted-foreground">
+                    <div className="space-y-4">
+                      <h4 className="text-lg font-medium">No collections yet</h4>
+                      <p>Create your first collection to start organizing your saved businesses!</p>
+                      <Button asChild>
+                        <a href="/collections">Create Collection</a>
+                      </Button>
+                    </div>
+                  </CardContent>
+                </Card>
+              ) : (
+                <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+                  {collections.map((collection) => (
+                    <Card key={collection.id} className="hover:shadow-md transition-shadow">
+                      <CardHeader className="pb-2">
+                        <CardTitle className="text-lg">{collection.name}</CardTitle>
+                      </CardHeader>
+                      <CardContent>
+                        {collection.description && (
+                          <p className="text-sm text-muted-foreground mb-3">{collection.description}</p>
+                        )}
+                        <div className="flex items-center gap-2">
+                          <Badge variant="secondary">{collection.restaurantCount} businesses</Badge>
+                          {collection.is_public && <Badge variant="outline">Public</Badge>}
+                        </div>
+                      </CardContent>
+                    </Card>
+                  ))}
+                </div>
+              )}
+            </TabsContent>
+
+            <TabsContent value="saved" className="space-y-6">
+              <div className="flex justify-between items-center">
+                <h3 className="text-xl font-semibold">Recently Saved Businesses</h3>
+                <Button variant="outline" asChild>
+                  <a href="/collections">
+                    <Eye className="w-4 h-4 mr-2" />
+                    View All
+                  </a>
+                </Button>
+              </div>
+              
+              {recentRestaurants.length === 0 ? (
+                <Card>
+                  <CardContent className="p-8 text-center text-muted-foreground">
+                    <div className="space-y-4">
+                      <h4 className="text-lg font-medium">No saved businesses yet</h4>
+                      <p>Start exploring and save your favorite places to eat, drink, and visit!</p>
+                      <Button asChild>
+                        <a href="/">Start Exploring</a>
+                      </Button>
+                    </div>
+                  </CardContent>
+                </Card>
+              ) : (
+                <div className="grid gap-4 md:grid-cols-2">
+                  {recentRestaurants.map((restaurant) => {
+                    const data = restaurant.restaurant_data;
+                    return (
+                      <Card key={restaurant.id} className="hover:shadow-md transition-shadow">
+                        <CardContent className="p-6">
+                          <div className="space-y-3">
+                            <h4 className="text-lg font-semibold">{restaurant.restaurant_name}</h4>
+                            <div className="flex items-center gap-2 text-muted-foreground text-sm">
+                              <MapPin className="w-4 h-4" />
+                              {restaurant.restaurant_address}
+                            </div>
+                            <div className="flex items-center gap-2 text-sm text-muted-foreground">
+                              <span>{restaurant.city}, {restaurant.country}</span>
+                              {restaurant.category && (
+                                <>
+                                  <span>•</span>
+                                  <span>{restaurant.category}</span>
+                                </>
+                              )}
+                            </div>
+                            {data?.rating && (
+                              <div className="flex items-center gap-1">
+                                <Star className="w-4 h-4 fill-yellow-400 text-yellow-400" />
+                                <span className="text-sm font-medium">{data.rating}</span>
+                                {data?.review_count && (
+                                  <span className="text-sm text-muted-foreground">({data.review_count} reviews)</span>
+                                )}
+                              </div>
+                            )}
+                            <div className="flex gap-2 pt-2">
+                              {data?.website && (
+                                <Button size="sm" variant="outline" asChild>
+                                  <a href={data.website} target="_blank" rel="noopener noreferrer">
+                                    <Globe className="w-3 h-3 mr-1" />
+                                    Website
+                                  </a>
+                                </Button>
+                              )}
+                              {data?.phone && (
+                                <Button size="sm" variant="outline" asChild>
+                                  <a href={`tel:${data.phone}`}>
+                                    <Phone className="w-3 h-3 mr-1" />
+                                    Call
+                                  </a>
+                                </Button>
+                              )}
+                            </div>
+                          </div>
+                        </CardContent>
+                      </Card>
+                    );
+                  })}
+                </div>
+              )}
+            </TabsContent>
+          </Tabs>
         </div>
       </div>
 
