@@ -162,6 +162,7 @@ export const MobileRestaurantForm = ({ onSelectionChange }: MobileRestaurantForm
     setRestaurants([]);
     onSelectionChange?.(selectedCategory, selectedRegion, selectedCountry, value);
     console.log('🔥 City state updated, showResultsOptions set to true');
+    console.log('🔥 showResultsOptions should now be:', true);
   };
 
   const getAllCities = () => {
@@ -472,6 +473,10 @@ export const MobileRestaurantForm = ({ onSelectionChange }: MobileRestaurantForm
               </div>
 
               {/* Step 5: Results Count - Show when city is selected */}
+              {(() => {
+                console.log('🔍 Render check - showResultsOptions:', showResultsOptions, 'selectedCity:', selectedCity);
+                return null;
+              })()}
               {showResultsOptions && (
                 <div className="space-y-2">
                   <label className="text-sm font-bold uppercase tracking-wide">5: SELECT HOW MANY RESULTS</label>
