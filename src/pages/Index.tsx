@@ -657,7 +657,7 @@ const Index: React.FC = () => {
           
           {/* Results Section for mobile */}
           {showResults && businesses.length > 0 && (
-            <div className="bg-white min-h-screen px-4 py-8">
+            <div className="container mx-auto px-4 py-8 max-w-6xl">
               <div className="space-y-6">
                 <div className="flex justify-between items-center">
                   <h2 className="text-xl font-bold text-black">
@@ -673,20 +673,20 @@ const Index: React.FC = () => {
                   </Button>
                 </div>
                 
-                <div className="grid gap-6">
+                <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
                   {businesses.map((business, index) => {
                     const placeholderImages = [
-                      'https://images.unsplash.com/photo-1527576539890-dfa815648363?w=400&h=300&fit=crop&q=80&sat=-100',
-                      'https://images.unsplash.com/photo-1527576539890-dfa815648363?w=400&h=300&fit=crop&q=80&sat=-100',
-                      'https://images.unsplash.com/photo-1527576539890-dfa815648363?w=400&h=300&fit=crop&q=80&sat=-100',
-                      'https://images.unsplash.com/photo-1527576539890-dfa815648363?w=400&h=300&fit=crop&q=80&sat=-100',
-                      'https://images.unsplash.com/photo-1527576539890-dfa815648363?w=400&h=300&fit=crop&q=80&sat=-100'
+                      'https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=400&h=300&fit=crop&q=80',
+                      'https://images.unsplash.com/photo-1567620905732-2d1ec7ab7445?w=400&h=300&fit=crop&q=80',
+                      'https://images.unsplash.com/photo-1551218808-94e220e084d2?w=400&h=300&fit=crop&q=80',
+                      'https://images.unsplash.com/photo-1552566499-dfd8fa52cd2c?w=400&h=300&fit=crop&q=80',
+                      'https://images.unsplash.com/photo-1559339352-11d035aa65de?w=400&h=300&fit=crop&q=80'
                     ];
                     
                     const imageUrl = placeholderImages[index % placeholderImages.length];
                     
                     return (
-                      <Card key={index} className="border-2 border-gray-300">
+                      <Card key={index} className="border-2 border-gray-300 shadow-lg">
                         <div className="aspect-video relative overflow-hidden">
                           <img
                             src={imageUrl}
@@ -710,68 +710,76 @@ const Index: React.FC = () => {
                           
                           <p className="text-gray-700 text-sm">{business.address}</p>
                           
-                          <div className="space-y-3">
+                          <div className="space-y-2">
                             <div className="flex space-x-2">
                               <Button
                                 size="sm"
-                                className="flex-1 bg-black text-white hover:bg-gray-800 rounded-none"
+                                variant="outline"
+                                className="flex-1 border-gray-400 rounded-none"
                                 onClick={() => window.open(`tel:${business.phone}`, '_self')}
                               >
-                                📞 Call
+                                Call
                               </Button>
                               <Button
                                 size="sm"
-                                className="flex-1 bg-black text-white hover:bg-gray-800 rounded-none"
+                                variant="outline"
+                                className="flex-1 border-gray-400 rounded-none"
                                 onClick={() => window.open(business.website, '_blank')}
                               >
-                                🌐 Website
+                                Website
                               </Button>
                             </div>
                             
                             <div className="flex space-x-2">
                               <Button
                                 size="sm"
-                                className="flex-1 bg-black text-white hover:bg-gray-800 rounded-none"
+                                variant="outline"
+                                className="flex-1 border-gray-400 rounded-none"
                                 onClick={() => window.open(business.mapLink, '_blank')}
                               >
-                                📍 Maps
+                                <MapPin className="h-3 w-3 mr-1" />
+                                Map
                               </Button>
                               <Button
                                 size="sm"
-                                className="flex-1 bg-black text-white hover:bg-gray-800 rounded-none"
+                                variant="outline"
+                                className="flex-1 border-gray-400 rounded-none"
                                 onClick={() => window.open(`mailto:${business.email}`, '_self')}
                               >
-                                ✉️ Email
+                                Email
                               </Button>
                             </div>
                             
                             {(business.facebook || business.instagram || business.twitter) && (
-                              <div className="flex space-x-2">
+                              <div className="flex space-x-2 pt-2">
                                 {business.facebook && (
                                   <Button
                                     size="sm"
-                                    className="flex-1 bg-black text-white hover:bg-gray-800 rounded-none"
+                                    variant="outline"
+                                    className="flex-1 border-gray-400 rounded-none"
                                     onClick={() => window.open(business.facebook, '_blank')}
                                   >
-                                    📘 Facebook
+                                    FB
                                   </Button>
                                 )}
                                 {business.instagram && (
                                   <Button
                                     size="sm"
-                                    className="flex-1 bg-black text-white hover:bg-gray-800 rounded-none"
+                                    variant="outline"
+                                    className="flex-1 border-gray-400 rounded-none"
                                     onClick={() => window.open(business.instagram, '_blank')}
                                   >
-                                    📷 Instagram
+                                    IG
                                   </Button>
                                 )}
                                 {business.twitter && (
                                   <Button
                                     size="sm"
-                                    className="flex-1 bg-black text-white hover:bg-gray-800 rounded-none"
+                                    variant="outline"
+                                    className="flex-1 border-gray-400 rounded-none"
                                     onClick={() => window.open(business.twitter, '_blank')}
                                   >
-                                    🐦 Twitter
+                                    X
                                   </Button>
                                 )}
                               </div>
