@@ -40,12 +40,14 @@ const Footer = ({ themeClass }: FooterProps) => {
             <Link to="/tv-channel" className="hover:opacity-80 transition-opacity">
               TV Channel
             </Link>
-            <Link to="/members" className="hover:opacity-80 transition-opacity">
-              Members
+            <Link to="/dashboard" className="hover:opacity-80 transition-opacity">
+              Dashboard
             </Link>
-            <Link to="/join-free" className="hover:opacity-80 transition-opacity">
-              Join Free
-            </Link>
+            {!user && (
+              <Link to="/join-free" className="hover:opacity-80 transition-opacity">
+                Join Free
+              </Link>
+            )}
             {user && (
               <>
                 <Link to="/user-dashboard" className="hover:opacity-80 transition-opacity">
@@ -57,7 +59,7 @@ const Footer = ({ themeClass }: FooterProps) => {
               </>
             )}
             {user ? (
-              <Link to="/dashboard" className="hover:opacity-80 transition-opacity">
+              <Link to="/business-dashboard" className="hover:opacity-80 transition-opacity">
                 Business Dashboard
               </Link>
             ) : (
