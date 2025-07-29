@@ -68,34 +68,44 @@ const Dashboard = () => {
   const [saving, setSaving] = useState(false);
 
   useEffect(() => {
-    if (user) {
+    console.log('Dashboard useEffect triggered, user:', user?.id);
+    if (user?.id) {
+      console.log('Starting to load user data...');
       loadUserData();
+    } else {
+      console.log('No user found, setting loading to false');
+      setLoading(false);
     }
   }, [user]);
 
   const loadUserData = async () => {
+    console.log('loadUserData started');
+    setLoading(true);
+    
     try {
-      setLoading(true);
-      // Load data sequentially with timeouts to prevent hanging
-      await Promise.race([
-        loadUserPreferences(),
-        new Promise((_, reject) => setTimeout(() => reject(new Error('Preferences timeout')), 5000))
-      ]).catch(err => console.warn('Preferences failed:', err));
-
-      await Promise.race([
-        loadCollections(),
-        new Promise((_, reject) => setTimeout(() => reject(new Error('Collections timeout')), 5000))
-      ]).catch(err => console.warn('Collections failed:', err));
-
-      await Promise.race([
-        loadRecentRestaurants(),
-        new Promise((_, reject) => setTimeout(() => reject(new Error('Restaurants timeout')), 5000))
-      ]).catch(err => console.warn('Restaurants failed:', err));
-
+      // Load preferences first (fastest)
+      console.log('Loading preferences...');
+      await loadUserPreferences();
+      console.log('Preferences loaded');
+      
+      // Set loading to false early so page shows
+      setLoading(false);
+      
+      // Load other data in background
+      console.log('Loading collections and restaurants in background...');
+      setTimeout(async () => {
+        try {
+          await loadCollections();
+          console.log('Collections loaded');
+          await loadRecentRestaurants();
+          console.log('Recent restaurants loaded');
+        } catch (error) {
+          console.warn('Background loading failed:', error);
+        }
+      }, 100);
+      
     } catch (error) {
-      console.error('Error loading user data:', error);
-      toast.error('Some data could not be loaded');
-    } finally {
+      console.error('Error in loadUserData:', error);
       setLoading(false);
     }
   };
