@@ -657,7 +657,7 @@ const Index: React.FC = () => {
           
           {/* Results Section for mobile */}
           {showResults && businesses.length > 0 && (
-            <div className="container mx-auto px-4 py-8 max-w-6xl">
+            <div className="container mx-auto px-4 py-8 max-w-6xl relative z-20 bg-white rounded-lg mx-4 my-8">
               <div className="space-y-6">
                 <div className="flex justify-between items-center">
                   <h2 className="text-2xl font-bold text-black">
