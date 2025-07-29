@@ -414,8 +414,8 @@ export const MobileRestaurantForm = ({ onSelectionChange }: MobileRestaurantForm
                   </div>
                 )}
 
-                {/* OR text */}
-                {selectedCountry && (
+                {/* OR text - only show when cities are available */}
+                {selectedCountry && cities.length > 0 && (
                   <div className="text-center text-sm font-medium text-muted-foreground">
                     or
                   </div>
