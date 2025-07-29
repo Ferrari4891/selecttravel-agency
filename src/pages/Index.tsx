@@ -660,7 +660,7 @@ const Index: React.FC = () => {
             <div className="container mx-auto px-4 py-8 max-w-6xl">
               <div className="space-y-6">
                 <div className="flex justify-between items-center">
-                  <h2 className="text-xl font-bold text-black">
+                  <h2 className="text-2xl font-bold text-black">
                     🔥 FOUND {businesses.length} {selectedCategory} options in {selectedCity} 🔥
                   </h2>
                   <Button
@@ -669,13 +669,15 @@ const Index: React.FC = () => {
                     className="border-2 border-gray-400 hover:bg-gray-100 rounded-none"
                   >
                     <Download className="h-4 w-4 mr-2" />
-                    Export
+                    Export CSV
                   </Button>
                 </div>
                 
                 <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
                   {businesses.map((business, index) => {
-                    // Using the same working placeholder images as desktop
+                    console.log(`🏪 Rendering business ${index}:`, business.name);
+                    
+                    // Placeholder images for businesses - FIXED URLS
                     const placeholderImages = [
                       'https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=400&h=300&fit=crop&q=80',
                       'https://images.unsplash.com/photo-1567620905732-2d1ec7ab7445?w=400&h=300&fit=crop&q=80',
@@ -685,136 +687,143 @@ const Index: React.FC = () => {
                     ];
                     
                     const imageUrl = placeholderImages[index % placeholderImages.length];
+                    console.log(`🖼️ Using image URL for business ${index}:`, imageUrl);
                     
                     return (
-                      <Card key={index} className="border-2 border-gray-300 shadow-lg">
-                        <div className="aspect-video relative overflow-hidden">
-                          <img
-                            src={imageUrl}
-                            alt={business.name}
-                            className="w-full h-full object-cover"
-                            onError={(e) => {
-                              const target = e.target as HTMLImageElement;
-                              target.src = placeholderComingSoon;
-                            }}
-                          />
+                    <Card key={index} className="border-2 border-gray-300 shadow-lg">
+                      {/* Add placeholder image */}
+                      <div className="aspect-video relative overflow-hidden">
+                        <img
+                          src={imageUrl}
+                          alt={business.name}
+                          className="w-full h-full object-cover"
+                          onError={(e) => {
+                            console.log('❌ Image failed to load:', imageUrl, 'using coming soon placeholder');
+                            const target = e.target as HTMLImageElement;
+                            target.src = placeholderComingSoon;
+                          }}
+                          onLoad={() => {
+                            console.log('✅ Image loaded successfully:', imageUrl);
+                          }}
+                        />
+                      </div>
+                      
+                      <CardContent className="p-4 space-y-3">
+                        <div className="flex justify-between items-start">
+                          <h3 className="font-bold text-lg text-black">{business.name}</h3>
+                          <div className="text-right">
+                            <div className="text-yellow-500 font-bold">★ {business.rating}</div>
+                            <div className="text-sm text-gray-600">({business.reviewCount} reviews)</div>
+                          </div>
                         </div>
                         
-                        <CardContent className="p-4 space-y-3">
-                          <div className="flex justify-between items-start">
-                            <h3 className="font-bold text-lg text-black">{business.name}</h3>
-                            <div className="text-right">
-                              <div className="text-yellow-500 font-bold">★ {business.rating}</div>
-                              <div className="text-sm text-gray-600">({business.reviewCount} reviews)</div>
-                            </div>
+                        <p className="text-gray-700 text-sm">{business.address}</p>
+                        
+                        <div className="space-y-2">
+                          <div className="flex space-x-2">
+                            <Button
+                              size="sm"
+                              variant="outline"
+                              className="flex-1 border-gray-400 rounded-none"
+                              onClick={() => window.open(`tel:${business.phone}`, '_self')}
+                            >
+                              Call
+                            </Button>
+                            <Button
+                              size="sm"
+                              variant="outline"
+                              className="flex-1 border-gray-400 rounded-none"
+                              onClick={() => window.open(business.website, '_blank')}
+                            >
+                              Website
+                            </Button>
                           </div>
                           
-                          <p className="text-gray-700 text-sm">{business.address}</p>
-                          
-                          <div className="space-y-2">
-                            <div className="flex space-x-2">
-                              <Button
-                                size="sm"
-                                variant="outline"
-                                className="flex-1 border-gray-400 rounded-none"
-                                onClick={() => window.open(`tel:${business.phone}`, '_self')}
-                              >
-                                Call
-                              </Button>
-                              <Button
-                                size="sm"
-                                variant="outline"
-                                className="flex-1 border-gray-400 rounded-none"
-                                onClick={() => window.open(business.website, '_blank')}
-                              >
-                                Website
-                              </Button>
-                            </div>
-                            
-                            <div className="flex space-x-2">
-                              <Button
-                                size="sm"
-                                variant="outline"
-                                className="flex-1 border-gray-400 rounded-none"
-                                onClick={() => window.open(business.mapLink, '_blank')}
-                              >
-                                <MapPin className="h-3 w-3 mr-1" />
-                                Map
-                              </Button>
-                              <Button
-                                size="sm"
-                                variant="outline"
-                                className="flex-1 border-gray-400 rounded-none"
-                                onClick={() => window.open(`mailto:${business.email}`, '_self')}
-                              >
-                                Email
-                              </Button>
-                            </div>
-                            
-                            {(business.facebook || business.instagram || business.twitter) && (
-                              <div className="flex space-x-2 pt-2">
-                                {business.facebook && (
-                                  <Button
-                                    size="sm"
-                                    variant="outline"
-                                    className="flex-1 border-gray-400 rounded-none"
-                                    onClick={() => window.open(business.facebook, '_blank')}
-                                  >
-                                    FB
-                                  </Button>
-                                )}
-                                {business.instagram && (
-                                  <Button
-                                    size="sm"
-                                    variant="outline"
-                                    className="flex-1 border-gray-400 rounded-none"
-                                    onClick={() => window.open(business.instagram, '_blank')}
-                                  >
-                                    IG
-                                  </Button>
-                                )}
-                                {business.twitter && (
-                                  <Button
-                                    size="sm"
-                                    variant="outline"
-                                    className="flex-1 border-gray-400 rounded-none"
-                                    onClick={() => window.open(business.twitter, '_blank')}
-                                  >
-                                    X
-                                  </Button>
-                                )}
-                              </div>
-                            )}
-                             
-                            <SaveBusinessButton
-                              restaurant={{
-                                name: business.name,
-                                address: business.address || "",
-                                googleMapRef: business.googleMapRef || "",
-                                socialMediaLinks: {
-                                  facebook: business.facebook,
-                                  instagram: business.instagram,
-                                  twitter: business.twitter,
-                                },
-                                contactDetails: {
-                                  phone: business.phone,
-                                  email: business.email,
-                                  website: business.website,
-                                },
-                                imageLinks: business.imageLinks ? business.imageLinks.split(',') : [],
-                                rating: business.rating || 0,
-                                reviewCount: business.reviewCount || 0,
-                                source: business.source || "Local",
-                              }}
-                              selectedCity={selectedCity}
-                              selectedCountry={selectedCountry}
-                              selectedCategory={selectedCategory}
-                            />
+                          <div className="flex space-x-2">
+                            <Button
+                              size="sm"
+                              variant="outline"
+                              className="flex-1 border-gray-400 rounded-none"
+                              onClick={() => window.open(business.mapLink, '_blank')}
+                            >
+                              <MapPin className="h-3 w-3 mr-1" />
+                              Map
+                            </Button>
+                            <Button
+                              size="sm"
+                              variant="outline"
+                              className="flex-1 border-gray-400 rounded-none"
+                              onClick={() => window.open(`mailto:${business.email}`, '_self')}
+                            >
+                              Email
+                            </Button>
                           </div>
-                        </CardContent>
-                      </Card>
-                    );
-                  })}
+                          
+                          {(business.facebook || business.instagram || business.twitter) && (
+                            <div className="flex space-x-2 pt-2">
+                              {business.facebook && (
+                                <Button
+                                  size="sm"
+                                  variant="outline"
+                                  className="flex-1 border-gray-400 rounded-none"
+                                  onClick={() => window.open(business.facebook, '_blank')}
+                                >
+                                  FB
+                                </Button>
+                              )}
+                              {business.instagram && (
+                                <Button
+                                  size="sm"
+                                  variant="outline"
+                                  className="flex-1 border-gray-400 rounded-none"
+                                  onClick={() => window.open(business.instagram, '_blank')}
+                                >
+                                  IG
+                                </Button>
+                              )}
+                              {business.twitter && (
+                                <Button
+                                  size="sm"
+                                  variant="outline"
+                                  className="flex-1 border-gray-400 rounded-none"
+                                  onClick={() => window.open(business.twitter, '_blank')}
+                                >
+                                  X
+                                </Button>
+                              )}
+                            </div>
+                          )}
+                           
+                           {/* Save Button - spans full width with black background */}
+                           <SaveBusinessButton
+                             restaurant={{
+                               name: business.name,
+                               address: business.address || "",
+                               googleMapRef: business.googleMapRef || "",
+                               socialMediaLinks: {
+                                 facebook: business.facebook,
+                                 instagram: business.instagram,
+                                 twitter: business.twitter,
+                               },
+                               contactDetails: {
+                                 phone: business.phone,
+                                 email: business.email,
+                                 website: business.website,
+                               },
+                               imageLinks: business.imageLinks ? business.imageLinks.split(',') : [],
+                               rating: business.rating || 0,
+                               reviewCount: business.reviewCount || 0,
+                               source: business.source || "Local",
+                             }}
+                             selectedCity={selectedCity}
+                             selectedCountry={selectedCountry}
+                             selectedCategory={selectedCategory}
+                           />
+                         </div>
+                       </CardContent>
+                     </Card>
+                     );
+                   })}
                 </div>
               </div>
             </div>
