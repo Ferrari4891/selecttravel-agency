@@ -440,8 +440,8 @@ const Dashboard = () => {
             <TabsContent value="collections" className="mt-6">
               <Card className="border-0 shadow-sm">
                 <CardHeader className="pb-4 border-b">
-                  <CardTitle className="flex items-center justify-between text-xl font-semibold">
-                    <span>Collections Overview</span>
+                  <CardTitle className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+                    <span className="text-lg sm:text-xl font-semibold">Collections Overview</span>
                     <div className="flex items-center gap-2">
                       <Badge variant="secondary" className="text-xs">{collections.length} total</Badge>
                       <Button variant="outline" size="sm" asChild>
@@ -489,8 +489,8 @@ const Dashboard = () => {
             <TabsContent value="saved" className="mt-6">
               <Card className="border-0 shadow-sm">
                 <CardHeader className="pb-4 border-b">
-                  <CardTitle className="flex items-center justify-between text-xl font-semibold">
-                    <span>Recent Activity</span>
+                  <CardTitle className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+                    <span className="text-lg sm:text-xl font-semibold">Recent Activity</span>
                     <div className="flex items-center gap-2">
                       <Badge variant="secondary" className="text-xs">{recentRestaurants.length} recent</Badge>
                       <Button variant="outline" size="sm" asChild>
