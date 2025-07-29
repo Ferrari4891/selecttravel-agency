@@ -16,7 +16,7 @@ export const Navigation = ({ onMenuStateChange, forceMenuOpen }: NavigationProps
   const [menuOpen, setMenuOpen] = useState(false);
   const [advertiseExpanded, setAdvertiseExpanded] = useState(false);
   const [toolboxExpanded, setToolboxExpanded] = useState(false);
-  const [membersExpanded, setMembersExpanded] = useState(false);
+  const [dashboardExpanded, setDashboardExpanded] = useState(false);
   const { user } = useAuth();
   const { toast } = useToast();
 
@@ -154,36 +154,38 @@ export const Navigation = ({ onMenuStateChange, forceMenuOpen }: NavigationProps
                   </Link>
                 </Button>
                 
-                {/* Members with dropdown */}
+                {/* Dashboard with dropdown */}
                 <Button 
                   variant="ghost" 
                   className="w-full justify-start h-12 text-left touch-target" 
-                  onClick={() => setMembersExpanded(!membersExpanded)}
+                  onClick={() => setDashboardExpanded(!dashboardExpanded)}
                 >
                   <Users className="h-5 w-5 mr-3" />
-                  <span className="text-base">Members</span>
-                  {membersExpanded ? (
+                  <span className="text-base">Dashboard</span>
+                  {dashboardExpanded ? (
                     <ChevronDown className="h-4 w-4 ml-auto" />
                   ) : (
                     <ChevronRight className="h-4 w-4 ml-auto" />
                   )}
                 </Button>
                 
-                {/* Members sub-menu */}
-                {membersExpanded && (
+                {/* Dashboard sub-menu */}
+                {dashboardExpanded && (
                   <div className="ml-4 space-y-1">
                     <Button variant="ghost" className="w-full justify-start h-12 text-left touch-target" asChild>
-                      <Link to="/members" onClick={() => setMenuOpen(false)}>
+                      <Link to="/dashboard" onClick={() => setMenuOpen(false)}>
                         <Users className="h-5 w-5 mr-3" />
-                        <span className="text-base">Members Info</span>
+                        <span className="text-base">Dashboard Info</span>
                       </Link>
                     </Button>
-                     <Button variant="ghost" className="w-full justify-start h-12 text-left touch-target" asChild>
-                       <Link to="/join-free" onClick={() => setMenuOpen(false)}>
-                         <Users className="h-5 w-5 mr-3" />
-                         <span className="text-base">Join Free</span>
-                       </Link>
-                     </Button>
+                     {!user && (
+                       <Button variant="ghost" className="w-full justify-start h-12 text-left touch-target" asChild>
+                         <Link to="/join-free" onClick={() => setMenuOpen(false)}>
+                           <Users className="h-5 w-5 mr-3" />
+                           <span className="text-base">Join Free</span>
+                         </Link>
+                       </Button>
+                     )}
                      {user && (
                        <>
                          <Button variant="ghost" className="w-full justify-start h-12 text-left touch-target" asChild>
@@ -220,7 +222,7 @@ export const Navigation = ({ onMenuStateChange, forceMenuOpen }: NavigationProps
                   {user ? (
                     <div className="space-y-1">
                       <Button variant="ghost" className="w-full justify-start h-12 text-left touch-target" asChild>
-                        <Link to="/dashboard" onClick={() => setMenuOpen(false)}>
+                        <Link to="/business-dashboard" onClick={() => setMenuOpen(false)}>
                           <Building2 className="h-5 w-5 mr-3" />
                           <span className="text-base">Business Dashboard</span>
                         </Link>

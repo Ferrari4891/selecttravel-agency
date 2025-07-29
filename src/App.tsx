@@ -15,10 +15,10 @@ import Advertise from "./pages/Advertise";
 import ROI from "./pages/ROI";
 import Toolbox from "./pages/Toolbox";
 import VisaInfo from "./pages/VisaInfo";
-import Members from "./pages/Members";
+import Dashboard from "./pages/Dashboard";
 import JoinFree from "./pages/JoinFree";
 import TVChannel from "./pages/TVChannel";
-import Dashboard from "./pages/Dashboard";
+import BusinessDashboard from "./pages/BusinessDashboard";
 import UserDashboard from "./pages/UserDashboard";
 import Auth from "./pages/Auth";
 import Collections from "./pages/Collections";
@@ -51,14 +51,14 @@ const App = () => (
                     <Route path="/roi" element={<ROI />} />
                     <Route path="/toolbox" element={<Toolbox />} />
                     <Route path="/visa-info" element={<VisaInfo />} />
-                    <Route path="/members" element={<Members />} />
+                    <Route path="/dashboard" element={<Dashboard />} />
                     <Route path="/join-free" element={<JoinFree />} />
                     <Route path="/tv-channel" element={<TVChannel />} />
                     <Route 
-                      path="/dashboard" 
+                      path="/business-dashboard" 
                       element={
                         <ProtectedRoute>
-                          <Dashboard />
+                          <BusinessDashboard />
                         </ProtectedRoute>
                       } 
                     />

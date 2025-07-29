@@ -1,179 +1,185 @@
-import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { useAuth } from '@/contexts/AuthContext';
-import { supabase } from '@/integrations/supabase/client';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { Button } from '@/components/ui/button';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { BusinessProfile } from '@/components/business/BusinessProfile';
-import { BusinessAnalytics } from '@/components/business/BusinessAnalytics';
-import { SubscriptionManagement } from '@/components/business/SubscriptionManagement';
-import { useToast } from '@/hooks/use-toast';
-import { Home } from 'lucide-react';
-
-interface Business {
-  id: string;
-  business_name: string;
-  business_type: string;
-  description: string;
-  subscription_tier: string;
-  subscription_status: string;
-  subscription_end_date: string;
-}
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { Navigation } from "@/components/Navigation";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Checkbox } from "@/components/ui/checkbox";
+import { LanguageSelector } from "@/components/LanguageSelector";
+import Footer from "@/components/Footer";
+import heroImage from "@/assets/hero-members.jpg";
 
 const Dashboard = () => {
-  const { user, signOut } = useAuth();
-  const [business, setBusiness] = useState<Business | null>(null);
-  const [loading, setLoading] = useState(true);
-  const { toast } = useToast();
   const navigate = useNavigate();
+  const [preferences, setPreferences] = useState({
+    wheelchairAccess: false,
+    openHours: false,
+    glutenFree: false,
+    lowNoise: false,
+    publicTransport: false,
+    preference1: false,
+    preference2: false,
+    preference3: false,
+    onlineBooking: false,
+    airConditioned: false
+  });
 
-  useEffect(() => {
-    if (user) {
-      fetchBusiness();
-    }
-  }, [user]);
-
-  const fetchBusiness = async () => {
-    try {
-      const { data, error } = await supabase
-        .from('businesses')
-        .select('*')
-        .eq('user_id', user?.id)
-        .single();
-
-      if (error && error.code !== 'PGRST116') {
-        throw error;
-      }
-
-      setBusiness(data);
-    } catch (error) {
-      console.error('Error fetching business:', error);
-      toast({
-        title: "Error",
-        description: "Failed to load business information.",
-        variant: "destructive",
-      });
-    } finally {
-      setLoading(false);
-    }
+  const handlePreferenceChange = (key: string, checked: boolean) => {
+    setPreferences(prev => ({
+      ...prev,
+      [key]: checked
+    }));
   };
 
-  const handleBusinessCreated = (newBusiness: Business) => {
-    setBusiness(newBusiness);
-    toast({
-      title: "Success",
-      description: "Business profile created successfully!",
-    });
+  const handleSavePreferences = () => {
+    navigate('/join-free');
   };
-
-  if (loading) {
-    return (
-      <div className="min-h-screen bg-sky-100 flex items-center justify-center">
-        <div>Loading...</div>
-      </div>
-    );
-  }
 
   return (
-    <div className="min-h-screen bg-sky-100">
-      <header className="bg-white shadow-sm border-b-8 border-white">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center py-4 sm:py-6 gap-4">
-            <div className="flex flex-col gap-2">
-              <h1 className="text-xl sm:text-2xl lg:text-3xl font-bold text-gray-900">
-                Business Dashboard
-              </h1>
-              <Button 
-                variant="outline" 
-                size="sm"
-                className="w-fit" 
-                onClick={() => navigate('/')}
-              >
-                <Home className="h-4 w-4 mr-2" />
-                Home
-              </Button>
-            </div>
-            <div className="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-4">
-              <span className="text-xs sm:text-sm text-gray-600">
-                Welcome, {user?.email}
-              </span>
-              <Button onClick={signOut} variant="outline" size="sm" className="w-fit">
-                Sign Out
-              </Button>
+    <div className="min-h-screen bg-background">
+      <Navigation />
+      
+      {/* Hero Section */}
+      <div className="relative w-full h-96 mb-8">
+        <div className="w-full h-full bg-background relative" style={{
+          border: '8px solid white',
+          boxShadow: '0 8px 12px -4px rgba(169, 169, 169, 0.4)'
+        }}>
+          <img src={heroImage} alt="Dashboard" className="w-full h-full object-cover" />
+
+          {/* Mobile: Small Landscape Sign */}
+          <div className="sm:hidden absolute bottom-8 left-1/2 transform -translate-x-1/2 z-20">
+            <div className="bg-red-600 text-white w-64 h-20 relative shadow-lg border-4 border-white flex items-center justify-center">
+              <div className="text-center">
+                <div className="text-3xl font-black tracking-wide font-sans">FREE!</div>
+                <div className="text-sm font-bold uppercase tracking-widest">MEMBERSHIP FOREVER</div>
+              </div>
             </div>
           </div>
-        </div>
-      </header>
 
-      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        {!business ? (
-          <Card className="border-8 border-white shadow-md">
-            <CardHeader>
-              <CardTitle>Create Your Business Profile</CardTitle>
-              <CardDescription>
-                Get started by setting up your business profile to access all features.
-              </CardDescription>
+          {/* Tablet: Medium Landscape Sign */}
+          <div className="hidden sm:block lg:hidden absolute bottom-12 left-1/2 transform -translate-x-1/2 z-20">
+            <div className="bg-red-600 text-white w-72 h-20 relative shadow-lg border-4 border-white flex items-center justify-center">
+              <div className="text-center">
+                <div className="text-3xl font-black tracking-wide font-sans">FREE!</div>
+                <div className="text-sm font-bold uppercase tracking-widest">MEMBERSHIP FOREVER</div>
+              </div>
+            </div>
+          </div>
+          
+          <div className="absolute inset-0 bg-black bg-opacity-40 flex items-center justify-center">
+            <h1 className="text-white text-4xl font-bold text-center md:text-9xl">
+              Dashboard
+            </h1>
+          </div>
+        </div>
+      </div>
+
+      {/* Content Section */}
+      <div className="container mx-auto px-4 pb-12">
+        <div className="max-w-4xl mx-auto">
+          <Card className="mb-8">
+            <CardHeader className="bg-background">
+              <CardTitle className="text-center border-b-2 border-black pb-2 text-3xl text-foreground font-extrabold">SELECT & SAVE YOUR PREFERENCES</CardTitle>
             </CardHeader>
-            <CardContent>
-              <BusinessProfile onBusinessCreated={handleBusinessCreated} />
+            <CardContent className="pt-6">
+              <p className="text-lg text-center mb-8 text-gray-700">Getting the best places to eat, drink, stay and shop is absolutely free! Help us personalize your experience by selecting your preferences below.</p>
+              
+              <div className="space-y-6">
+                <h3 className="text-xl font-semibold mb-4">Please tick any of the checkboxes below to record your preferences:</h3>
+                
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <div className="flex items-center space-x-3">
+                    <Checkbox id="wheelchairAccess" checked={preferences.wheelchairAccess} onCheckedChange={checked => handlePreferenceChange('wheelchairAccess', checked as boolean)} />
+                    <label htmlFor="wheelchairAccess" className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
+                      Wheelchair Access
+                    </label>
+                  </div>
+
+                  <div className="flex items-center space-x-3">
+                    <Checkbox id="openHours" checked={preferences.openHours} onCheckedChange={checked => handlePreferenceChange('openHours', checked as boolean)} />
+                    <label htmlFor="openHours" className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
+                      Extended Open Hours
+                    </label>
+                  </div>
+
+                  <div className="flex items-center space-x-3">
+                    <Checkbox id="glutenFree" checked={preferences.glutenFree} onCheckedChange={checked => handlePreferenceChange('glutenFree', checked as boolean)} />
+                    <label htmlFor="glutenFree" className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
+                      Gluten Free Options
+                    </label>
+                  </div>
+
+                  <div className="flex items-center space-x-3">
+                    <Checkbox id="lowNoise" checked={preferences.lowNoise} onCheckedChange={checked => handlePreferenceChange('lowNoise', checked as boolean)} />
+                    <label htmlFor="lowNoise" className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
+                      Low Noise Environment
+                    </label>
+                  </div>
+
+                  <div className="flex items-center space-x-3">
+                    <Checkbox id="publicTransport" checked={preferences.publicTransport} onCheckedChange={checked => handlePreferenceChange('publicTransport', checked as boolean)} />
+                    <label htmlFor="publicTransport" className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
+                      Public Transport Access
+                    </label>
+                  </div>
+
+                  <div className="flex items-center space-x-3">
+                    <Checkbox id="preference1" checked={preferences.preference1} onCheckedChange={checked => handlePreferenceChange('preference1', checked as boolean)} />
+                    <label htmlFor="preference1" className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
+                      Pet Friendly Venues
+                    </label>
+                  </div>
+
+                  <div className="flex items-center space-x-3">
+                    <Checkbox id="preference2" checked={preferences.preference2} onCheckedChange={checked => handlePreferenceChange('preference2', checked as boolean)} />
+                    <label htmlFor="preference2" className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
+                      Outdoor Seating Available
+                    </label>
+                  </div>
+
+                  <div className="flex items-center space-x-3">
+                    <Checkbox id="preference3" checked={preferences.preference3} onCheckedChange={checked => handlePreferenceChange('preference3', checked as boolean)} />
+                    <label htmlFor="preference3" className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
+                      Senior Discounts Available
+                    </label>
+                  </div>
+
+                  <div className="flex items-center space-x-3">
+                    <Checkbox id="onlineBooking" checked={preferences.onlineBooking} onCheckedChange={checked => handlePreferenceChange('onlineBooking', checked as boolean)} />
+                    <label htmlFor="onlineBooking" className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
+                      Online Booking Available
+                    </label>
+                  </div>
+
+                  <div className="flex items-center space-x-3">
+                    <Checkbox id="airConditioned" checked={preferences.airConditioned} onCheckedChange={checked => handlePreferenceChange('airConditioned', checked as boolean)} />
+                    <label htmlFor="airConditioned" className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
+                      Air Conditioned
+                    </label>
+                  </div>
+
+                  <div className="flex items-center space-x-3">
+                    <div className="flex items-center space-x-2">
+                      <span className="text-sm font-medium leading-none">Preferred Language:</span>
+                      <LanguageSelector />
+                    </div>
+                  </div>
+                </div>
+                
+                <div className="flex justify-center mt-8 bg-white">
+                  <button 
+                    onClick={handleSavePreferences}
+                    className="bg-primary hover:bg-primary/90 h-10 px-8 py-2 inline-flex items-center justify-center gap-2 whitespace-nowrap text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 text-primary-foreground"
+                  >
+                    SAVE PREFERENCES
+                  </button>
+                </div>
+              </div>
             </CardContent>
           </Card>
-        ) : (
-          <Tabs defaultValue="profile" className="space-y-6">
-            <TabsList className="grid w-full grid-cols-1 sm:grid-cols-3 h-auto">
-              <TabsTrigger value="profile" className="text-xs sm:text-sm">Business Profile</TabsTrigger>
-              <TabsTrigger value="analytics" className="text-xs sm:text-sm">Analytics</TabsTrigger>
-              <TabsTrigger value="subscription" className="text-xs sm:text-sm">Subscription</TabsTrigger>
-            </TabsList>
+        </div>
+      </div>
 
-            <TabsContent value="profile">
-              <Card className="border-8 border-white shadow-md bg-sky-100">
-                <CardHeader>
-                  <CardTitle>Business Profile</CardTitle>
-                  <CardDescription>
-                    Manage your business information and settings.
-                  </CardDescription>
-                </CardHeader>
-                <CardContent>
-                  <BusinessProfile 
-                    business={business} 
-                    onBusinessUpdated={setBusiness} 
-                  />
-                </CardContent>
-              </Card>
-            </TabsContent>
-
-            <TabsContent value="analytics">
-              <Card className="border-8 border-white shadow-md bg-sky-100">
-                <CardHeader>
-                  <CardTitle>Business Analytics</CardTitle>
-                  <CardDescription>
-                    Track your business performance and metrics.
-                  </CardDescription>
-                </CardHeader>
-                <CardContent>
-                  <BusinessAnalytics businessId={business.id} />
-                </CardContent>
-              </Card>
-            </TabsContent>
-
-            <TabsContent value="subscription">
-              <Card className="border-8 border-white shadow-md bg-sky-100">
-                <CardHeader>
-                  <CardTitle>Subscription Management</CardTitle>
-                  <CardDescription>
-                    Manage your subscription plan and billing.
-                  </CardDescription>
-                </CardHeader>
-                <CardContent>
-                  <SubscriptionManagement business={business} />
-                </CardContent>
-              </Card>
-            </TabsContent>
-          </Tabs>
-        )}
-      </main>
+      <Footer />
     </div>
   );
 };
