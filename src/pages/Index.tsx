@@ -676,6 +676,15 @@ const Index: React.FC = () => {
                 <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
                   {businesses.map((business, index) => {
                     console.log(`🏪 Rendering business ${index}:`, business.name);
+                    console.log(`🔍 Business data for ${business.name}:`, {
+                      name: business.name,
+                      rating: business.rating,
+                      reviewCount: business.reviewCount,
+                      address: business.address,
+                      phone: business.phone,
+                      email: business.email,
+                      website: business.website
+                    });
                     
                     // Placeholder images for businesses - FIXED URLS
                     const placeholderImages = [
