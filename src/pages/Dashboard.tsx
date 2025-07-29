@@ -280,143 +280,146 @@ const Dashboard = () => {
           </div>
 
           <Tabs defaultValue="preferences" className="w-full">
-            <TabsList className="grid w-full grid-cols-2 lg:grid-cols-3">
-              <TabsTrigger value="preferences">My Preferences</TabsTrigger>
-              <TabsTrigger value="collections">My Collections</TabsTrigger>
-              <TabsTrigger value="saved">Recent Saves</TabsTrigger>
+            <TabsList className="grid w-full grid-cols-3 h-12 bg-muted/50 rounded-lg p-1">
+              <TabsTrigger value="preferences" className="text-sm font-medium data-[state=active]:bg-background data-[state=active]:text-foreground data-[state=active]:shadow-sm">
+                My Preferences
+              </TabsTrigger>
+              <TabsTrigger value="collections" className="text-sm font-medium data-[state=active]:bg-background data-[state=active]:text-foreground data-[state=active]:shadow-sm">
+                My Collections
+              </TabsTrigger>
+              <TabsTrigger value="saved" className="text-sm font-medium data-[state=active]:bg-background data-[state=active]:text-foreground data-[state=active]:shadow-sm">
+                Recent Saves
+              </TabsTrigger>
             </TabsList>
 
-            <TabsContent value="preferences" className="space-y-6">
-                <Card>
-                <CardHeader className="pb-4">
-                  <CardTitle className="flex items-center justify-between text-2xl font-bold text-foreground">
-                    <span>Your Preferences</span>
-                    <Badge variant="secondary" className="text-sm">Settings</Badge>
+            <TabsContent value="preferences" className="mt-6">
+              <Card className="border-0 shadow-sm">
+                <CardHeader className="pb-4 border-b">
+                  <CardTitle className="flex items-center justify-between text-xl font-semibold text-foreground">
+                    <span>Account Preferences</span>
+                    <Badge variant="secondary" className="text-xs">Settings</Badge>
                   </CardTitle>
-                  <div className="w-full h-px bg-border mt-3"></div>
                 </CardHeader>
                 <CardContent className="pt-6">
-                  <p className="text-lg text-center mb-8 text-gray-700">
-                    Update your preferences to personalize your recommendations.
-                  </p>
-                  
                   <div className="space-y-6">
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                      <div className="flex items-center space-x-3">
-                        <Checkbox 
-                          id="wheelchair_access" 
-                          checked={preferences.wheelchair_access} 
-                          onCheckedChange={checked => handlePreferenceChange('wheelchair_access', checked as boolean)} 
-                        />
-                        <label htmlFor="wheelchair_access" className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
-                          Wheelchair Access
-                        </label>
-                      </div>
-
-                      <div className="flex items-center space-x-3">
-                        <Checkbox 
-                          id="extended_hours" 
-                          checked={preferences.extended_hours} 
-                          onCheckedChange={checked => handlePreferenceChange('extended_hours', checked as boolean)} 
-                        />
-                        <label htmlFor="extended_hours" className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
-                          Extended Open Hours
-                        </label>
-                      </div>
-
-                      <div className="flex items-center space-x-3">
-                        <Checkbox 
-                          id="gluten_free" 
-                          checked={preferences.gluten_free} 
-                          onCheckedChange={checked => handlePreferenceChange('gluten_free', checked as boolean)} 
-                        />
-                        <label htmlFor="gluten_free" className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
-                          Gluten Free Options
-                        </label>
-                      </div>
-
-                      <div className="flex items-center space-x-3">
-                        <Checkbox 
-                          id="low_noise" 
-                          checked={preferences.low_noise} 
-                          onCheckedChange={checked => handlePreferenceChange('low_noise', checked as boolean)} 
-                        />
-                        <label htmlFor="low_noise" className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
-                          Low Noise Environment
-                        </label>
-                      </div>
-
-                      <div className="flex items-center space-x-3">
-                        <Checkbox 
-                          id="public_transport" 
-                          checked={preferences.public_transport} 
-                          onCheckedChange={checked => handlePreferenceChange('public_transport', checked as boolean)} 
-                        />
-                        <label htmlFor="public_transport" className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
-                          Public Transport Access
-                        </label>
-                      </div>
-
-                      <div className="flex items-center space-x-3">
-                        <Checkbox 
-                          id="pet_friendly" 
-                          checked={preferences.pet_friendly} 
-                          onCheckedChange={checked => handlePreferenceChange('pet_friendly', checked as boolean)} 
-                        />
-                        <label htmlFor="pet_friendly" className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
-                          Pet Friendly Venues
-                        </label>
-                      </div>
-
-                      <div className="flex items-center space-x-3">
-                        <Checkbox 
-                          id="outdoor_seating" 
-                          checked={preferences.outdoor_seating} 
-                          onCheckedChange={checked => handlePreferenceChange('outdoor_seating', checked as boolean)} 
-                        />
-                        <label htmlFor="outdoor_seating" className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
-                          Outdoor Seating Available
-                        </label>
-                      </div>
-
-                      <div className="flex items-center space-x-3">
-                        <Checkbox 
-                          id="senior_discounts" 
-                          checked={preferences.senior_discounts} 
-                          onCheckedChange={checked => handlePreferenceChange('senior_discounts', checked as boolean)} 
-                        />
-                        <label htmlFor="senior_discounts" className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
-                          Senior Discounts Available
-                        </label>
-                      </div>
-
-                      <div className="flex items-center space-x-3">
-                        <Checkbox 
-                          id="online_booking" 
-                          checked={preferences.online_booking} 
-                          onCheckedChange={checked => handlePreferenceChange('online_booking', checked as boolean)} 
-                        />
-                        <label htmlFor="online_booking" className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
-                          Online Booking Available
-                        </label>
-                      </div>
-
-                      <div className="flex items-center space-x-3">
-                        <Checkbox 
-                          id="air_conditioned" 
-                          checked={preferences.air_conditioned} 
-                          onCheckedChange={checked => handlePreferenceChange('air_conditioned', checked as boolean)} 
-                        />
-                        <label htmlFor="air_conditioned" className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
-                          Air Conditioned
-                        </label>
-                      </div>
-
-                      <div className="flex items-center space-x-3">
-                        <div className="flex items-center space-x-2">
-                          <span className="text-sm font-medium leading-none">Preferred Language:</span>
-                          <LanguageSelector />
+                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                      <div className="space-y-4">
+                        <h4 className="font-medium text-sm text-muted-foreground uppercase tracking-wide">Accessibility</h4>
+                        <div className="flex items-center justify-between py-3 px-4 border rounded-lg hover:bg-muted/30 transition-colors">
+                          <label htmlFor="wheelchair_access" className="text-sm font-medium cursor-pointer">
+                            Wheelchair Access
+                          </label>
+                          <Checkbox 
+                            id="wheelchair_access" 
+                            checked={preferences.wheelchair_access} 
+                            onCheckedChange={checked => handlePreferenceChange('wheelchair_access', checked as boolean)} 
+                          />
                         </div>
+                        <div className="flex items-center justify-between py-3 px-4 border rounded-lg hover:bg-muted/30 transition-colors">
+                          <label htmlFor="low_noise" className="text-sm font-medium cursor-pointer">
+                            Low Noise Environment
+                          </label>
+                          <Checkbox 
+                            id="low_noise" 
+                            checked={preferences.low_noise} 
+                            onCheckedChange={checked => handlePreferenceChange('low_noise', checked as boolean)} 
+                          />
+                        </div>
+                        <div className="flex items-center justify-between py-3 px-4 border rounded-lg hover:bg-muted/30 transition-colors">
+                          <label htmlFor="public_transport" className="text-sm font-medium cursor-pointer">
+                            Public Transport Access
+                          </label>
+                          <Checkbox 
+                            id="public_transport" 
+                            checked={preferences.public_transport} 
+                            onCheckedChange={checked => handlePreferenceChange('public_transport', checked as boolean)} 
+                          />
+                        </div>
+                      </div>
+
+                      <div className="space-y-4">
+                        <h4 className="font-medium text-sm text-muted-foreground uppercase tracking-wide">Dining</h4>
+                        <div className="flex items-center justify-between py-3 px-4 border rounded-lg hover:bg-muted/30 transition-colors">
+                          <label htmlFor="gluten_free" className="text-sm font-medium cursor-pointer">
+                            Gluten Free Options
+                          </label>
+                          <Checkbox 
+                            id="gluten_free" 
+                            checked={preferences.gluten_free} 
+                            onCheckedChange={checked => handlePreferenceChange('gluten_free', checked as boolean)} 
+                          />
+                        </div>
+                        <div className="flex items-center justify-between py-3 px-4 border rounded-lg hover:bg-muted/30 transition-colors">
+                          <label htmlFor="outdoor_seating" className="text-sm font-medium cursor-pointer">
+                            Outdoor Seating
+                          </label>
+                          <Checkbox 
+                            id="outdoor_seating" 
+                            checked={preferences.outdoor_seating} 
+                            onCheckedChange={checked => handlePreferenceChange('outdoor_seating', checked as boolean)} 
+                          />
+                        </div>
+                        <div className="flex items-center justify-between py-3 px-4 border rounded-lg hover:bg-muted/30 transition-colors">
+                          <label htmlFor="pet_friendly" className="text-sm font-medium cursor-pointer">
+                            Pet Friendly Venues
+                          </label>
+                          <Checkbox 
+                            id="pet_friendly" 
+                            checked={preferences.pet_friendly} 
+                            onCheckedChange={checked => handlePreferenceChange('pet_friendly', checked as boolean)} 
+                          />
+                        </div>
+                      </div>
+
+                      <div className="space-y-4">
+                        <h4 className="font-medium text-sm text-muted-foreground uppercase tracking-wide">Services</h4>
+                        <div className="flex items-center justify-between py-3 px-4 border rounded-lg hover:bg-muted/30 transition-colors">
+                          <label htmlFor="extended_hours" className="text-sm font-medium cursor-pointer">
+                            Extended Hours
+                          </label>
+                          <Checkbox 
+                            id="extended_hours" 
+                            checked={preferences.extended_hours} 
+                            onCheckedChange={checked => handlePreferenceChange('extended_hours', checked as boolean)} 
+                          />
+                        </div>
+                        <div className="flex items-center justify-between py-3 px-4 border rounded-lg hover:bg-muted/30 transition-colors">
+                          <label htmlFor="online_booking" className="text-sm font-medium cursor-pointer">
+                            Online Booking
+                          </label>
+                          <Checkbox 
+                            id="online_booking" 
+                            checked={preferences.online_booking} 
+                            onCheckedChange={checked => handlePreferenceChange('online_booking', checked as boolean)} 
+                          />
+                        </div>
+                        <div className="flex items-center justify-between py-3 px-4 border rounded-lg hover:bg-muted/30 transition-colors">
+                          <label htmlFor="senior_discounts" className="text-sm font-medium cursor-pointer">
+                            Senior Discounts
+                          </label>
+                          <Checkbox 
+                            id="senior_discounts" 
+                            checked={preferences.senior_discounts} 
+                            onCheckedChange={checked => handlePreferenceChange('senior_discounts', checked as boolean)} 
+                          />
+                        </div>
+                        <div className="flex items-center justify-between py-3 px-4 border rounded-lg hover:bg-muted/30 transition-colors">
+                          <label htmlFor="air_conditioned" className="text-sm font-medium cursor-pointer">
+                            Air Conditioned
+                          </label>
+                          <Checkbox 
+                            id="air_conditioned" 
+                            checked={preferences.air_conditioned} 
+                            onCheckedChange={checked => handlePreferenceChange('air_conditioned', checked as boolean)} 
+                          />
+                        </div>
+                      </div>
+                    </div>
+                    
+                    <div className="border-t pt-6">
+                      <div className="flex items-center justify-between max-w-sm">
+                        <span className="text-sm font-medium">Preferred Language:</span>
+                        <LanguageSelector />
                       </div>
                     </div>
                     
@@ -426,7 +429,7 @@ const Dashboard = () => {
                         disabled={saving}
                         className="px-8"
                       >
-                        {saving ? 'SAVING...' : 'SAVE PREFERENCES'}
+                        {saving ? 'Saving...' : 'Save Preferences'}
                       </Button>
                     </div>
                   </div>
@@ -434,136 +437,135 @@ const Dashboard = () => {
               </Card>
             </TabsContent>
 
-            <TabsContent value="collections" className="space-y-6">
-              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 bg-muted/30 rounded-lg p-6 border">
-                <div className="flex items-center gap-3">
-                  <h3 className="text-xl sm:text-2xl font-bold text-foreground">My Collections</h3>
-                  <Badge variant="secondary" className="text-sm">{collections.length} total</Badge>
-                </div>
-                <Button variant="outline" asChild className="w-fit">
-                  <a href="/collections">
-                    <Plus className="w-4 h-4 mr-2" />
-                    Manage All
-                  </a>
-                </Button>
-              </div>
-              
-              {collections.length === 0 ? (
-                <Card>
-                  <CardContent className="p-8 text-center text-muted-foreground">
-                    <div className="space-y-4">
-                      <h4 className="text-lg font-medium">No collections yet</h4>
-                      <p>Create your first collection to start organizing your saved businesses!</p>
-                      <Button asChild>
-                        <a href="/collections">Create Collection</a>
+            <TabsContent value="collections" className="mt-6">
+              <Card className="border-0 shadow-sm">
+                <CardHeader className="pb-4 border-b">
+                  <CardTitle className="flex items-center justify-between text-xl font-semibold">
+                    <span>Collections Overview</span>
+                    <div className="flex items-center gap-2">
+                      <Badge variant="secondary" className="text-xs">{collections.length} total</Badge>
+                      <Button variant="outline" size="sm" asChild>
+                        <a href="/collections">
+                          <Plus className="w-4 h-4 mr-1" />
+                          Manage
+                        </a>
                       </Button>
                     </div>
-                  </CardContent>
-                </Card>
-              ) : (
-                <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
-                  {collections.map((collection) => (
-                    <Card key={collection.id} className="hover:shadow-md transition-shadow">
-                      <CardHeader className="pb-2">
-                        <CardTitle className="text-lg">{collection.name}</CardTitle>
-                      </CardHeader>
-                      <CardContent>
-                        {collection.description && (
-                          <p className="text-sm text-muted-foreground mb-3">{collection.description}</p>
-                        )}
-                        <div className="flex items-center gap-2">
-                          <Badge variant="secondary">{collection.restaurantCount} businesses</Badge>
-                          {collection.is_public && <Badge variant="outline">Public</Badge>}
+                  </CardTitle>
+                </CardHeader>
+                <CardContent className="pt-6">
+                  {collections.length === 0 ? (
+                    <div className="text-center py-12 text-muted-foreground">
+                      <div className="space-y-4">
+                        <h4 className="text-lg font-medium">No collections yet</h4>
+                        <p>Create your first collection to start organizing your saved businesses!</p>
+                        <Button asChild>
+                          <a href="/collections">Create Collection</a>
+                        </Button>
+                      </div>
+                    </div>
+                  ) : (
+                    <div className="space-y-3">
+                      {collections.map((collection) => (
+                        <div key={collection.id} className="flex items-center justify-between p-4 border rounded-lg hover:bg-muted/30 transition-colors">
+                          <div className="flex-1">
+                            <h4 className="font-medium">{collection.name}</h4>
+                            {collection.description && (
+                              <p className="text-sm text-muted-foreground mt-1">{collection.description}</p>
+                            )}
+                          </div>
+                          <div className="flex items-center gap-2">
+                            <Badge variant="secondary" className="text-xs">{collection.restaurantCount} items</Badge>
+                            {collection.is_public && <Badge variant="outline" className="text-xs">Public</Badge>}
+                          </div>
                         </div>
-                      </CardContent>
-                    </Card>
-                  ))}
-                </div>
-              )}
+                      ))}
+                    </div>
+                  )}
+                </CardContent>
+              </Card>
             </TabsContent>
 
-            <TabsContent value="saved" className="space-y-6">
-              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 bg-muted/30 rounded-lg p-6 border">
-                <div className="flex items-center gap-3">
-                  <h3 className="text-xl sm:text-2xl font-bold text-foreground">Recently Saved Businesses</h3>
-                  <Badge variant="secondary" className="text-sm">{recentRestaurants.length} recent</Badge>
-                </div>
-                <Button variant="outline" asChild className="w-fit">
-                  <a href="/collections">
-                    <Eye className="w-4 h-4 mr-2" />
-                    View All
-                  </a>
-                </Button>
-              </div>
-              
-              {recentRestaurants.length === 0 ? (
-                <Card>
-                  <CardContent className="p-8 text-center text-muted-foreground">
-                    <div className="space-y-4">
-                      <h4 className="text-lg font-medium">No saved businesses yet</h4>
-                      <p>Start exploring and save your favorite places to eat, drink, and visit!</p>
-                      <Button asChild>
-                        <a href="/">Start Exploring</a>
+            <TabsContent value="saved" className="mt-6">
+              <Card className="border-0 shadow-sm">
+                <CardHeader className="pb-4 border-b">
+                  <CardTitle className="flex items-center justify-between text-xl font-semibold">
+                    <span>Recent Activity</span>
+                    <div className="flex items-center gap-2">
+                      <Badge variant="secondary" className="text-xs">{recentRestaurants.length} recent</Badge>
+                      <Button variant="outline" size="sm" asChild>
+                        <a href="/collections">
+                          <Eye className="w-4 h-4 mr-1" />
+                          View All
+                        </a>
                       </Button>
                     </div>
-                  </CardContent>
-                </Card>
-              ) : (
-                <div className="grid gap-4 md:grid-cols-2">
-                  {recentRestaurants.map((restaurant) => {
-                    const data = restaurant.restaurant_data;
-                    return (
-                      <Card key={restaurant.id} className="hover:shadow-md transition-shadow">
-                        <CardContent className="p-6">
-                          <div className="space-y-3">
-                            <h4 className="text-lg font-semibold">{restaurant.restaurant_name}</h4>
-                            <div className="flex items-center gap-2 text-muted-foreground text-sm">
-                              <MapPin className="w-4 h-4" />
-                              {restaurant.restaurant_address}
-                            </div>
-                            <div className="flex items-center gap-2 text-sm text-muted-foreground">
-                              <span>{restaurant.city}, {restaurant.country}</span>
-                              {restaurant.category && (
-                                <>
-                                  <span>•</span>
-                                  <span>{restaurant.category}</span>
-                                </>
-                              )}
-                            </div>
-                            {data?.rating && (
-                              <div className="flex items-center gap-1">
-                                <Star className="w-4 h-4 fill-yellow-400 text-yellow-400" />
-                                <span className="text-sm font-medium">{data.rating}</span>
-                                {data?.review_count && (
-                                  <span className="text-sm text-muted-foreground">({data.review_count} reviews)</span>
+                  </CardTitle>
+                </CardHeader>
+                <CardContent className="pt-6">
+                  {recentRestaurants.length === 0 ? (
+                    <div className="text-center py-12 text-muted-foreground">
+                      <div className="space-y-4">
+                        <h4 className="text-lg font-medium">No saved businesses yet</h4>
+                        <p>Start exploring and save your favorite places to eat, drink, and visit!</p>
+                        <Button asChild>
+                          <a href="/">Start Exploring</a>
+                        </Button>
+                      </div>
+                    </div>
+                  ) : (
+                    <div className="space-y-3">
+                      {recentRestaurants.map((restaurant) => {
+                        const data = restaurant.restaurant_data;
+                        return (
+                          <div key={restaurant.id} className="flex items-center justify-between p-4 border rounded-lg hover:bg-muted/30 transition-colors">
+                            <div className="flex-1 min-w-0">
+                              <h4 className="font-medium truncate">{restaurant.restaurant_name}</h4>
+                              <div className="flex items-center gap-2 text-sm text-muted-foreground mt-1">
+                                <MapPin className="w-3 h-3 flex-shrink-0" />
+                                <span className="truncate">{restaurant.restaurant_address}</span>
+                              </div>
+                              <div className="flex items-center gap-2 text-xs text-muted-foreground mt-1">
+                                <span>{restaurant.city}, {restaurant.country}</span>
+                                {restaurant.category && (
+                                  <>
+                                    <span>•</span>
+                                    <span>{restaurant.category}</span>
+                                  </>
                                 )}
                               </div>
-                            )}
-                            <div className="flex gap-2 pt-2">
-                              {data?.website && (
-                                <Button size="sm" variant="outline" asChild>
-                                  <a href={data.website} target="_blank" rel="noopener noreferrer">
-                                    <Globe className="w-3 h-3 mr-1" />
-                                    Website
-                                  </a>
-                                </Button>
+                            </div>
+                            <div className="flex items-center gap-2 ml-4">
+                              {data?.rating && (
+                                <div className="flex items-center gap-1">
+                                  <Star className="w-3 h-3 fill-yellow-400 text-yellow-400" />
+                                  <span className="text-xs font-medium">{data.rating}</span>
+                                </div>
                               )}
-                              {data?.phone && (
-                                <Button size="sm" variant="outline" asChild>
-                                  <a href={`tel:${data.phone}`}>
-                                    <Phone className="w-3 h-3 mr-1" />
-                                    Call
-                                  </a>
-                                </Button>
-                              )}
+                              <div className="flex gap-1">
+                                {data?.website && (
+                                  <Button size="sm" variant="outline" asChild className="h-7 px-2">
+                                    <a href={data.website} target="_blank" rel="noopener noreferrer">
+                                      <Globe className="w-3 h-3" />
+                                    </a>
+                                  </Button>
+                                )}
+                                {data?.phone && (
+                                  <Button size="sm" variant="outline" asChild className="h-7 px-2">
+                                    <a href={`tel:${data.phone}`}>
+                                      <Phone className="w-3 h-3" />
+                                    </a>
+                                  </Button>
+                                )}
+                              </div>
                             </div>
                           </div>
-                        </CardContent>
-                      </Card>
-                    );
-                  })}
-                </div>
-              )}
+                        );
+                      })}
+                    </div>
+                  )}
+                </CardContent>
+              </Card>
             </TabsContent>
           </Tabs>
         </div>
