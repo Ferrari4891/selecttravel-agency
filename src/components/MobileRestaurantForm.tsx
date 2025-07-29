@@ -137,19 +137,15 @@ export const MobileRestaurantForm = ({ onSelectionChange }: MobileRestaurantForm
   };
 
   const handleCountryChange = (value: string) => {
-    console.log('Country changed to:', value);
     setSelectedCountry(value);
     setSelectedCity('');
     setShowResultsOptions(false);
     setIsGetNowActive(false);
     setRestaurants([]);
-    console.log('Countries available:', countries.length);
-    console.log('Cities available:', selectedRegion ? countries.find(c => c.name === value)?.cities.length : 0);
     onSelectionChange?.(selectedCategory, selectedRegion, value, '');
   };
 
   const handleCityChange = (value: string) => {
-    console.log('City changed to:', value);
     setSelectedCity(value);
     setCitySearchInput('');
     setShowResultsOptions(true);
@@ -410,13 +406,39 @@ export const MobileRestaurantForm = ({ onSelectionChange }: MobileRestaurantForm
               <div className="space-y-2">
                 <label className="text-sm font-bold uppercase tracking-wide">4: SELECT CITY</label>
                 
-                {/* City search input above dropdown */}
+                {/* City dropdown first */}
+                {selectedCountry && (
+                  <div className="space-y-2">
+                    <label className="text-xs font-medium text-muted-foreground">Choose from list:</label>
+                    <Select value={selectedCity} onValueChange={handleCityChange} disabled={!selectedCountry}>
+                      <SelectTrigger className="font-bold h-12">
+                        <SelectValue placeholder="Select city" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        {cities.map(city => (
+                          <SelectItem key={city} value={city}>
+                            <span className="font-medium">{city}</span>
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
+                  </div>
+                )}
+
+                {/* OR text */}
+                {selectedCountry && (
+                  <div className="text-center text-sm font-medium text-muted-foreground">
+                    or
+                  </div>
+                )}
+
+                {/* City search input below dropdown */}
                 {selectedCountry && (
                   <div className="space-y-2">
                     <label className="text-xs font-medium text-muted-foreground">Type in a city:</label>
                     <div className="flex gap-2">
                       <Input
-                        placeholder="Enter city name"
+                        placeholder="type in a city"
                         value={citySearchInput}
                         onChange={(e) => setCitySearchInput(e.target.value)}
                         className="font-medium h-12"
@@ -433,30 +455,6 @@ export const MobileRestaurantForm = ({ onSelectionChange }: MobileRestaurantForm
                     </div>
                   </div>
                 )}
-
-                {/* OR text */}
-                {selectedCountry && (
-                  <div className="text-center text-sm font-medium text-muted-foreground">
-                    or
-                  </div>
-                )}
-
-                {/* City dropdown */}
-                <div className="space-y-2">
-                  <label className="text-xs font-medium text-muted-foreground">Choose from list:</label>
-                  <Select value={selectedCity} onValueChange={handleCityChange} disabled={!selectedCountry}>
-                    <SelectTrigger className="font-bold h-12">
-                      <SelectValue placeholder="Select city" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      {cities.map(city => (
-                        <SelectItem key={city} value={city}>
-                          <span className="font-medium">{city}</span>
-                        </SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
-                </div>
               </div>
 
               {/* Step 5: Results Count - Show when city is selected */}
