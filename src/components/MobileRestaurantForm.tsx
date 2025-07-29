@@ -495,35 +495,33 @@ export const MobileRestaurantForm = ({ onSelectionChange }: MobileRestaurantForm
                 </Select>
               </div>
 
-              {/* Buttons - Show when country is selected, like desktop */}
-              {selectedCountry && (
-                <div className="space-y-2">
-                  <Button 
-                    onClick={searchRestaurants} 
-                    disabled={!selectedCategory || !selectedRegion || !selectedCountry || !selectedCity || isLoading} 
-                    size="lg" 
-                    className="w-full h-14 text-lg font-bold bg-green-600 text-white hover:bg-green-700 rounded-none disabled:bg-gray-300 disabled:text-gray-500"
-                  >
-                    {isLoading ? (
-                      <>
-                        <Loader2 className="mr-3 h-5 w-5 animate-spin" />
-                        Searching...
-                      </>
-                    ) : (
-                      'GET NOW'
-                    )}
-                  </Button>
-                  
-                  <Button 
-                    onClick={handleGetAgain} 
-                    variant="outline"
-                    size="lg" 
-                    className="w-full h-12 text-lg font-bold text-black border-black hover:bg-gray-100 rounded-none"
-                  >
-                    GET AGAIN
-                  </Button>
-                </div>
-              )}
+              {/* Buttons - Always visible like desktop */}
+              <div className="space-y-2">
+                <Button 
+                  onClick={searchRestaurants} 
+                  disabled={!selectedCategory || !selectedRegion || !selectedCountry || !selectedCity || isLoading} 
+                  size="lg" 
+                  className="w-full h-14 text-lg font-bold bg-green-600 text-white hover:bg-green-700 rounded-none disabled:bg-gray-300 disabled:text-gray-500"
+                >
+                  {isLoading ? (
+                    <>
+                      <Loader2 className="mr-3 h-5 w-5 animate-spin" />
+                      Searching...
+                    </>
+                  ) : (
+                    'GET NOW!'
+                  )}
+                </Button>
+                
+                <Button 
+                  onClick={handleGetAgain} 
+                  variant="outline"
+                  size="lg" 
+                  className="w-full h-12 text-lg font-bold text-black border-black hover:bg-gray-100 rounded-none"
+                >
+                  GET AGAIN
+                </Button>
+              </div>
             </CardContent>
           </Card>
         </div>
