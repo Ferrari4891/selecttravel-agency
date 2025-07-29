@@ -470,7 +470,7 @@ export const MobileRestaurantForm = ({ onSelectionChange }: MobileRestaurantForm
                 )}
               </div>
 
-              {/* Step 5: Results Count - Always visible */}
+              {/* Step 5: Results Count - ALWAYS VISIBLE */}
               <div className="space-y-2">
                 <label className="text-sm font-bold uppercase tracking-wide">5: SELECT RESULTS (3+ Star Minimum)</label>
                 <Select value={resultCount.toString()} onValueChange={(value) => setResultCount(parseInt(value))}>
@@ -486,7 +486,7 @@ export const MobileRestaurantForm = ({ onSelectionChange }: MobileRestaurantForm
                 </Select>
               </div>
 
-              {/* Buttons - Always visible like desktop */}
+              {/* Buttons - ALWAYS VISIBLE */}
               <div className="space-y-2">
                 <Button 
                   onClick={searchRestaurants} 
