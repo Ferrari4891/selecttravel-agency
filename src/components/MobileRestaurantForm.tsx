@@ -431,6 +431,16 @@ export const MobileRestaurantForm = ({ onSelectionChange }: MobileRestaurantForm
                         placeholder="type in a city"
                         value={citySearchInput}
                         onChange={(e) => setCitySearchInput(e.target.value)}
+                        onKeyDown={(e) => {
+                          if (e.key === 'Enter' && citySearchInput.trim()) {
+                            handleCitySearch();
+                          }
+                        }}
+                        onBlur={() => {
+                          if (citySearchInput.trim()) {
+                            handleCitySearch();
+                          }
+                        }}
                         className="font-medium h-12"
                       />
                       <Button
