@@ -557,14 +557,19 @@ const Index: React.FC = () => {
               {/* Step 4: City Selection */}
               {currentStep === 4 && (
                 <div className="space-y-6">
-                  <h2 className="text-lg font-bold text-center text-white mb-4">4: Select City</h2>
-                  <div className="bg-white p-4 rounded-lg shadow-md">
-                    <EnhancedCityInput
-                      value={selectedCity}
-                      onChange={setSelectedCity}
-                      placeholder="Enter or select a city"
-                    />
-                  </div>
+                  <h2 className="text-lg font-bold text-center text-white">4: Select City</h2>
+                  <Select onValueChange={setSelectedCity} value={selectedCity}>
+                    <SelectTrigger className="w-full h-14 text-base bg-white text-black border-2 border-white rounded-lg shadow-md">
+                      <SelectValue placeholder="Select city..." />
+                    </SelectTrigger>
+                    <SelectContent className="bg-white border-2 border-gray-300 rounded-lg max-h-60 overflow-y-auto z-[200] shadow-lg">
+                      {cities.map((city) => (
+                        <SelectItem key={city} value={city} className="text-base py-3 hover:bg-gray-100">
+                          {city}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
 
                   {/* Get Now and Get Again buttons - Side by side */}
                   {(selectedCity || citySearchInput.trim()) && (
