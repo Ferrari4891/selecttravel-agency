@@ -439,7 +439,7 @@ const Index: React.FC = () => {
 
           {/* Middle Section - Selection Interface */}
           <div className="flex-1 flex items-center justify-center px-4">
-            <div className="w-full max-w-sm">
+            <div className="w-full max-w-md md:max-w-lg lg:max-w-xl">
               {/* Progress Indicator */}
               <div className="flex justify-center space-x-2 mb-6">
                 {[
@@ -492,17 +492,17 @@ const Index: React.FC = () => {
 
               {/* Step 1: Category Selection */}
               {currentStep === 1 && (
-                <div className="space-y-4">
+                <div className="space-y-6">
                   <h2 className="text-lg font-bold text-center text-white">1: What are you looking for?</h2>
                   <Select onValueChange={handleCategorySelect} value={selectedCategory}>
-                    <SelectTrigger className="w-full h-12 text-base bg-white text-black border-2 border-white rounded-none">
+                    <SelectTrigger className="w-full h-14 text-base bg-white text-black border-2 border-white rounded-none shadow-md">
                       <SelectValue placeholder="Select category..." />
                     </SelectTrigger>
-                    <SelectContent className="bg-white border-2 border-gray-300 rounded-none max-h-60 overflow-y-auto z-[100]">
+                    <SelectContent className="bg-white border-2 border-gray-300 rounded-none max-h-60 overflow-y-auto z-[100] shadow-lg">
                       {categories.map((category) => {
                         const IconComponent = category.icon;
                         return (
-                          <SelectItem key={category.value} value={category.value} className="text-base py-2 rounded-none hover:bg-gray-100">
+                          <SelectItem key={category.value} value={category.value} className="text-base py-3 rounded-none hover:bg-gray-100">
                             <div className="flex items-center gap-2">
                               <IconComponent className="h-5 w-5" />
                               <span className="font-medium">{category.label}</span>
@@ -517,15 +517,15 @@ const Index: React.FC = () => {
 
               {/* Step 2: Region Selection */}
               {currentStep === 2 && (
-                <div className="space-y-4">
+                <div className="space-y-6">
                   <h2 className="text-lg font-bold text-center text-white">2: Select Region</h2>
                   <Select onValueChange={handleRegionSelect} value={selectedRegion}>
-                    <SelectTrigger className="w-full h-12 text-base bg-white text-black border-2 border-white rounded-none">
+                    <SelectTrigger className="w-full h-14 text-base bg-white text-black border-2 border-white rounded-none shadow-md">
                       <SelectValue placeholder="Select region..." />
                     </SelectTrigger>
-                    <SelectContent className="bg-white border-2 border-gray-300 rounded-none max-h-60 overflow-y-auto z-[100]">
+                    <SelectContent className="bg-white border-2 border-gray-300 rounded-none max-h-60 overflow-y-auto z-[100] shadow-lg">
                       {regions.map((region) => (
-                        <SelectItem key={region} value={region} className="text-base py-2 rounded-none hover:bg-gray-100">
+                        <SelectItem key={region} value={region} className="text-base py-3 rounded-none hover:bg-gray-100">
                           {region}
                         </SelectItem>
                       ))}
@@ -536,15 +536,15 @@ const Index: React.FC = () => {
 
               {/* Step 3: Country Selection */}
               {currentStep === 3 && (
-                <div className="space-y-4">
+                <div className="space-y-6">
                   <h2 className="text-lg font-bold text-center text-white">3: Select Country</h2>
                   <Select onValueChange={handleCountrySelect} value={selectedCountry}>
-                    <SelectTrigger className="w-full h-12 text-base bg-white text-black border-2 border-white rounded-none">
+                    <SelectTrigger className="w-full h-14 text-base bg-white text-black border-2 border-white rounded-none shadow-md">
                       <SelectValue placeholder="Select country..." />
                     </SelectTrigger>
-                    <SelectContent className="bg-white border-2 border-gray-300 rounded-none max-h-60 overflow-y-auto z-[100]">
+                    <SelectContent className="bg-white border-2 border-gray-300 rounded-none max-h-60 overflow-y-auto z-[100] shadow-lg">
                       {countries.map((country) => (
-                        <SelectItem key={country.name} value={country.name} className="text-base py-2 rounded-none hover:bg-gray-100">
+                        <SelectItem key={country.name} value={country.name} className="text-base py-3 rounded-none hover:bg-gray-100">
                           {country.name}
                         </SelectItem>
                       ))}
@@ -555,50 +555,51 @@ const Index: React.FC = () => {
 
               {/* Step 4: City Selection with Search */}
               {currentStep === 4 && (
-                <div className="space-y-4">
+                <div className="space-y-6">
                   <h2 className="text-lg font-bold text-center text-white">4: Select City</h2>
                   
                   {/* City Search Input */}
-                  <div className="space-y-2">
+                  <div className="space-y-3">
                     <div className="flex gap-2">
                       <Input
                         placeholder="Type in a city..."
                         value={citySearchInput}
                         onChange={(e) => setCitySearchInput(e.target.value)}
                         onKeyDown={handleCityInputKeyDown}
-                        className="flex-1 h-12 text-base bg-white text-black border-2 border-white rounded-none"
+                        className="flex-1 h-14 text-base bg-white text-black border-2 border-white rounded-none shadow-md"
                       />
                       <Button 
                         onClick={handleCitySearch}
-                        className="h-12 px-4 bg-white text-black border-white rounded-none hover:bg-white/90"
+                        disabled={!citySearchInput.trim()}
+                        className="h-14 px-6 bg-white text-black border-white rounded-none hover:bg-white/90 shadow-md disabled:opacity-50"
                       >
                         <Search className="h-5 w-5" />
                       </Button>
                     </div>
-                    <p className="text-white text-xs text-center">or select from dropdown below</p>
+                    <p className="text-white text-sm text-center font-medium">or select from dropdown below</p>
                   </div>
 
                   {/* City Dropdown */}
                   <Select onValueChange={handleCitySelect} value={selectedCity}>
-                    <SelectTrigger className="w-full h-12 text-base bg-white text-black border-2 border-white rounded-none">
+                    <SelectTrigger className="w-full h-14 text-base bg-white text-black border-2 border-white rounded-none shadow-md">
                       <SelectValue placeholder="Select city..." />
                     </SelectTrigger>
-                    <SelectContent className="bg-white border-2 border-gray-300 rounded-none max-h-60 overflow-y-auto z-[100]">
+                    <SelectContent className="bg-white border-2 border-gray-300 rounded-none max-h-60 overflow-y-auto z-[100] shadow-lg">
                       {cities.map((city) => (
-                        <SelectItem key={city} value={city} className="text-base py-2 rounded-none hover:bg-gray-100">
+                        <SelectItem key={city} value={city} className="text-base py-3 rounded-none hover:bg-gray-100">
                           {city}
                         </SelectItem>
                       ))}
                     </SelectContent>
                   </Select>
 
-                  {/* Get Now and Get Again buttons */}
+                  {/* Get Now and Get Again buttons - Side by side */}
                   {(selectedCity || citySearchInput.trim()) && (
-                    <div className="space-y-2 mt-4">
+                    <div className="flex gap-3 mt-6">
                       <Button 
                         onClick={handleGetNow} 
                         disabled={!selectedCity || isLoading}
-                        className="w-full h-12 text-base font-bold bg-green-500 text-white border-green-500 rounded-none hover:bg-green-600 disabled:opacity-50"
+                        className="flex-1 h-14 text-base font-bold bg-green-500 text-white border-green-500 rounded-none hover:bg-green-600 disabled:opacity-50 shadow-md"
                       >
                         {isLoading ? (
                           <>
@@ -611,7 +612,7 @@ const Index: React.FC = () => {
                       </Button>
                       <Button 
                         onClick={handleGetAgain}
-                        className="w-full h-12 text-base font-bold bg-gray-500 text-white border-gray-500 rounded-none hover:bg-gray-600"
+                        className="flex-1 h-14 text-base font-bold bg-white text-black border-2 border-white rounded-none hover:bg-white/90 shadow-md"
                       >
                         <RotateCcw className="h-4 w-4 mr-2" />
                         GET AGAIN
