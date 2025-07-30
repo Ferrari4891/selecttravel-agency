@@ -397,9 +397,9 @@ const Index: React.FC = () => {
     <div className="h-full bg-background">
       {/* Unified Layout for all devices - use mobile experience */}
       <div className="relative h-full">
-        {/* Full-screen hero image */}
+        {/* Hero image contained within mobile container */}
         <div 
-          className="fixed inset-0 z-0"
+          className="absolute inset-0 z-0"
           style={{
             backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url(${getHeroImage()})`,
             backgroundSize: 'cover',
