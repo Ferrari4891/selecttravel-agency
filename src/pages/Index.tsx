@@ -11,7 +11,7 @@ import { Utensils, Coffee, Bed, Gamepad2, MapPin, Download, RotateCcw, Loader2, 
 import { Input } from '@/components/ui/input';
 import { regionData } from '@/data/locationData';
 import SaveBusinessButton from '@/components/SaveBusinessButton';
-import { useIsMobile } from '@/hooks/use-mobile';
+
 
 // Import hero images
 import heroEat from '@/assets/hero-eat.jpg';
@@ -47,7 +47,6 @@ interface Business {
 }
 
 const Index: React.FC = () => {
-  const isMobile = useIsMobile();
   const [currentStep, setCurrentStep] = useState<1 | 2 | 3 | 4 | 5>(1);
   const [selectedCategory, setSelectedCategory] = useState<string>('');
   const [selectedRegion, setSelectedRegion] = useState<string>('');
@@ -396,908 +395,320 @@ const Index: React.FC = () => {
 
   return (
     <div className="min-h-screen bg-white">
-      {/* Mobile Layout */}
-      {isMobile ? (
-        <div className="relative min-h-screen">
-          {/* Full-screen hero image for mobile */}
-          <div 
-            className="fixed inset-0 z-0"
-            style={{
-              backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url(${getHeroImage()})`,
-              backgroundSize: 'cover',
-              backgroundPosition: 'center'
-            }}
-          />
-          
-          {/* Overlaid Navigation for mobile */}
-          <div className="relative z-50">
-            <Navigation />
-          </div>
-          
-          {/* Main content area for mobile */}
-          <div className="relative z-10 min-h-screen flex flex-col">
-            {/* Top Section - Title */}
-            <div className="flex-shrink-0 flex flex-col justify-center items-center text-center px-4 py-8 mt-16">
-              {selectedCity && cityImages[selectedCity] && (
-                <h1 className="text-white font-bold text-3xl leading-tight">
-                  {selectedCity.toUpperCase()}
+      {/* Unified Layout for all devices - use mobile experience */}
+      <div className="relative min-h-screen">
+        {/* Full-screen hero image */}
+        <div 
+          className="fixed inset-0 z-0"
+          style={{
+            backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url(${getHeroImage()})`,
+            backgroundSize: 'cover',
+            backgroundPosition: 'center'
+          }}
+        />
+        
+        {/* Overlaid Navigation */}
+        <div className="relative z-50">
+          <Navigation />
+        </div>
+        
+        {/* Main content area */}
+        <div className="relative z-10 min-h-screen flex flex-col">
+          {/* Top Section - Title */}
+          <div className="flex-shrink-0 flex flex-col justify-center items-center text-center px-4 py-8 mt-16">
+            {selectedCity && cityImages[selectedCity] && (
+              <h1 className="text-white font-bold text-3xl leading-tight">
+                {selectedCity.toUpperCase()}
+              </h1>
+            )}
+            
+            {!selectedCity && (
+              <>
+                <h1 className="text-white font-bold text-xl leading-tight">
+                  Personalized Guide Books
                 </h1>
-              )}
-              
-              {!selectedCity && (
-                <>
-                  <h1 className="text-white font-bold text-xl leading-tight">
-                    Personalized Guide Books
-                  </h1>
-                  <p className="text-white text-sm mt-1">
-                    Let's get personal
-                  </p>
-                  <p className="text-white text-xs mt-1">
-                    www.smartguidebooks.com
-                  </p>
-                </>
-              )}
-            </div>
-
-            {/* Middle Section - Selection Interface */}
-            <div className="flex-1 flex items-center justify-center px-4">
-              <div className="w-full max-w-sm">
-                {/* Progress Indicator */}
-                <div className="flex justify-center space-x-2 mb-6">
-                  {[
-                    { step: 1, label: 'Category' },
-                    { step: 2, label: 'Region' },
-                    { step: 3, label: 'Country' },
-                    { step: 4, label: 'City' },
-                    { step: 5, label: 'Get Now!' }
-                  ].map(({ step, label }) => (
-                    <div key={step} className="flex flex-col items-center space-y-1">
-                      <button
-                        onClick={() => handleStepNavigation(step)}
-                        className={`w-5 h-5 rounded-none flex items-center justify-center border-2 font-medium transition-colors cursor-pointer hover:scale-110 text-xs ${
-                          step <= currentStep 
-                            ? 'bg-white text-black border-white' 
-                            : 'bg-transparent text-white border-white/50 hover:border-white'
-                        }`}
-                      >
-                        {step}
-                      </button>
-                    </div>
-                  ))}
-                </div>
-
-                {/* Current Selections */}
-                {(selectedCategory || selectedRegion || selectedCountry || selectedCity) && (
-                  <div className="flex flex-wrap gap-1 justify-center mb-4">
-                    {selectedCategory && (
-                      <Badge variant="secondary" className="bg-white text-black text-xs px-2 py-1 rounded-none">
-                        {categories.find(c => c.value === selectedCategory)?.label}
-                      </Badge>
-                    )}
-                    {selectedRegion && (
-                      <Badge variant="secondary" className="bg-white text-black text-xs px-2 py-1 rounded-none">
-                        {selectedRegion}
-                      </Badge>
-                    )}
-                    {selectedCountry && (
-                      <Badge variant="secondary" className="bg-white text-black text-xs px-2 py-1 rounded-none">
-                        {selectedCountry}
-                      </Badge>
-                    )}
-                    {selectedCity && (
-                      <Badge variant="secondary" className="bg-white text-black text-xs px-2 py-1 rounded-none">
-                        {selectedCity}
-                      </Badge>
-                    )}
-                  </div>
-                )}
-
-                {/* Selection Interface */}
-                <div className="p-6">
-                  {/* Step 1: Category Selection */}
-                  {currentStep === 1 && (
-                    <div className="space-y-4">
-                      <h2 className="text-lg font-bold text-center text-white">1: Select Category</h2>
-                      <Select onValueChange={handleCategorySelect}>
-                        <SelectTrigger className="h-12 border-2 border-gray-400 text-base rounded-none z-50 bg-white">
-                          <SelectValue placeholder="Choose your category..." />
-                        </SelectTrigger>
-                        <SelectContent className="rounded-none z-50 bg-white">
-                          {categories.map((category) => {
-                            const IconComponent = category.icon;
-                            return (
-                              <SelectItem key={category.value} value={category.value} className="text-base py-2 rounded-none">
-                                <div className="flex items-center gap-2">
-                                  <IconComponent className="h-5 w-5" />
-                                  <span className="font-medium">{category.label}</span>
-                                </div>
-                              </SelectItem>
-                            );
-                          })}
-                        </SelectContent>
-                      </Select>
-                    </div>
-                  )}
-
-                  {/* Step 2: Region Selection */}
-                  {currentStep === 2 && (
-                    <div className="space-y-4">
-                      <h2 className="text-lg font-bold text-center text-white">2: Select Region</h2>
-                      <Select onValueChange={handleRegionSelect}>
-                        <SelectTrigger className="h-12 border-2 border-gray-400 text-base rounded-none z-50 bg-white">
-                          <SelectValue placeholder="Choose a region..." />
-                        </SelectTrigger>
-                        <SelectContent className="rounded-none z-50 bg-white">
-                          {regions.map((region) => (
-                            <SelectItem key={region} value={region} className="text-base py-2 rounded-none">
-                              {region}
-                            </SelectItem>
-                          ))}
-                        </SelectContent>
-                      </Select>
-                    </div>
-                  )}
-
-                  {/* Step 3: Country Selection */}
-                  {currentStep === 3 && (
-                    <div className="space-y-4">
-                      <h2 className="text-lg font-bold text-center text-white">3: Select Country</h2>
-                      <Select onValueChange={handleCountrySelect}>
-                        <SelectTrigger className="h-12 border-2 border-gray-400 text-base rounded-none z-50 bg-white">
-                          <SelectValue placeholder="Choose a country..." />
-                        </SelectTrigger>
-                        <SelectContent className="rounded-none z-50 bg-white">
-                          {countries.map((country) => (
-                            <SelectItem key={country.name} value={country.name} className="text-base py-2 rounded-none">
-                              {country.name}
-                            </SelectItem>
-                          ))}
-                        </SelectContent>
-                      </Select>
-                    </div>
-                  )}
-
-                   {/* Step 4: City Selection */}
-                  {currentStep === 4 && (
-                    <div className="space-y-4">
-                      <h2 className="text-lg font-bold text-center text-white">4: Select City</h2>
-                      <div className="space-y-3">
-                        <div className="flex gap-2">
-                          <Input
-                            type="text"
-                            placeholder="Search cities..."
-                            value={citySearchInput}
-                            onChange={(e) => setCitySearchInput(e.target.value)}
-                            onKeyDown={handleCityInputKeyDown}
-                            className="h-12 border-2 border-gray-400 text-base rounded-none bg-white"
-                          />
-                          <Button
-                            onClick={handleCitySearch}
-                            variant="outline"
-                            size="sm"
-                            className="h-12 px-3 rounded-none border-2 border-white bg-white text-black hover:bg-gray-100"
-                          >
-                            <Search className="h-4 w-4" />
-                          </Button>
-                        </div>
-                        <Select onValueChange={handleCitySelect}>
-                          <SelectTrigger className="h-12 border-2 border-gray-400 text-base rounded-none z-50 bg-white">
-                            <SelectValue placeholder="Choose a city..." />
-                          </SelectTrigger>
-                          <SelectContent className="rounded-none z-50 bg-white max-h-60">
-                            {cities
-                              .filter(city => 
-                                citySearchInput === '' || 
-                                city.toLowerCase().includes(citySearchInput.toLowerCase())
-                              )
-                              .map((city) => (
-                                <SelectItem key={city} value={city} className="text-base py-2 rounded-none">
-                                  {city}
-                                </SelectItem>
-                              ))
-                            }
-                          </SelectContent>
-                        </Select>
-                      </div>
-                    </div>
-                  )}
-
-                  {/* Step 5: Get Now */}
-                  {currentStep === 5 && isComplete && (
-                    <div className="space-y-4">
-                      <h2 className="text-lg font-bold text-center text-white">5: Ready to Search!</h2>
-                      <div className="space-y-3">
-                        <Select value={resultCount.toString()} onValueChange={(value) => setResultCount(parseInt(value))}>
-                          <SelectTrigger className="h-12 border-2 border-gray-400 text-base rounded-none z-50 bg-white">
-                            <SelectValue placeholder="Number of results..." />
-                          </SelectTrigger>
-                          <SelectContent className="rounded-none z-50 bg-white">
-                            <SelectItem value="5" className="text-base py-2 rounded-none">5 results</SelectItem>
-                            <SelectItem value="10" className="text-base py-2 rounded-none">10 results</SelectItem>
-                            <SelectItem value="20" className="text-base py-2 rounded-none">20 results</SelectItem>
-                            <SelectItem value="50" className="text-base py-2 rounded-none">50 results</SelectItem>
-                            <SelectItem value="100" className="text-base py-2 rounded-none">100 results</SelectItem>
-                          </SelectContent>
-                        </Select>
-                        
-                        <div className="flex gap-2">
-                          <Button
-                            onClick={handleGetNow}
-                            disabled={isLoading}
-                            className="flex-1 h-12 bg-green-600 hover:bg-green-700 text-white border-2 border-green-600 text-base font-bold rounded-none"
-                          >
-                            {isLoading ? (
-                              <>
-                                <Loader2 className="h-4 w-4 mr-2 animate-spin" />
-                                Searching...
-                              </>
-                            ) : (
-                              <>
-                                <Search className="h-4 w-4 mr-2" />
-                                Get Now
-                              </>
-                            )}
-                          </Button>
-                          <Button
-                            onClick={handleGetAgain}
-                            variant="outline"
-                            className="flex-1 h-12 border-2 border-white text-black bg-white hover:bg-gray-100 rounded-none"
-                          >
-                            <RotateCcw className="h-4 w-4 mr-1" />
-                            Get Again
-                          </Button>
-                        </div>
-                      </div>
-                    </div>
-                  )}
-                </div>
-              </div>
-            </div>
+                <p className="text-white text-sm mt-1">
+                  Let's get personal
+                </p>
+                <p className="text-white text-xs mt-1">
+                  www.smartguidebooks.com
+                </p>
+              </>
+            )}
           </div>
-          
-          {/* Results Section for mobile */}
-          {showResults && businesses.length > 0 && (
-            <div className="container mx-auto px-4 py-8 max-w-6xl relative z-20 bg-white rounded-lg mx-4 my-8">
-              <div className="space-y-6">
-                <div className="flex justify-between items-center">
-                  <h2 className="text-2xl font-bold text-black">
-                    🔥 FOUND {businesses.length} {selectedCategory} options in {selectedCity} 🔥
-                  </h2>
-                  <Button
-                    onClick={exportToCSV}
-                    variant="outline"
-                    className="border-2 border-gray-400 hover:bg-gray-100 rounded-none"
+
+          {/* Middle Section - Selection Interface */}
+          <div className="flex-1 flex items-center justify-center px-4">
+            <div className="w-full max-w-sm">
+              {/* Progress Indicator */}
+              <div className="flex justify-center space-x-2 mb-6">
+                {[
+                  { step: 1, label: 'Category' },
+                  { step: 2, label: 'Region' },
+                  { step: 3, label: 'Country' },
+                  { step: 4, label: 'City' },
+                  { step: 5, label: 'Get Now!' }
+                ].map(({ step, label }) => (
+                  <div key={step} className="flex flex-col items-center space-y-1">
+                    <button
+                      onClick={() => handleStepNavigation(step)}
+                      className={`w-5 h-5 rounded-none flex items-center justify-center border-2 font-medium transition-colors cursor-pointer hover:scale-110 text-xs ${
+                        step <= currentStep 
+                          ? 'bg-white text-black border-white' 
+                          : 'bg-transparent text-white border-white/50 hover:border-white'
+                      }`}
+                    >
+                      {step}
+                    </button>
+                  </div>
+                ))}
+              </div>
+
+              {/* Current Selections */}
+              {(selectedCategory || selectedRegion || selectedCountry || selectedCity) && (
+                <div className="flex flex-wrap gap-1 justify-center mb-4">
+                  {selectedCategory && (
+                    <Badge variant="secondary" className="bg-white text-black text-xs px-2 py-1 rounded-none">
+                      {categories.find(c => c.value === selectedCategory)?.label}
+                    </Badge>
+                  )}
+                  {selectedRegion && (
+                    <Badge variant="secondary" className="bg-white text-black text-xs px-2 py-1 rounded-none">
+                      {selectedRegion}
+                    </Badge>
+                  )}
+                  {selectedCountry && (
+                    <Badge variant="secondary" className="bg-white text-black text-xs px-2 py-1 rounded-none">
+                      {selectedCountry}
+                    </Badge>
+                  )}
+                  {selectedCity && (
+                    <Badge variant="secondary" className="bg-white text-black text-xs px-2 py-1 rounded-none">
+                      {selectedCity}
+                    </Badge>
+                  )}
+                </div>
+              )}
+
+              {/* Step 1: Category Selection */}
+              {currentStep === 1 && (
+                <div className="space-y-4">
+                  <h2 className="text-lg font-bold text-center text-white">1: What are you looking for?</h2>
+                  <Select onValueChange={handleCategorySelect} value={selectedCategory}>
+                    <SelectTrigger className="w-full h-12 text-base bg-white/90 backdrop-blur-sm border-white rounded-none">
+                      <SelectValue placeholder="Select category..." />
+                    </SelectTrigger>
+                    <SelectContent className="bg-white rounded-none">
+                      {categories.map((category) => {
+                        const IconComponent = category.icon;
+                        return (
+                          <SelectItem key={category.value} value={category.value} className="text-base py-2 rounded-none">
+                            <div className="flex items-center gap-2">
+                              <IconComponent className="h-5 w-5" />
+                              <span className="font-medium">{category.label}</span>
+                            </div>
+                          </SelectItem>
+                        );
+                      })}
+                    </SelectContent>
+                  </Select>
+                </div>
+              )}
+
+              {/* Step 2: Region Selection */}
+              {currentStep === 2 && (
+                <div className="space-y-4">
+                  <h2 className="text-lg font-bold text-center text-white">2: Select Region</h2>
+                  <Select onValueChange={handleRegionSelect} value={selectedRegion}>
+                    <SelectTrigger className="w-full h-12 text-base bg-white/90 backdrop-blur-sm border-white rounded-none">
+                      <SelectValue placeholder="Select region..." />
+                    </SelectTrigger>
+                    <SelectContent className="bg-white rounded-none">
+                      {regions.map((region) => (
+                        <SelectItem key={region} value={region} className="text-base py-2 rounded-none">
+                          {region}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                </div>
+              )}
+
+              {/* Step 3: Country Selection */}
+              {currentStep === 3 && (
+                <div className="space-y-4">
+                  <h2 className="text-lg font-bold text-center text-white">3: Select Country</h2>
+                  <Select onValueChange={handleCountrySelect} value={selectedCountry}>
+                    <SelectTrigger className="w-full h-12 text-base bg-white/90 backdrop-blur-sm border-white rounded-none">
+                      <SelectValue placeholder="Select country..." />
+                    </SelectTrigger>
+                    <SelectContent className="bg-white rounded-none">
+                      {countries.map((country) => (
+                        <SelectItem key={country.name} value={country.name} className="text-base py-2 rounded-none">
+                          {country.name}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                </div>
+              )}
+
+              {/* Step 4: City Selection with Search */}
+              {currentStep === 4 && (
+                <div className="space-y-4">
+                  <h2 className="text-lg font-bold text-center text-white">4: Select City</h2>
+                  
+                  {/* City Search Input */}
+                  <div className="space-y-2">
+                    <div className="flex gap-2">
+                      <Input
+                        placeholder="Search for a city..."
+                        value={citySearchInput}
+                        onChange={(e) => setCitySearchInput(e.target.value)}
+                        onKeyDown={handleCityInputKeyDown}
+                        className="flex-1 h-12 text-base bg-white/90 backdrop-blur-sm border-white rounded-none"
+                      />
+                      <Button 
+                        onClick={handleCitySearch}
+                        className="h-12 px-4 bg-white text-black border-white rounded-none hover:bg-white/90"
+                      >
+                        <Search className="h-5 w-5" />
+                      </Button>
+                    </div>
+                    <p className="text-white text-xs text-center">or select from dropdown below</p>
+                  </div>
+
+                  {/* City Dropdown */}
+                  <Select onValueChange={handleCitySelect} value={selectedCity}>
+                    <SelectTrigger className="w-full h-12 text-base bg-white/90 backdrop-blur-sm border-white rounded-none">
+                      <SelectValue placeholder="Select city..." />
+                    </SelectTrigger>
+                    <SelectContent className="bg-white rounded-none">
+                      {cities.map((city) => (
+                        <SelectItem key={city} value={city} className="text-base py-2 rounded-none">
+                          {city}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                </div>
+              )}
+
+              {/* Step 5: Get Now */}
+              {currentStep === 5 && (
+                <div className="space-y-4">
+                  <h2 className="text-lg font-bold text-center text-white">5: How many results?</h2>
+                  <Select onValueChange={(value) => setResultCount(parseInt(value))} value={resultCount.toString()}>
+                    <SelectTrigger className="w-full h-12 text-base bg-white/90 backdrop-blur-sm border-white rounded-none">
+                      <SelectValue />
+                    </SelectTrigger>
+                    <SelectContent className="bg-white rounded-none">
+                      {[5, 10, 15, 20, 25].map((count) => (
+                        <SelectItem key={count} value={count.toString()} className="text-base py-2 rounded-none">
+                          {count} results
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                  
+                  <Button 
+                    onClick={handleGetNow} 
+                    disabled={!isComplete || isLoading}
+                    className="w-full h-12 text-base font-bold bg-white text-black border-white rounded-none hover:bg-white/90 disabled:opacity-50"
                   >
-                    <Download className="h-4 w-4 mr-2" />
-                    Export CSV
+                    {isLoading ? (
+                      <>
+                        <Loader2 className="h-5 w-5 mr-2 animate-spin" />
+                        Getting Results...
+                      </>
+                    ) : (
+                      'GET NOW!'
+                    )}
                   </Button>
                 </div>
-                
-                <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-                  {businesses.map((business, index) => {
-                    console.log(`🏪 Rendering business ${index}:`, business.name);
-                    console.log(`🔍 Business data for ${business.name}:`, {
-                      name: business.name,
-                      rating: business.rating,
-                      reviewCount: business.reviewCount,
-                      address: business.address,
-                      phone: business.phone,
-                      email: business.email,
-                      website: business.website
-                    });
-                    
-                    // Placeholder images for businesses - FIXED URLS
-                    const placeholderImages = [
-                      'https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=400&h=300&fit=crop&q=80',
-                      'https://images.unsplash.com/photo-1567620905732-2d1ec7ab7445?w=400&h=300&fit=crop&q=80',
-                      'https://images.unsplash.com/photo-1551218808-94e220e084d2?w=400&h=300&fit=crop&q=80',
-                      'https://images.unsplash.com/photo-1552566499-dfd8fa52cd2c?w=400&h=300&fit=crop&q=80',
-                      'https://images.unsplash.com/photo-1559339352-11d035aa65de?w=400&h=300&fit=crop&q=80'
-                    ];
-                    
-                    const imageUrl = placeholderImages[index % placeholderImages.length];
-                    console.log(`🖼️ Using image URL for business ${index}:`, imageUrl);
-                    
-                    return (
-                    <Card key={index} className="border-2 border-gray-300 shadow-lg">
-                      {/* Add placeholder image */}
-                      <div className="aspect-video relative overflow-hidden">
-                        <img
-                          src={imageUrl}
-                          alt={business.name}
-                          className="w-full h-full object-cover"
-                          onError={(e) => {
-                            console.log('❌ Image failed to load:', imageUrl, 'using coming soon placeholder');
-                            const target = e.target as HTMLImageElement;
-                            target.src = placeholderComingSoon;
-                          }}
-                          onLoad={() => {
-                            console.log('✅ Image loaded successfully:', imageUrl);
-                          }}
-                        />
-                      </div>
-                      
-                      <CardContent className="p-4 space-y-3">
-                        <div className="flex justify-between items-start">
-                          <h3 className="font-bold text-lg text-black">{business.name}</h3>
-                          <div className="text-right">
-                            <div className="text-yellow-500 font-bold">★ {business.rating}</div>
-                            <div className="text-sm text-gray-600">({business.reviewCount} reviews)</div>
-                          </div>
-                        </div>
-                        
-                        <p className="text-gray-700 text-sm">{business.address}</p>
-                        
-                        <div className="space-y-2">
-                          <div className="flex space-x-2">
-                            <Button
-                              size="sm"
-                              variant="outline"
-                              className="flex-1 border-gray-400 rounded-none"
-                              onClick={() => window.open(`tel:${business.phone}`, '_self')}
-                            >
-                              Call
-                            </Button>
-                            <Button
-                              size="sm"
-                              variant="outline"
-                              className="flex-1 border-gray-400 rounded-none"
-                              onClick={() => window.open(business.website, '_blank')}
-                            >
-                              Website
-                            </Button>
-                          </div>
-                          
-                          <div className="flex space-x-2">
-                            <Button
-                              size="sm"
-                              variant="outline"
-                              className="flex-1 border-gray-400 rounded-none"
-                              onClick={() => window.open(business.mapLink, '_blank')}
-                            >
-                              <MapPin className="h-3 w-3 mr-1" />
-                              Map
-                            </Button>
-                            <Button
-                              size="sm"
-                              variant="outline"
-                              className="flex-1 border-gray-400 rounded-none"
-                              onClick={() => window.open(`mailto:${business.email}`, '_self')}
-                            >
-                              Email
-                            </Button>
-                          </div>
-                          
-                          {(business.facebook || business.instagram || business.twitter) && (
-                            <div className="flex space-x-2 pt-2">
-                              {business.facebook && (
-                                <Button
-                                  size="sm"
-                                  variant="outline"
-                                  className="flex-1 border-gray-400 rounded-none"
-                                  onClick={() => window.open(business.facebook, '_blank')}
-                                >
-                                  FB
-                                </Button>
-                              )}
-                              {business.instagram && (
-                                <Button
-                                  size="sm"
-                                  variant="outline"
-                                  className="flex-1 border-gray-400 rounded-none"
-                                  onClick={() => window.open(business.instagram, '_blank')}
-                                >
-                                  IG
-                                </Button>
-                              )}
-                              {business.twitter && (
-                                <Button
-                                  size="sm"
-                                  variant="outline"
-                                  className="flex-1 border-gray-400 rounded-none"
-                                  onClick={() => window.open(business.twitter, '_blank')}
-                                >
-                                  X
-                                </Button>
-                              )}
-                            </div>
-                          )}
-                           
-                           {/* Save Button - spans full width with black background */}
-                           <SaveBusinessButton
-                             restaurant={{
-                               name: business.name,
-                               address: business.address || "",
-                               googleMapRef: business.googleMapRef || "",
-                               socialMediaLinks: {
-                                 facebook: business.facebook,
-                                 instagram: business.instagram,
-                                 twitter: business.twitter,
-                               },
-                               contactDetails: {
-                                 phone: business.phone,
-                                 email: business.email,
-                                 website: business.website,
-                               },
-                               imageLinks: business.imageLinks ? business.imageLinks.split(',') : [],
-                               rating: business.rating || 0,
-                               reviewCount: business.reviewCount || 0,
-                               source: business.source || "Local",
-                             }}
-                             selectedCity={selectedCity}
-                             selectedCountry={selectedCountry}
-                             selectedCategory={selectedCategory}
-                           />
-                         </div>
-                       </CardContent>
-                     </Card>
-                     );
-                   })}
-                </div>
-              </div>
-            </div>
-          )}
-        </div>
-      ) : (
-        /* Desktop Layout */
-        <>
-          <Navigation />
-          <LanguageSelector />
-
-          {/* Hero Section - Carousel with Overlay Controls */}
-          <div className="relative mx-2 sm:mx-6 mt-2 border-4 sm:border-8 border-white shadow-[0_8px_16px_rgba(0,0,0,0.3)]">
-            <div className="relative w-full aspect-[3/4] sm:aspect-[5/4] md:aspect-video overflow-hidden">
-          {/* Rotating Background Images with Fallback */}
-          <div 
-            className="absolute inset-0 transition-opacity duration-1000"
-            style={{
-              backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url(${(() => {
-                const heroImage = getCarouselImage();
-                console.log('🖼️ Hero image URL being used:', heroImage);
-                return heroImage;
-              })()})`,
-              backgroundSize: 'cover',
-              backgroundPosition: 'center'
-            }}
-            onError={(e) => {
-              console.log('❌ Hero image failed to load, using coming soon placeholder');
-              const target = e.target as HTMLDivElement;
-              target.style.backgroundImage = `linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url(${placeholderComingSoon})`;
-            }}
-          />
-          
-          {/* Overlay Content */}
-          <div className="absolute inset-0 z-10 flex flex-col">
-            {/* Top Section - Title */}
-            <div className="flex-shrink-0 flex flex-col justify-center items-center text-center px-2 sm:px-4 py-2 sm:py-4">
-              {/* City Name Display - only when city image is shown */}
-              {selectedCity && cityImages[selectedCity] && (
-                <h1 className="text-white font-bold text-lg sm:text-2xl md:text-3xl lg:text-4xl xl:text-5xl leading-tight">
-                  {selectedCity.toUpperCase()}
-                </h1>
               )}
-              
-              {/* Default content - when no city is selected */}
-              {!selectedCity && (
-                <>
-                  <h1 className="text-white font-bold text-sm sm:text-xl md:text-2xl lg:text-3xl xl:text-4xl leading-tight">
-                    Personalized Guide Books
-                  </h1>
-                  <p className="text-white text-xs sm:text-sm md:text-base lg:text-lg mt-1">
-                    Let's get personal
-                  </p>
-                  <p className="text-white text-xs md:text-sm mt-1">
-                    www.smartguidebooks.com
-                  </p>
-                </>
-              )}
-            </div>
-
-            {/* Middle Section - Selection Interface */}
-            <div className="flex-1 flex items-center justify-center px-2 sm:px-4">
-              <div className="w-full max-w-sm sm:max-w-2xl">
-                {/* Progress Indicator */}
-                <div className="flex justify-center space-x-2 sm:space-x-4 mb-4 sm:mb-6">
-                  {[
-                    { step: 1, label: 'Category' },
-                    { step: 2, label: 'Region' },
-                    { step: 3, label: 'Country' },
-                    { step: 4, label: 'City' },
-                    { step: 5, label: 'Get Now!' }
-                  ].map(({ step, label }) => (
-                    <div key={step} className="flex flex-col items-center space-y-1">
-                      <button
-                        onClick={() => handleStepNavigation(step)}
-                        className={`w-5 h-5 sm:w-6 sm:h-6 rounded-none flex items-center justify-center border-2 font-medium transition-colors cursor-pointer hover:scale-110 text-xs sm:text-sm ${
-                          step <= currentStep 
-                            ? 'bg-white text-black border-white' 
-                            : 'bg-transparent text-white border-white/50 hover:border-white'
-                        }`}
-                      >
-                        {step}
-                      </button>
-                      <button
-                        onClick={() => handleStepNavigation(step)}
-                        className={`text-xs font-medium transition-colors cursor-pointer hover:text-white hidden sm:block ${
-                          step <= currentStep ? 'text-white' : 'text-white/70'
-                        }`}
-                      >
-                        {label}
-                      </button>
-                    </div>
-                  ))}
-                </div>
-
-                {/* Current Selections */}
-                {(selectedCategory || selectedRegion || selectedCountry || selectedCity) && (
-                  <div className="flex flex-wrap gap-1 sm:gap-2 justify-center mb-3 sm:mb-4">
-                    {selectedCategory && (
-                      <Badge variant="secondary" className="bg-white text-black text-xs px-2 py-1 rounded-none">
-                        {categories.find(c => c.value === selectedCategory)?.label}
-                      </Badge>
-                    )}
-                    {selectedRegion && (
-                      <Badge variant="secondary" className="bg-white text-black text-xs px-2 py-1 rounded-none">
-                        {selectedRegion}
-                      </Badge>
-                    )}
-                    {selectedCountry && (
-                      <Badge variant="secondary" className="bg-white text-black text-xs px-2 py-1 rounded-none">
-                        {selectedCountry}
-                      </Badge>
-                    )}
-                    {selectedCity && (
-                      <Badge variant="secondary" className="bg-white text-black text-xs px-2 py-1 rounded-none">
-                        {selectedCity}
-                      </Badge>
-                    )}
-                  </div>
-                )}
-
-                {/* Selection Interface */}
-                <div className="p-3 sm:p-6">
-                  {/* Step 1: Category Selection */}
-                  {currentStep === 1 && (
-                    <div className="space-y-3 sm:space-y-4">
-                      <h2 className="text-lg sm:text-xl font-bold text-center text-white">1: Select Category</h2>
-                      <Select onValueChange={handleCategorySelect}>
-                        <SelectTrigger className="h-12 sm:h-16 border-2 border-gray-400 text-base sm:text-lg rounded-none">
-                          <SelectValue placeholder="Choose your category..." />
-                        </SelectTrigger>
-                        <SelectContent className="rounded-none">
-                          {categories.map((category) => {
-                            const IconComponent = category.icon;
-                            return (
-                              <SelectItem key={category.value} value={category.value} className="text-base sm:text-lg py-2 sm:py-3 rounded-none">
-                                <div className="flex items-center gap-2 sm:gap-3">
-                                  <IconComponent className="h-5 w-5 sm:h-6 sm:w-6" />
-                                  <span className="font-medium">{category.label}</span>
-                                </div>
-                              </SelectItem>
-                            );
-                          })}
-                        </SelectContent>
-                      </Select>
-                    </div>
-                  )}
-
-                  {/* Step 2: Region Selection */}
-                  {currentStep === 2 && (
-                    <div className="space-y-3 sm:space-y-4">
-                      <h2 className="text-lg sm:text-xl font-bold text-center text-white">2: Select Region</h2>
-                      <Select onValueChange={handleRegionSelect}>
-                        <SelectTrigger className="h-12 sm:h-16 border-2 border-gray-400 text-base sm:text-lg rounded-none">
-                          <SelectValue placeholder="Choose a region..." />
-                        </SelectTrigger>
-                        <SelectContent className="rounded-none">
-                          {regions.map((region) => (
-                            <SelectItem key={region} value={region} className="text-base sm:text-lg py-2 sm:py-3 rounded-none">
-                              {region}
-                            </SelectItem>
-                          ))}
-                        </SelectContent>
-                      </Select>
-                    </div>
-                  )}
-
-                  {/* Step 3: Country Selection */}
-                  {currentStep === 3 && (
-                    <div className="space-y-3 sm:space-y-4">
-                      <h2 className="text-lg sm:text-xl font-bold text-center text-white">3: Select Country</h2>
-                      <Select onValueChange={handleCountrySelect}>
-                        <SelectTrigger className="h-12 sm:h-16 border-2 border-gray-400 text-base sm:text-lg rounded-none">
-                          <SelectValue placeholder="Choose a country..." />
-                        </SelectTrigger>
-                        <SelectContent className="rounded-none z-50 bg-white">
-                          {countries.map((country) => (
-                            <SelectItem key={country.name} value={country.name} className="text-base sm:text-lg py-2 sm:py-3 rounded-none">
-                              {country.name}
-                            </SelectItem>
-                          ))}
-                        </SelectContent>
-                      </Select>
-                    </div>
-                  )}
-
-                  {/* Step 4: City Selection */}
-                  {currentStep === 4 && (
-                    <div className="space-y-3 sm:space-y-4">
-                      <h2 className="text-lg sm:text-xl font-bold text-center text-white">4: Select City</h2>
-                      <div className="space-y-3">
-                        <Select onValueChange={(value) => {
-                          setSelectedCity(value);
-                          setCurrentStep(5);
-                        }}>
-                          <SelectTrigger className="h-12 sm:h-16 border-2 border-gray-400 text-base sm:text-lg rounded-none">
-                            <SelectValue placeholder="Choose a city..." />
-                          </SelectTrigger>
-                          <SelectContent className="rounded-none">
-                            {cities.map((city) => (
-                              <SelectItem key={city} value={city} className="text-base sm:text-lg py-2 sm:py-3 rounded-none">
-                                {city}
-                              </SelectItem>
-                            ))}
-                          </SelectContent>
-                        </Select>
-                        <div className="text-center text-white text-sm">
-                          Or type city name:
-                        </div>
-                        <div className="flex gap-2">
-                          <Input
-                            value={citySearchInput}
-                            onChange={(e) => setCitySearchInput(e.target.value)}
-                            placeholder="Type city name to search..."
-                            className="h-12 sm:h-16 text-base sm:text-lg border-2 border-gray-400 rounded-none"
-                          />
-                          <Button
-                            onClick={() => {
-                              if (citySearchInput.trim()) {
-                                setSelectedCity(citySearchInput.trim());
-                                setCurrentStep(5);
-                              }
-                            }}
-                            className="h-12 sm:h-16 px-4 sm:px-6 bg-black text-white hover:bg-gray-800 rounded-none"
-                          >
-                            <Search className="h-5 w-5 sm:h-6 sm:w-6" />
-                          </Button>
-                        </div>
-                      </div>
-                    </div>
-                  )}
-
-                  {/* Step 5: Result Count Selection & Get Results */}
-                  {currentStep === 5 && (
-                    <div className="space-y-3 sm:space-y-4">
-                      <h2 className="text-lg sm:text-xl font-bold text-center text-white">5: Select Number of Results</h2>
-                      <Select value={resultCount.toString()} onValueChange={(value) => setResultCount(Number(value))}>
-                        <SelectTrigger className="h-12 sm:h-16 border-2 border-gray-400 text-base sm:text-lg rounded-none">
-                          <SelectValue />
-                        </SelectTrigger>
-                        <SelectContent className="rounded-none">
-                          {[1, 3, 5, 10, 15, 20, 25, 30, 40, 50].map((count) => (
-                            <SelectItem key={count} value={count.toString()} className="text-base sm:text-lg py-2 sm:py-3 rounded-none">
-                              {count} Result{count !== 1 ? 's' : ''}
-                            </SelectItem>
-                          ))}
-                        </SelectContent>
-                      </Select>
-                    </div>
-                  )}
-
-                  {/* Action Buttons */}
-                  <div className="flex gap-2 sm:gap-4 justify-center pt-4 sm:pt-6">
-                    <Button
-                      onClick={handleGetNow}
-                      disabled={!isComplete || isLoading}
-                      className="flex-1 sm:w-auto bg-green-600 text-white hover:bg-green-700 disabled:bg-gray-300 disabled:text-gray-500 rounded-none h-12 sm:h-auto text-xs sm:text-sm px-2 sm:px-4"
-                    >
-                      {isLoading ? (
-                        <>
-                          <Loader2 className="h-4 w-4 mr-1 animate-spin" />
-                          Loading...
-                        </>
-                      ) : (
-                        'GET NOW!'
-                      )}
-                    </Button>
-                    
-                    <Button
-                      onClick={handleGetAgain}
-                      variant="outline"
-                      className="flex-1 sm:w-auto border-2 border-gray-400 hover:bg-gray-100 rounded-none h-12 sm:h-auto text-xs sm:text-sm px-2 sm:px-4"
-                      disabled={isLoading}
-                    >
-                      <RotateCcw className="h-4 w-4 mr-1" />
-                      Get Again
-                    </Button>
-                  </div>
-                </div>
-              </div>
             </div>
           </div>
-        </div>
-      </div>
 
-      {/* Results Section - appears below the carousel */}
-      {(() => {
-        console.log('🔍 Results render check:', { showResults, businessesLength: businesses.length });
-        return showResults && businesses.length > 0;
-      })() && (
-        <div className="container mx-auto px-4 py-8 max-w-6xl">
-          <div className="space-y-6">
-            <div className="flex justify-between items-center">
-              <h2 className="text-2xl font-bold text-black">
-                🔥 FOUND {businesses.length} {selectedCategory} options in {selectedCity} 🔥
+          {/* Language Selector positioned at bottom */}
+          <div className="absolute bottom-4 right-4 z-50">
+            <LanguageSelector />
+          </div>
+        </div>
+
+        {/* Results Section */}
+        {showResults && businesses.length > 0 && (
+          <div className="relative z-20 bg-white min-h-screen">
+            <div className="sticky top-0 bg-white z-30 px-4 py-3 border-b flex items-center justify-between">
+              <h2 className="text-lg font-bold">
+                {selectedCategory?.charAt(0).toUpperCase() + selectedCategory?.slice(1)} in {selectedCity}
               </h2>
-              <Button
-                onClick={exportToCSV}
-                variant="outline"
-                className="border-2 border-gray-400 hover:bg-gray-100 rounded-none"
-              >
-                <Download className="h-4 w-4 mr-2" />
-                Export CSV
-              </Button>
+              <div className="flex gap-2">
+                <Button 
+                  onClick={exportToCSV}
+                  variant="outline" 
+                  size="sm"
+                  className="h-10 px-3 rounded-none border-black"
+                >
+                  <Download className="h-4 w-4 mr-1" />
+                  Export
+                </Button>
+                <Button 
+                  onClick={handleGetAgain}
+                  variant="outline" 
+                  size="sm"
+                  className="h-10 px-3 rounded-none border-black"
+                >
+                  <RotateCcw className="h-4 w-4 mr-1" />
+                  Again
+                </Button>
+              </div>
             </div>
             
-            <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-              {businesses.map((business, index) => {
-                console.log(`🏪 Rendering business ${index}:`, business.name);
-                
-                // Placeholder images for businesses - FIXED URLS
-                const placeholderImages = [
-                  'https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=400&h=300&fit=crop&q=80',
-                  'https://images.unsplash.com/photo-1567620905732-2d1ec7ab7445?w=400&h=300&fit=crop&q=80',
-                  'https://images.unsplash.com/photo-1551218808-94e220e084d2?w=400&h=300&fit=crop&q=80',
-                  'https://images.unsplash.com/photo-1552566499-dfd8fa52cd2c?w=400&h=300&fit=crop&q=80',
-                  'https://images.unsplash.com/photo-1559339352-11d035aa65de?w=400&h=300&fit=crop&q=80'
-                ];
-                
-                const imageUrl = placeholderImages[index % placeholderImages.length];
-                console.log(`🖼️ Using image URL for business ${index}:`, imageUrl);
-                
-                return (
-                <Card key={index} className="border-2 border-gray-300 shadow-lg">
-                  {/* Add placeholder image */}
-                  <div className="aspect-video relative overflow-hidden">
-                    <img
-                      src={imageUrl}
-                      alt={business.name}
-                      className="w-full h-full object-cover"
-                      onError={(e) => {
-                        console.log('❌ Image failed to load:', imageUrl, 'using coming soon placeholder');
-                        const target = e.target as HTMLImageElement;
-                        target.src = placeholderComingSoon;
-                      }}
-                      onLoad={() => {
-                        console.log('✅ Image loaded successfully:', imageUrl);
-                      }}
-                    />
-                  </div>
-                  
-                  <CardContent className="p-4 space-y-3">
-                    <div className="flex justify-between items-start">
-                      <h3 className="font-bold text-lg text-black">{business.name}</h3>
-                      <div className="text-right">
-                        <div className="text-yellow-500 font-bold">★ {business.rating}</div>
-                        <div className="text-sm text-gray-600">({business.reviewCount} reviews)</div>
-                      </div>
-                    </div>
-                    
-                    <p className="text-gray-700 text-sm">{business.address}</p>
-                    
-                    <div className="space-y-2">
-                      <div className="flex space-x-2">
-                        <Button
-                          size="sm"
-                          variant="outline"
-                          className="flex-1 border-gray-400 rounded-none"
-                          onClick={() => window.open(`tel:${business.phone}`, '_self')}
-                        >
-                          Call
-                        </Button>
-                        <Button
-                          size="sm"
-                          variant="outline"
-                          className="flex-1 border-gray-400 rounded-none"
-                          onClick={() => window.open(business.website, '_blank')}
-                        >
-                          Website
-                        </Button>
-                      </div>
-                      
-                      <div className="flex space-x-2">
-                        <Button
-                          size="sm"
-                          variant="outline"
-                          className="flex-1 border-gray-400 rounded-none"
-                          onClick={() => window.open(business.mapLink, '_blank')}
-                        >
-                          <MapPin className="h-3 w-3 mr-1" />
-                          Map
-                        </Button>
-                        <Button
-                          size="sm"
-                          variant="outline"
-                          className="flex-1 border-gray-400 rounded-none"
-                          onClick={() => window.open(`mailto:${business.email}`, '_self')}
-                        >
-                          Email
-                        </Button>
-                      </div>
-                      
-                      {(business.facebook || business.instagram || business.twitter) && (
-                        <div className="flex space-x-2 pt-2">
-                          {business.facebook && (
-                            <Button
-                              size="sm"
-                              variant="outline"
-                              className="flex-1 border-gray-400 rounded-none"
-                              onClick={() => window.open(business.facebook, '_blank')}
-                            >
-                              FB
-                            </Button>
-                          )}
-                          {business.instagram && (
-                            <Button
-                              size="sm"
-                              variant="outline"
-                              className="flex-1 border-gray-400 rounded-none"
-                              onClick={() => window.open(business.instagram, '_blank')}
-                            >
-                              IG
-                            </Button>
-                          )}
-                          {business.twitter && (
-                            <Button
-                              size="sm"
-                              variant="outline"
-                              className="flex-1 border-gray-400 rounded-none"
-                              onClick={() => window.open(business.twitter, '_blank')}
-                            >
-                              X
-                            </Button>
-                          )}
+            <div className="p-4 space-y-3">
+              {businesses.map((business, index) => (
+                <Card key={index} className="border border-gray-200 rounded-none">
+                  <CardContent className="p-4">
+                    <div className="flex justify-between items-start mb-3">
+                      <div className="flex-1">
+                        <h3 className="font-bold text-base leading-tight">{business.name}</h3>
+                        <p className="text-gray-600 text-sm mt-1">{business.address}</p>
+                        <div className="flex items-center gap-2 mt-2">
+                          <div className="flex items-center gap-1">
+                            <span className="text-yellow-500 text-lg">★</span>
+                            <span className="font-semibold text-sm">{business.rating}</span>
+                            <span className="text-gray-500 text-sm">({business.reviewCount})</span>
+                          </div>
                         </div>
-                      )}
-                       
-                       {/* Save Button - spans full width with black background */}
-                       <SaveBusinessButton
-                         restaurant={{
-                           name: business.name,
-                           address: business.address || "",
-                           googleMapRef: business.googleMapRef || "",
-                           socialMediaLinks: {
-                             facebook: business.facebook,
-                             instagram: business.instagram,
-                             twitter: business.twitter,
-                           },
-                           contactDetails: {
-                             phone: business.phone,
-                             email: business.email,
-                             website: business.website,
-                           },
-                           imageLinks: business.imageLinks ? business.imageLinks.split(',') : [],
-                           rating: business.rating || 0,
-                           reviewCount: business.reviewCount || 0,
-                           source: business.source || "Local",
-                         }}
-                         selectedCity={selectedCity}
-                         selectedCountry={selectedCountry}
-                         selectedCategory={selectedCategory}
-                       />
-                     </div>
-                   </CardContent>
-                 </Card>
-                 );
-               })}
+                      </div>
+                      <SaveBusinessButton 
+                        restaurant={{
+                          id: `business-${index}`,
+                          name: business.name,
+                          address: business.address,
+                          rating: business.rating,
+                          reviewCount: business.reviewCount,
+                          phone: business.phone,
+                          email: business.email,
+                          website: business.website,
+                          mapLink: business.mapLink,
+                          image: business.image,
+                          source: business.source
+                        }}
+                        selectedCity={selectedCity}
+                        selectedCountry={selectedCountry}
+                        selectedCategory={selectedCategory}
+                      />
+                    </div>
+                  </CardContent>
+                </Card>
+              ))}
             </div>
           </div>
-        </div>
-      )}
-
-          <Footer />
-        </>
-      )}
+        )}
+      </div>
+      
+      <Footer />
     </div>
   );
 };
