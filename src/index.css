@@ -286,7 +286,7 @@ All colors MUST be HSL.
       border-radius: var(--mobile-border-radius);
       box-shadow: var(--mobile-shadow);
       border: 1px solid hsl(var(--border));
-      overflow: visible; /* Allow dropdowns to extend outside container */
+      overflow: hidden; /* Restore proper container styling with rounded corners */
     }
   }
 

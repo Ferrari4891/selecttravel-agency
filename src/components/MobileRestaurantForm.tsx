@@ -339,8 +339,8 @@ export const MobileRestaurantForm = ({ onSelectionChange }: MobileRestaurantForm
         </div>
 
         {/* Selection form overlay */}
-        <div className="absolute inset-0 flex items-center justify-center p-4 pt-20" style={{ zIndex: 10 }}>
-          <Card className="w-full max-w-md bg-white/95 backdrop-blur-sm relative" style={{ overflow: 'visible' }}>
+        <div className="absolute inset-0 flex items-center justify-center p-4 pt-20">
+          <Card className="w-full max-w-md bg-white/95 backdrop-blur-sm">
             <CardHeader>
               <CardTitle className="flex items-center gap-2 text-2xl font-bold text-center">
                 <MapPin className="h-5 w-5 text-primary" />
