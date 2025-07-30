@@ -11,6 +11,7 @@ import { Utensils, Coffee, Bed, Gamepad2, MapPin, Download, RotateCcw, Loader2, 
 import { Input } from '@/components/ui/input';
 import { regionData } from '@/data/locationData';
 import SaveBusinessButton from '@/components/SaveBusinessButton';
+import { EnhancedCityInput } from '@/components/EnhancedCityInput';
 
 
 // Import hero images
@@ -553,45 +554,17 @@ const Index: React.FC = () => {
                 </div>
               )}
 
-              {/* Step 4: City Selection with Search */}
+              {/* Step 4: City Selection */}
               {currentStep === 4 && (
                 <div className="space-y-6">
-                  <h2 className="text-lg font-bold text-center text-white">4: Select City</h2>
-                  
-                  {/* City Search Input */}
-                  <div className="space-y-3">
-                    <div className="flex gap-2">
-                      <Input
-                        placeholder="Type in a city..."
-                        value={citySearchInput}
-                        onChange={(e) => setCitySearchInput(e.target.value)}
-                        onKeyDown={handleCityInputKeyDown}
-                        className="flex-1 h-14 text-base bg-white text-black border-2 border-white rounded-none shadow-md"
-                      />
-                      <Button 
-                        onClick={handleCitySearch}
-                        disabled={!citySearchInput.trim()}
-                        className="h-14 px-6 bg-white text-black border-white rounded-none hover:bg-white/90 shadow-md disabled:opacity-50"
-                      >
-                        <Search className="h-5 w-5" />
-                      </Button>
-                    </div>
-                    <p className="text-white text-sm text-center font-medium">or select from dropdown below</p>
+                  <h2 className="text-lg font-bold text-center text-white mb-4">4: Select City</h2>
+                  <div className="bg-white p-4 rounded-lg shadow-md">
+                    <EnhancedCityInput
+                      value={selectedCity}
+                      onChange={setSelectedCity}
+                      placeholder="Enter or select a city"
+                    />
                   </div>
-
-                  {/* City Dropdown */}
-                  <Select onValueChange={handleCitySelect} value={selectedCity}>
-                    <SelectTrigger className="w-full h-14 text-base bg-white text-black border-2 border-white rounded-none shadow-md">
-                      <SelectValue placeholder="Select city..." />
-                    </SelectTrigger>
-                    <SelectContent className="bg-white border-2 border-gray-300 rounded-none max-h-60 overflow-y-auto z-[100] shadow-lg">
-                      {cities.map((city) => (
-                        <SelectItem key={city} value={city} className="text-base py-3 rounded-none hover:bg-gray-100">
-                          {city}
-                        </SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
 
                   {/* Get Now and Get Again buttons - Side by side */}
                   {(selectedCity || citySearchInput.trim()) && (
