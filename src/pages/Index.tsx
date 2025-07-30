@@ -439,7 +439,7 @@ const Index: React.FC = () => {
 
           {/* Middle Section - Selection Interface */}
           <div className="flex-1 flex items-center justify-center px-4">
-            <div className="w-full max-w-md md:max-w-lg lg:max-w-xl">
+            <div className="w-full max-w-md md:max-w-2xl lg:max-w-4xl">{/* Desktop: much wider containers */}
               {/* Progress Indicator */}
               <div className="flex justify-center space-x-2 mb-6">
                 {[
@@ -624,35 +624,45 @@ const Index: React.FC = () => {
 
               {/* Step 5: Get Now */}
               {currentStep === 5 && (
-                <div className="space-y-4">
+                <div className="space-y-6">
                   <h2 className="text-lg font-bold text-center text-white">5: How many results?</h2>
                   <Select onValueChange={(value) => setResultCount(parseInt(value))} value={resultCount.toString()}>
-                    <SelectTrigger className="w-full h-12 text-base bg-white/90 backdrop-blur-sm border-white rounded-none">
+                    <SelectTrigger className="w-full h-14 text-base bg-white text-black border-2 border-white rounded-none shadow-md">
                       <SelectValue />
                     </SelectTrigger>
-                    <SelectContent className="bg-white rounded-none">
+                    <SelectContent className="bg-white border-2 border-gray-300 rounded-none max-h-60 overflow-y-auto z-[100] shadow-lg">
                       {[5, 10, 15, 20, 25].map((count) => (
-                        <SelectItem key={count} value={count.toString()} className="text-base py-2 rounded-none">
+                        <SelectItem key={count} value={count.toString()} className="text-base py-3 rounded-none hover:bg-gray-100">
                           {count} results
                         </SelectItem>
                       ))}
                     </SelectContent>
                   </Select>
                   
-                  <Button 
-                    onClick={handleGetNow} 
-                    disabled={!isComplete || isLoading}
-                    className="w-full h-12 text-base font-bold bg-white text-black border-white rounded-none hover:bg-white/90 disabled:opacity-50"
-                  >
-                    {isLoading ? (
-                      <>
-                        <Loader2 className="h-5 w-5 mr-2 animate-spin" />
-                        Getting Results...
-                      </>
-                    ) : (
-                      'GET NOW!'
-                    )}
-                  </Button>
+                  {/* Get Now and Get Again buttons - Side by side */}
+                  <div className="flex gap-3">
+                    <Button 
+                      onClick={handleGetNow} 
+                      disabled={!isComplete || isLoading}
+                      className="flex-1 h-14 text-base font-bold bg-green-500 text-white border-green-500 rounded-none hover:bg-green-600 disabled:opacity-50 shadow-md"
+                    >
+                      {isLoading ? (
+                        <>
+                          <Loader2 className="h-5 w-5 mr-2 animate-spin" />
+                          Getting Results...
+                        </>
+                      ) : (
+                        'GET NOW!'
+                      )}
+                    </Button>
+                    <Button 
+                      onClick={handleGetAgain}
+                      className="flex-1 h-14 text-base font-bold bg-white text-black border-2 border-white rounded-none hover:bg-white/90 shadow-md"
+                    >
+                      <RotateCcw className="h-4 w-4 mr-2" />
+                      GET AGAIN
+                    </Button>
+                  </div>
                 </div>
               )}
             </div>
