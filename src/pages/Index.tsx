@@ -6,6 +6,7 @@ import { Badge } from '@/components/ui/badge';
 import { toast } from '@/hooks/use-toast';
 import { Navigation } from '@/components/Navigation';
 import Footer from '@/components/Footer';
+import { RestaurantResults } from '@/components/RestaurantResults';
 import { LanguageSelector } from '@/components/LanguageSelector';
 import { Utensils, Coffee, Bed, Gamepad2, MapPin, Download, RotateCcw, Loader2, Search } from 'lucide-react';
 import { Input } from '@/components/ui/input';
@@ -439,8 +440,8 @@ const Index: React.FC = () => {
           </div>
 
           {/* Middle Section - Selection Interface */}
-          <div className="flex-1 flex items-center justify-center px-4">
-            <div className="w-full max-w-md md:max-w-2xl lg:max-w-4xl">{/* Desktop: much wider containers */}
+          <div className="flex-1 flex items-center justify-center px-4 pb-4">
+            <div className="w-full max-w-md md:max-w-2xl lg:max-w-4xl">{/* Desktop: much wider containers with bottom gap */}
               {/* Progress Indicator */}
               <div className="flex justify-center space-x-2 mb-6">
                 {[
@@ -573,7 +574,7 @@ const Index: React.FC = () => {
 
                   {/* Get Now and Get Again buttons - Side by side */}
                   {(selectedCity || citySearchInput.trim()) && (
-                    <div className="flex gap-3 mt-6">
+                    <div className="flex gap-3 mt-6 mb-4">
                       <Button 
                         onClick={handleGetNow} 
                         disabled={!selectedCity || isLoading}
@@ -617,30 +618,30 @@ const Index: React.FC = () => {
                     </SelectContent>
                   </Select>
                   
-                  {/* Get Now and Get Again buttons - Side by side */}
-                  <div className="flex gap-3">
-                    <Button 
-                      onClick={handleGetNow} 
-                      disabled={!isComplete || isLoading}
-                      className="flex-1 h-14 text-base font-bold bg-green-500 text-white border-green-500 rounded-none hover:bg-green-600 disabled:opacity-50 shadow-md"
-                    >
-                      {isLoading ? (
-                        <>
-                          <Loader2 className="h-5 w-5 mr-2 animate-spin" />
-                          Getting Results...
-                        </>
-                      ) : (
-                        'GET NOW!'
-                      )}
-                    </Button>
-                    <Button 
-                      onClick={handleGetAgain}
-                      className="flex-1 h-14 text-base font-bold bg-white text-black border-2 border-white rounded-none hover:bg-white/90 shadow-md"
-                    >
-                      <RotateCcw className="h-4 w-4 mr-2" />
-                      GET AGAIN
-                    </Button>
-                  </div>
+                   {/* Get Now and Get Again buttons - Side by side */}
+                   <div className="flex gap-3 mb-4">
+                     <Button 
+                       onClick={handleGetNow} 
+                       disabled={!isComplete || isLoading}
+                       className="flex-1 h-14 text-base font-bold bg-green-500 text-white border-green-500 rounded-none hover:bg-green-600 disabled:opacity-50 shadow-md"
+                     >
+                       {isLoading ? (
+                         <>
+                           <Loader2 className="h-5 w-5 mr-2 animate-spin" />
+                           Getting Results...
+                         </>
+                       ) : (
+                         'GET NOW!'
+                       )}
+                     </Button>
+                     <Button 
+                       onClick={handleGetAgain}
+                       className="flex-1 h-14 text-base font-bold bg-white text-black border-2 border-white rounded-none hover:bg-white/90 shadow-md"
+                     >
+                       <RotateCcw className="h-4 w-4 mr-2" />
+                       GET AGAIN
+                     </Button>
+                   </div>
                 </div>
               )}
             </div>
@@ -681,44 +682,32 @@ const Index: React.FC = () => {
               </div>
             </div>
             
-            <div className="p-4 space-y-3">
-              {businesses.map((business, index) => (
-                <Card key={index} className="border border-gray-200 rounded-none">
-                  <CardContent className="p-4">
-                    <div className="flex justify-between items-start mb-3">
-                      <div className="flex-1">
-                        <h3 className="font-bold text-base leading-tight">{business.name}</h3>
-                        <p className="text-gray-600 text-sm mt-1">{business.address}</p>
-                        <div className="flex items-center gap-2 mt-2">
-                          <div className="flex items-center gap-1">
-                            <span className="text-yellow-500 text-lg">★</span>
-                            <span className="font-semibold text-sm">{business.rating}</span>
-                            <span className="text-gray-500 text-sm">({business.reviewCount})</span>
-                          </div>
-                        </div>
-                      </div>
-                      <SaveBusinessButton 
-                        restaurant={{
-                          id: `business-${index}`,
-                          name: business.name,
-                          address: business.address,
-                          rating: business.rating,
-                          reviewCount: business.reviewCount,
-                          phone: business.phone,
-                          email: business.email,
-                          website: business.website,
-                          mapLink: business.mapLink,
-                          image: business.image,
-                          source: business.source
-                        }}
-                        selectedCity={selectedCity}
-                        selectedCountry={selectedCountry}
-                        selectedCategory={selectedCategory}
-                      />
-                    </div>
-                  </CardContent>
-                </Card>
-              ))}
+            <div className="p-4">
+              <RestaurantResults
+                restaurants={businesses.map(business => ({
+                  name: business.name,
+                  address: business.address,
+                  googleMapRef: business.mapLink,
+                  socialMediaLinks: {
+                    facebook: business.facebook,
+                    instagram: business.instagram,
+                    twitter: business.twitter
+                  },
+                  contactDetails: {
+                    phone: business.phone,
+                    email: business.email,
+                    website: business.website,
+                    menuLink: undefined
+                  },
+                  imageLinks: [business.image],
+                  rating: business.rating,
+                  reviewCount: business.reviewCount,
+                  source: business.source
+                }))}
+                selectedCity={selectedCity}
+                selectedCountry={selectedCountry}
+                selectedCategory={selectedCategory}
+              />
             </div>
           </div>
         )}
