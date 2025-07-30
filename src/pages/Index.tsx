@@ -630,7 +630,7 @@ const Index: React.FC = () => {
                     <SelectTrigger className="w-full h-14 text-base bg-white text-black border-2 border-white rounded-none shadow-md">
                       <SelectValue />
                     </SelectTrigger>
-                    <SelectContent className="bg-white border-2 border-gray-300 rounded-none max-h-60 overflow-y-auto z-[100] shadow-lg">
+                    <SelectContent className="bg-white border-2 border-gray-300 rounded-none max-h-40 overflow-y-auto z-[200] shadow-lg" position="popper" side="top">
                       {[5, 10, 15, 20, 25].map((count) => (
                         <SelectItem key={count} value={count.toString()} className="text-base py-3 rounded-none hover:bg-gray-100">
                           {count} results
@@ -674,9 +674,9 @@ const Index: React.FC = () => {
           </div>
         </div>
 
-        {/* Results Section */}
+        {/* Results Section - Fixed for desktop visibility */}
         {showResults && businesses.length > 0 && (
-          <div className="relative z-20 bg-white h-full">
+          <div className="relative z-20 bg-white min-h-screen w-full md:absolute md:top-0 md:left-0 md:right-0">{/* Desktop: overlay full screen */}
             <div className="sticky top-0 bg-white z-30 px-4 py-3 border-b flex items-center justify-between">
               <h2 className="text-lg font-bold">
                 {selectedCategory?.charAt(0).toUpperCase() + selectedCategory?.slice(1)} in {selectedCity}
