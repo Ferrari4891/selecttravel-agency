@@ -54,7 +54,7 @@ export const Navigation = ({ onMenuStateChange, forceMenuOpen }: NavigationProps
                 className="h-12 w-12 sm:h-12 sm:px-3 rounded-none border border-white touch-target text-white hover:bg-white/10"
                 size="sm"
               >
-                <Menu className="h-5 w-5 sm:h-4 sm:w-4" />
+                <Menu className="h-5 w-5 sm:h-4 sm:w-4 text-black" />
               </Button>
             </SheetTrigger>
             <SheetContent side="left" className="w-[85vw] sm:w-80 max-w-sm">
