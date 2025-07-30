@@ -394,9 +394,9 @@ const Index: React.FC = () => {
   const isComplete = selectedCategory && selectedRegion && selectedCountry && selectedCity;
 
   return (
-    <div className="min-h-screen bg-white">
+    <div className="h-full bg-background">
       {/* Unified Layout for all devices - use mobile experience */}
-      <div className="relative min-h-screen">
+      <div className="relative h-full">
         {/* Full-screen hero image */}
         <div 
           className="fixed inset-0 z-0"
@@ -413,7 +413,7 @@ const Index: React.FC = () => {
         </div>
         
         {/* Main content area */}
-        <div className="relative z-10 min-h-screen flex flex-col">
+        <div className="relative z-10 h-full flex flex-col">
           {/* Top Section - Title */}
           <div className="flex-shrink-0 flex flex-col justify-center items-center text-center px-4 py-8 mt-16">
             {selectedCity && cityImages[selectedCity] && (
@@ -638,7 +638,7 @@ const Index: React.FC = () => {
 
         {/* Results Section */}
         {showResults && businesses.length > 0 && (
-          <div className="relative z-20 bg-white min-h-screen">
+          <div className="relative z-20 bg-white h-full">
             <div className="sticky top-0 bg-white z-30 px-4 py-3 border-b flex items-center justify-between">
               <h2 className="text-lg font-bold">
                 {selectedCategory?.charAt(0).toUpperCase() + selectedCategory?.slice(1)} in {selectedCity}
