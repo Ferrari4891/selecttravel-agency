@@ -281,7 +281,8 @@ All colors MUST be HSL.
   /* Desktop styles */
   @media (min-width: 768px) {
     .mobile-container {
-      height: var(--mobile-container-height);
+      height: min(var(--mobile-container-height), calc(100vh - 40px));
+      max-height: calc(100vh - 40px);
       border-radius: var(--mobile-border-radius);
       box-shadow: var(--mobile-shadow);
       border: 1px solid hsl(var(--border));
