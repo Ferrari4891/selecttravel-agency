@@ -454,7 +454,7 @@ const Index: React.FC = () => {
                       onClick={() => handleStepNavigation(step)}
                       className={`w-5 h-5 rounded-none flex items-center justify-center border-2 font-medium transition-colors cursor-pointer hover:scale-110 text-xs ${
                         step <= currentStep 
-                          ? 'bg-white text-black border-white' 
+                          ? 'bg-green-500 text-white border-green-500' 
                           : 'bg-transparent text-white border-white/50 hover:border-white'
                       }`}
                     >
@@ -706,9 +706,13 @@ const Index: React.FC = () => {
             </div>
           </div>
         )}
+        {/* Footer positioned at bottom of mobile container */}
+        {!showResults && (
+          <div className="absolute bottom-0 left-0 right-0 z-40">
+            <Footer />
+          </div>
+        )}
       </div>
-      
-      <Footer />
     </div>
   );
 };
