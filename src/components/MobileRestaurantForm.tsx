@@ -542,7 +542,6 @@ export const MobileRestaurantForm = ({ onSelectionChange }: MobileRestaurantForm
             restaurants={restaurants} 
             selectedCity={selectedCity} 
             selectedCountry={selectedCountry} 
-            selectedCategory={selectedCategory} 
           />
         </div>
       )}
