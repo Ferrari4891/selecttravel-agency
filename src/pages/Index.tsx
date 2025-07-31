@@ -55,7 +55,7 @@ const Index: React.FC = () => {
   const [selectedCountry, setSelectedCountry] = useState<string>('');
   const [selectedCity, setSelectedCity] = useState<string>('');
   const [citySearchInput, setCitySearchInput] = useState<string>('');
-  const [resultCount, setResultCount] = useState<number>(20);
+  const [resultCount, setResultCount] = useState<number>(0);
   const [isLoading, setIsLoading] = useState(false);
   const [businesses, setBusinesses] = useState<Business[]>([]);
   const [showResults, setShowResults] = useState(false);
@@ -229,7 +229,7 @@ const Index: React.FC = () => {
 
   const handleCitySelect = (city: string) => {
     setSelectedCity(city);
-    setCurrentStep(5);
+    setCitySearchInput(''); // Clear search input when selecting from dropdown
   };
 
   // Helper function to get all cities across all countries
@@ -273,7 +273,6 @@ const Index: React.FC = () => {
       setSelectedRegion(foundRegion);
       setSelectedCountry(foundCountry);
       setCitySearchInput('');
-      setCurrentStep(5);
       toast({
         title: "City Found",
         description: `Selected ${foundCity}`,
@@ -296,6 +295,16 @@ const Index: React.FC = () => {
 
   const handleGetNow = async () => {
     console.log('🚀 handleGetNow called!');
+    
+    // If user typed a city but didn't search, search it first
+    if (citySearchInput.trim() && !selectedCity) {
+      handleCitySearch();
+      // If city not found, return early
+      if (!selectedCity) return;
+    }
+    
+    const cityToUse = selectedCity || citySearchInput.trim();
+    
     setIsLoading(true);
     try {
       console.log('⏱️ Starting 3-second delay...');
@@ -309,7 +318,7 @@ const Index: React.FC = () => {
       console.log('🎯 Set showResults to true, businesses length:', mockData.length);
       toast({
         title: "Success!",
-        description: `Found ${mockData.length} businesses in ${selectedCity}, ${selectedCountry}`,
+        description: `Found ${mockData.length} businesses in ${cityToUse}, ${selectedCountry}`,
       });
     } catch (error) {
       console.error('❌ Error in handleGetNow:', error);
@@ -330,6 +339,8 @@ const Index: React.FC = () => {
     setSelectedRegion('');
     setSelectedCountry('');
     setSelectedCity('');
+    setCitySearchInput('');
+    setResultCount(0);
     setBusinesses([]);
     setShowResults(false);
   };
@@ -345,15 +356,23 @@ const Index: React.FC = () => {
         setSelectedRegion('');
         setSelectedCountry('');
         setSelectedCity('');
+        setCitySearchInput('');
+        setResultCount(0);
       } else if (step === 2) {
         setSelectedRegion('');
         setSelectedCountry('');
         setSelectedCity('');
+        setCitySearchInput('');
+        setResultCount(0);
       } else if (step === 3) {
         setSelectedCountry('');
         setSelectedCity('');
+        setCitySearchInput('');
+        setResultCount(0);
       } else if (step === 4) {
         setSelectedCity('');
+        setCitySearchInput('');
+        setResultCount(0);
       }
     }
   };
@@ -393,7 +412,7 @@ const Index: React.FC = () => {
     });
   };
 
-  const isComplete = selectedCategory && selectedRegion && selectedCountry && selectedCity;
+  const isComplete = selectedCategory && selectedRegion && selectedCountry && (selectedCity || citySearchInput.trim()) && resultCount > 0;
 
   return (
     <div className="h-full bg-background">
@@ -448,8 +467,7 @@ const Index: React.FC = () => {
                   { step: 1, label: 'Category' },
                   { step: 2, label: 'Region' },
                   { step: 3, label: 'Country' },
-                  { step: 4, label: 'City' },
-                  { step: 5, label: 'Get Now!' }
+                  { step: 4, label: 'City' }
                 ].map(({ step, label }) => (
                   <div key={step} className="flex flex-col items-center space-y-1">
                     <button
@@ -484,11 +502,16 @@ const Index: React.FC = () => {
                       {selectedCountry}
                     </Badge>
                   )}
-                  {selectedCity && (
-                    <Badge variant="secondary" className="bg-white text-black text-xs px-2 py-1 rounded-none">
-                      {selectedCity}
-                    </Badge>
-                  )}
+                   {(selectedCity || citySearchInput.trim()) && (
+                     <Badge variant="secondary" className="bg-white text-black text-xs px-2 py-1 rounded-none">
+                       {selectedCity || citySearchInput.trim()}
+                     </Badge>
+                   )}
+                   {resultCount > 0 && (
+                     <Badge variant="secondary" className="bg-white text-black text-xs px-2 py-1 rounded-none">
+                       {resultCount} result{resultCount > 1 ? 's' : ''}
+                     </Badge>
+                   )}
                 </div>
               )}
 
@@ -557,32 +580,77 @@ const Index: React.FC = () => {
 
               {/* Step 4: City Selection */}
               {currentStep === 4 && (
-                <div className="space-y-6">
+                <div className="space-y-4">
                   <h2 className="text-lg font-bold text-center text-white">4: Select City</h2>
-                  <Select onValueChange={setSelectedCity} value={selectedCity}>
-                    <SelectTrigger className="w-full h-14 text-base bg-white text-black border-2 border-white rounded-lg shadow-md">
+                  <Select onValueChange={handleCitySelect} value={selectedCity}>
+                    <SelectTrigger className="w-full h-10 text-sm bg-white text-black border-2 border-white rounded-none shadow-md">
                       <SelectValue placeholder="Select city..." />
                     </SelectTrigger>
-                    <SelectContent className="bg-white border-2 border-gray-300 rounded-lg max-h-60 overflow-y-auto z-[200] shadow-lg">
+                    <SelectContent className="bg-white border-2 border-gray-300 rounded-none max-h-48 overflow-y-auto z-[200] shadow-lg">
                       {cities.map((city) => (
-                        <SelectItem key={city} value={city} className="text-base py-3 hover:bg-gray-100">
+                        <SelectItem key={city} value={city} className="text-sm py-2 rounded-none hover:bg-gray-100">
                           {city}
                         </SelectItem>
                       ))}
                     </SelectContent>
                   </Select>
 
-                  {/* Get Now and Get Again buttons - Side by side */}
+                  {/* "or" separator */}
+                  <div className="text-center text-white font-medium">or</div>
+
+                  {/* City search input */}
+                  <div className="space-y-2">
+                    <Input
+                      type="text"
+                      placeholder="Type city name..."
+                      value={citySearchInput}
+                      onChange={(e) => setCitySearchInput(e.target.value)}
+                      onKeyDown={handleCityInputKeyDown}
+                      className="w-full h-10 text-sm bg-white text-black border-2 border-white rounded-none shadow-md"
+                    />
+                    {citySearchInput.trim() && (
+                      <Button
+                        onClick={handleCitySearch}
+                        variant="outline"
+                        size="sm"
+                        className="w-full h-8 text-xs bg-white text-black border border-white rounded-none hover:bg-white/90"
+                      >
+                        <Search className="h-3 w-3 mr-1" />
+                        Search
+                      </Button>
+                    )}
+                  </div>
+
+                  {/* Results count selector */}
                   {(selectedCity || citySearchInput.trim()) && (
-                    <div className="flex gap-3 mt-6 mb-4">
+                    <div className="space-y-2">
+                      <label className="block text-white text-sm font-medium">Number of results:</label>
+                      <Select onValueChange={(value) => setResultCount(parseInt(value))} value={resultCount.toString()}>
+                        <SelectTrigger className="w-full h-10 text-sm bg-white text-black border-2 border-white rounded-none shadow-md">
+                          <SelectValue placeholder="Select number..." />
+                        </SelectTrigger>
+                        <SelectContent className="bg-white border-2 border-gray-300 rounded-none max-h-40 overflow-y-auto z-[300] shadow-lg">
+                          {[1, 5, 10, 20, 30, 40, 50].map((count) => (
+                            <SelectItem key={count} value={count.toString()} className="text-sm py-2 rounded-none hover:bg-gray-100">
+                              {count} result{count > 1 ? 's' : ''}
+                            </SelectItem>
+                          ))}
+                        </SelectContent>
+                      </Select>
+                    </div>
+                  )}
+
+                  {/* Get Now and Get Again buttons */}
+                  {isComplete && (
+                    <div className="flex gap-3 mt-4">
                       <Button 
                         onClick={handleGetNow} 
-                        disabled={!selectedCity || isLoading}
-                        className="flex-1 h-14 text-base font-bold bg-green-500 text-white border-green-500 rounded-none hover:bg-green-600 disabled:opacity-50 shadow-md"
+                        disabled={isLoading}
+                        className="flex-1 h-12 text-sm font-bold bg-green-500 text-white border-green-500 rounded-none hover:bg-green-600 disabled:opacity-50 shadow-md"
                       >
                         {isLoading ? (
                           <>
-                            <Loader2 className="h-5 w-5 mr-2 animate-spin" />
+                            <Loader2 className="h-4 w-4 mr-2 animate-spin" />
                             Getting Results...
                           </>
                         ) : (
@@ -591,7 +659,7 @@ const Index: React.FC = () => {
                       </Button>
                       <Button 
                         onClick={handleGetAgain}
-                        className="flex-1 h-14 text-base font-bold bg-white text-black border-2 border-white rounded-none hover:bg-white/90 shadow-md"
+                        className="flex-1 h-12 text-sm font-bold bg-white text-black border-2 border-white rounded-none hover:bg-white/90 shadow-md"
                       >
                         <RotateCcw className="h-4 w-4 mr-2" />
                         GET AGAIN
@@ -601,49 +669,6 @@ const Index: React.FC = () => {
                 </div>
               )}
 
-              {/* Step 5: Get Now */}
-              {currentStep === 5 && (
-                <div className="space-y-6">
-                  <h2 className="text-lg font-bold text-center text-white">5: How many results?</h2>
-                  <Select onValueChange={(value) => setResultCount(parseInt(value))} value={resultCount.toString()}>
-                    <SelectTrigger className="w-full h-14 text-base bg-white text-black border-2 border-white rounded-none shadow-md">
-                      <SelectValue />
-                    </SelectTrigger>
-                    <SelectContent className="bg-white border-2 border-gray-300 rounded-none max-h-40 overflow-y-auto z-[200] shadow-lg" position="popper" side="top">
-                      {[5, 10, 15, 20, 25].map((count) => (
-                        <SelectItem key={count} value={count.toString()} className="text-base py-3 rounded-none hover:bg-gray-100">
-                          {count} results
-                        </SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
-                  
-                   {/* Get Now and Get Again buttons - Side by side */}
-                   <div className="flex gap-3 mb-4">
-                     <Button 
-                       onClick={handleGetNow} 
-                       disabled={!isComplete || isLoading}
-                       className="flex-1 h-14 text-base font-bold bg-green-500 text-white border-green-500 rounded-none hover:bg-green-600 disabled:opacity-50 shadow-md"
-                     >
-                       {isLoading ? (
-                         <>
-                           <Loader2 className="h-5 w-5 mr-2 animate-spin" />
-                           Getting Results...
-                         </>
-                       ) : (
-                         'GET NOW!'
-                       )}
-                     </Button>
-                     <Button 
-                       onClick={handleGetAgain}
-                       className="flex-1 h-14 text-base font-bold bg-white text-black border-2 border-white rounded-none hover:bg-white/90 shadow-md"
-                     >
-                       <RotateCcw className="h-4 w-4 mr-2" />
-                       GET AGAIN
-                     </Button>
-                   </div>
-                </div>
-              )}
             </div>
           </div>
 
