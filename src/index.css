@@ -281,22 +281,28 @@ All colors MUST be HSL.
   /* Desktop styles */
   @media (min-width: 768px) {
     .mobile-container {
-      height: min(var(--mobile-container-height), calc(100vh - 40px));
-      max-height: calc(100vh - 40px);
-      border-radius: var(--mobile-border-radius);
-      box-shadow: var(--mobile-shadow);
-      border: 1px solid hsl(var(--border));
-      overflow-y: auto; /* Allow scrolling within container */
-      overflow-x: hidden;
+      width: var(--mobile-container-width) !important;
+      height: var(--mobile-container-height) !important;
+      max-height: var(--mobile-container-height) !important;
+      border-radius: var(--mobile-border-radius) !important;
+      box-shadow: var(--mobile-shadow) !important;
+      border: 1px solid hsl(var(--border)) !important;
+      overflow-y: auto !important; /* Allow scrolling within container */
+      overflow-x: hidden !important;
+      margin: 20px !important;
+    }
+
+    .mobile-container-wrapper {
+      padding: 20px !important;
     }
 
     body {
-      overflow: hidden; /* Keep desktop background visible */
-      height: 100vh;
+      overflow: auto !important; /* Allow desktop background to be visible */
+      height: 100vh !important;
     }
 
     #root {
-      height: 100vh;
+      height: 100vh !important;
     }
   }
 
