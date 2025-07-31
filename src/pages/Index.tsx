@@ -2,13 +2,14 @@ import React, { useState, useMemo } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
 import { Badge } from '@/components/ui/badge';
 import { toast } from '@/hooks/use-toast';
 import { Navigation } from '@/components/Navigation';
 import Footer from '@/components/Footer';
 import { RestaurantResults } from '@/components/RestaurantResults';
 import { LanguageSelector } from '@/components/LanguageSelector';
-import { Utensils, Coffee, Bed, Gamepad2, MapPin, Download, RotateCcw, Loader2, Search } from 'lucide-react';
+import { Utensils, Coffee, Bed, Gamepad2, MapPin, Download, RotateCcw, Loader2, Search, Menu } from 'lucide-react';
 import { Input } from '@/components/ui/input';
 import { regionData } from '@/data/locationData';
 import SaveBusinessButton from '@/components/SaveBusinessButton';
@@ -704,7 +705,20 @@ const Index: React.FC = () => {
                   >
                     <RotateCcw className="h-4 w-4" />
                   </Button>
-                  <Navigation forceMenuOpen={false} />
+                  <Sheet>
+                    <SheetTrigger asChild>
+                      <Button 
+                        variant="outline" 
+                        className="h-12 w-12 rounded-none border-black"
+                        size="sm"
+                      >
+                        <Menu className="h-5 w-5 text-black" />
+                      </Button>
+                    </SheetTrigger>
+                    <SheetContent side="left" className="w-[85vw] sm:w-80 max-w-sm">
+                      <Navigation forceMenuOpen={false} />
+                    </SheetContent>
+                  </Sheet>
                 </div>
               </div>
               
@@ -731,7 +745,20 @@ const Index: React.FC = () => {
                   >
                     <RotateCcw className="h-4 w-4" />
                   </Button>
-                  <Navigation forceMenuOpen={false} />
+                  <Sheet>
+                    <SheetTrigger asChild>
+                      <Button 
+                        variant="outline" 
+                        className="h-12 w-12 rounded-none border-black"
+                        size="sm"
+                      >
+                        <Menu className="h-5 w-5 text-black" />
+                      </Button>
+                    </SheetTrigger>
+                    <SheetContent side="left" className="w-[85vw] sm:w-80 max-w-sm">
+                      <Navigation forceMenuOpen={false} />
+                    </SheetContent>
+                  </Sheet>
                 </div>
               </div>
             </div>
