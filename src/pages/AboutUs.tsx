@@ -14,13 +14,14 @@ const AboutUs = () => {
   return <div className="min-h-screen bg-background">
       {isMobile ? (
         <div className="relative min-h-screen">
-          {/* Full-screen hero image for mobile */}
+          {/* Hero background image for mobile */}
           <div 
-            className="fixed inset-0 z-0"
+            className="absolute inset-0 z-0"
             style={{
               backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url(${heroAboutUs})`,
               backgroundSize: 'cover',
-              backgroundPosition: 'center'
+              backgroundPosition: 'center',
+              height: '100vh'
             }}
           />
           
