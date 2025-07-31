@@ -461,7 +461,7 @@ const Index: React.FC = () => {
 
           {/* Middle Section - Selection Interface */}
           <div className="flex-1 flex items-center justify-center px-4 pb-4">
-            <div className="w-full max-w-md md:max-w-2xl lg:max-w-4xl">{/* Desktop: much wider containers with bottom gap */}
+            <div className="w-full max-w-sm mx-auto">{/* Compact container for no-scroll fit */}
               {/* Progress Indicator */}
               <div className="flex justify-center space-x-2 mb-6">
                 {[

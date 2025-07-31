@@ -1,7 +1,7 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Star, Download } from "lucide-react";
 const HowToFeatures = () => {
-  return <div className="grid gap-6 md:grid-cols-2">
+  return <div className="space-y-6">
       <Card>
         <CardHeader className="bg-foreground text-background">
           <CardTitle className="flex items-center gap-2">
