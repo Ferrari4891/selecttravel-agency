@@ -63,7 +63,7 @@ export const RestaurantResults: React.FC<RestaurantResultsProps> = ({
         </div>
         
         {restaurants.map((restaurant, index) => (
-          <Card key={`mobile-restaurant-${index}`} className="rounded-none border-black border-2">
+          <Card key={`mobile-restaurant-${index}`} className="rounded-none shadow-lg">
             {/* Restaurant Image */}
             <div className="aspect-video relative overflow-hidden">
               <img
@@ -112,7 +112,7 @@ export const RestaurantResults: React.FC<RestaurantResultsProps> = ({
                 {restaurant.contactDetails.phone && (
                   <Button
                     variant="outline"
-                    size="lg"
+                    size="sm"
                     className="w-full flex items-center justify-center gap-2 text-sm rounded-none border-black"
                     onClick={() => window.open(`tel:${restaurant.contactDetails.phone}`)}
                   >
@@ -124,7 +124,7 @@ export const RestaurantResults: React.FC<RestaurantResultsProps> = ({
                 {restaurant.contactDetails.website && (
                   <Button
                     variant="outline"
-                    size="lg"
+                    size="sm"
                     className="w-full flex items-center justify-center gap-2 text-sm rounded-none border-black"
                     onClick={() => window.open(restaurant.contactDetails.website, '_blank')}
                   >
@@ -136,7 +136,7 @@ export const RestaurantResults: React.FC<RestaurantResultsProps> = ({
                 {restaurant.contactDetails.menuLink && (
                   <Button
                     variant="outline"
-                    size="lg"
+                    size="sm"
                     className="w-full flex items-center justify-center gap-2 text-sm rounded-none border-black"
                     onClick={() => window.open(restaurant.contactDetails.menuLink, '_blank')}
                   >
@@ -147,7 +147,7 @@ export const RestaurantResults: React.FC<RestaurantResultsProps> = ({
                 
                 <Button
                   variant="outline"
-                  size="lg"
+                  size="sm"
                   className="w-full flex items-center justify-center gap-2 text-sm rounded-none border-black"
                   onClick={() => window.open(restaurant.googleMapRef, '_blank')}
                 >
@@ -158,7 +158,7 @@ export const RestaurantResults: React.FC<RestaurantResultsProps> = ({
                 {restaurant.contactDetails.email && (
                   <Button
                     variant="outline"
-                    size="lg"
+                    size="sm"
                     className="w-full flex items-center justify-center gap-2 text-sm rounded-none border-black"
                     onClick={() => window.open(`mailto:${restaurant.contactDetails.email}`)}
                   >
@@ -241,7 +241,7 @@ export const RestaurantResults: React.FC<RestaurantResultsProps> = ({
       </div>
       
       {restaurants.map((restaurant, index) => (
-        <Card key={`desktop-restaurant-${index}`} className="rounded-none border-black border-2">
+        <Card key={`desktop-restaurant-${index}`} className="rounded-none shadow-lg">
           {/* Restaurant Image */}
           <div className="aspect-video relative overflow-hidden">
             <img
@@ -290,7 +290,7 @@ export const RestaurantResults: React.FC<RestaurantResultsProps> = ({
               {restaurant.contactDetails.phone && (
                 <Button
                   variant="outline"
-                  size="lg"
+                  size="sm"
                   className="w-full flex items-center justify-center gap-2 text-sm rounded-none border-black"
                   onClick={() => window.open(`tel:${restaurant.contactDetails.phone}`)}
                 >
@@ -302,7 +302,7 @@ export const RestaurantResults: React.FC<RestaurantResultsProps> = ({
               {restaurant.contactDetails.website && (
                 <Button
                   variant="outline"
-                  size="lg"
+                  size="sm"
                   className="w-full flex items-center justify-center gap-2 text-sm rounded-none border-black"
                   onClick={() => window.open(restaurant.contactDetails.website, '_blank')}
                 >
@@ -314,7 +314,7 @@ export const RestaurantResults: React.FC<RestaurantResultsProps> = ({
               {restaurant.contactDetails.menuLink && (
                 <Button
                   variant="outline"
-                  size="lg"
+                  size="sm"
                   className="w-full flex items-center justify-center gap-2 text-sm rounded-none border-black"
                   onClick={() => window.open(restaurant.contactDetails.menuLink, '_blank')}
                 >
@@ -325,7 +325,7 @@ export const RestaurantResults: React.FC<RestaurantResultsProps> = ({
               
               <Button
                 variant="outline"
-                size="lg"
+                size="sm"
                 className="w-full flex items-center justify-center gap-2 text-sm rounded-none border-black"
                 onClick={() => window.open(restaurant.googleMapRef, '_blank')}
               >
@@ -336,7 +336,7 @@ export const RestaurantResults: React.FC<RestaurantResultsProps> = ({
               {restaurant.contactDetails.email && (
                 <Button
                   variant="outline"
-                  size="lg"
+                  size="sm"
                   className="w-full flex items-center justify-center gap-2 text-sm rounded-none border-black"
                   onClick={() => window.open(`mailto:${restaurant.contactDetails.email}`)}
                 >
