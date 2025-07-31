@@ -704,6 +704,7 @@ const Index: React.FC = () => {
                   >
                     <RotateCcw className="h-4 w-4" />
                   </Button>
+                  <Navigation forceMenuOpen={false} />
                 </div>
               </div>
               
@@ -730,6 +731,7 @@ const Index: React.FC = () => {
                   >
                     <RotateCcw className="h-4 w-4" />
                   </Button>
+                  <Navigation forceMenuOpen={false} />
                 </div>
               </div>
             </div>
