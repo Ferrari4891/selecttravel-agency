@@ -8,7 +8,7 @@ import { Navigation } from '@/components/Navigation';
 import Footer from '@/components/Footer';
 import { RestaurantResults } from '@/components/RestaurantResults';
 import { LanguageSelector } from '@/components/LanguageSelector';
-import { Utensils, Coffee, Bed, Gamepad2, MapPin, Download, RotateCcw, Loader2, Search } from 'lucide-react';
+import { Utensils, Coffee, Bed, Gamepad2, MapPin, Download, RotateCcw, Loader2, Search, Menu } from 'lucide-react';
 import { Input } from '@/components/ui/input';
 import { regionData } from '@/data/locationData';
 import SaveBusinessButton from '@/components/SaveBusinessButton';
@@ -706,6 +706,13 @@ const Index: React.FC = () => {
                   >
                     <RotateCcw className="h-4 w-4" />
                   </Button>
+                  <Button 
+                    variant="outline" 
+                    size="sm"
+                    className="h-12 w-12 rounded-none border-black bg-white hover:bg-gray-100"
+                  >
+                    <Menu className="h-4 w-4" />
+                  </Button>
                 </div>
               </div>
               
@@ -731,6 +738,13 @@ const Index: React.FC = () => {
                     className="h-12 w-12 rounded-none border-black bg-white hover:bg-gray-100"
                   >
                     <RotateCcw className="h-4 w-4" />
+                  </Button>
+                  <Button 
+                    variant="outline" 
+                    size="sm"
+                    className="h-12 w-12 rounded-none border-black bg-white hover:bg-gray-100"
+                  >
+                    <Menu className="h-4 w-4" />
                   </Button>
                 </div>
               </div>
