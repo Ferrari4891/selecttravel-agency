@@ -428,10 +428,12 @@ const Index: React.FC = () => {
           }}
         />
         
-        {/* Overlaid Navigation */}
-        <div className="relative z-50">
-          <Navigation />
-        </div>
+        {/* Overlaid Navigation - Hidden when results are shown */}
+        {!showResults && (
+          <div className="relative z-50">
+            <Navigation />
+          </div>
+        )}
         
         {/* Main content area */}
         <div className="relative z-10 h-full flex flex-col">
@@ -692,7 +694,7 @@ const Index: React.FC = () => {
                     onClick={exportToCSV}
                     variant="outline" 
                     size="sm"
-                    className="h-12 w-12 rounded-none border-black"
+                    className="h-12 w-12 rounded-none border-black bg-white hover:bg-gray-100"
                   >
                     <Download className="h-4 w-4" />
                   </Button>
@@ -700,7 +702,7 @@ const Index: React.FC = () => {
                     onClick={handleGetAgain}
                     variant="outline" 
                     size="sm"
-                    className="h-12 w-12 rounded-none border-black"
+                    className="h-12 w-12 rounded-none border-black bg-white hover:bg-gray-100"
                   >
                     <RotateCcw className="h-4 w-4" />
                   </Button>
@@ -718,7 +720,7 @@ const Index: React.FC = () => {
                     onClick={exportToCSV}
                     variant="outline" 
                     size="sm"
-                    className="h-12 w-12 rounded-none border-black"
+                    className="h-12 w-12 rounded-none border-black bg-white hover:bg-gray-100"
                   >
                     <Download className="h-4 w-4" />
                   </Button>
@@ -726,7 +728,7 @@ const Index: React.FC = () => {
                     onClick={handleGetAgain}
                     variant="outline" 
                     size="sm"
-                    className="h-12 w-12 rounded-none border-black"
+                    className="h-12 w-12 rounded-none border-black bg-white hover:bg-gray-100"
                   >
                     <RotateCcw className="h-4 w-4" />
                   </Button>
