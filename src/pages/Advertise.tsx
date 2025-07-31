@@ -147,6 +147,7 @@ const Advertise = () => {
                   Need a custom solution? Contact our sales team for enterprise pricing and features.
                 </p>
               </div>
+              </div>
             </div>
           </div>
         </div>
@@ -265,6 +266,7 @@ const Advertise = () => {
                 Need a custom solution? Contact our sales team for enterprise pricing and features.
               </p>
             </div>
+          </div>
           </div>
           
           <Footer />
