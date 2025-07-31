@@ -682,62 +682,54 @@ const Index: React.FC = () => {
         {showResults && businesses.length > 0 && (
           <div className="relative z-20 bg-white min-h-screen w-full md:absolute md:top-0 md:left-0 md:right-0 md:overflow-y-auto">{/* Desktop: overlay full screen with scroll */}
             {/* Navigation header with logo and action buttons */}
-            <div className="sticky top-0 bg-white z-30 px-4 py-4 border-b">
+            <div className="sticky top-0 bg-white z-30 px-4 py-4 border-b border-dotted border-gray-400">
               {/* Mobile layout */}
               <div className="flex items-center justify-between md:hidden">
                 {/* Logo for mobile */}
-                <div className="flex items-center border border-black px-2 py-1">
-                  <span className="font-bold text-black text-sm">seniortravel.agency</span>
-                </div>
+                <span className="font-bold text-black text-sm">seniortravel.agency</span>
                 <div className="flex gap-2">
                   <Button 
                     onClick={exportToCSV}
                     variant="outline" 
                     size="sm"
-                    className="h-10 px-2 rounded-none border-black"
+                    className="h-12 w-12 rounded-none border-black"
                   >
-                    <Download className="h-4 w-4 mr-1" />
-                    Export
+                    <Download className="h-4 w-4" />
                   </Button>
                   <Button 
                     onClick={handleGetAgain}
                     variant="outline" 
                     size="sm"
-                    className="h-10 px-2 rounded-none border-black"
+                    className="h-12 w-12 rounded-none border-black"
                   >
-                    <RotateCcw className="h-4 w-4 mr-1" />
-                    Again
+                    <RotateCcw className="h-4 w-4" />
                   </Button>
                 </div>
               </div>
               
               {/* Desktop layout */}
-              <div className="hidden md:block">
-                <div className="flex items-center justify-between">
-                  {/* Logo on the left */}
-                  <div className="flex items-center border border-black px-3 py-2">
-                    <span className="font-bold text-black text-lg">seniortravel.agency</span>
-                  </div>
-                  
-                  {/* Action buttons positioned to the left of hamburger menu */}
-                  <div className="flex gap-2">
-                    <Button 
-                      onClick={exportToCSV}
-                      variant="outline" 
-                      size="sm"
-                      className="h-12 w-12 rounded-none border-black"
-                    >
-                      <Download className="h-4 w-4" />
-                    </Button>
-                    <Button 
-                      onClick={handleGetAgain}
-                      variant="outline" 
-                      size="sm"
-                      className="h-12 w-12 rounded-none border-black"
-                    >
-                      <RotateCcw className="h-4 w-4" />
-                    </Button>
-                  </div>
+              <div className="hidden md:flex md:items-center md:justify-between">
+                {/* Logo on the left */}
+                <span className="font-bold text-black text-lg">seniortravel.agency</span>
+                
+                {/* Action buttons positioned to the left of hamburger menu */}
+                <div className="flex gap-2">
+                  <Button 
+                    onClick={exportToCSV}
+                    variant="outline" 
+                    size="sm"
+                    className="h-12 w-12 rounded-none border-black"
+                  >
+                    <Download className="h-4 w-4" />
+                  </Button>
+                  <Button 
+                    onClick={handleGetAgain}
+                    variant="outline" 
+                    size="sm"
+                    className="h-12 w-12 rounded-none border-black"
+                  >
+                    <RotateCcw className="h-4 w-4" />
+                  </Button>
                 </div>
               </div>
             </div>
