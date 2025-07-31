@@ -680,9 +680,9 @@ const Index: React.FC = () => {
 
         {/* Results Section - Fixed for desktop visibility and scrolling */}
         {showResults && businesses.length > 0 && (
-          <div className="relative z-20 bg-white min-h-screen w-full md:absolute md:top-0 md:left-0 md:right-0 md:overflow-y-auto">{/* Desktop: overlay full screen with scroll */}
+          <div className="relative z-50 bg-white min-h-screen w-full md:absolute md:top-0 md:left-0 md:right-0 md:overflow-y-auto">{/* Desktop: overlay full screen with scroll */}
             {/* Navigation header with logo and action buttons */}
-            <div className="sticky top-0 bg-white z-30 px-4 py-4 border-b border-dotted border-gray-400">
+            <div className="sticky top-0 bg-white z-50 px-4 py-4 border-b border-dotted border-gray-400">
               {/* Mobile layout */}
               <div className="flex items-center justify-between md:hidden">
                 {/* Logo for mobile */}
