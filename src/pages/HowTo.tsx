@@ -17,33 +17,63 @@ const HowTo = () => {
   
   return <div className="min-h-screen bg-background">
       {isMobile ? (
-        <div className="relative min-h-screen">
-          {/* Hero background image for mobile */}
-          <div 
-            className="absolute inset-0 z-0"
-            style={{
-              backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url(${heroHowTo})`,
-              backgroundSize: 'cover',
-              backgroundPosition: 'center',
-              height: '100vh'
-            }}
-          />
+        <div className="min-h-screen">
+          {/* Fixed Navigation for mobile */}
+          <Navigation />
           
-          {/* Overlaid Navigation for mobile */}
-          <div className="relative z-50">
-            <Navigation />
+          {/* Content container with proper top padding for fixed nav */}
+          <div className="pt-20">
+            {/* Hero section with background image */}
+            <div 
+              className="relative h-80 flex items-center justify-center"
+              style={{
+                backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url(${heroHowTo})`,
+                backgroundSize: 'cover',
+                backgroundPosition: 'center'
+              }}
+            >
+              <h1 className="text-4xl font-bold text-white text-center">
+                HOW TO
+              </h1>
+            </div>
+            
+            {/* Content area for mobile with white background */}
+            <div className="bg-white px-4 py-8">
+              <div className="space-y-8">
+                <div className="flex items-center gap-4">
+                  <Link to="/">
+                    <Button variant="outline" size="sm">
+                      <ArrowLeft className="h-4 w-4 mr-2" />
+                      Back to Home
+                    </Button>
+                  </Link>
+                </div>
+
+                <div className="text-center space-y-4">
+                  <h2 className="font-bold text-black text-2xl">
+                    How to Use smartguidebooks.com
+                  </h2>
+                  <p className="text-muted-foreground text-base">Your step-by-step guide to discovering top rated businesses in many categories in thousands of cities worldwide in 60 seconds or less with NO typing!!</p>
+                </div>
+
+                <HowToSteps />
+                <HowToFeatures />
+                <HowToVideo />
+                <HowToTipsAndTricks />
+                <HowToTips />
+                <HowToCTA />
+              </div>
+            </div>
           </div>
+        </div>
+      ) : (
+        <>
+          <Navigation />
           
-          {/* Hero title overlay for mobile */}
-          <div className="relative z-10 flex items-center justify-center h-96">
-            <h1 className="text-4xl font-bold text-white text-center">
-              HOW TO
-            </h1>
-          </div>
-          
-          {/* Content area for mobile with white background */}
-          <div className="relative z-10 bg-white min-h-screen px-4 py-8">
-            <div className="space-y-8">
+          <div className="pt-20">
+            <HowToHero />
+
+            <div className="max-w-4xl mx-auto p-6 space-y-8">
               <div className="flex items-center gap-4">
                 <Link to="/">
                   <Button variant="outline" size="sm">
@@ -54,10 +84,10 @@ const HowTo = () => {
               </div>
 
               <div className="text-center space-y-4">
-                <h2 className="font-bold text-black text-2xl">
+                <h2 className="font-bold bg-gradient-primary bg-clip-text text-transparent text-4xl">
                   How to Use smartguidebooks.com
                 </h2>
-                <p className="text-muted-foreground text-base">Your step-by-step guide to discovering top rated businesses in many categories in thousands of cities worldwide in 60 seconds or less with NO typing!!</p>
+                <p className="text-muted-foreground text-lg">Your step-by-step guide to discovering top rated businesses in many categories in thousands of cities worldwide in 60 seconds or less with NO typing!!</p>
               </div>
 
               <HowToSteps />
@@ -67,39 +97,6 @@ const HowTo = () => {
               <HowToTips />
               <HowToCTA />
             </div>
-          </div>
-        </div>
-      ) : (
-        <>
-          <div className="max-w-4xl mx-auto p-6">
-            <Navigation />
-          </div>
-          
-          <HowToHero />
-
-          <div className="max-w-4xl mx-auto p-6 space-y-8">
-            <div className="flex items-center gap-4">
-              <Link to="/">
-                <Button variant="outline" size="sm">
-                  <ArrowLeft className="h-4 w-4 mr-2" />
-                  Back to Home
-                </Button>
-              </Link>
-            </div>
-
-            <div className="text-center space-y-4">
-              <h2 className="font-bold bg-gradient-primary bg-clip-text text-transparent text-4xl">
-                How to Use smartguidebooks.com
-              </h2>
-              <p className="text-muted-foreground text-lg">Your step-by-step guide to discovering top rated businesses in many categories in thousands of cities worldwide in 60 seconds or less with NO typing!!</p>
-            </div>
-
-            <HowToSteps />
-            <HowToFeatures />
-            <HowToVideo />
-            <HowToTipsAndTricks />
-            <HowToTips />
-            <HowToCTA />
           </div>
           
           <Footer />

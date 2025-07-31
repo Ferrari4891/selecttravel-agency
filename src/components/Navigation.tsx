@@ -43,10 +43,10 @@ export const Navigation = ({ onMenuStateChange, forceMenuOpen }: NavigationProps
   };
 
   return (
-    <div className="flex items-center gap-2 sm:gap-4 justify-between w-full p-4 bg-transparent absolute top-0 left-0 right-0 z-50">
+    <div className="flex items-center gap-2 sm:gap-4 justify-between w-full p-4 bg-white/95 backdrop-blur-sm shadow-sm fixed top-0 left-0 right-0 z-50">
       {/* Logo */}
-      <div className="flex items-center gap-2 h-12 px-2 sm:px-3 border border-white hover:bg-white/10 transition-colors cursor-pointer touch-target" onClick={() => window.location.href = '/'}>
-        <span className="font-bold text-white text-sm sm:text-lg">seniortravel.agency</span>
+      <div className="flex items-center gap-2 h-12 px-2 sm:px-3 hover:bg-gray-100 transition-colors cursor-pointer touch-target" onClick={() => window.location.href = '/'}>
+        <span className="font-bold text-black text-sm sm:text-lg">seniortravel.agency</span>
       </div>
 
       {/* Hamburger Menu */}
@@ -55,10 +55,10 @@ export const Navigation = ({ onMenuStateChange, forceMenuOpen }: NavigationProps
           <SheetTrigger asChild>
             <Button 
               variant="outline" 
-              className="h-12 w-12 sm:h-12 sm:px-3 rounded-none border border-white touch-target bg-black hover:bg-black/80"
+              className="h-12 w-12 sm:h-12 sm:px-3 rounded-none border border-gray-300 touch-target bg-white hover:bg-gray-100"
               size="sm"
             >
-              <Menu className="h-5 w-5 sm:h-4 sm:w-4 text-white" />
+              <Menu className="h-5 w-5 sm:h-4 sm:w-4 text-black" />
             </Button>
           </SheetTrigger>
           <SheetContent side="right" className="w-[85vw] sm:w-80 max-w-sm">

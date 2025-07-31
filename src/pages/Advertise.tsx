@@ -43,34 +43,31 @@ const Advertise = () => {
     features: [true, true, true, true, true, true, true, true]
   }];
 
-  return <div className="min-h-screen bg-background">
+  return (
+    <div className="min-h-screen bg-background">
       {isMobile ? (
-        <div className="relative min-h-screen">
-          {/* Hero background image for mobile */}
-          <div 
-            className="absolute inset-0 z-0"
-            style={{
-              backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url(${heroAdvertise})`,
-              backgroundSize: 'cover',
-              backgroundPosition: 'center',
-              height: '100vh'
-            }}
-          />
+        <div className="min-h-screen">
+          {/* Fixed Navigation for mobile */}
+          <Navigation />
           
-          {/* Overlaid Navigation for mobile */}
-          <div className="relative z-50">
-            <Navigation />
-          </div>
-          
-          {/* Hero title overlay for mobile */}
-          <div className="relative z-10 flex items-center justify-center h-96">
-            <h1 className="text-4xl font-bold text-white text-center">
-              ADVERTISING PLANS
-            </h1>
-          </div>
-          
-          {/* Content area for mobile with white background */}
-          <div className="relative z-10 bg-white min-h-screen px-4 py-8">
+          {/* Content container with proper top padding for fixed nav */}
+          <div className="pt-20">
+            {/* Hero section with background image */}
+            <div 
+              className="relative h-80 flex items-center justify-center"
+              style={{
+                backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url(${heroAdvertise})`,
+                backgroundSize: 'cover',
+                backgroundPosition: 'center'
+              }}
+            >
+              <h1 className="text-4xl font-bold text-white text-center">
+                ADVERTISE
+              </h1>
+            </div>
+            
+            {/* Content area for mobile with white background */}
+            <div className="bg-white px-4 py-8">
             <div className="space-y-8">
               <div className="flex items-center gap-4">
                 <Link to="/">
@@ -155,11 +152,10 @@ const Advertise = () => {
         </div>
       ) : (
         <>
-          <div className="max-w-4xl mx-auto p-6">
-            <Navigation />
-          </div>
+          <Navigation />
           
-          {/* Hero Section */}
+          <div className="pt-20">
+            {/* Hero Section */}
           <div className="relative h-64 md:h-80 overflow-hidden border-8 border-white rounded-none shadow-[0_8px_12px_-4px_rgba(169,169,169,0.4),_-6px_8px_12px_-4px_rgba(169,169,169,0.3),_6px_8px_12px_-4px_rgba(169,169,169,0.3)]">
             <img src={heroAdvertise} alt="Advertise Hero" className="w-full h-full object-cover" />
             <div className="absolute inset-0 flex items-center justify-center">
@@ -274,6 +270,7 @@ const Advertise = () => {
           <Footer />
         </>
       )}
-    </div>;
+    </div>
+  );
 };
 export default Advertise;
