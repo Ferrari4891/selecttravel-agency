@@ -255,33 +255,29 @@ const Dashboard = () => {
   return (
     <div className="min-h-screen bg-background">
       {isMobile ? (
-        <div className="relative min-h-screen">
-          {/* Hero background image for mobile */}
-          <div 
-            className="absolute inset-0 z-0"
-            style={{
-              backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url(${heroImage})`,
-              backgroundSize: 'cover',
-              backgroundPosition: 'center',
-              height: '100vh'
-            }}
-          />
+        <div className="min-h-screen">
+          {/* Fixed Navigation for mobile */}
+          <Navigation />
           
-          {/* Overlaid Navigation for mobile */}
-          <div className="relative z-50">
-            <Navigation />
-          </div>
-          
-          {/* Hero title overlay for mobile */}
-          <div className="relative z-10 flex items-center justify-center h-96">
-            <div className="text-center text-white">
-              <h1 className="text-4xl font-bold text-white mb-4">My Dashboard</h1>
-              <p className="text-lg text-white">Welcome back, {user?.email}</p>
+          {/* Content container with proper top padding for fixed nav */}
+          <div className="pt-20">
+            {/* Hero section with background image */}
+            <div 
+              className="relative h-80 flex items-center justify-center"
+              style={{
+                backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url(${heroImage})`,
+                backgroundSize: 'cover',
+                backgroundPosition: 'center'
+              }}
+            >
+              <div className="text-center text-white">
+                <h1 className="text-4xl font-bold text-white mb-4">My Dashboard</h1>
+                <p className="text-lg text-white">Welcome back, {user?.email}</p>
+              </div>
             </div>
-          </div>
-          
-          {/* Content area for mobile with white background */}
-          <div className="relative z-10 bg-white min-h-screen px-4 py-8">
+            
+            {/* Content area for mobile with white background */}
+            <div className="bg-white px-4 py-8">
             <div className="space-y-8">
               <div className="flex items-center justify-between gap-4">
                 <Link to="/">
@@ -571,26 +567,25 @@ const Dashboard = () => {
         <>
           <Navigation />
           
-          {/* Hero Section */}
-          <div className="relative w-full h-96 mb-8">
-            <div className="w-full h-full bg-background relative" style={{
-              border: '8px solid white',
-              boxShadow: '0 8px 12px -4px rgba(169, 169, 169, 0.4)'
-            }}>
-              <img src={heroImage} alt="Dashboard" className="w-full h-full object-cover" />
-              
-              <div className="absolute inset-0 bg-black bg-opacity-40 flex items-center justify-center">
-                <div className="text-center text-white">
-                  <h1 className="text-4xl font-bold mb-4 md:text-9xl">My Dashboard</h1>
-                  <p className="text-lg">Welcome back, {user?.email}</p>
-                </div>
+          {/* Content container with proper top padding for fixed nav */}
+          <div className="pt-20">
+            {/* Hero section with background image */}
+            <div 
+              className="relative h-80 flex items-center justify-center"
+              style={{
+                backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url(${heroImage})`,
+                backgroundSize: 'cover',
+                backgroundPosition: 'center'
+              }}
+            >
+              <div className="text-center text-white">
+                <h1 className="text-4xl font-bold text-white mb-4 md:text-6xl">My Dashboard</h1>
+                <p className="text-lg text-white">Welcome back, {user?.email}</p>
               </div>
             </div>
-          </div>
 
-          {/* Content Section */}
-          <div className="container mx-auto px-4 pb-12">
-            <div className="max-w-7xl mx-auto">
+            <div className="bg-white px-4 py-8">
+              <div className="max-w-7xl mx-auto">
               <div className="flex justify-between items-center mb-6">
                 <h2 className="text-2xl font-bold">Dashboard Overview</h2>
                 <Button variant="outline" onClick={handleSignOut}>
@@ -890,7 +885,7 @@ const Dashboard = () => {
               </Tabs>
             </div>
           </div>
-
+          
           <Footer />
         </>
       )}

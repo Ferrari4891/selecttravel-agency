@@ -141,19 +141,24 @@ const AboutUs = () => {
         <>
           <Navigation />
           
+          {/* Content container with proper top padding for fixed nav */}
           <div className="pt-20">
-            {/* Hero Section */}
-            <div className="relative h-64 md:h-80 overflow-hidden border-8 border-white rounded-none shadow-[0_8px_12px_-4px_rgba(169,169,169,0.4),_-6px_8px_12px_-4px_rgba(169,169,169,0.3),_6px_8px_12px_-4px_rgba(169,169,169,0.3)]">
-              <img src={heroAboutUs} alt="About Us Hero" className="w-full h-full object-cover" />
-              <div className="absolute inset-0 flex items-center justify-center">
-                <h1 className="text-4xl font-bold text-white md:text-9xl">
-                  ABOUT US
-                </h1>
-              </div>
+            {/* Hero section with background image */}
+            <div 
+              className="relative h-80 flex items-center justify-center"
+              style={{
+                backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url(${heroAboutUs})`,
+                backgroundSize: 'cover',
+                backgroundPosition: 'center'
+              }}
+            >
+              <h1 className="text-4xl font-bold text-white text-center md:text-6xl">
+                ABOUT US
+              </h1>
             </div>
 
-            <div className="max-w-4xl mx-auto p-6 space-y-8 bg-white">
-              <div className="flex items-center gap-4">
+            <div className="bg-white px-4 py-8">
+              <div className="max-w-4xl mx-auto space-y-8">
                 <Link to="/">
                   <Button variant="outline" size="sm">
                     <ArrowLeft className="h-4 w-4 mr-2" />
