@@ -10,7 +10,7 @@ const Footer = ({ themeClass }: FooterProps) => {
   const { user } = useAuth();
 
   return (
-    <div className={`${themeClass} md:hidden`}>
+    <div className={`${themeClass} hidden`}>
       <footer className="text-foreground py-1 mt-auto bg-white">
         <div className="max-w-4xl mx-auto px-2">
           <div className="flex flex-wrap justify-center gap-1 sm:gap-2 text-center text-xs leading-tight">
