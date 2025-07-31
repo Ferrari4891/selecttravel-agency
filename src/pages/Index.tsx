@@ -682,11 +682,11 @@ const Index: React.FC = () => {
         {showResults && businesses.length > 0 && (
           <div className="relative z-20 bg-white min-h-screen w-full md:absolute md:top-0 md:left-0 md:right-0 md:overflow-y-auto">{/* Desktop: overlay full screen with scroll */}
             {/* Navigation header with logo and action buttons */}
-            <div className="sticky top-0 bg-white z-30 px-4 py-3 border-b">
+            <div className="sticky top-0 bg-white z-30 px-4 py-4 border-b">
               {/* Mobile layout */}
               <div className="flex items-center justify-between md:hidden">
                 {/* Logo for mobile */}
-                <div className="flex items-center gap-2 border border-black px-2 py-1">
+                <div className="flex items-center border border-black px-2 py-1">
                   <span className="font-bold text-black text-sm">seniortravel.agency</span>
                 </div>
                 <div className="flex gap-2">
@@ -713,14 +713,19 @@ const Index: React.FC = () => {
               
               {/* Desktop layout */}
               <div className="hidden md:block">
-                <div className="flex items-center justify-between mb-3">
-                  {/* Action buttons on the left */}
-                  <div className="flex gap-1">
+                <div className="flex items-center justify-between">
+                  {/* Logo on the left */}
+                  <div className="flex items-center border border-black px-3 py-2">
+                    <span className="font-bold text-black text-lg">seniortravel.agency</span>
+                  </div>
+                  
+                  {/* Action buttons positioned to the left of hamburger menu */}
+                  <div className="flex gap-2">
                     <Button 
                       onClick={exportToCSV}
                       variant="outline" 
                       size="sm"
-                      className="h-8 px-2 rounded-none border-black"
+                      className="h-12 w-12 rounded-none border-black"
                     >
                       <Download className="h-4 w-4" />
                     </Button>
@@ -728,25 +733,12 @@ const Index: React.FC = () => {
                       onClick={handleGetAgain}
                       variant="outline" 
                       size="sm"
-                      className="h-8 px-2 rounded-none border-black"
+                      className="h-12 w-12 rounded-none border-black"
                     >
                       <RotateCcw className="h-4 w-4" />
                     </Button>
                   </div>
-                  
-                  {/* Logo centered for desktop */}
-                  <div className="flex items-center border border-black px-3 py-2">
-                    <span className="font-bold text-black text-lg">seniortravel.agency</span>
-                  </div>
-                  
-                  {/* Empty space to balance layout */}
-                  <div className="w-[120px]"></div>
                 </div>
-                
-                {/* Title below logo */}
-                <h2 className="text-lg font-bold text-center text-foreground">
-                  {selectedCategory?.charAt(0).toUpperCase() + selectedCategory?.slice(1)} in {selectedCity}
-                </h2>
               </div>
             </div>
             
