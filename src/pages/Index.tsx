@@ -682,42 +682,57 @@ const Index: React.FC = () => {
         {showResults && businesses.length > 0 && (
           <div className="relative z-20 bg-white min-h-screen w-full md:absolute md:top-0 md:left-0 md:right-0 md:overflow-y-auto">{/* Desktop: overlay full screen with scroll */}
             {/* Navigation bar with buttons positioned under hamburger on desktop */}
-            <div className="sticky top-0 bg-white z-30 px-4 py-3 border-b">
-              <div className="flex items-center justify-between">
-                {/* Title - mobile only */}
-                <h2 className="text-lg font-bold md:hidden">
+            <div className="sticky top-0 bg-white z-30 px-4 py-2 border-b">
+              {/* Mobile layout */}
+              <div className="flex items-center justify-between md:hidden">
+                <h2 className="text-lg font-bold text-foreground">
                   {selectedCategory?.charAt(0).toUpperCase() + selectedCategory?.slice(1)} in {selectedCity}
                 </h2>
-                
-                {/* Desktop layout: Empty space on left, buttons aligned right under hamburger */}
-                <div className="hidden md:block"></div>
-                
-                {/* Action buttons */}
-                <div className="flex gap-2 md:absolute md:right-4 md:top-3">
+                <div className="flex gap-2">
                   <Button 
                     onClick={exportToCSV}
                     variant="outline" 
                     size="sm"
-                    className="h-10 px-2 md:px-1 rounded-none border-black"
+                    className="h-10 px-2 rounded-none border-black"
                   >
-                    <Download className="h-4 w-4 md:mr-0 mr-1" />
-                    <span className="md:hidden">Export</span>
+                    <Download className="h-4 w-4 mr-1" />
+                    Export
                   </Button>
                   <Button 
                     onClick={handleGetAgain}
                     variant="outline" 
                     size="sm"
-                    className="h-10 px-2 md:px-1 rounded-none border-black"
+                    className="h-10 px-2 rounded-none border-black"
                   >
-                    <RotateCcw className="h-4 w-4 md:mr-0 mr-1" />
-                    <span className="md:hidden">Again</span>
+                    <RotateCcw className="h-4 w-4 mr-1" />
+                    Again
                   </Button>
                 </div>
               </div>
               
-              {/* Title - desktop only, below buttons */}
-              <div className="hidden md:block mt-2">
-                <h2 className="text-lg font-bold text-center">
+              {/* Desktop layout - buttons positioned under hamburger menu area */}
+              <div className="hidden md:block">
+                <div className="flex justify-start mb-2">
+                  <div className="flex gap-1">
+                    <Button 
+                      onClick={exportToCSV}
+                      variant="outline" 
+                      size="sm"
+                      className="h-8 px-2 rounded-none border-black"
+                    >
+                      <Download className="h-4 w-4" />
+                    </Button>
+                    <Button 
+                      onClick={handleGetAgain}
+                      variant="outline" 
+                      size="sm"
+                      className="h-8 px-2 rounded-none border-black"
+                    >
+                      <RotateCcw className="h-4 w-4" />
+                    </Button>
+                  </div>
+                </div>
+                <h2 className="text-lg font-bold text-center text-foreground">
                   {selectedCategory?.charAt(0).toUpperCase() + selectedCategory?.slice(1)} in {selectedCity}
                 </h2>
               </div>
