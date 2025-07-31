@@ -8,7 +8,7 @@ import { Navigation } from '@/components/Navigation';
 import Footer from '@/components/Footer';
 import { RestaurantResults } from '@/components/RestaurantResults';
 import { LanguageSelector } from '@/components/LanguageSelector';
-import { Utensils, Coffee, Bed, Gamepad2, MapPin, Download, RotateCcw, Loader2, Search, Menu } from 'lucide-react';
+import { Utensils, Coffee, Bed, Gamepad2, MapPin, Download, RotateCcw, Loader2, Search } from 'lucide-react';
 import { Input } from '@/components/ui/input';
 import { regionData } from '@/data/locationData';
 import SaveBusinessButton from '@/components/SaveBusinessButton';
@@ -428,12 +428,10 @@ const Index: React.FC = () => {
           }}
         />
         
-        {/* Overlaid Navigation - Hidden when results are shown */}
-        {!showResults && (
-          <div className="relative z-50">
-            <Navigation />
-          </div>
-        )}
+        {/* Overlaid Navigation */}
+        <div className="relative z-50">
+          <Navigation />
+        </div>
         
         {/* Main content area */}
         <div className="relative z-10 h-full flex flex-col">
@@ -694,7 +692,7 @@ const Index: React.FC = () => {
                     onClick={exportToCSV}
                     variant="outline" 
                     size="sm"
-                    className="h-12 w-12 rounded-none border-black bg-white hover:bg-gray-100"
+                    className="h-12 w-12 rounded-none border-black"
                   >
                     <Download className="h-4 w-4" />
                   </Button>
@@ -702,16 +700,9 @@ const Index: React.FC = () => {
                     onClick={handleGetAgain}
                     variant="outline" 
                     size="sm"
-                    className="h-12 w-12 rounded-none border-black bg-white hover:bg-gray-100"
+                    className="h-12 w-12 rounded-none border-black"
                   >
                     <RotateCcw className="h-4 w-4" />
-                  </Button>
-                  <Button 
-                    variant="outline" 
-                    size="sm"
-                    className="h-12 w-12 rounded-none border-black bg-white hover:bg-gray-100"
-                  >
-                    <Menu className="h-4 w-4" />
                   </Button>
                 </div>
               </div>
@@ -727,7 +718,7 @@ const Index: React.FC = () => {
                     onClick={exportToCSV}
                     variant="outline" 
                     size="sm"
-                    className="h-12 w-12 rounded-none border-black bg-white hover:bg-gray-100"
+                    className="h-12 w-12 rounded-none border-black"
                   >
                     <Download className="h-4 w-4" />
                   </Button>
@@ -735,16 +726,9 @@ const Index: React.FC = () => {
                     onClick={handleGetAgain}
                     variant="outline" 
                     size="sm"
-                    className="h-12 w-12 rounded-none border-black bg-white hover:bg-gray-100"
+                    className="h-12 w-12 rounded-none border-black"
                   >
                     <RotateCcw className="h-4 w-4" />
-                  </Button>
-                  <Button 
-                    variant="outline" 
-                    size="sm"
-                    className="h-12 w-12 rounded-none border-black bg-white hover:bg-gray-100"
-                  >
-                    <Menu className="h-4 w-4" />
                   </Button>
                 </div>
               </div>
