@@ -44,20 +44,28 @@ export const Navigation = ({ onMenuStateChange, forceMenuOpen }: NavigationProps
 
   return (
     <div className="flex items-center gap-2 sm:gap-4 justify-between w-full p-4 bg-transparent absolute top-0 left-0 right-0 z-50">
-      <div className="flex items-center gap-2 sm:gap-4">
-        {/* Hamburger Menu */}
-        <div>
-          <Sheet open={menuOpen} onOpenChange={handleMenuChange}>
-            <SheetTrigger asChild>
-              <Button 
-                variant="outline" 
-                className="h-12 w-12 sm:h-12 sm:px-3 rounded-none border border-white touch-target text-white hover:bg-white/10"
-                size="sm"
-              >
-                <Menu className="h-5 w-5 sm:h-4 sm:w-4 text-black" />
-              </Button>
-            </SheetTrigger>
-            <SheetContent side="left" className="w-[85vw] sm:w-80 max-w-sm">
+      {/* Logo */}
+      <div className="flex items-center gap-2 h-12 px-2 sm:px-3 border border-white hover:bg-white/10 transition-colors cursor-pointer touch-target" onClick={() => window.location.href = '/'}>
+        <div className="w-8 h-8 bg-white flex items-center justify-center">
+          <span className="text-black font-bold text-xs sm:text-sm">SGB</span>
+        </div>
+        <span className="font-bold text-white text-sm sm:text-lg hidden xs:block sm:block">SmartGuideBooks.com</span>
+        <span className="font-bold text-white text-sm block xs:hidden sm:hidden">SGB</span>
+      </div>
+
+      {/* Hamburger Menu */}
+      <div>
+        <Sheet open={menuOpen} onOpenChange={handleMenuChange}>
+          <SheetTrigger asChild>
+            <Button 
+              variant="outline" 
+              className="h-12 w-12 sm:h-12 sm:px-3 rounded-none border border-white touch-target text-white hover:bg-white/10"
+              size="sm"
+            >
+              <Menu className="h-5 w-5 sm:h-4 sm:w-4 text-black" />
+            </Button>
+          </SheetTrigger>
+          <SheetContent side="right" className="w-[85vw] sm:w-80 max-w-sm">
               <div className="flex flex-col gap-3 pt-6 h-full">{/* Added h-full for full height */}
                 <Button 
                   variant="ghost" 
@@ -247,16 +255,6 @@ export const Navigation = ({ onMenuStateChange, forceMenuOpen }: NavigationProps
             </SheetContent>
           </Sheet>
         </div>
-
-        {/* Logo */}
-        <div className="flex items-center gap-2 h-12 px-2 sm:px-3 border border-white hover:bg-white/10 transition-colors cursor-pointer touch-target" onClick={() => window.location.href = '/'}>
-          <div className="w-8 h-8 bg-white flex items-center justify-center">
-            <span className="text-black font-bold text-xs sm:text-sm">SGB</span>
-          </div>
-          <span className="font-bold text-white text-sm sm:text-lg hidden xs:block sm:block">SmartGuideBooks.com</span>
-          <span className="font-bold text-white text-sm block xs:hidden sm:hidden">SGB</span>
-        </div>
-      </div>
     </div>
   );
 };
