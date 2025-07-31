@@ -715,7 +715,7 @@ const Index: React.FC = () => {
                         <Menu className="h-5 w-5 text-black" />
                       </Button>
                     </SheetTrigger>
-                    <SheetContent side="left" className="w-[85vw] sm:w-80 max-w-sm">
+                    <SheetContent side="right" className="w-[85vw] sm:w-80 max-w-sm">
                       <Navigation forceMenuOpen={false} />
                     </SheetContent>
                   </Sheet>
@@ -755,7 +755,7 @@ const Index: React.FC = () => {
                         <Menu className="h-5 w-5 text-black" />
                       </Button>
                     </SheetTrigger>
-                    <SheetContent side="left" className="w-[85vw] sm:w-80 max-w-sm">
+                    <SheetContent side="right" className="w-[85vw] sm:w-80 max-w-sm">
                       <Navigation forceMenuOpen={false} />
                     </SheetContent>
                   </Sheet>
