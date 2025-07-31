@@ -34,62 +34,68 @@ const App = () => (
     <TooltipProvider>
       <TranslationProvider>
         <AuthProvider>
-          <MobileContainer>
-            <Toaster />
-            <Sonner />
-            <BrowserRouter>
-              <Routes>
-                {/* Auth route accessible without site authentication */}
-                <Route path="/auth" element={<Auth />} />
-                
-                {/* All other routes require site authentication */}
-                <Route path="/*" element={
-                  <SiteAuthGuard>
-                    <Routes>
-                      <Route path="/" element={<Index />} />
-                      
-                      <Route path="/about-us" element={<AboutUs />} />
-                      <Route path="/how-to" element={<HowTo />} />
-                      <Route path="/advertise" element={<Advertise />} />
-                      <Route path="/roi" element={<ROI />} />
-                      <Route path="/toolbox" element={<Toolbox />} />
-                      <Route path="/visa-info" element={<VisaInfo />} />
-                      <Route path="/dashboard" element={<Dashboard />} />
-                      <Route path="/join-free" element={<JoinFree />} />
-                      <Route path="/tv-channel" element={<TVChannel />} />
-                      <Route 
-                        path="/business-dashboard" 
-                        element={
+          <Toaster />
+          <Sonner />
+          <BrowserRouter>
+            <Routes>
+              {/* Auth route accessible without site authentication */}
+              <Route path="/auth" element={<Auth />} />
+              
+              {/* All other routes require site authentication */}
+              <Route path="/*" element={
+                <SiteAuthGuard>
+                  <Routes>
+                    {/* Selection page without MobileContainer */}
+                    <Route path="/" element={<Index />} />
+                    
+                    {/* Menu pages with MobileContainer */}
+                    <Route path="/about-us" element={<MobileContainer><AboutUs /></MobileContainer>} />
+                    <Route path="/how-to" element={<MobileContainer><HowTo /></MobileContainer>} />
+                    <Route path="/advertise" element={<MobileContainer><Advertise /></MobileContainer>} />
+                    <Route path="/roi" element={<MobileContainer><ROI /></MobileContainer>} />
+                    <Route path="/toolbox" element={<MobileContainer><Toolbox /></MobileContainer>} />
+                    <Route path="/visa-info" element={<MobileContainer><VisaInfo /></MobileContainer>} />
+                    <Route path="/dashboard" element={<MobileContainer><Dashboard /></MobileContainer>} />
+                    <Route path="/join-free" element={<MobileContainer><JoinFree /></MobileContainer>} />
+                    <Route path="/tv-channel" element={<MobileContainer><TVChannel /></MobileContainer>} />
+                    <Route 
+                      path="/business-dashboard" 
+                      element={
+                        <MobileContainer>
                           <ProtectedRoute>
                             <BusinessDashboard />
                           </ProtectedRoute>
-                        } 
-                      />
-                      <Route 
-                        path="/user-dashboard" 
-                        element={
+                        </MobileContainer>
+                      } 
+                    />
+                    <Route 
+                      path="/user-dashboard" 
+                      element={
+                        <MobileContainer>
                           <ProtectedRoute>
                             <UserDashboard />
                           </ProtectedRoute>
-                        } 
-                      />
-                      <Route 
-                        path="/collections" 
-                        element={
+                        </MobileContainer>
+                      } 
+                    />
+                    <Route 
+                      path="/collections" 
+                      element={
+                        <MobileContainer>
                           <ProtectedRoute>
                             <Collections />
                           </ProtectedRoute>
-                        } 
-                      />
-                      <Route path="/shared/:token" element={<SharedCollection />} />
-                      {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
-                      <Route path="*" element={<NotFound />} />
-                    </Routes>
-                  </SiteAuthGuard>
-                } />
-              </Routes>
-            </BrowserRouter>
-          </MobileContainer>
+                        </MobileContainer>
+                      } 
+                    />
+                    <Route path="/shared/:token" element={<MobileContainer><SharedCollection /></MobileContainer>} />
+                    {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
+                    <Route path="*" element={<MobileContainer><NotFound /></MobileContainer>} />
+                  </Routes>
+                </SiteAuthGuard>
+              } />
+            </Routes>
+          </BrowserRouter>
         </AuthProvider>
       </TranslationProvider>
     </TooltipProvider>
