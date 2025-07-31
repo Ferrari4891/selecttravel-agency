@@ -436,44 +436,41 @@ const Index: React.FC = () => {
         
         {/* Main content area */}
         <div className="relative z-10 h-full flex flex-col">
-          {/* Top Section - Title */}
-          <div className="flex-shrink-0 flex flex-col justify-center items-center text-center px-4 py-8 mt-16">
+          {/* Compact Title Section */}
+          <div className="flex-shrink-0 flex flex-col justify-center items-center text-center px-4 py-4 mt-12">
             {selectedCity && cityImages[selectedCity] && (
-              <h1 className="text-white font-bold text-3xl leading-tight">
+              <h1 className="text-white font-bold text-xl leading-tight">
                 {selectedCity.toUpperCase()}
               </h1>
             )}
             
             {!selectedCity && (
               <>
-                <h1 className="text-white font-bold text-xl leading-tight">
+                <h1 className="text-white font-bold text-lg leading-tight">
                   Personalized Guide Books
                 </h1>
-                <p className="text-white text-sm mt-1">
-                  Let's get personal
-                </p>
                 <p className="text-white text-xs mt-1">
-                  www.smartguidebooks.com
+                  Let's get personal
                 </p>
               </>
             )}
           </div>
 
-          {/* Middle Section - Selection Interface */}
+          {/* Compact Selection Interface - Fits without scrolling */}
           <div className="flex-1 flex items-center justify-center px-4 pb-4">
-            <div className="w-full max-w-md md:max-w-2xl lg:max-w-4xl">{/* Desktop: much wider containers with bottom gap */}
+            <div className="w-full max-w-sm space-y-3">
               {/* Progress Indicator */}
-              <div className="flex justify-center space-x-2 mb-6">
+              <div className="flex justify-center space-x-2 mb-4">
                 {[
                   { step: 1, label: 'Category' },
                   { step: 2, label: 'Region' },
                   { step: 3, label: 'Country' },
                   { step: 4, label: 'City' }
                 ].map(({ step, label }) => (
-                  <div key={step} className="flex flex-col items-center space-y-1">
+                  <div key={step} className="flex flex-col items-center">
                     <button
                       onClick={() => handleStepNavigation(step)}
-                      className={`w-5 h-5 rounded-none flex items-center justify-center border-2 font-medium transition-colors cursor-pointer hover:scale-110 text-xs ${
+                      className={`w-4 h-4 rounded-none flex items-center justify-center border font-medium transition-colors cursor-pointer hover:scale-110 text-xs ${
                         step <= currentStep 
                           ? 'bg-green-500 text-white border-green-500' 
                           : 'bg-transparent text-white border-white/50 hover:border-white'
@@ -518,19 +515,19 @@ const Index: React.FC = () => {
 
               {/* Step 1: Category Selection */}
               {currentStep === 1 && (
-                <div className="space-y-6">
-                  <h2 className="text-lg font-bold text-center text-white">1: What are you looking for?</h2>
+                <div className="space-y-3">
+                  <h2 className="text-sm font-bold text-center text-white">1: What are you looking for?</h2>
                   <Select onValueChange={handleCategorySelect} value={selectedCategory}>
-                    <SelectTrigger className="w-full h-14 text-base bg-white text-black border-2 border-white rounded-none shadow-md">
+                    <SelectTrigger className="w-full h-10 text-sm bg-white text-black border-2 border-white rounded-none shadow-md">
                       <SelectValue placeholder="Select category..." />
                     </SelectTrigger>
-                    <SelectContent className="bg-white border-2 border-gray-300 rounded-none max-h-60 overflow-y-auto z-[100] shadow-lg">
+                    <SelectContent className="bg-white border-2 border-gray-300 rounded-none max-h-40 overflow-y-auto z-[100] shadow-lg">
                       {categories.map((category) => {
                         const IconComponent = category.icon;
                         return (
-                          <SelectItem key={category.value} value={category.value} className="text-base py-3 rounded-none hover:bg-gray-100">
+                          <SelectItem key={category.value} value={category.value} className="text-sm py-2 rounded-none hover:bg-gray-100">
                             <div className="flex items-center gap-2">
-                              <IconComponent className="h-5 w-5" />
+                              <IconComponent className="h-4 w-4" />
                               <span className="font-medium">{category.label}</span>
                             </div>
                           </SelectItem>
@@ -543,15 +540,15 @@ const Index: React.FC = () => {
 
               {/* Step 2: Region Selection */}
               {currentStep === 2 && (
-                <div className="space-y-6">
-                  <h2 className="text-lg font-bold text-center text-white">2: Select Region</h2>
+                <div className="space-y-3">
+                  <h2 className="text-sm font-bold text-center text-white">2: Select Region</h2>
                   <Select onValueChange={handleRegionSelect} value={selectedRegion}>
-                    <SelectTrigger className="w-full h-14 text-base bg-white text-black border-2 border-white rounded-none shadow-md">
+                    <SelectTrigger className="w-full h-10 text-sm bg-white text-black border-2 border-white rounded-none shadow-md">
                       <SelectValue placeholder="Select region..." />
                     </SelectTrigger>
-                    <SelectContent className="bg-white border-2 border-gray-300 rounded-none max-h-60 overflow-y-auto z-[100] shadow-lg">
+                    <SelectContent className="bg-white border-2 border-gray-300 rounded-none max-h-40 overflow-y-auto z-[100] shadow-lg">
                       {regions.map((region) => (
-                        <SelectItem key={region} value={region} className="text-base py-3 rounded-none hover:bg-gray-100">
+                        <SelectItem key={region} value={region} className="text-sm py-2 rounded-none hover:bg-gray-100">
                           {region}
                         </SelectItem>
                       ))}
@@ -562,15 +559,15 @@ const Index: React.FC = () => {
 
               {/* Step 3: Country Selection */}
               {currentStep === 3 && (
-                <div className="space-y-6">
-                  <h2 className="text-lg font-bold text-center text-white">3: Select Country</h2>
+                <div className="space-y-3">
+                  <h2 className="text-sm font-bold text-center text-white">3: Select Country</h2>
                   <Select onValueChange={handleCountrySelect} value={selectedCountry}>
-                    <SelectTrigger className="w-full h-14 text-base bg-white text-black border-2 border-white rounded-none shadow-md">
+                    <SelectTrigger className="w-full h-10 text-sm bg-white text-black border-2 border-white rounded-none shadow-md">
                       <SelectValue placeholder="Select country..." />
                     </SelectTrigger>
-                    <SelectContent className="bg-white border-2 border-gray-300 rounded-none max-h-60 overflow-y-auto z-[100] shadow-lg">
+                    <SelectContent className="bg-white border-2 border-gray-300 rounded-none max-h-40 overflow-y-auto z-[100] shadow-lg">
                       {countries.map((country) => (
-                        <SelectItem key={country.name} value={country.name} className="text-base py-3 rounded-none hover:bg-gray-100">
+                        <SelectItem key={country.name} value={country.name} className="text-sm py-2 rounded-none hover:bg-gray-100">
                           {country.name}
                         </SelectItem>
                       ))}
@@ -581,8 +578,8 @@ const Index: React.FC = () => {
 
               {/* Step 4: City Selection */}
               {currentStep === 4 && (
-                <div className="space-y-4">
-                  <h2 className="text-lg font-bold text-center text-white">4: Select City</h2>
+                <div className="space-y-3">
+                  <h2 className="text-sm font-bold text-center text-white">4: Select City</h2>
                   <Select onValueChange={handleCitySelect} value={selectedCity}>
                     <SelectTrigger className="w-full h-10 text-sm bg-white text-black border-2 border-white rounded-none shadow-md">
                       <SelectValue placeholder="Select city..." />
@@ -625,14 +622,14 @@ const Index: React.FC = () => {
                   {/* Results count selector */}
                   {(selectedCity || citySearchInput.trim()) && (
                     <div className="space-y-2">
-                      <label className="block text-white text-sm font-medium">Number of results:</label>
+                      <label className="block text-white text-xs font-medium">Number of results:</label>
                       <Select onValueChange={(value) => setResultCount(parseInt(value))} value={resultCount.toString()}>
-                        <SelectTrigger className="w-full h-10 text-sm bg-white text-black border-2 border-white rounded-none shadow-md">
+                        <SelectTrigger className="w-full h-8 text-xs bg-white text-black border-2 border-white rounded-none shadow-md">
                           <SelectValue placeholder="Select number..." />
                         </SelectTrigger>
-                        <SelectContent className="bg-white border-2 border-gray-300 rounded-none max-h-40 overflow-y-auto z-[300] shadow-lg">
+                        <SelectContent className="bg-white border-2 border-gray-300 rounded-none max-h-32 overflow-y-auto z-[300] shadow-lg">
                           {[1, 5, 10, 20, 30, 40, 50].map((count) => (
-                            <SelectItem key={count} value={count.toString()} className="text-sm py-2 rounded-none hover:bg-gray-100">
+                            <SelectItem key={count} value={count.toString()} className="text-xs py-1 rounded-none hover:bg-gray-100">
                               {count} result{count > 1 ? 's' : ''}
                             </SelectItem>
                           ))}
@@ -643,16 +640,16 @@ const Index: React.FC = () => {
 
                   {/* Get Now and Get Again buttons */}
                   {isComplete && (
-                    <div className="flex gap-3 mt-4">
+                    <div className="flex gap-2 mt-3">
                       <Button 
                         onClick={handleGetNow} 
                         disabled={isLoading}
-                        className="flex-1 h-12 text-sm font-bold bg-green-500 text-white border-green-500 rounded-none hover:bg-green-600 disabled:opacity-50 shadow-md"
+                        className="flex-1 h-10 text-xs font-bold bg-green-500 text-white border-green-500 rounded-none hover:bg-green-600 disabled:opacity-50 shadow-md"
                       >
                         {isLoading ? (
                           <>
-                            <Loader2 className="h-4 w-4 mr-2 animate-spin" />
-                            Getting Results...
+                            <Loader2 className="h-3 w-3 mr-1 animate-spin" />
+                            Getting...
                           </>
                         ) : (
                           'GET NOW!'
@@ -660,10 +657,10 @@ const Index: React.FC = () => {
                       </Button>
                       <Button 
                         onClick={handleGetAgain}
-                        className="flex-1 h-12 text-sm font-bold bg-white text-black border-2 border-white rounded-none hover:bg-white/90 shadow-md"
+                        className="flex-1 h-10 text-xs font-bold bg-white text-black border-2 border-white rounded-none hover:bg-white/90 shadow-md"
                       >
-                        <RotateCcw className="h-4 w-4 mr-2" />
-                        GET AGAIN
+                        <RotateCcw className="h-3 w-3 mr-1" />
+                        AGAIN
                       </Button>
                     </div>
                   )}
