@@ -61,7 +61,7 @@ export const Navigation = ({ onMenuStateChange, forceMenuOpen }: NavigationProps
               <Menu className="h-5 w-5 sm:h-4 sm:w-4 text-white" />
             </Button>
           </SheetTrigger>
-          <SheetContent side="left" className="w-[85vw] sm:w-80 max-w-sm">
+          <SheetContent side="right" className="w-[85vw] sm:w-80 max-w-sm">
               <div className="flex flex-col gap-3 pt-6 h-full">{/* Added h-full for full height */}
                 <Button 
                   variant="ghost" 
