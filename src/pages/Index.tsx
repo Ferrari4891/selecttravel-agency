@@ -14,7 +14,6 @@ import { Input } from '@/components/ui/input';
 import { regionData } from '@/data/locationData';
 import SaveBusinessButton from '@/components/SaveBusinessButton';
 import { EnhancedCityInput } from '@/components/EnhancedCityInput';
-import MobileContainer from '@/components/MobileContainer';
 
 
 // Import hero images
@@ -682,9 +681,8 @@ const Index: React.FC = () => {
 
         {/* Results Section - Fixed for desktop visibility and scrolling */}
         {showResults && businesses.length > 0 && (
-          <MobileContainer>
-              <div className="relative z-50 bg-white min-h-screen w-full">{/* Removed desktop overlay positioning */}
-                {/* Navigation header with logo and action buttons */}
+          <div className="relative z-50 bg-white min-h-screen w-full md:absolute md:top-0 md:left-0 md:right-0 md:overflow-y-auto">{/* Desktop: overlay full screen with scroll */}
+            {/* Navigation header with logo and action buttons */}
             <div className="sticky top-0 bg-white z-50 px-4 py-4 border-b border-dotted border-gray-400">
               {/* Mobile layout */}
               <div className="flex items-center justify-between md:hidden">
@@ -880,10 +878,9 @@ const Index: React.FC = () => {
                 selectedCity={selectedCity}
                 selectedCountry={selectedCountry}
                 selectedCategory={selectedCategory}
-                />
-              </div>
+              />
             </div>
-          </MobileContainer>
+          </div>
         )}
         {/* Footer removed from mobile */}
       </div>
