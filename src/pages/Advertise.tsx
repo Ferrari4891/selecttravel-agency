@@ -156,7 +156,7 @@ const Advertise = () => {
           <Navigation />
           
           {/* Content container with proper top padding for fixed nav */}
-          <div className="pt-20">
+          <div className="pt-20 min-h-screen">
             {/* Hero section with background image */}
             <div 
               className="relative h-80 flex items-center justify-center"

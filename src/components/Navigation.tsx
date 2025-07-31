@@ -43,11 +43,12 @@ export const Navigation = ({ onMenuStateChange, forceMenuOpen }: NavigationProps
   };
 
   return (
-    <div className="flex items-center gap-2 sm:gap-4 justify-between w-full p-4 bg-white/95 backdrop-blur-sm shadow-sm fixed top-0 left-0 right-0 z-50">
-      {/* Logo */}
-      <div className="flex items-center gap-2 h-12 px-2 sm:px-3 hover:bg-gray-100 transition-colors cursor-pointer touch-target" onClick={() => window.location.href = '/'}>
-        <span className="font-bold text-black text-sm sm:text-lg">seniortravel.agency</span>
-      </div>
+    <div className="w-full bg-white/95 backdrop-blur-sm shadow-sm fixed top-0 left-0 right-0 z-50">
+      <div className="flex items-center gap-2 sm:gap-4 justify-between max-w-7xl mx-auto px-4 py-4">
+        {/* Logo */}
+        <div className="flex items-center gap-2 h-12 px-2 sm:px-3 hover:bg-gray-100 transition-colors cursor-pointer touch-target" onClick={() => window.location.href = '/'}>
+          <span className="font-bold text-black text-sm sm:text-lg">seniortravel.agency</span>
+        </div>
 
       {/* Hamburger Menu */}
       <div>
@@ -251,6 +252,7 @@ export const Navigation = ({ onMenuStateChange, forceMenuOpen }: NavigationProps
             </SheetContent>
           </Sheet>
         </div>
+      </div>
     </div>
   );
 };
