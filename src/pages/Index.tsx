@@ -9,7 +9,7 @@ import { Navigation } from '@/components/Navigation';
 import Footer from '@/components/Footer';
 import { RestaurantResults } from '@/components/RestaurantResults';
 import { LanguageSelector } from '@/components/LanguageSelector';
-import { Utensils, Coffee, Bed, Gamepad2, MapPin, Download, RotateCcw, Loader2, Search, Menu } from 'lucide-react';
+import { Utensils, Coffee, Bed, Gamepad2, MapPin, Download, RotateCcw, Loader2, Search, Menu, Home, Info, HelpCircle, Users } from 'lucide-react';
 import { Input } from '@/components/ui/input';
 import { regionData } from '@/data/locationData';
 import SaveBusinessButton from '@/components/SaveBusinessButton';
@@ -716,7 +716,52 @@ const Index: React.FC = () => {
                       </Button>
                     </SheetTrigger>
                     <SheetContent side="right" className="w-[85vw] sm:w-80 max-w-sm">
-                      <Navigation forceMenuOpen={false} />
+                      <div className="flex flex-col gap-3 pt-6 h-full">
+                        <Button 
+                          variant="ghost" 
+                          className="w-full justify-start h-12 text-left" 
+                          onClick={() => window.location.href = '/'}
+                        >
+                          <Home className="h-5 w-5 mr-3" />
+                          <span className="text-base">Home</span>
+                        </Button>
+                        <Button variant="ghost" className="w-full justify-start h-12 text-left" asChild>
+                          <a href="/about-us">
+                            <Info className="h-5 w-5 mr-3" />
+                            <span className="text-base">About Us</span>
+                          </a>
+                        </Button>
+                        <Button variant="ghost" className="w-full justify-start h-12 text-left" asChild>
+                          <a href="/how-to">
+                            <HelpCircle className="h-5 w-5 mr-3" />
+                            <span className="text-base">How To</span>
+                          </a>
+                        </Button>
+                        <Button variant="ghost" className="w-full justify-start h-12 text-left" asChild>
+                          <a href="/advertise">
+                            <Info className="h-5 w-5 mr-3" />
+                            <span className="text-base">Advertise</span>
+                          </a>
+                        </Button>
+                        <Button variant="ghost" className="w-full justify-start h-12 text-left" asChild>
+                          <a href="/toolbox">
+                            <Info className="h-5 w-5 mr-3" />
+                            <span className="text-base">Toolbox</span>
+                          </a>
+                        </Button>
+                        <Button variant="ghost" className="w-full justify-start h-12 text-left" asChild>
+                          <a href="/tv-channel">
+                            <Info className="h-5 w-5 mr-3" />
+                            <span className="text-base">TV Channel</span>
+                          </a>
+                        </Button>
+                        <Button variant="ghost" className="w-full justify-start h-12 text-left" asChild>
+                          <a href="/dashboard">
+                            <Users className="h-5 w-5 mr-3" />
+                            <span className="text-base">Dashboard</span>
+                          </a>
+                        </Button>
+                      </div>
                     </SheetContent>
                   </Sheet>
                 </div>
@@ -756,7 +801,52 @@ const Index: React.FC = () => {
                       </Button>
                     </SheetTrigger>
                     <SheetContent side="right" className="w-[85vw] sm:w-80 max-w-sm">
-                      <Navigation forceMenuOpen={false} />
+                      <div className="flex flex-col gap-3 pt-6 h-full">
+                        <Button 
+                          variant="ghost" 
+                          className="w-full justify-start h-12 text-left" 
+                          onClick={() => window.location.href = '/'}
+                        >
+                          <Home className="h-5 w-5 mr-3" />
+                          <span className="text-base">Home</span>
+                        </Button>
+                        <Button variant="ghost" className="w-full justify-start h-12 text-left" asChild>
+                          <a href="/about-us">
+                            <Info className="h-5 w-5 mr-3" />
+                            <span className="text-base">About Us</span>
+                          </a>
+                        </Button>
+                        <Button variant="ghost" className="w-full justify-start h-12 text-left" asChild>
+                          <a href="/how-to">
+                            <HelpCircle className="h-5 w-5 mr-3" />
+                            <span className="text-base">How To</span>
+                          </a>
+                        </Button>
+                        <Button variant="ghost" className="w-full justify-start h-12 text-left" asChild>
+                          <a href="/advertise">
+                            <Info className="h-5 w-5 mr-3" />
+                            <span className="text-base">Advertise</span>
+                          </a>
+                        </Button>
+                        <Button variant="ghost" className="w-full justify-start h-12 text-left" asChild>
+                          <a href="/toolbox">
+                            <Info className="h-5 w-5 mr-3" />
+                            <span className="text-base">Toolbox</span>
+                          </a>
+                        </Button>
+                        <Button variant="ghost" className="w-full justify-start h-12 text-left" asChild>
+                          <a href="/tv-channel">
+                            <Info className="h-5 w-5 mr-3" />
+                            <span className="text-base">TV Channel</span>
+                          </a>
+                        </Button>
+                        <Button variant="ghost" className="w-full justify-start h-12 text-left" asChild>
+                          <a href="/dashboard">
+                            <Users className="h-5 w-5 mr-3" />
+                            <span className="text-base">Dashboard</span>
+                          </a>
+                        </Button>
+                      </div>
                     </SheetContent>
                   </Sheet>
                 </div>
