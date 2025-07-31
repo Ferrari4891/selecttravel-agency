@@ -1,12 +1,13 @@
-import React, { useState } from "react";
+import { useState, useEffect } from "react";
 import { useAuth } from "@/contexts/AuthContext";
+import { supabase } from "@/integrations/supabase/client";
 import { Navigation } from "@/components/Navigation";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Checkbox } from "@/components/ui/checkbox";
 import { LanguageSelector } from "@/components/LanguageSelector";
 import { Button } from "@/components/ui/button";
 import Footer from "@/components/Footer";
-import { useToast } from "@/hooks/use-toast";
+import { toast } from "sonner";
 import heroImage from "@/assets/hero-members.jpg";
 
 interface UserPreferences {
@@ -25,7 +26,6 @@ interface UserPreferences {
 
 const UserDashboard = () => {
   const { user, signOut } = useAuth();
-  const { toast } = useToast();
   const [preferences, setPreferences] = useState<UserPreferences>({
     wheelchair_access: false,
     extended_hours: false,
@@ -39,6 +39,39 @@ const UserDashboard = () => {
     air_conditioned: false,
     preferred_language: 'en'
   });
+  const [loading, setLoading] = useState(true);
+  const [saving, setSaving] = useState(false);
+
+  useEffect(() => {
+    if (user) {
+      loadUserPreferences();
+    }
+  }, [user]);
+
+  const loadUserPreferences = async () => {
+    try {
+      const { data, error } = await supabase
+        .from('user_preferences')
+        .select('*')
+        .eq('user_id', user?.id)
+        .single();
+
+      if (error && error.code !== 'PGRST116') {
+        console.error('Error loading preferences:', error);
+        toast.error('Failed to load preferences');
+        return;
+      }
+
+      if (data) {
+        setPreferences(data);
+      }
+    } catch (error) {
+      console.error('Error loading preferences:', error);
+      toast.error('Failed to load preferences');
+    } finally {
+      setLoading(false);
+    }
+  };
 
   const handlePreferenceChange = (key: keyof UserPreferences, checked: boolean | string) => {
     setPreferences(prev => ({
@@ -48,36 +81,57 @@ const UserDashboard = () => {
   };
 
   const handleSavePreferences = async () => {
-    toast({
-      title: "Preferences Saved",
-      description: "Your preferences have been saved successfully!",
-    });
+    if (!user) return;
+
+    setSaving(true);
+    try {
+      const { error } = await supabase
+        .from('user_preferences')
+        .upsert({
+          user_id: user.id,
+          ...preferences
+        });
+
+      if (error) {
+        console.error('Error saving preferences:', error);
+        toast.error('Failed to save preferences');
+        return;
+      }
+
+      toast.success('Preferences saved successfully!');
+    } catch (error) {
+      console.error('Error saving preferences:', error);
+      toast.error('Failed to save preferences');
+    } finally {
+      setSaving(false);
+    }
   };
 
   const handleSignOut = async () => {
     try {
       await signOut();
-      toast({
-        title: "Signed Out",
-        description: "You have been signed out successfully.",
-      });
+      toast.success('Signed out successfully');
     } catch (error) {
       console.error('Error signing out:', error);
-      toast({
-        title: "Error",
-        description: "Failed to sign out. Please try again.",
-        variant: "destructive",
-      });
+      toast.error('Failed to sign out');
     }
   };
 
+  if (loading) {
+    return (
+      <div className="min-h-screen bg-background flex items-center justify-center">
+        <div className="text-lg">Loading...</div>
+      </div>
+    );
+  }
+
   return (
-    <div className="min-h-screen bg-white">
+    <div className="min-h-screen bg-background">
       <Navigation />
       
       {/* Hero Section */}
       <div className="relative w-full h-96 mb-8">
-        <div className="w-full h-full bg-white relative" style={{
+        <div className="w-full h-full bg-background relative" style={{
           border: '8px solid white',
           boxShadow: '0 8px 12px -4px rgba(169, 169, 169, 0.4)'
         }}>
@@ -103,8 +157,8 @@ const UserDashboard = () => {
           </div>
 
           <Card className="mb-8">
-            <CardHeader className="bg-white">
-              <CardTitle className="text-center border-b-2 border-black pb-2 text-3xl text-black font-extrabold">
+            <CardHeader className="bg-background">
+              <CardTitle className="text-center border-b-2 border-black pb-2 text-3xl text-foreground font-extrabold">
                 YOUR SAVED PREFERENCES
               </CardTitle>
             </CardHeader>
@@ -238,9 +292,10 @@ const UserDashboard = () => {
                 <div className="flex justify-center mt-8">
                   <Button 
                     onClick={handleSavePreferences}
+                    disabled={saving}
                     className="px-8"
                   >
-                    SAVE PREFERENCES
+                    {saving ? 'SAVING...' : 'SAVE PREFERENCES'}
                   </Button>
                 </div>
               </div>
