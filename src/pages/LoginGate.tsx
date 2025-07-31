@@ -58,7 +58,7 @@ const LoginGate = () => {
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-primary to-primary-dark p-4">
       <Card className="w-full max-w-md border-8 border-white shadow-2xl">
         <CardHeader className="text-center">
-          <CardTitle className="text-2xl font-bold">Smart Guide Books</CardTitle>
+          <CardTitle className="text-2xl font-bold">seniortravel.agency</CardTitle>
           <CardDescription className="text-lg">
             Please enter your credentials to access the site
           </CardDescription>
