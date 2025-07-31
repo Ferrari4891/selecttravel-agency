@@ -1,11 +1,12 @@
 import React, { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
-import { Menu, Home, Info, HelpCircle, Users, Building2, ChevronDown, ChevronRight, Search, Bookmark } from 'lucide-react';
+import { Menu, Home, Info, HelpCircle, Users, Building2, ChevronDown, ChevronRight, Search, Bookmark, User, LogOut, Heart } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { LanguageSelector } from '@/components/LanguageSelector';
 import { useAuth } from '@/contexts/AuthContext';
 import { useToast } from '@/hooks/use-toast';
+import { supabase } from '@/integrations/supabase/client';
 
 interface NavigationProps {
   onMenuStateChange?: (isOpen: boolean) => void;
@@ -31,6 +32,37 @@ export const Navigation = ({ onMenuStateChange, forceMenuOpen }: NavigationProps
       handleMenuChange(true);
     }
   }, [forceMenuOpen]);
+
+  // Clean up auth state helper
+  const cleanupAuthState = () => {
+    Object.keys(localStorage).forEach((key) => {
+      if (key.startsWith('supabase.auth.') || key.includes('sb-')) {
+        localStorage.removeItem(key);
+      }
+    });
+    Object.keys(sessionStorage || {}).forEach((key) => {
+      if (key.startsWith('supabase.auth.') || key.includes('sb-')) {
+        sessionStorage.removeItem(key);
+      }
+    });
+  };
+
+  // Handle Supabase user logout
+  const handleUserLogout = async () => {
+    try {
+      cleanupAuthState();
+      await supabase.auth.signOut({ scope: 'global' });
+      toast({
+        title: "Logged Out",
+        description: "You have been successfully logged out.",
+      });
+      setMenuOpen(false);
+      window.location.href = '/';
+    } catch (error) {
+      console.error('Sign out error:', error);
+      window.location.href = '/';
+    }
+  };
 
   const handleSiteLogout = () => {
     localStorage.removeItem('siteAuthenticated');
@@ -159,55 +191,51 @@ export const Navigation = ({ onMenuStateChange, forceMenuOpen }: NavigationProps
                   </Link>
                 </Button>
                 
-                {/* Dashboard with dropdown */}
-                <Button 
-                  variant="ghost" 
-                  className="w-full justify-start h-12 text-left touch-target" 
-                  onClick={() => setDashboardExpanded(!dashboardExpanded)}
-                >
-                  <Users className="h-5 w-5 mr-3" />
-                  <span className="text-base">Dashboard</span>
-                  {dashboardExpanded ? (
-                    <ChevronDown className="h-4 w-4 ml-auto" />
-                  ) : (
-                    <ChevronRight className="h-4 w-4 ml-auto" />
-                  )}
-                </Button>
-                
-                {/* Dashboard sub-menu */}
-                {dashboardExpanded && (
-                  <div className="ml-4 space-y-1">
-                    <Button variant="ghost" className="w-full justify-start h-12 text-left touch-target" asChild>
-                      <Link to="/dashboard" onClick={() => setMenuOpen(false)}>
-                        <Users className="h-5 w-5 mr-3" />
-                        <span className="text-base">Dashboard Info</span>
-                      </Link>
-                    </Button>
-                     {!user && (
-                       <Button variant="ghost" className="w-full justify-start h-12 text-left touch-target" asChild>
-                         <Link to="/join-free" onClick={() => setMenuOpen(false)}>
-                           <Users className="h-5 w-5 mr-3" />
-                           <span className="text-base">Join Free</span>
-                         </Link>
-                       </Button>
-                     )}
-                     {user && (
-                       <>
-                         <Button variant="ghost" className="w-full justify-start h-12 text-left touch-target" asChild>
-                           <Link to="/user-dashboard" onClick={() => setMenuOpen(false)}>
-                             <Users className="h-5 w-5 mr-3" />
-                             <span className="text-base">My Preferences</span>
-                           </Link>
-                         </Button>
-                         <Button variant="ghost" className="w-full justify-start h-12 text-left touch-target" asChild>
-                           <Link to="/collections" onClick={() => setMenuOpen(false)}>
-                             <Bookmark className="h-5 w-5 mr-3" />
-                             <span className="text-base">My Collections</span>
-                           </Link>
-                         </Button>
-                       </>
-                     )}
-                  </div>
+                {/* Member Section */}
+                {!user ? (
+                  <>
+                    <div className="border-t border-gray-200 pt-4 mt-4">
+                      <p className="text-sm text-gray-600 mb-3 px-2">Become a Member</p>
+                      <Button variant="default" className="w-full justify-start h-14 text-left touch-target mb-2" asChild>
+                        <Link to="/auth" onClick={() => setMenuOpen(false)}>
+                          <User className="h-6 w-6 mr-3" />
+                          <span className="text-lg font-semibold">Join Free</span>
+                        </Link>
+                      </Button>
+                      <Button variant="outline" className="w-full justify-start h-12 text-left touch-target" asChild>
+                        <Link to="/auth" onClick={() => setMenuOpen(false)}>
+                          <LogOut className="h-5 w-5 mr-3" />
+                          <span className="text-base">Login</span>
+                        </Link>
+                      </Button>
+                    </div>
+                  </>
+                ) : (
+                  <>
+                    <div className="border-t border-gray-200 pt-4 mt-4">
+                      <p className="text-sm text-gray-600 mb-3 px-2">My Account</p>
+                      <Button variant="ghost" className="w-full justify-start h-12 text-left touch-target" asChild>
+                        <Link to="/user-dashboard" onClick={() => setMenuOpen(false)}>
+                          <User className="h-5 w-5 mr-3" />
+                          <span className="text-base">My Dashboard</span>
+                        </Link>
+                      </Button>
+                      <Button variant="ghost" className="w-full justify-start h-12 text-left touch-target" asChild>
+                        <Link to="/collections" onClick={() => setMenuOpen(false)}>
+                          <Heart className="h-5 w-5 mr-3" />
+                          <span className="text-base">My Saved Places</span>
+                        </Link>
+                      </Button>
+                      <Button 
+                        variant="outline" 
+                        className="w-full justify-start h-12 text-left touch-target mt-2" 
+                        onClick={handleUserLogout}
+                      >
+                        <LogOut className="h-5 w-5 mr-3" />
+                        <span className="text-base">Logout</span>
+                      </Button>
+                    </div>
+                  </>
                 )}
                 
                 {/* Language Selector */}
@@ -224,21 +252,14 @@ export const Navigation = ({ onMenuStateChange, forceMenuOpen }: NavigationProps
                 
                 {/* Business Login/Dashboard - Placed at bottom */}
                 <div className="mt-auto pt-4 border-t border-gray-200">
+                  <p className="text-sm text-gray-600 mb-3 px-2">Business Owners</p>
                   {user ? (
-                    <div className="space-y-1">
-                      <Button variant="ghost" className="w-full justify-start h-12 text-left touch-target" asChild>
-                        <Link to="/business-dashboard" onClick={() => setMenuOpen(false)}>
-                          <Building2 className="h-5 w-5 mr-3" />
-                          <span className="text-base">Business Dashboard</span>
-                        </Link>
-                      </Button>
-                      <Button variant="ghost" className="w-full justify-start h-12 text-left touch-target" asChild>
-                        <Link to="/collections" onClick={() => setMenuOpen(false)}>
-                          <Bookmark className="h-5 w-5 mr-3" />
-                          <span className="text-base">My Collections</span>
-                        </Link>
-                      </Button>
-                    </div>
+                    <Button variant="ghost" className="w-full justify-start h-12 text-left touch-target" asChild>
+                      <Link to="/business-dashboard" onClick={() => setMenuOpen(false)}>
+                        <Building2 className="h-5 w-5 mr-3" />
+                        <span className="text-base">Business Dashboard</span>
+                      </Link>
+                    </Button>
                   ) : (
                     <Button variant="ghost" className="w-full justify-start h-12 text-left touch-target" asChild>
                       <Link to="/auth" onClick={() => setMenuOpen(false)}>

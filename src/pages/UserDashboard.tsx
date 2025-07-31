@@ -170,121 +170,134 @@ const UserDashboard = () => {
               <div className="space-y-6">
                 <h3 className="text-xl font-semibold mb-4">Select your preferences:</h3>
                 
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  <div className="flex items-center space-x-3">
-                    <Checkbox 
-                      id="wheelchair_access" 
-                      checked={preferences.wheelchair_access} 
-                      onCheckedChange={checked => handlePreferenceChange('wheelchair_access', checked as boolean)} 
-                    />
-                    <label htmlFor="wheelchair_access" className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
-                      Wheelchair Access
-                    </label>
-                  </div>
+                <div className="space-y-8">
+                  {/* Senior-friendly large checkbox preferences */}
+                  <div className="grid grid-cols-1 gap-6">
+                    <div className="flex items-center space-x-4 p-4 border rounded-lg bg-gray-50">
+                      <Checkbox 
+                        id="wheelchair_access" 
+                        checked={preferences.wheelchair_access} 
+                        onCheckedChange={checked => handlePreferenceChange('wheelchair_access', checked as boolean)}
+                        className="h-6 w-6"
+                      />
+                      <label htmlFor="wheelchair_access" className="text-lg font-medium cursor-pointer">
+                        ♿ Wheelchair Access Required
+                      </label>
+                    </div>
 
-                  <div className="flex items-center space-x-3">
-                    <Checkbox 
-                      id="extended_hours" 
-                      checked={preferences.extended_hours} 
-                      onCheckedChange={checked => handlePreferenceChange('extended_hours', checked as boolean)} 
-                    />
-                    <label htmlFor="extended_hours" className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
-                      Extended Open Hours
-                    </label>
-                  </div>
+                    <div className="flex items-center space-x-4 p-4 border rounded-lg bg-gray-50">
+                      <Checkbox 
+                        id="senior_discounts" 
+                        checked={preferences.senior_discounts} 
+                        onCheckedChange={checked => handlePreferenceChange('senior_discounts', checked as boolean)}
+                        className="h-6 w-6"
+                      />
+                      <label htmlFor="senior_discounts" className="text-lg font-medium cursor-pointer">
+                        💰 Senior Discounts Available
+                      </label>
+                    </div>
 
-                  <div className="flex items-center space-x-3">
-                    <Checkbox 
-                      id="gluten_free" 
-                      checked={preferences.gluten_free} 
-                      onCheckedChange={checked => handlePreferenceChange('gluten_free', checked as boolean)} 
-                    />
-                    <label htmlFor="gluten_free" className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
-                      Gluten Free Options
-                    </label>
-                  </div>
+                    <div className="flex items-center space-x-4 p-4 border rounded-lg bg-gray-50">
+                      <Checkbox 
+                        id="extended_hours" 
+                        checked={preferences.extended_hours} 
+                        onCheckedChange={checked => handlePreferenceChange('extended_hours', checked as boolean)}
+                        className="h-6 w-6"
+                      />
+                      <label htmlFor="extended_hours" className="text-lg font-medium cursor-pointer">
+                        🕐 Extended Open Hours
+                      </label>
+                    </div>
 
-                  <div className="flex items-center space-x-3">
-                    <Checkbox 
-                      id="low_noise" 
-                      checked={preferences.low_noise} 
-                      onCheckedChange={checked => handlePreferenceChange('low_noise', checked as boolean)} 
-                    />
-                    <label htmlFor="low_noise" className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
-                      Low Noise Environment
-                    </label>
-                  </div>
+                    <div className="flex items-center space-x-4 p-4 border rounded-lg bg-gray-50">
+                      <Checkbox 
+                        id="low_noise" 
+                        checked={preferences.low_noise} 
+                        onCheckedChange={checked => handlePreferenceChange('low_noise', checked as boolean)}
+                        className="h-6 w-6"
+                      />
+                      <label htmlFor="low_noise" className="text-lg font-medium cursor-pointer">
+                        🔇 Quiet Environment
+                      </label>
+                    </div>
 
-                  <div className="flex items-center space-x-3">
-                    <Checkbox 
-                      id="public_transport" 
-                      checked={preferences.public_transport} 
-                      onCheckedChange={checked => handlePreferenceChange('public_transport', checked as boolean)} 
-                    />
-                    <label htmlFor="public_transport" className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
-                      Public Transport Access
-                    </label>
-                  </div>
+                    <div className="flex items-center space-x-4 p-4 border rounded-lg bg-gray-50">
+                      <Checkbox 
+                        id="public_transport" 
+                        checked={preferences.public_transport} 
+                        onCheckedChange={checked => handlePreferenceChange('public_transport', checked as boolean)}
+                        className="h-6 w-6"
+                      />
+                      <label htmlFor="public_transport" className="text-lg font-medium cursor-pointer">
+                        🚌 Easy Public Transport Access
+                      </label>
+                    </div>
 
-                  <div className="flex items-center space-x-3">
-                    <Checkbox 
-                      id="pet_friendly" 
-                      checked={preferences.pet_friendly} 
-                      onCheckedChange={checked => handlePreferenceChange('pet_friendly', checked as boolean)} 
-                    />
-                    <label htmlFor="pet_friendly" className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
-                      Pet Friendly Venues
-                    </label>
-                  </div>
+                    <div className="flex items-center space-x-4 p-4 border rounded-lg bg-gray-50">
+                      <Checkbox 
+                        id="air_conditioned" 
+                        checked={preferences.air_conditioned} 
+                        onCheckedChange={checked => handlePreferenceChange('air_conditioned', checked as boolean)}
+                        className="h-6 w-6"
+                      />
+                      <label htmlFor="air_conditioned" className="text-lg font-medium cursor-pointer">
+                        ❄️ Air Conditioned
+                      </label>
+                    </div>
 
-                  <div className="flex items-center space-x-3">
-                    <Checkbox 
-                      id="outdoor_seating" 
-                      checked={preferences.outdoor_seating} 
-                      onCheckedChange={checked => handlePreferenceChange('outdoor_seating', checked as boolean)} 
-                    />
-                    <label htmlFor="outdoor_seating" className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
-                      Outdoor Seating Available
-                    </label>
-                  </div>
+                    <div className="flex items-center space-x-4 p-4 border rounded-lg bg-gray-50">
+                      <Checkbox 
+                        id="outdoor_seating" 
+                        checked={preferences.outdoor_seating} 
+                        onCheckedChange={checked => handlePreferenceChange('outdoor_seating', checked as boolean)}
+                        className="h-6 w-6"
+                      />
+                      <label htmlFor="outdoor_seating" className="text-lg font-medium cursor-pointer">
+                        🌳 Outdoor Seating Available
+                      </label>
+                    </div>
 
-                  <div className="flex items-center space-x-3">
-                    <Checkbox 
-                      id="senior_discounts" 
-                      checked={preferences.senior_discounts} 
-                      onCheckedChange={checked => handlePreferenceChange('senior_discounts', checked as boolean)} 
-                    />
-                    <label htmlFor="senior_discounts" className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
-                      Senior Discounts Available
-                    </label>
-                  </div>
+                    <div className="flex items-center space-x-4 p-4 border rounded-lg bg-gray-50">
+                      <Checkbox 
+                        id="gluten_free" 
+                        checked={preferences.gluten_free} 
+                        onCheckedChange={checked => handlePreferenceChange('gluten_free', checked as boolean)}
+                        className="h-6 w-6"
+                      />
+                      <label htmlFor="gluten_free" className="text-lg font-medium cursor-pointer">
+                        🌾 Gluten-Free Options
+                      </label>
+                    </div>
 
-                  <div className="flex items-center space-x-3">
-                    <Checkbox 
-                      id="online_booking" 
-                      checked={preferences.online_booking} 
-                      onCheckedChange={checked => handlePreferenceChange('online_booking', checked as boolean)} 
-                    />
-                    <label htmlFor="online_booking" className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
-                      Online Booking Available
-                    </label>
-                  </div>
+                    <div className="flex items-center space-x-4 p-4 border rounded-lg bg-gray-50">
+                      <Checkbox 
+                        id="pet_friendly" 
+                        checked={preferences.pet_friendly} 
+                        onCheckedChange={checked => handlePreferenceChange('pet_friendly', checked as boolean)}
+                        className="h-6 w-6"
+                      />
+                      <label htmlFor="pet_friendly" className="text-lg font-medium cursor-pointer">
+                        🐕 Pet-Friendly
+                      </label>
+                    </div>
 
-                  <div className="flex items-center space-x-3">
-                    <Checkbox 
-                      id="air_conditioned" 
-                      checked={preferences.air_conditioned} 
-                      onCheckedChange={checked => handlePreferenceChange('air_conditioned', checked as boolean)} 
-                    />
-                    <label htmlFor="air_conditioned" className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
-                      Air Conditioned
-                    </label>
-                  </div>
+                    <div className="flex items-center space-x-4 p-4 border rounded-lg bg-gray-50">
+                      <Checkbox 
+                        id="online_booking" 
+                        checked={preferences.online_booking} 
+                        onCheckedChange={checked => handlePreferenceChange('online_booking', checked as boolean)}
+                        className="h-6 w-6"
+                      />
+                      <label htmlFor="online_booking" className="text-lg font-medium cursor-pointer">
+                        💻 Online Booking Available
+                      </label>
+                    </div>
 
-                  <div className="flex items-center space-x-3">
-                    <div className="flex items-center space-x-2">
-                      <span className="text-sm font-medium leading-none">Preferred Language:</span>
-                      <LanguageSelector />
+                    <div className="p-4 border rounded-lg bg-gray-50">
+                      <div className="flex items-center space-x-4">
+                        <span className="text-lg font-medium">🌍 Preferred Language:</span>
+                        <LanguageSelector />
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -293,7 +306,7 @@ const UserDashboard = () => {
                   <Button 
                     onClick={handleSavePreferences}
                     disabled={saving}
-                    className="px-8"
+                    className="px-8 py-3 text-lg"
                   >
                     {saving ? 'SAVING...' : 'SAVE PREFERENCES'}
                   </Button>
