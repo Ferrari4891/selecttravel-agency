@@ -454,7 +454,7 @@ const Index: React.FC = () => {
                   Let's get personal
                 </p>
                 <p className="text-white text-xs mt-1">
-                  seniorstravelagency.com
+                  www.seniorstravelagency.com
                 </p>
                 <div className="flex justify-center mt-3">
                   <Link 
