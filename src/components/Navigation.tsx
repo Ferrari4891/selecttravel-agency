@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
-import { Menu, Home, Info, HelpCircle, Users, Building2, ChevronDown, ChevronRight, Search, Bookmark, User, LogOut, Heart } from 'lucide-react';
+import { Menu, Home, Info, HelpCircle, Users, Building2, ChevronDown, ChevronRight, Search, Bookmark, User, LogOut, Heart, Globe } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { LanguageSelector } from '@/components/LanguageSelector';
 import { useAuth } from '@/contexts/AuthContext';
@@ -78,12 +78,9 @@ export const Navigation = ({ onMenuStateChange, forceMenuOpen }: NavigationProps
     <div className="w-full bg-white/95 backdrop-blur-sm shadow-sm sticky top-0 z-50">
       <div className="flex items-center gap-2 sm:gap-4 justify-between px-4 py-4">
         {/* Logo */}
-        <div className="flex items-center gap-2 h-12 px-2 sm:px-3 hover:bg-gray-100 transition-colors cursor-pointer touch-target" onClick={() => window.location.href = '/'}>
-          <img 
-            src="/lovable-uploads/logo-black.png" 
-            alt="Senior Travel Agency" 
-            className="h-12 sm:h-16 w-auto object-contain"
-          />
+        <div className="flex items-center gap-3 h-12 px-2 sm:px-3 hover:bg-gray-100 transition-colors cursor-pointer touch-target" onClick={() => window.location.href = '/'}>
+          <Globe className="h-6 w-6 text-black" />
+          <span className="font-semibold text-black text-sm sm:text-base whitespace-nowrap">seniorstravelagency.com</span>
         </div>
 
       {/* Hamburger Menu */}
