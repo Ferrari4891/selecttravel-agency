@@ -82,7 +82,7 @@ export const Navigation = ({ onMenuStateChange, forceMenuOpen }: NavigationProps
           <img 
             src="/lovable-uploads/logo-black.png" 
             alt="Senior Travel Agency" 
-            className="h-8 sm:h-10 w-auto object-contain"
+            className="h-12 sm:h-16 w-auto object-contain"
           />
         </div>
 
