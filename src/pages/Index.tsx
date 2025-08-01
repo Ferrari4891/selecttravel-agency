@@ -1,4 +1,5 @@
 import React, { useState, useMemo } from 'react';
+import { Link } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
@@ -455,6 +456,14 @@ const Index: React.FC = () => {
                 <p className="text-white text-xs mt-1">
                   seniorstravelagency.com
                 </p>
+                <div className="flex justify-center mt-3">
+                  <Link 
+                    to="/how-to" 
+                    className="border border-white/80 hover:border-white w-8 h-8 flex items-center justify-center transition-colors hover:bg-white/10"
+                  >
+                    <HelpCircle className="w-4 h-4 text-white" />
+                  </Link>
+                </div>
               </>
             )}
           </div>
