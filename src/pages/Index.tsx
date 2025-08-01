@@ -446,14 +446,14 @@ const Index: React.FC = () => {
             
             {!selectedCity && (
               <>
-                <h1 className="text-white font-bold text-xl leading-tight">
-                  Personalized Guide Books
+                <h1 className="text-white font-bold text-3xl leading-tight">
+                  Personalize Your Travel
                 </h1>
                 <p className="text-white text-sm mt-1">
                   Let's get personal
                 </p>
                 <p className="text-white text-xs mt-1">
-                  www.smartguidebooks.com
+                  seniorstravelagency.com
                 </p>
               </>
             )}
