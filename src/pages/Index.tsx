@@ -459,9 +459,9 @@ const Index: React.FC = () => {
                 <div className="flex justify-center mt-3">
                   <Link 
                     to="/how-to" 
-                    className="border border-white/80 hover:border-white w-8 h-8 flex items-center justify-center transition-colors hover:bg-white/10"
+                    className="border border-white/80 hover:border-white w-10 h-10 flex items-center justify-center transition-colors hover:bg-white/10"
                   >
-                    <HelpCircle className="w-4 h-4 text-white" />
+                    <span className="text-white font-bold text-lg">?</span>
                   </Link>
                 </div>
               </>
