@@ -79,7 +79,11 @@ export const Navigation = ({ onMenuStateChange, forceMenuOpen }: NavigationProps
       <div className="flex items-center gap-2 sm:gap-4 justify-between px-4 py-4">
         {/* Logo */}
         <div className="flex items-center gap-2 h-12 px-2 sm:px-3 hover:bg-gray-100 transition-colors cursor-pointer touch-target" onClick={() => window.location.href = '/'}>
-          <span className="font-bold text-black text-sm sm:text-lg">seniortravel.agency</span>
+          <img 
+            src="/lovable-uploads/logo-black.png" 
+            alt="Senior Travel Agency" 
+            className="h-8 sm:h-10 w-auto object-contain"
+          />
         </div>
 
       {/* Hamburger Menu */}
