@@ -61,7 +61,7 @@ const Index: React.FC = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [businesses, setBusinesses] = useState<Business[]>([]);
   const [showResults, setShowResults] = useState(false);
-  const [carouselIndex, setCarouselIndex] = useState(0);
+  const [staticImageIndex, setStaticImageIndex] = useState(0);
 
   const categories = [
     { value: 'eat', label: 'Eat', icon: Utensils },
@@ -89,10 +89,11 @@ const Index: React.FC = () => {
       selectedCity, 
       selectedCountry, 
       selectedRegion, 
-      selectedCategory 
+      selectedCategory,
+      currentStep 
     });
     
-    // Priority: City > Country > Region > Category > Default rotation
+    // Priority: City > Country > Region > Category > Step-based static images
     if (selectedCity) {
       console.log('🏙️ Using city-based image');
       const cityImage = cityImages[selectedCity];
@@ -116,9 +117,9 @@ const Index: React.FC = () => {
       console.log('📁 Using category-based image');
       return getCategoryImage();
     }
-    // Default: rotate through all images
-    console.log('🔄 Using default carousel image');
-    return carouselImages[carouselIndex];
+    // Step-based static images from carousel
+    console.log('🔄 Using step-based static image');
+    return getStepBasedImage();
   };
 
   const getCountryImageWithFallback = () => {
@@ -153,29 +154,30 @@ const Index: React.FC = () => {
     }
   };
 
-  // Carousel images with senior couples only
-  const carouselImages = [
+  // Static images (formerly carousel images)
+  const staticImages = [
     heroEat,
     heroDrink, 
     heroStay,
     heroPlay
   ];
 
+  // Get step-based static image
+  const getStepBasedImage = () => {
+    if (currentStep === 1) {
+      return staticImages[0]; // heroEat for step 1
+    }
+    if (currentStep === 2) {
+      return staticImages[1]; // heroDrink for step 2
+    }
+    // For other steps, use the current staticImageIndex
+    return staticImages[staticImageIndex];
+  };
+
   const getCarouselImage = () => {
     // Use dynamic hero image based on selections
     return getHeroImage();
   };
-
-  // Carousel rotation effect
-  React.useEffect(() => {
-    const interval = setInterval(() => {
-      setCarouselIndex((prevIndex) => 
-        (prevIndex + 1) % carouselImages.length
-      );
-    }, 2000); // 2 second delay
-
-    return () => clearInterval(interval);
-  }, [carouselImages.length]);
 
   const generateMockBusinesses = (): Business[] => {
     const businessNames = [
@@ -213,6 +215,8 @@ const Index: React.FC = () => {
 
   const handleCategorySelect = (category: string) => {
     setSelectedCategory(category);
+    // Randomly select one of the 4 static images when step 1 option is clicked
+    setStaticImageIndex(Math.floor(Math.random() * staticImages.length));
     setCurrentStep(2);
   };
 
@@ -220,6 +224,8 @@ const Index: React.FC = () => {
     setSelectedRegion(region);
     setSelectedCountry('');
     setSelectedCity('');
+    // Randomly select one of the 4 static images when step 2 option is clicked
+    setStaticImageIndex(Math.floor(Math.random() * staticImages.length));
     setCurrentStep(3);
   };
 
