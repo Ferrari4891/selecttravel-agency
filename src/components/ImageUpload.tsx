@@ -4,7 +4,8 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { toast } from '@/hooks/use-toast';
 import { supabase } from '@/integrations/supabase/client';
-import { Upload, Trash2, Download, Eye } from 'lucide-react';
+import { Upload, Trash2, Download, Eye, RefreshCw, Shield } from 'lucide-react';
+import { useAuth } from '@/contexts/AuthContext';
 
 interface UploadedImage {
   name: string;
@@ -18,11 +19,45 @@ export const ImageUpload: React.FC = () => {
   const [uploading, setUploading] = useState(false);
   const [images, setImages] = useState<UploadedImage[]>([]);
   const [loading, setLoading] = useState(true);
+  const [isAdmin, setIsAdmin] = useState(false);
+  const [replacingImage, setReplacingImage] = useState<string | null>(null);
+  const { user } = useAuth();
+
+  // Check admin status
+  useEffect(() => {
+    checkAdminStatus();
+  }, [user]);
 
   // Load existing images
   useEffect(() => {
     loadImages();
   }, []);
+
+  const checkAdminStatus = async () => {
+    if (!user) {
+      setIsAdmin(false);
+      return;
+    }
+
+    try {
+      const { data, error } = await supabase
+        .from('profiles')
+        .select('is_admin')
+        .eq('user_id', user.id)
+        .single();
+
+      if (error) {
+        console.error('Error checking admin status:', error);
+        setIsAdmin(false);
+        return;
+      }
+
+      setIsAdmin(data?.is_admin || false);
+    } catch (error) {
+      console.error('Error checking admin status:', error);
+      setIsAdmin(false);
+    }
+  };
 
   const loadImages = async () => {
     try {
@@ -63,7 +98,7 @@ export const ImageUpload: React.FC = () => {
     }
   };
 
-  const uploadImage = async (event: React.ChangeEvent<HTMLInputElement>) => {
+  const uploadImage = async (event: React.ChangeEvent<HTMLInputElement>, replaceImageName?: string) => {
     try {
       setUploading(true);
       
@@ -73,7 +108,7 @@ export const ImageUpload: React.FC = () => {
 
       const file = event.target.files[0];
       const fileExt = file.name.split('.').pop();
-      const fileName = `${Math.random().toString(36).substring(2)}.${fileExt}`;
+      let fileName = replaceImageName || `${Math.random().toString(36).substring(2)}.${fileExt}`;
 
       // Check file size (max 5MB)
       if (file.size > 5 * 1024 * 1024) {
@@ -85,15 +120,28 @@ export const ImageUpload: React.FC = () => {
         throw new Error('File must be an image');
       }
 
+      // If replacing, delete the old image first (admin only)
+      if (replaceImageName && isAdmin) {
+        const { error: deleteError } = await supabase.storage
+          .from('heroimages')
+          .remove([replaceImageName]);
+        
+        if (deleteError) {
+          console.warn('Warning: Could not delete old image:', deleteError);
+        }
+      }
+
       const { error: uploadError } = await supabase.storage
         .from('heroimages')
-        .upload(fileName, file);
+        .upload(fileName, file, {
+          upsert: replaceImageName ? true : false
+        });
 
       if (uploadError) throw uploadError;
 
       toast({
         title: "Success!",
-        description: "Image uploaded successfully",
+        description: replaceImageName ? "Image replaced successfully" : "Image uploaded successfully",
       });
 
       // Reload images
@@ -101,15 +149,27 @@ export const ImageUpload: React.FC = () => {
       
       // Clear the input
       event.target.value = '';
+      setReplacingImage(null);
     } catch (error: any) {
       toast({
-        title: "Upload failed",
+        title: replaceImageName ? "Replace failed" : "Upload failed",
         description: error.message,
         variant: "destructive",
       });
     } finally {
       setUploading(false);
+      setReplacingImage(null);
     }
+  };
+
+  const handleReplaceImage = (imageName: string) => {
+    setReplacingImage(imageName);
+    // Trigger file input
+    const fileInput = document.createElement('input');
+    fileInput.type = 'file';
+    fileInput.accept = 'image/*';
+    fileInput.onchange = (e) => uploadImage(e as any, imageName);
+    fileInput.click();
   };
 
   const deleteImage = async (imageName: string) => {
@@ -177,7 +237,15 @@ export const ImageUpload: React.FC = () => {
     <div className="space-y-6">
       <Card>
         <CardHeader>
-          <CardTitle>Image Upload & Management</CardTitle>
+          <div className="flex items-center justify-between">
+            <CardTitle>Image Upload & Management</CardTitle>
+            {isAdmin && (
+              <div className="flex items-center gap-2 text-sm text-muted-foreground">
+                <Shield className="h-4 w-4" />
+                <span>Administrator Access</span>
+              </div>
+            )}
+          </div>
         </CardHeader>
         <CardContent className="space-y-4">
           {/* Upload Section */}
@@ -233,30 +301,40 @@ export const ImageUpload: React.FC = () => {
                         Size: {formatFileSize(image.size)}
                       </div>
                       
-                      {/* Action Buttons */}
-                      <div className="flex justify-between">
-                        <Button
-                          variant="outline"
-                          size="sm"
-                          onClick={() => window.open(image.publicUrl, '_blank')}
-                        >
-                          <Eye className="h-3 w-3" />
-                        </Button>
-                        <Button
-                          variant="outline"
-                          size="sm"
-                          onClick={() => downloadImage(image.name)}
-                        >
-                          <Download className="h-3 w-3" />
-                        </Button>
-                        <Button
-                          variant="outline"
-                          size="sm"
-                          onClick={() => deleteImage(image.name)}
-                        >
-                          <Trash2 className="h-3 w-3" />
-                        </Button>
-                      </div>
+                       {/* Action Buttons */}
+                       <div className="flex justify-between">
+                         <Button
+                           variant="outline"
+                           size="sm"
+                           onClick={() => window.open(image.publicUrl, '_blank')}
+                         >
+                           <Eye className="h-3 w-3" />
+                         </Button>
+                         <Button
+                           variant="outline"
+                           size="sm"
+                           onClick={() => downloadImage(image.name)}
+                         >
+                           <Download className="h-3 w-3" />
+                         </Button>
+                         {isAdmin && (
+                           <Button
+                             variant="outline"
+                             size="sm"
+                             onClick={() => handleReplaceImage(image.name)}
+                             disabled={replacingImage === image.name}
+                           >
+                             <RefreshCw className={`h-3 w-3 ${replacingImage === image.name ? 'animate-spin' : ''}`} />
+                           </Button>
+                         )}
+                         <Button
+                           variant="outline"
+                           size="sm"
+                           onClick={() => deleteImage(image.name)}
+                         >
+                           <Trash2 className="h-3 w-3" />
+                         </Button>
+                       </div>
                     </CardContent>
                   </Card>
                 ))}
