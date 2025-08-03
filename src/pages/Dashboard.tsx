@@ -14,6 +14,7 @@ import { toast } from "sonner";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Star, MapPin, Phone, Globe, Eye, Plus } from 'lucide-react';
 import heroImage from "@/assets/hero-members.jpg";
+import { ImageUpload } from "@/components/ImageUpload";
 
 interface UserPreferences {
   wheelchair_access: boolean;
@@ -265,10 +266,11 @@ const Dashboard = () => {
             </div>
 
             <Tabs defaultValue="preferences" className="w-full">
-              <TabsList className="grid w-full grid-cols-3 rounded-none">
+              <TabsList className="grid w-full grid-cols-4 rounded-none">
                 <TabsTrigger value="preferences" className="rounded-none">Preferences</TabsTrigger>
                 <TabsTrigger value="collections" className="rounded-none">Collections</TabsTrigger>
                 <TabsTrigger value="saved" className="rounded-none">Saved</TabsTrigger>
+                <TabsTrigger value="images" className="rounded-none">Images</TabsTrigger>
               </TabsList>
 
               <TabsContent value="preferences" className="mt-6">
@@ -483,6 +485,17 @@ const Dashboard = () => {
                         ))}
                       </div>
                     )}
+                  </CardContent>
+                </Card>
+              </TabsContent>
+
+              <TabsContent value="images" className="mt-6">
+                <Card className="rounded-none border-0 shadow-sm">
+                  <CardHeader className="pb-4 border-b bg-black text-white">
+                    <CardTitle className="text-xl font-bold">Image Management</CardTitle>
+                  </CardHeader>
+                  <CardContent className="pt-6">
+                    <ImageUpload />
                   </CardContent>
                 </Card>
               </TabsContent>
