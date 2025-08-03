@@ -10,7 +10,6 @@ import { BusinessAnalytics } from '@/components/business/BusinessAnalytics';
 import { SubscriptionManagement } from '@/components/business/SubscriptionManagement';
 import { useToast } from '@/hooks/use-toast';
 import { Home } from 'lucide-react';
-
 interface Business {
   id: string;
   business_name: string;
@@ -20,63 +19,56 @@ interface Business {
   subscription_status: string;
   subscription_end_date: string;
 }
-
 const Dashboard = () => {
-  const { user, signOut } = useAuth();
+  const {
+    user,
+    signOut
+  } = useAuth();
   const [business, setBusiness] = useState<Business | null>(null);
   const [loading, setLoading] = useState(true);
-  const { toast } = useToast();
+  const {
+    toast
+  } = useToast();
   const navigate = useNavigate();
-
   useEffect(() => {
     if (user) {
       fetchBusiness();
     }
   }, [user]);
-
   const fetchBusiness = async () => {
     try {
-      const { data, error } = await supabase
-        .from('businesses')
-        .select('*')
-        .eq('user_id', user?.id)
-        .single();
-
+      const {
+        data,
+        error
+      } = await supabase.from('businesses').select('*').eq('user_id', user?.id).single();
       if (error && error.code !== 'PGRST116') {
         throw error;
       }
-
       setBusiness(data);
     } catch (error) {
       console.error('Error fetching business:', error);
       toast({
         title: "Error",
         description: "Failed to load business information.",
-        variant: "destructive",
+        variant: "destructive"
       });
     } finally {
       setLoading(false);
     }
   };
-
   const handleBusinessCreated = (newBusiness: Business) => {
     setBusiness(newBusiness);
     toast({
       title: "Success",
-      description: "Business profile created successfully!",
+      description: "Business profile created successfully!"
     });
   };
-
   if (loading) {
-    return (
-      <div className="min-h-screen bg-background flex items-center justify-center">
+    return <div className="min-h-screen bg-background flex items-center justify-center">
         <div>Loading...</div>
-      </div>
-    );
+      </div>;
   }
-
-  return (
-    <div className="min-h-screen bg-background">
+  return <div className="min-h-screen bg-background">
       <header className="bg-white shadow-sm border-b-8 border-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center py-4 sm:py-6 gap-4">
@@ -84,12 +76,7 @@ const Dashboard = () => {
               <h1 className="text-xl sm:text-2xl lg:text-3xl font-bold text-gray-900">
                 Business Dashboard
               </h1>
-              <Button 
-                variant="outline" 
-                size="sm"
-                className="w-fit" 
-                onClick={() => navigate('/')}
-              >
+              <Button variant="outline" size="sm" className="w-fit" onClick={() => navigate('/')}>
                 <Home className="h-4 w-4 mr-2" />
                 Home
               </Button>
@@ -107,10 +94,9 @@ const Dashboard = () => {
       </header>
 
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        {!business ? (
-          <Card className="border shadow-md">
+        {!business ? <Card className="border shadow-md">
             <CardHeader>
-              <CardTitle>Create Your Business Profile</CardTitle>
+              <CardTitle>Create Your Business Profile.</CardTitle>
               <CardDescription>
                 Get started by setting up your business profile to access all features.
               </CardDescription>
@@ -118,9 +104,7 @@ const Dashboard = () => {
             <CardContent>
               <BusinessProfile onBusinessCreated={handleBusinessCreated} />
             </CardContent>
-          </Card>
-        ) : (
-          <Tabs defaultValue="profile" className="space-y-6">
+          </Card> : <Tabs defaultValue="profile" className="space-y-6">
             <TabsList className="grid w-full grid-cols-1 sm:grid-cols-3 h-auto">
               <TabsTrigger value="profile" className="text-xs sm:text-sm">Business Profile</TabsTrigger>
               <TabsTrigger value="analytics" className="text-xs sm:text-sm">Analytics</TabsTrigger>
@@ -136,10 +120,7 @@ const Dashboard = () => {
                   </CardDescription>
                 </CardHeader>
                 <CardContent>
-                  <BusinessProfile 
-                    business={business} 
-                    onBusinessUpdated={setBusiness} 
-                  />
+                  <BusinessProfile business={business} onBusinessUpdated={setBusiness} />
                 </CardContent>
               </Card>
             </TabsContent>
@@ -171,11 +152,8 @@ const Dashboard = () => {
                 </CardContent>
               </Card>
             </TabsContent>
-          </Tabs>
-        )}
+          </Tabs>}
       </main>
-    </div>
-  );
+    </div>;
 };
-
 export default Dashboard;
