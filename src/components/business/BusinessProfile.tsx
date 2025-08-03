@@ -188,7 +188,7 @@ export const BusinessProfile: React.FC<BusinessProfileProps> = ({
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6">
+        <div className="grid grid-cols-1 gap-4 sm:gap-6">
           <FormField
             control={form.control}
             name="business_name"
@@ -401,7 +401,7 @@ export const BusinessProfile: React.FC<BusinessProfileProps> = ({
 
         <div className="space-y-4">
           <h3 className="text-lg font-medium">Social Media</h3>
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6">
+          <div className="grid grid-cols-1 gap-4 sm:gap-6">
             <FormField
               control={form.control}
               name="facebook"

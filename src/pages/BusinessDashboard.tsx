@@ -69,14 +69,14 @@ const Dashboard = () => {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-sky-100 flex items-center justify-center">
+      <div className="min-h-screen bg-background flex items-center justify-center">
         <div>Loading...</div>
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-sky-100">
+    <div className="min-h-screen bg-background">
       <header className="bg-white shadow-sm border-b-8 border-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center py-4 sm:py-6 gap-4">
@@ -108,7 +108,7 @@ const Dashboard = () => {
 
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         {!business ? (
-          <Card className="border-8 border-white shadow-md">
+          <Card className="border shadow-md">
             <CardHeader>
               <CardTitle>Create Your Business Profile</CardTitle>
               <CardDescription>
@@ -128,7 +128,7 @@ const Dashboard = () => {
             </TabsList>
 
             <TabsContent value="profile">
-              <Card className="border-8 border-white shadow-md bg-sky-100">
+              <Card className="border shadow-md bg-background">
                 <CardHeader>
                   <CardTitle>Business Profile</CardTitle>
                   <CardDescription>
@@ -145,7 +145,7 @@ const Dashboard = () => {
             </TabsContent>
 
             <TabsContent value="analytics">
-              <Card className="border-8 border-white shadow-md bg-sky-100">
+              <Card className="border shadow-md bg-background">
                 <CardHeader>
                   <CardTitle>Business Analytics</CardTitle>
                   <CardDescription>
@@ -159,7 +159,7 @@ const Dashboard = () => {
             </TabsContent>
 
             <TabsContent value="subscription">
-              <Card className="border-8 border-white shadow-md bg-sky-100">
+              <Card className="border shadow-md bg-background">
                 <CardHeader>
                   <CardTitle>Subscription Management</CardTitle>
                   <CardDescription>
