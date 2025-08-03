@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
+import { Input } from '@/components/ui/input';
 import { Menu, Home, Info, HelpCircle, Users, Building2, ChevronDown, ChevronRight, Search, Bookmark, User, LogOut, Heart, Globe, Shield } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { LanguageSelector } from '@/components/LanguageSelector';
@@ -18,7 +19,10 @@ export const Navigation = ({ onMenuStateChange, forceMenuOpen }: NavigationProps
   const [advertiseExpanded, setAdvertiseExpanded] = useState(false);
   const [toolboxExpanded, setToolboxExpanded] = useState(false);
   const [dashboardExpanded, setDashboardExpanded] = useState(false);
+  const [adminExpanded, setAdminExpanded] = useState(false);
   const [isAdmin, setIsAdmin] = useState(false);
+  const [adminEmail, setAdminEmail] = useState('');
+  const [adminPassword, setAdminPassword] = useState('');
   const { user } = useAuth();
   const { toast } = useToast();
 
@@ -104,6 +108,62 @@ export const Navigation = ({ onMenuStateChange, forceMenuOpen }: NavigationProps
     });
     setMenuOpen(false);
     window.location.href = '/';
+  };
+
+  const handleAdminLogin = async (e: React.FormEvent) => {
+    e.preventDefault();
+    
+    if (!adminEmail || !adminPassword) {
+      toast({
+        title: "Error",
+        description: "Please enter both email and password.",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    try {
+      cleanupAuthState();
+      
+      try {
+        await supabase.auth.signOut({ scope: 'global' });
+      } catch (err) {
+        // Continue even if this fails
+      }
+
+      const { data, error } = await supabase.auth.signInWithPassword({
+        email: adminEmail,
+        password: adminPassword,
+      });
+
+      if (error) {
+        toast({
+          title: "Login Failed",
+          description: error.message,
+          variant: "destructive",
+        });
+        return;
+      }
+
+      if (data.user) {
+        toast({
+          title: "Success",
+          description: "Administrator logged in successfully.",
+        });
+        setMenuOpen(false);
+        setAdminEmail('');
+        setAdminPassword('');
+        setAdminExpanded(false);
+        window.location.href = '/';
+      }
+    } catch (error) {
+      console.error('Admin login error:', error);
+      toast({
+        title: "Login Failed",
+        description: "An unexpected error occurred.",
+        variant: "destructive",
+      });
+    }
   };
 
   return (
@@ -243,12 +303,6 @@ export const Navigation = ({ onMenuStateChange, forceMenuOpen }: NavigationProps
                           <span className="text-lg font-semibold">Join Free</span>
                         </Link>
                       </Button>
-                      <Button variant="outline" className="w-full justify-start h-12 text-left touch-target" asChild>
-                        <Link to="/auth" onClick={() => setMenuOpen(false)}>
-                          <LogOut className="h-5 w-5 mr-3" />
-                          <span className="text-base">Login</span>
-                        </Link>
-                      </Button>
                     </div>
                   </>
                 ) : (
@@ -291,18 +345,78 @@ export const Navigation = ({ onMenuStateChange, forceMenuOpen }: NavigationProps
                   <span className="text-base">Site Logout</span>
                 </Button>
                 
-                {/* Administrator Section - Only for admin users */}
-                {isAdmin && (
-                  <div className="border-t border-gray-200 pt-4 mt-4">
-                    <p className="text-sm text-gray-600 mb-3 px-2">Administrator</p>
-                    <Button variant="ghost" className="w-full justify-start h-12 text-left touch-target" asChild>
-                      <Link to="/dashboard" onClick={() => setMenuOpen(false)}>
-                        <Shield className="h-5 w-5 mr-3" />
-                        <span className="text-base">Admin Dashboard</span>
-                      </Link>
-                    </Button>
-                  </div>
-                )}
+                {/* Administrator Section */}
+                <div className="border-t border-gray-200 pt-4 mt-4">
+                  <Button 
+                    variant="ghost" 
+                    className="w-full justify-start h-12 text-left touch-target" 
+                    onClick={() => setAdminExpanded(!adminExpanded)}
+                  >
+                    <Shield className="h-5 w-5 mr-3" />
+                    <span className="text-base">Administrator</span>
+                    {adminExpanded ? (
+                      <ChevronDown className="h-4 w-4 ml-auto" />
+                    ) : (
+                      <ChevronRight className="h-4 w-4 ml-auto" />
+                    )}
+                  </Button>
+                  
+                  {/* Administrator login form */}
+                  {adminExpanded && (
+                    <div className="ml-4 space-y-3 mt-3">
+                      <form onSubmit={handleAdminLogin}>
+                        <div className="space-y-3">
+                          <Input
+                            type="email"
+                            placeholder="Administrator Email"
+                            value={adminEmail}
+                            onChange={(e) => setAdminEmail(e.target.value)}
+                            className="w-full"
+                          />
+                          <Input
+                            type="password"
+                            placeholder="Password"
+                            value={adminPassword}
+                            onChange={(e) => setAdminPassword(e.target.value)}
+                            className="w-full"
+                          />
+                          <Button 
+                            type="submit"
+                            variant="default" 
+                            className="w-full h-10"
+                          >
+                            Submit
+                          </Button>
+                          <Button 
+                            type="button"
+                            variant="ghost" 
+                            className="w-full h-10 text-sm text-gray-600"
+                            onClick={() => {
+                              toast({
+                                title: "Forgot Password",
+                                description: "Please contact system administrator for password reset.",
+                              });
+                            }}
+                          >
+                            Forgotten Password
+                          </Button>
+                        </div>
+                      </form>
+                    </div>
+                  )}
+
+                  {/* Admin Dashboard link - only show if logged in as admin */}
+                  {isAdmin && (
+                    <div className="ml-4 mt-2">
+                      <Button variant="ghost" className="w-full justify-start h-12 text-left touch-target" asChild>
+                        <Link to="/dashboard" onClick={() => setMenuOpen(false)}>
+                          <Shield className="h-5 w-5 mr-3" />
+                          <span className="text-base">Admin Dashboard</span>
+                        </Link>
+                      </Button>
+                    </div>
+                  )}
+                </div>
                 
                 {/* Business Login/Dashboard - Placed at bottom */}
                 <div className="mt-auto pt-4 border-t border-gray-200">
