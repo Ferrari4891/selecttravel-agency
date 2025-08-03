@@ -186,68 +186,68 @@ export const Navigation = ({ onMenuStateChange, forceMenuOpen }: NavigationProps
             >
               <Menu className="h-5 w-5 sm:h-4 sm:w-4 text-black" />
             </Button>
-          </SheetTrigger>
-          <SheetContent side="right" className="w-[85vw] sm:w-80 max-w-sm">
-              <div className="flex flex-col gap-3 pt-6 h-full">{/* Added h-full for full height */}
+            </SheetTrigger>
+            <SheetContent side="right" className="w-[85vw] sm:w-80 max-w-sm">
+              <div className="flex flex-col gap-1 pt-4 h-full overflow-y-auto">{/* Reduced gap from 3 to 1, pt from 6 to 4, added overflow */}
                 <Button 
                   variant="ghost" 
-                  className="w-full justify-start h-12 text-left touch-target" 
+                  className="w-full justify-start h-10 text-left touch-target" 
                   onClick={() => {
                     setMenuOpen(false);
                     window.location.href = '/';
                   }}
                 >
-                  <Home className="h-5 w-5 mr-3" />
-                  <span className="text-base">Home</span>
+                  <Home className="h-4 w-4 mr-2" />
+                  <span className="text-sm">Home</span>
                  </Button>
-                 <Button variant="ghost" className="w-full justify-start h-12 text-left touch-target" asChild>
+                 <Button variant="ghost" className="w-full justify-start h-10 text-left touch-target" asChild>
                    <Link to="/about-us" onClick={() => setMenuOpen(false)}>
-                     <Info className="h-5 w-5 mr-3" />
-                     <span className="text-base">About Us</span>
+                     <Info className="h-4 w-4 mr-2" />
+                     <span className="text-sm">About Us</span>
                    </Link>
                 </Button>
-                <Button variant="ghost" className="w-full justify-start h-12 text-left touch-target" asChild>
+                <Button variant="ghost" className="w-full justify-start h-10 text-left touch-target" asChild>
                   <Link to="/how-to" onClick={() => setMenuOpen(false)}>
-                    <HelpCircle className="h-5 w-5 mr-3" />
-                    <span className="text-base">How To</span>
+                    <HelpCircle className="h-4 w-4 mr-2" />
+                    <span className="text-sm">How To</span>
                   </Link>
                 </Button>
                 
-                <Button variant="ghost" className="w-full justify-start h-12 text-left touch-target" asChild>
+                <Button variant="ghost" className="w-full justify-start h-10 text-left touch-target" asChild>
                   <Link to="/dashboard" onClick={() => setMenuOpen(false)}>
-                    <Search className="h-5 w-5 mr-3" />
-                    <span className="text-base">Main Dashboard</span>
+                    <Search className="h-4 w-4 mr-2" />
+                    <span className="text-sm">Main Dashboard</span>
                   </Link>
                 </Button>
                 
                 {/* Advertise with dropdown */}
                 <Button 
                   variant="ghost" 
-                  className="w-full justify-start h-12 text-left touch-target" 
+                  className="w-full justify-start h-10 text-left touch-target" 
                   onClick={() => setAdvertiseExpanded(!advertiseExpanded)}
                 >
-                  <Info className="h-5 w-5 mr-3" />
-                  <span className="text-base">Advertise</span>
+                  <Info className="h-4 w-4 mr-2" />
+                  <span className="text-sm">Advertise</span>
                   {advertiseExpanded ? (
-                    <ChevronDown className="h-4 w-4 ml-auto" />
+                    <ChevronDown className="h-3 w-3 ml-auto" />
                   ) : (
-                    <ChevronRight className="h-4 w-4 ml-auto" />
+                    <ChevronRight className="h-3 w-3 ml-auto" />
                   )}
                 </Button>
                 
                 {/* Advertise sub-menu */}
                 {advertiseExpanded && (
-                  <div className="ml-4 space-y-1">
-                    <Button variant="ghost" className="w-full justify-start h-12 text-left touch-target" asChild>
+                  <div className="ml-3 space-y-0">
+                    <Button variant="ghost" className="w-full justify-start h-9 text-left touch-target" asChild>
                       <Link to="/advertise" onClick={() => setMenuOpen(false)}>
-                        <Info className="h-5 w-5 mr-3" />
-                        <span className="text-base">Advertise Info</span>
+                        <Info className="h-4 w-4 mr-2" />
+                        <span className="text-sm">Advertise Info</span>
                       </Link>
                     </Button>
-                    <Button variant="ghost" className="w-full justify-start h-12 text-left touch-target" asChild>
+                    <Button variant="ghost" className="w-full justify-start h-9 text-left touch-target" asChild>
                       <Link to="/roi" onClick={() => setMenuOpen(false)}>
-                        <Info className="h-5 w-5 mr-3" />
-                        <span className="text-base">ROI Calculator</span>
+                        <Info className="h-4 w-4 mr-2" />
+                        <span className="text-sm">ROI Calculator</span>
                       </Link>
                     </Button>
                   </div>
@@ -255,79 +255,79 @@ export const Navigation = ({ onMenuStateChange, forceMenuOpen }: NavigationProps
                 {/* Toolbox with dropdown */}
                 <Button 
                   variant="ghost" 
-                  className="w-full justify-start h-12 text-left touch-target" 
+                  className="w-full justify-start h-10 text-left touch-target" 
                   onClick={() => setToolboxExpanded(!toolboxExpanded)}
                 >
-                  <Info className="h-5 w-5 mr-3" />
-                  <span className="text-base">Toolbox</span>
+                  <Info className="h-4 w-4 mr-2" />
+                  <span className="text-sm">Toolbox</span>
                   {toolboxExpanded ? (
-                    <ChevronDown className="h-4 w-4 ml-auto" />
+                    <ChevronDown className="h-3 w-3 ml-auto" />
                   ) : (
-                    <ChevronRight className="h-4 w-4 ml-auto" />
+                    <ChevronRight className="h-3 w-3 ml-auto" />
                   )}
                 </Button>
                 
                 {/* Toolbox sub-menu */}
                 {toolboxExpanded && (
-                  <div className="ml-4 space-y-1">
-                    <Button variant="ghost" className="w-full justify-start h-12 text-left touch-target" asChild>
+                  <div className="ml-3 space-y-0">
+                    <Button variant="ghost" className="w-full justify-start h-9 text-left touch-target" asChild>
                       <Link to="/toolbox" onClick={() => setMenuOpen(false)}>
-                        <Info className="h-5 w-5 mr-3" />
-                        <span className="text-base">Toolbox Info</span>
+                        <Info className="h-4 w-4 mr-2" />
+                        <span className="text-sm">Toolbox Info</span>
                       </Link>
                     </Button>
-                    <Button variant="ghost" className="w-full justify-start h-12 text-left touch-target" asChild>
+                    <Button variant="ghost" className="w-full justify-start h-9 text-left touch-target" asChild>
                       <Link to="/visa-info" onClick={() => setMenuOpen(false)}>
-                        <Info className="h-5 w-5 mr-3" />
-                        <span className="text-base">Visa Info</span>
+                        <Info className="h-4 w-4 mr-2" />
+                        <span className="text-sm">Visa Info</span>
                       </Link>
                     </Button>
                   </div>
                 )}
                 
-                <Button variant="ghost" className="w-full justify-start h-12 text-left touch-target" asChild>
+                <Button variant="ghost" className="w-full justify-start h-10 text-left touch-target" asChild>
                   <Link to="/tv-channel" onClick={() => setMenuOpen(false)}>
-                    <Info className="h-5 w-5 mr-3" />
-                    <span className="text-base">TV Channel</span>
+                    <Info className="h-4 w-4 mr-2" />
+                    <span className="text-sm">TV Channel</span>
                   </Link>
                 </Button>
                 
                 {/* Member Section */}
                 {!user ? (
                   <>
-                    <div className="border-t border-gray-200 pt-4 mt-4">
-                      <p className="text-sm text-gray-600 mb-3 px-2">Become a Member</p>
-                      <Button variant="default" className="w-full justify-start h-14 text-left touch-target mb-2" asChild>
+                    <div className="border-t border-gray-200 pt-2 mt-2">
+                      <p className="text-xs text-gray-600 mb-2 px-2">Become a Member</p>
+                      <Button variant="default" className="w-full justify-start h-11 text-left touch-target mb-1" asChild>
                         <Link to="/auth" onClick={() => setMenuOpen(false)}>
-                          <User className="h-6 w-6 mr-3" />
-                          <span className="text-lg font-semibold">Join Free</span>
+                          <User className="h-5 w-5 mr-2" />
+                          <span className="text-base font-semibold">Join Free</span>
                         </Link>
                       </Button>
                     </div>
                   </>
                 ) : (
                   <>
-                    <div className="border-t border-gray-200 pt-4 mt-4">
-                      <p className="text-sm text-gray-600 mb-3 px-2">My Account</p>
-                      <Button variant="ghost" className="w-full justify-start h-12 text-left touch-target" asChild>
+                    <div className="border-t border-gray-200 pt-2 mt-2">
+                      <p className="text-xs text-gray-600 mb-2 px-2">My Account</p>
+                      <Button variant="ghost" className="w-full justify-start h-10 text-left touch-target" asChild>
                         <Link to="/user-dashboard" onClick={() => setMenuOpen(false)}>
-                          <User className="h-5 w-5 mr-3" />
-                          <span className="text-base">My Dashboard</span>
+                          <User className="h-4 w-4 mr-2" />
+                          <span className="text-sm">My Dashboard</span>
                         </Link>
                       </Button>
-                      <Button variant="ghost" className="w-full justify-start h-12 text-left touch-target" asChild>
+                      <Button variant="ghost" className="w-full justify-start h-10 text-left touch-target" asChild>
                         <Link to="/collections" onClick={() => setMenuOpen(false)}>
-                          <Heart className="h-5 w-5 mr-3" />
-                          <span className="text-base">My Saved Places</span>
+                          <Heart className="h-4 w-4 mr-2" />
+                          <span className="text-sm">My Saved Places</span>
                         </Link>
                       </Button>
                       <Button 
                         variant="outline" 
-                        className="w-full justify-start h-12 text-left touch-target mt-2" 
+                        className="w-full justify-start h-10 text-left touch-target mt-1" 
                         onClick={handleUserLogout}
                       >
-                        <LogOut className="h-5 w-5 mr-3" />
-                        <span className="text-base">Logout</span>
+                        <LogOut className="h-4 w-4 mr-2" />
+                        <span className="text-sm">Logout</span>
                       </Button>
                     </div>
                   </>
@@ -339,58 +339,58 @@ export const Navigation = ({ onMenuStateChange, forceMenuOpen }: NavigationProps
                 {/* Site Logout Button */}
                 <Button 
                   variant="destructive" 
-                  className="w-full justify-start h-12 text-left touch-target mt-2" 
+                  className="w-full justify-start h-9 text-left touch-target mt-1" 
                   onClick={handleSiteLogout}
                 >
-                  <span className="text-base">Site Logout</span>
+                  <span className="text-sm">Site Logout</span>
                 </Button>
                 
                 {/* Administrator Section */}
-                <div className="border-t border-gray-200 pt-4 mt-4">
+                <div className="border-t border-gray-200 pt-2 mt-2">
                   <Button 
                     variant="ghost" 
-                    className="w-full justify-start h-12 text-left touch-target" 
+                    className="w-full justify-start h-10 text-left touch-target" 
                     onClick={() => setAdminExpanded(!adminExpanded)}
                   >
-                    <Shield className="h-5 w-5 mr-3" />
-                    <span className="text-base">Administrator</span>
+                    <Shield className="h-4 w-4 mr-2" />
+                    <span className="text-sm">Administrator</span>
                     {adminExpanded ? (
-                      <ChevronDown className="h-4 w-4 ml-auto" />
+                      <ChevronDown className="h-3 w-3 ml-auto" />
                     ) : (
-                      <ChevronRight className="h-4 w-4 ml-auto" />
+                      <ChevronRight className="h-3 w-3 ml-auto" />
                     )}
                   </Button>
                   
                   {/* Administrator login form */}
                   {adminExpanded && (
-                    <div className="ml-4 space-y-3 mt-3">
+                    <div className="ml-3 space-y-2 mt-2">
                       <form onSubmit={handleAdminLogin}>
-                        <div className="space-y-3">
+                        <div className="space-y-2">
                           <Input
                             type="email"
                             placeholder="Administrator Email"
                             value={adminEmail}
                             onChange={(e) => setAdminEmail(e.target.value)}
-                            className="w-full"
+                            className="w-full h-9 text-sm"
                           />
                           <Input
                             type="password"
                             placeholder="Password"
                             value={adminPassword}
                             onChange={(e) => setAdminPassword(e.target.value)}
-                            className="w-full"
+                            className="w-full h-9 text-sm"
                           />
                           <Button 
                             type="submit"
                             variant="default" 
-                            className="w-full h-10"
+                            className="w-full h-9 text-sm"
                           >
                             Submit
                           </Button>
                           <Button 
                             type="button"
                             variant="ghost" 
-                            className="w-full h-10 text-sm text-gray-600"
+                            className="w-full h-8 text-xs text-gray-600"
                             onClick={() => {
                               toast({
                                 title: "Forgot Password",
@@ -407,11 +407,11 @@ export const Navigation = ({ onMenuStateChange, forceMenuOpen }: NavigationProps
 
                   {/* Admin Dashboard link - only show if logged in as admin */}
                   {isAdmin && (
-                    <div className="ml-4 mt-2">
-                      <Button variant="ghost" className="w-full justify-start h-12 text-left touch-target" asChild>
+                    <div className="ml-3 mt-1">
+                      <Button variant="ghost" className="w-full justify-start h-10 text-left touch-target" asChild>
                         <Link to="/dashboard" onClick={() => setMenuOpen(false)}>
-                          <Shield className="h-5 w-5 mr-3" />
-                          <span className="text-base">Admin Dashboard</span>
+                          <Shield className="h-4 w-4 mr-2" />
+                          <span className="text-sm">Admin Dashboard</span>
                         </Link>
                       </Button>
                     </div>
@@ -419,20 +419,20 @@ export const Navigation = ({ onMenuStateChange, forceMenuOpen }: NavigationProps
                 </div>
                 
                 {/* Business Login/Dashboard - Placed at bottom */}
-                <div className="mt-auto pt-4 border-t border-gray-200">
-                  <p className="text-sm text-gray-600 mb-3 px-2">Business Owners</p>
+                <div className="mt-auto pt-2 border-t border-gray-200">
+                  <p className="text-xs text-gray-600 mb-2 px-2">Business Owners</p>
                   {user ? (
-                    <Button variant="ghost" className="w-full justify-start h-12 text-left touch-target" asChild>
+                    <Button variant="ghost" className="w-full justify-start h-10 text-left touch-target" asChild>
                       <Link to="/business-dashboard" onClick={() => setMenuOpen(false)}>
-                        <Building2 className="h-5 w-5 mr-3" />
-                        <span className="text-base">Business Dashboard</span>
+                        <Building2 className="h-4 w-4 mr-2" />
+                        <span className="text-sm">Business Dashboard</span>
                       </Link>
                     </Button>
                   ) : (
-                    <Button variant="ghost" className="w-full justify-start h-12 text-left touch-target" asChild>
+                    <Button variant="ghost" className="w-full justify-start h-10 text-left touch-target" asChild>
                       <Link to="/auth" onClick={() => setMenuOpen(false)}>
-                        <Building2 className="h-5 w-5 mr-3" />
-                        <span className="text-base">Business Login</span>
+                        <Building2 className="h-4 w-4 mr-2" />
+                        <span className="text-sm">Business Login</span>
                       </Link>
                     </Button>
                   )}
