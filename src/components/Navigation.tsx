@@ -120,6 +120,14 @@ export const Navigation = ({ onMenuStateChange, forceMenuOpen }: NavigationProps
                     <span className="text-base">How To</span>
                   </Link>
                 </Button>
+                
+                <Button variant="ghost" className="w-full justify-start h-12 text-left touch-target" asChild>
+                  <Link to="/dashboard" onClick={() => setMenuOpen(false)}>
+                    <Search className="h-5 w-5 mr-3" />
+                    <span className="text-base">Main Dashboard</span>
+                  </Link>
+                </Button>
+                
                 {/* Advertise with dropdown */}
                 <Button 
                   variant="ghost" 
