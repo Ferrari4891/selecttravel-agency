@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
-import { Menu, Home, Info, HelpCircle, Users, Building2, ChevronDown, ChevronRight, Search, Bookmark, User, LogOut, Heart, Globe } from 'lucide-react';
+import { Menu, Home, Info, HelpCircle, Users, Building2, ChevronDown, ChevronRight, Search, Bookmark, User, LogOut, Heart, Globe, Shield } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { LanguageSelector } from '@/components/LanguageSelector';
 import { useAuth } from '@/contexts/AuthContext';
@@ -18,6 +18,7 @@ export const Navigation = ({ onMenuStateChange, forceMenuOpen }: NavigationProps
   const [advertiseExpanded, setAdvertiseExpanded] = useState(false);
   const [toolboxExpanded, setToolboxExpanded] = useState(false);
   const [dashboardExpanded, setDashboardExpanded] = useState(false);
+  const [isAdmin, setIsAdmin] = useState(false);
   const { user } = useAuth();
   const { toast } = useToast();
 
@@ -32,6 +33,37 @@ export const Navigation = ({ onMenuStateChange, forceMenuOpen }: NavigationProps
       handleMenuChange(true);
     }
   }, [forceMenuOpen]);
+
+  // Check admin status
+  React.useEffect(() => {
+    checkAdminStatus();
+  }, [user]);
+
+  const checkAdminStatus = async () => {
+    if (!user) {
+      setIsAdmin(false);
+      return;
+    }
+
+    try {
+      const { data, error } = await supabase
+        .from('profiles')
+        .select('is_admin')
+        .eq('user_id', user.id)
+        .single();
+
+      if (error) {
+        console.error('Error checking admin status:', error);
+        setIsAdmin(false);
+        return;
+      }
+
+      setIsAdmin(data?.is_admin || false);
+    } catch (error) {
+      console.error('Error checking admin status:', error);
+      setIsAdmin(false);
+    }
+  };
 
   // Clean up auth state helper
   const cleanupAuthState = () => {
@@ -258,6 +290,19 @@ export const Navigation = ({ onMenuStateChange, forceMenuOpen }: NavigationProps
                 >
                   <span className="text-base">Site Logout</span>
                 </Button>
+                
+                {/* Administrator Section - Only for admin users */}
+                {isAdmin && (
+                  <div className="border-t border-gray-200 pt-4 mt-4">
+                    <p className="text-sm text-gray-600 mb-3 px-2">Administrator</p>
+                    <Button variant="ghost" className="w-full justify-start h-12 text-left touch-target" asChild>
+                      <Link to="/dashboard" onClick={() => setMenuOpen(false)}>
+                        <Shield className="h-5 w-5 mr-3" />
+                        <span className="text-base">Admin Dashboard</span>
+                      </Link>
+                    </Button>
+                  </div>
+                )}
                 
                 {/* Business Login/Dashboard - Placed at bottom */}
                 <div className="mt-auto pt-4 border-t border-gray-200">
