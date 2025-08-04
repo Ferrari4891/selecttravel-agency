@@ -268,41 +268,43 @@ export const BusinessProfile: React.FC<BusinessProfileProps> = ({
   if (showPreview) {
     const formData = getCurrentFormValues();
     return (
-      <div className="max-w-5xl mx-auto px-4">
-        <div className="bg-card border rounded-lg p-6 space-y-6">
-          <div className="flex items-center justify-between mb-6">
-            <h2 className="text-2xl font-bold">Business Profile Preview</h2>
-            <div className="flex gap-2">
-              <Button variant="outline" onClick={() => setShowPreview(false)}>
-                Edit Profile
-              </Button>
-            </div>
+      <div className="w-full max-w-none mx-auto px-4">
+        <div className="bg-card border rounded-lg p-4 sm:p-6 lg:p-8">
+          <div className="mb-6">
+            <h2 className="text-2xl font-bold mb-2">Business Profile Preview</h2>
+            <p className="text-muted-foreground">Review your business profile before publishing</p>
           </div>
           
-          <div className="space-y-8">
+          <div className="w-full space-y-8">
             {/* Business Header */}
-            <div className="text-center border-b pb-6">
-              <h3 className="text-3xl font-bold mb-2">{formData.business_name || 'Business Name'}</h3>
-              <p className="text-xl text-muted-foreground">{formData.business_type || 'Business Type'}</p>
+            <div className="text-center pb-6 border-b">
+              <div className="mb-1">
+                <p className="text-sm font-medium text-muted-foreground uppercase tracking-wide">Business Name</p>
+                <h3 className="text-2xl sm:text-3xl font-bold">{formData.business_name || 'Business Name'}</h3>
+              </div>
+              <div>
+                <p className="text-sm font-medium text-muted-foreground uppercase tracking-wide">Business Type</p>
+                <p className="text-lg sm:text-xl text-foreground">{formData.business_type || 'Business Type'}</p>
+              </div>
             </div>
             
             {/* Business Images */}
             {(formData.image_1_url || formData.image_2_url || formData.image_3_url) && (
-              <div className="space-y-3">
-                <h4 className="text-lg font-semibold">Business Photos</h4>
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+              <div className="space-y-4">
+                <p className="text-sm font-medium text-muted-foreground uppercase tracking-wide">Business Photos</p>
+                <div className="space-y-4">
                   {formData.image_1_url && (
-                    <div className="aspect-video rounded-lg overflow-hidden">
+                    <div className="w-full aspect-video rounded-lg overflow-hidden">
                       <img src={formData.image_1_url} alt="Business photo 1" className="w-full h-full object-cover" />
                     </div>
                   )}
                   {formData.image_2_url && (
-                    <div className="aspect-video rounded-lg overflow-hidden">
+                    <div className="w-full aspect-video rounded-lg overflow-hidden">
                       <img src={formData.image_2_url} alt="Business photo 2" className="w-full h-full object-cover" />
                     </div>
                   )}
                   {formData.image_3_url && (
-                    <div className="aspect-video rounded-lg overflow-hidden">
+                    <div className="w-full aspect-video rounded-lg overflow-hidden">
                       <img src={formData.image_3_url} alt="Business photo 3" className="w-full h-full object-cover" />
                     </div>
                   )}
@@ -312,41 +314,41 @@ export const BusinessProfile: React.FC<BusinessProfileProps> = ({
             
             {/* About Section */}
             {formData.description && (
-              <div className="space-y-3">
-                <h4 className="text-lg font-semibold">About</h4>
-                <p className="text-muted-foreground leading-relaxed">{formData.description}</p>
+              <div className="space-y-2">
+                <p className="text-sm font-medium text-muted-foreground uppercase tracking-wide">About</p>
+                <p className="text-foreground leading-relaxed">{formData.description}</p>
               </div>
             )}
             
             {/* Contact Information */}
-            <div className="space-y-3">
-              <h4 className="text-lg font-semibold">Contact Information</h4>
-              <div className="space-y-2">
+            <div className="space-y-4">
+              <p className="text-sm font-medium text-muted-foreground uppercase tracking-wide">Contact Information</p>
+              <div className="space-y-3">
                 {formData.email && (
-                  <div className="flex items-center gap-2">
-                    <span className="font-medium min-w-[80px]">Email:</span>
-                    <span>{formData.email}</span>
+                  <div>
+                    <p className="text-xs font-medium text-muted-foreground uppercase tracking-wide">Email</p>
+                    <p className="text-foreground">{formData.email}</p>
                   </div>
                 )}
                 {formData.phone && (
-                  <div className="flex items-center gap-2">
-                    <span className="font-medium min-w-[80px]">Phone:</span>
-                    <span>{formData.phone}</span>
+                  <div>
+                    <p className="text-xs font-medium text-muted-foreground uppercase tracking-wide">Phone</p>
+                    <p className="text-foreground">{formData.phone}</p>
                   </div>
                 )}
                 {formData.website && (
-                  <div className="flex items-center gap-2">
-                    <span className="font-medium min-w-[80px]">Website:</span>
-                    <span className="text-primary">{formData.website}</span>
+                  <div>
+                    <p className="text-xs font-medium text-muted-foreground uppercase tracking-wide">Website</p>
+                    <p className="text-primary break-all">{formData.website}</p>
                   </div>
                 )}
               </div>
             </div>
             
             {/* Location */}
-            <div className="space-y-3">
-              <h4 className="text-lg font-semibold">Location</h4>
-              <div className="space-y-1">
+            <div className="space-y-2">
+              <p className="text-sm font-medium text-muted-foreground uppercase tracking-wide">Location</p>
+              <div className="text-foreground space-y-1">
                 {formData.address && <p>{formData.address}</p>}
                 <p>{formData.city}{formData.state && `, ${formData.state}`}</p>
                 <p>{formData.country} {formData.postal_code}</p>
@@ -354,40 +356,40 @@ export const BusinessProfile: React.FC<BusinessProfileProps> = ({
             </div>
             
             {/* Business Hours */}
-            <div className="space-y-3">
-              <h4 className="text-lg font-semibold">Business Hours</h4>
-              <pre className="text-sm text-muted-foreground whitespace-pre-wrap font-sans">
+            <div className="space-y-2">
+              <p className="text-sm font-medium text-muted-foreground uppercase tracking-wide">Business Hours</p>
+              <div className="text-sm text-foreground whitespace-pre-wrap font-sans">
                 {formatBusinessHours(businessHours)}
-              </pre>
+              </div>
             </div>
             
             {/* Social Media */}
             {(formData.facebook || formData.instagram || formData.twitter || formData.linkedin) && (
-              <div className="space-y-3">
-                <h4 className="text-lg font-semibold">Social Media</h4>
-                <div className="space-y-2">
+              <div className="space-y-4">
+                <p className="text-sm font-medium text-muted-foreground uppercase tracking-wide">Social Media</p>
+                <div className="space-y-3">
                   {formData.facebook && (
-                    <div className="flex items-center gap-2">
-                      <span className="font-medium min-w-[80px]">Facebook:</span>
-                      <span className="text-primary">{formData.facebook}</span>
+                    <div>
+                      <p className="text-xs font-medium text-muted-foreground uppercase tracking-wide">Facebook</p>
+                      <p className="text-primary break-all">{formData.facebook}</p>
                     </div>
                   )}
                   {formData.instagram && (
-                    <div className="flex items-center gap-2">
-                      <span className="font-medium min-w-[80px]">Instagram:</span>
-                      <span className="text-primary">{formData.instagram}</span>
+                    <div>
+                      <p className="text-xs font-medium text-muted-foreground uppercase tracking-wide">Instagram</p>
+                      <p className="text-primary break-all">{formData.instagram}</p>
                     </div>
                   )}
                   {formData.twitter && (
-                    <div className="flex items-center gap-2">
-                      <span className="font-medium min-w-[80px]">Twitter:</span>
-                      <span className="text-primary">{formData.twitter}</span>
+                    <div>
+                      <p className="text-xs font-medium text-muted-foreground uppercase tracking-wide">Twitter</p>
+                      <p className="text-primary break-all">{formData.twitter}</p>
                     </div>
                   )}
                   {formData.linkedin && (
-                    <div className="flex items-center gap-2">
-                      <span className="font-medium min-w-[80px]">LinkedIn:</span>
-                      <span className="text-primary">{formData.linkedin}</span>
+                    <div>
+                      <p className="text-xs font-medium text-muted-foreground uppercase tracking-wide">LinkedIn</p>
+                      <p className="text-primary break-all">{formData.linkedin}</p>
                     </div>
                   )}
                 </div>
@@ -395,15 +397,25 @@ export const BusinessProfile: React.FC<BusinessProfileProps> = ({
             )}
           </div>
           
-          <div className="pt-6 border-t">
-            <Button 
-              onClick={form.handleSubmit(onSubmit)} 
-              disabled={loading} 
-              className="w-full"
-              size="lg"
-            >
-              {loading ? "Saving..." : business ? "Update Profile" : "Create Profile"}
-            </Button>
+          {/* Action Buttons */}
+          <div className="pt-8 border-t mt-8">
+            <div className="flex flex-col sm:flex-row gap-3">
+              <Button 
+                variant="outline" 
+                onClick={() => setShowPreview(false)}
+                className="flex-1 sm:flex-none sm:w-auto"
+              >
+                Edit Profile
+              </Button>
+              <Button 
+                onClick={form.handleSubmit(onSubmit)} 
+                disabled={loading} 
+                className="flex-1"
+                size="lg"
+              >
+                {loading ? "Saving..." : business ? "Update Profile" : "Create Profile"}
+              </Button>
+            </div>
           </div>
         </div>
       </div>
