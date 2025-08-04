@@ -12,22 +12,18 @@ import HowToTipsAndTricks from "@/components/how-to/HowToTipsAndTricks";
 import HowToCTA from "@/components/how-to/HowToCTA";
 import heroHowTo from "@/assets/hero-how-to.jpg";
 const HowTo = () => {
-  return (
-    <div className="min-h-screen bg-background">
+  return <div className="min-h-screen bg-background">
       {/* Navigation */}
       <Navigation />
       
       {/* Content container */}
       <div className="">
         {/* Hero section with background image */}
-        <div 
-          className="relative h-80 flex items-center justify-center"
-          style={{
-            backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url(${heroHowTo})`,
-            backgroundSize: 'cover',
-            backgroundPosition: 'center'
-          }}
-        >
+        <div className="relative h-80 flex items-center justify-center" style={{
+        backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url(${heroHowTo})`,
+        backgroundSize: 'cover',
+        backgroundPosition: 'center'
+      }}>
           <h1 className="text-4xl font-bold text-white text-center">
             HOW TO
           </h1>
@@ -46,9 +42,7 @@ const HowTo = () => {
             </div>
 
             <div className="text-center space-y-4">
-              <h2 className="font-bold text-black text-2xl">
-                How to Use smartguidebooks.com
-              </h2>
+              <h2 className="font-bold text-black text-2xl">How to Use seniorstravelagency.com</h2>
               <p className="text-muted-foreground text-base">Your step-by-step guide to discovering top rated businesses in many categories in thousands of cities worldwide in 60 seconds or less with NO typing!!</p>
             </div>
 
@@ -63,7 +57,6 @@ const HowTo = () => {
       </div>
       
       <Footer />
-    </div>
-  );
+    </div>;
 };
 export default HowTo;
