@@ -8,90 +8,71 @@ import { Navigation } from "@/components/Navigation";
 import Footer from "@/components/Footer";
 import { LanguageSelector } from "@/components/LanguageSelector";
 import heroToolbox from "@/assets/hero-toolbox.jpg";
-
 const Toolbox = () => {
-  const [videos] = useState([
-    {
-      id: "yYpJP3tIKIU", 
-      title: "How to Travel Smart: Essential Tips",
-      description: "Learn the best practices for planning your trips and making the most of your travel experience."
-    },
-    {
-      id: "wNfWr6A1KXo", 
-      title: "Budget Travel Secrets",
-      description: "Discover how to travel more while spending less with these insider tips and tricks."
-    },
-    {
-      id: "dQw4w9WgXcQ", 
-      title: "Cultural Travel Guide",
-      description: "Immerse yourself in local cultures and traditions with our comprehensive cultural travel guide."
-    }
-  ]);
-
-  const tools = [
-    {
-      id: 1,
-      title: "Visa Requirements Checker",
-      description: "Check visa requirements for your destination",
-      category: "Documentation",
-      link: "/visa-info"
-    },
-    {
-      id: 2,
-      title: "Currency Converter",
-      description: "Get up-to-date exchange rates",
-      category: "Finance",
-      link: "#"
-    },
-    {
-      id: 3,
-      title: "Travel Insurance Guide",
-      description: "Find the right travel insurance for your trip",
-      category: "Insurance",
-      link: "#"
-    },
-    {
-      id: 4,
-      title: "Packing Checklist",
-      description: "Never forget essential items again",
-      category: "Planning",
-      link: "#"
-    },
-    {
-      id: 5,
-      title: "Local Weather Forecast",
-      description: "Check weather conditions at your destination",
-      category: "Weather",
-      link: "#"
-    },
-    {
-      id: 6,
-      title: "Transportation Guide",
-      description: "Find the best ways to get around",
-      category: "Transport",
-      link: "#"
-    }
-  ];
-
-  return (
-    <div className="min-h-screen bg-background">
+  const [videos] = useState([{
+    id: "yYpJP3tIKIU",
+    title: "How to Travel Smart: Essential Tips",
+    description: "Learn the best practices for planning your trips and making the most of your travel experience."
+  }, {
+    id: "wNfWr6A1KXo",
+    title: "Budget Travel Secrets",
+    description: "Discover how to travel more while spending less with these insider tips and tricks."
+  }, {
+    id: "dQw4w9WgXcQ",
+    title: "Cultural Travel Guide",
+    description: "Immerse yourself in local cultures and traditions with our comprehensive cultural travel guide."
+  }]);
+  const tools = [{
+    id: 1,
+    title: "Visa Requirements Checker",
+    description: "Check visa requirements for your destination",
+    category: "Documentation",
+    link: "/visa-info"
+  }, {
+    id: 2,
+    title: "Currency Converter",
+    description: "Get up-to-date exchange rates",
+    category: "Finance",
+    link: "#"
+  }, {
+    id: 3,
+    title: "Travel Insurance Guide",
+    description: "Find the right travel insurance for your trip",
+    category: "Insurance",
+    link: "#"
+  }, {
+    id: 4,
+    title: "Packing Checklist",
+    description: "Never forget essential items again",
+    category: "Planning",
+    link: "#"
+  }, {
+    id: 5,
+    title: "Local Weather Forecast",
+    description: "Check weather conditions at your destination",
+    category: "Weather",
+    link: "#"
+  }, {
+    id: 6,
+    title: "Transportation Guide",
+    description: "Find the best ways to get around",
+    category: "Transport",
+    link: "#"
+  }];
+  return <div className="min-h-screen bg-background">
       {/* Navigation */}
       <Navigation />
       
       {/* Content container */}
       <div className="">
         {/* Hero section with background image */}
-        <div 
-          className="relative h-80 flex items-center justify-center"
-          style={{
-            backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url(${heroToolbox})`,
-            backgroundSize: 'cover',
-            backgroundPosition: 'center'
-          }}
-        >
+        <div className="relative h-80 flex items-center justify-center" style={{
+        backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url(${heroToolbox})`,
+        backgroundSize: 'cover',
+        backgroundPosition: 'center'
+      }}>
           <h1 className="text-4xl font-bold text-white text-center">
-            TOOLBOX
-          </h1>
+        </h1>
         </div>
         
         {/* Content area with white background */}
@@ -117,8 +98,7 @@ const Toolbox = () => {
 
             {/* Tools Grid */}
             <div className="space-y-6">
-              {tools.map((tool) => (
-                <Card key={tool.id} className="rounded-none">
+              {tools.map(tool => <Card key={tool.id} className="rounded-none">
                   <CardHeader>
                     <div className="flex justify-between items-start">
                       <div>
@@ -137,16 +117,13 @@ const Toolbox = () => {
                       </Link>
                     </Button>
                   </CardContent>
-                </Card>
-              ))}
+                </Card>)}
             </div>
           </div>
         </div>
       </div>
       
       <Footer />
-    </div>
-  );
+    </div>;
 };
-
 export default Toolbox;
