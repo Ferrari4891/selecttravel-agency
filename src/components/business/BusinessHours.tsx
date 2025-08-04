@@ -58,33 +58,31 @@ export const BusinessHours: React.FC<BusinessHoursProps> = ({
           return (
             <div 
               key={key} 
-              className={`flex flex-row items-center gap-2 p-2 ${
+              className={`flex flex-row items-center gap-1 p-2 ${
                 index !== DAYS.length - 1 ? 'border-b' : ''
               }`}
             >
-              <div className="w-16 text-xs font-medium flex-shrink-0">
-                {label.slice(0, 3)}
-              </div>
-              
               <div className="flex items-center gap-1 flex-shrink-0">
+                <div className="w-12 text-xs font-medium">
+                  {label.slice(0, 3)}
+                </div>
                 <Checkbox
                   checked={dayHours.closed}
                   onCheckedChange={(checked) => updateDayHours(key, 'closed', checked)}
-                  className="h-3 w-3 scale-75"
+                  className="h-2 w-2 scale-50"
                 />
-                <span className="text-xs text-muted-foreground">Closed</span>
               </div>
 
-              {!dayHours.closed && (
+              {!dayHours.closed ? (
                 <div className="flex items-center gap-1 flex-1 min-w-0">
                   <Select
                     value={dayHours.open}
                     onValueChange={(value) => updateDayHours(key, 'open', value)}
                   >
-                    <SelectTrigger className="w-16 h-7 text-xs">
+                    <SelectTrigger className="w-14 h-6 text-xs">
                       <SelectValue />
                     </SelectTrigger>
-                    <SelectContent className="w-16">
+                    <SelectContent className="w-14">
                       {TIME_OPTIONS.map(time => (
                         <SelectItem key={time} value={time} className="text-xs">
                           {time}
@@ -92,15 +90,15 @@ export const BusinessHours: React.FC<BusinessHoursProps> = ({
                       ))}
                     </SelectContent>
                   </Select>
-                  <span className="text-xs text-muted-foreground">to</span>
+                  <span className="text-xs">-</span>
                   <Select
                     value={dayHours.close}
                     onValueChange={(value) => updateDayHours(key, 'close', value)}
                   >
-                    <SelectTrigger className="w-16 h-7 text-xs">
+                    <SelectTrigger className="w-14 h-6 text-xs">
                       <SelectValue />
                     </SelectTrigger>
-                    <SelectContent className="w-16">
+                    <SelectContent className="w-14">
                       {TIME_OPTIONS.map(time => (
                         <SelectItem key={time} value={time} className="text-xs">
                           {time}
@@ -109,6 +107,8 @@ export const BusinessHours: React.FC<BusinessHoursProps> = ({
                     </SelectContent>
                   </Select>
                 </div>
+              ) : (
+                <span className="text-xs text-muted-foreground">Closed</span>
               )}
             </div>
           );
