@@ -268,7 +268,7 @@ export const BusinessProfile: React.FC<BusinessProfileProps> = ({
   if (showPreview) {
     const formData = getCurrentFormValues();
     return (
-      <div className="w-full max-w-7xl mx-auto px-2 sm:px-4">
+      <div className="w-full mx-auto px-2 sm:px-4">
         <div className="bg-card border rounded-lg p-6 sm:p-8 lg:p-12">
           <div className="mb-6">
             <h2 className="text-2xl font-bold mb-2">Business Profile Preview</h2>
@@ -731,7 +731,7 @@ export const BusinessProfile: React.FC<BusinessProfileProps> = ({
           <p className="text-sm text-muted-foreground">
             Upload up to 3 photos of your business. Supported formats: JPG, PNG, WebP (max 5MB each)
           </p>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+          <div className="space-y-4">
             {[1, 2, 3].map((num) => {
               const imageKey = `image_${num}`;
               const currentImage = form.watch(`${imageKey}_url` as keyof BusinessFormData);
