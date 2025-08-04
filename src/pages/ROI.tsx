@@ -131,9 +131,8 @@ const ROI = () => {
                   <SelectValue placeholder="Select your plan" />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="10">$10 per week</SelectItem>
-                  <SelectItem value="20">$20 per week</SelectItem>
-                  <SelectItem value="40">$40 per week</SelectItem>
+                  <SelectItem value="10.39">$45.00 per month</SelectItem>
+                  <SelectItem value="20.78">$90.00 per month</SelectItem>
                 </SelectContent>
               </Select>
             </div>
