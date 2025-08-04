@@ -410,10 +410,10 @@ export const BusinessProfile: React.FC<BusinessProfileProps> = ({
               <Button 
                 onClick={form.handleSubmit(onSubmit)} 
                 disabled={loading} 
-                className="w-auto px-6"
-                size="lg"
+                className="w-auto px-8 py-2 h-9"
+                size="default"
               >
-                {loading ? "Saving..." : business ? "Update Profile" : "Create Profile"}
+                {loading ? "Saving..." : business ? "Update Business Profile" : "Create Business Profile"}
               </Button>
             </div>
           </div>
@@ -812,8 +812,8 @@ export const BusinessProfile: React.FC<BusinessProfileProps> = ({
           >
             Preview Profile
           </Button>
-          <Button type="submit" disabled={loading} className="flex-1">
-            {loading ? "Saving..." : business ? "Update Profile" : "Create Profile"}
+          <Button type="submit" disabled={loading} className="flex-1 px-8 py-2 h-9" size="default">
+            {loading ? "Saving..." : business ? "Update Business Profile" : "Create Business Profile"}
           </Button>
         </div>
       </form>
