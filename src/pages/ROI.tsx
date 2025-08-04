@@ -32,10 +32,8 @@ const ROI = () => {
     }
   }, [weeklyRevenue, yourPlan]);
 
-  // Generate customer value options from $10 to $200 in $10 increments
-  const customerValueOptions = Array.from({
-    length: 20
-  }, (_, i) => (i + 1) * 10);
+  // Generate customer value options with better distribution
+  const customerValueOptions = [10, 15, 20, 25, 30, 40, 50, 60, 75, 100, 125, 150, 200, 250, 300];
 
   // Generate customers per week options from 1 to 50
   const customersPerWeekOptions = Array.from({
@@ -49,10 +47,10 @@ const ROI = () => {
       {/* Hero Section */}
       <div className="relative h-64 md:h-80 overflow-hidden border-8 border-white rounded-none shadow-[0_8px_12px_-4px_rgba(169,169,169,0.4),_-6px_8px_12px_-4px_rgba(169,169,169,0.3),_6px_8px_12px_-4px_rgba(169,169,169,0.3)]">
         <img src={heroAdvertise} alt="ROI Calculator Hero" className="w-full h-full object-cover" />
-        <div className="absolute inset-0 flex items-center justify-center">
+        <div className="absolute inset-0 flex items-center justify-center px-4">
           <div className="text-center">
-            <h1 className="text-4xl font-bold text-white md:text-6xl">ROI CALCULATOR</h1>
-            <p className="text-xl text-white mt-4">Get great returns on every $dollar you spend!</p>
+            <h1 className="text-3xl font-bold text-white md:text-5xl lg:text-6xl">ROI CALCULATOR</h1>
+            <p className="text-lg text-white mt-4 md:text-xl">Get great returns on every $dollar you spend!</p>
           </div>
         </div>
       </div>
@@ -94,7 +92,7 @@ const ROI = () => {
                 <SelectTrigger>
                   <SelectValue placeholder="Select average customer value" />
                 </SelectTrigger>
-                <SelectContent>
+                <SelectContent className="max-h-[200px]">
                   {customerValueOptions.map(value => <SelectItem key={value} value={value.toString()}>
                       ${value}
                     </SelectItem>)}
