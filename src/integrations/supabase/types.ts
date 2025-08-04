@@ -118,6 +118,9 @@ export type Database = {
           email: string | null
           facebook: string | null
           id: string
+          image_1_url: string | null
+          image_2_url: string | null
+          image_3_url: string | null
           instagram: string | null
           linkedin: string | null
           logo_url: string | null
@@ -145,6 +148,9 @@ export type Database = {
           email?: string | null
           facebook?: string | null
           id?: string
+          image_1_url?: string | null
+          image_2_url?: string | null
+          image_3_url?: string | null
           instagram?: string | null
           linkedin?: string | null
           logo_url?: string | null
@@ -172,6 +178,9 @@ export type Database = {
           email?: string | null
           facebook?: string | null
           id?: string
+          image_1_url?: string | null
+          image_2_url?: string | null
+          image_3_url?: string | null
           instagram?: string | null
           linkedin?: string | null
           logo_url?: string | null

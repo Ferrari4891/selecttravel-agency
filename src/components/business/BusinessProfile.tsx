@@ -28,6 +28,9 @@ const businessSchema = z.object({
   instagram: z.string().optional(),
   twitter: z.string().optional(),
   linkedin: z.string().optional(),
+  image_1_url: z.string().optional(),
+  image_2_url: z.string().optional(),
+  image_3_url: z.string().optional(),
 });
 
 type BusinessFormData = z.infer<typeof businessSchema>;
@@ -85,6 +88,7 @@ export const BusinessProfile: React.FC<BusinessProfileProps> = ({
   const { user } = useAuth();
   const [loading, setLoading] = useState(false);
   const [showPreview, setShowPreview] = useState(false);
+  const [uploadingImages, setUploadingImages] = useState<Record<string, boolean>>({});
   const { toast } = useToast();
   const [businessHours, setBusinessHours] = useState(
     business?.business_hours || {
@@ -115,6 +119,9 @@ export const BusinessProfile: React.FC<BusinessProfileProps> = ({
       instagram: business?.instagram || '',
       twitter: business?.twitter || '',
       linkedin: business?.linkedin || '',
+      image_1_url: business?.image_1_url || '',
+      image_2_url: business?.image_2_url || '',
+      image_3_url: business?.image_3_url || '',
     },
   });
 
@@ -167,6 +174,9 @@ export const BusinessProfile: React.FC<BusinessProfileProps> = ({
             twitter: data.twitter,
             linkedin: data.linkedin,
             business_hours: businessHours,
+            image_1_url: data.image_1_url,
+            image_2_url: data.image_2_url,
+            image_3_url: data.image_3_url,
           })
           .select()
           .single();
@@ -199,6 +209,60 @@ export const BusinessProfile: React.FC<BusinessProfileProps> = ({
     }).join('\n');
   };
 
+  const handleImageUpload = async (file: File, imageNumber: string) => {
+    if (!user) return;
+
+    setUploadingImages(prev => ({ ...prev, [imageNumber]: true }));
+
+    try {
+      const fileExt = file.name.split('.').pop();
+      const fileName = `${user.id}/${imageNumber}-${Date.now()}.${fileExt}`;
+      
+      const { error: uploadError } = await supabase.storage
+        .from('business-images')
+        .upload(fileName, file);
+
+      if (uploadError) throw uploadError;
+
+      const { data: { publicUrl } } = supabase.storage
+        .from('business-images')
+        .getPublicUrl(fileName);
+
+      form.setValue(`${imageNumber}_url` as keyof BusinessFormData, publicUrl);
+      
+      toast({
+        title: "Success",
+        description: "Image uploaded successfully!",
+      });
+    } catch (error: any) {
+      toast({
+        title: "Error",
+        description: error.message || "Failed to upload image.",
+        variant: "destructive",
+      });
+    } finally {
+      setUploadingImages(prev => ({ ...prev, [imageNumber]: false }));
+    }
+  };
+
+  const removeImage = async (imageNumber: string) => {
+    const currentUrl = form.getValues(`${imageNumber}_url` as keyof BusinessFormData);
+    if (currentUrl && typeof currentUrl === 'string') {
+      try {
+        const fileName = currentUrl.split('/').pop();
+        if (fileName && fileName.includes(user?.id || '')) {
+          await supabase.storage
+            .from('business-images')
+            .remove([`${user?.id}/${fileName}`]);
+        }
+      } catch (error) {
+        console.error('Error removing image:', error);
+      }
+    }
+    
+    form.setValue(`${imageNumber}_url` as keyof BusinessFormData, '');
+  };
+
   const getCurrentFormValues = () => form.getValues();
 
   if (showPreview) {
@@ -206,59 +270,126 @@ export const BusinessProfile: React.FC<BusinessProfileProps> = ({
     return (
       <div className="max-w-5xl mx-auto px-4">
         <div className="bg-card border rounded-lg p-6 space-y-6">
-          <div className="flex items-center justify-between">
+          <div className="flex items-center justify-between mb-6">
             <h2 className="text-2xl font-bold">Business Profile Preview</h2>
-            <Button variant="outline" onClick={() => setShowPreview(false)}>
-              Back to Edit
-            </Button>
+            <div className="flex gap-2">
+              <Button variant="outline" onClick={() => setShowPreview(false)}>
+                Edit Profile
+              </Button>
+            </div>
           </div>
           
-          <div className="space-y-6">
-            <div>
-              <h3 className="font-semibold text-2xl mb-2">{formData.business_name || 'Business Name'}</h3>
-              <p className="text-muted-foreground text-lg mb-4">{formData.business_type || 'Business Type'}</p>
+          <div className="space-y-8">
+            {/* Business Header */}
+            <div className="text-center border-b pb-6">
+              <h3 className="text-3xl font-bold mb-2">{formData.business_name || 'Business Name'}</h3>
+              <p className="text-xl text-muted-foreground">{formData.business_type || 'Business Type'}</p>
             </div>
             
-            {formData.description && (
-              <div>
-                <h4 className="font-medium text-lg mb-2">About</h4>
-                <p className="text-muted-foreground">{formData.description}</p>
+            {/* Business Images */}
+            {(formData.image_1_url || formData.image_2_url || formData.image_3_url) && (
+              <div className="space-y-3">
+                <h4 className="text-lg font-semibold">Business Photos</h4>
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                  {formData.image_1_url && (
+                    <div className="aspect-video rounded-lg overflow-hidden">
+                      <img src={formData.image_1_url} alt="Business photo 1" className="w-full h-full object-cover" />
+                    </div>
+                  )}
+                  {formData.image_2_url && (
+                    <div className="aspect-video rounded-lg overflow-hidden">
+                      <img src={formData.image_2_url} alt="Business photo 2" className="w-full h-full object-cover" />
+                    </div>
+                  )}
+                  {formData.image_3_url && (
+                    <div className="aspect-video rounded-lg overflow-hidden">
+                      <img src={formData.image_3_url} alt="Business photo 3" className="w-full h-full object-cover" />
+                    </div>
+                  )}
+                </div>
               </div>
             )}
             
+            {/* About Section */}
+            {formData.description && (
+              <div className="space-y-3">
+                <h4 className="text-lg font-semibold">About</h4>
+                <p className="text-muted-foreground leading-relaxed">{formData.description}</p>
+              </div>
+            )}
+            
+            {/* Contact Information */}
             <div className="space-y-3">
-              <h4 className="font-medium text-lg">Contact Information</h4>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-3 text-sm">
-                {formData.email && <p>Email: {formData.email}</p>}
-                {formData.phone && <p>Phone: {formData.phone}</p>}
-                {formData.website && <p>Website: {formData.website}</p>}
+              <h4 className="text-lg font-semibold">Contact Information</h4>
+              <div className="space-y-2">
+                {formData.email && (
+                  <div className="flex items-center gap-2">
+                    <span className="font-medium min-w-[80px]">Email:</span>
+                    <span>{formData.email}</span>
+                  </div>
+                )}
+                {formData.phone && (
+                  <div className="flex items-center gap-2">
+                    <span className="font-medium min-w-[80px]">Phone:</span>
+                    <span>{formData.phone}</span>
+                  </div>
+                )}
+                {formData.website && (
+                  <div className="flex items-center gap-2">
+                    <span className="font-medium min-w-[80px]">Website:</span>
+                    <span className="text-primary">{formData.website}</span>
+                  </div>
+                )}
               </div>
             </div>
             
+            {/* Location */}
             <div className="space-y-3">
-              <h4 className="font-medium text-lg">Location</h4>
-              <div className="text-sm space-y-1">
+              <h4 className="text-lg font-semibold">Location</h4>
+              <div className="space-y-1">
                 {formData.address && <p>{formData.address}</p>}
                 <p>{formData.city}{formData.state && `, ${formData.state}`}</p>
                 <p>{formData.country} {formData.postal_code}</p>
               </div>
             </div>
             
+            {/* Business Hours */}
             <div className="space-y-3">
-              <h4 className="font-medium text-lg">Business Hours</h4>
-              <pre className="text-sm text-muted-foreground whitespace-pre-wrap">
+              <h4 className="text-lg font-semibold">Business Hours</h4>
+              <pre className="text-sm text-muted-foreground whitespace-pre-wrap font-sans">
                 {formatBusinessHours(businessHours)}
               </pre>
             </div>
             
+            {/* Social Media */}
             {(formData.facebook || formData.instagram || formData.twitter || formData.linkedin) && (
               <div className="space-y-3">
-                <h4 className="font-medium text-lg">Social Media</h4>
-                <div className="text-sm space-y-1">
-                  {formData.facebook && <p>Facebook: {formData.facebook}</p>}
-                  {formData.instagram && <p>Instagram: {formData.instagram}</p>}
-                  {formData.twitter && <p>Twitter: {formData.twitter}</p>}
-                  {formData.linkedin && <p>LinkedIn: {formData.linkedin}</p>}
+                <h4 className="text-lg font-semibold">Social Media</h4>
+                <div className="space-y-2">
+                  {formData.facebook && (
+                    <div className="flex items-center gap-2">
+                      <span className="font-medium min-w-[80px]">Facebook:</span>
+                      <span className="text-primary">{formData.facebook}</span>
+                    </div>
+                  )}
+                  {formData.instagram && (
+                    <div className="flex items-center gap-2">
+                      <span className="font-medium min-w-[80px]">Instagram:</span>
+                      <span className="text-primary">{formData.instagram}</span>
+                    </div>
+                  )}
+                  {formData.twitter && (
+                    <div className="flex items-center gap-2">
+                      <span className="font-medium min-w-[80px]">Twitter:</span>
+                      <span className="text-primary">{formData.twitter}</span>
+                    </div>
+                  )}
+                  {formData.linkedin && (
+                    <div className="flex items-center gap-2">
+                      <span className="font-medium min-w-[80px]">LinkedIn:</span>
+                      <span className="text-primary">{formData.linkedin}</span>
+                    </div>
+                  )}
                 </div>
               </div>
             )}
@@ -581,6 +712,84 @@ export const BusinessProfile: React.FC<BusinessProfileProps> = ({
           businessHours={businessHours}
           onBusinessHoursChange={setBusinessHours}
         />
+
+        {/* Business Images Section */}
+        <div className="space-y-4">
+          <h3 className="text-lg font-medium">Business Photos</h3>
+          <p className="text-sm text-muted-foreground">
+            Upload up to 3 photos of your business. Supported formats: JPG, PNG, WebP (max 5MB each)
+          </p>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+            {[1, 2, 3].map((num) => {
+              const imageKey = `image_${num}`;
+              const currentImage = form.watch(`${imageKey}_url` as keyof BusinessFormData);
+              const isUploading = uploadingImages[imageKey];
+              
+              return (
+                <div key={num} className="space-y-2">
+                  <FormField
+                    control={form.control}
+                    name={`${imageKey}_url` as keyof BusinessFormData}
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Photo {num}</FormLabel>
+                        <FormControl>
+                          <div className="space-y-2">
+                            {currentImage && typeof currentImage === 'string' && currentImage ? (
+                              <div className="relative">
+                                <img 
+                                  src={currentImage} 
+                                  alt={`Business photo ${num}`}
+                                  className="w-full h-32 object-cover rounded-lg border"
+                                />
+                                <Button
+                                  type="button"
+                                  variant="destructive"
+                                  size="sm"
+                                  className="absolute top-2 right-2"
+                                  onClick={() => removeImage(imageKey)}
+                                >
+                                  Remove
+                                </Button>
+                              </div>
+                            ) : (
+                              <div className="border-2 border-dashed border-muted-foreground/25 rounded-lg p-4">
+                                <input
+                                  type="file"
+                                  accept="image/jpeg,image/png,image/webp"
+                                  onChange={(e) => {
+                                    const file = e.target.files?.[0];
+                                    if (file) {
+                                      if (file.size > 5 * 1024 * 1024) {
+                                        toast({
+                                          title: "Error",
+                                          description: "File size must be less than 5MB",
+                                          variant: "destructive",
+                                        });
+                                        return;
+                                      }
+                                      handleImageUpload(file, imageKey);
+                                    }
+                                  }}
+                                  className="w-full"
+                                  disabled={isUploading}
+                                />
+                                {isUploading && (
+                                  <p className="text-sm text-muted-foreground mt-2">Uploading...</p>
+                                )}
+                              </div>
+                            )}
+                          </div>
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                </div>
+              );
+            })}
+          </div>
+        </div>
 
         <div className="flex gap-3">
           <Button 
