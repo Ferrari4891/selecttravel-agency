@@ -84,6 +84,7 @@ export const BusinessProfile: React.FC<BusinessProfileProps> = ({
 }) => {
   const { user } = useAuth();
   const [loading, setLoading] = useState(false);
+  const [showPreview, setShowPreview] = useState(false);
   const { toast } = useToast();
   const [businessHours, setBusinessHours] = useState(
     business?.business_hours || {
@@ -185,6 +186,101 @@ export const BusinessProfile: React.FC<BusinessProfileProps> = ({
     }
   };
 
+  const formatBusinessHours = (hours: Record<string, any>) => {
+    const days = ['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday'];
+    const dayNames = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
+    
+    return days.map((day, index) => {
+      const dayHours = hours[day];
+      if (dayHours?.closed) {
+        return `${dayNames[index]}: Closed`;
+      }
+      return `${dayNames[index]}: ${dayHours?.open || '09:00'} - ${dayHours?.close || '17:00'}`;
+    }).join('\n');
+  };
+
+  const getCurrentFormValues = () => form.getValues();
+
+  if (showPreview) {
+    const formData = getCurrentFormValues();
+    return (
+      <div className="max-w-5xl mx-auto px-4">
+        <div className="bg-card border rounded-lg p-6 space-y-6">
+          <div className="flex items-center justify-between">
+            <h2 className="text-2xl font-bold">Business Profile Preview</h2>
+            <Button variant="outline" onClick={() => setShowPreview(false)}>
+              Back to Edit
+            </Button>
+          </div>
+          
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div className="space-y-4">
+              <div>
+                <h3 className="font-semibold text-lg">{formData.business_name || 'Business Name'}</h3>
+                <p className="text-muted-foreground">{formData.business_type || 'Business Type'}</p>
+              </div>
+              
+              {formData.description && (
+                <div>
+                  <h4 className="font-medium">About</h4>
+                  <p className="text-sm text-muted-foreground">{formData.description}</p>
+                </div>
+              )}
+              
+              <div className="space-y-2">
+                <h4 className="font-medium">Contact Information</h4>
+                {formData.email && <p className="text-sm">Email: {formData.email}</p>}
+                {formData.phone && <p className="text-sm">Phone: {formData.phone}</p>}
+                {formData.website && <p className="text-sm">Website: {formData.website}</p>}
+              </div>
+            </div>
+            
+            <div className="space-y-4">
+              <div>
+                <h4 className="font-medium">Location</h4>
+                <div className="text-sm space-y-1">
+                  {formData.address && <p>{formData.address}</p>}
+                  <p>{formData.city}{formData.state && `, ${formData.state}`}</p>
+                  <p>{formData.country} {formData.postal_code}</p>
+                </div>
+              </div>
+              
+              <div>
+                <h4 className="font-medium">Business Hours</h4>
+                <pre className="text-sm text-muted-foreground whitespace-pre-wrap">
+                  {formatBusinessHours(businessHours)}
+                </pre>
+              </div>
+              
+              {(formData.facebook || formData.instagram || formData.twitter || formData.linkedin) && (
+                <div>
+                  <h4 className="font-medium">Social Media</h4>
+                  <div className="text-sm space-y-1">
+                    {formData.facebook && <p>Facebook: {formData.facebook}</p>}
+                    {formData.instagram && <p>Instagram: {formData.instagram}</p>}
+                    {formData.twitter && <p>Twitter: {formData.twitter}</p>}
+                    {formData.linkedin && <p>LinkedIn: {formData.linkedin}</p>}
+                  </div>
+                </div>
+              )}
+            </div>
+          </div>
+          
+          <div className="pt-6 border-t">
+            <Button 
+              onClick={form.handleSubmit(onSubmit)} 
+              disabled={loading} 
+              className="w-full"
+              size="lg"
+            >
+              {loading ? "Saving..." : business ? "Update Profile" : "Create Profile"}
+            </Button>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className="max-w-5xl mx-auto px-4">
       <Form {...form}>
@@ -194,13 +290,13 @@ export const BusinessProfile: React.FC<BusinessProfileProps> = ({
             control={form.control}
             name="business_name"
             render={({ field }) => (
-              <FormItem>
-                <FormLabel>Business Name</FormLabel>
-                <FormControl>
-                  <Input {...field} />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
+            <FormItem>
+              <FormLabel>Business Name</FormLabel>
+              <FormControl>
+                <Input {...field} className="w-full" />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
             )}
           />
 
@@ -211,18 +307,18 @@ export const BusinessProfile: React.FC<BusinessProfileProps> = ({
               <FormItem>
                 <FormLabel>Business Type</FormLabel>
                 <Select onValueChange={field.onChange} defaultValue={field.value}>
-                  <FormControl>
-                    <SelectTrigger>
-                      <SelectValue placeholder="Select business type" />
-                    </SelectTrigger>
-                  </FormControl>
-                  <SelectContent className="w-full min-w-[200px]">
-                    {businessTypes.map((type) => (
-                      <SelectItem key={type} value={type}>
-                        {type}
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
+              <FormControl>
+                <SelectTrigger className="w-full">
+                  <SelectValue placeholder="Select business type" />
+                </SelectTrigger>
+              </FormControl>
+              <SelectContent className="w-full min-w-[200px]">
+                {businessTypes.map((type) => (
+                  <SelectItem key={type} value={type}>
+                    {type}
+                  </SelectItem>
+                ))}
+              </SelectContent>
                 </Select>
                 <FormMessage />
               </FormItem>
@@ -235,9 +331,9 @@ export const BusinessProfile: React.FC<BusinessProfileProps> = ({
             render={({ field }) => (
               <FormItem>
                 <FormLabel>Business Email</FormLabel>
-                <FormControl>
-                  <Input type="email" {...field} />
-                </FormControl>
+              <FormControl>
+                <Input type="email" {...field} className="w-full" />
+              </FormControl>
                 <FormMessage />
               </FormItem>
             )}
@@ -250,7 +346,7 @@ export const BusinessProfile: React.FC<BusinessProfileProps> = ({
               <FormItem>
                 <FormLabel>Phone Number</FormLabel>
                 <FormControl>
-                  <Input {...field} />
+                  <Input {...field} className="w-full" />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -263,9 +359,9 @@ export const BusinessProfile: React.FC<BusinessProfileProps> = ({
             render={({ field }) => (
               <FormItem>
                 <FormLabel>Website</FormLabel>
-                <FormControl>
-                  <Input type="url" {...field} />
-                </FormControl>
+              <FormControl>
+                <Input type="url" {...field} className="w-full" />
+              </FormControl>
                 <FormMessage />
               </FormItem>
             )}
@@ -277,9 +373,9 @@ export const BusinessProfile: React.FC<BusinessProfileProps> = ({
             render={({ field }) => (
               <FormItem>
                 <FormLabel>Address</FormLabel>
-                <FormControl>
-                  <Input {...field} />
-                </FormControl>
+              <FormControl>
+                <Input {...field} className="w-full" />
+              </FormControl>
                 <FormMessage />
               </FormItem>
             )}
@@ -360,7 +456,7 @@ export const BusinessProfile: React.FC<BusinessProfileProps> = ({
               <FormItem>
                 <FormLabel>State/Province</FormLabel>
                 <FormControl>
-                  <Input {...field} />
+                  <Input {...field} className="w-full" />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -374,7 +470,7 @@ export const BusinessProfile: React.FC<BusinessProfileProps> = ({
               <FormItem>
                 <FormLabel>Postal Code / Zip Code</FormLabel>
                 <FormControl>
-                  <Input {...field} />
+                  <Input {...field} className="w-full" />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -393,6 +489,7 @@ export const BusinessProfile: React.FC<BusinessProfileProps> = ({
                   {...field} 
                   rows={4}
                   placeholder="Describe your business, services, and what makes you unique..."
+                  className="w-full"
                 />
               </FormControl>
               <FormMessage />
@@ -413,6 +510,7 @@ export const BusinessProfile: React.FC<BusinessProfileProps> = ({
                     <Input 
                       {...field} 
                       placeholder="https://facebook.com/yourpage"
+                      className="w-full"
                     />
                   </FormControl>
                   <FormMessage />
@@ -430,6 +528,7 @@ export const BusinessProfile: React.FC<BusinessProfileProps> = ({
                     <Input 
                       {...field} 
                       placeholder="https://instagram.com/youraccount"
+                      className="w-full"
                     />
                   </FormControl>
                   <FormMessage />
@@ -447,6 +546,7 @@ export const BusinessProfile: React.FC<BusinessProfileProps> = ({
                     <Input 
                       {...field} 
                       placeholder="https://twitter.com/youraccount"
+                      className="w-full"
                     />
                   </FormControl>
                   <FormMessage />
@@ -464,6 +564,7 @@ export const BusinessProfile: React.FC<BusinessProfileProps> = ({
                     <Input 
                       {...field} 
                       placeholder="https://linkedin.com/company/yourcompany"
+                      className="w-full"
                     />
                   </FormControl>
                   <FormMessage />
@@ -479,9 +580,19 @@ export const BusinessProfile: React.FC<BusinessProfileProps> = ({
           onBusinessHoursChange={setBusinessHours}
         />
 
-        <Button type="submit" disabled={loading} className="w-full">
-          {loading ? "Saving..." : business ? "Update Profile" : "Create Profile"}
-        </Button>
+        <div className="flex gap-3">
+          <Button 
+            type="button" 
+            variant="outline" 
+            onClick={() => setShowPreview(true)}
+            className="flex-1"
+          >
+            Preview Profile
+          </Button>
+          <Button type="submit" disabled={loading} className="flex-1">
+            {loading ? "Saving..." : business ? "Update Profile" : "Create Profile"}
+          </Button>
+        </div>
       </form>
     </Form>
     </div>
