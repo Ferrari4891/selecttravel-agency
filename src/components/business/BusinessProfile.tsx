@@ -277,21 +277,21 @@ export const BusinessProfile: React.FC<BusinessProfileProps> = ({
           
           <div className="w-full space-y-8">
             {/* Business Header */}
-            <div className="text-center pb-6 border-b">
+            <div className="text-center pb-6 border-b border-dotted border-border">
               <div className="mb-1">
-                <p className="text-sm font-medium text-muted-foreground uppercase tracking-wide">Business Name</p>
+                <p className="text-sm font-medium text-black uppercase tracking-wide">Business Name</p>
                 <h3 className="text-2xl sm:text-3xl font-bold">{formData.business_name || 'Business Name'}</h3>
               </div>
               <div>
-                <p className="text-sm font-medium text-muted-foreground uppercase tracking-wide">Business Type</p>
+                <p className="text-sm font-medium text-black uppercase tracking-wide">Business Type</p>
                 <p className="text-lg sm:text-xl text-foreground">{formData.business_type || 'Business Type'}</p>
               </div>
             </div>
             
             {/* Business Images */}
             {(formData.image_1_url || formData.image_2_url || formData.image_3_url) && (
-              <div className="space-y-4">
-                <p className="text-sm font-medium text-muted-foreground uppercase tracking-wide">Business Photos</p>
+              <div className="space-y-4 pb-6 border-b border-dotted border-border">
+                <p className="text-sm font-medium text-black uppercase tracking-wide">Business Photos</p>
                 <div className="space-y-4">
                   {formData.image_1_url && (
                     <div className="w-full aspect-video rounded-lg overflow-hidden">
@@ -314,15 +314,15 @@ export const BusinessProfile: React.FC<BusinessProfileProps> = ({
             
             {/* About Section */}
             {formData.description && (
-              <div className="space-y-2">
-                <p className="text-sm font-medium text-muted-foreground uppercase tracking-wide">About</p>
+              <div className="space-y-2 pb-6 border-b border-dotted border-border">
+                <p className="text-sm font-medium text-black uppercase tracking-wide">About</p>
                 <p className="text-foreground leading-relaxed">{formData.description}</p>
               </div>
             )}
             
             {/* Contact Information */}
-            <div className="space-y-4">
-              <p className="text-sm font-medium text-muted-foreground uppercase tracking-wide">Contact Information</p>
+            <div className="space-y-4 pb-6 border-b border-dotted border-border">
+              <p className="text-sm font-medium text-black uppercase tracking-wide">Contact Information</p>
               <div className="space-y-3">
                 {formData.email && (
                   <div>
@@ -346,8 +346,8 @@ export const BusinessProfile: React.FC<BusinessProfileProps> = ({
             </div>
             
             {/* Location */}
-            <div className="space-y-2">
-              <p className="text-sm font-medium text-muted-foreground uppercase tracking-wide">Location</p>
+            <div className="space-y-2 pb-6 border-b border-dotted border-border">
+              <p className="text-sm font-medium text-black uppercase tracking-wide">Location</p>
               <div className="text-foreground space-y-1">
                 {formData.address && <p>{formData.address}</p>}
                 <p>{formData.city}{formData.state && `, ${formData.state}`}</p>
@@ -356,8 +356,8 @@ export const BusinessProfile: React.FC<BusinessProfileProps> = ({
             </div>
             
             {/* Business Hours */}
-            <div className="space-y-2">
-              <p className="text-sm font-medium text-muted-foreground uppercase tracking-wide">Business Hours</p>
+            <div className="space-y-2 pb-6 border-b border-dotted border-border">
+              <p className="text-sm font-medium text-black uppercase tracking-wide">Business Hours</p>
               <div className="text-sm text-foreground whitespace-pre-wrap font-sans">
                 {formatBusinessHours(businessHours)}
               </div>
@@ -366,7 +366,7 @@ export const BusinessProfile: React.FC<BusinessProfileProps> = ({
             {/* Social Media */}
             {(formData.facebook || formData.instagram || formData.twitter || formData.linkedin) && (
               <div className="space-y-4">
-                <p className="text-sm font-medium text-muted-foreground uppercase tracking-wide">Social Media</p>
+                <p className="text-sm font-medium text-black uppercase tracking-wide">Social Media</p>
                 <div className="space-y-3">
                   {formData.facebook && (
                     <div>
