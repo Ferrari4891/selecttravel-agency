@@ -15,7 +15,7 @@ import { BusinessHours } from './BusinessHours';
 const businessSchema = z.object({
   business_name: z.string().min(1, 'Business name is required'),
   business_type: z.string().min(1, 'Business type is required'),
-  description: z.string().optional(),
+  description: z.string().max(180, 'Description must be 180 characters or less').optional(),
   website: z.string().url().optional().or(z.literal('')),
   phone: z.string().optional(),
   email: z.string().email().optional().or(z.literal('')),
@@ -213,57 +213,55 @@ export const BusinessProfile: React.FC<BusinessProfileProps> = ({
             </Button>
           </div>
           
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <div className="space-y-4">
+          <div className="space-y-6">
+            <div>
+              <h3 className="font-semibold text-2xl mb-2">{formData.business_name || 'Business Name'}</h3>
+              <p className="text-muted-foreground text-lg mb-4">{formData.business_type || 'Business Type'}</p>
+            </div>
+            
+            {formData.description && (
               <div>
-                <h3 className="font-semibold text-lg">{formData.business_name || 'Business Name'}</h3>
-                <p className="text-muted-foreground">{formData.business_type || 'Business Type'}</p>
+                <h4 className="font-medium text-lg mb-2">About</h4>
+                <p className="text-muted-foreground">{formData.description}</p>
               </div>
-              
-              {formData.description && (
-                <div>
-                  <h4 className="font-medium">About</h4>
-                  <p className="text-sm text-muted-foreground">{formData.description}</p>
-                </div>
-              )}
-              
-              <div className="space-y-2">
-                <h4 className="font-medium">Contact Information</h4>
-                {formData.email && <p className="text-sm">Email: {formData.email}</p>}
-                {formData.phone && <p className="text-sm">Phone: {formData.phone}</p>}
-                {formData.website && <p className="text-sm">Website: {formData.website}</p>}
+            )}
+            
+            <div className="space-y-3">
+              <h4 className="font-medium text-lg">Contact Information</h4>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-3 text-sm">
+                {formData.email && <p>Email: {formData.email}</p>}
+                {formData.phone && <p>Phone: {formData.phone}</p>}
+                {formData.website && <p>Website: {formData.website}</p>}
               </div>
             </div>
             
-            <div className="space-y-4">
-              <div>
-                <h4 className="font-medium">Location</h4>
-                <div className="text-sm space-y-1">
-                  {formData.address && <p>{formData.address}</p>}
-                  <p>{formData.city}{formData.state && `, ${formData.state}`}</p>
-                  <p>{formData.country} {formData.postal_code}</p>
-                </div>
+            <div className="space-y-3">
+              <h4 className="font-medium text-lg">Location</h4>
+              <div className="text-sm space-y-1">
+                {formData.address && <p>{formData.address}</p>}
+                <p>{formData.city}{formData.state && `, ${formData.state}`}</p>
+                <p>{formData.country} {formData.postal_code}</p>
               </div>
-              
-              <div>
-                <h4 className="font-medium">Business Hours</h4>
-                <pre className="text-sm text-muted-foreground whitespace-pre-wrap">
-                  {formatBusinessHours(businessHours)}
-                </pre>
-              </div>
-              
-              {(formData.facebook || formData.instagram || formData.twitter || formData.linkedin) && (
-                <div>
-                  <h4 className="font-medium">Social Media</h4>
-                  <div className="text-sm space-y-1">
-                    {formData.facebook && <p>Facebook: {formData.facebook}</p>}
-                    {formData.instagram && <p>Instagram: {formData.instagram}</p>}
-                    {formData.twitter && <p>Twitter: {formData.twitter}</p>}
-                    {formData.linkedin && <p>LinkedIn: {formData.linkedin}</p>}
-                  </div>
-                </div>
-              )}
             </div>
+            
+            <div className="space-y-3">
+              <h4 className="font-medium text-lg">Business Hours</h4>
+              <pre className="text-sm text-muted-foreground whitespace-pre-wrap">
+                {formatBusinessHours(businessHours)}
+              </pre>
+            </div>
+            
+            {(formData.facebook || formData.instagram || formData.twitter || formData.linkedin) && (
+              <div className="space-y-3">
+                <h4 className="font-medium text-lg">Social Media</h4>
+                <div className="text-sm space-y-1">
+                  {formData.facebook && <p>Facebook: {formData.facebook}</p>}
+                  {formData.instagram && <p>Instagram: {formData.instagram}</p>}
+                  {formData.twitter && <p>Twitter: {formData.twitter}</p>}
+                  {formData.linkedin && <p>LinkedIn: {formData.linkedin}</p>}
+                </div>
+              </div>
+            )}
           </div>
           
           <div className="pt-6 border-t">
@@ -488,10 +486,14 @@ export const BusinessProfile: React.FC<BusinessProfileProps> = ({
                 <Textarea 
                   {...field} 
                   rows={4}
-                  placeholder="Describe your business, services, and what makes you unique..."
+                  maxLength={180}
+                  placeholder="Describe your business, services, and what makes you unique... (max 180 characters)"
                   className="w-full"
                 />
               </FormControl>
+              <div className="text-xs text-muted-foreground text-right">
+                {field.value?.length || 0}/180 characters
+              </div>
               <FormMessage />
             </FormItem>
           )}
