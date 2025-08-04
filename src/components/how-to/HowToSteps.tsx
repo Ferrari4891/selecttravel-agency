@@ -7,7 +7,7 @@ const HowToSteps = () => {
           <Search className="h-5 w-5" />
           Getting Started
         </CardTitle>
-        <CardDescription>Follow these simple steps to get your customized list of top-rated businesses in your chosen city</CardDescription>
+        <CardDescription>Follow these simple steps to get your customized list of top-rated businesses in your chosen city. </CardDescription>
       </CardHeader>
       <CardContent>
         <div className="space-y-6">
