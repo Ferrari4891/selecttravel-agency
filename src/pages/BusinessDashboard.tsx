@@ -71,21 +71,24 @@ const Dashboard = () => {
   return <div className="min-h-screen bg-background">
       <header className="bg-white shadow-sm border-b-8 border-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center py-4 sm:py-6 gap-4">
-            <div className="flex flex-col gap-2">
-              <h1 className="text-xl sm:text-2xl lg:text-3xl font-bold text-gray-900">
-                Business Dashboard
-              </h1>
-              <Button variant="outline" size="sm" className="w-fit" onClick={() => navigate('/')}>
+          <div className="py-4 sm:py-6 space-y-3">
+            {/* Main heading spanning full width */}
+            <h1 className="text-xl sm:text-2xl lg:text-3xl font-bold text-gray-900">
+              Business Dashboard
+            </h1>
+            
+            {/* Welcome message on second line */}
+            <p className="text-sm text-gray-600">
+              Welcome, {user?.email}
+            </p>
+            
+            {/* Buttons on third line */}
+            <div className="flex gap-3">
+              <Button variant="outline" size="sm" onClick={() => navigate('/')}>
                 <Home className="h-4 w-4 mr-2" />
                 Home
               </Button>
-            </div>
-            <div className="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-4">
-              <span className="text-xs sm:text-sm text-gray-600">
-                Welcome, {user?.email}
-              </span>
-              <Button onClick={signOut} variant="outline" size="sm" className="w-fit">
+              <Button onClick={signOut} variant="outline" size="sm">
                 Sign Out
               </Button>
             </div>
