@@ -82,9 +82,9 @@ export const BusinessHours: React.FC<BusinessHoursProps> = ({
                     <SelectTrigger className="w-16 h-5 text-xs">
                       <SelectValue />
                     </SelectTrigger>
-                    <SelectContent className="w-20">
+                    <SelectContent className="w-20 max-h-48 overflow-y-auto z-50 bg-popover border shadow-md">
                       {TIME_OPTIONS.map(time => (
-                        <SelectItem key={time} value={time} className="text-xs">
+                        <SelectItem key={time} value={time} className="text-xs py-1.5 cursor-pointer hover:bg-accent">
                           {time}
                         </SelectItem>
                       ))}
@@ -98,9 +98,9 @@ export const BusinessHours: React.FC<BusinessHoursProps> = ({
                     <SelectTrigger className="w-16 h-5 text-xs">
                       <SelectValue />
                     </SelectTrigger>
-                    <SelectContent className="w-20">
+                    <SelectContent className="w-20 max-h-48 overflow-y-auto z-50 bg-popover border shadow-md">
                       {TIME_OPTIONS.map(time => (
-                        <SelectItem key={time} value={time} className="text-xs">
+                        <SelectItem key={time} value={time} className="text-xs py-1.5 cursor-pointer hover:bg-accent">
                           {time}
                         </SelectItem>
                       ))}
