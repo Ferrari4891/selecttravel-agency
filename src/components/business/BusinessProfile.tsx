@@ -198,14 +198,14 @@ export const BusinessProfile: React.FC<BusinessProfileProps> = ({
 
   const formatBusinessHours = (hours: Record<string, any>) => {
     const days = ['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday'];
-    const dayNames = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
+    const dayNames = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
     
     return days.map((day, index) => {
       const dayHours = hours[day];
       if (dayHours?.closed) {
         return `${dayNames[index]}: Closed`;
       }
-      return `${dayNames[index]}: ${dayHours?.open || '09:00'} - ${dayHours?.close || '17:00'}`;
+      return `${dayNames[index]}: ${dayHours?.open || '9:00 AM'} - ${dayHours?.close || '5:00 PM'}`;
     }).join('\n');
   };
 
@@ -268,8 +268,8 @@ export const BusinessProfile: React.FC<BusinessProfileProps> = ({
   if (showPreview) {
     const formData = getCurrentFormValues();
     return (
-      <div className="w-full mx-auto px-2 sm:px-4">
-        <div className="bg-card border rounded-lg p-6 sm:p-8 lg:p-12">
+      <div className="w-full max-w-none mx-auto px-2 sm:px-4">
+        <div className="bg-card border rounded-lg p-6 sm:p-8 lg:p-16 max-w-none">
           <div className="mb-6">
             <h2 className="text-2xl font-bold mb-2">Business Profile Preview</h2>
             <p className="text-muted-foreground">Review your business profile before publishing</p>
