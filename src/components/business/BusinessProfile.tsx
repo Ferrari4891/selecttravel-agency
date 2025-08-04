@@ -268,8 +268,8 @@ export const BusinessProfile: React.FC<BusinessProfileProps> = ({
   if (showPreview) {
     const formData = getCurrentFormValues();
     return (
-      <div className="w-full max-w-none mx-auto px-4">
-        <div className="bg-card border rounded-lg p-4 sm:p-6 lg:p-8">
+      <div className="w-full max-w-7xl mx-auto px-2 sm:px-4">
+        <div className="bg-card border rounded-lg p-6 sm:p-8 lg:p-12">
           <div className="mb-6">
             <h2 className="text-2xl font-bold mb-2">Business Profile Preview</h2>
             <p className="text-muted-foreground">Review your business profile before publishing</p>
