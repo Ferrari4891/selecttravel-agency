@@ -66,10 +66,11 @@ export const BusinessHours: React.FC<BusinessHoursProps> = ({
                 {label}
               </div>
               
-              <div className="flex items-center gap-2 flex-shrink-0">
+              <div className="flex items-center gap-1 flex-shrink-0">
                 <Checkbox
                   checked={dayHours.closed}
                   onCheckedChange={(checked) => updateDayHours(key, 'closed', checked)}
+                  className="h-3 w-3"
                 />
                 <span className="text-xs text-muted-foreground">Closed</span>
               </div>
