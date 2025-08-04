@@ -399,18 +399,18 @@ export const BusinessProfile: React.FC<BusinessProfileProps> = ({
           
           {/* Action Buttons */}
           <div className="pt-8 border-t mt-8">
-            <div className="flex flex-col sm:flex-row gap-3">
+            <div className="flex flex-row gap-3 justify-center">
               <Button 
                 variant="outline" 
                 onClick={() => setShowPreview(false)}
-                className="flex-1 sm:flex-none sm:w-auto"
+                className="w-auto px-6"
               >
                 Edit Profile
               </Button>
               <Button 
                 onClick={form.handleSubmit(onSubmit)} 
                 disabled={loading} 
-                className="flex-1"
+                className="w-auto px-6"
                 size="lg"
               >
                 {loading ? "Saving..." : business ? "Update Profile" : "Create Profile"}
