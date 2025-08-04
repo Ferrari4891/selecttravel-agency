@@ -98,10 +98,10 @@ const Dashboard = () => {
 
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         {!business ? <Card className="border shadow-md">
-            <CardHeader>
-              <CardTitle>Create Your Business Profile.</CardTitle>
-              <CardDescription>
-                Get started by setting up your business profile to access all features.
+            <CardHeader className="text-center space-y-4 pb-6">
+              <CardTitle className="text-2xl font-bold text-foreground">Create Your Business Profile</CardTitle>
+              <CardDescription className="text-base leading-relaxed max-w-2xl mx-auto">
+                Get started by setting up your comprehensive business profile to unlock all platform features and maximize your business potential.
               </CardDescription>
             </CardHeader>
             <CardContent>
