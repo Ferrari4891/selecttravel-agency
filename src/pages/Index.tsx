@@ -644,7 +644,7 @@ const Index: React.FC = () => {
                           <SelectValue placeholder="Select number..." />
                         </SelectTrigger>
                         <SelectContent className="bg-white border-2 border-gray-300 rounded-none max-h-40 overflow-y-auto z-[300] shadow-lg">
-                          {[1, 5, 10, 20, 30, 40, 50].map((count) => (
+                          {[1, 5, 10].map((count) => (
                             <SelectItem key={count} value={count.toString()} className="text-sm py-2 rounded-none hover:bg-gray-100">
                               {count} result{count > 1 ? 's' : ''}
                             </SelectItem>

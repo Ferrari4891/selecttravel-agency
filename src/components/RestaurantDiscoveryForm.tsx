@@ -480,9 +480,8 @@ export const RestaurantDiscoveryForm = ({ onSelectionChange }: RestaurantDiscove
                         </SelectTrigger>
                         <SelectContent>
                           <SelectItem value="1">1 Result</SelectItem>
-                          <SelectItem value="3">3 Results</SelectItem>
+                          <SelectItem value="5">5 Results</SelectItem>
                           <SelectItem value="10">10 Results</SelectItem>
-                          <SelectItem value="20">20 Results</SelectItem>
                         </SelectContent>
                       </Select>
                     </div>
