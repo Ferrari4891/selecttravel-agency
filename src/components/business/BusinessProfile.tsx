@@ -42,7 +42,7 @@ interface BusinessProfileProps {
 }
 
 const businessTypes = [
-  'Eat', 'Stay', 'Drink', 'Shop', 'Play'
+  'Eat', 'Drink', 'Shop'
 ];
 
 const countries = [

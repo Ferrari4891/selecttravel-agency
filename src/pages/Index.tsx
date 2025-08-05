@@ -66,8 +66,6 @@ const Index: React.FC = () => {
   const categories = [
     { value: 'eat', label: 'Eat', icon: Utensils },
     { value: 'drink', label: 'Drink', icon: Coffee },
-    { value: 'stay', label: 'Stay', icon: Bed },
-    { value: 'play', label: 'Play', icon: Gamepad2 },
   ];
 
   const regions = Object.keys(regionData);

@@ -70,9 +70,7 @@ export const MobileRestaurantForm = ({ onSelectionChange }: MobileRestaurantForm
 
   const categories = [
     { name: 'Eat', icon: eatIcon },
-    { name: 'Stay', icon: stayIcon },
-    { name: 'Drink', icon: drinkIcon },
-    { name: 'Play', icon: playIcon }
+    { name: 'Drink', icon: drinkIcon }
   ];
 
   const regions = Object.keys(regionData);

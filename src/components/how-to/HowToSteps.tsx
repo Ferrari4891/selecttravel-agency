@@ -18,7 +18,7 @@ const HowToSteps = () => {
             <div>
               <h3 className="font-semibold mb-2">Select Category</h3>
               <p className="text-muted-foreground">
-                Choose what you're looking for from our available categories: Eat, Drink, Stay, or Play. Each category is tailored to help you discover the best local experiences.
+                Choose what you're looking for from our available categories: Eat or Drink. Each category is tailored to help you discover the best local experiences.
               </p>
             </div>
           </div>

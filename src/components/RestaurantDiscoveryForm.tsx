@@ -73,14 +73,8 @@ export const RestaurantDiscoveryForm = ({ onSelectionChange }: RestaurantDiscove
     name: 'Eat',
     icon: eatIcon
   }, {
-    name: 'Stay',
-    icon: stayIcon
-  }, {
     name: 'Drink',
     icon: drinkIcon
-  }, {
-    name: 'Play',
-    icon: playIcon
   }];
   const regions = Object.keys(regionData);
   const countries = selectedRegion ? regionData[selectedRegion as keyof typeof regionData]?.countries || [] : [];
