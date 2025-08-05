@@ -357,15 +357,6 @@ export const RestaurantDiscoveryForm = ({ onSelectionChange }: RestaurantDiscove
   };
   return <div className={`min-h-screen bg-background ${getThemeClass()}`}>
       <div className="w-full sm:max-w-2xl md:max-w-4xl lg:max-w-6xl mx-auto space-y-8 p-4 sm:p-6 bg-background">
-        {/* Logo at top */}
-        <div className="flex justify-center items-center pt-4 pb-2">
-          <img 
-            src="/lovable-uploads/logo-white.png" 
-            alt="Seniors Travel Agency" 
-            className="h-16 object-contain"
-          />
-        </div>
-        
         <Card className="shadow-elegant">
           <CardHeader className="bg-background">
             <CardTitle className="flex items-center gap-2 text-5xl font-bold text-foreground">
