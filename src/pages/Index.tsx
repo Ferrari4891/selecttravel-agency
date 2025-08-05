@@ -441,6 +441,15 @@ const Index: React.FC = () => {
         
         {/* Main content area */}
         <div className="relative z-10 h-full flex flex-col">
+          {/* Logo at top */}
+          <div className="flex-shrink-0 flex justify-center items-center pt-4 pb-2">
+            <img 
+              src="/lovable-uploads/logo-white.png" 
+              alt="Seniors Travel Agency" 
+              className="h-16 object-contain"
+            />
+          </div>
+          
           {/* Top Section - Title */}
           <div className="flex-shrink-0 flex flex-col justify-center items-center text-center px-4 py-8 mt-16">
             {selectedCity && cityImages[selectedCity] && (

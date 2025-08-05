@@ -336,8 +336,17 @@ export const MobileRestaurantForm = ({ onSelectionChange }: MobileRestaurantForm
           <Navigation />
         </div>
 
+        {/* Logo section */}
+        <div className="absolute top-20 left-0 right-0 z-40 flex justify-center pt-4">
+          <img 
+            src="/lovable-uploads/logo-white.png" 
+            alt="Seniors Travel Agency" 
+            className="h-16 object-contain"
+          />
+        </div>
+
         {/* Selection form overlay */}
-        <div className="absolute inset-0 flex items-center justify-center p-4 pt-20">
+        <div className="absolute inset-0 flex items-center justify-center p-4 pt-40">
           <Card className="w-full max-w-md bg-white/95 backdrop-blur-sm">
             <CardHeader>
               <CardTitle className="flex items-center gap-2 text-2xl font-bold text-center">
