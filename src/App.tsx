@@ -25,6 +25,7 @@ import UserDashboard from "./pages/UserDashboard";
 import Auth from "./pages/Auth";
 import Collections from "./pages/Collections";
 import SharedCollection from "./pages/SharedCollection";
+import { RSVP } from "./pages/RSVP";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -82,6 +83,7 @@ const App = () => (
                         } 
                       />
                       <Route path="/shared/:token" element={<SharedCollection />} />
+                      <Route path="/rsvp/:token" element={<RSVP />} />
                       {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
                       <Route path="*" element={<NotFound />} />
                     </Routes>

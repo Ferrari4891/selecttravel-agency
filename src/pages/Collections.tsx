@@ -30,7 +30,8 @@ import {
 } from '@/components/ui/alert-dialog';
 import { Label } from '@/components/ui/label';
 import { Switch } from '@/components/ui/switch';
-import { Plus, Share2, Trash2, Eye, MapPin, Phone, Globe, Star } from 'lucide-react';
+import { Plus, Share2, Trash2, Eye, MapPin, Phone, Globe, Star, Users } from 'lucide-react';
+import { CreateInvitationDialog } from '@/components/CreateInvitationDialog';
 
 interface Collection {
   id: string;
@@ -64,6 +65,8 @@ const Collections: React.FC = () => {
   const [newCollectionDescription, setNewCollectionDescription] = useState('');
   const [newCollectionIsPublic, setNewCollectionIsPublic] = useState(false);
   const [isCreating, setIsCreating] = useState(false);
+  const [invitationDialogOpen, setInvitationDialogOpen] = useState(false);
+  const [selectedRestaurant, setSelectedRestaurant] = useState<SavedRestaurant | null>(null);
 
   useEffect(() => {
     if (user) {
@@ -511,6 +514,17 @@ const Collections: React.FC = () => {
                                         </a>
                                       </Button>
                                     )}
+                                    <Button 
+                                      size="sm" 
+                                      variant="outline"
+                                      onClick={() => {
+                                        setSelectedRestaurant(restaurant);
+                                        setInvitationDialogOpen(true);
+                                      }}
+                                    >
+                                      <Users className="w-4 h-4 mr-2" />
+                                      Invite Friends
+                                    </Button>
                                   </div>
                                 </div>
                               )}
@@ -534,6 +548,15 @@ const Collections: React.FC = () => {
         </div>
 
         <Footer />
+        
+        {/* Invitation Dialog */}
+        {selectedRestaurant && (
+          <CreateInvitationDialog
+            open={invitationDialogOpen}
+            onOpenChange={setInvitationDialogOpen}
+            restaurant={selectedRestaurant}
+          />
+        )}
       </div>
     </ProtectedRoute>
   );

@@ -260,6 +260,100 @@ export type Database = {
         }
         Relationships: []
       }
+      group_invitations: {
+        Row: {
+          created_at: string
+          creator_id: string
+          custom_message: string | null
+          group_name: string
+          id: string
+          invite_token: string
+          proposed_date: string
+          rsvp_deadline: string
+          saved_restaurant_id: string
+          status: string
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          creator_id: string
+          custom_message?: string | null
+          group_name: string
+          id?: string
+          invite_token?: string
+          proposed_date: string
+          rsvp_deadline: string
+          saved_restaurant_id: string
+          status?: string
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          creator_id?: string
+          custom_message?: string | null
+          group_name?: string
+          id?: string
+          invite_token?: string
+          proposed_date?: string
+          rsvp_deadline?: string
+          saved_restaurant_id?: string
+          status?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "fk_saved_restaurant"
+            columns: ["saved_restaurant_id"]
+            isOneToOne: false
+            referencedRelation: "saved_restaurants"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      invitation_rsvps: {
+        Row: {
+          created_at: string
+          guest_count: number | null
+          id: string
+          invitation_id: string
+          invitee_email: string
+          invitee_user_id: string | null
+          responded_at: string | null
+          response: string | null
+          response_message: string | null
+        }
+        Insert: {
+          created_at?: string
+          guest_count?: number | null
+          id?: string
+          invitation_id: string
+          invitee_email: string
+          invitee_user_id?: string | null
+          responded_at?: string | null
+          response?: string | null
+          response_message?: string | null
+        }
+        Update: {
+          created_at?: string
+          guest_count?: number | null
+          id?: string
+          invitation_id?: string
+          invitee_email?: string
+          invitee_user_id?: string | null
+          responded_at?: string | null
+          response?: string | null
+          response_message?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "fk_invitation"
+            columns: ["invitation_id"]
+            isOneToOne: false
+            referencedRelation: "group_invitations"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       profiles: {
         Row: {
           age_group: string | null
