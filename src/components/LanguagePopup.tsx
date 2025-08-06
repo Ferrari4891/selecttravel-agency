@@ -65,12 +65,12 @@ export const LanguagePopup: React.FC<LanguagePopupProps> = ({ open, onClose }) =
               {t('welcome')}
             </DialogTitle>
             <Button
-              variant="ghost"
+              variant="outline"
               size="lg"
               onClick={onClose}
-              className="h-10 w-10 p-0 hover:bg-gray-100"
+              className="h-12 w-12 p-0 border-2 hover:bg-gray-100 sm:h-10 sm:w-10"
             >
-              <X className="h-6 w-6" />
+              <X className="h-8 w-8 sm:h-6 sm:w-6" />
             </Button>
           </div>
         </DialogHeader>
