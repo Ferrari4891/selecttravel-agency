@@ -96,7 +96,7 @@ const AudioPlayer = ({ src, className = "" }: AudioPlayerProps) => {
       <Button
         onClick={togglePlayback}
         disabled={isLoading || !audioUrl}
-        variant="outline"
+        variant="audio"
         size="sm"
         className="flex items-center gap-2"
       >
