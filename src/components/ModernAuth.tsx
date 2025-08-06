@@ -154,7 +154,7 @@ const ModernAuth: React.FC<ModernAuthProps> = ({
     <div className="min-h-screen bg-gradient-to-br from-slate-50 to-slate-100 flex items-center justify-center p-4">
       <Card className="w-full max-w-lg shadow-2xl border-0 bg-white">
         <CardHeader className="text-center pb-6">
-          <CardTitle className="text-3xl font-bold text-gray-900 mb-2">
+          <CardTitle className="text-2xl font-bold text-gray-900 mb-2">
             It's FREE! to join seniorstravelagency.com
           </CardTitle>
           <CardDescription className="text-lg text-gray-600">
