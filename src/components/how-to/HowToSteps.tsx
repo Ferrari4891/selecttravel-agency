@@ -1,5 +1,6 @@
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Search } from "lucide-react";
+import AudioPlayer from "@/components/AudioPlayer";
 const HowToSteps = () => {
   return <Card>
       <CardHeader>
@@ -68,6 +69,9 @@ const HowToSteps = () => {
               <p className="text-muted-foreground">Select how many businesses you want to see from the drop down menu or enter your own amount, then click the search button to generate your customized list of top-rated businesses with 3+ star ratings.</p>
             </div>
           </div>
+        </div>
+        <div className="mt-6 pt-4 border-t">
+          <AudioPlayer src="how-to-getting-started.wav" className="w-full" />
         </div>
       </CardContent>
     </Card>;

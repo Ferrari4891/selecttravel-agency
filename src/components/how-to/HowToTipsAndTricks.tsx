@@ -1,4 +1,5 @@
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import AudioPlayer from "@/components/AudioPlayer";
 
 const HowToTipsAndTricks = () => {
   return (
@@ -22,6 +23,9 @@ const HowToTipsAndTricks = () => {
               ></iframe>
             </div>
           </div>
+        </div>
+        <div className="mt-6 pt-4 border-t">
+          <AudioPlayer src="how-to-video-tutorial.wav" className="w-full" />
         </div>
       </CardContent>
     </Card>

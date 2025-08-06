@@ -1,5 +1,6 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Star, Download } from "lucide-react";
+import AudioPlayer from "@/components/AudioPlayer";
 const HowToFeatures = () => {
   return <div className="space-y-6">
       <Card>
@@ -32,6 +33,9 @@ const HowToFeatures = () => {
               <span>High-quality images showcase the business</span>
             </li>
           </ul>
+          <div className="mt-6 pt-4 border-t">
+            <AudioPlayer src="how-to-understanding-results.wav" className="w-full" />
+          </div>
         </CardContent>
       </Card>
 
@@ -65,6 +69,9 @@ const HowToFeatures = () => {
                 <span>Share with friends, family, or travel companions</span>
               </li>
             </ul>
+          </div>
+          <div className="mt-6 pt-4 border-t">
+            <AudioPlayer src="how-to-exporting-results.wav" className="w-full" />
           </div>
         </CardContent>
       </Card>

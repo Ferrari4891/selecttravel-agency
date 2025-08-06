@@ -1,5 +1,6 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { MapPin } from "lucide-react";
+import AudioPlayer from "@/components/AudioPlayer";
 const HowToTips = () => {
   return <Card className="text-foreground font-extrabold">
       <CardHeader>
@@ -28,6 +29,9 @@ const HowToTips = () => {
               <li>• Share your experience with others</li>
             </ul>
           </div>
+        </div>
+        <div className="mt-6 pt-4 border-t">
+          <AudioPlayer src="how-to-tips-and-tricks.wav" className="w-full" />
         </div>
       </CardContent>
     </Card>;
