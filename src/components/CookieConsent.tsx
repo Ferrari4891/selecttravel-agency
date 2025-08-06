@@ -40,7 +40,7 @@ export const CookieConsent: React.FC<CookieConsentProps> = ({ onClose }) => {
             {t('cookie_consent_description')}
           </p>
           
-          <div className="flex flex-col sm:flex-row gap-3 justify-end">
+          <div className="flex flex-col gap-3 justify-end">
             <Button variant="outline" onClick={handleDeclineNonEssential}>
               {t('decline_non_essential')}
             </Button>
