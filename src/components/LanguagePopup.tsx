@@ -58,19 +58,19 @@ export const LanguagePopup: React.FC<LanguagePopupProps> = ({ open, onClose }) =
 
   return (
     <Dialog open={open} onOpenChange={onClose}>
-      <DialogContent className="sm:max-w-md">
+      <DialogContent className="sm:max-w-md [&>button]:hidden">
         <DialogHeader>
           <div className="flex items-center justify-between">
-            <DialogTitle className="text-2xl font-bold flex-1 text-center">
+            <DialogTitle className="text-2xl font-bold flex-1">
               {t('welcome')}
             </DialogTitle>
             <Button
               variant="ghost"
-              size="sm"
+              size="lg"
               onClick={onClose}
-              className="h-6 w-6 p-0"
+              className="h-10 w-10 p-0 hover:bg-gray-100"
             >
-              <X className="h-4 w-4" />
+              <X className="h-6 w-6" />
             </Button>
           </div>
         </DialogHeader>
