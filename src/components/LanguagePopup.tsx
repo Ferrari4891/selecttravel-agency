@@ -7,6 +7,7 @@ import { Checkbox } from '@/components/ui/checkbox';
 import { setLanguagePreference, setHideLangPopup, shouldShowLangPopup } from '@/utils/cookies';
 import { useAuth } from '@/contexts/AuthContext';
 import { supabase } from '@/integrations/supabase/client';
+import { X } from 'lucide-react';
 
 interface LanguagePopupProps {
   open: boolean;
@@ -56,12 +57,22 @@ export const LanguagePopup: React.FC<LanguagePopupProps> = ({ open, onClose }) =
   };
 
   return (
-    <Dialog open={open} onOpenChange={() => {}}>
+    <Dialog open={open} onOpenChange={onClose}>
       <DialogContent className="sm:max-w-md">
         <DialogHeader>
-          <DialogTitle className="text-center text-2xl font-bold">
-            {t('welcome')}
-          </DialogTitle>
+          <div className="flex items-center justify-between">
+            <DialogTitle className="text-2xl font-bold flex-1 text-center">
+              {t('welcome')}
+            </DialogTitle>
+            <Button
+              variant="ghost"
+              size="sm"
+              onClick={onClose}
+              className="h-6 w-6 p-0"
+            >
+              <X className="h-4 w-4" />
+            </Button>
+          </div>
         </DialogHeader>
         
         <div className="space-y-6 p-4">
