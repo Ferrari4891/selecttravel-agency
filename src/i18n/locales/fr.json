@@ -1,0 +1,26 @@
+{
+  "welcome": "Bienvenue ! Choisissez votre langue",
+  "language_popup_description": "Nous aimerions personnaliser votre expérience. Veuillez sélectionner votre langue préférée.",
+  "dont_show_again": "Ne plus afficher ce message",
+  "save_continue": "Enregistrer et Continuer",
+  "cookie_consent_title": "Ce site utilise des cookies",
+  "cookie_consent_description": "Nous utilisons des cookies pour mémoriser vos préférences, améliorer votre expérience et vous montrer du contenu pertinent. Vous pouvez accepter tout, personnaliser ou refuser les cookies non essentiels.",
+  "accept_all": "Tout Accepter",
+  "customize_preferences": "Personnaliser les Préférences",
+  "decline_non_essential": "Refuser les Non Essentiels",
+  "learn_more": "En savoir plus",
+  "languages": {
+    "en": "English",
+    "es": "Español",
+    "fr": "Français",
+    "de": "Deutsch",
+    "ja": "日本語",
+    "zh": "中文"
+  },
+  "main_heading": "LE MEILLEUR GUIDE GASTRONOMIQUE ET VINICOLE AU MONDE CONÇU POUR LES VOYAGEURS SENIORS",
+  "discover_restaurants": "Découvrir des Restaurants",
+  "get_again": "Obtenir à Nouveau",
+  "loading": "Chargement...",
+  "no_results": "Aucun résultat trouvé",
+  "save_to_collection": "Enregistrer dans la Collection"
+}

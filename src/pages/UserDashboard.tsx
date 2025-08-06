@@ -4,8 +4,9 @@ import { supabase } from "@/integrations/supabase/client";
 import { Navigation } from "@/components/Navigation";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Checkbox } from "@/components/ui/checkbox";
-import { LanguageSelector } from "@/components/LanguageSelector";
 import { Button } from "@/components/ui/button";
+import { useLanguage } from "@/contexts/LanguageContext";
+import { useTranslation } from "react-i18next";
 import Footer from "@/components/Footer";
 import { toast } from "sonner";
 import heroImage from "@/assets/hero-members.jpg";
@@ -25,7 +26,8 @@ interface UserPreferences {
 }
 
 const UserDashboard = () => {
-  const { user, signOut } = useAuth();
+const { user, signOut } = useAuth();
+  const { showLanguagePopup } = useLanguage();
   const [preferences, setPreferences] = useState<UserPreferences>({
     wheelchair_access: false,
     extended_hours: false,
@@ -296,7 +298,9 @@ const UserDashboard = () => {
                     <div className="p-4 border rounded-lg bg-gray-50">
                       <div className="flex items-center space-x-4">
                         <span className="text-lg font-medium">🌍 Preferred Language:</span>
-                        <LanguageSelector />
+                        <Button variant="outline" onClick={showLanguagePopup}>
+                          Change Language
+                        </Button>
                       </div>
                     </div>
                   </div>

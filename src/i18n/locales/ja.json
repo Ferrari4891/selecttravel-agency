@@ -1,0 +1,26 @@
+{
+  "welcome": "ようこそ！言語を選択してください",
+  "language_popup_description": "あなたの体験をパーソナライズしたいと思います。希望する言語を選択してください。",
+  "dont_show_again": "このメッセージを再び表示しない",
+  "save_continue": "保存して続行",
+  "cookie_consent_title": "このサイトはクッキーを使用します",
+  "cookie_consent_description": "私たちはクッキーを使用して、あなたの設定を記憶し、体験を向上させ、関連コンテンツを表示します。すべてを受け入れる、カスタマイズする、または非必須クッキーを拒否することができます。",
+  "accept_all": "すべて受け入れる",
+  "customize_preferences": "設定をカスタマイズ",
+  "decline_non_essential": "非必須を拒否",
+  "learn_more": "詳細を見る",
+  "languages": {
+    "en": "English",
+    "es": "Español",
+    "fr": "Français",
+    "de": "Deutsch",
+    "ja": "日本語",
+    "zh": "中文"
+  },
+  "main_heading": "シニア旅行者のための世界最高の食べ物とワインのガイド",
+  "discover_restaurants": "レストランを発見",
+  "get_again": "再取得",
+  "loading": "読み込み中...",
+  "no_results": "結果が見つかりません",
+  "save_to_collection": "コレクションに保存"
+}

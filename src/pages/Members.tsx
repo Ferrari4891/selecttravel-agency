@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { Navigation } from "@/components/Navigation";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Checkbox } from "@/components/ui/checkbox";
-import { LanguageSelector } from "@/components/LanguageSelector";
+
 import Footer from "@/components/Footer";
 import heroImage from "@/assets/hero-members.jpg";
 const Members = () => {
@@ -154,12 +154,6 @@ To </p>
                     </label>
                   </div>
 
-                  <div className="flex items-center space-x-3">
-                    <div className="flex items-center space-x-2">
-                      <span className="text-sm font-medium leading-none">Preferred Language:</span>
-                      <LanguageSelector />
-                    </div>
-                  </div>
                 </div>
                 
                 <div className="flex justify-center mt-8 bg-white">

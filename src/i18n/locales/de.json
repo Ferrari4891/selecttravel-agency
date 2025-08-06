@@ -1,0 +1,26 @@
+{
+  "welcome": "Willkommen! Wählen Sie Ihre Sprache",
+  "language_popup_description": "Wir möchten Ihr Erlebnis personalisieren. Bitte wählen Sie Ihre bevorzugte Sprache.",
+  "dont_show_again": "Diese Nachricht nicht mehr anzeigen",
+  "save_continue": "Speichern und Fortfahren",
+  "cookie_consent_title": "Diese Website verwendet Cookies",
+  "cookie_consent_description": "Wir verwenden Cookies, um Ihre Präferenzen zu merken, Ihr Erlebnis zu verbessern und Ihnen relevante Inhalte zu zeigen. Sie können alle akzeptieren, anpassen oder nicht wesentliche Cookies ablehnen.",
+  "accept_all": "Alle Akzeptieren",
+  "customize_preferences": "Präferenzen Anpassen",
+  "decline_non_essential": "Nicht Wesentliche Ablehnen",
+  "learn_more": "Mehr erfahren",
+  "languages": {
+    "en": "English",
+    "es": "Español",
+    "fr": "Français",
+    "de": "Deutsch",
+    "ja": "日本語",
+    "zh": "中文"
+  },
+  "main_heading": "DER WELTBESTE FOOD & WINE GUIDE FÜR SENIOREN-REISENDE",
+  "discover_restaurants": "Restaurants Entdecken",
+  "get_again": "Erneut Holen",
+  "loading": "Laden...",
+  "no_results": "Keine Ergebnisse gefunden",
+  "save_to_collection": "In Sammlung Speichern"
+}

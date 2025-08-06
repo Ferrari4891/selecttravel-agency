@@ -4,7 +4,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { Navigation } from "@/components/Navigation";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Checkbox } from "@/components/ui/checkbox";
-import { LanguageSelector } from "@/components/LanguageSelector";
+
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { ArrowLeft } from "lucide-react";
@@ -384,9 +384,6 @@ const Dashboard = () => {
                         </div>
                       </div>
 
-                      <div className="pt-4 border-t">
-                        <LanguageSelector />
-                      </div>
                     </div>
                   </CardContent>
                 </Card>

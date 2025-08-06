@@ -9,8 +9,8 @@ import { toast } from '@/hooks/use-toast';
 import { Navigation } from '@/components/Navigation';
 import Footer from '@/components/Footer';
 import { RestaurantResults } from '@/components/RestaurantResults';
-import { LanguageSelector } from '@/components/LanguageSelector';
 import { Utensils, Coffee, Bed, Gamepad2, MapPin, Download, RotateCcw, Loader2, Search, Menu, Home, Info, HelpCircle, Users } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
 import { Input } from '@/components/ui/input';
 import { regionData } from '@/data/locationData';
 import SaveBusinessButton from '@/components/SaveBusinessButton';
@@ -51,6 +51,7 @@ interface Business {
 }
 
 const Index: React.FC = () => {
+  const { t } = useTranslation();
   const [currentStep, setCurrentStep] = useState<1 | 2 | 3 | 4 | 5>(1);
   const [selectedCategory, setSelectedCategory] = useState<string>('');
   const [selectedRegion, setSelectedRegion] = useState<string>('');
@@ -454,7 +455,7 @@ const Index: React.FC = () => {
             {!selectedCity && (
               <>
                 <h1 className="text-white font-bold text-xl leading-tight">
-                  THE WORLDS BEST FOOD & WINE GUIDE DESIGNED FOR SENIOR TRAVELLERS
+                  {t('main_heading')}
                 </h1>
                 <p className="text-white text-sm mt-1">
                   Let's get personal
@@ -534,7 +535,7 @@ const Index: React.FC = () => {
               {/* Step 1: Category Selection */}
               {currentStep === 1 && (
                 <div className="space-y-6">
-                  <h2 className="text-lg font-bold text-center text-white">1: What are you looking for?</h2>
+                  <h2 className="text-lg font-bold text-center text-white">1: {t('discover_restaurants')}</h2>
                   <Select onValueChange={handleCategorySelect} value={selectedCategory}>
                     <SelectTrigger className="w-full h-14 text-base bg-white text-black border-2 border-white rounded-none shadow-md">
                       <SelectValue placeholder="Select category..." />
@@ -688,12 +689,6 @@ const Index: React.FC = () => {
             </div>
           </div>
 
-          {/* Language Selector positioned at bottom - hidden when results are showing */}
-          {!showResults && (
-            <div className="absolute bottom-4 right-4 z-50">
-              <LanguageSelector />
-            </div>
-          )}
         </div>
 
         {/* Results Section - Fixed for desktop visibility and scrolling */}

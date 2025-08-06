@@ -1,0 +1,26 @@
+{
+  "welcome": "欢迎！选择您的语言",
+  "language_popup_description": "我们希望个性化您的体验。请选择您的首选语言。",
+  "dont_show_again": "不再显示此消息",
+  "save_continue": "保存并继续",
+  "cookie_consent_title": "本网站使用cookies",
+  "cookie_consent_description": "我们使用cookies来记住您的偏好、改善您的体验并向您显示相关内容。您可以接受全部、自定义或拒绝非必要cookies。",
+  "accept_all": "全部接受",
+  "customize_preferences": "自定义偏好",
+  "decline_non_essential": "拒绝非必要",
+  "learn_more": "了解更多",
+  "languages": {
+    "en": "English",
+    "es": "Español",
+    "fr": "Français",
+    "de": "Deutsch",
+    "ja": "日本語",
+    "zh": "中文"
+  },
+  "main_heading": "为老年旅行者设计的世界最佳美食美酒指南",
+  "discover_restaurants": "发现餐厅",
+  "get_again": "重新获取",
+  "loading": "加载中...",
+  "no_results": "未找到结果",
+  "save_to_collection": "保存到收藏"
+}

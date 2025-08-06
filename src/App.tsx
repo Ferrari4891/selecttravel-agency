@@ -4,8 +4,8 @@ import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import { TranslationProvider } from "@/components/TranslationProvider";
 import { AuthProvider } from "@/contexts/AuthContext";
+import { LanguageProvider } from "@/contexts/LanguageContext";
 import { ProtectedRoute } from "@/components/ProtectedRoute";
 import SiteAuthGuard from "@/components/SiteAuthGuard";
 import MobileContainer from "@/components/MobileContainer";
@@ -32,8 +32,8 @@ const queryClient = new QueryClient();
 const App = () => (
   <QueryClientProvider client={queryClient}>
     <TooltipProvider>
-      <TranslationProvider>
-        <AuthProvider>
+      <AuthProvider>
+        <LanguageProvider>
           <MobileContainer>
             <Toaster />
             <Sonner />
@@ -90,8 +90,8 @@ const App = () => (
               </Routes>
             </BrowserRouter>
           </MobileContainer>
-        </AuthProvider>
-      </TranslationProvider>
+        </LanguageProvider>
+      </AuthProvider>
     </TooltipProvider>
   </QueryClientProvider>
 );

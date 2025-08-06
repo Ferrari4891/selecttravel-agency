@@ -4,8 +4,8 @@ import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
 import { Input } from '@/components/ui/input';
 import { Menu, Home, Info, HelpCircle, Users, Building2, ChevronDown, ChevronRight, Search, Bookmark, User, LogOut, Heart, Globe, Shield } from 'lucide-react';
 import { Link } from 'react-router-dom';
-import { LanguageSelector } from '@/components/LanguageSelector';
 import { useAuth } from '@/contexts/AuthContext';
+import { useLanguage } from '@/contexts/LanguageContext';
 import { useToast } from '@/hooks/use-toast';
 import { supabase } from '@/integrations/supabase/client';
 
@@ -23,7 +23,8 @@ export const Navigation = ({ onMenuStateChange, forceMenuOpen }: NavigationProps
   const [isAdmin, setIsAdmin] = useState(false);
   const [adminEmail, setAdminEmail] = useState('');
   const [adminPassword, setAdminPassword] = useState('');
-  const { user } = useAuth();
+const { user } = useAuth();
+  const { showLanguagePopup } = useLanguage();
   const { toast } = useToast();
 
   const handleMenuChange = (open: boolean) => {
@@ -334,7 +335,17 @@ export const Navigation = ({ onMenuStateChange, forceMenuOpen }: NavigationProps
                 )}
                 
                 {/* Language Selector */}
-                <LanguageSelector inMenu={true} onClose={() => setMenuOpen(false)} />
+                <Button 
+                  variant="ghost" 
+                  className="w-full justify-start h-10 text-left touch-target" 
+                  onClick={() => {
+                    showLanguagePopup();
+                    setMenuOpen(false);
+                  }}
+                >
+                  <Globe className="h-4 w-4 mr-2" />
+                  <span className="text-sm">Language / Idioma</span>
+                </Button>
                 
                 {/* Site Logout Button */}
                 <Button 

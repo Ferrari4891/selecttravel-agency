@@ -3,7 +3,7 @@ import { ArrowLeft } from "lucide-react";
 import { Link } from "react-router-dom";
 import { Navigation } from "@/components/Navigation";
 import Footer from "@/components/Footer";
-import { LanguageSelector } from "@/components/LanguageSelector";
+
 import heroTVChannel from "@/assets/hero-tv-channel.jpg";
 
 const TVChannel = () => {

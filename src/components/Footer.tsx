@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom";
 import { useAuth } from "@/contexts/AuthContext";
-import { LanguageSelector } from "@/components/LanguageSelector";
+import { useLanguage } from "@/contexts/LanguageContext";
+import { Button } from "@/components/ui/button";
 
 interface FooterProps {
   themeClass?: string;
@@ -8,6 +9,7 @@ interface FooterProps {
 
 const Footer = ({ themeClass }: FooterProps) => {
   const { user } = useAuth();
+  const { showLanguagePopup } = useLanguage();
 
   return (
     <div className={`${themeClass} hidden`}>
@@ -71,7 +73,14 @@ const Footer = ({ themeClass }: FooterProps) => {
               Contact Us
             </a>
             <div className="flex justify-center">
-              <LanguageSelector inMenu={false} onClose={() => {}} />
+              <Button 
+                variant="outline" 
+                size="sm" 
+                onClick={() => showLanguagePopup()}
+                className="rounded-none"
+              >
+                🌍 Language
+              </Button>
             </div>
           </div>
         </div>

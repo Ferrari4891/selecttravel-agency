@@ -1,0 +1,26 @@
+{
+  "welcome": "¡Bienvenido! Elige tu idioma",
+  "language_popup_description": "Nos gustaría personalizar tu experiencia. Por favor, selecciona tu idioma preferido.",
+  "dont_show_again": "No mostrar este mensaje de nuevo",
+  "save_continue": "Guardar y Continuar",
+  "cookie_consent_title": "Este sitio usa cookies",
+  "cookie_consent_description": "Usamos cookies para recordar tus preferencias, mejorar tu experiencia y mostrarte contenido relevante. Puedes aceptar todas, personalizar o rechazar las cookies no esenciales.",
+  "accept_all": "Aceptar Todo",
+  "customize_preferences": "Personalizar Preferencias",
+  "decline_non_essential": "Rechazar No Esenciales",
+  "learn_more": "Saber más",
+  "languages": {
+    "en": "English",
+    "es": "Español",
+    "fr": "Français",
+    "de": "Deutsch",
+    "ja": "日本語",
+    "zh": "中文"
+  },
+  "main_heading": "LA MEJOR GUÍA DE COMIDA Y VINO DEL MUNDO DISEÑADA PARA VIAJEROS MAYORES",
+  "discover_restaurants": "Descubrir Restaurantes",
+  "get_again": "Obtener de Nuevo",
+  "loading": "Cargando...",
+  "no_results": "No se encontraron resultados",
+  "save_to_collection": "Guardar en Colección"
+}
