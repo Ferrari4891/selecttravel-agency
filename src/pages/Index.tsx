@@ -421,16 +421,18 @@ const Index: React.FC = () => {
   const isComplete = selectedCategory && selectedRegion && selectedCountry && (selectedCity || citySearchInput.trim()) && resultCount > 0;
 
   return (
-    <div className="h-full bg-background">
+    <div className="min-h-screen bg-background">
       {/* Unified Layout for all devices - use mobile experience */}
-      <div className="relative h-full">
-        {/* Hero image contained within mobile container */}
+      <div className="relative min-h-screen">
+        {/* Hero image fills entire screen below header */}
         <div 
           className="absolute inset-0 z-0"
           style={{
             backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url(${getHeroImage()})`,
             backgroundSize: 'cover',
-            backgroundPosition: 'center'
+            backgroundPosition: 'center',
+            top: '0',
+            bottom: '0'
           }}
         />
         
