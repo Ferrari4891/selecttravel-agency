@@ -453,7 +453,7 @@ const Index: React.FC = () => {
             
             {!selectedCity && (
               <>
-                <h1 className="text-white font-bold text-3xl leading-tight">
+                <h1 className="text-white font-bold text-xl leading-tight">
                   THE WORLDS BEST FOOD & WINE GUIDE DESIGNED FOR SENIOR TRAVELLERS
                 </h1>
                 <p className="text-white text-sm mt-1">
