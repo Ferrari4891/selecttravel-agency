@@ -30,7 +30,7 @@ export const CookieConsent: React.FC<CookieConsentProps> = ({ onClose }) => {
 
   return (
     <div className="fixed bottom-0 left-0 right-0 z-50 p-4">
-      <Card className="mx-auto max-w-2xl p-6 shadow-lg">
+      <Card className="mx-auto max-w-sm p-6 shadow-lg">
         <div className="space-y-4">
           <h3 className="text-lg font-semibold">
             {t('cookie_consent_title')}
