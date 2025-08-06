@@ -688,10 +688,12 @@ const Index: React.FC = () => {
             </div>
           </div>
 
-          {/* Language Selector positioned at bottom */}
-          <div className="absolute bottom-4 right-4 z-50">
-            <LanguageSelector />
-          </div>
+          {/* Language Selector positioned at bottom - hidden when results are showing */}
+          {!showResults && (
+            <div className="absolute bottom-4 right-4 z-50">
+              <LanguageSelector />
+            </div>
+          )}
         </div>
 
         {/* Results Section - Fixed for desktop visibility and scrolling */}
