@@ -26,6 +26,7 @@ import Auth from "./pages/Auth";
 import Collections from "./pages/Collections";
 import SharedCollection from "./pages/SharedCollection";
 import { RSVP } from "./pages/RSVP";
+import AdminDashboard from "./pages/AdminDashboard";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -79,6 +80,14 @@ const App = () => (
                         element={
                           <ProtectedRoute>
                             <Collections />
+                          </ProtectedRoute>
+                        } 
+                      />
+                      <Route 
+                        path="/admin-dashboard" 
+                        element={
+                          <ProtectedRoute>
+                            <AdminDashboard />
                           </ProtectedRoute>
                         } 
                       />

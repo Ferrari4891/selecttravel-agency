@@ -411,7 +411,7 @@ const { user } = useAuth();
                   {isAdmin && (
                     <div className="ml-3 mt-1">
                       <Button variant="ghost" className="w-full justify-start h-10 text-left touch-target" asChild>
-                        <Link to="/dashboard" onClick={() => setMenuOpen(false)}>
+                        <Link to="/admin-dashboard" onClick={() => setMenuOpen(false)}>
                           <Shield className="h-4 w-4 mr-2" />
                           <span className="text-sm">Admin Dashboard</span>
                         </Link>
