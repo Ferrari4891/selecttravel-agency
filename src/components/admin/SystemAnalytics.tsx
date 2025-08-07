@@ -114,7 +114,7 @@ export const SystemAnalytics = () => {
   return (
     <div className="space-y-6">
       {/* Overview Cards */}
-      <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
+      <div className="space-y-4">
         <StatCard
           title="Total Users"
           value={stats.totalUsers}
@@ -144,7 +144,7 @@ export const SystemAnalytics = () => {
       </div>
 
       {/* Additional Metrics */}
-      <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+      <div className="space-y-4">
         <StatCard
           title="Administrators"
           value={stats.totalAdmins}
@@ -177,7 +177,7 @@ export const SystemAnalytics = () => {
           <CardDescription>Platform performance and status indicators</CardDescription>
         </CardHeader>
         <CardContent>
-          <div className="grid gap-4 md:grid-cols-3">
+          <div className="space-y-4">
             <div className="flex items-center justify-between p-4 border rounded-lg">
               <div>
                 <div className="text-sm font-medium">Database Status</div>

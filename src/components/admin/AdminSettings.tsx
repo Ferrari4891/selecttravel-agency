@@ -190,7 +190,7 @@ export const AdminSettings = () => {
               </CardDescription>
             </CardHeader>
             <CardContent className="space-y-4">
-              <div className="grid gap-4 md:grid-cols-2">
+              <div className="space-y-4">
                 <Button variant="outline" className="justify-start h-auto p-4">
                   <div className="text-left">
                     <div className="font-medium">Backup Database</div>
