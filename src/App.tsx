@@ -17,7 +17,7 @@ import Advertise from "./pages/Advertise";
 import ROI from "./pages/ROI";
 import Toolbox from "./pages/Toolbox";
 import VisaInfo from "./pages/VisaInfo";
-import Dashboard from "./pages/Dashboard";
+import MemberDashboard from "./pages/MemberDashboard";
 import JoinFree from "./pages/JoinFree";
 import TVChannel from "./pages/TVChannel";
 import BusinessDashboard from "./pages/BusinessDashboard";
@@ -55,7 +55,7 @@ const App = () => (
                       <Route path="/roi" element={<ROI />} />
                       <Route path="/toolbox" element={<Toolbox />} />
                       <Route path="/visa-info" element={<VisaInfo />} />
-                      <Route path="/dashboard" element={<Dashboard />} />
+                      <Route path="/dashboard" element={<ProtectedRoute><MemberDashboard /></ProtectedRoute>} />
                       <Route path="/join-free" element={<JoinFree />} />
                       <Route path="/tv-channel" element={<TVChannel />} />
                       <Route 

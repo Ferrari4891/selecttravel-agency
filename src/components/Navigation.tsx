@@ -302,9 +302,9 @@ const { user } = useAuth();
                     <div className="border-t border-gray-200 pt-2 mt-2">
                       <p className="text-xs text-gray-600 mb-2 px-2">My Account</p>
                       <Button variant="ghost" className="w-full justify-start h-10 text-left touch-target" asChild>
-                        <Link to="/user-dashboard" onClick={() => setMenuOpen(false)}>
+                        <Link to="/dashboard" onClick={() => setMenuOpen(false)}>
                           <User className="h-4 w-4 mr-2" />
-                          <span className="text-sm">My Dashboard</span>
+                          <span className="text-sm">Member Dashboard</span>
                         </Link>
                       </Button>
                       <Button variant="ghost" className="w-full justify-start h-10 text-left touch-target" asChild>
