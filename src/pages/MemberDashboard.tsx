@@ -371,7 +371,7 @@ const MemberDashboard = () => {
           <Card className="w-full">
             <CardHeader className="bg-background">
               <CardTitle className="text-center border-b-2 border-black pb-2 text-3xl text-foreground font-extrabold">
-                MY PREFERENCES
+                MY DASHBOARD
               </CardTitle>
             </CardHeader>
             <CardContent className="pt-6">
