@@ -594,8 +594,8 @@ const MemberDashboard = () => {
                 <div className="space-y-4">
                   {recentRestaurants.map((restaurant) => (
                     <div key={restaurant.id} className="p-4 border rounded-lg w-full">
-                      <div className="flex justify-between items-start">
-                        <div className="space-y-2 flex-1">
+                      <div className="space-y-4">
+                        <div className="space-y-2">
                           <h4 className="font-semibold text-lg">{restaurant.restaurant_name}</h4>
                           <div className="flex items-center gap-2 text-muted-foreground">
                             <MapPin className="h-4 w-4" />
@@ -619,7 +619,7 @@ const MemberDashboard = () => {
                               setSelectedRestaurant(restaurant);
                               setShowCreateInvitation(true);
                             }}
-                            className="rounded-none"
+                            className="rounded-none w-full"
                           >
                             <Users className="h-4 w-4 mr-2" />
                             Create Invitation
@@ -628,7 +628,7 @@ const MemberDashboard = () => {
                             variant="outline"
                             size="sm"
                             onClick={() => handleDeleteRestaurant(restaurant.id)}
-                            className="text-red-600 hover:text-red-700 hover:bg-red-50 rounded-none"
+                            className="text-red-600 hover:text-red-700 hover:bg-red-50 rounded-none w-full"
                           >
                             Remove
                           </Button>
