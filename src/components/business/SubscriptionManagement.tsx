@@ -85,8 +85,8 @@ export const SubscriptionManagement: React.FC<SubscriptionManagementProps> = ({ 
       {/* Current Subscription Status */}
       <Card className="border-8 border-white shadow-md">
         <CardHeader>
-          <CardTitle>Current Subscription</CardTitle>
-          <CardDescription>
+          <CardTitle className="text-lg font-semibold">Current Subscription</CardTitle>
+          <CardDescription className="text-sm text-muted-foreground">
             Your current plan and billing information
           </CardDescription>
         </CardHeader>
@@ -151,7 +151,7 @@ export const SubscriptionManagement: React.FC<SubscriptionManagementProps> = ({ 
       </div>
 
       {/* Subscription Plans */}
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 sm:gap-6">
+      <div className="space-y-6">
         {subscriptionPlans.map((plan) => {
           const isCurrentPlan = currentTier === plan.id;
           const price = plan.price[selectedPlan as keyof typeof plan.price];
@@ -170,7 +170,7 @@ export const SubscriptionManagement: React.FC<SubscriptionManagementProps> = ({ 
               )}
               
               <CardHeader>
-                <CardTitle className="text-xl">{plan.name}</CardTitle>
+                <CardTitle className="text-lg font-semibold">{plan.name}</CardTitle>
                 <div className="text-3xl font-bold">
                   ${price}
                   <span className="text-sm font-normal text-gray-600">
