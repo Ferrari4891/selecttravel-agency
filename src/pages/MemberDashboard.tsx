@@ -342,9 +342,9 @@ const MemberDashboard = () => {
           <img src={heroImage} alt="Member Dashboard" className="w-full h-full object-cover" />
           
           <div className="absolute inset-0 bg-black bg-opacity-40 flex items-center justify-center">
-            <div className="text-center text-white">
-              <h1 className="text-4xl font-bold mb-4 md:text-9xl">My Dashboard</h1>
-              <p className="text-lg">Welcome back, {user?.email}</p>
+            <div className="text-center text-white px-4">
+              <h1 className="text-3xl font-bold mb-2 md:text-6xl lg:text-7xl">My Dashboard</h1>
+              <p className="text-sm md:text-lg">Welcome back, {user?.email}</p>
             </div>
           </div>
         </div>
