@@ -1,15 +1,16 @@
-import { useState, useEffect } from "react";
-import { useAuth } from "@/contexts/AuthContext";
-import { supabase } from "@/integrations/supabase/client";
-import { Navigation } from "@/components/Navigation";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Checkbox } from "@/components/ui/checkbox";
-import { Button } from "@/components/ui/button";
-import { Badge } from "@/components/ui/badge";
-import { ArrowLeft, Star, MapPin, Phone, Globe, Plus, Calendar, Users, Clock, Copy, ExternalLink, Edit, Trash2 } from "lucide-react";
-import { Link } from "react-router-dom";
-import Footer from "@/components/Footer";
-import { toast } from "sonner";
+import React, { useState, useEffect, useRef } from 'react';
+import { useAuth } from '@/contexts/AuthContext';
+import { supabase } from '@/integrations/supabase/client';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Button } from '@/components/ui/button';
+import { Badge } from '@/components/ui/badge';
+import { Checkbox } from '@/components/ui/checkbox';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import { ArrowLeft, Users, MapPin, Calendar, ChevronDown, Star, Phone, Globe, Plus, Clock, Copy, ExternalLink, Edit, Trash2 } from 'lucide-react';
+import { Link } from 'react-router-dom';
+import { Navigation } from '@/components/Navigation';
+import Footer from '@/components/Footer';
+import { toast } from 'sonner';
 import { format } from 'date-fns';
 import heroImage from "@/assets/hero-members.jpg";
 import { useLanguage } from "@/contexts/LanguageContext";
@@ -97,6 +98,12 @@ const MemberDashboard = () => {
   const [invitations, setInvitations] = useState<GroupInvitation[]>([]);
   const [selectedRestaurant, setSelectedRestaurant] = useState<SavedRestaurant | null>(null);
   const [showCreateInvitation, setShowCreateInvitation] = useState(false);
+
+  // Refs for scrolling to sections
+  const preferencesRef = useRef<HTMLDivElement>(null);
+  const recentPlacesRef = useRef<HTMLDivElement>(null);
+  const collectionsRef = useRef<HTMLDivElement>(null);
+  const invitationsRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     if (user) {
@@ -370,165 +377,234 @@ const MemberDashboard = () => {
             </Button>
           </div>
 
-          {/* My Preferences Section */}
+          {/* My Dashboard Section */}
           <Card className="w-full">
             <CardHeader className="bg-background">
               <CardTitle className="text-center border-b-2 border-black pb-2 text-3xl text-foreground font-extrabold">
                 MY DASHBOARD
               </CardTitle>
-            </CardHeader>
-            <CardContent className="pt-6">
-              <p className="text-lg text-center mb-8 text-gray-700">
-                Update your preferences below to personalize your restaurant recommendations.
-              </p>
               
-              <div className="space-y-6">
-                <div className="grid grid-cols-1 gap-4">
-                  <div className="flex items-center space-x-4 p-4 border rounded-lg bg-gray-50">
-                    <Checkbox 
-                      id="wheelchair_access" 
-                      checked={preferences.wheelchair_access} 
-                      onCheckedChange={checked => handlePreferenceChange('wheelchair_access', checked as boolean)}
-                      className="h-6 w-6"
-                    />
-                    <label htmlFor="wheelchair_access" className="text-lg font-medium cursor-pointer">
-                      ♿ Wheelchair Access Required
-                    </label>
-                  </div>
-
-                  <div className="flex items-center space-x-4 p-4 border rounded-lg bg-gray-50">
-                    <Checkbox 
-                      id="senior_discounts" 
-                      checked={preferences.senior_discounts} 
-                      onCheckedChange={checked => handlePreferenceChange('senior_discounts', checked as boolean)}
-                      className="h-6 w-6"
-                    />
-                    <label htmlFor="senior_discounts" className="text-lg font-medium cursor-pointer">
-                      💰 Senior Discounts Available
-                    </label>
-                  </div>
-
-                  <div className="flex items-center space-x-4 p-4 border rounded-lg bg-gray-50">
-                    <Checkbox 
-                      id="extended_hours" 
-                      checked={preferences.extended_hours} 
-                      onCheckedChange={checked => handlePreferenceChange('extended_hours', checked as boolean)}
-                      className="h-6 w-6"
-                    />
-                    <label htmlFor="extended_hours" className="text-lg font-medium cursor-pointer">
-                      🕐 Extended Open Hours
-                    </label>
-                  </div>
-
-                  <div className="flex items-center space-x-4 p-4 border rounded-lg bg-gray-50">
-                    <Checkbox 
-                      id="low_noise" 
-                      checked={preferences.low_noise} 
-                      onCheckedChange={checked => handlePreferenceChange('low_noise', checked as boolean)}
-                      className="h-6 w-6"
-                    />
-                    <label htmlFor="low_noise" className="text-lg font-medium cursor-pointer">
-                      🔇 Quiet Environment
-                    </label>
-                  </div>
-
-                  <div className="flex items-center space-x-4 p-4 border rounded-lg bg-gray-50">
-                    <Checkbox 
-                      id="public_transport" 
-                      checked={preferences.public_transport} 
-                      onCheckedChange={checked => handlePreferenceChange('public_transport', checked as boolean)}
-                      className="h-6 w-6"
-                    />
-                    <label htmlFor="public_transport" className="text-lg font-medium cursor-pointer">
-                      🚌 Easy Public Transport Access
-                    </label>
-                  </div>
-
-                  <div className="flex items-center space-x-4 p-4 border rounded-lg bg-gray-50">
-                    <Checkbox 
-                      id="air_conditioned" 
-                      checked={preferences.air_conditioned} 
-                      onCheckedChange={checked => handlePreferenceChange('air_conditioned', checked as boolean)}
-                      className="h-6 w-6"
-                    />
-                    <label htmlFor="air_conditioned" className="text-lg font-medium cursor-pointer">
-                      ❄️ Air Conditioned
-                    </label>
-                  </div>
-
-                  <div className="flex items-center space-x-4 p-4 border rounded-lg bg-gray-50">
-                    <Checkbox 
-                      id="outdoor_seating" 
-                      checked={preferences.outdoor_seating} 
-                      onCheckedChange={checked => handlePreferenceChange('outdoor_seating', checked as boolean)}
-                      className="h-6 w-6"
-                    />
-                    <label htmlFor="outdoor_seating" className="text-lg font-medium cursor-pointer">
-                      🌳 Outdoor Seating Available
-                    </label>
-                  </div>
-
-                  <div className="flex items-center space-x-4 p-4 border rounded-lg bg-gray-50">
-                    <Checkbox 
-                      id="gluten_free" 
-                      checked={preferences.gluten_free} 
-                      onCheckedChange={checked => handlePreferenceChange('gluten_free', checked as boolean)}
-                      className="h-6 w-6"
-                    />
-                    <label htmlFor="gluten_free" className="text-lg font-medium cursor-pointer">
-                      🌾 Gluten-Free Options
-                    </label>
-                  </div>
-
-                  <div className="flex items-center space-x-4 p-4 border rounded-lg bg-gray-50">
-                    <Checkbox 
-                      id="pet_friendly" 
-                      checked={preferences.pet_friendly} 
-                      onCheckedChange={checked => handlePreferenceChange('pet_friendly', checked as boolean)}
-                      className="h-6 w-6"
-                    />
-                    <label htmlFor="pet_friendly" className="text-lg font-medium cursor-pointer">
-                      🐕 Pet-Friendly
-                    </label>
-                  </div>
-
-                  <div className="flex items-center space-x-4 p-4 border rounded-lg bg-gray-50">
-                    <Checkbox 
-                      id="online_booking" 
-                      checked={preferences.online_booking} 
-                      onCheckedChange={checked => handlePreferenceChange('online_booking', checked as boolean)}
-                      className="h-6 w-6"
-                    />
-                    <label htmlFor="online_booking" className="text-lg font-medium cursor-pointer">
-                      💻 Online Booking Available
-                    </label>
-                  </div>
-
-                  <div className="p-4 border rounded-lg bg-gray-50">
-                    <div className="flex items-center space-x-4">
-                      <span className="text-lg font-medium">🌍 Preferred Language:</span>
-                      <Button variant="outline" onClick={showLanguagePopup}>
-                        Change Language
-                      </Button>
-                    </div>
-                  </div>
+              {/* Navigation Menu */}
+              <div className="pt-4">
+                {/* Desktop buttons */}
+                <div className="hidden md:flex flex-wrap gap-2 justify-center">
+                  <Button 
+                    size="sm" 
+                    className="bg-black text-white hover:bg-gray-800 text-xs px-3 py-1 rounded-none"
+                    onClick={() => preferencesRef.current?.scrollIntoView({ behavior: 'smooth' })}
+                  >
+                    Preferences
+                  </Button>
+                  <Button 
+                    size="sm" 
+                    className="bg-black text-white hover:bg-gray-800 text-xs px-3 py-1 rounded-none"
+                    onClick={() => recentPlacesRef.current?.scrollIntoView({ behavior: 'smooth' })}
+                  >
+                    Recent Places
+                  </Button>
+                  <Button 
+                    size="sm" 
+                    className="bg-black text-white hover:bg-gray-800 text-xs px-3 py-1 rounded-none"
+                    onClick={() => collectionsRef.current?.scrollIntoView({ behavior: 'smooth' })}
+                  >
+                    Collections
+                  </Button>
+                  <Button 
+                    size="sm" 
+                    className="bg-black text-white hover:bg-gray-800 text-xs px-3 py-1 rounded-none"
+                    onClick={() => invitationsRef.current?.scrollIntoView({ behavior: 'smooth' })}
+                  >
+                    Invitations
+                  </Button>
                 </div>
                 
-                <div className="flex justify-center mt-8">
-                  <Button 
-                    onClick={handleSavePreferences}
-                    disabled={saving}
-                    className="px-8 py-3 text-lg"
-                  >
-                    {saving ? 'SAVING...' : 'SAVE PREFERENCES'}
-                  </Button>
+                {/* Mobile dropdown fallback */}
+                <div className="md:hidden">
+                  <Select onValueChange={(value) => {
+                    switch(value) {
+                      case 'preferences':
+                        preferencesRef.current?.scrollIntoView({ behavior: 'smooth' });
+                        break;
+                      case 'recent':
+                        recentPlacesRef.current?.scrollIntoView({ behavior: 'smooth' });
+                        break;
+                      case 'collections':
+                        collectionsRef.current?.scrollIntoView({ behavior: 'smooth' });
+                        break;
+                      case 'invitations':
+                        invitationsRef.current?.scrollIntoView({ behavior: 'smooth' });
+                        break;
+                    }
+                  }}>
+                    <SelectTrigger className="bg-black text-white border-black hover:bg-gray-800">
+                      <SelectValue placeholder="Select your preferences" />
+                    </SelectTrigger>
+                    <SelectContent className="bg-white border border-gray-200 z-50">
+                      <SelectItem value="preferences" className="hover:bg-gray-100">Preferences</SelectItem>
+                      <SelectItem value="recent" className="hover:bg-gray-100">Recent Places</SelectItem>
+                      <SelectItem value="collections" className="hover:bg-gray-100">Collections</SelectItem>
+                      <SelectItem value="invitations" className="hover:bg-gray-100">Invitations</SelectItem>
+                    </SelectContent>
+                  </Select>
+                </div>
+              </div>
+            </CardHeader>
+            <CardContent className="pt-6">
+              
+              {/* Preferences Section */}
+              <div ref={preferencesRef} className="space-y-6">
+                <p className="text-lg text-center mb-8 text-gray-700">
+                  Update your preferences below to personalize your restaurant recommendations.
+                </p>
+                
+                <div className="space-y-6">
+                  <div className="grid grid-cols-1 gap-4">
+                    <div className="flex items-center space-x-4 p-4 border rounded-lg bg-gray-50">
+                      <Checkbox 
+                        id="wheelchair_access" 
+                        checked={preferences.wheelchair_access} 
+                        onCheckedChange={checked => handlePreferenceChange('wheelchair_access', checked as boolean)}
+                        className="h-6 w-6"
+                      />
+                      <label htmlFor="wheelchair_access" className="text-lg font-medium cursor-pointer">
+                        ♿ Wheelchair Access Required
+                      </label>
+                    </div>
+
+                    <div className="flex items-center space-x-4 p-4 border rounded-lg bg-gray-50">
+                      <Checkbox 
+                        id="senior_discounts" 
+                        checked={preferences.senior_discounts} 
+                        onCheckedChange={checked => handlePreferenceChange('senior_discounts', checked as boolean)}
+                        className="h-6 w-6"
+                      />
+                      <label htmlFor="senior_discounts" className="text-lg font-medium cursor-pointer">
+                        💰 Senior Discounts Available
+                      </label>
+                    </div>
+
+                    <div className="flex items-center space-x-4 p-4 border rounded-lg bg-gray-50">
+                      <Checkbox 
+                        id="extended_hours" 
+                        checked={preferences.extended_hours} 
+                        onCheckedChange={checked => handlePreferenceChange('extended_hours', checked as boolean)}
+                        className="h-6 w-6"
+                      />
+                      <label htmlFor="extended_hours" className="text-lg font-medium cursor-pointer">
+                        🕐 Extended Open Hours
+                      </label>
+                    </div>
+
+                    <div className="flex items-center space-x-4 p-4 border rounded-lg bg-gray-50">
+                      <Checkbox 
+                        id="low_noise" 
+                        checked={preferences.low_noise} 
+                        onCheckedChange={checked => handlePreferenceChange('low_noise', checked as boolean)}
+                        className="h-6 w-6"
+                      />
+                      <label htmlFor="low_noise" className="text-lg font-medium cursor-pointer">
+                        🔇 Quiet Environment
+                      </label>
+                    </div>
+
+                    <div className="flex items-center space-x-4 p-4 border rounded-lg bg-gray-50">
+                      <Checkbox 
+                        id="public_transport" 
+                        checked={preferences.public_transport} 
+                        onCheckedChange={checked => handlePreferenceChange('public_transport', checked as boolean)}
+                        className="h-6 w-6"
+                      />
+                      <label htmlFor="public_transport" className="text-lg font-medium cursor-pointer">
+                        🚌 Easy Public Transport Access
+                      </label>
+                    </div>
+
+                    <div className="flex items-center space-x-4 p-4 border rounded-lg bg-gray-50">
+                      <Checkbox 
+                        id="air_conditioned" 
+                        checked={preferences.air_conditioned} 
+                        onCheckedChange={checked => handlePreferenceChange('air_conditioned', checked as boolean)}
+                        className="h-6 w-6"
+                      />
+                      <label htmlFor="air_conditioned" className="text-lg font-medium cursor-pointer">
+                        ❄️ Air Conditioned
+                      </label>
+                    </div>
+
+                    <div className="flex items-center space-x-4 p-4 border rounded-lg bg-gray-50">
+                      <Checkbox 
+                        id="outdoor_seating" 
+                        checked={preferences.outdoor_seating} 
+                        onCheckedChange={checked => handlePreferenceChange('outdoor_seating', checked as boolean)}
+                        className="h-6 w-6"
+                      />
+                      <label htmlFor="outdoor_seating" className="text-lg font-medium cursor-pointer">
+                        🌳 Outdoor Seating Available
+                      </label>
+                    </div>
+
+                    <div className="flex items-center space-x-4 p-4 border rounded-lg bg-gray-50">
+                      <Checkbox 
+                        id="gluten_free" 
+                        checked={preferences.gluten_free} 
+                        onCheckedChange={checked => handlePreferenceChange('gluten_free', checked as boolean)}
+                        className="h-6 w-6"
+                      />
+                      <label htmlFor="gluten_free" className="text-lg font-medium cursor-pointer">
+                        🌾 Gluten-Free Options
+                      </label>
+                    </div>
+
+                    <div className="flex items-center space-x-4 p-4 border rounded-lg bg-gray-50">
+                      <Checkbox 
+                        id="pet_friendly" 
+                        checked={preferences.pet_friendly} 
+                        onCheckedChange={checked => handlePreferenceChange('pet_friendly', checked as boolean)}
+                        className="h-6 w-6"
+                      />
+                      <label htmlFor="pet_friendly" className="text-lg font-medium cursor-pointer">
+                        🐕 Pet-Friendly
+                      </label>
+                    </div>
+
+                    <div className="flex items-center space-x-4 p-4 border rounded-lg bg-gray-50">
+                      <Checkbox 
+                        id="online_booking" 
+                        checked={preferences.online_booking} 
+                        onCheckedChange={checked => handlePreferenceChange('online_booking', checked as boolean)}
+                        className="h-6 w-6"
+                      />
+                      <label htmlFor="online_booking" className="text-lg font-medium cursor-pointer">
+                        💻 Online Booking Available
+                      </label>
+                    </div>
+
+                    <div className="p-4 border rounded-lg bg-gray-50">
+                      <div className="flex items-center space-x-4">
+                        <span className="text-lg font-medium">🌍 Preferred Language:</span>
+                        <Button variant="outline" onClick={showLanguagePopup}>
+                          Change Language
+                        </Button>
+                      </div>
+                    </div>
+                  </div>
+                  
+                  <div className="flex justify-center mt-8">
+                    <Button 
+                      onClick={handleSavePreferences}
+                      disabled={saving}
+                      className="px-8 py-3 text-lg"
+                    >
+                      {saving ? 'SAVING...' : 'SAVE PREFERENCES'}
+                    </Button>
+                  </div>
                 </div>
               </div>
             </CardContent>
           </Card>
 
           {/* My Collections Section */}
-          <Card className="w-full">
+          <Card className="w-full" ref={collectionsRef}>
             <CardHeader className="bg-background">
               <CardTitle className="text-center border-b-2 border-black pb-2 text-3xl text-foreground font-extrabold">
                 MY COLLECTIONS
@@ -570,7 +646,7 @@ const MemberDashboard = () => {
           </Card>
 
           {/* Recent Saved Places Section */}
-          <Card className="w-full">
+          <Card className="w-full" ref={recentPlacesRef}>
             <CardHeader className="bg-background">
               <CardTitle className="text-center border-b-2 border-black pb-2 text-3xl text-foreground font-extrabold">
                 RECENT SAVED PLACES
@@ -642,7 +718,7 @@ const MemberDashboard = () => {
           </Card>
 
           {/* My Invitations Section */}
-          <Card className="w-full">
+          <Card className="w-full" ref={invitationsRef}>
             <CardHeader className="bg-background">
               <CardTitle className="text-center border-b-2 border-black pb-2 text-3xl text-foreground font-extrabold">
                 MY INVITATIONS
