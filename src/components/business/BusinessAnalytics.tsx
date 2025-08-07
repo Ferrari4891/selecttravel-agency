@@ -143,8 +143,8 @@ export const BusinessAnalytics: React.FC<BusinessAnalyticsProps> = ({ businessId
       {/* Add New Metric */}
       <Card className="border-8 border-white shadow-md">
         <CardHeader>
-          <CardTitle>Add New Metric</CardTitle>
-          <CardDescription>
+          <CardTitle className="text-lg font-semibold">Add New Metric</CardTitle>
+          <CardDescription className="text-sm text-muted-foreground">
             Track your business performance by adding key metrics.
           </CardDescription>
         </CardHeader>
@@ -202,17 +202,17 @@ export const BusinessAnalytics: React.FC<BusinessAnalyticsProps> = ({ businessId
 
       {/* Metrics Summary */}
       {Object.keys(metricSummary).length > 0 && (
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+        <div className="space-y-4">
           {Object.entries(metricSummary).slice(0, 6).map(([metric, data]) => (
             <Card key={metric} className="border-8 border-white shadow-md">
-              <CardHeader className="pb-2">
-                <CardTitle className="text-lg">
+              <CardHeader className="pb-3">
+                <CardTitle className="text-lg font-semibold">
                   {metric.charAt(0).toUpperCase() + metric.slice(1).replace('_', ' ')}
                 </CardTitle>
               </CardHeader>
               <CardContent>
-                <div className="text-2xl font-bold">{data.avg.toFixed(2)}</div>
-                <p className="text-sm text-gray-600">Average value</p>
+                <div className="text-2xl font-bold text-foreground">{data.avg.toFixed(2)}</div>
+                <p className="text-sm text-muted-foreground mt-1">Average value</p>
               </CardContent>
             </Card>
           ))}
@@ -221,7 +221,7 @@ export const BusinessAnalytics: React.FC<BusinessAnalyticsProps> = ({ businessId
 
       {/* Charts */}
       {uniqueMetrics.length > 0 && (
-        <div className="grid grid-cols-1 xl:grid-cols-2 gap-4 sm:gap-6">
+        <div className="space-y-6">
           {uniqueMetrics.slice(0, 4).map((metric) => {
             const chartData = getChartData(metric);
             if (chartData.length === 0) return null;
@@ -229,7 +229,7 @@ export const BusinessAnalytics: React.FC<BusinessAnalyticsProps> = ({ businessId
             return (
               <Card key={metric} className="border-8 border-white shadow-md">
                 <CardHeader>
-                  <CardTitle>
+                  <CardTitle className="text-lg font-semibold">
                     {metric.charAt(0).toUpperCase() + metric.slice(1).replace('_', ' ')} Trend
                   </CardTitle>
                 </CardHeader>

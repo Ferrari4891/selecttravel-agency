@@ -459,7 +459,7 @@ const MemberDashboard = () => {
                 </p>
                 
                 <div className="space-y-6">
-                  <div className="grid grid-cols-1 gap-4">
+                  <div className="space-y-4">
                     <div className="flex items-center space-x-4 p-4 border rounded-lg bg-gray-50">
                       <Checkbox 
                         id="wheelchair_access" 

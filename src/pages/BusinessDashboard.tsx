@@ -108,17 +108,17 @@ const Dashboard = () => {
               <BusinessProfile onBusinessCreated={handleBusinessCreated} />
             </CardContent>
           </Card> : <Tabs defaultValue="profile" className="space-y-6">
-            <TabsList className="grid w-full grid-cols-1 sm:grid-cols-3 h-auto">
-              <TabsTrigger value="profile" className="text-xs sm:text-sm">Business Profile</TabsTrigger>
-              <TabsTrigger value="analytics" className="text-xs sm:text-sm">Analytics</TabsTrigger>
-              <TabsTrigger value="subscription" className="text-xs sm:text-sm">Subscription</TabsTrigger>
+            <TabsList className="grid w-full grid-cols-1 h-auto">
+              <TabsTrigger value="profile" className="text-sm font-medium px-4 py-3">Business Profile</TabsTrigger>
+              <TabsTrigger value="analytics" className="text-sm font-medium px-4 py-3">Analytics</TabsTrigger>
+              <TabsTrigger value="subscription" className="text-sm font-medium px-4 py-3">Subscription</TabsTrigger>
             </TabsList>
 
             <TabsContent value="profile">
               <Card className="border shadow-md bg-background">
                 <CardHeader>
-                  <CardTitle>Business Profile</CardTitle>
-                  <CardDescription>
+                  <CardTitle className="text-lg font-semibold">Business Profile</CardTitle>
+                  <CardDescription className="text-sm text-muted-foreground">
                     Manage your business information and settings.
                   </CardDescription>
                 </CardHeader>
@@ -131,8 +131,8 @@ const Dashboard = () => {
             <TabsContent value="analytics">
               <Card className="border shadow-md bg-background">
                 <CardHeader>
-                  <CardTitle>Business Analytics</CardTitle>
-                  <CardDescription>
+                  <CardTitle className="text-lg font-semibold">Business Analytics</CardTitle>
+                  <CardDescription className="text-sm text-muted-foreground">
                     Track your business performance and metrics.
                   </CardDescription>
                 </CardHeader>
@@ -145,8 +145,8 @@ const Dashboard = () => {
             <TabsContent value="subscription">
               <Card className="border shadow-md bg-background">
                 <CardHeader>
-                  <CardTitle>Subscription Management</CardTitle>
-                  <CardDescription>
+                  <CardTitle className="text-lg font-semibold">Subscription Management</CardTitle>
+                  <CardDescription className="text-sm text-muted-foreground">
                     Manage your subscription plan and billing.
                   </CardDescription>
                 </CardHeader>

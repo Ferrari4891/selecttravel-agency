@@ -111,21 +111,21 @@ const AdminDashboard = () => {
 
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         <Tabs defaultValue="analytics" className="space-y-6">
-          <TabsList className="grid w-full grid-cols-2 sm:grid-cols-4 h-auto">
-            <TabsTrigger value="analytics" className="text-xs sm:text-sm">
-              <BarChart3 className="h-4 w-4 mr-1" />
+          <TabsList className="grid w-full grid-cols-1 h-auto">
+            <TabsTrigger value="analytics" className="text-sm font-medium px-4 py-3">
+              <BarChart3 className="h-4 w-4 mr-2" />
               Analytics
             </TabsTrigger>
-            <TabsTrigger value="users" className="text-xs sm:text-sm">
-              <Users className="h-4 w-4 mr-1" />
+            <TabsTrigger value="users" className="text-sm font-medium px-4 py-3">
+              <Users className="h-4 w-4 mr-2" />
               Users
             </TabsTrigger>
-            <TabsTrigger value="businesses" className="text-xs sm:text-sm">
-              <Building2 className="h-4 w-4 mr-1" />
+            <TabsTrigger value="businesses" className="text-sm font-medium px-4 py-3">
+              <Building2 className="h-4 w-4 mr-2" />
               Businesses
             </TabsTrigger>
-            <TabsTrigger value="settings" className="text-xs sm:text-sm">
-              <Settings className="h-4 w-4 mr-1" />
+            <TabsTrigger value="settings" className="text-sm font-medium px-4 py-3">
+              <Settings className="h-4 w-4 mr-2" />
               Settings
             </TabsTrigger>
           </TabsList>
@@ -133,8 +133,8 @@ const AdminDashboard = () => {
           <TabsContent value="analytics">
             <Card className="border shadow-md bg-background">
               <CardHeader>
-                <CardTitle>System Analytics</CardTitle>
-                <CardDescription>
+                <CardTitle className="text-lg font-semibold">System Analytics</CardTitle>
+                <CardDescription className="text-sm text-muted-foreground">
                   Monitor platform performance, user activity, and system metrics.
                 </CardDescription>
               </CardHeader>
@@ -147,8 +147,8 @@ const AdminDashboard = () => {
           <TabsContent value="users">
             <Card className="border shadow-md bg-background">
               <CardHeader>
-                <CardTitle>User Management</CardTitle>
-                <CardDescription>
+                <CardTitle className="text-lg font-semibold">User Management</CardTitle>
+                <CardDescription className="text-sm text-muted-foreground">
                   Manage user accounts, roles, and access permissions.
                 </CardDescription>
               </CardHeader>
@@ -161,8 +161,8 @@ const AdminDashboard = () => {
           <TabsContent value="businesses">
             <Card className="border shadow-md bg-background">
               <CardHeader>
-                <CardTitle>Business Management</CardTitle>
-                <CardDescription>
+                <CardTitle className="text-lg font-semibold">Business Management</CardTitle>
+                <CardDescription className="text-sm text-muted-foreground">
                   Oversee business listings, subscriptions, and compliance.
                 </CardDescription>
               </CardHeader>
@@ -175,8 +175,8 @@ const AdminDashboard = () => {
           <TabsContent value="settings">
             <Card className="border shadow-md bg-background">
               <CardHeader>
-                <CardTitle>System Settings</CardTitle>
-                <CardDescription>
+                <CardTitle className="text-lg font-semibold">System Settings</CardTitle>
+                <CardDescription className="text-sm text-muted-foreground">
                   Configure platform settings, permissions, and system parameters.
                 </CardDescription>
               </CardHeader>
