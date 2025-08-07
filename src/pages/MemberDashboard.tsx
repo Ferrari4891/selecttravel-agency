@@ -13,6 +13,7 @@ import { toast } from "sonner";
 import { format } from 'date-fns';
 import heroImage from "@/assets/hero-members.jpg";
 import { useLanguage } from "@/contexts/LanguageContext";
+import { CreateInvitationDialog } from "@/components/CreateInvitationDialog";
 
 interface UserPreferences {
   wheelchair_access: boolean;
@@ -94,6 +95,8 @@ const MemberDashboard = () => {
   const [collections, setCollections] = useState<Collection[]>([]);
   const [recentRestaurants, setRecentRestaurants] = useState<SavedRestaurant[]>([]);
   const [invitations, setInvitations] = useState<GroupInvitation[]>([]);
+  const [selectedRestaurant, setSelectedRestaurant] = useState<SavedRestaurant | null>(null);
+  const [showCreateInvitation, setShowCreateInvitation] = useState(false);
 
   useEffect(() => {
     if (user) {
@@ -608,14 +611,28 @@ const MemberDashboard = () => {
                             Saved on {format(new Date(restaurant.created_at), 'PPP')}
                           </div>
                         </div>
-                        <Button
-                          variant="outline"
-                          size="sm"
-                          onClick={() => handleDeleteRestaurant(restaurant.id)}
-                          className="text-red-600 hover:text-red-700 hover:bg-red-50"
-                        >
-                          Remove
-                        </Button>
+                        <div className="flex flex-col gap-2">
+                          <Button
+                            variant="default"
+                            size="sm"
+                            onClick={() => {
+                              setSelectedRestaurant(restaurant);
+                              setShowCreateInvitation(true);
+                            }}
+                            className="rounded-none"
+                          >
+                            <Users className="h-4 w-4 mr-2" />
+                            Create Invitation
+                          </Button>
+                          <Button
+                            variant="outline"
+                            size="sm"
+                            onClick={() => handleDeleteRestaurant(restaurant.id)}
+                            className="text-red-600 hover:text-red-700 hover:bg-red-50 rounded-none"
+                          >
+                            Remove
+                          </Button>
+                        </div>
                       </div>
                     </div>
                   ))}
@@ -742,6 +759,12 @@ const MemberDashboard = () => {
           </Card>
         </div>
       </div>
+
+      <CreateInvitationDialog
+        open={showCreateInvitation}
+        onOpenChange={setShowCreateInvitation}
+        restaurant={selectedRestaurant}
+      />
 
       <Footer />
     </div>
