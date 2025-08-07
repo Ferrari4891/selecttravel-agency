@@ -7,7 +7,7 @@ import { Badge } from '@/components/ui/badge';
 import { Checkbox } from '@/components/ui/checkbox';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { ArrowLeft, Users, MapPin, Calendar, ChevronDown, Star, Phone, Globe, Plus, Clock, Copy, ExternalLink, Edit, Trash2 } from 'lucide-react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { Navigation } from '@/components/Navigation';
 import Footer from '@/components/Footer';
 import { toast } from 'sonner';
@@ -78,6 +78,7 @@ interface GroupInvitation {
 const MemberDashboard = () => {
   const { user, signOut } = useAuth();
   const { showLanguagePopup } = useLanguage();
+  const navigate = useNavigate();
   const [preferences, setPreferences] = useState<UserPreferences>({
     wheelchair_access: false,
     extended_hours: false,
@@ -400,14 +401,14 @@ const MemberDashboard = () => {
                     className="bg-black text-white hover:bg-gray-800 text-xs px-3 py-1 rounded-none"
                     onClick={() => recentPlacesRef.current?.scrollIntoView({ behavior: 'smooth' })}
                   >
-                    Recent Places
+                    Recent Activity
                   </Button>
                   <Button 
                     size="sm" 
                     className="bg-black text-white hover:bg-gray-800 text-xs px-3 py-1 rounded-none"
-                    onClick={() => collectionsRef.current?.scrollIntoView({ behavior: 'smooth' })}
+                    onClick={() => navigate('/collections')}
                   >
-                    Collections
+                    My Collections
                   </Button>
                   <Button 
                     size="sm" 
@@ -429,7 +430,7 @@ const MemberDashboard = () => {
                         recentPlacesRef.current?.scrollIntoView({ behavior: 'smooth' });
                         break;
                       case 'collections':
-                        collectionsRef.current?.scrollIntoView({ behavior: 'smooth' });
+                        navigate('/collections');
                         break;
                       case 'invitations':
                         invitationsRef.current?.scrollIntoView({ behavior: 'smooth' });
@@ -441,8 +442,8 @@ const MemberDashboard = () => {
                     </SelectTrigger>
                     <SelectContent className="bg-white border border-gray-200 z-50">
                       <SelectItem value="preferences" className="hover:bg-gray-100">Preferences</SelectItem>
-                      <SelectItem value="recent" className="hover:bg-gray-100">Recent Places</SelectItem>
-                      <SelectItem value="collections" className="hover:bg-gray-100">Collections</SelectItem>
+                      <SelectItem value="recent" className="hover:bg-gray-100">Recent Activity</SelectItem>
+                      <SelectItem value="collections" className="hover:bg-gray-100">My Collections</SelectItem>
                       <SelectItem value="invitations" className="hover:bg-gray-100">Invitations</SelectItem>
                     </SelectContent>
                   </Select>

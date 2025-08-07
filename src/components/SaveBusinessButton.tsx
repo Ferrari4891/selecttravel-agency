@@ -166,32 +166,39 @@ const SaveBusinessButton: React.FC<SaveBusinessButtonProps> = ({
       <DialogContent className="sm:max-w-md">
         <DialogHeader>
           <DialogTitle>Save to Collection</DialogTitle>
+          <p className="text-sm text-muted-foreground mt-2">
+            Organize your saved places into collections for easy access
+          </p>
         </DialogHeader>
         <div className="space-y-4">
-          <div>
-            <Label htmlFor="collection">Select Collection</Label>
-            <Select value={selectedCollection} onValueChange={setSelectedCollection}>
-              <SelectTrigger>
-                <SelectValue placeholder="Choose a collection" />
-              </SelectTrigger>
-              <SelectContent>
-                {collections.map((collection) => (
-                  <SelectItem key={collection.id} value={collection.id}>
-                    {collection.name}
-                  </SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
-          </div>
+          {collections.length > 0 && (
+            <div>
+              <Label htmlFor="collection">Add to Existing Collection</Label>
+              <Select value={selectedCollection} onValueChange={setSelectedCollection}>
+                <SelectTrigger>
+                  <SelectValue placeholder="Choose a collection" />
+                </SelectTrigger>
+                <SelectContent>
+                  {collections.map((collection) => (
+                    <SelectItem key={collection.id} value={collection.id}>
+                      {collection.name}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            </div>
+          )}
+
+          {collections.length > 0 && <div className="text-center text-muted-foreground text-sm">or</div>}
 
           <div className="space-y-2">
-            <Label htmlFor="newCollection">Or Create New Collection</Label>
+            <Label htmlFor="newCollection">Create New Collection</Label>
             <div className="flex gap-2">
               <Input
                 id="newCollection"
                 value={newCollectionName}
                 onChange={(e) => setNewCollectionName(e.target.value)}
-                placeholder="Collection name..."
+                placeholder="e.g., Date Night, Family Friendly, Quick Lunch"
               />
               <Button
                 onClick={createNewCollection}
@@ -201,16 +208,21 @@ const SaveBusinessButton: React.FC<SaveBusinessButtonProps> = ({
                 {isCreatingCollection ? 'Creating...' : 'Create'}
               </Button>
             </div>
+            <p className="text-xs text-muted-foreground">
+              Tip: Create themed collections to organize your favorites
+            </p>
           </div>
 
           <div className="flex gap-2 pt-4">
-            <Button
-              onClick={saveRestaurant}
-              disabled={!selectedCollection || isSaving}
-              className="flex-1"
-            >
-              {isSaving ? 'Saving...' : 'Save Business'}
-            </Button>
+            {collections.length > 0 && (
+              <Button
+                onClick={saveRestaurant}
+                disabled={!selectedCollection || isSaving}
+                className="flex-1"
+              >
+                {isSaving ? 'Saving...' : 'Add to Collection'}
+              </Button>
+            )}
             <Button
               onClick={() => setIsDialogOpen(false)}
               variant="outline"
