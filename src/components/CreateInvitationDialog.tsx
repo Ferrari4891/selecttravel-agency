@@ -109,7 +109,7 @@ export const CreateInvitationDialog = ({ open, onOpenChange, restaurant }: Creat
   };
 
   const shareViaWhatsApp = () => {
-    if (!createdInvitation) return;
+    if (!createdInvitation || !restaurant) return;
     const link = generateInviteLink(createdInvitation.invite_token);
     const message = `🎉 You're invited to ${groupName}!\n\n📍 ${restaurant.restaurant_name}\n📅 ${format(proposedDate!, 'PPP')}\n\n${customMessage}\n\nRSVP here: ${link}`;
     const whatsappUrl = `https://wa.me/?text=${encodeURIComponent(message)}`;
@@ -117,7 +117,7 @@ export const CreateInvitationDialog = ({ open, onOpenChange, restaurant }: Creat
   };
 
   const sendEmailInvitations = async () => {
-    if (!createdInvitation || !emails.trim()) return;
+    if (!createdInvitation || !emails.trim() || !restaurant) return;
 
     setSendingEmails(true);
     try {
@@ -185,14 +185,16 @@ export const CreateInvitationDialog = ({ open, onOpenChange, restaurant }: Creat
         {step === 'create' ? (
           <div className="space-y-6">
             {/* Selected Business */}
-            <div className="p-4 border rounded-lg bg-muted/50">
-              <h3 className="font-semibold mb-2">Selected Place</h3>
-              <div className="space-y-1 text-sm">
-                <p className="font-medium">{restaurant.restaurant_name}</p>
-                <p className="text-muted-foreground">{restaurant.restaurant_address}</p>
-                <p className="text-muted-foreground">{restaurant.city}, {restaurant.country}</p>
+            {restaurant && (
+              <div className="p-4 border rounded-lg bg-muted/50">
+                <h3 className="font-semibold mb-2">Selected Place</h3>
+                <div className="space-y-1 text-sm">
+                  <p className="font-medium">{restaurant.restaurant_name}</p>
+                  <p className="text-muted-foreground">{restaurant.restaurant_address}</p>
+                  <p className="text-muted-foreground">{restaurant.city}, {restaurant.country}</p>
+                </div>
               </div>
-            </div>
+            )}
 
             {/* Group Name */}
             <div className="space-y-2">
@@ -327,27 +329,29 @@ export const CreateInvitationDialog = ({ open, onOpenChange, restaurant }: Creat
             </div>
 
             {/* Invitation Summary */}
-            <div className="p-4 border rounded-lg bg-muted/50">
-              <h3 className="font-semibold mb-3">Invitation Details</h3>
-              <div className="space-y-2 text-sm">
-                <div className="flex justify-between">
-                  <span className="text-muted-foreground">Event:</span>
-                  <span className="font-medium">{groupName}</span>
-                </div>
-                <div className="flex justify-between">
-                  <span className="text-muted-foreground">Place:</span>
-                  <span className="font-medium">{restaurant.restaurant_name}</span>
-                </div>
-                <div className="flex justify-between">
-                  <span className="text-muted-foreground">Date:</span>
-                  <span className="font-medium">{proposedDate && format(proposedDate, 'PPP')}</span>
-                </div>
-                <div className="flex justify-between">
-                  <span className="text-muted-foreground">RSVP by:</span>
-                  <span className="font-medium">{rsvpDeadline && format(rsvpDeadline, 'PPP')}</span>
+            {restaurant && (
+              <div className="p-4 border rounded-lg bg-muted/50">
+                <h3 className="font-semibold mb-3">Invitation Details</h3>
+                <div className="space-y-2 text-sm">
+                  <div className="flex justify-between">
+                    <span className="text-muted-foreground">Event:</span>
+                    <span className="font-medium">{groupName}</span>
+                  </div>
+                  <div className="flex justify-between">
+                    <span className="text-muted-foreground">Place:</span>
+                    <span className="font-medium">{restaurant.restaurant_name}</span>
+                  </div>
+                  <div className="flex justify-between">
+                    <span className="text-muted-foreground">Date:</span>
+                    <span className="font-medium">{proposedDate && format(proposedDate, 'PPP')}</span>
+                  </div>
+                  <div className="flex justify-between">
+                    <span className="text-muted-foreground">RSVP by:</span>
+                    <span className="font-medium">{rsvpDeadline && format(rsvpDeadline, 'PPP')}</span>
+                  </div>
                 </div>
               </div>
-            </div>
+            )}
 
             {/* Sharing Options */}
             <div className="space-y-4">
