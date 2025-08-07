@@ -214,12 +214,15 @@ const { user } = useAuth();
                   </Link>
                 </Button>
                 
-                <Button variant="ghost" className="w-full justify-start h-10 text-left touch-target" asChild>
-                  <Link to="/dashboard" onClick={() => setMenuOpen(false)}>
-                    <Search className="h-4 w-4 mr-2" />
-                    <span className="text-sm">Main Dashboard</span>
-                  </Link>
-                </Button>
+                {/* Public Member Section - moved after How To */}
+                {!user && (
+                  <Button variant="default" className="w-full justify-start h-11 text-left touch-target mb-1" asChild>
+                    <Link to="/auth" onClick={() => setMenuOpen(false)}>
+                      <User className="h-5 w-5 mr-2" />
+                      <span className="text-base font-semibold">Join Free</span>
+                    </Link>
+                  </Button>
+                )}
                 
                 {/* Advertise with dropdown */}
                 <Button 
@@ -293,20 +296,8 @@ const { user } = useAuth();
                   </Link>
                 </Button>
                 
-                {/* Member Section */}
-                {!user ? (
-                  <>
-                    <div className="border-t border-gray-200 pt-2 mt-2">
-                      <p className="text-xs text-gray-600 mb-2 px-2">Become a Member</p>
-                      <Button variant="default" className="w-full justify-start h-11 text-left touch-target mb-1" asChild>
-                        <Link to="/auth" onClick={() => setMenuOpen(false)}>
-                          <User className="h-5 w-5 mr-2" />
-                          <span className="text-base font-semibold">Join Free</span>
-                        </Link>
-                      </Button>
-                    </div>
-                  </>
-                ) : (
+                {/* User Account Section - only show when logged in */}
+                {user && (
                   <>
                     <div className="border-t border-gray-200 pt-2 mt-2">
                       <p className="text-xs text-gray-600 mb-2 px-2">My Account</p>
