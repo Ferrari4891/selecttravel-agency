@@ -190,29 +190,33 @@ export const AdminSettings = () => {
               </CardDescription>
             </CardHeader>
             <CardContent className="space-y-4">
-              <div className="space-y-4">
-                <Button variant="outline" className="justify-start h-auto p-4">
+              <div className="space-y-3">
+                <Button variant="outline" className="w-full justify-start p-4 h-auto">
+                  <Database className="h-4 w-4 mr-3 text-muted-foreground" />
                   <div className="text-left">
-                    <div className="font-medium">Backup Database</div>
-                    <div className="text-sm text-gray-600">Create a full database backup</div>
+                    <div className="font-medium text-sm">Backup Database</div>
+                    <div className="text-xs text-muted-foreground">Create a full database backup</div>
                   </div>
                 </Button>
-                <Button variant="outline" className="justify-start h-auto p-4">
+                <Button variant="outline" className="w-full justify-start p-4 h-auto">
+                  <Settings className="h-4 w-4 mr-3 text-muted-foreground" />
                   <div className="text-left">
-                    <div className="font-medium">Cleanup Logs</div>
-                    <div className="text-sm text-gray-600">Remove old system logs</div>
+                    <div className="font-medium text-sm">Cleanup Logs</div>
+                    <div className="text-xs text-muted-foreground">Remove old system logs</div>
                   </div>
                 </Button>
-                <Button variant="outline" className="justify-start h-auto p-4">
+                <Button variant="outline" className="w-full justify-start p-4 h-auto">
+                  <Settings className="h-4 w-4 mr-3 text-muted-foreground" />
                   <div className="text-left">
-                    <div className="font-medium">Optimize Performance</div>
-                    <div className="text-sm text-gray-600">Run database optimization</div>
+                    <div className="font-medium text-sm">Optimize Performance</div>
+                    <div className="text-xs text-muted-foreground">Run database optimization</div>
                   </div>
                 </Button>
-                <Button variant="outline" className="justify-start h-auto p-4">
+                <Button variant="outline" className="w-full justify-start p-4 h-auto">
+                  <Database className="h-4 w-4 mr-3 text-muted-foreground" />
                   <div className="text-left">
-                    <div className="font-medium">Export Data</div>
-                    <div className="text-sm text-gray-600">Export system data</div>
+                    <div className="font-medium text-sm">Export Data</div>
+                    <div className="text-xs text-muted-foreground">Export system data</div>
                   </div>
                 </Button>
               </div>
