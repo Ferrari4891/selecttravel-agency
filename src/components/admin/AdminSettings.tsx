@@ -154,44 +154,74 @@ export const AdminSettings = () => {
           <AmenityManagement />
         </TabsContent>
 
-        <TabsContent value="system" className="space-y-4">
-          <Card>
-            <CardHeader>
-              <CardTitle className="flex items-center gap-2">
-                <Settings className="h-5 w-5" />
-                System Configuration
-              </CardTitle>
-              <CardDescription>
-                Configure platform-wide settings and features.
-              </CardDescription>
-            </CardHeader>
-            <CardContent className="space-y-4">
-              <SystemSetting
-                title="User Registration"
-                description="Allow new users to register accounts"
-                value={true}
-                onToggle={(value) => toast({ title: "Setting Updated", description: `User registration ${value ? 'enabled' : 'disabled'}` })}
-              />
-              <SystemSetting
-                title="Business Registration"
-                description="Allow new business account creation"
-                value={true}
-                onToggle={(value) => toast({ title: "Setting Updated", description: `Business registration ${value ? 'enabled' : 'disabled'}` })}
-              />
-              <SystemSetting
-                title="Email Notifications"
-                description="Send system notification emails"
-                value={true}
-                onToggle={(value) => toast({ title: "Setting Updated", description: `Email notifications ${value ? 'enabled' : 'disabled'}` })}
-              />
-              <SystemSetting
-                title="Maintenance Mode"
-                description="Enable maintenance mode for system updates"
-                value={false}
-                onToggle={(value) => toast({ title: "Setting Updated", description: `Maintenance mode ${value ? 'enabled' : 'disabled'}` })}
-              />
-            </CardContent>
-          </Card>
+        <TabsContent value="system" className="space-y-6">
+          <div className="grid gap-6">
+            <Card>
+              <CardHeader className="pb-4">
+                <CardTitle className="flex items-center gap-2 text-lg">
+                  <Settings className="h-5 w-5 text-primary" />
+                  Registration Settings
+                </CardTitle>
+                <CardDescription className="text-sm">
+                  Control user and business account creation
+                </CardDescription>
+              </CardHeader>
+              <CardContent className="space-y-6">
+                <SystemSetting
+                  title="User Registration"
+                  description="Allow new users to create personal accounts"
+                  value={true}
+                  onToggle={(value) => toast({ title: "Setting Updated", description: `User registration ${value ? 'enabled' : 'disabled'}` })}
+                />
+                <SystemSetting
+                  title="Business Registration"
+                  description="Allow new business account creation and listings"
+                  value={true}
+                  onToggle={(value) => toast({ title: "Setting Updated", description: `Business registration ${value ? 'enabled' : 'disabled'}` })}
+                />
+              </CardContent>
+            </Card>
+
+            <Card>
+              <CardHeader className="pb-4">
+                <CardTitle className="flex items-center gap-2 text-lg">
+                  <Mail className="h-5 w-5 text-primary" />
+                  Communication Settings
+                </CardTitle>
+                <CardDescription className="text-sm">
+                  Configure email notifications and messaging
+                </CardDescription>
+              </CardHeader>
+              <CardContent className="space-y-6">
+                <SystemSetting
+                  title="Email Notifications"
+                  description="Send automated system notification emails to users"
+                  value={true}
+                  onToggle={(value) => toast({ title: "Setting Updated", description: `Email notifications ${value ? 'enabled' : 'disabled'}` })}
+                />
+              </CardContent>
+            </Card>
+
+            <Card>
+              <CardHeader className="pb-4">
+                <CardTitle className="flex items-center gap-2 text-lg">
+                  <Sliders className="h-5 w-5 text-primary" />
+                  System Status
+                </CardTitle>
+                <CardDescription className="text-sm">
+                  Control platform availability and maintenance
+                </CardDescription>
+              </CardHeader>
+              <CardContent className="space-y-6">
+                <SystemSetting
+                  title="Maintenance Mode"
+                  description="Enable maintenance mode to restrict access during system updates"
+                  value={false}
+                  onToggle={(value) => toast({ title: "Setting Updated", description: `Maintenance mode ${value ? 'enabled' : 'disabled'}` })}
+                />
+              </CardContent>
+            </Card>
+          </div>
         </TabsContent>
 
         <TabsContent value="security" className="space-y-4">
