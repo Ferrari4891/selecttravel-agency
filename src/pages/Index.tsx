@@ -32,6 +32,16 @@ import placeholderComingSoon from '@/assets/placeholder-image-coming-soon.jpg';
 import { cityImages } from '@/data/cityImages';
 import { countryImages } from '@/data/countryImages';
 
+// Import flag images
+import flagJapan from '@/assets/flag-japan.jpg';
+import flagFrance from '@/assets/flag-france.jpg';
+import flagKorea from '@/assets/flag-korea.jpg';
+import flagItaly from '@/assets/flag-italy.jpg';
+import flagChina from '@/assets/flag-china.jpg';
+import flagMexico from '@/assets/flag-mexico.jpg';
+import flagIndia from '@/assets/flag-india.jpg';
+import flagThailand from '@/assets/flag-thailand.jpg';
+
 interface Business {
   name: string;
   address: string;
@@ -65,14 +75,14 @@ const Index: React.FC = () => {
   const [staticImageIndex, setStaticImageIndex] = useState(0);
 
   const categories = [
-    { value: 'Japanese', label: 'Japanese', icon: Utensils },
-    { value: 'Korean', label: 'Korean', icon: Utensils },
-    { value: 'French', label: 'French', icon: Utensils },
-    { value: 'Italian', label: 'Italian', icon: Utensils },
-    { value: 'Chinese', label: 'Chinese', icon: Utensils },
-    { value: 'Mexican', label: 'Mexican', icon: Utensils },
-    { value: 'Indian', label: 'Indian', icon: Utensils },
-    { value: 'Thai', label: 'Thai', icon: Utensils }
+    { value: 'Japanese', label: 'Japanese', icon: flagJapan },
+    { value: 'Korean', label: 'Korean', icon: flagKorea },
+    { value: 'French', label: 'French', icon: flagFrance },
+    { value: 'Italian', label: 'Italian', icon: flagItaly },
+    { value: 'Chinese', label: 'Chinese', icon: flagChina },
+    { value: 'Mexican', label: 'Mexican', icon: flagMexico },
+    { value: 'Indian', label: 'Indian', icon: flagIndia },
+    { value: 'Thai', label: 'Thai', icon: flagThailand }
   ];
 
   const regions = Object.keys(regionData);
@@ -545,16 +555,15 @@ const Index: React.FC = () => {
                       <SelectValue placeholder="Select category..." />
                     </SelectTrigger>
                     <SelectContent className="bg-white border-2 border-gray-300 rounded-none max-h-60 overflow-y-auto z-[100] shadow-lg">
-                      {categories.map((category) => {
-                        const IconComponent = category.icon;
-                        return (
-                          <SelectItem key={category.value} value={category.value} className="text-base py-3 rounded-none hover:bg-gray-100">
-                            <div className="flex items-center gap-2">
-                              <IconComponent className="h-5 w-5" />
-                              <span className="font-medium">{category.label}</span>
-                            </div>
-                          </SelectItem>
-                        );
+                       {categories.map((category) => {
+                         return (
+                           <SelectItem key={category.value} value={category.value} className="text-base py-3 rounded-none hover:bg-gray-100">
+                             <div className="flex items-center gap-2">
+                               <img src={category.icon} alt={`${category.label} flag`} className="h-5 w-5 object-cover" />
+                               <span className="font-medium">{category.label}</span>
+                             </div>
+                           </SelectItem>
+                         );
                       })}
                     </SelectContent>
                   </Select>
