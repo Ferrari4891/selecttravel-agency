@@ -141,7 +141,7 @@ export const RestaurantResults: React.FC<RestaurantResultsProps> = ({
                     onClick={() => window.open(restaurant.contactDetails.menuLink, '_blank')}
                   >
                     <Menu className="h-4 w-4" />
-                    View Menu
+                    See Menu
                   </Button>
                 )}
                 
@@ -319,7 +319,7 @@ export const RestaurantResults: React.FC<RestaurantResultsProps> = ({
                   onClick={() => window.open(restaurant.contactDetails.menuLink, '_blank')}
                 >
                   <Menu className="h-4 w-4" />
-                  View Menu
+                  See Menu
                 </Button>
               )}
               

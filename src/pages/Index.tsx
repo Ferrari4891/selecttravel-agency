@@ -52,6 +52,7 @@ interface Business {
   email: string;
   website: string;
   mapLink: string;
+  menuLink: string; // Add this line
   googleMapRef?: string;
   facebook?: string;
   instagram?: string;
@@ -220,6 +221,7 @@ const Index: React.FC = () => {
       email: `info@${name.toLowerCase().replace(/\s+/g, '')}.com`,
       website: `https://www.${name.toLowerCase().replace(/\s+/g, '')}.com`,
       mapLink: `https://maps.google.com/?q=${encodeURIComponent(name + ' ' + selectedCity)}`,
+      menuLink: `https://menu.${name.toLowerCase().replace(/\s+/g, '')}.com`, // Add menu link for all restaurants
       facebook: Math.random() > 0.5 ? `https://facebook.com/${name.toLowerCase().replace(/\s+/g, '')}` : undefined,
       instagram: Math.random() > 0.5 ? `https://instagram.com/${name.toLowerCase().replace(/\s+/g, '')}` : undefined,
       twitter: Math.random() > 0.5 ? `https://twitter.com/${name.toLowerCase().replace(/\s+/g, '')}` : undefined,
@@ -895,7 +897,7 @@ const Index: React.FC = () => {
                     phone: business.phone,
                     email: business.email,
                     website: business.website,
-                    menuLink: undefined
+                    menuLink: business.menuLink // Add this line
                   },
                   imageLinks: [business.image],
                   rating: business.rating,
