@@ -70,40 +70,84 @@ export const AdminSettings = () => {
           <TabsTrigger value="database">Database</TabsTrigger>
         </TabsList>
 
-        <TabsContent value="admin" className="space-y-4">
-          <Card>
-            <CardHeader>
-              <CardTitle className="flex items-center gap-2">
-                <Shield className="h-5 w-5" />
-                Administrator Management
-              </CardTitle>
-              <CardDescription>
-                Manage administrator privileges and access control.
-              </CardDescription>
-            </CardHeader>
-            <CardContent className="space-y-4">
-              <form onSubmit={handleCreateAdmin} className="space-y-4">
-                <div>
-                  <Label htmlFor="admin-email">Grant Admin Privileges</Label>
-                  <div className="flex gap-2 mt-1">
-                    <Input
-                      id="admin-email"
-                      type="email"
-                      placeholder="Enter user email address"
-                      value={newAdminEmail}
-                      onChange={(e) => setNewAdminEmail(e.target.value)}
-                    />
-                    <Button type="submit" disabled={loading || !newAdminEmail}>
-                      {loading ? 'Processing...' : 'Grant Admin'}
-                    </Button>
+        <TabsContent value="admin" className="space-y-6">
+          <div className="grid gap-6">
+            <Card>
+              <CardHeader className="pb-4">
+                <CardTitle className="flex items-center gap-2 text-lg">
+                  <Users className="h-5 w-5 text-primary" />
+                  Grant Administrator Access
+                </CardTitle>
+                <CardDescription className="text-sm">
+                  Promote existing platform users to administrator status
+                </CardDescription>
+              </CardHeader>
+              <CardContent>
+                <form onSubmit={handleCreateAdmin} className="space-y-4">
+                  <div className="space-y-2">
+                    <Label htmlFor="admin-email" className="text-sm font-medium">
+                      User Email Address
+                    </Label>
+                    <div className="flex gap-3">
+                      <Input
+                        id="admin-email"
+                        type="email"
+                        placeholder="user@example.com"
+                        value={newAdminEmail}
+                        onChange={(e) => setNewAdminEmail(e.target.value)}
+                        className="flex-1"
+                        disabled={loading}
+                      />
+                      <Button 
+                        type="submit" 
+                        disabled={loading || !newAdminEmail.trim()}
+                        className="min-w-[120px]"
+                      >
+                        {loading ? 'Granting...' : 'Grant Access'}
+                      </Button>
+                    </div>
+                    <div className="flex items-start gap-2 mt-2">
+                      <div className="w-1 h-1 rounded-full bg-muted-foreground mt-2 flex-shrink-0"></div>
+                      <p className="text-xs text-muted-foreground">
+                        The user must have an existing account on the platform before admin privileges can be granted.
+                      </p>
+                    </div>
                   </div>
-                  <p className="text-sm text-gray-600 mt-1">
-                    User must be registered on the platform first.
-                  </p>
+                </form>
+              </CardContent>
+            </Card>
+
+            <Card className="border-muted">
+              <CardHeader className="pb-4">
+                <CardTitle className="flex items-center gap-2 text-lg">
+                  <Shield className="h-5 w-5 text-orange-500" />
+                  Administrator Guidelines
+                </CardTitle>
+              </CardHeader>
+              <CardContent>
+                <div className="space-y-3 text-sm">
+                  <div className="flex items-start gap-2">
+                    <div className="w-1 h-1 rounded-full bg-orange-500 mt-2 flex-shrink-0"></div>
+                    <p className="text-muted-foreground">
+                      Administrators have full access to all platform features and user data
+                    </p>
+                  </div>
+                  <div className="flex items-start gap-2">
+                    <div className="w-1 h-1 rounded-full bg-orange-500 mt-2 flex-shrink-0"></div>
+                    <p className="text-muted-foreground">
+                      Admin privileges cannot be revoked through this interface - contact system administrator
+                    </p>
+                  </div>
+                  <div className="flex items-start gap-2">
+                    <div className="w-1 h-1 rounded-full bg-orange-500 mt-2 flex-shrink-0"></div>
+                    <p className="text-muted-foreground">
+                      Only grant admin access to trusted team members
+                    </p>
+                  </div>
                 </div>
-              </form>
-            </CardContent>
-          </Card>
+              </CardContent>
+            </Card>
+          </div>
         </TabsContent>
 
         <TabsContent value="amenities" className="space-y-4">
