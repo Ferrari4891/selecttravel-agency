@@ -354,7 +354,7 @@ const MemberDashboard = () => {
           
           <div className="absolute inset-0 bg-black bg-opacity-40 flex items-center justify-center">
             <div className="text-center text-white px-4">
-              <h1 className="text-3xl font-bold mb-2 md:text-6xl lg:text-7xl">My Dashboard</h1>
+              <h1 className="text-2xl font-bold mb-2 md:text-4xl lg:text-5xl">My Dashboard</h1>
               <p className="text-sm md:text-lg">Welcome back, {user?.email}</p>
             </div>
           </div>
