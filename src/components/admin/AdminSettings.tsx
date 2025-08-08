@@ -7,7 +7,8 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { useToast } from '@/hooks/use-toast';
 import { supabase } from '@/integrations/supabase/client';
-import { Settings, Shield, Mail, Database, Users } from 'lucide-react';
+import { Settings, Shield, Mail, Database, Users, Sliders } from 'lucide-react';
+import { AmenityManagement } from './AmenityManagement';
 
 export const AdminSettings = () => {
   const [newAdminEmail, setNewAdminEmail] = useState('');
@@ -61,8 +62,9 @@ export const AdminSettings = () => {
   return (
     <div className="space-y-6">
       <Tabs defaultValue="admin" className="space-y-4">
-        <TabsList className="grid w-full grid-cols-4">
+        <TabsList className="grid w-full grid-cols-5">
           <TabsTrigger value="admin">Admin Management</TabsTrigger>
+          <TabsTrigger value="amenities">Amenities</TabsTrigger>
           <TabsTrigger value="system">System Settings</TabsTrigger>
           <TabsTrigger value="security">Security</TabsTrigger>
           <TabsTrigger value="database">Database</TabsTrigger>
@@ -102,6 +104,10 @@ export const AdminSettings = () => {
               </form>
             </CardContent>
           </Card>
+        </TabsContent>
+
+        <TabsContent value="amenities" className="space-y-4">
+          <AmenityManagement />
         </TabsContent>
 
         <TabsContent value="system" className="space-y-4">

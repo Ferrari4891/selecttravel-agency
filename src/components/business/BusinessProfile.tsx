@@ -12,6 +12,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
 import { useToast } from '@/hooks/use-toast';
 import { BusinessHours } from './BusinessHours';
+import { useAmenityOptions } from '@/hooks/useAmenityOptions';
 
 const businessSchema = z.object({
   business_name: z.string().min(1, 'Business name is required'),
@@ -102,6 +103,7 @@ export const BusinessProfile: React.FC<BusinessProfileProps> = ({
   const [showPreview, setShowPreview] = useState(false);
   const [uploadingImages, setUploadingImages] = useState<Record<string, boolean>>({});
   const { toast } = useToast();
+  const { amenityOptions, isLoading: amenityLoading } = useAmenityOptions();
   const [businessHours, setBusinessHours] = useState(
     business?.business_hours || {
       monday: { open: '09:00', close: '17:00', closed: false },
@@ -797,235 +799,37 @@ export const BusinessProfile: React.FC<BusinessProfileProps> = ({
           </div>
           
           <div className="space-y-4">
-            <FormField
-              control={form.control}
-              name="wheelchair_access"
-              render={({ field }) => (
-                <FormItem className="flex items-center space-x-3 space-y-0 rounded-md border p-4">
-                  <FormControl>
-                    <Checkbox
-                      checked={field.value}
-                      onCheckedChange={field.onChange}
-                    />
-                  </FormControl>
-                  <div className="space-y-1 leading-none">
-                    <FormLabel className="text-sm font-medium">
-                      Wheelchair Accessible
-                    </FormLabel>
-                    <p className="text-xs text-muted-foreground">
-                      Accessible entrances, restrooms, and seating areas
-                    </p>
-                  </div>
-                </FormItem>
-              )}
-            />
-
-            <FormField
-              control={form.control}
-              name="extended_hours"
-              render={({ field }) => (
-                <FormItem className="flex items-center space-x-3 space-y-0 rounded-md border p-4">
-                  <FormControl>
-                    <Checkbox
-                      checked={field.value}
-                      onCheckedChange={field.onChange}
-                    />
-                  </FormControl>
-                  <div className="space-y-1 leading-none">
-                    <FormLabel className="text-sm font-medium">
-                      Extended Hours
-                    </FormLabel>
-                    <p className="text-xs text-muted-foreground">
-                      Open early morning or late evening
-                    </p>
-                  </div>
-                </FormItem>
-              )}
-            />
-
-            <FormField
-              control={form.control}
-              name="gluten_free"
-              render={({ field }) => (
-                <FormItem className="flex items-center space-x-3 space-y-0 rounded-md border p-4">
-                  <FormControl>
-                    <Checkbox
-                      checked={field.value}
-                      onCheckedChange={field.onChange}
-                    />
-                  </FormControl>
-                  <div className="space-y-1 leading-none">
-                    <FormLabel className="text-sm font-medium">
-                      Gluten-Free Options
-                    </FormLabel>
-                    <p className="text-xs text-muted-foreground">
-                      Offers gluten-free menu items or products
-                    </p>
-                  </div>
-                </FormItem>
-              )}
-            />
-
-            <FormField
-              control={form.control}
-              name="low_noise"
-              render={({ field }) => (
-                <FormItem className="flex items-center space-x-3 space-y-0 rounded-md border p-4">
-                  <FormControl>
-                    <Checkbox
-                      checked={field.value}
-                      onCheckedChange={field.onChange}
-                    />
-                  </FormControl>
-                  <div className="space-y-1 leading-none">
-                    <FormLabel className="text-sm font-medium">
-                      Quiet Environment
-                    </FormLabel>
-                    <p className="text-xs text-muted-foreground">
-                      Low noise levels, suitable for conversation or work
-                    </p>
-                  </div>
-                </FormItem>
-              )}
-            />
-
-            <FormField
-              control={form.control}
-              name="public_transport"
-              render={({ field }) => (
-                <FormItem className="flex items-center space-x-3 space-y-0 rounded-md border p-4">
-                  <FormControl>
-                    <Checkbox
-                      checked={field.value}
-                      onCheckedChange={field.onChange}
-                    />
-                  </FormControl>
-                  <div className="space-y-1 leading-none">
-                    <FormLabel className="text-sm font-medium">
-                      Near Public Transport
-                    </FormLabel>
-                    <p className="text-xs text-muted-foreground">
-                      Close to bus stops, metro, or train stations
-                    </p>
-                  </div>
-                </FormItem>
-              )}
-            />
-
-            <FormField
-              control={form.control}
-              name="pet_friendly"
-              render={({ field }) => (
-                <FormItem className="flex items-center space-x-3 space-y-0 rounded-md border p-4">
-                  <FormControl>
-                    <Checkbox
-                      checked={field.value}
-                      onCheckedChange={field.onChange}
-                    />
-                  </FormControl>
-                  <div className="space-y-1 leading-none">
-                    <FormLabel className="text-sm font-medium">
-                      Pet Friendly
-                    </FormLabel>
-                    <p className="text-xs text-muted-foreground">
-                      Welcomes pets and service animals
-                    </p>
-                  </div>
-                </FormItem>
-              )}
-            />
-
-            <FormField
-              control={form.control}
-              name="outdoor_seating"
-              render={({ field }) => (
-                <FormItem className="flex items-center space-x-3 space-y-0 rounded-md border p-4">
-                  <FormControl>
-                    <Checkbox
-                      checked={field.value}
-                      onCheckedChange={field.onChange}
-                    />
-                  </FormControl>
-                  <div className="space-y-1 leading-none">
-                    <FormLabel className="text-sm font-medium">
-                      Outdoor Seating
-                    </FormLabel>
-                    <p className="text-xs text-muted-foreground">
-                      Patio, terrace, or outdoor dining areas
-                    </p>
-                  </div>
-                </FormItem>
-              )}
-            />
-
-            <FormField
-              control={form.control}
-              name="senior_discounts"
-              render={({ field }) => (
-                <FormItem className="flex items-center space-x-3 space-y-0 rounded-md border p-4">
-                  <FormControl>
-                    <Checkbox
-                      checked={field.value}
-                      onCheckedChange={field.onChange}
-                    />
-                  </FormControl>
-                  <div className="space-y-1 leading-none">
-                    <FormLabel className="text-sm font-medium">
-                      Senior Discounts
-                    </FormLabel>
-                    <p className="text-xs text-muted-foreground">
-                      Special pricing for senior citizens
-                    </p>
-                  </div>
-                </FormItem>
-              )}
-            />
-
-            <FormField
-              control={form.control}
-              name="online_booking"
-              render={({ field }) => (
-                <FormItem className="flex items-center space-x-3 space-y-0 rounded-md border p-4">
-                  <FormControl>
-                    <Checkbox
-                      checked={field.value}
-                      onCheckedChange={field.onChange}
-                    />
-                  </FormControl>
-                  <div className="space-y-1 leading-none">
-                    <FormLabel className="text-sm font-medium">
-                      Online Booking
-                    </FormLabel>
-                    <p className="text-xs text-muted-foreground">
-                      Reservations or appointments available online
-                    </p>
-                  </div>
-                </FormItem>
-              )}
-            />
-
-            <FormField
-              control={form.control}
-              name="air_conditioned"
-              render={({ field }) => (
-                <FormItem className="flex items-center space-x-3 space-y-0 rounded-md border p-4">
-                  <FormControl>
-                    <Checkbox
-                      checked={field.value}
-                      onCheckedChange={field.onChange}
-                    />
-                  </FormControl>
-                  <div className="space-y-1 leading-none">
-                    <FormLabel className="text-sm font-medium">
-                      Air Conditioned
-                    </FormLabel>
-                    <p className="text-xs text-muted-foreground">
-                      Climate-controlled indoor environment
-                    </p>
-                  </div>
-                </FormItem>
-              )}
-            />
+            {amenityLoading ? (
+              <div className="text-center text-muted-foreground">Loading amenity options...</div>
+            ) : (
+              amenityOptions.map((amenity) => (
+                <FormField
+                  key={amenity.option_key}
+                  control={form.control}
+                  name={amenity.option_key as keyof BusinessFormData}
+                  render={({ field }) => (
+                    <FormItem className="flex items-center space-x-3 space-y-0 rounded-md border p-4">
+                      <FormControl>
+                        <Checkbox
+                          checked={field.value as boolean}
+                          onCheckedChange={field.onChange}
+                        />
+                      </FormControl>
+                      <div className="space-y-1 leading-none">
+                        <FormLabel className="text-sm font-medium">
+                          {amenity.display_name}
+                        </FormLabel>
+                        {amenity.description && (
+                          <p className="text-xs text-muted-foreground">
+                            {amenity.description}
+                          </p>
+                        )}
+                      </div>
+                    </FormItem>
+                  )}
+                />
+              ))
+            )}
           </div>
         </div>
 
