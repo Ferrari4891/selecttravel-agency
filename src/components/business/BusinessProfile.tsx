@@ -7,6 +7,7 @@ import { supabase } from '@/integrations/supabase/client';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
+import { Checkbox } from '@/components/ui/checkbox';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
 import { useToast } from '@/hooks/use-toast';
@@ -31,6 +32,17 @@ const businessSchema = z.object({
   image_1_url: z.string().optional(),
   image_2_url: z.string().optional(),
   image_3_url: z.string().optional(),
+  // Business amenities matching member preferences
+  wheelchair_access: z.boolean().default(false),
+  extended_hours: z.boolean().default(false),
+  gluten_free: z.boolean().default(false),
+  low_noise: z.boolean().default(false),
+  public_transport: z.boolean().default(false),
+  pet_friendly: z.boolean().default(false),
+  outdoor_seating: z.boolean().default(false),
+  senior_discounts: z.boolean().default(false),
+  online_booking: z.boolean().default(false),
+  air_conditioned: z.boolean().default(false),
 });
 
 type BusinessFormData = z.infer<typeof businessSchema>;
@@ -122,6 +134,17 @@ export const BusinessProfile: React.FC<BusinessProfileProps> = ({
       image_1_url: business?.image_1_url || '',
       image_2_url: business?.image_2_url || '',
       image_3_url: business?.image_3_url || '',
+      // Business amenities
+      wheelchair_access: business?.wheelchair_access || false,
+      extended_hours: business?.extended_hours || false,
+      gluten_free: business?.gluten_free || false,
+      low_noise: business?.low_noise || false,
+      public_transport: business?.public_transport || false,
+      pet_friendly: business?.pet_friendly || false,
+      outdoor_seating: business?.outdoor_seating || false,
+      senior_discounts: business?.senior_discounts || false,
+      online_booking: business?.online_booking || false,
+      air_conditioned: business?.air_conditioned || false,
     },
   });
 
@@ -138,8 +161,36 @@ export const BusinessProfile: React.FC<BusinessProfileProps> = ({
         const { data: updatedBusiness, error } = await supabase
           .from('businesses')
           .update({
-            ...data,
-            business_hours: businessHours
+            business_name: data.business_name,
+            business_type: data.business_type,
+            description: data.description,
+            website: data.website,
+            phone: data.phone,
+            email: data.email,
+            address: data.address,
+            city: data.city,
+            state: data.state,
+            country: data.country,
+            postal_code: data.postal_code,
+            facebook: data.facebook,
+            instagram: data.instagram,
+            twitter: data.twitter,
+            linkedin: data.linkedin,
+            business_hours: businessHours,
+            image_1_url: data.image_1_url,
+            image_2_url: data.image_2_url,
+            image_3_url: data.image_3_url,
+            // Business amenities
+            wheelchair_access: data.wheelchair_access,
+            extended_hours: data.extended_hours,
+            gluten_free: data.gluten_free,
+            low_noise: data.low_noise,
+            public_transport: data.public_transport,
+            pet_friendly: data.pet_friendly,
+            outdoor_seating: data.outdoor_seating,
+            senior_discounts: data.senior_discounts,
+            online_booking: data.online_booking,
+            air_conditioned: data.air_conditioned,
           })
           .eq('id', business.id)
           .select()
@@ -177,6 +228,17 @@ export const BusinessProfile: React.FC<BusinessProfileProps> = ({
             image_1_url: data.image_1_url,
             image_2_url: data.image_2_url,
             image_3_url: data.image_3_url,
+            // Business amenities
+            wheelchair_access: data.wheelchair_access,
+            extended_hours: data.extended_hours,
+            gluten_free: data.gluten_free,
+            low_noise: data.low_noise,
+            public_transport: data.public_transport,
+            pet_friendly: data.pet_friendly,
+            outdoor_seating: data.outdoor_seating,
+            senior_discounts: data.senior_discounts,
+            online_booking: data.online_booking,
+            air_conditioned: data.air_conditioned,
           })
           .select()
           .single();
@@ -724,6 +786,248 @@ export const BusinessProfile: React.FC<BusinessProfileProps> = ({
           businessHours={businessHours}
           onBusinessHoursChange={setBusinessHours}
         />
+
+        {/* Business Features & Amenities Section */}
+        <div className="space-y-6">
+          <div>
+            <h3 className="text-lg font-semibold mb-2">Features & Amenities</h3>
+            <p className="text-sm text-muted-foreground mb-4">
+              Select the features and amenities your business offers. This helps members find businesses that match their preferences.
+            </p>
+          </div>
+          
+          <div className="space-y-4">
+            <FormField
+              control={form.control}
+              name="wheelchair_access"
+              render={({ field }) => (
+                <FormItem className="flex items-center space-x-3 space-y-0 rounded-md border p-4">
+                  <FormControl>
+                    <Checkbox
+                      checked={field.value}
+                      onCheckedChange={field.onChange}
+                    />
+                  </FormControl>
+                  <div className="space-y-1 leading-none">
+                    <FormLabel className="text-sm font-medium">
+                      Wheelchair Accessible
+                    </FormLabel>
+                    <p className="text-xs text-muted-foreground">
+                      Accessible entrances, restrooms, and seating areas
+                    </p>
+                  </div>
+                </FormItem>
+              )}
+            />
+
+            <FormField
+              control={form.control}
+              name="extended_hours"
+              render={({ field }) => (
+                <FormItem className="flex items-center space-x-3 space-y-0 rounded-md border p-4">
+                  <FormControl>
+                    <Checkbox
+                      checked={field.value}
+                      onCheckedChange={field.onChange}
+                    />
+                  </FormControl>
+                  <div className="space-y-1 leading-none">
+                    <FormLabel className="text-sm font-medium">
+                      Extended Hours
+                    </FormLabel>
+                    <p className="text-xs text-muted-foreground">
+                      Open early morning or late evening
+                    </p>
+                  </div>
+                </FormItem>
+              )}
+            />
+
+            <FormField
+              control={form.control}
+              name="gluten_free"
+              render={({ field }) => (
+                <FormItem className="flex items-center space-x-3 space-y-0 rounded-md border p-4">
+                  <FormControl>
+                    <Checkbox
+                      checked={field.value}
+                      onCheckedChange={field.onChange}
+                    />
+                  </FormControl>
+                  <div className="space-y-1 leading-none">
+                    <FormLabel className="text-sm font-medium">
+                      Gluten-Free Options
+                    </FormLabel>
+                    <p className="text-xs text-muted-foreground">
+                      Offers gluten-free menu items or products
+                    </p>
+                  </div>
+                </FormItem>
+              )}
+            />
+
+            <FormField
+              control={form.control}
+              name="low_noise"
+              render={({ field }) => (
+                <FormItem className="flex items-center space-x-3 space-y-0 rounded-md border p-4">
+                  <FormControl>
+                    <Checkbox
+                      checked={field.value}
+                      onCheckedChange={field.onChange}
+                    />
+                  </FormControl>
+                  <div className="space-y-1 leading-none">
+                    <FormLabel className="text-sm font-medium">
+                      Quiet Environment
+                    </FormLabel>
+                    <p className="text-xs text-muted-foreground">
+                      Low noise levels, suitable for conversation or work
+                    </p>
+                  </div>
+                </FormItem>
+              )}
+            />
+
+            <FormField
+              control={form.control}
+              name="public_transport"
+              render={({ field }) => (
+                <FormItem className="flex items-center space-x-3 space-y-0 rounded-md border p-4">
+                  <FormControl>
+                    <Checkbox
+                      checked={field.value}
+                      onCheckedChange={field.onChange}
+                    />
+                  </FormControl>
+                  <div className="space-y-1 leading-none">
+                    <FormLabel className="text-sm font-medium">
+                      Near Public Transport
+                    </FormLabel>
+                    <p className="text-xs text-muted-foreground">
+                      Close to bus stops, metro, or train stations
+                    </p>
+                  </div>
+                </FormItem>
+              )}
+            />
+
+            <FormField
+              control={form.control}
+              name="pet_friendly"
+              render={({ field }) => (
+                <FormItem className="flex items-center space-x-3 space-y-0 rounded-md border p-4">
+                  <FormControl>
+                    <Checkbox
+                      checked={field.value}
+                      onCheckedChange={field.onChange}
+                    />
+                  </FormControl>
+                  <div className="space-y-1 leading-none">
+                    <FormLabel className="text-sm font-medium">
+                      Pet Friendly
+                    </FormLabel>
+                    <p className="text-xs text-muted-foreground">
+                      Welcomes pets and service animals
+                    </p>
+                  </div>
+                </FormItem>
+              )}
+            />
+
+            <FormField
+              control={form.control}
+              name="outdoor_seating"
+              render={({ field }) => (
+                <FormItem className="flex items-center space-x-3 space-y-0 rounded-md border p-4">
+                  <FormControl>
+                    <Checkbox
+                      checked={field.value}
+                      onCheckedChange={field.onChange}
+                    />
+                  </FormControl>
+                  <div className="space-y-1 leading-none">
+                    <FormLabel className="text-sm font-medium">
+                      Outdoor Seating
+                    </FormLabel>
+                    <p className="text-xs text-muted-foreground">
+                      Patio, terrace, or outdoor dining areas
+                    </p>
+                  </div>
+                </FormItem>
+              )}
+            />
+
+            <FormField
+              control={form.control}
+              name="senior_discounts"
+              render={({ field }) => (
+                <FormItem className="flex items-center space-x-3 space-y-0 rounded-md border p-4">
+                  <FormControl>
+                    <Checkbox
+                      checked={field.value}
+                      onCheckedChange={field.onChange}
+                    />
+                  </FormControl>
+                  <div className="space-y-1 leading-none">
+                    <FormLabel className="text-sm font-medium">
+                      Senior Discounts
+                    </FormLabel>
+                    <p className="text-xs text-muted-foreground">
+                      Special pricing for senior citizens
+                    </p>
+                  </div>
+                </FormItem>
+              )}
+            />
+
+            <FormField
+              control={form.control}
+              name="online_booking"
+              render={({ field }) => (
+                <FormItem className="flex items-center space-x-3 space-y-0 rounded-md border p-4">
+                  <FormControl>
+                    <Checkbox
+                      checked={field.value}
+                      onCheckedChange={field.onChange}
+                    />
+                  </FormControl>
+                  <div className="space-y-1 leading-none">
+                    <FormLabel className="text-sm font-medium">
+                      Online Booking
+                    </FormLabel>
+                    <p className="text-xs text-muted-foreground">
+                      Reservations or appointments available online
+                    </p>
+                  </div>
+                </FormItem>
+              )}
+            />
+
+            <FormField
+              control={form.control}
+              name="air_conditioned"
+              render={({ field }) => (
+                <FormItem className="flex items-center space-x-3 space-y-0 rounded-md border p-4">
+                  <FormControl>
+                    <Checkbox
+                      checked={field.value}
+                      onCheckedChange={field.onChange}
+                    />
+                  </FormControl>
+                  <div className="space-y-1 leading-none">
+                    <FormLabel className="text-sm font-medium">
+                      Air Conditioned
+                    </FormLabel>
+                    <p className="text-xs text-muted-foreground">
+                      Climate-controlled indoor environment
+                    </p>
+                  </div>
+                </FormItem>
+              )}
+            />
+          </div>
+        </div>
 
         {/* Business Images Section */}
         <div className="space-y-4">

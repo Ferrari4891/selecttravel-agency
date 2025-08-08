@@ -108,6 +108,7 @@ export type Database = {
       businesses: {
         Row: {
           address: string | null
+          air_conditioned: boolean | null
           business_hours: Json | null
           business_name: string
           business_type: string
@@ -116,7 +117,9 @@ export type Database = {
           created_at: string
           description: string | null
           email: string | null
+          extended_hours: boolean | null
           facebook: string | null
+          gluten_free: boolean | null
           id: string
           image_1_url: string | null
           image_2_url: string | null
@@ -124,8 +127,14 @@ export type Database = {
           instagram: string | null
           linkedin: string | null
           logo_url: string | null
+          low_noise: boolean | null
+          online_booking: boolean | null
+          outdoor_seating: boolean | null
+          pet_friendly: boolean | null
           phone: string | null
           postal_code: string | null
+          public_transport: boolean | null
+          senior_discounts: boolean | null
           state: string | null
           status: string
           subscription_end_date: string | null
@@ -135,9 +144,11 @@ export type Database = {
           updated_at: string
           user_id: string
           website: string | null
+          wheelchair_access: boolean | null
         }
         Insert: {
           address?: string | null
+          air_conditioned?: boolean | null
           business_hours?: Json | null
           business_name: string
           business_type: string
@@ -146,7 +157,9 @@ export type Database = {
           created_at?: string
           description?: string | null
           email?: string | null
+          extended_hours?: boolean | null
           facebook?: string | null
+          gluten_free?: boolean | null
           id?: string
           image_1_url?: string | null
           image_2_url?: string | null
@@ -154,8 +167,14 @@ export type Database = {
           instagram?: string | null
           linkedin?: string | null
           logo_url?: string | null
+          low_noise?: boolean | null
+          online_booking?: boolean | null
+          outdoor_seating?: boolean | null
+          pet_friendly?: boolean | null
           phone?: string | null
           postal_code?: string | null
+          public_transport?: boolean | null
+          senior_discounts?: boolean | null
           state?: string | null
           status?: string
           subscription_end_date?: string | null
@@ -165,9 +184,11 @@ export type Database = {
           updated_at?: string
           user_id: string
           website?: string | null
+          wheelchair_access?: boolean | null
         }
         Update: {
           address?: string | null
+          air_conditioned?: boolean | null
           business_hours?: Json | null
           business_name?: string
           business_type?: string
@@ -176,7 +197,9 @@ export type Database = {
           created_at?: string
           description?: string | null
           email?: string | null
+          extended_hours?: boolean | null
           facebook?: string | null
+          gluten_free?: boolean | null
           id?: string
           image_1_url?: string | null
           image_2_url?: string | null
@@ -184,8 +207,14 @@ export type Database = {
           instagram?: string | null
           linkedin?: string | null
           logo_url?: string | null
+          low_noise?: boolean | null
+          online_booking?: boolean | null
+          outdoor_seating?: boolean | null
+          pet_friendly?: boolean | null
           phone?: string | null
           postal_code?: string | null
+          public_transport?: boolean | null
+          senior_discounts?: boolean | null
           state?: string | null
           status?: string
           subscription_end_date?: string | null
@@ -195,6 +224,7 @@ export type Database = {
           updated_at?: string
           user_id?: string
           website?: string | null
+          wheelchair_access?: boolean | null
         }
         Relationships: []
       }
