@@ -41,6 +41,7 @@ import flagChina from '@/assets/flag-china.jpg';
 import flagMexico from '@/assets/flag-mexico.jpg';
 import flagIndia from '@/assets/flag-india.jpg';
 import flagThailand from '@/assets/flag-thailand.jpg';
+import flagVietnam from '@/assets/flag-vietnam.jpg';
 
 interface Business {
   name: string;
@@ -82,7 +83,8 @@ const Index: React.FC = () => {
     { value: 'Chinese', label: 'Chinese', icon: flagChina },
     { value: 'Mexican', label: 'Mexican', icon: flagMexico },
     { value: 'Indian', label: 'Indian', icon: flagIndia },
-    { value: 'Thai', label: 'Thai', icon: flagThailand }
+    { value: 'Thai', label: 'Thai', icon: flagThailand },
+    { value: 'Vietnamese', label: 'Vietnamese', icon: flagVietnam }
   ];
 
   const regions = Object.keys(regionData);
