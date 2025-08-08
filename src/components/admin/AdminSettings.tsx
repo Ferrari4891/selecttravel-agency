@@ -179,6 +179,12 @@ export const AdminSettings = () => {
                   value={true}
                   onToggle={(value) => toast({ title: "Setting Updated", description: `Business registration ${value ? 'enabled' : 'disabled'}` })}
                 />
+                <SystemSetting
+                  title="Email Verification Required"
+                  description="Require email verification for new account activations"
+                  value={true}
+                  onToggle={(value) => toast({ title: "Setting Updated", description: `Email verification ${value ? 'required' : 'optional'}` })}
+                />
               </CardContent>
             </Card>
 
@@ -199,6 +205,94 @@ export const AdminSettings = () => {
                   value={true}
                   onToggle={(value) => toast({ title: "Setting Updated", description: `Email notifications ${value ? 'enabled' : 'disabled'}` })}
                 />
+                <SystemSetting
+                  title="Marketing Emails"
+                  description="Allow sending promotional and marketing emails"
+                  value={true}
+                  onToggle={(value) => toast({ title: "Setting Updated", description: `Marketing emails ${value ? 'enabled' : 'disabled'}` })}
+                />
+                <SystemSetting
+                  title="SMS Notifications"
+                  description="Enable SMS notifications for critical updates"
+                  value={false}
+                  onToggle={(value) => toast({ title: "Setting Updated", description: `SMS notifications ${value ? 'enabled' : 'disabled'}` })}
+                />
+              </CardContent>
+            </Card>
+
+            <Card>
+              <CardHeader className="pb-4">
+                <CardTitle className="flex items-center gap-2 text-lg">
+                  <Shield className="h-5 w-5 text-primary" />
+                  API & Security Settings
+                </CardTitle>
+                <CardDescription className="text-sm">
+                  Configure API access and security policies
+                </CardDescription>
+              </CardHeader>
+              <CardContent className="space-y-6">
+                <SystemSetting
+                  title="API Rate Limiting"
+                  description="Enable rate limiting for API endpoints"
+                  value={true}
+                  onToggle={(value) => toast({ title: "Setting Updated", description: `API rate limiting ${value ? 'enabled' : 'disabled'}` })}
+                />
+                <SystemSetting
+                  title="Public API Access"
+                  description="Allow public access to read-only API endpoints"
+                  value={true}
+                  onToggle={(value) => toast({ title: "Setting Updated", description: `Public API access ${value ? 'enabled' : 'disabled'}` })}
+                />
+                <SystemSetting
+                  title="Two-Factor Authentication"
+                  description="Require 2FA for admin and business accounts"
+                  value={false}
+                  onToggle={(value) => toast({ title: "Setting Updated", description: `2FA requirement ${value ? 'enabled' : 'disabled'}` })}
+                />
+                <SystemSetting
+                  title="Session Security"
+                  description="Enable enhanced session security and timeout"
+                  value={true}
+                  onToggle={(value) => toast({ title: "Setting Updated", description: `Session security ${value ? 'enabled' : 'disabled'}` })}
+                />
+              </CardContent>
+            </Card>
+
+            <Card>
+              <CardHeader className="pb-4">
+                <CardTitle className="flex items-center gap-2 text-lg">
+                  <Database className="h-5 w-5 text-primary" />
+                  Content & Data Management
+                </CardTitle>
+                <CardDescription className="text-sm">
+                  Configure content moderation and data handling
+                </CardDescription>
+              </CardHeader>
+              <CardContent className="space-y-6">
+                <SystemSetting
+                  title="Content Moderation"
+                  description="Enable automatic content moderation for user submissions"
+                  value={true}
+                  onToggle={(value) => toast({ title: "Setting Updated", description: `Content moderation ${value ? 'enabled' : 'disabled'}` })}
+                />
+                <SystemSetting
+                  title="Image Upload Compression"
+                  description="Automatically compress uploaded images"
+                  value={true}
+                  onToggle={(value) => toast({ title: "Setting Updated", description: `Image compression ${value ? 'enabled' : 'disabled'}` })}
+                />
+                <SystemSetting
+                  title="Data Export"
+                  description="Allow users to export their personal data"
+                  value={true}
+                  onToggle={(value) => toast({ title: "Setting Updated", description: `Data export ${value ? 'enabled' : 'disabled'}` })}
+                />
+                <SystemSetting
+                  title="Auto Backup"
+                  description="Enable automatic daily database backups"
+                  value={true}
+                  onToggle={(value) => toast({ title: "Setting Updated", description: `Auto backup ${value ? 'enabled' : 'disabled'}` })}
+                />
               </CardContent>
             </Card>
 
@@ -206,6 +300,44 @@ export const AdminSettings = () => {
               <CardHeader className="pb-4">
                 <CardTitle className="flex items-center gap-2 text-lg">
                   <Sliders className="h-5 w-5 text-primary" />
+                  Performance & Features
+                </CardTitle>
+                <CardDescription className="text-sm">
+                  Configure platform features and performance settings
+                </CardDescription>
+              </CardHeader>
+              <CardContent className="space-y-6">
+                <SystemSetting
+                  title="Caching"
+                  description="Enable server-side caching for improved performance"
+                  value={true}
+                  onToggle={(value) => toast({ title: "Setting Updated", description: `Caching ${value ? 'enabled' : 'disabled'}` })}
+                />
+                <SystemSetting
+                  title="Search Analytics"
+                  description="Track user search patterns and analytics"
+                  value={true}
+                  onToggle={(value) => toast({ title: "Setting Updated", description: `Search analytics ${value ? 'enabled' : 'disabled'}` })}
+                />
+                <SystemSetting
+                  title="Voice Features"
+                  description="Enable voice interaction and speech-to-text"
+                  value={true}
+                  onToggle={(value) => toast({ title: "Setting Updated", description: `Voice features ${value ? 'enabled' : 'disabled'}` })}
+                />
+                <SystemSetting
+                  title="Real-time Updates"
+                  description="Enable real-time data synchronization"
+                  value={true}
+                  onToggle={(value) => toast({ title: "Setting Updated", description: `Real-time updates ${value ? 'enabled' : 'disabled'}` })}
+                />
+              </CardContent>
+            </Card>
+
+            <Card>
+              <CardHeader className="pb-4">
+                <CardTitle className="flex items-center gap-2 text-lg">
+                  <Settings className="h-5 w-5 text-red-500" />
                   System Status
                 </CardTitle>
                 <CardDescription className="text-sm">
@@ -218,6 +350,12 @@ export const AdminSettings = () => {
                   description="Enable maintenance mode to restrict access during system updates"
                   value={false}
                   onToggle={(value) => toast({ title: "Setting Updated", description: `Maintenance mode ${value ? 'enabled' : 'disabled'}` })}
+                />
+                <SystemSetting
+                  title="Debug Mode"
+                  description="Enable debug logging and error reporting"
+                  value={false}
+                  onToggle={(value) => toast({ title: "Setting Updated", description: `Debug mode ${value ? 'enabled' : 'disabled'}` })}
                 />
               </CardContent>
             </Card>
