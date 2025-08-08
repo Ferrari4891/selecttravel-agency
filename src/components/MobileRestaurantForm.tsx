@@ -69,8 +69,14 @@ export const MobileRestaurantForm = ({ onSelectionChange }: MobileRestaurantForm
   }, [selectedCity]);
 
   const categories = [
-    { name: 'Eat', icon: eatIcon },
-    { name: 'Drink', icon: drinkIcon }
+    { name: 'Japanese', icon: eatIcon },
+    { name: 'Korean', icon: eatIcon },
+    { name: 'French', icon: eatIcon },
+    { name: 'Italian', icon: eatIcon },
+    { name: 'Chinese', icon: eatIcon },
+    { name: 'Mexican', icon: eatIcon },
+    { name: 'Indian', icon: eatIcon },
+    { name: 'Thai', icon: eatIcon }
   ];
 
   const regions = Object.keys(regionData);
@@ -101,18 +107,8 @@ export const MobileRestaurantForm = ({ onSelectionChange }: MobileRestaurantForm
       }
     }
     if (selectedCategory) {
-      switch (selectedCategory) {
-        case 'Eat':
-          return heroEat;
-        case 'Drink':
-          return heroDrink;
-        case 'Stay':
-          return heroStay;
-        case 'Play':
-          return heroPlay;
-        default:
-          return heroBackground;
-      }
+      // All restaurant categories use the eat hero image
+      return heroEat;
     }
     return heroBackground;
   };
@@ -236,13 +232,17 @@ export const MobileRestaurantForm = ({ onSelectionChange }: MobileRestaurantForm
 
       const getBusinessName = (category: string, index: number) => {
         const businessTypes = {
-          'Eat': ['Restaurant', 'Bistro', 'Grill', 'Kitchen', 'Cafe', 'Diner', 'Eatery'],
-          'Drink': ['Bar', 'Lounge', 'Pub', 'Tavern', 'Brewery', 'Wine Bar', 'Cocktail Bar'],
-          'Stay': ['Hotel', 'Inn', 'Resort', 'Lodge', 'Suites', 'Boutique Hotel'],
-          'Play': ['Entertainment Center', 'Theater', 'Club', 'Venue', 'Arena', 'Gaming Lounge']
+          'Japanese': ['Sushi Bar', 'Ramen House', 'Japanese Restaurant', 'Izakaya', 'Hibachi Grill'],
+          'Korean': ['Korean BBQ', 'Korean Restaurant', 'Korean Kitchen', 'K-Town Grill', 'Korean Bistro'],
+          'French': ['French Bistro', 'French Restaurant', 'Brasserie', 'French Cafe', 'French Kitchen'],
+          'Italian': ['Italian Restaurant', 'Trattoria', 'Pizzeria', 'Italian Bistro', 'Osteria'],
+          'Chinese': ['Chinese Restaurant', 'Dim Sum House', 'Chinese Kitchen', 'Szechuan Restaurant', 'Chinese Bistro'],
+          'Mexican': ['Mexican Restaurant', 'Taqueria', 'Cantina', 'Mexican Grill', 'Casa'],
+          'Indian': ['Indian Restaurant', 'Indian Curry House', 'Indian Kitchen', 'Tandoor', 'Indian Bistro'],
+          'Thai': ['Thai Restaurant', 'Thai Kitchen', 'Thai Bistro', 'Thai Curry House', 'Thai Garden']
         };
         const names = ['Golden', 'Royal', 'Grand', 'Elite', 'Prime', 'Classic', 'Modern', 'Urban', 'Sunset', 'Riverside', 'Downtown', 'Central', 'Main Street', 'Corner', 'Blue Moon', 'Red Oak', 'Green Valley', 'Silver Star', 'Diamond'];
-        const type = businessTypes[category as keyof typeof businessTypes] || ['Place'];
+        const type = businessTypes[category as keyof typeof businessTypes] || ['Restaurant'];
         const randomName = names[Math.floor(Math.random() * names.length)];
         const randomType = type[Math.floor(Math.random() * type.length)];
         return `${randomName} ${randomType}`;
@@ -265,7 +265,7 @@ export const MobileRestaurantForm = ({ onSelectionChange }: MobileRestaurantForm
           phone: `+1-${Math.floor(Math.random() * 900) + 100}-${Math.floor(Math.random() * 900) + 100}-${String(Math.floor(Math.random() * 9000) + 1000)}`,
           email: Math.random() > 0.4 ? `info@business${i + 1}.com` : undefined,
           website: Math.random() > 0.3 ? `https://business${i + 1}.com` : undefined,
-          menuLink: selectedCategory === 'Eat' && Math.random() > 0.4 ? `https://menu.business${i + 1}.com` : undefined
+          menuLink: Math.random() > 0.4 ? `https://menu.business${i + 1}.com` : undefined
         },
         imageLinks: [placeholderImages[i % placeholderImages.length]],
         rating: Math.max(3.0, 3.0 + Math.random() * 2.0),
