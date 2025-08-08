@@ -65,8 +65,14 @@ const Index: React.FC = () => {
   const [staticImageIndex, setStaticImageIndex] = useState(0);
 
   const categories = [
-    { value: 'eat', label: 'Eat', icon: Utensils },
-    { value: 'drink', label: 'Drink', icon: Coffee },
+    { value: 'Japanese', label: 'Japanese', icon: Utensils },
+    { value: 'Korean', label: 'Korean', icon: Utensils },
+    { value: 'French', label: 'French', icon: Utensils },
+    { value: 'Italian', label: 'Italian', icon: Utensils },
+    { value: 'Chinese', label: 'Chinese', icon: Utensils },
+    { value: 'Mexican', label: 'Mexican', icon: Utensils },
+    { value: 'Indian', label: 'Indian', icon: Utensils },
+    { value: 'Thai', label: 'Thai', icon: Utensils }
   ];
 
   const regions = Object.keys(regionData);
@@ -133,13 +139,11 @@ const Index: React.FC = () => {
   };
 
   const getCategoryImage = () => {
-    switch (selectedCategory) {
-      case 'eat': return heroEat;
-      case 'drink': return heroDrink;
-      case 'stay': return heroStay;
-      case 'play': return heroPlay;
-      default: return heroBackground;
+    // All restaurant cuisine categories use the eat hero image
+    if (selectedCategory) {
+      return heroEat;
     }
+    return heroBackground;
   };
 
   const getRegionImage = () => {
