@@ -69,7 +69,31 @@ const countries = [
   'Japan', 'South Korea', 'Singapore', 'Hong Kong', 'New Zealand',
   'Brazil', 'Mexico', 'Argentina', 'Chile', 'Colombia', 'Peru',
   'India', 'China', 'Thailand', 'Malaysia', 'Indonesia', 'Philippines',
-  'Vietnam', 'South Africa', 'Egypt', 'Israel', 'UAE', 'Saudi Arabia', 'Turkey'
+  'Vietnam', 'South Africa', 'Egypt', 'Israel', 'UAE', 'Saudi Arabia', 'Turkey',
+  'Russia', 'Ukraine', 'Romania', 'Bulgaria', 'Croatia', 'Serbia',
+  'Slovenia', 'Slovakia', 'Lithuania', 'Latvia', 'Estonia', 'Luxembourg',
+  'Iceland', 'Malta', 'Cyprus', 'Morocco', 'Tunisia', 'Algeria',
+  'Libya', 'Sudan', 'Ethiopia', 'Kenya', 'Tanzania', 'Uganda',
+  'Rwanda', 'Ghana', 'Nigeria', 'Ivory Coast', 'Senegal', 'Mali',
+  'Burkina Faso', 'Niger', 'Chad', 'Cameroon', 'Central African Republic',
+  'Gabon', 'Republic of the Congo', 'Democratic Republic of the Congo',
+  'Angola', 'Zambia', 'Zimbabwe', 'Botswana', 'Namibia', 'Lesotho',
+  'Swaziland', 'Mozambique', 'Madagascar', 'Mauritius', 'Seychelles',
+  'Comoros', 'Mayotte', 'Reunion', 'Lebanon', 'Syria', 'Jordan',
+  'Iraq', 'Iran', 'Afghanistan', 'Pakistan', 'Bangladesh', 'Sri Lanka',
+  'Maldives', 'Nepal', 'Bhutan', 'Myanmar', 'Laos', 'Cambodia',
+  'Brunei', 'East Timor', 'Papua New Guinea', 'Fiji', 'Vanuatu',
+  'Solomon Islands', 'Tonga', 'Samoa', 'Kiribati', 'Tuvalu', 'Nauru',
+  'Palau', 'Marshall Islands', 'Micronesia', 'Guam', 'Northern Mariana Islands',
+  'American Samoa', 'Puerto Rico', 'US Virgin Islands', 'Dominican Republic',
+  'Jamaica', 'Trinidad and Tobago', 'Barbados', 'Bahamas', 'Bermuda',
+  'Grenada', 'Saint Lucia', 'Saint Vincent and the Grenadines',
+  'Antigua and Barbuda', 'Saint Kitts and Nevis', 'Dominica', 'Cuba',
+  'Haiti', 'Greenland', 'Faroe Islands', 'Gibraltar', 'Monaco',
+  'San Marino', 'Vatican City', 'Andorra', 'Liechtenstein', 'Uruguay',
+  'Paraguay', 'Bolivia', 'Ecuador', 'Venezuela', 'Guyana', 'Suriname',
+  'French Guiana', 'Falkland Islands', 'South Georgia', 'Saint Helena',
+  'Ascension Island', 'Tristan da Cunha'
 ];
 
 const countryPhoneCodes = [
