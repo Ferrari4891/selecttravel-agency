@@ -13,6 +13,7 @@ import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '
 import { useToast } from '@/hooks/use-toast';
 import { BusinessHours } from './BusinessHours';
 import { useAmenityOptions } from '@/hooks/useAmenityOptions';
+import { GoogleMap } from '@/components/GoogleMap';
 
 const businessSchema = z.object({
   business_name: z.string().min(1, 'Business name is required'),
@@ -911,6 +912,20 @@ export const BusinessProfile: React.FC<BusinessProfileProps> = ({
             })}
           </div>
         </div>
+
+        {/* Location Preview */}
+        {(form.watch('address') || form.watch('city')) && (
+          <div className="space-y-2">
+            <h3 className="text-lg font-semibold text-foreground">Location Preview</h3>
+            <GoogleMap
+              address={form.watch('address')}
+              city={form.watch('city')}
+              country={form.watch('country')}
+              height="200px"
+              className="w-full"
+            />
+          </div>
+        )}
 
         <div className="flex gap-3">
           <Button 
