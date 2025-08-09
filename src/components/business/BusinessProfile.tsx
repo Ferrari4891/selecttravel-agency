@@ -21,9 +21,11 @@ const businessSchema = z.object({
   description: z.string().max(180, 'Description must be 180 characters or less').optional(),
   website: z.string().url().optional().or(z.literal('')),
   phone: z.string().optional(),
+  country_code: z.string().optional(),
   email: z.string().email().optional().or(z.literal('')),
   address: z.string().optional(),
   city: z.string().optional(),
+  custom_city: z.string().optional(),
   state: z.string().optional(),
   country: z.string().optional(),
   postal_code: z.string().optional(),
@@ -70,6 +72,62 @@ const countries = [
   'Vietnam', 'South Africa', 'Egypt', 'Israel', 'UAE', 'Saudi Arabia', 'Turkey'
 ];
 
+const countryPhoneCodes = [
+  { country: 'United States', code: '+1' },
+  { country: 'Canada', code: '+1' },
+  { country: 'United Kingdom', code: '+44' },
+  { country: 'Australia', code: '+61' },
+  { country: 'Germany', code: '+49' },
+  { country: 'France', code: '+33' },
+  { country: 'Italy', code: '+39' },
+  { country: 'Spain', code: '+34' },
+  { country: 'Netherlands', code: '+31' },
+  { country: 'Belgium', code: '+32' },
+  { country: 'Switzerland', code: '+41' },
+  { country: 'Austria', code: '+43' },
+  { country: 'Sweden', code: '+46' },
+  { country: 'Norway', code: '+47' },
+  { country: 'Denmark', code: '+45' },
+  { country: 'Finland', code: '+358' },
+  { country: 'Ireland', code: '+353' },
+  { country: 'Portugal', code: '+351' },
+  { country: 'Greece', code: '+30' },
+  { country: 'Poland', code: '+48' },
+  { country: 'Czech Republic', code: '+420' },
+  { country: 'Hungary', code: '+36' },
+  { country: 'Japan', code: '+81' },
+  { country: 'South Korea', code: '+82' },
+  { country: 'Singapore', code: '+65' },
+  { country: 'Hong Kong', code: '+852' },
+  { country: 'New Zealand', code: '+64' },
+  { country: 'Brazil', code: '+55' },
+  { country: 'Mexico', code: '+52' },
+  { country: 'Argentina', code: '+54' },
+  { country: 'Chile', code: '+56' },
+  { country: 'Colombia', code: '+57' },
+  { country: 'Peru', code: '+51' },
+  { country: 'India', code: '+91' },
+  { country: 'China', code: '+86' },
+  { country: 'Thailand', code: '+66' },
+  { country: 'Malaysia', code: '+60' },
+  { country: 'Indonesia', code: '+62' },
+  { country: 'Philippines', code: '+63' },
+  { country: 'Vietnam', code: '+84' },
+  { country: 'South Africa', code: '+27' },
+  { country: 'Egypt', code: '+20' },
+  { country: 'Israel', code: '+972' },
+  { country: 'UAE', code: '+971' },
+  { country: 'Saudi Arabia', code: '+966' },
+  { country: 'Turkey', code: '+90' }
+];
+
+const statesByCountry: Record<string, string[]> = {
+  'United States': ['Alabama', 'Alaska', 'Arizona', 'Arkansas', 'California', 'Colorado', 'Connecticut', 'Delaware', 'Florida', 'Georgia', 'Hawaii', 'Idaho', 'Illinois', 'Indiana', 'Iowa', 'Kansas', 'Kentucky', 'Louisiana', 'Maine', 'Maryland', 'Massachusetts', 'Michigan', 'Minnesota', 'Mississippi', 'Missouri', 'Montana', 'Nebraska', 'Nevada', 'New Hampshire', 'New Jersey', 'New Mexico', 'New York', 'North Carolina', 'North Dakota', 'Ohio', 'Oklahoma', 'Oregon', 'Pennsylvania', 'Rhode Island', 'South Carolina', 'South Dakota', 'Tennessee', 'Texas', 'Utah', 'Vermont', 'Virginia', 'Washington', 'West Virginia', 'Wisconsin', 'Wyoming'],
+  'Canada': ['Alberta', 'British Columbia', 'Manitoba', 'New Brunswick', 'Newfoundland and Labrador', 'Northwest Territories', 'Nova Scotia', 'Nunavut', 'Ontario', 'Prince Edward Island', 'Quebec', 'Saskatchewan', 'Yukon'],
+  'Australia': ['Australian Capital Territory', 'New South Wales', 'Northern Territory', 'Queensland', 'South Australia', 'Tasmania', 'Victoria', 'Western Australia'],
+  'Germany': ['Baden-Württemberg', 'Bavaria', 'Berlin', 'Brandenburg', 'Bremen', 'Hamburg', 'Hesse', 'Lower Saxony', 'Mecklenburg-Vorpommern', 'North Rhine-Westphalia', 'Rhineland-Palatinate', 'Saarland', 'Saxony', 'Saxony-Anhalt', 'Schleswig-Holstein', 'Thuringia']
+};
+
 const citiesByCountry: Record<string, string[]> = {
   'United States': ['New York', 'Los Angeles', 'Chicago', 'Houston', 'Phoenix', 'Philadelphia', 'San Antonio', 'San Diego', 'Dallas', 'San Jose', 'Austin', 'Jacksonville', 'Fort Worth', 'Columbus', 'Charlotte', 'San Francisco', 'Indianapolis', 'Seattle', 'Denver', 'Washington DC', 'Boston', 'El Paso', 'Nashville', 'Detroit', 'Oklahoma City', 'Portland', 'Las Vegas', 'Memphis', 'Louisville', 'Baltimore', 'Milwaukee', 'Albuquerque', 'Tucson', 'Fresno', 'Sacramento', 'Kansas City', 'Mesa', 'Atlanta', 'Omaha', 'Colorado Springs', 'Raleigh', 'Miami', 'Virginia Beach', 'Oakland', 'Minneapolis', 'Tulsa', 'Arlington', 'Tampa', 'New Orleans', 'Wichita'],
   'Canada': ['Toronto', 'Montreal', 'Vancouver', 'Calgary', 'Edmonton', 'Ottawa', 'Mississauga', 'Winnipeg', 'Quebec City', 'Hamilton', 'Brampton', 'Surrey', 'Laval', 'Halifax', 'London', 'Markham', 'Vaughan', 'Gatineau', 'Saskatoon', 'Longueuil', 'Burnaby', 'Regina', 'Richmond', 'Richmond Hill', 'Oakville', 'Burlington', 'Sherbrooke', 'Oshawa', 'Saguenay', 'Lévis', 'Barrie', 'Abbotsford', 'Coquitlam', 'Trois-Rivières', 'St. Catharines', 'Guelph', 'Cambridge', 'Whitby', 'Kelowna', 'Kingston'],
@@ -86,7 +144,7 @@ const citiesByCountry: Record<string, string[]> = {
   'Vietnam': ['Ho Chi Minh City', 'Hanoi', 'Danang', 'Can Tho', 'Bien Hoa', 'Hue', 'Nha Trang', 'Buon Ma Thuot', 'Vung Tau', 'Nam Dinh']
 };
 
-const statesByCity: Record<string, string> = {
+const statesByCityLegacy: Record<string, string> = {
   // United States
   'New York': 'New York', 'Los Angeles': 'California', 'Chicago': 'Illinois', 'Houston': 'Texas', 'Phoenix': 'Arizona', 'Philadelphia': 'Pennsylvania', 'San Antonio': 'Texas', 'San Diego': 'California', 'Dallas': 'Texas', 'San Jose': 'California', 'Austin': 'Texas', 'Jacksonville': 'Florida', 'Fort Worth': 'Texas', 'Columbus': 'Ohio', 'Charlotte': 'North Carolina', 'San Francisco': 'California', 'Indianapolis': 'Indiana', 'Seattle': 'Washington', 'Denver': 'Colorado', 'Washington DC': 'District of Columbia', 'Boston': 'Massachusetts', 'El Paso': 'Texas', 'Nashville': 'Tennessee', 'Detroit': 'Michigan', 'Oklahoma City': 'Oklahoma', 'Portland': 'Oregon', 'Las Vegas': 'Nevada', 'Memphis': 'Tennessee', 'Louisville': 'Kentucky', 'Baltimore': 'Maryland', 'Milwaukee': 'Wisconsin', 'Albuquerque': 'New Mexico', 'Tucson': 'Arizona', 'Fresno': 'California', 'Sacramento': 'California', 'Kansas City': 'Missouri', 'Mesa': 'Arizona', 'Atlanta': 'Georgia', 'Omaha': 'Nebraska', 'Colorado Springs': 'Colorado', 'Raleigh': 'North Carolina', 'Miami': 'Florida', 'Virginia Beach': 'Virginia', 'Oakland': 'California', 'Minneapolis': 'Minnesota', 'Tulsa': 'Oklahoma', 'Arlington': 'Texas', 'Tampa': 'Florida', 'New Orleans': 'Louisiana', 'Wichita': 'Kansas',
   // Canada
@@ -104,6 +162,7 @@ export const BusinessProfile: React.FC<BusinessProfileProps> = ({
   const [loading, setLoading] = useState(false);
   const [showPreview, setShowPreview] = useState(false);
   const [uploadingImages, setUploadingImages] = useState<Record<string, boolean>>({});
+  const [showCustomCity, setShowCustomCity] = useState(false);
   const { toast } = useToast();
   const { amenityOptions, isLoading: amenityLoading } = useAmenityOptions();
   const [businessHours, setBusinessHours] = useState(
@@ -125,9 +184,11 @@ export const BusinessProfile: React.FC<BusinessProfileProps> = ({
       description: business?.description || '',
       website: business?.website || '',
       phone: business?.phone || '',
+      country_code: business?.country_code || '+1',
       email: business?.email || '',
       address: business?.address || '',
       city: business?.city || '',
+      custom_city: business?.custom_city || '',
       state: business?.state || '',
       country: business?.country || '',
       postal_code: business?.postal_code || '',
@@ -154,6 +215,7 @@ export const BusinessProfile: React.FC<BusinessProfileProps> = ({
 
   const watchedCountry = form.watch('country');
   const watchedCity = form.watch('city');
+  const watchedState = form.watch('state');
 
   const onSubmit = async (data: BusinessFormData) => {
     if (!user) return;
@@ -170,9 +232,10 @@ export const BusinessProfile: React.FC<BusinessProfileProps> = ({
             description: data.description,
             website: data.website,
             phone: data.phone,
+            country_code: data.country_code,
             email: data.email,
             address: data.address,
-            city: data.city,
+            city: data.custom_city || data.city,
             state: data.state,
             country: data.country,
             postal_code: data.postal_code,
@@ -218,9 +281,10 @@ export const BusinessProfile: React.FC<BusinessProfileProps> = ({
             description: data.description,
             website: data.website,
             phone: data.phone,
+            country_code: data.country_code,
             email: data.email,
             address: data.address,
-            city: data.city,
+            city: data.custom_city || data.city,
             state: data.state,
             country: data.country,
             postal_code: data.postal_code,
@@ -546,19 +610,45 @@ export const BusinessProfile: React.FC<BusinessProfileProps> = ({
             )}
           />
 
-          <FormField
-            control={form.control}
-            name="phone"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Phone Number</FormLabel>
-                <FormControl>
-                  <Input {...field} className="w-full" />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
+          <div className="space-y-2">
+            <label className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">Phone Number</label>
+            <div className="flex gap-2">
+              <FormField
+                control={form.control}
+                name="country_code"
+                render={({ field }) => (
+                  <FormItem className="w-24">
+                    <Select onValueChange={field.onChange} defaultValue={field.value}>
+                      <FormControl>
+                        <SelectTrigger>
+                          <SelectValue placeholder="+1" />
+                        </SelectTrigger>
+                      </FormControl>
+                      <SelectContent>
+                        {countryPhoneCodes.map((item) => (
+                          <SelectItem key={item.code} value={item.code}>
+                            {item.code}
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name="phone"
+                render={({ field }) => (
+                  <FormItem className="flex-1">
+                    <FormControl>
+                      <Input {...field} placeholder="Phone number" />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            </div>
+          </div>
 
           <FormField
             control={form.control}
@@ -597,8 +687,11 @@ export const BusinessProfile: React.FC<BusinessProfileProps> = ({
                 <Select 
                   onValueChange={(value) => {
                     field.onChange(value);
-                    // Clear city when country changes
+                    // Clear city and state when country changes
                     form.setValue('city', '');
+                    form.setValue('state', '');
+                    form.setValue('custom_city', '');
+                    setShowCustomCity(false);
                   }} 
                   defaultValue={field.value}
                 >
@@ -620,6 +713,42 @@ export const BusinessProfile: React.FC<BusinessProfileProps> = ({
             )}
           />
 
+          {watchedCountry && statesByCountry[watchedCountry] && (
+            <FormField
+              control={form.control}
+              name="state"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>State/Province</FormLabel>
+                  <Select 
+                    onValueChange={(value) => {
+                      field.onChange(value);
+                      // Clear city when state changes
+                      form.setValue('city', '');
+                      form.setValue('custom_city', '');
+                      setShowCustomCity(false);
+                    }} 
+                    defaultValue={field.value}
+                  >
+                    <FormControl>
+                      <SelectTrigger>
+                        <SelectValue placeholder="Select state/province" />
+                      </SelectTrigger>
+                    </FormControl>
+                    <SelectContent>
+                      {statesByCountry[watchedCountry].map((state) => (
+                        <SelectItem key={state} value={state}>
+                          {state}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+          )}
+
           <FormField
             control={form.control}
             name="city"
@@ -629,9 +758,11 @@ export const BusinessProfile: React.FC<BusinessProfileProps> = ({
                 <Select 
                   onValueChange={(value) => {
                     field.onChange(value);
-                    // Set state automatically when city is selected
-                    if (statesByCity[value]) {
-                      form.setValue('state', statesByCity[value]);
+                    form.setValue('custom_city', '');
+                    setShowCustomCity(false);
+                    // Set state automatically when city is selected from legacy mapping
+                    if (statesByCityLegacy[value]) {
+                      form.setValue('state', statesByCityLegacy[value]);
                     }
                   }} 
                   defaultValue={field.value}
@@ -656,19 +787,72 @@ export const BusinessProfile: React.FC<BusinessProfileProps> = ({
             )}
           />
 
-          <FormField
-            control={form.control}
-            name="state"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>State/Province</FormLabel>
-                <FormControl>
-                  <Input {...field} className="w-full" />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
+          {watchedCountry && (
+            <div className="space-y-2">
+              {!showCustomCity ? (
+                <Button
+                  type="button"
+                  variant="outline"
+                  size="sm"
+                  onClick={() => setShowCustomCity(true)}
+                  className="w-full"
+                >
+                  City not listed? Add custom city
+                </Button>
+              ) : (
+                <div className="space-y-2">
+                  <FormField
+                    control={form.control}
+                    name="custom_city"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Custom City</FormLabel>
+                        <FormControl>
+                          <Input 
+                            {...field} 
+                            placeholder="Enter your city name"
+                            onChange={(e) => {
+                              field.onChange(e);
+                              form.setValue('city', '');
+                            }}
+                          />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                  <Button
+                    type="button"
+                    variant="outline"
+                    size="sm"
+                    onClick={() => {
+                      setShowCustomCity(false);
+                      form.setValue('custom_city', '');
+                    }}
+                    className="w-full"
+                  >
+                    Use city dropdown instead
+                  </Button>
+                </div>
+              )}
+            </div>
+          )}
+
+          {!statesByCountry[watchedCountry] && (
+            <FormField
+              control={form.control}
+              name="state"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>State/Province</FormLabel>
+                  <FormControl>
+                    <Input {...field} placeholder="Enter state/province" />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+          )}
 
           <FormField
             control={form.control}
@@ -677,7 +861,7 @@ export const BusinessProfile: React.FC<BusinessProfileProps> = ({
               <FormItem>
                 <FormLabel>Postal Code / Zip Code</FormLabel>
                 <FormControl>
-                  <Input {...field} className="w-full" />
+                  <Input {...field} placeholder="Enter postal/zip code" />
                 </FormControl>
                 <FormMessage />
               </FormItem>
