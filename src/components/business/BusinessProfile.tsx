@@ -719,7 +719,7 @@ export const BusinessProfile: React.FC<BusinessProfileProps> = ({
             name="business_type"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Business Type</FormLabel>
+                <FormLabel>Category</FormLabel>
                 <Select onValueChange={field.onChange} defaultValue={field.value}>
               <FormControl>
                 <SelectTrigger className="w-full">
