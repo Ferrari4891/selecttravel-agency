@@ -225,7 +225,7 @@ const Index: React.FC = () => {
       facebook: Math.random() > 0.5 ? `https://facebook.com/${name.toLowerCase().replace(/\s+/g, '')}` : undefined,
       instagram: Math.random() > 0.5 ? `https://instagram.com/${name.toLowerCase().replace(/\s+/g, '')}` : undefined,
       twitter: Math.random() > 0.5 ? `https://twitter.com/${name.toLowerCase().replace(/\s+/g, '')}` : undefined,
-      image: '/placeholder.svg',
+      image: '/lovable-uploads/84845629-2fe8-43b5-8500-84324fdcb0ec.png',
       source: 'SmartGuides Database'
     }));
   };
