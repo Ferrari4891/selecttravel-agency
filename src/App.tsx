@@ -23,6 +23,7 @@ import TVChannel from "./pages/TVChannel";
 import BusinessDashboard from "./pages/BusinessDashboard";
 import UserDashboard from "./pages/UserDashboard";
 import Auth from "./pages/Auth";
+import BusinessAuth from "./pages/BusinessAuth";
 import Collections from "./pages/Collections";
 import SharedCollection from "./pages/SharedCollection";
 import { RSVP } from "./pages/RSVP";
@@ -41,8 +42,9 @@ const App = () => (
             <Sonner />
             <BrowserRouter>
               <Routes>
-                {/* Auth route accessible without site authentication */}
+                {/* Auth routes accessible without site authentication */}
                 <Route path="/auth" element={<Auth />} />
+                <Route path="/business-auth" element={<BusinessAuth />} />
                 
                 {/* All other routes require site authentication */}
                 <Route path="/*" element={
