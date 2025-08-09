@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import * as z from 'zod';
@@ -14,6 +14,9 @@ import { useToast } from '@/hooks/use-toast';
 import { BusinessHours } from './BusinessHours';
 import { useAmenityOptions } from '@/hooks/useAmenityOptions';
 import { GoogleMap } from '@/components/GoogleMap';
+import { ChevronUp, ChevronDown } from 'lucide-react';
+import { getFlagEmoji } from '@/data/flagIcons';
+import { EnhancedSelect } from '@/components/ui/enhanced-select';
 
 const businessSchema = z.object({
   business_name: z.string().min(1, 'Business name is required'),
@@ -762,21 +765,21 @@ export const BusinessProfile: React.FC<BusinessProfileProps> = ({
                 control={form.control}
                 name="country_code"
                 render={({ field }) => (
-                  <FormItem className="w-24">
-                    <Select onValueChange={field.onChange} defaultValue={field.value}>
-                      <FormControl>
-                        <SelectTrigger>
-                          <SelectValue placeholder="+1" />
-                        </SelectTrigger>
-                      </FormControl>
-                      <SelectContent>
-                        {countryPhoneCodes.map((item) => (
-                          <SelectItem key={item.code} value={item.code}>
-                            {item.code}
-                          </SelectItem>
-                        ))}
-                      </SelectContent>
-                    </Select>
+                  <FormItem className="w-32">
+                    <FormControl>
+                      <EnhancedSelect
+                        options={countryPhoneCodes.map(item => ({
+                          value: item.code,
+                          label: `${item.code} ${item.country}`,
+                          flag: getFlagEmoji(item.country)
+                        }))}
+                        value={field.value}
+                        onValueChange={field.onChange}
+                        placeholder="+1"
+                        className="w-full"
+                        displayFormat={(option) => `${option.flag} ${option.value}`}
+                      />
+                    </FormControl>
                   </FormItem>
                 )}
               />
@@ -829,30 +832,26 @@ export const BusinessProfile: React.FC<BusinessProfileProps> = ({
             render={({ field }) => (
               <FormItem>
                 <FormLabel>Country</FormLabel>
-                <Select 
-                  onValueChange={(value) => {
-                    field.onChange(value);
-                    // Clear city and state when country changes
-                    form.setValue('city', '');
-                    form.setValue('state', '');
-                    form.setValue('custom_city', '');
-                    setShowCustomCity(false);
-                  }} 
-                  defaultValue={field.value}
-                >
-                  <FormControl>
-                    <SelectTrigger>
-                      <SelectValue placeholder="Select country" />
-                    </SelectTrigger>
-                  </FormControl>
-                  <SelectContent>
-                    {countries.map((country) => (
-                      <SelectItem key={country} value={country}>
-                        {country}
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
+                <FormControl>
+                  <EnhancedSelect
+                    options={countries.map(country => ({
+                      value: country,
+                      label: country,
+                      flag: getFlagEmoji(country)
+                    }))}
+                    value={field.value}
+                    onValueChange={(value) => {
+                      field.onChange(value);
+                      // Clear city and state when country changes
+                      form.setValue('city', '');
+                      form.setValue('state', '');
+                      form.setValue('custom_city', '');
+                      setShowCustomCity(false);
+                    }}
+                    placeholder="Select country"
+                    className="w-full"
+                  />
+                </FormControl>
                 <FormMessage />
               </FormItem>
             )}
