@@ -44,14 +44,8 @@ export const RestaurantResults: React.FC<RestaurantResultsProps> = ({
 }) => {
   const isMobile = useIsMobile();
 
-  // Placeholder images for restaurants - using different sources
-  const placeholderImages = [
-    'https://via.placeholder.com/400x300/FF6B6B/FFFFFF?text=Restaurant+1',
-    'https://via.placeholder.com/400x300/4ECDC4/FFFFFF?text=Restaurant+2',
-    'https://via.placeholder.com/400x300/45B7D1/FFFFFF?text=Restaurant+3',
-    'https://via.placeholder.com/400x300/96CEB4/FFFFFF?text=Restaurant+4',
-    'https://via.placeholder.com/400x300/FFEAA7/000000?text=Restaurant+5'
-  ];
+  // Placeholder image for restaurants
+  const placeholderImage = '/lovable-uploads/84845629-2fe8-43b5-8500-84324fdcb0ec.png';
 
   if (isMobile) {
     // Mobile layout - stacked vertical design
@@ -67,7 +61,7 @@ export const RestaurantResults: React.FC<RestaurantResultsProps> = ({
             {/* Restaurant Image */}
             <div className="aspect-video relative overflow-hidden">
               <img
-                src={restaurant.imageLinks[0] || placeholderImages[index % placeholderImages.length]}
+                src={restaurant.imageLinks[0] || placeholderImage}
                 alt={restaurant.name}
                 className="w-full h-full object-cover"
               />
@@ -245,7 +239,7 @@ export const RestaurantResults: React.FC<RestaurantResultsProps> = ({
           {/* Restaurant Image */}
           <div className="aspect-video relative overflow-hidden">
             <img
-              src={restaurant.imageLinks[0] || placeholderImages[index % placeholderImages.length]}
+              src={restaurant.imageLinks[0] || placeholderImage}
               alt={restaurant.name}
               className="w-full h-full object-cover"
             />
