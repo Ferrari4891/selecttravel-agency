@@ -111,7 +111,7 @@ export const regionData = {
       },
       {
         name: "Vietnam",
-        cities: ["Ho Chi Minh City", "Hanoi", "Da Nang", "Can Tho", "Bien Hoa", "Hue", "Nha Trang", "Buon Ma Thuot", "Vung Tau", "Nam Dinh"]
+        cities: ["Ho Chi Minh City", "Hanoi", "Danang", "Can Tho", "Bien Hoa", "Hue", "Nha Trang", "Buon Ma Thuot", "Vung Tau", "Nam Dinh"]
       },
       {
         name: "Indonesia",

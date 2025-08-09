@@ -55,7 +55,7 @@ interface BusinessProfileProps {
 }
 
 const businessTypes = [
-  'Eat', 'Drink', 'Shop'
+  'Japanese', 'Korean', 'French', 'Italian', 'Chinese', 'Mexican', 'Indian', 'Thai'
 ];
 
 const countries = [
@@ -66,7 +66,7 @@ const countries = [
   'Japan', 'South Korea', 'Singapore', 'Hong Kong', 'New Zealand',
   'Brazil', 'Mexico', 'Argentina', 'Chile', 'Colombia', 'Peru',
   'India', 'China', 'Thailand', 'Malaysia', 'Indonesia', 'Philippines',
-  'South Africa', 'Egypt', 'Israel', 'UAE', 'Saudi Arabia', 'Turkey'
+  'Vietnam', 'South Africa', 'Egypt', 'Israel', 'UAE', 'Saudi Arabia', 'Turkey'
 ];
 
 const citiesByCountry: Record<string, string[]> = {
@@ -81,7 +81,8 @@ const citiesByCountry: Record<string, string[]> = {
   'Japan': ['Tokyo', 'Yokohama', 'Osaka', 'Nagoya', 'Sapporo', 'Fukuoka', 'Kobe', 'Kyoto', 'Kawasaki', 'Saitama', 'Hiroshima', 'Sendai', 'Kitakyushu', 'Chiba', 'Sakai', 'Niigata', 'Hamamatsu', 'Okayama', 'Sagamihara', 'Kumamoto', 'Shizuoka', 'Kagoshima', 'Matsuyama', 'Wakayama', 'Kawaguchi', 'Utsunomiya', 'Toyama', 'Kanazawa', 'Takasaki', 'Yokosuka'],
   'India': ['Mumbai', 'Delhi', 'Bangalore', 'Hyderabad', 'Chennai', 'Kolkata', 'Ahmedabad', 'Pune', 'Surat', 'Jaipur', 'Lucknow', 'Kanpur', 'Nagpur', 'Indore', 'Thane', 'Bhopal', 'Visakhapatnam', 'Patna', 'Vadodara', 'Ghaziabad', 'Ludhiana', 'Agra', 'Nashik', 'Faridabad', 'Meerut', 'Rajkot', 'Kalyan-Dombivali', 'Vasai-Virar', 'Varanasi', 'Srinagar'],
   'China': ['Shanghai', 'Beijing', 'Shenzhen', 'Guangzhou', 'Chengdu', 'Tianjin', 'Nanjing', 'Wuhan', 'Xian', 'Hangzhou', 'Chongqing', 'Zhengzhou', 'Qingdao', 'Dalian', 'Jinan', 'Kunming', 'Shenyang', 'Harbin', 'Changchun', 'Fuzhou', 'Shijiazhuang', 'Changsha', 'Hefei', 'Urumqi', 'Suzhou', 'Wuxi', 'Ningbo', 'Dongguan', 'Foshan', 'Nanchang'],
-  'South Korea': ['Seoul', 'Busan', 'Incheon', 'Daegu', 'Daejeon', 'Gwangju', 'Suwon', 'Ulsan', 'Changwon', 'Goyang', 'Yongin', 'Seongnam', 'Bucheon', 'Ansan', 'Jeonju', 'Anyang', 'Cheongju', 'Cheonan', 'Namyangju', 'Hwaseong', 'Pohang', 'Uijeongbu', 'Siheung', 'Gimhae', 'Pyeongtaek', 'Gunpo', 'Jinju', 'Osan', 'Iksan', 'Yangsan']
+  'South Korea': ['Seoul', 'Busan', 'Incheon', 'Daegu', 'Daejeon', 'Gwangju', 'Suwon', 'Ulsan', 'Changwon', 'Goyang', 'Yongin', 'Seongnam', 'Bucheon', 'Ansan', 'Jeonju', 'Anyang', 'Cheongju', 'Cheonan', 'Namyangju', 'Hwaseong', 'Pohang', 'Uijeongbu', 'Siheung', 'Gimhae', 'Pyeongtaek', 'Gunpo', 'Jinju', 'Osan', 'Iksan', 'Yangsan'],
+  'Vietnam': ['Ho Chi Minh City', 'Hanoi', 'Danang', 'Can Tho', 'Bien Hoa', 'Hue', 'Nha Trang', 'Buon Ma Thuot', 'Vung Tau', 'Nam Dinh']
 };
 
 const statesByCity: Record<string, string> = {
