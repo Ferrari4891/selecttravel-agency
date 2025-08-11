@@ -18,9 +18,7 @@ const HowToSteps = () => {
             </div>
             <div className="flex-1">
               <h3 className="font-semibold mb-2">Select Category</h3>
-              <p className="text-muted-foreground">
-                Choose what you're looking for from our available categories: Eat or Drink. Each category is tailored to help you discover the best local experiences.
-              </p>
+              <p className="text-muted-foreground">Choose what you're looking for from our available categories in the worlds best Restaurant Guide designed for seniors. </p>
               <div className="mt-4">
                 <AudioPlayer src="step-1-select-category.wav" className="w-full" />
               </div>
@@ -33,9 +31,7 @@ const HowToSteps = () => {
             </div>
             <div className="flex-1">
               <h3 className="font-semibold mb-2">Select Your Region</h3>
-              <p className="text-muted-foreground">
-                Choose from one of our 5 available regions: North America, Europe, Asia, South America, or Africa & Middle East.
-              </p>
+              <p className="text-muted-foreground">Choose from one of our 5 available regions: North America, Europe, Asia, South America, or Africa & Oceania.</p>
               <div className="mt-4">
                 <AudioPlayer src="step-2-select-region.wav" className="w-full" />
               </div>
