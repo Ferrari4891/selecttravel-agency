@@ -4,55 +4,51 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Mail, ArrowRight, CheckCircle } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
-
 interface MailingListSignupProps {
   location?: string;
   category?: string;
 }
-
-export const MailingListSignup: React.FC<MailingListSignupProps> = ({ location, category }) => {
+export const MailingListSignup: React.FC<MailingListSignupProps> = ({
+  location,
+  category
+}) => {
   const [email, setEmail] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [isSubscribed, setIsSubscribed] = useState(false);
-  const { toast } = useToast();
-
+  const {
+    toast
+  } = useToast();
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    
     if (!email) {
       toast({
         title: "Error",
         description: "Please enter your email address",
-        variant: "destructive",
+        variant: "destructive"
       });
       return;
     }
-
     setIsLoading(true);
-
     try {
       // Simulate API call for now
       await new Promise(resolve => setTimeout(resolve, 1000));
-      
       setIsSubscribed(true);
       toast({
         title: "Success!",
-        description: "You've been added to our mailing list",
+        description: "You've been added to our mailing list"
       });
     } catch (error) {
       toast({
         title: "Error",
         description: "Failed to subscribe. Please try again.",
-        variant: "destructive",
+        variant: "destructive"
       });
     } finally {
       setIsLoading(false);
     }
   };
-
   if (isSubscribed) {
-    return (
-      <Card className="group bg-gradient-to-br from-primary/5 to-primary/10 border-primary/20 rounded-none relative overflow-hidden">
+    return <Card className="group bg-gradient-to-br from-primary/5 to-primary/10 border-primary/20 rounded-none relative overflow-hidden">
         <div className="absolute inset-0 bg-gradient-to-r from-primary/5 to-transparent opacity-50" />
         <CardContent className="p-6 relative z-10">
           <div className="flex items-center justify-center space-y-4 flex-col text-center">
@@ -67,12 +63,9 @@ export const MailingListSignup: React.FC<MailingListSignupProps> = ({ location, 
             </div>
           </div>
         </CardContent>
-      </Card>
-    );
+      </Card>;
   }
-
-  return (
-    <Card className="group bg-gradient-to-br from-primary/5 to-primary/10 border-primary/20 hover:border-primary/30 transition-all duration-300 rounded-none relative overflow-hidden">
+  return <Card className="group bg-gradient-to-br from-primary/5 to-primary/10 border-primary/20 hover:border-primary/30 transition-all duration-300 rounded-none relative overflow-hidden">
       <div className="absolute inset-0 bg-gradient-to-r from-primary/5 to-transparent opacity-50" />
       <CardContent className="p-6 relative z-10">
         <div className="flex items-start space-x-4">
@@ -80,36 +73,21 @@ export const MailingListSignup: React.FC<MailingListSignupProps> = ({ location, 
             <Mail className="h-6 w-6 text-primary" />
           </div>
           
-          <div className="flex-1 space-y-4">
+          <div className="flex-1 space-y-4 px-0 py-[2px] my-0">
             <div>
-              <h3 className="font-semibold text-lg">GET EXCLUSIVE OFFERS</h3>
+              <h3 className="font-semibold text-lg">Get Exclusive {location ? `${location} ` : ''}{category ? `${category} ` : 'Food '}Alerts</h3>
               <p className="text-sm text-muted-foreground mt-1">
                 Join thousands of {category ? `${category.toLowerCase()} ` : 'food '}lovers getting the best {category ? `${category.toLowerCase()} ` : 'dining '}recommendations, hidden gems, and exclusive offers delivered weekly.
               </p>
             </div>
             
-            <form onSubmit={handleSubmit} className="flex flex-col gap-2">
-              <Input
-                type="email"
-                placeholder="Enter your email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                className="w-full rounded-none"
-                disabled={isLoading}
-              />
-              <Button 
-                type="submit" 
-                className="rounded-none bg-primary hover:bg-primary/90 w-full"
-                disabled={isLoading}
-              >
-                {isLoading ? (
-                  <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />
-                ) : (
-                  <>
+            <form onSubmit={handleSubmit} className="flex gap-2">
+              <Input type="email" placeholder="Enter your email" value={email} onChange={e => setEmail(e.target.value)} className="flex-1 rounded-none" disabled={isLoading} />
+              <Button type="submit" className="rounded-none bg-primary hover:bg-primary/90 px-6" disabled={isLoading}>
+                {isLoading ? <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" /> : <>
                     Join
                     <ArrowRight className="h-4 w-4 ml-1" />
-                  </>
-                )}
+                  </>}
               </Button>
             </form>
             
@@ -119,6 +97,5 @@ export const MailingListSignup: React.FC<MailingListSignupProps> = ({ location, 
           </div>
         </div>
       </CardContent>
-    </Card>
-  );
+    </Card>;
 };
