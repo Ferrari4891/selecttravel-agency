@@ -88,18 +88,18 @@ export const MailingListSignup: React.FC<MailingListSignupProps> = ({ location, 
               </p>
             </div>
             
-            <form onSubmit={handleSubmit} className="flex gap-2">
+            <form onSubmit={handleSubmit} className="flex flex-col gap-2">
               <Input
                 type="email"
                 placeholder="Enter your email"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                className="flex-1 rounded-none"
+                className="w-full rounded-none"
                 disabled={isLoading}
               />
               <Button 
                 type="submit" 
-                className="rounded-none bg-primary hover:bg-primary/90 px-6"
+                className="rounded-none bg-primary hover:bg-primary/90 w-full"
                 disabled={isLoading}
               >
                 {isLoading ? (
