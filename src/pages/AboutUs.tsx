@@ -62,7 +62,7 @@ const AboutUs = () => {
                 </CardHeader>
                 <CardContent className="flex flex-col flex-1 justify-between space-y-4">
                   <p className="text-muted-foreground">
-                    Founded by seniors for seniors, smartguidebooks.com was born from the frustration of spending hours researching credible businesses when traveling. We wanted to create a simple, reliable way to find the best rated businesses in any location, backed by real reviews from real people and comprehensive data.
+                    Founded by seniors for seniors, seniorstravelagency was born from the frustration of spending hours researching credible businesses when traveling. We wanted to create a simple, reliable way to find the best rated businesses in any location, backed by real reviews from real people and comprehensive data.
                   </p>
                   <div className="mt-auto">
                     <AudioPlayer src="our-story.wav" />
