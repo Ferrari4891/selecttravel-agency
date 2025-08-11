@@ -58,7 +58,7 @@ const AboutUs = () => {
               <Card className="rounded-none flex flex-col h-full">
                 <CardHeader className="bg-black">
                   <CardTitle className="text-xl text-white font-bold">Our Story</CardTitle>
-                  <CardDescription className="text-base font-semibold text-white">Why we created Smart Guides</CardDescription>
+                  <CardDescription className="text-base font-semibold text-white">seniorstravelagency.com</CardDescription>
                 </CardHeader>
                 <CardContent className="flex flex-col flex-1 justify-between space-y-4">
                   <p className="text-muted-foreground">
