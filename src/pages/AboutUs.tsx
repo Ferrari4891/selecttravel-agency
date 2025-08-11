@@ -6,24 +6,19 @@ import Footer from "@/components/Footer";
 import { Navigation } from "@/components/Navigation";
 import AudioPlayer from "@/components/AudioPlayer";
 import heroAboutUs from "@/assets/hero-about-us.jpg";
-
 const AboutUs = () => {
-  return (
-    <div className="min-h-screen bg-background">
+  return <div className="min-h-screen bg-background">
       {/* Navigation */}
       <Navigation />
       
       {/* Content container */}
       <div className="">
         {/* Hero section with background image */}
-        <div 
-          className="relative h-80 flex items-center justify-center"
-          style={{
-            backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url(${heroAboutUs})`,
-            backgroundSize: 'cover',
-            backgroundPosition: 'center'
-          }}
-        >
+        <div className="relative h-80 flex items-center justify-center" style={{
+        backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url(${heroAboutUs})`,
+        backgroundSize: 'cover',
+        backgroundPosition: 'center'
+      }}>
           <h1 className="text-4xl font-bold text-white text-center">
             ABOUT US
           </h1>
@@ -42,9 +37,7 @@ const AboutUs = () => {
             </div>
 
             <div className="text-center space-y-4">
-              <h2 className="font-bold text-black text-2xl">
-                About Smart Guides
-              </h2>
+              <h2 className="font-bold text-black text-2xl">About seniorstravelagency.com</h2>
               <p className="text-base font-medium text-black">Get what you want or need when you travel in 60 seconds or less with NO typing!!</p>
             </div>
 
@@ -55,9 +48,7 @@ const AboutUs = () => {
                   <CardDescription className="text-base font-semibold text-white">Why we enjoy making Smart Guides</CardDescription>
                 </CardHeader>
                 <CardContent className="flex flex-col flex-1 justify-between space-y-4">
-                  <p className="text-muted-foreground">
-                    At smartguidebooks.com , we believe that your time is valuable and when you travel should be stress free. Our mission is to help you discover top rated businesses in a variety of categories worldwide.  By combining data from trusted sources like TripAdvisor, Yelp, and Google Reviews to give you the top 20 recommendations in a wide range of cities.
-                  </p>
+                  <p className="text-muted-foreground">At seniorstravelagency.com , we believe that your time is valuable and when you travel should be stress free. Our mission is to help you discover top rated restaurants in a variety of categories worldwide. By combining data from trusted sources like TripAdvisor, Yelp, and Google Reviews to give you a choice between 1, 5, 10 or all the restaurants listed in our database.</p>
                   <div className="mt-auto">
                     <AudioPlayer src="our-mission.wav" />
                   </div>
@@ -133,8 +124,6 @@ const AboutUs = () => {
       </div>
       
       <Footer />
-    </div>
-  );
+    </div>;
 };
-
 export default AboutUs;
