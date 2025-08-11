@@ -82,7 +82,7 @@ export const MailingListSignup: React.FC<MailingListSignupProps> = ({ location, 
           
           <div className="flex-1 space-y-4">
             <div>
-              <h3 className="font-semibold text-lg">Get Exclusive {location ? `${location} ` : ''}{category ? `${category} ` : 'Food '}Alerts</h3>
+              <h3 className="font-semibold text-lg">GET EXCLUSIVE OFFERS</h3>
               <p className="text-sm text-muted-foreground mt-1">
                 Join thousands of {category ? `${category.toLowerCase()} ` : 'food '}lovers getting the best {category ? `${category.toLowerCase()} ` : 'dining '}recommendations, hidden gems, and exclusive offers delivered weekly.
               </p>
