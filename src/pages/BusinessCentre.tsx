@@ -3,45 +3,27 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Badge } from "@/components/ui/badge";
 import { Building2, Users, MapPin, Clock, Phone, Mail, Star, ChevronRight } from "lucide-react";
 import heroImage from "@/assets/hero-business-centre.jpg";
-
 const BusinessCentre = () => {
-  const services = [
-    {
-      icon: <Building2 className="h-8 w-8" />,
-      title: "Professional Office Spaces",
-      description: "Fully equipped offices and meeting rooms available for rent"
-    },
-    {
-      icon: <Users className="h-8 w-8" />,
-      title: "Virtual Office Solutions",
-      description: "Professional business address and mail handling services"
-    },
-    {
-      icon: <Phone className="h-8 w-8" />,
-      title: "AGENCY",
-      description: "Receptionist, administrative, and secretarial support"
-    }
-  ];
-
-  const amenities = [
-    "High-speed Wi-Fi",
-    "24/7 Access",
-    "Reception Services",
-    "Meeting Rooms",
-    "Video Conferencing",
-    "Printing & Scanning",
-    "Coffee & Refreshments",
-    "Parking Available"
-  ];
-
-  return (
-    <div className="min-h-screen bg-background">
+  const services = [{
+    icon: <Building2 className="h-8 w-8" />,
+    title: "Professional Office Spaces",
+    description: "Fully equipped offices and meeting rooms available for rent"
+  }, {
+    icon: <Users className="h-8 w-8" />,
+    title: "Virtual Office Solutions",
+    description: "Professional business address and mail handling services"
+  }, {
+    icon: <Phone className="h-8 w-8" />,
+    title: "AGENCY",
+    description: "Receptionist, administrative, and secretarial support"
+  }];
+  const amenities = ["High-speed Wi-Fi", "24/7 Access", "Reception Services", "Meeting Rooms", "Video Conferencing", "Printing & Scanning", "Coffee & Refreshments", "Parking Available"];
+  return <div className="min-h-screen bg-background">
       {/* Hero Section */}
       <section className="relative h-[60vh] flex items-center justify-center">
-        <div 
-          className="absolute inset-0 bg-cover bg-center bg-no-repeat"
-          style={{ backgroundImage: `url(${heroImage})` }}
-        />
+        <div className="absolute inset-0 bg-cover bg-center bg-no-repeat" style={{
+        backgroundImage: `url(${heroImage})`
+      }} />
         <div className="absolute inset-0 bg-black/50" />
         <div className="relative z-10 text-center text-white max-w-4xl mx-auto px-4">
           <h1 className="text-5xl md:text-7xl font-bold mb-6">Business Centre</h1>
@@ -65,8 +47,7 @@ const BusinessCentre = () => {
           </div>
           
           <div className="grid grid-cols-1 gap-8">
-            {services.map((service, index) => (
-              <Card key={index} className="text-center hover:shadow-lg transition-shadow">
+            {services.map((service, index) => <Card key={index} className="text-center hover:shadow-lg transition-shadow">
                 <CardHeader>
                   <div className="mx-auto mb-4 w-16 h-16 rounded-full bg-primary/10 flex items-center justify-center text-primary">
                     {service.icon}
@@ -78,8 +59,7 @@ const BusinessCentre = () => {
                     {service.description}
                   </CardDescription>
                 </CardContent>
-              </Card>
-            ))}
+              </Card>)}
           </div>
         </section>
 
@@ -93,11 +73,9 @@ const BusinessCentre = () => {
           </div>
           
           <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
-            {amenities.map((amenity, index) => (
-              <Badge key={index} variant="outline" className="p-3 text-center justify-center">
+            {amenities.map((amenity, index) => <Badge key={index} variant="outline" className="p-3 text-center justify-center">
                 {amenity}
-              </Badge>
-            ))}
+              </Badge>)}
           </div>
         </section>
 
@@ -169,7 +147,7 @@ const BusinessCentre = () => {
             <Star className="h-8 w-8 text-yellow-500 fill-current" />
             <Star className="h-8 w-8 text-yellow-500 fill-current" />
           </div>
-          <h2 className="text-3xl font-bold mb-4">Ready to Get Started?</h2>
+          <h2 className="text-3xl font-bold mb-4">BECOME AN AGENT </h2>
           <p className="text-lg text-muted-foreground mb-8 max-w-2xl mx-auto">
             Join hundreds of successful businesses who have made our centre their professional home
           </p>
@@ -183,8 +161,6 @@ const BusinessCentre = () => {
           </div>
         </section>
       </div>
-    </div>
-  );
+    </div>;
 };
-
 export default BusinessCentre;
