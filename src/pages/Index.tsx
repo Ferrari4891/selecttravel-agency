@@ -15,7 +15,7 @@ import { Input } from '@/components/ui/input';
 import { regionData } from '@/data/locationData';
 import SaveBusinessButton from '@/components/SaveBusinessButton';
 import { EnhancedCityInput } from '@/components/EnhancedCityInput';
-import { CuisineForm } from '@/components/CuisineForm';
+
 import { supabase } from '@/integrations/supabase/client';
 
 
@@ -54,7 +54,7 @@ interface Business {
   email: string;
   website: string;
   mapLink: string;
-  menuLink: string; // Add this line
+  menuLink: string;
   googleMapRef?: string;
   facebook?: string;
   instagram?: string;
@@ -64,12 +64,47 @@ interface Business {
   source: string;
 }
 
+interface CountryCuisineData {
+  [key: string]: string[];
+}
+
+const countryCuisineData: CountryCuisineData = {
+  'France': ['French', 'Pastries', 'Seafood', 'Cheese', 'Wine', 'Provençal', 'Crêpes', 'Baguettes', 'Escargot', 'Duck Confit'],
+  'Spain': ['Tapas', 'Paella', 'Churros', 'Iberico Ham', 'Gazpacho', 'Tortilla Española', 'Seafood', 'Sangria', 'Patatas Bravas', 'Croquetas'],
+  'United States': ['Burgers', 'BBQ', 'Fried Chicken', 'Pizza', 'Tex-Mex', 'Clam Chowder', 'Hot Dogs', 'Cajun', 'Lobster Rolls', 'Apple Pie'],
+  'China': ['Dim Sum', 'Peking Duck', 'Hot Pot', 'Noodles', 'Dumplings', 'Sweet and Sour Pork', 'Mapo Tofu', 'Fried Rice', 'Sichuan Cuisine', 'Cantonese Cuisine'],
+  'Italy': ['Pizza', 'Pasta', 'Gelato', 'Risotto', 'Tiramisu', 'Lasagna', 'Prosciutto', 'Bruschetta', 'Cannoli', 'Gnocchi'],
+  'Turkey': ['Kebab', 'Baklava', 'Meze', 'Turkish Tea', 'Pide', 'Döner', 'Lahmacun', 'Manti', 'Menemen', 'Turkish Coffee'],
+  'Mexico': ['Tacos', 'Enchiladas', 'Guacamole', 'Tamales', 'Mole', 'Quesadillas', 'Churros', 'Pozole', 'Sopes', 'Ceviche'],
+  'Thailand': ['Pad Thai', 'Green Curry', 'Tom Yum Soup', 'Mango Sticky Rice', 'Massaman Curry', 'Som Tum', 'Red Curry', 'Satay', 'Khao Pad', 'Larb'],
+  'Germany': ['Bratwurst', 'Pretzels', 'Schnitzel', 'Sauerkraut', 'Currywurst', 'Black Forest Cake', 'Spaetzle', 'Potato Salad', 'Beer', 'Roast Pork'],
+  'United Kingdom': ['Fish and Chips', 'Roast Beef', 'Shepherd\'s Pie', 'Full English Breakfast', 'Bangers and Mash', 'Afternoon Tea', 'Cornish Pasty', 'Scones', 'Yorkshire Pudding', 'Sticky Toffee Pudding'],
+  'Vietnam': ['Pho', 'Banh Mi', 'Spring Rolls', 'Vietnamese Coffee', 'Bun Bo Hue', 'Cao Lau', 'Banh Xeo', 'Vermicelli Bowls', 'Fish Sauce', 'Che'],
+  'Malaysia': ['Nasi Lemak', 'Rendang', 'Laksa', 'Satay', 'Char Kway Teow', 'Hainanese Chicken Rice', 'Roti Canai', 'Assam Fish', 'Cendol', 'Durian'],
+  'Indonesia': ['Nasi Goreng', 'Rendang', 'Satay', 'Gado-Gado', 'Soto', 'Tempeh', 'Nasi Padang', 'Martabak', 'Gudeg', 'Sambal']
+};
+
+const topCountries = [
+  'France',
+  'Spain', 
+  'United States',
+  'China',
+  'Italy',
+  'Turkey',
+  'Mexico',
+  'Thailand',
+  'Germany',
+  'United Kingdom',
+  'Vietnam',
+  'Malaysia',
+  'Indonesia'
+];
+
 const Index: React.FC = () => {
   const { t } = useTranslation();
-  const [currentStep, setCurrentStep] = useState<1 | 2 | 3 | 4 | 5>(1);
-  const [selectedCategory, setSelectedCategory] = useState<string>('');
-  const [selectedRegion, setSelectedRegion] = useState<string>('');
+  const [currentStep, setCurrentStep] = useState<1 | 2 | 3 | 4>(1);
   const [selectedCountry, setSelectedCountry] = useState<string>('');
+  const [selectedCuisine, setSelectedCuisine] = useState<string>('');
   const [selectedCity, setSelectedCity] = useState<string>('');
   const [citySearchInput, setCitySearchInput] = useState<string>('');
   const [resultCount, setResultCount] = useState<number>(0);
@@ -78,42 +113,33 @@ const Index: React.FC = () => {
   const [showResults, setShowResults] = useState(false);
   const [staticImageIndex, setStaticImageIndex] = useState(0);
 
-  const categories = [
-    { value: 'Japanese', label: 'Japanese', icon: flagJapan },
-    { value: 'Korean', label: 'Korean', icon: flagKorea },
-    { value: 'French', label: 'French', icon: flagFrance },
-    { value: 'Italian', label: 'Italian', icon: flagItaly },
-    { value: 'Chinese', label: 'Chinese', icon: flagChina },
-    { value: 'Mexican', label: 'Mexican', icon: flagMexico },
-    { value: 'Indian', label: 'Indian', icon: flagIndia },
-    { value: 'Thai', label: 'Thai', icon: flagThailand },
-    { value: 'Vietnamese', label: 'Vietnamese', icon: flagVietnam }
-  ];
-
-  const regions = Object.keys(regionData);
-
-  const countries = useMemo(() => {
-    if (!selectedRegion) return [];
-    return regionData[selectedRegion]?.countries || [];
-  }, [selectedRegion]);
+  const availableCuisines = useMemo(() => {
+    return selectedCountry ? countryCuisineData[selectedCountry] || [] : [];
+  }, [selectedCountry]);
 
   const cities = useMemo(() => {
     if (!selectedCountry) return [];
-    const country = countries.find(c => c.name === selectedCountry);
-    return country?.cities || [];
-  }, [selectedCountry, countries]);
+    // Find all cities for the selected country across all regions
+    const allCities: string[] = [];
+    Object.values(regionData).forEach(region => {
+      const country = region.countries.find(c => c.name === selectedCountry);
+      if (country) {
+        allCities.push(...country.cities);
+      }
+    });
+    return allCities;
+  }, [selectedCountry]);
 
   // Get hero image based on selections with proper priority and fallbacks
   const getHeroImage = () => {
     console.log('🎯 getHeroImage called with:', { 
       selectedCity, 
       selectedCountry, 
-      selectedRegion, 
-      selectedCategory,
+      selectedCuisine,
       currentStep 
     });
     
-    // Priority: City > Country > Region > Category > Step-based static images
+    // Priority: City > Country > Step-based static images
     if (selectedCity) {
       console.log('🏙️ Using city-based image');
       const cityImage = cityImages[selectedCity];
@@ -129,14 +155,6 @@ const Index: React.FC = () => {
       console.log('🌍 Using country-based image');
       return getCountryImageWithFallback();
     }
-    if (selectedRegion) {
-      console.log('🗺️ Using region-based image');
-      return getRegionImage();
-    }
-    if (selectedCategory) {
-      console.log('📁 Using category-based image');
-      return getCategoryImage();
-    }
     // Step-based static images from carousel
     console.log('🔄 Using step-based static image');
     return getStepBasedImage();
@@ -148,27 +166,8 @@ const Index: React.FC = () => {
       console.log('✅ Found specific country image:', countryImage);
       return countryImage;
     } else {
-      console.log('⚠️ Country image not found, using region image');
-      return getRegionImage();
-    }
-  };
-
-  const getCategoryImage = () => {
-    // All restaurant cuisine categories use the eat hero image
-    if (selectedCategory) {
+      console.log('⚠️ Country image not found, using hero eat image');
       return heroEat;
-    }
-    return heroBackground;
-  };
-
-  const getRegionImage = () => {
-    switch (selectedRegion) {
-      case 'North America': return heroNorthAmerica;
-      case 'Europe': return heroEurope;
-      case 'Asia': return heroAsia;
-      case 'South America': return heroSouthAmerica;
-      case 'Africa & Middle East': return heroAfricaMiddleEast;
-      default: return getCategoryImage();
     }
   };
 
@@ -232,25 +231,22 @@ const Index: React.FC = () => {
     }));
   };
 
-  const handleCategorySelect = (category: string) => {
-    setSelectedCategory(category);
-    // Randomly select one of the 4 static images when step 1 option is clicked
-    setStaticImageIndex(Math.floor(Math.random() * staticImages.length));
+  const handleCountrySelect = (country: string) => {
+    setSelectedCountry(country);
+    setSelectedCuisine('');
+    setSelectedCity('');
     setCurrentStep(2);
   };
 
-  const handleRegionSelect = (region: string) => {
-    setSelectedRegion(region);
-    setSelectedCountry('');
+  const handleCuisineSelect = (cuisine: string) => {
+    setSelectedCuisine(cuisine);
     setSelectedCity('');
-    // Randomly select one of the 4 static images when step 2 option is clicked
-    setStaticImageIndex(Math.floor(Math.random() * staticImages.length));
     setCurrentStep(3);
   };
 
-  const handleCountrySelect = (country: string) => {
-    setSelectedCountry(country);
-    setSelectedCity('');
+  const handleCitySelectAndProceed = (city: string) => {
+    setSelectedCity(city);
+    setCitySearchInput('');
     setCurrentStep(4);
   };
 
@@ -272,33 +268,18 @@ const Index: React.FC = () => {
 
   const handleCitySearch = () => {
     const searchTerm = citySearchInput.trim().toLowerCase();
-    const allCities = getAllCities();
+    const selectedCountryCities = cities;
     
-    // Find exact match first
-    let foundCity = allCities.find(city => city.toLowerCase() === searchTerm);
+    // Find exact match first within selected country
+    let foundCity = selectedCountryCities.find(city => city.toLowerCase() === searchTerm);
     
-    // If no exact match, try partial match
+    // If no exact match, try partial match within selected country
     if (!foundCity) {
-      foundCity = allCities.find(city => city.toLowerCase().includes(searchTerm));
+      foundCity = selectedCountryCities.find(city => city.toLowerCase().includes(searchTerm));
     }
 
     if (foundCity) {
-      // Find the region and country for this city
-      let foundRegion = '';
-      let foundCountry = '';
-      
-      Object.entries(regionData).forEach(([regionName, region]) => {
-        region.countries.forEach(country => {
-          if (country.cities.includes(foundCity!)) {
-            foundRegion = regionName;
-            foundCountry = country.name;
-          }
-        });
-      });
-
       setSelectedCity(foundCity);
-      setSelectedRegion(foundRegion);
-      setSelectedCountry(foundCountry);
       setCitySearchInput('');
       toast({
         title: "City Found",
@@ -307,7 +288,7 @@ const Index: React.FC = () => {
     } else {
       toast({
         title: "City Not Found",
-        description: "Sorry, your choice is not listed. Please try a different city or select from the dropdown.",
+        description: "Sorry, your choice is not listed in the selected country. Please try a different city or select from the dropdown.",
         variant: "destructive"
       });
     }
@@ -340,7 +321,7 @@ const Index: React.FC = () => {
       let query = supabase
         .from('businesses')
         .select('*')
-        .eq('business_type', selectedCategory)
+        .eq('business_type', selectedCuisine)
         .eq('city', cityToUse)
         .eq('country', selectedCountry)
         .eq('status', 'active')
@@ -416,9 +397,8 @@ const Index: React.FC = () => {
 
   const handleGetAgain = () => {
     setCurrentStep(1);
-    setSelectedCategory('');
-    setSelectedRegion('');
     setSelectedCountry('');
+    setSelectedCuisine('');
     setSelectedCity('');
     setCitySearchInput('');
     setResultCount(0);
@@ -429,28 +409,21 @@ const Index: React.FC = () => {
   const handleStepNavigation = (step: number) => {
     // Only allow navigation to current step or previous steps
     if (step <= currentStep) {
-      setCurrentStep(step as 1 | 2 | 3 | 4 | 5);
+      setCurrentStep(step as 1 | 2 | 3 | 4);
       
       // Reset selections based on which step we're going back to
       if (step === 1) {
-        setSelectedCategory('');
-        setSelectedRegion('');
         setSelectedCountry('');
+        setSelectedCuisine('');
         setSelectedCity('');
         setCitySearchInput('');
         setResultCount(0);
       } else if (step === 2) {
-        setSelectedRegion('');
-        setSelectedCountry('');
+        setSelectedCuisine('');
         setSelectedCity('');
         setCitySearchInput('');
         setResultCount(0);
       } else if (step === 3) {
-        setSelectedCountry('');
-        setSelectedCity('');
-        setCitySearchInput('');
-        setResultCount(0);
-      } else if (step === 4) {
         setSelectedCity('');
         setCitySearchInput('');
         setResultCount(0);
@@ -481,7 +454,7 @@ const Index: React.FC = () => {
     const link = document.createElement('a');
     const url = URL.createObjectURL(blob);
     link.setAttribute('href', url);
-    link.setAttribute('download', `${selectedCategory}_${selectedCity}_${selectedCountry}.csv`);
+    link.setAttribute('download', `${selectedCuisine}_${selectedCity}_${selectedCountry}.csv`);
     link.style.visibility = 'hidden';
     document.body.appendChild(link);
     link.click();
@@ -493,7 +466,7 @@ const Index: React.FC = () => {
     });
   };
 
-  const isComplete = selectedCategory && selectedRegion && selectedCountry && (selectedCity || citySearchInput.trim()) && resultCount > 0;
+  const isComplete = selectedCountry && selectedCuisine && (selectedCity || citySearchInput.trim()) && resultCount > 0;
 
   return (
     <div className="min-h-screen bg-background">
@@ -546,10 +519,6 @@ const Index: React.FC = () => {
                   </Link>
                 </div>
 
-                {/* Cuisine Discovery Form */}
-                <div className="mt-8">
-                  <CuisineForm />
-                </div>
               </>
             )}
           </div>
@@ -560,10 +529,10 @@ const Index: React.FC = () => {
               {/* Progress Indicator */}
               <div className="flex justify-center space-x-2 mb-6">
                 {[
-                  { step: 1, label: 'Category' },
-                  { step: 2, label: 'Region' },
-                  { step: 3, label: 'Country' },
-                  { step: 4, label: 'City' }
+                  { step: 1, label: 'Country' },
+                  { step: 2, label: 'Cuisine' },
+                  { step: 3, label: 'City' },
+                  { step: 4, label: 'Results' }
                 ].map(({ step, label }) => (
                   <div key={step} className="flex flex-col items-center space-y-1">
                     <button
@@ -581,21 +550,16 @@ const Index: React.FC = () => {
               </div>
 
               {/* Current Selections */}
-              {(selectedCategory || selectedRegion || selectedCountry || selectedCity) && (
+              {(selectedCountry || selectedCuisine || selectedCity) && (
                 <div className="flex flex-wrap gap-1 justify-center mb-4">
-                  {selectedCategory && (
-                    <Badge variant="secondary" className="bg-white text-black text-xs px-2 py-1 rounded-none">
-                      {categories.find(c => c.value === selectedCategory)?.label}
-                    </Badge>
-                  )}
-                  {selectedRegion && (
-                    <Badge variant="secondary" className="bg-white text-black text-xs px-2 py-1 rounded-none">
-                      {selectedRegion}
-                    </Badge>
-                  )}
                   {selectedCountry && (
                     <Badge variant="secondary" className="bg-white text-black text-xs px-2 py-1 rounded-none">
                       {selectedCountry}
+                    </Badge>
+                  )}
+                  {selectedCuisine && (
+                    <Badge variant="secondary" className="bg-white text-black text-xs px-2 py-1 rounded-none">
+                      {selectedCuisine}
                     </Badge>
                   )}
                    {(selectedCity || citySearchInput.trim()) && (
@@ -611,61 +575,18 @@ const Index: React.FC = () => {
                 </div>
               )}
 
-              {/* Step 1: Category Selection */}
+              {/* Step 1: Country Selection */}
               {currentStep === 1 && (
                 <div className="space-y-6">
-                  <h2 className="text-lg font-bold text-center text-white">1: {t('discover_restaurants')}</h2>
-                  <Select onValueChange={handleCategorySelect} value={selectedCategory}>
-                    <SelectTrigger className="w-full h-14 text-base bg-white text-black border-2 border-white rounded-none shadow-md">
-                      <SelectValue placeholder="Select category..." />
-                    </SelectTrigger>
-                    <SelectContent className="bg-white border-2 border-gray-300 rounded-none max-h-60 overflow-y-auto z-[100] shadow-lg">
-                       {categories.map((category) => {
-                         return (
-                           <SelectItem key={category.value} value={category.value} className="text-base py-3 rounded-none hover:bg-gray-100">
-                             <div className="flex items-center gap-2">
-                               <img src={category.icon} alt={`${category.label} flag`} className="h-5 w-5 object-cover" />
-                               <span className="font-medium">{category.label}</span>
-                             </div>
-                           </SelectItem>
-                         );
-                      })}
-                    </SelectContent>
-                  </Select>
-                </div>
-              )}
-
-              {/* Step 2: Region Selection */}
-              {currentStep === 2 && (
-                <div className="space-y-6">
-                  <h2 className="text-lg font-bold text-center text-white">2: Select Region</h2>
-                  <Select onValueChange={handleRegionSelect} value={selectedRegion}>
-                    <SelectTrigger className="w-full h-14 text-base bg-white text-black border-2 border-white rounded-none shadow-md">
-                      <SelectValue placeholder="Select region..." />
-                    </SelectTrigger>
-                    <SelectContent className="bg-white border-2 border-gray-300 rounded-none max-h-60 overflow-y-auto z-[100] shadow-lg">
-                      {regions.map((region) => (
-                        <SelectItem key={region} value={region} className="text-base py-3 rounded-none hover:bg-gray-100">
-                          {region}
-                        </SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
-                </div>
-              )}
-
-              {/* Step 3: Country Selection */}
-              {currentStep === 3 && (
-                <div className="space-y-6">
-                  <h2 className="text-lg font-bold text-center text-white">3: Select Country</h2>
+                  <h2 className="text-lg font-bold text-center text-white">1: Select Country</h2>
                   <Select onValueChange={handleCountrySelect} value={selectedCountry}>
                     <SelectTrigger className="w-full h-14 text-base bg-white text-black border-2 border-white rounded-none shadow-md">
                       <SelectValue placeholder="Select country..." />
                     </SelectTrigger>
                     <SelectContent className="bg-white border-2 border-gray-300 rounded-none max-h-60 overflow-y-auto z-[100] shadow-lg">
-                      {countries.map((country) => (
-                        <SelectItem key={country.name} value={country.name} className="text-base py-3 rounded-none hover:bg-gray-100">
-                          {country.name}
+                      {topCountries.map((country) => (
+                        <SelectItem key={country} value={country} className="text-base py-3 rounded-none hover:bg-gray-100">
+                          {country}
                         </SelectItem>
                       ))}
                     </SelectContent>
@@ -673,10 +594,29 @@ const Index: React.FC = () => {
                 </div>
               )}
 
-              {/* Step 4: City Selection */}
-              {currentStep === 4 && (
+              {/* Step 2: Cuisine Selection */}
+              {currentStep === 2 && (
+                <div className="space-y-6">
+                  <h2 className="text-lg font-bold text-center text-white">2: Select Cuisine</h2>
+                  <Select onValueChange={handleCuisineSelect} value={selectedCuisine}>
+                    <SelectTrigger className="w-full h-14 text-base bg-white text-black border-2 border-white rounded-none shadow-md">
+                      <SelectValue placeholder="Select cuisine..." />
+                    </SelectTrigger>
+                    <SelectContent className="bg-white border-2 border-gray-300 rounded-none max-h-60 overflow-y-auto z-[100] shadow-lg">
+                      {availableCuisines.map((cuisine) => (
+                        <SelectItem key={cuisine} value={cuisine} className="text-base py-3 rounded-none hover:bg-gray-100">
+                          {cuisine}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                </div>
+              )}
+
+              {/* Step 3: City Selection */}
+              {currentStep === 3 && (
                 <div className="space-y-4">
-                  <h2 className="text-lg font-bold text-center text-white">4: Select City</h2>
+                  <h2 className="text-lg font-bold text-center text-white">3: Select City</h2>
                   <Select onValueChange={handleCitySelect} value={selectedCity}>
                     <SelectTrigger className="w-full h-10 text-sm bg-white text-black border-2 border-white rounded-none shadow-md">
                       <SelectValue placeholder="Select city..." />
@@ -967,7 +907,7 @@ const Index: React.FC = () => {
                 }))}
                 selectedCity={selectedCity}
                 selectedCountry={selectedCountry}
-                selectedCategory={selectedCategory}
+                selectedCategory={selectedCuisine}
               />
             </div>
           </div>
