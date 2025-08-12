@@ -207,6 +207,14 @@ const Index: React.FC = () => {
       'Riverside Restaurant', 'Central Lounge', 'Metro Hotel', 'Plaza Bar'
     ];
 
+    // Pool of restaurant images including the new uploaded ones
+    const restaurantImages = [
+      '/lovable-uploads/84845629-2fe8-43b5-8500-84324fdcb0ec.png',
+      '/lovable-uploads/c15f396d-92ad-4582-a3f5-25d92bfbd8dd.png',
+      '/lovable-uploads/fb361fa1-a99f-4c63-aa4b-68502ea4bb3e.png',
+      '/lovable-uploads/6eeb2749-5d4b-4b88-9d7f-53654734a0d6.png'
+    ];
+
     return businessNames.slice(0, resultCount).map((name, index) => ({
       name,
       address: `${100 + index} Main Street, ${selectedCity}, ${selectedCountry}`,
@@ -220,7 +228,7 @@ const Index: React.FC = () => {
       facebook: Math.random() > 0.5 ? `https://facebook.com/${name.toLowerCase().replace(/\s+/g, '')}` : undefined,
       instagram: Math.random() > 0.5 ? `https://instagram.com/${name.toLowerCase().replace(/\s+/g, '')}` : undefined,
       twitter: Math.random() > 0.5 ? `https://twitter.com/${name.toLowerCase().replace(/\s+/g, '')}` : undefined,
-      image: '/lovable-uploads/84845629-2fe8-43b5-8500-84324fdcb0ec.png',
+      image: restaurantImages[Math.floor(Math.random() * restaurantImages.length)],
       source: 'SmartGuides Database'
     }));
   };
