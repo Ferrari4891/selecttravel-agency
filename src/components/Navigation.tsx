@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
 import { Input } from '@/components/ui/input';
-import { Menu, Home, Info, HelpCircle, Users, Building2, ChevronDown, ChevronRight, Search, Bookmark, User, LogOut, Heart, Globe, Shield } from 'lucide-react';
+import { Menu, Home, Info, HelpCircle, Users, Building2, ChevronDown, ChevronRight, Search, Bookmark, User, LogOut, Heart, Globe, Shield, BookOpen } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { useAuth } from '@/contexts/AuthContext';
 import { useLanguage } from '@/contexts/LanguageContext';
@@ -302,8 +302,15 @@ const { user } = useAuth();
                     <span className="text-sm">Business Centre</span>
                   </Link>
                 </Button>
-                
-                {/* User Account Section - only show when logged in */}
+                 
+                 <Button variant="ghost" className="w-full justify-start h-10 text-left touch-target" asChild>
+                   <Link to="/flipbook-test" onClick={() => setMenuOpen(false)}>
+                     <BookOpen className="h-4 w-4 mr-2" />
+                     <span className="text-sm">Test Embed</span>
+                   </Link>
+                 </Button>
+                 
+                 {/* User Account Section - only show when logged in */}
                 {user && (
                   <>
                     <div className="border-t border-gray-200 pt-2 mt-2">
