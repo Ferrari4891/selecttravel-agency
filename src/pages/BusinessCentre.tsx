@@ -3,6 +3,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Badge } from "@/components/ui/badge";
 import { Building2, Users, MapPin, Clock, Phone, Mail, Star, ChevronRight } from "lucide-react";
 import heroImage from "@/assets/hero-business-centre.jpg";
+import { Navigation } from "@/components/Navigation";
 const BusinessCentre = () => {
   const services = [{
     icon: <Building2 className="h-8 w-8" />,
@@ -19,6 +20,7 @@ const BusinessCentre = () => {
   }];
   const amenities = ["High-speed Wi-Fi", "24/7 Access", "Reception Services", "Meeting Rooms", "Video Conferencing", "Printing & Scanning", "Coffee & Refreshments", "Parking Available"];
   return <div className="min-h-screen bg-background">
+      <Navigation />
       {/* Hero Section */}
       <section className="relative h-[60vh] flex items-center justify-center">
         <div className="absolute inset-0 bg-cover bg-center bg-no-repeat" style={{
