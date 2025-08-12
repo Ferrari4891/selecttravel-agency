@@ -46,7 +46,7 @@ const BusinessCentre = () => {
         <div className="relative z-10 text-center text-white max-w-4xl mx-auto px-4">
           <h1 className="text-5xl md:text-7xl font-bold mb-6">Business Centre</h1>
           <p className="text-xl md:text-2xl mb-8 opacity-90">
-            Professional workspace solutions for modern businesses
+            We provide a wide range of rescources to help our business customers.
           </p>
           <Button size="lg" className="bg-white text-black hover:bg-white/90">
             Book a Tour <ChevronRight className="ml-2 h-4 w-4" />
