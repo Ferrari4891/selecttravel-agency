@@ -69,16 +69,16 @@ interface CountryCuisineData {
 }
 
 const countryCuisineData: CountryCuisineData = {
-  'France': ['French', 'Mediterranean', 'European', 'Western'],
-  'Spain': ['Spanish', 'Mediterranean', 'Tapas', 'European'],
-  'United States': ['Western', 'American', 'BBQ', 'Fusion'],
-  'China': ['Chinese', 'Asian', 'Cantonese', 'Sichuan'],
-  'Italy': ['Italian', 'Mediterranean', 'European', 'Western'],
-  'Turkey': ['Middle Eastern', 'Mediterranean', 'Turkish', 'Anatolian'],
-  'Mexico': ['Mexican', 'Latin American', 'Western', 'Tex-Mex'],
-  'Thailand': ['Thai', 'Asian', 'Southeast Asian', 'Street Food'],
-  'Germany': ['German', 'European', 'Western', 'Bavarian'],
-  'United Kingdom': ['British', 'European', 'Western', 'Pub Food']
+  'France': ['French', 'Mediterranean', 'European', 'Western', 'Seafood', 'Steak'],
+  'Spain': ['Spanish', 'Mediterranean', 'Tapas', 'European', 'Seafood', 'Steak'],
+  'United States': ['Western', 'American', 'BBQ', 'Fusion', 'Seafood', 'Steak', 'Chinese', 'Japanese'],
+  'China': ['Chinese', 'Asian', 'Cantonese', 'Sichuan', 'Seafood'],
+  'Italy': ['Italian', 'Mediterranean', 'European', 'Western', 'Seafood', 'Steak'],
+  'Turkey': ['Middle Eastern', 'Mediterranean', 'Turkish', 'Anatolian', 'Seafood'],
+  'Mexico': ['Mexican', 'Latin American', 'Western', 'Tex-Mex', 'Seafood'],
+  'Thailand': ['Thai', 'Asian', 'Southeast Asian', 'Street Food', 'Seafood'],
+  'Germany': ['German', 'European', 'Western', 'Bavarian', 'Steak'],
+  'United Kingdom': ['British', 'European', 'Western', 'Pub Food', 'Seafood', 'Steak']
 };
 
 const topCountries = [
