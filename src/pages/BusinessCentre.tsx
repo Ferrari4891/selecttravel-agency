@@ -66,7 +66,7 @@ const BusinessCentre = () => {
         {/* Amenities Section */}
         <section>
           <div className="text-center mb-12">
-            <h2 className="text-4xl font-bold mb-4">Premium Amenities</h2>
+            <h2 className="text-4xl font-bold mb-4">AGENT RESCOURCES</h2>
             <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
               Everything you need for a productive work environment
             </p>
