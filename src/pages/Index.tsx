@@ -69,19 +69,16 @@ interface CountryCuisineData {
 }
 
 const countryCuisineData: CountryCuisineData = {
-  'France': ['French', 'Pastries', 'Seafood', 'Cheese', 'Wine', 'Provençal', 'Crêpes', 'Baguettes', 'Escargot', 'Duck Confit'],
-  'Spain': ['Tapas', 'Paella', 'Churros', 'Iberico Ham', 'Gazpacho', 'Tortilla Española', 'Seafood', 'Sangria', 'Patatas Bravas', 'Croquetas'],
-  'United States': ['Burgers', 'BBQ', 'Fried Chicken', 'Pizza', 'Tex-Mex', 'Clam Chowder', 'Hot Dogs', 'Cajun', 'Lobster Rolls', 'Apple Pie'],
-  'China': ['Dim Sum', 'Peking Duck', 'Hot Pot', 'Noodles', 'Dumplings', 'Sweet and Sour Pork', 'Mapo Tofu', 'Fried Rice', 'Sichuan Cuisine', 'Cantonese Cuisine'],
-  'Italy': ['Pizza', 'Pasta', 'Gelato', 'Risotto', 'Tiramisu', 'Lasagna', 'Prosciutto', 'Bruschetta', 'Cannoli', 'Gnocchi'],
-  'Turkey': ['Kebab', 'Baklava', 'Meze', 'Turkish Tea', 'Pide', 'Döner', 'Lahmacun', 'Manti', 'Menemen', 'Turkish Coffee'],
-  'Mexico': ['Tacos', 'Enchiladas', 'Guacamole', 'Tamales', 'Mole', 'Quesadillas', 'Churros', 'Pozole', 'Sopes', 'Ceviche'],
-  'Thailand': ['Pad Thai', 'Green Curry', 'Tom Yum Soup', 'Mango Sticky Rice', 'Massaman Curry', 'Som Tum', 'Red Curry', 'Satay', 'Khao Pad', 'Larb'],
-  'Germany': ['Bratwurst', 'Pretzels', 'Schnitzel', 'Sauerkraut', 'Currywurst', 'Black Forest Cake', 'Spaetzle', 'Potato Salad', 'Beer', 'Roast Pork'],
-  'United Kingdom': ['Fish and Chips', 'Roast Beef', 'Shepherd\'s Pie', 'Full English Breakfast', 'Bangers and Mash', 'Afternoon Tea', 'Cornish Pasty', 'Scones', 'Yorkshire Pudding', 'Sticky Toffee Pudding'],
-  'Vietnam': ['Pho', 'Banh Mi', 'Spring Rolls', 'Vietnamese Coffee', 'Bun Bo Hue', 'Cao Lau', 'Banh Xeo', 'Vermicelli Bowls', 'Fish Sauce', 'Che'],
-  'Malaysia': ['Nasi Lemak', 'Rendang', 'Laksa', 'Satay', 'Char Kway Teow', 'Hainanese Chicken Rice', 'Roti Canai', 'Assam Fish', 'Cendol', 'Durian'],
-  'Indonesia': ['Nasi Goreng', 'Rendang', 'Satay', 'Gado-Gado', 'Soto', 'Tempeh', 'Nasi Padang', 'Martabak', 'Gudeg', 'Sambal']
+  'France': ['French', 'Mediterranean', 'European', 'Western'],
+  'Spain': ['Spanish', 'Mediterranean', 'Tapas', 'European'],
+  'United States': ['Western', 'American', 'BBQ', 'Fusion'],
+  'China': ['Chinese', 'Asian', 'Cantonese', 'Sichuan'],
+  'Italy': ['Italian', 'Mediterranean', 'European', 'Western'],
+  'Turkey': ['Middle Eastern', 'Mediterranean', 'Turkish', 'Anatolian'],
+  'Mexico': ['Mexican', 'Latin American', 'Western', 'Tex-Mex'],
+  'Thailand': ['Thai', 'Asian', 'Southeast Asian', 'Street Food'],
+  'Germany': ['German', 'European', 'Western', 'Bavarian'],
+  'United Kingdom': ['British', 'European', 'Western', 'Pub Food']
 };
 
 const topCountries = [
@@ -94,10 +91,7 @@ const topCountries = [
   'Mexico',
   'Thailand',
   'Germany',
-  'United Kingdom',
-  'Vietnam',
-  'Malaysia',
-  'Indonesia'
+  'United Kingdom'
 ];
 
 const Index: React.FC = () => {
