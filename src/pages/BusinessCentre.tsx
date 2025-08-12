@@ -18,7 +18,7 @@ const BusinessCentre = () => {
     },
     {
       icon: <Phone className="h-8 w-8" />,
-      title: "PARTNER PROGRAMS",
+      title: "AGENCY",
       description: "Receptionist, administrative, and secretarial support"
     }
   ];
