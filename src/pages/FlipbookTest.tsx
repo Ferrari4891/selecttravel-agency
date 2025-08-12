@@ -55,7 +55,7 @@ const FlipbookTest = () => {
   // Create modal-optimized embed code with full height
   const getModalEmbedCode = () => {
     if (!embedCode) return "";
-    return embedCode.replace(/height:\s*\d+px/gi, "height: 90vh");
+    return embedCode.replace(/height:\s*\d+px/gi, "height: 100%");
   };
 
   return (
@@ -237,7 +237,7 @@ const FlipbookTest = () => {
 
       {/* Full-Width Modal */}
       <Dialog open={showModal} onOpenChange={setShowModal}>
-        <DialogContent className="max-w-[95vw] w-full h-[95vh] p-0 bg-transparent border-none shadow-none">
+        <DialogContent className="max-w-sm w-full max-h-none h-auto p-0 bg-transparent border-none shadow-none">
           <DialogHeader className="absolute top-4 right-4 z-50">
             <Button
               variant="outline"
