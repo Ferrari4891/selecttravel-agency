@@ -102,7 +102,7 @@ const BusinessCentre = () => {
         </section>
 
         {/* Location & Contact Section */}
-        <section className="grid md:grid-cols-2 gap-12">
+        <section className="grid grid-cols-1 gap-12">
           <Card>
             <CardHeader>
               <CardTitle className="flex items-center gap-2">
