@@ -296,6 +296,13 @@ const { user } = useAuth();
                   </Link>
                 </Button>
                 
+                <Button variant="ghost" className="w-full justify-start h-10 text-left touch-target" asChild>
+                  <Link to="/business-centre" onClick={() => setMenuOpen(false)}>
+                    <Building2 className="h-4 w-4 mr-2" />
+                    <span className="text-sm">Business Centre</span>
+                  </Link>
+                </Button>
+                
                 {/* User Account Section - only show when logged in */}
                 {user && (
                   <>
