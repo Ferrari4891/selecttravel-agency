@@ -131,7 +131,7 @@ const BusinessCentre = () => {
               </div>
               <div className="pt-4">
                 <Button className="w-full">
-                  Schedule a Consultation
+                  DOWNLOAD BROCHURE
                 </Button>
               </div>
             </CardContent>
