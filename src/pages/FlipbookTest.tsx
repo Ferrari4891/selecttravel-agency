@@ -1,13 +1,15 @@
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { Textarea } from "@/components/ui/textarea";
 import { Badge } from "@/components/ui/badge";
-import { BookOpen, Code, Upload, ExternalLink } from "lucide-react";
+import { BookOpen, Code, Upload, ExternalLink, Maximize2, X } from "lucide-react";
 
 const FlipbookTest = () => {
   const [embedCode, setEmbedCode] = useState(`<iframe allowfullscreen="allowfullscreen" allow="clipboard-write" scrolling="no" class="fp-iframe" src="https://heyzine.com/flip-book/97d0a6653e.html" style="border: 1px solid lightgray; width: 100%; height: 400px;"></iframe>`);
   const [showEmbed, setShowEmbed] = useState(true);
+  const [showModal, setShowModal] = useState(false);
 
   const sampleHeyzineEmbed = `<iframe allowfullscreen="true" scrolling="no" class="fp-iframe" style="border: 1px solid lightgray; width: 100%; height: 500px;" src="https://heyzine.com/flip-book/your-flipbook-id.html"></iframe>`;
 
@@ -42,6 +44,18 @@ const FlipbookTest = () => {
     if (embedCode.trim()) {
       setShowEmbed(true);
     }
+  };
+
+  const handleOpenModal = () => {
+    if (embedCode.trim()) {
+      setShowModal(true);
+    }
+  };
+
+  // Create modal-optimized embed code with full height
+  const getModalEmbedCode = () => {
+    if (!embedCode) return "";
+    return embedCode.replace(/height:\s*\d+px/gi, "height: 90vh");
   };
 
   return (
@@ -83,9 +97,18 @@ const FlipbookTest = () => {
                 />
               </div>
               
-              <div className="flex gap-4">
+              <div className="flex flex-wrap gap-4">
                 <Button onClick={handleEmbedTest} disabled={!embedCode.trim()}>
                   Test Embed
+                </Button>
+                <Button 
+                  variant="outline" 
+                  onClick={handleOpenModal}
+                  disabled={!embedCode.trim()}
+                  className="flex items-center gap-2"
+                >
+                  <Maximize2 className="h-4 w-4" />
+                  Open in Modal
                 </Button>
                 <Button 
                   variant="outline" 
@@ -211,6 +234,29 @@ const FlipbookTest = () => {
           </div>
         </section>
       </div>
+
+      {/* Full-Width Modal */}
+      <Dialog open={showModal} onOpenChange={setShowModal}>
+        <DialogContent className="max-w-[95vw] w-full h-[95vh] p-0 bg-transparent border-none shadow-none">
+          <DialogHeader className="absolute top-4 right-4 z-50">
+            <Button
+              variant="outline"
+              size="icon"
+              onClick={() => setShowModal(false)}
+              className="bg-background/80 backdrop-blur-sm hover:bg-background/90"
+            >
+              <X className="h-4 w-4" />
+            </Button>
+          </DialogHeader>
+          
+          <div className="w-full h-full flex items-center justify-center p-4">
+            <div 
+              className="w-full h-full rounded-lg overflow-hidden bg-background/10 backdrop-blur-sm"
+              dangerouslySetInnerHTML={{ __html: getModalEmbedCode() }}
+            />
+          </div>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 };
