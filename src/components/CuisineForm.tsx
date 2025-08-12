@@ -59,20 +59,20 @@ export const CuisineForm: React.FC = () => {
   };
 
   return (
-    <Card className="w-full max-w-md mx-auto bg-background/95 backdrop-blur-sm border-border/50">
+    <Card className="w-full max-w-md mx-auto bg-transparent border-white/20">
       <CardContent className="p-6 space-y-6">
         <div className="text-center">
-          <h3 className="text-lg font-semibold text-foreground mb-2">
+          <h3 className="text-lg font-semibold text-white mb-2">
             Discover Cuisine by Country
           </h3>
-          <p className="text-sm text-muted-foreground">
+          <p className="text-sm text-white/80">
             Select a country to explore its popular cuisines
           </p>
         </div>
 
         <div className="space-y-4">
           <div className="space-y-2">
-            <Label htmlFor="country" className="text-sm font-medium">
+            <Label htmlFor="country" className="text-sm font-medium text-white">
               Country
             </Label>
             <Select value={selectedCountry} onValueChange={handleCountryChange}>
@@ -94,7 +94,7 @@ export const CuisineForm: React.FC = () => {
           </div>
 
           <div className="space-y-2">
-            <Label htmlFor="cuisine" className="text-sm font-medium">
+            <Label htmlFor="cuisine" className="text-sm font-medium text-white">
               Cuisine
             </Label>
             <Select 
@@ -130,8 +130,8 @@ export const CuisineForm: React.FC = () => {
         </div>
 
         {selectedCountry && selectedCuisine && (
-          <div className="mt-4 p-3 bg-accent/50 rounded-lg">
-            <p className="text-sm text-foreground">
+          <div className="mt-4 p-3 bg-white/10 rounded-lg border border-white/20">
+            <p className="text-sm text-white">
               <span className="font-medium">Selected:</span>{' '}
               {selectedCuisine} cuisine from {selectedCountry}
             </p>
