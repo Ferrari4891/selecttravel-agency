@@ -6,8 +6,8 @@ import { Badge } from "@/components/ui/badge";
 import { BookOpen, Code, Upload, ExternalLink } from "lucide-react";
 
 const FlipbookTest = () => {
-  const [embedCode, setEmbedCode] = useState("");
-  const [showEmbed, setShowEmbed] = useState(false);
+  const [embedCode, setEmbedCode] = useState(`<iframe allowfullscreen="allowfullscreen" allow="clipboard-write" scrolling="no" class="fp-iframe" src="https://heyzine.com/flip-book/97d0a6653e.html" style="border: 1px solid lightgray; width: 100%; height: 400px;"></iframe>`);
+  const [showEmbed, setShowEmbed] = useState(true);
 
   const sampleHeyzineEmbed = `<iframe allowfullscreen="true" scrolling="no" class="fp-iframe" style="border: 1px solid lightgray; width: 100%; height: 500px;" src="https://heyzine.com/flip-book/your-flipbook-id.html"></iframe>`;
 
