@@ -31,7 +31,7 @@ const BusinessCentre = () => {
             We provide a wide range of rescources to help our business customers.
           </p>
           <Button size="lg" className="bg-white text-black hover:bg-white/90">
-            Book a Tour <ChevronRight className="ml-2 h-4 w-4" />
+            DOWNLOAD BROCHURE <ChevronRight className="ml-2 h-4 w-4" />
           </Button>
         </div>
       </section>
