@@ -153,7 +153,7 @@ const BusinessCentre = () => {
           </p>
           <div className="flex flex-col gap-4 justify-center">
             <Button size="lg">
-              Book Your Space Today
+              APPLY NOW !
             </Button>
             <Button variant="outline" size="lg">
               Download Brochure
