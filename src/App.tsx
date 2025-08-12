@@ -29,6 +29,7 @@ import SharedCollection from "./pages/SharedCollection";
 import { RSVP } from "./pages/RSVP";
 import AdminDashboard from "./pages/AdminDashboard";
 import BusinessCentre from "./pages/BusinessCentre";
+import FlipbookTest from "./pages/FlipbookTest";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -54,6 +55,7 @@ const App = () => (
                 <Route path="/join-free" element={<JoinFree />} />
                 <Route path="/tv-channel" element={<TVChannel />} />
                 <Route path="/business-centre" element={<BusinessCentre />} />
+                <Route path="/flipbook-test" element={<FlipbookTest />} />
                 <Route path="/shared/:token" element={<SharedCollection />} />
                 <Route path="/rsvp/:token" element={<RSVP />} />
                 
