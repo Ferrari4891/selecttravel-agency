@@ -15,6 +15,7 @@ import { Input } from '@/components/ui/input';
 import { regionData } from '@/data/locationData';
 import SaveBusinessButton from '@/components/SaveBusinessButton';
 import { EnhancedCityInput } from '@/components/EnhancedCityInput';
+import { CuisineForm } from '@/components/CuisineForm';
 import { supabase } from '@/integrations/supabase/client';
 
 
@@ -543,6 +544,11 @@ const Index: React.FC = () => {
                   >
                     <span className="text-white font-bold text-lg">?</span>
                   </Link>
+                </div>
+
+                {/* Cuisine Discovery Form */}
+                <div className="mt-8">
+                  <CuisineForm />
                 </div>
               </>
             )}
