@@ -73,7 +73,7 @@ const BusinessCentre = () => {
           </div>
           
           <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
-            {amenities.map((amenity, index) => <Badge key={index} variant="outline" className="p-3 text-center justify-center">
+            {amenities.map((amenity, index) => <Badge key={index} variant="outline" className="p-3 text-center justify-center rounded-none">
                 {amenity}
               </Badge>)}
           </div>
