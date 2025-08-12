@@ -69,16 +69,16 @@ interface CountryCuisineData {
 }
 
 const countryCuisineData: CountryCuisineData = {
-  'France': ['French', 'Mediterranean', 'European', 'Western', 'Seafood', 'Steak'],
-  'Spain': ['Spanish', 'Mediterranean', 'Tapas', 'European', 'Seafood', 'Steak'],
-  'United States': ['Western', 'American', 'BBQ', 'Fusion', 'Seafood', 'Steak', 'Chinese', 'Japanese'],
-  'China': ['Chinese', 'Asian', 'Cantonese', 'Sichuan', 'Seafood'],
-  'Italy': ['Italian', 'Mediterranean', 'European', 'Western', 'Seafood', 'Steak'],
-  'Turkey': ['Middle Eastern', 'Mediterranean', 'Turkish', 'Anatolian', 'Seafood'],
-  'Mexico': ['Mexican', 'Latin American', 'Western', 'Tex-Mex', 'Seafood'],
-  'Thailand': ['Thai', 'Asian', 'Southeast Asian', 'Street Food', 'Seafood'],
-  'Germany': ['German', 'European', 'Western', 'Bavarian', 'Steak'],
-  'United Kingdom': ['British', 'European', 'Western', 'Pub Food', 'Seafood', 'Steak']
+  'France': ['French', 'Mediterranean', 'European', 'Western', 'Seafood', 'Steak', 'Italian', 'Chinese', 'Japanese', 'Indian', 'Thai', 'Vietnamese', 'Korean', 'Greek', 'Lebanese', 'Brazilian', 'Mexican'],
+  'Spain': ['Spanish', 'Mediterranean', 'Tapas', 'European', 'Seafood', 'Steak', 'Italian', 'Chinese', 'Japanese', 'Indian', 'Thai', 'Vietnamese', 'Korean', 'Greek', 'Lebanese', 'Brazilian', 'Mexican'],
+  'United States': ['Western', 'American', 'BBQ', 'Fusion', 'Seafood', 'Steak', 'Chinese', 'Japanese', 'Italian', 'Mexican', 'Indian', 'Thai', 'Vietnamese', 'Korean', 'Greek', 'Lebanese', 'Brazilian', 'French', 'Spanish'],
+  'China': ['Chinese', 'Asian', 'Cantonese', 'Sichuan', 'Seafood', 'Japanese', 'Korean', 'Thai', 'Vietnamese', 'Western', 'Italian', 'French', 'Indian', 'Greek', 'Lebanese', 'Brazilian', 'Mexican'],
+  'Italy': ['Italian', 'Mediterranean', 'European', 'Western', 'Seafood', 'Steak', 'Chinese', 'Japanese', 'Indian', 'Thai', 'Vietnamese', 'Korean', 'Greek', 'Lebanese', 'Brazilian', 'Mexican', 'French'],
+  'Turkey': ['Middle Eastern', 'Mediterranean', 'Turkish', 'Anatolian', 'Seafood', 'Greek', 'Lebanese', 'Italian', 'Chinese', 'Japanese', 'Indian', 'Thai', 'Vietnamese', 'Korean', 'Brazilian', 'Mexican', 'French'],
+  'Mexico': ['Mexican', 'Latin American', 'Western', 'Tex-Mex', 'Seafood', 'Brazilian', 'Italian', 'Chinese', 'Japanese', 'Indian', 'Thai', 'Vietnamese', 'Korean', 'Greek', 'Lebanese', 'French', 'Spanish'],
+  'Thailand': ['Thai', 'Asian', 'Southeast Asian', 'Street Food', 'Seafood', 'Chinese', 'Japanese', 'Vietnamese', 'Korean', 'Indian', 'Western', 'Italian', 'French', 'Greek', 'Lebanese', 'Brazilian', 'Mexican'],
+  'Germany': ['German', 'European', 'Western', 'Bavarian', 'Steak', 'Italian', 'Chinese', 'Japanese', 'Indian', 'Thai', 'Vietnamese', 'Korean', 'Greek', 'Lebanese', 'Brazilian', 'Mexican', 'French'],
+  'United Kingdom': ['British', 'European', 'Western', 'Pub Food', 'Seafood', 'Steak', 'Indian', 'Chinese', 'Japanese', 'Italian', 'Thai', 'Vietnamese', 'Korean', 'Greek', 'Lebanese', 'Brazilian', 'Mexican', 'French']
 };
 
 const topCountries = [
