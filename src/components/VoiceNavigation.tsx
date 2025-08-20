@@ -22,6 +22,11 @@ interface VoiceNavigationProps {
   onCitySelect: (city: string) => void;
   onGetNow: () => void;
   onBusinessSelect?: (business: any) => void;
+  voicePreferences?: {
+    voice_enabled: boolean;
+    audio_enabled: boolean;
+    voice_preference: string;
+  };
 }
 
 interface VoiceState {
@@ -49,7 +54,8 @@ export const VoiceNavigation: React.FC<VoiceNavigationProps> = ({
   onCuisineSelect,
   onCitySelect,
   onGetNow,
-  onBusinessSelect
+  onBusinessSelect,
+  voicePreferences
 }) => {
   const [voiceState, setVoiceState] = useState<VoiceState>({
     isListening: false,
@@ -58,9 +64,9 @@ export const VoiceNavigation: React.FC<VoiceNavigationProps> = ({
     isWaitingForConfirmation: false,
     pendingSelection: '',
     pendingType: null,
-    audioEnabled: true,
+    audioEnabled: voicePreferences?.audio_enabled ?? true,
     selectedBusinessIndex: 0,
-    voiceEnabled: false
+    voiceEnabled: voicePreferences?.voice_enabled ?? false
   });
 
   const recognitionRef = useRef<any>(null);
@@ -98,7 +104,7 @@ export const VoiceNavigation: React.FC<VoiceNavigationProps> = ({
     };
   }, []);
 
-  // Speak text with senior-friendly settings
+  // Speak text with senior-friendly settings and mid-Atlantic voice
   const speak = (text: string, priority: boolean = false) => {
     if (!voiceState.audioEnabled || !speechSynthesisRef.current) return;
 
@@ -107,17 +113,19 @@ export const VoiceNavigation: React.FC<VoiceNavigationProps> = ({
     }
 
     const utterance = new SpeechSynthesisUtterance(text);
-    utterance.rate = 0.8; // Slower rate for seniors
-    utterance.pitch = 1.0;
+    utterance.rate = 0.85; // Slower rate for seniors, slightly faster than before
+    utterance.pitch = 1.1; // Slightly higher pitch for mid-Atlantic accent
     utterance.volume = 0.9;
     
-    // Use a clear, pleasant voice if available
+    // Mid-Atlantic middle-aged woman voice preferences
     const voices = speechSynthesisRef.current.getVoices();
     const preferredVoice = voices.find(voice => 
       voice.name.includes('Karen') || 
-      voice.name.includes('Alex') || 
-      voice.name.includes('Samantha')
-    ) || voices[0];
+      voice.name.includes('Samantha') ||
+      voice.name.includes('Victoria') ||
+      voice.name.includes('Susan') ||
+      (voice.lang.includes('en-US') && voice.name.toLowerCase().includes('female'))
+    ) || voices.find(voice => voice.lang.includes('en-US')) || voices[0];
     
     if (preferredVoice) {
       utterance.voice = preferredVoice;

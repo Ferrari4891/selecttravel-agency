@@ -10,6 +10,8 @@ import { Navigation } from '@/components/Navigation';
 import Footer from '@/components/Footer';
 import { RestaurantResults } from '@/components/RestaurantResults';
 import { VoiceNavigation } from '@/components/VoiceNavigation';
+import { VoicePreferencesDialog } from '@/components/VoicePreferencesDialog';
+import { useVoicePreferences } from '@/hooks/useVoicePreferences';
 import { Utensils, Coffee, Bed, Gamepad2, MapPin, Download, RotateCcw, Loader2, Search, Menu, Home, Info, HelpCircle, Users } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 import { Input } from '@/components/ui/input';
@@ -107,6 +109,14 @@ const Index: React.FC = () => {
   const [businesses, setBusinesses] = useState<Business[]>([]);
   const [showResults, setShowResults] = useState(false);
   const [staticImageIndex, setStaticImageIndex] = useState(0);
+
+  // Voice preferences
+  const {
+    preferences: voicePreferences,
+    showPreferencesDialog,
+    setShowPreferencesDialog,
+    handlePreferencesSaved
+  } = useVoicePreferences();
 
   const availableCuisines = useMemo(() => {
     return selectedCountry ? countryCuisineData[selectedCountry] || [] : [];
@@ -541,6 +551,7 @@ const Index: React.FC = () => {
               onCuisineSelect={handleCuisineSelect}
               onCitySelect={handleCitySelectAndProceed}
               onGetNow={handleGetNow}
+              voicePreferences={voicePreferences}
             />
           </div>
 
@@ -729,6 +740,13 @@ const Index: React.FC = () => {
           </div>
 
         </div>
+
+        {/* Voice Preferences Dialog */}
+        <VoicePreferencesDialog
+          isOpen={showPreferencesDialog}
+          onOpenChange={setShowPreferencesDialog}
+          onPreferencesSaved={handlePreferencesSaved}
+        />
 
         {/* Results Section - Fixed for desktop visibility and scrolling */}
         {showResults && businesses.length > 0 && (
