@@ -12,7 +12,7 @@ import { RestaurantResults } from '@/components/RestaurantResults';
 import { VoiceNavigation } from '@/components/VoiceNavigation';
 import { VoicePreferencesDialog } from '@/components/VoicePreferencesDialog';
 import { useVoicePreferences } from '@/hooks/useVoicePreferences';
-import { Utensils, Coffee, Bed, Gamepad2, MapPin, Download, RotateCcw, Loader2, Search, Menu, Home, Info, HelpCircle, Users } from 'lucide-react';
+import { Utensils, Coffee, Bed, Gamepad2, MapPin, Download, RotateCcw, Loader2, Search, Menu, Home, Info, HelpCircle, Users, Mic } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 import { Input } from '@/components/ui/input';
 import { regionData } from '@/data/locationData';
@@ -535,6 +535,15 @@ const Index: React.FC = () => {
               </>
             )}
           </div>
+
+          {/* Quick access to Voice Options when voice is disabled */}
+          {!voicePreferences.voice_enabled && (
+            <div className="px-4 py-2 flex justify-center">
+              <Button variant="outline" className="rounded-none" onClick={() => setShowPreferencesDialog(true)}>
+                <Mic className="h-4 w-4 mr-2" /> Voice Options
+              </Button>
+            </div>
+          )}
 
           {/* Voice Navigation Component - Only show if voice commands are enabled */}
           {voicePreferences.voice_enabled && (

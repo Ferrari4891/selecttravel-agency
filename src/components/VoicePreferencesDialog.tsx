@@ -164,7 +164,21 @@ export const VoicePreferencesDialog: React.FC<VoicePreferencesDialogProps> = ({
               <Switch
                 id="voice-enabled"
                 checked={voiceEnabled}
-                onCheckedChange={setVoiceEnabled}
+                onCheckedChange={(checked) => {
+                  setVoiceEnabled(checked);
+                  if (!checked) {
+                    // Persist disabled state and close modal immediately
+                    const preferences = {
+                      voice_enabled: false,
+                      audio_enabled: audioEnabled,
+                      voice_preference: 'english-female',
+                      updated_at: new Date().toISOString()
+                    };
+                    localStorage.setItem('voicePreferences', JSON.stringify(preferences));
+                    onPreferencesSaved(false);
+                    onOpenChange(false);
+                  }
+                }}
               />
             </div>
 

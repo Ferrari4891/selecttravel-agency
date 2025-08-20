@@ -71,6 +71,8 @@ export const VoiceNavigation: React.FC<VoiceNavigationProps> = ({
 
   const recognitionRef = useRef<any>(null);
   const speechSynthesisRef = useRef<SpeechSynthesis | null>(null);
+  const listeningDeadlineRef = useRef<number>(0);
+  const LISTENING_WINDOW_MS = 20000; // Allow up to 20s response time for seniors
 
   // Initialize Speech APIs
   useEffect(() => {
@@ -83,7 +85,7 @@ export const VoiceNavigation: React.FC<VoiceNavigationProps> = ({
       recognitionRef.current = new SpeechRecognition();
       
       if (recognitionRef.current) {
-        recognitionRef.current.continuous = false;
+        recognitionRef.current.continuous = true; // keep session active longer
         recognitionRef.current.interimResults = true;
         
         recognitionRef.current.onresult = handleSpeechResult;
@@ -93,6 +95,22 @@ export const VoiceNavigation: React.FC<VoiceNavigationProps> = ({
         };
         recognitionRef.current.onend = () => {
           setVoiceState(prev => ({ ...prev, isListening: false }));
+          // If within listening window, auto-restart to give user more time
+          const now = Date.now();
+          if (
+            voiceState.voiceEnabled &&
+            recognitionRef.current &&
+            now < listeningDeadlineRef.current &&
+            !voiceState.isWaitingForConfirmation
+          ) {
+            setTimeout(() => {
+              try {
+                recognitionRef.current.start();
+              } catch (e) {
+                console.warn('Auto-restart recognition failed:', e);
+              }
+            }, 300);
+          }
         };
       }
     }
@@ -180,9 +198,13 @@ export const VoiceNavigation: React.FC<VoiceNavigationProps> = ({
     
     if (event.error === 'no-speech') {
       speak("I didn't catch that. Please speak more clearly and try again.");
-      // Auto-restart listening after a brief pause
+      // Auto-restart listening after a brief pause, within the allowed window
       setTimeout(() => {
-        if (voiceState.voiceEnabled && recognitionRef.current) {
+        if (
+          voiceState.voiceEnabled &&
+          recognitionRef.current &&
+          Date.now() < listeningDeadlineRef.current
+        ) {
           recognitionRef.current.start();
         }
       }, 2000);
@@ -511,6 +533,9 @@ export const VoiceNavigation: React.FC<VoiceNavigationProps> = ({
     navigator.mediaDevices.getUserMedia({ audio: true })
       .then(() => {
         speak(getCurrentPrompt(), true);
+        
+        // Extend listening window for seniors
+        listeningDeadlineRef.current = Date.now() + LISTENING_WINDOW_MS;
         
         // Start listening after speech ends
         setTimeout(() => {
