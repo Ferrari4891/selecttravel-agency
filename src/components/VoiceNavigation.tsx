@@ -386,20 +386,23 @@ export const VoiceNavigation: React.FC<VoiceNavigationProps> = ({
     const yesWords = ['yes','yeah','yep','correct','confirm','that is correct','that\'s right','right','sure','ok','okay'];
     const noWords = ['no','nope','wrong','try again','change','cancel'];
 
+    console.log('🧠 Confirmation cleaned transcript:', cleaned);
+
     if (yesWords.some(w => cleaned.includes(w))) {
       const { pendingSelection, pendingType } = voiceState;
+      console.log('✅ Confirmation YES', { pendingType, pendingSelection });
       switch (pendingType) {
         case 'country':
           onCountrySelect(pendingSelection);
-          speak(`Great! You selected ${pendingSelection}. Now let's choose your cuisine type.`, true);
+          speak(`Great! You selected ${pendingSelection}.`, true);
           break;
         case 'cuisine':
           onCuisineSelect(pendingSelection);
-          speak(`Perfect! You selected ${pendingSelection}. Now let's choose your city.`, true);
+          speak(`Perfect! You selected ${pendingSelection}.`, true);
           break;
         case 'city':
           onCitySelect(pendingSelection);
-          speak(`Excellent! You selected ${pendingSelection}. Now I can search for restaurants. Say 'search' when ready.`, true);
+          speak(`Excellent! You selected ${pendingSelection}.`, true);
           break;
       }
 
@@ -412,14 +415,16 @@ export const VoiceNavigation: React.FC<VoiceNavigationProps> = ({
         pendingType: null,
         isProcessing: false
       }));
-      
-      // Continue listening for the next step after TTS finishes
+
+      // After a brief pause, ask the next question based on the updated step
       setTimeout(() => {
-        if (voiceState.voiceEnabled && !isSpeakingRef.current) {
+        if (voiceState.voiceEnabled) {
+          speak(getCurrentPrompt(), false); // queue the standard prompt for the next step
           listeningDeadlineRef.current = Date.now() + LISTENING_WINDOW_MS;
         }
-      }, 2000);
+      }, 900);
     } else if (noWords.some(w => cleaned.includes(w))) {
+      console.log('❌ Confirmation NO');
       speak(`No problem. ${getCurrentPrompt()}`, true);
       lastPendingKeyRef.current = '';
       setVoiceState(prev => ({
