@@ -9,6 +9,7 @@ import { toast } from '@/hooks/use-toast';
 import { Navigation } from '@/components/Navigation';
 import Footer from '@/components/Footer';
 import { RestaurantResults } from '@/components/RestaurantResults';
+import { VoiceNavigation } from '@/components/VoiceNavigation';
 import { Utensils, Coffee, Bed, Gamepad2, MapPin, Download, RotateCcw, Loader2, Search, Menu, Home, Info, HelpCircle, Users } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 import { Input } from '@/components/ui/input';
@@ -523,6 +524,24 @@ const Index: React.FC = () => {
 
               </>
             )}
+          </div>
+
+          {/* Voice Navigation Component */}
+          <div className="px-4 py-2">
+            <VoiceNavigation
+              currentStep={currentStep}
+              selectedCountry={selectedCountry}
+              selectedCuisine={selectedCuisine}
+              selectedCity={selectedCity}
+              availableCountries={topCountries}
+              availableCuisines={availableCuisines}
+              availableCities={cities}
+              businesses={businesses}
+              onCountrySelect={handleCountrySelect}
+              onCuisineSelect={handleCuisineSelect}
+              onCitySelect={handleCitySelectAndProceed}
+              onGetNow={handleGetNow}
+            />
           </div>
 
           {/* Middle Section - Selection Interface */}
