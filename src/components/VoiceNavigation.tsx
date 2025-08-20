@@ -86,6 +86,8 @@ export const VoiceNavigation: React.FC<VoiceNavigationProps> = ({
   const recognitionRestartTimeoutRef = useRef<number | null>(null);
   // Suppress processing shortly after TTS to avoid echo
   const noProcessUntilRef = useRef<number>(0);
+  // Track last prompted step to auto-advance voice flow
+  const lastStepRef = useRef<1 | 2 | 3 | 4 | null>(null);
   // Initialize Speech APIs
   useEffect(() => {
     if ('speechSynthesis' in window) {
@@ -223,13 +225,21 @@ export const VoiceNavigation: React.FC<VoiceNavigationProps> = ({
     }
   };
 
+  // Derive the current step from selections to ensure voice flow advances
+  const computeStep = (): 1 | 2 | 3 | 4 => {
+    if (!selectedCountry) return 1;
+    if (!selectedCuisine) return 2;
+    if (!selectedCity) return 3;
+    return 4;
+  };
+
   // Get current prompt based on step and state
   const getCurrentPrompt = (): string => {
     if (voiceState.isWaitingForConfirmation) {
       return `You selected ${voiceState.pendingSelection}. Is that correct? Say "yes" to confirm, "no" to try again, or "exit" to stop.`;
     }
 
-    switch (currentStep) {
+    switch (computeStep()) {
       case 1:
         return "Please select a country for your travel destination.";
       case 2:
@@ -244,6 +254,17 @@ export const VoiceNavigation: React.FC<VoiceNavigationProps> = ({
         return "Voice navigation is ready. Click the microphone to begin.";
     }
   };
+
+  // Auto-ask next question when step changes
+  useEffect(() => {
+    if (!voiceState.voiceEnabled || voiceState.isWaitingForConfirmation) return;
+    const step = computeStep();
+    if (lastStepRef.current !== step) {
+      lastStepRef.current = step;
+      speak(getCurrentPrompt());
+      listeningDeadlineRef.current = Date.now() + LISTENING_WINDOW_MS;
+    }
+  }, [selectedCountry, selectedCuisine, selectedCity, voiceState.isWaitingForConfirmation, voiceState.voiceEnabled]);
 
   // Handle speech recognition results
   const handleSpeechResult = (event: any) => {
@@ -344,7 +365,7 @@ export const VoiceNavigation: React.FC<VoiceNavigationProps> = ({
     }
 
     // Handle step-specific commands
-    switch (currentStep) {
+    switch (computeStep()) {
       case 1:
         handleCountrySelection(transcript);
         break;
@@ -613,7 +634,7 @@ export const VoiceNavigation: React.FC<VoiceNavigationProps> = ({
   const handleHelpRequest = () => {
     let helpText = '';
     
-    switch (currentStep) {
+    switch (computeStep()) {
       case 1:
         helpText = `Available countries are: ${availableCountries.slice(0, 5).join(', ')}, and more.`;
         break;
@@ -653,7 +674,7 @@ export const VoiceNavigation: React.FC<VoiceNavigationProps> = ({
 
   // Handle go back command
   const handleGoBack = () => {
-    switch (currentStep) {
+    switch (computeStep()) {
       case 2:
         speak("Going back to country selection.");
         break;
@@ -707,6 +728,7 @@ export const VoiceNavigation: React.FC<VoiceNavigationProps> = ({
         // Clear previous dedupe guards
         lastFinalTranscriptRef.current = '';
         lastPendingKeyRef.current = '';
+        lastStepRef.current = computeStep();
         speak(getCurrentPrompt(), true);
         
         // Extend listening window for seniors
@@ -806,7 +828,7 @@ export const VoiceNavigation: React.FC<VoiceNavigationProps> = ({
 
             {/* Current status */}
             <div className="text-sm text-muted-foreground mb-3">
-              Step {currentStep}: {getCurrentPrompt()}
+              Step {computeStep()}: {getCurrentPrompt()}
             </div>
 
             {/* Status indicators */}
