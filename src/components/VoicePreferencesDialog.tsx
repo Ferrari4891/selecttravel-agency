@@ -22,6 +22,7 @@ export const VoicePreferencesDialog: React.FC<VoicePreferencesDialogProps> = ({
   const { user } = useAuth();
   const [voiceEnabled, setVoiceEnabled] = useState(false);
   const [audioEnabled, setAudioEnabled] = useState(true);
+  const [dontShowAgain, setDontShowAgain] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
 
   // Test voice synthesis
@@ -69,6 +70,9 @@ export const VoicePreferencesDialog: React.FC<VoicePreferencesDialogProps> = ({
 
       // For now, always save to local storage until database migration is complete
       localStorage.setItem('voicePreferences', JSON.stringify(preferences));
+      if (dontShowAgain) {
+        localStorage.setItem('voicePreferencesShown', 'true');
+      }
       
       if (user) {
         toast({
@@ -83,6 +87,9 @@ export const VoicePreferencesDialog: React.FC<VoicePreferencesDialogProps> = ({
       }
 
       onPreferencesSaved(voiceEnabled);
+      if (voiceEnabled || dontShowAgain) {
+        localStorage.setItem('voicePreferencesShown', 'true');
+      }
       onOpenChange(false);
     } catch (error) {
       console.error('Error saving preferences:', error);
@@ -96,8 +103,8 @@ export const VoicePreferencesDialog: React.FC<VoicePreferencesDialogProps> = ({
     }
   };
 
-  const skipForNow = () => {
-    // Save minimal preferences
+  const handleNoThanks = () => {
+    // Save disabled preferences
     const preferences = {
       voice_enabled: false,
       audio_enabled: true,
@@ -106,7 +113,24 @@ export const VoicePreferencesDialog: React.FC<VoicePreferencesDialogProps> = ({
     };
     
     localStorage.setItem('voicePreferences', JSON.stringify(preferences));
-    localStorage.setItem('voicePreferencesShown', 'true');
+    if (dontShowAgain) {
+      localStorage.setItem('voicePreferencesShown', 'true');
+    }
+    
+    onPreferencesSaved(false);
+    onOpenChange(false);
+  };
+
+  const skipForNow = () => {
+    // Save minimal preferences but don't set "shown" flag (will show again next time)
+    const preferences = {
+      voice_enabled: false,
+      audio_enabled: true,
+      voice_preference: 'english-female',
+      updated_at: new Date().toISOString()
+    };
+    
+    localStorage.setItem('voicePreferences', JSON.stringify(preferences));
     
     onPreferencesSaved(false);
     onOpenChange(false);
@@ -181,21 +205,42 @@ export const VoicePreferencesDialog: React.FC<VoicePreferencesDialogProps> = ({
             </div>
           )}
 
+          <div className="flex items-center space-x-2 py-3">
+            <input
+              type="checkbox"
+              id="dont-show-again"
+              checked={dontShowAgain}
+              onChange={(e) => setDontShowAgain(e.target.checked)}
+              className="h-4 w-4 rounded border-gray-300"
+            />
+            <Label htmlFor="dont-show-again" className="text-sm text-muted-foreground">
+              Don't show this message again
+            </Label>
+          </div>
+
           <div className="flex flex-col gap-2">
             <Button 
               onClick={savePreferences} 
               disabled={isLoading}
               className="w-full"
             >
-              {isLoading ? "Saving..." : voiceEnabled ? "Enable Voice Navigation" : "Save Preferences"}
+              {isLoading ? "Saving..." : voiceEnabled ? "Yes, Enable Voice Commands" : "Save Preferences"}
             </Button>
             
             <Button 
               variant="outline" 
-              onClick={skipForNow}
+              onClick={handleNoThanks}
               className="w-full"
             >
-              Skip for Now
+              No, Don't Use Voice Commands
+            </Button>
+            
+            <Button 
+              variant="ghost" 
+              onClick={skipForNow}
+              className="w-full text-sm"
+            >
+              Ask Me Later
             </Button>
           </div>
 
