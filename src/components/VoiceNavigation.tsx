@@ -39,6 +39,7 @@ interface VoiceState {
   audioEnabled: boolean;
   selectedBusinessIndex: number;
   voiceEnabled: boolean;
+  showPanel: boolean;
 }
 
 export const VoiceNavigation: React.FC<VoiceNavigationProps> = ({
@@ -66,7 +67,8 @@ export const VoiceNavigation: React.FC<VoiceNavigationProps> = ({
     pendingType: null,
     audioEnabled: voicePreferences?.audio_enabled ?? true,
     selectedBusinessIndex: 0,
-    voiceEnabled: voicePreferences?.voice_enabled ?? false
+    voiceEnabled: voicePreferences?.voice_enabled ?? false,
+    showPanel: false
   });
 
   const recognitionRef = useRef<any>(null);
@@ -131,7 +133,7 @@ export const VoiceNavigation: React.FC<VoiceNavigationProps> = ({
     }
 
     const utterance = new SpeechSynthesisUtterance(text);
-    utterance.rate = 0.75; // Slower, more deliberate speech for seniors
+    utterance.rate = 1.0; // Normal speech speed
     utterance.pitch = 0.9; // Slightly lower pitch for mature, refined tone
     utterance.volume = 0.9;
     
@@ -477,65 +479,46 @@ export const VoiceNavigation: React.FC<VoiceNavigationProps> = ({
     switch (currentStep) {
       case 2:
         speak("Going back to country selection.");
-        // onGoToStep(1); // You'd need to implement this
         break;
       case 3:
         speak("Going back to cuisine selection.");
-        // onGoToStep(2);
         break;
       case 4:
         speak("Going back to city selection.");
-        // onGoToStep(3);
         break;
       default:
-        speak("You're already at the first step.");
+        speak("Already at the first step.");
     }
     setVoiceState(prev => ({ ...prev, isProcessing: false }));
   };
 
   // Reset voice state
   const resetVoiceState = () => {
-    setVoiceState({
+    if (recognitionRef.current) {
+      recognitionRef.current.stop();
+    }
+    if (speechSynthesisRef.current) {
+      speechSynthesisRef.current.cancel();
+    }
+    setVoiceState(prev => ({
+      ...prev,
       isListening: false,
       isProcessing: false,
       currentTranscript: '',
       isWaitingForConfirmation: false,
       pendingSelection: '',
       pendingType: null,
-      audioEnabled: true,
       selectedBusinessIndex: 0,
-      voiceEnabled: false
-    });
-  };
-
-  // Toggle voice navigation
-  const toggleVoiceNavigation = () => {
-    setVoiceState(prev => ({ 
-      ...prev, 
-      voiceEnabled: !prev.voiceEnabled,
-      isListening: false,
-      isProcessing: false,
-      currentTranscript: '',
-      isWaitingForConfirmation: false,
-      pendingSelection: '',
-      pendingType: null
+      showPanel: false
     }));
-    
-    if (voiceState.voiceEnabled && recognitionRef.current) {
-      recognitionRef.current.stop();
-    }
-    
-    if (speechSynthesisRef.current) {
-      speechSynthesisRef.current.cancel();
-    }
   };
 
   // Start listening
   const startListening = () => {
-    if (!recognitionRef.current) {
+    if (!voiceState.voiceEnabled) {
       toast({
-        title: "Voice Not Supported",
-        description: "Your browser doesn't support voice recognition.",
+        title: "Voice Not Enabled",
+        description: "Please enable voice navigation in settings first.",
         variant: "destructive"
       });
       return;
@@ -591,56 +574,157 @@ export const VoiceNavigation: React.FC<VoiceNavigationProps> = ({
     }
   };
 
-  // Simple compact voice interface
+  // Toggle voice panel
+  const togglePanel = () => {
+    setVoiceState(prev => ({ ...prev, showPanel: !prev.showPanel }));
+  };
+
+  // If voice is not enabled, just show the button to open panel
   if (!voiceState.voiceEnabled) {
-    return null; // Don't show anything when voice is disabled
+    return (
+      <Button
+        onClick={() => setVoiceState(prev => ({ ...prev, voiceEnabled: true, showPanel: true }))}
+        className="bg-green-600 hover:bg-green-700 text-white font-medium px-4 py-2"
+      >
+        <Mic className="h-4 w-4 mr-2" />
+        Voice
+      </Button>
+    );
   }
 
   return (
-    <div className="fixed bottom-4 right-4 z-50">
-      <div className="flex flex-col items-end gap-2">
-        {/* Status indicators */}
-        {voiceState.isListening && (
-          <Badge variant="default" className="bg-green-500 text-white animate-pulse">
-            🎤 Listening...
-          </Badge>
-        )}
-        {voiceState.isProcessing && (
-          <Badge variant="default" className="bg-blue-500 text-white">
-            🔄 Processing...
-          </Badge>
-        )}
-        {voiceState.isWaitingForConfirmation && (
-          <Badge variant="default" className="bg-yellow-500 text-white">
-            ❓ Confirm?
-          </Badge>
-        )}
-        
-        {/* Current transcript */}
-        {voiceState.currentTranscript && (
-          <div className="bg-background border rounded-lg p-2 max-w-xs">
-            <p className="text-sm text-primary">{voiceState.currentTranscript}</p>
-          </div>
-        )}
-
-        {/* Main voice button */}
+    <div className="relative">
+      {/* Voice activation button */}
+      {!voiceState.showPanel && (
         <Button
-          onClick={voiceState.isListening ? stopListening : startListening}
-          size="lg"
-          className={`w-16 h-16 rounded-full transition-all duration-300 ${
-            voiceState.isListening 
-              ? 'bg-red-500 hover:bg-red-600 text-white animate-pulse' 
-              : 'bg-green-500 hover:bg-green-600 text-white'
-          }`}
-          disabled={voiceState.isProcessing}
+          onClick={togglePanel}
+          className="bg-green-600 hover:bg-green-700 text-white font-medium px-4 py-2"
         >
-          {voiceState.isListening ? (
-            <MicOff className="w-6 h-6" />
-          ) : (
-            <Mic className="w-6 h-6" />
-          )}
+          <Mic className="h-4 w-4 mr-2" />
+          Voice
         </Button>
-      </div>
+      )}
+
+      {/* Voice Control Panel */}
+      {voiceState.showPanel && (
+        <Card className="w-80 border shadow-lg bg-background/95 backdrop-blur">
+          <CardContent className="p-4">
+            <div className="flex items-center justify-between mb-4">
+              <div className="flex items-center gap-2">
+                <Mic className="h-5 w-5 text-primary" />
+                <span className="font-medium">Voice Navigation</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <Switch
+                  checked={voiceState.audioEnabled}
+                  onCheckedChange={(checked) => setVoiceState(prev => ({ ...prev, audioEnabled: checked }))}
+                />
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  onClick={resetVoiceState}
+                  className="h-6 w-6 p-0"
+                >
+                  <RotateCcw className="h-4 w-4" />
+                </Button>
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  onClick={() => setVoiceState(prev => ({ ...prev, showPanel: false }))}
+                  className="h-6 w-6 p-0 hover:bg-muted"
+                >
+                  ×
+                </Button>
+              </div>
+            </div>
+
+            {/* Current status */}
+            <div className="text-sm text-muted-foreground mb-3">
+              Step {currentStep}: {getCurrentPrompt()}
+            </div>
+
+            {/* Status indicators */}
+            {voiceState.isListening && (
+              <Badge variant="default" className="bg-green-500 text-white mb-2 animate-pulse">
+                🎤 Listening...
+              </Badge>
+            )}
+            {voiceState.isProcessing && (
+              <Badge variant="default" className="bg-blue-500 text-white mb-2">
+                🔄 Processing...
+              </Badge>
+            )}
+            {voiceState.isWaitingForConfirmation && (
+              <Badge variant="default" className="bg-yellow-500 text-white mb-2">
+                ❓ Confirm selection?
+              </Badge>
+            )}
+
+            {/* Current transcript */}
+            {voiceState.currentTranscript && (
+              <div className="border rounded-lg p-2 mb-3 bg-muted/50">
+                <p className="text-sm text-primary">{voiceState.currentTranscript}</p>
+              </div>
+            )}
+
+            {/* Control buttons */}
+            <div className="flex gap-2">
+              <Button
+                onClick={voiceState.isListening ? stopListening : startListening}
+                size="sm"
+                className={`flex-1 ${
+                  voiceState.isListening 
+                    ? 'bg-red-500 hover:bg-red-600 text-white' 
+                    : 'bg-green-500 hover:bg-green-600 text-white'
+                }`}
+                disabled={voiceState.isProcessing}
+              >
+                {voiceState.isListening ? (
+                  <>
+                    <MicOff className="w-4 h-4 mr-2" />
+                    Stop
+                  </>
+                ) : (
+                  <>
+                    <Mic className="w-4 h-4 mr-2" />
+                    Start
+                  </>
+                )}
+              </Button>
+              
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={toggleAudio}
+                className="flex-1"
+              >
+                {voiceState.audioEnabled ? (
+                  <>
+                    <Volume2 className="w-4 h-4 mr-2" />
+                    Audio On
+                  </>
+                ) : (
+                  <>
+                    <VolumeX className="w-4 h-4 mr-2" />
+                    Audio Off
+                  </>
+                )}
+              </Button>
+            </div>
+
+            {/* Help button */}
+            <Button
+              variant="ghost"
+              size="sm"
+              onClick={handleHelpRequest}
+              className="w-full mt-2"
+            >
+              <HelpCircle className="w-4 h-4 mr-2" />
+              What are my options?
+            </Button>
+          </CardContent>
+        </Card>
+      )}
     </div>
   );
 };

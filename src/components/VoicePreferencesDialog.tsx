@@ -32,7 +32,7 @@ export const VoicePreferencesDialog: React.FC<VoicePreferencesDialogProps> = ({
       );
       
       // Senior cultivated English woman voice settings
-      utterance.rate = 0.75; // Slower, more deliberate speech
+      utterance.rate = 1.0; // Normal speech speed
       utterance.pitch = 0.9; // Slightly lower pitch for mature tone
       utterance.volume = 0.9;
       
