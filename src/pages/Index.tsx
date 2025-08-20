@@ -536,24 +536,26 @@ const Index: React.FC = () => {
             )}
           </div>
 
-          {/* Voice Navigation Component */}
-          <div className="px-4 py-2">
-            <VoiceNavigation
-              currentStep={currentStep}
-              selectedCountry={selectedCountry}
-              selectedCuisine={selectedCuisine}
-              selectedCity={selectedCity}
-              availableCountries={topCountries}
-              availableCuisines={availableCuisines}
-              availableCities={cities}
-              businesses={businesses}
-              onCountrySelect={handleCountrySelect}
-              onCuisineSelect={handleCuisineSelect}
-              onCitySelect={handleCitySelectAndProceed}
-              onGetNow={handleGetNow}
-              voicePreferences={voicePreferences}
-            />
-          </div>
+          {/* Voice Navigation Component - Only show if voice commands are enabled */}
+          {voicePreferences.voice_enabled && (
+            <div className="px-4 py-2">
+              <VoiceNavigation
+                currentStep={currentStep}
+                selectedCountry={selectedCountry}
+                selectedCuisine={selectedCuisine}
+                selectedCity={selectedCity}
+                availableCountries={topCountries}
+                availableCuisines={availableCuisines}
+                availableCities={cities}
+                businesses={businesses}
+                onCountrySelect={handleCountrySelect}
+                onCuisineSelect={handleCuisineSelect}
+                onCitySelect={handleCitySelectAndProceed}
+                onGetNow={handleGetNow}
+                voicePreferences={voicePreferences}
+              />
+            </div>
+          )}
 
           {/* Middle Section - Selection Interface */}
           <div className="flex-1 flex items-center justify-center px-4 pb-4">
