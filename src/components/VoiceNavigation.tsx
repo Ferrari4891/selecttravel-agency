@@ -80,7 +80,12 @@ export const VoiceNavigation: React.FC<VoiceNavigationProps> = ({
   const lastFinalTranscriptRef = useRef<string>('');
   const lastPendingKeyRef = useRef<string>('');
   const isSpeakingRef = useRef<boolean>(false);
-
+  // Recognition control refs to avoid race conditions
+  const recognitionActiveRef = useRef<boolean>(false);
+  const recognitionStartPendingRef = useRef<boolean>(false);
+  const recognitionRestartTimeoutRef = useRef<number | null>(null);
+  // Suppress processing shortly after TTS to avoid echo
+  const noProcessUntilRef = useRef<number>(0);
   // Initialize Speech APIs
   useEffect(() => {
     if ('speechSynthesis' in window) {
@@ -98,9 +103,12 @@ export const VoiceNavigation: React.FC<VoiceNavigationProps> = ({
         recognitionRef.current.onresult = handleSpeechResult;
         recognitionRef.current.onerror = handleSpeechError;
         recognitionRef.current.onstart = () => {
+          recognitionActiveRef.current = true;
+          recognitionStartPendingRef.current = false;
           setVoiceState(prev => ({ ...prev, isListening: true, currentTranscript: '' }));
         };
         recognitionRef.current.onend = () => {
+          recognitionActiveRef.current = false;
           setVoiceState(prev => ({ ...prev, isListening: false }));
           // If within listening window, auto-restart to give user more time
           const now = Date.now();
@@ -108,15 +116,15 @@ export const VoiceNavigation: React.FC<VoiceNavigationProps> = ({
             voiceState.voiceEnabled &&
             recognitionRef.current &&
             now < listeningDeadlineRef.current &&
-            !voiceState.isWaitingForConfirmation
+            !voiceState.isWaitingForConfirmation &&
+            !isSpeakingRef.current
           ) {
-            setTimeout(() => {
-              try {
-                recognitionRef.current.start();
-              } catch (e) {
-                console.warn('Auto-restart recognition failed:', e);
-              }
-            }, 300);
+            if (recognitionRestartTimeoutRef.current) {
+              clearTimeout(recognitionRestartTimeoutRef.current);
+            }
+            recognitionRestartTimeoutRef.current = window.setTimeout(() => {
+              safeStartRecognition();
+            }, 800);
           }
         };
       }
@@ -139,7 +147,10 @@ export const VoiceNavigation: React.FC<VoiceNavigationProps> = ({
 
     // Stop listening while speaking to prevent feedback
     if (recognitionRef.current && voiceState.isListening) {
-      recognitionRef.current.stop();
+      try {
+        recognitionRef.current.stop();
+      } catch {}
+      recognitionActiveRef.current = false;
     }
 
     const utterance = new SpeechSynthesisUtterance(text);
@@ -178,22 +189,38 @@ export const VoiceNavigation: React.FC<VoiceNavigationProps> = ({
     // Ensure speech recognition starts only after TTS completely finishes
     utterance.onstart = () => {
       isSpeakingRef.current = true;
+      // Suppress processing for a short window to avoid capturing TTS echo
+      noProcessUntilRef.current = Date.now() + 1200;
     };
     utterance.onend = () => {
       isSpeakingRef.current = false;
       // Wait a bit longer to ensure no audio feedback from TTS is captured
       setTimeout(() => {
-        if (voiceState.voiceEnabled && recognitionRef.current && !voiceState.isListening) {
-          try {
-            recognitionRef.current.start();
-          } catch (error) {
-            console.warn('Speech recognition start after TTS failed:', error);
-          }
+        if (
+          voiceState.voiceEnabled &&
+          recognitionRef.current &&
+          !voiceState.isListening &&
+          !recognitionActiveRef.current
+        ) {
+          safeStartRecognition();
         }
-      }, 1600);
+      }, 1200);
     };
 
     speechSynthesisRef.current.speak(utterance);
+  };
+
+  // Safe start for speech recognition to avoid InvalidStateError
+  const safeStartRecognition = () => {
+    if (!recognitionRef.current) return;
+    if (recognitionActiveRef.current || recognitionStartPendingRef.current) return;
+    try {
+      recognitionStartPendingRef.current = true;
+      recognitionRef.current.start();
+    } catch (error) {
+      console.warn('Safe start failed:', error);
+      recognitionStartPendingRef.current = false;
+    }
   };
 
   // Get current prompt based on step and state
@@ -220,6 +247,12 @@ export const VoiceNavigation: React.FC<VoiceNavigationProps> = ({
 
   // Handle speech recognition results
   const handleSpeechResult = (event: any) => {
+    const now = Date.now();
+    if (isSpeakingRef.current || now < noProcessUntilRef.current) {
+      // Ignore any results while TTS is speaking or immediately after
+      return;
+    }
+
     const transcript = Array.from(event.results)
       .map(result => result[0].transcript)
       .join('')
@@ -251,9 +284,10 @@ export const VoiceNavigation: React.FC<VoiceNavigationProps> = ({
         if (
           voiceState.voiceEnabled &&
           recognitionRef.current &&
-          Date.now() < listeningDeadlineRef.current
+          Date.now() < listeningDeadlineRef.current &&
+          !isSpeakingRef.current
         ) {
-          recognitionRef.current.start();
+          safeStartRecognition();
         }
       }, 2000);
     } else if (event.error === 'audio-capture') {
@@ -277,6 +311,12 @@ export const VoiceNavigation: React.FC<VoiceNavigationProps> = ({
     // Handle confirmation state
     if (voiceState.isWaitingForConfirmation) {
       handleConfirmation(transcript);
+      return;
+    }
+
+    // Ignore our own TTS prompts that might slip through
+    if (transcript.includes('you selected') || transcript.includes('is that correct')) {
+      setVoiceState(prev => ({ ...prev, isProcessing: false }));
       return;
     }
 
