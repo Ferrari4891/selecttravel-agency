@@ -165,6 +165,20 @@ export const VoiceNavigation: React.FC<VoiceNavigationProps> = ({
       utterance.voice = preferredVoice;
     }
 
+    // Ensure speech recognition starts only after TTS completely finishes
+    utterance.onend = () => {
+      // Wait a bit longer to ensure no audio feedback
+      setTimeout(() => {
+        if (voiceState.voiceEnabled && recognitionRef.current && !voiceState.isListening) {
+          try {
+            recognitionRef.current.start();
+          } catch (error) {
+            console.warn('Speech recognition start after TTS failed:', error);
+          }
+        }
+      }, 800);
+    };
+
     speechSynthesisRef.current.speak(utterance);
   };
 
@@ -176,11 +190,11 @@ export const VoiceNavigation: React.FC<VoiceNavigationProps> = ({
 
     switch (currentStep) {
       case 1:
-        return "Please select a country for your travel destination. You can also say 'what are my options' to hear the available countries.";
+        return "Please select a country for your travel destination.";
       case 2:
-        return "Please select your preferred cuisine type. You can also say 'what are my options' to hear the available cuisines.";
+        return "Please select your preferred cuisine type.";
       case 3:
-        return "Please select your preferred city. You can also say 'what are my options' to hear the available cities.";
+        return "Please select your preferred city.";
       case 4:
         return businesses.length > 0 
           ? "Here are your restaurant options. Say 'next', 'previous', 'select', 'more details', or 'exit'."
@@ -334,10 +348,31 @@ export const VoiceNavigation: React.FC<VoiceNavigationProps> = ({
 
   // Handle country selection
   const handleCountrySelection = (transcript: string) => {
-    const foundCountry = availableCountries.find(country =>
+    // Country aliases for better matching
+    const countryAliases: Record<string, string[]> = {
+      'United States': ['usa', 'us', 'america', 'united states', 'states'],
+      'United Kingdom': ['uk', 'britain', 'england', 'united kingdom', 'great britain'],
+      'United Arab Emirates': ['uae', 'emirates', 'united arab emirates'],
+      'South Korea': ['korea', 'south korea'],
+      'New Zealand': ['new zealand', 'nz'],
+      'South Africa': ['south africa', 'africa'],
+    };
+
+    let foundCountry = availableCountries.find(country =>
       transcript.includes(country.toLowerCase()) ||
-      country.toLowerCase().includes(transcript)
+      country.toLowerCase().includes(transcript.replace(/\s+/g, ' ').trim())
     );
+
+    // Check aliases if no direct match
+    if (!foundCountry) {
+      for (const [country, aliases] of Object.entries(countryAliases)) {
+        if (availableCountries.includes(country) && 
+            aliases.some(alias => transcript.includes(alias))) {
+          foundCountry = country;
+          break;
+        }
+      }
+    }
 
     if (foundCountry) {
       setVoiceState(prev => ({
@@ -349,7 +384,7 @@ export const VoiceNavigation: React.FC<VoiceNavigationProps> = ({
       }));
       speak(`You selected ${foundCountry}. Is that correct?`);
     } else {
-      speak("Sorry, that country is not available. Would you like to hear the available countries or try another country?");
+      speak("Sorry, I didn't recognize that country. Please try again or say 'help' to hear available options.");
       setVoiceState(prev => ({ ...prev, isProcessing: false }));
     }
   };
@@ -532,21 +567,7 @@ export const VoiceNavigation: React.FC<VoiceNavigationProps> = ({
         // Extend listening window for seniors
         listeningDeadlineRef.current = Date.now() + LISTENING_WINDOW_MS;
         
-        // Start listening after speech ends
-        setTimeout(() => {
-          if (recognitionRef.current && voiceState.voiceEnabled) {
-            try {
-              recognitionRef.current.start();
-            } catch (error) {
-              console.error('Failed to start speech recognition:', error);
-              toast({
-                title: "Voice Recognition Error",
-                description: "Failed to start voice recognition. Please try again.",
-                variant: "destructive"
-              });
-            }
-          }
-        }, 3000);
+        // Speech recognition will start automatically when TTS ends via utterance.onend
       })
       .catch((error) => {
         console.error('Microphone access denied:', error);
