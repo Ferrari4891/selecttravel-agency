@@ -582,12 +582,12 @@ export const VoiceNavigation: React.FC<VoiceNavigationProps> = ({
   // If voice is not enabled, just show the button to open panel
   if (!voiceState.voiceEnabled) {
     return (
-      <div className="fixed inset-0 flex items-center justify-center z-50 pointer-events-none">
+      <div className="fixed top-1/3 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-50">
         <Button
           onClick={() => setVoiceState(prev => ({ ...prev, voiceEnabled: true, showPanel: true }))}
-          className="bg-green-600 hover:bg-green-700 text-white font-medium px-4 py-2 pointer-events-auto"
+          className="bg-green-600 hover:bg-green-700 text-white font-medium px-3 py-1 text-sm"
         >
-          <Mic className="h-4 w-4 mr-2" />
+          <Mic className="h-3 w-3 mr-1" />
           Voice
         </Button>
       </div>
@@ -595,15 +595,15 @@ export const VoiceNavigation: React.FC<VoiceNavigationProps> = ({
   }
 
   return (
-    <div className="fixed inset-0 flex items-center justify-center z-50 pointer-events-none">
-      <div className="relative pointer-events-auto">
+    <div className="fixed top-1/3 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-50">
+      <div className="relative">
         {/* Voice activation button */}
         {!voiceState.showPanel && (
           <Button
             onClick={togglePanel}
-            className="bg-green-600 hover:bg-green-700 text-white font-medium px-4 py-2"
+            className="bg-green-600 hover:bg-green-700 text-white font-medium px-3 py-1 text-sm"
           >
-            <Mic className="h-4 w-4 mr-2" />
+            <Mic className="h-3 w-3 mr-1" />
             Voice
           </Button>
         )}
