@@ -536,21 +536,21 @@ const Index: React.FC = () => {
             )}
           </div>
 
-          {/* Quick access to Voice Options when voice is disabled */}
+          {/* Voice button positioned between help button and progress indicators */}
           {!voicePreferences?.voice_enabled && (
-            <div className="px-4 py-2 flex justify-center">
+            <div className="flex justify-center mt-3 mb-3">
               <Button 
-                className="bg-green-600 hover:bg-green-700 text-white font-medium px-4 py-2" 
+                className="bg-green-600 hover:bg-green-700 text-white font-medium px-6 py-1 text-sm w-20 h-6" 
                 onClick={() => setShowPreferencesDialog(true)}
               >
-                <Mic className="h-4 w-4 mr-2" /> Voice
+                <Mic className="h-3 w-3 mr-1" /> Voice
               </Button>
             </div>
           )}
 
-          {/* Voice Navigation Component - Only show if voice commands are enabled */}
+          {/* Voice Navigation Component positioned between help button and progress indicators */}
           {voicePreferences?.voice_enabled && (
-            <div className="px-4 py-2">
+            <div className="flex justify-center mt-3 mb-3">
               <VoiceNavigation
                 currentStep={currentStep}
                 selectedCountry={selectedCountry}
