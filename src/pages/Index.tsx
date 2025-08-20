@@ -538,34 +538,39 @@ const Index: React.FC = () => {
 
           {/* Voice button positioned between help button and progress indicators */}
           {!voicePreferences?.voice_enabled && (
-            <div className="flex justify-center mt-3 mb-3">
-              <Button 
-                className="bg-green-600 hover:bg-green-700 text-white font-medium w-12 h-12 text-sm" 
-                onClick={() => setShowPreferencesDialog(true)}
-              >
-                <Mic className="h-4 w-4" />
-              </Button>
+            <div className="flex justify-center mt-3 mb-3 px-4">
+              <div className="w-full max-w-sm mx-auto">
+                <Button 
+                  className="bg-green-600 hover:bg-green-700 text-white font-medium w-full h-8 text-sm" 
+                  onClick={() => setShowPreferencesDialog(true)}
+                >
+                  <Mic className="h-4 w-4 mr-2" />
+                  Select Voice
+                </Button>
+              </div>
             </div>
           )}
 
           {/* Voice Navigation Component positioned between help button and progress indicators */}
           {voicePreferences?.voice_enabled && (
-            <div className="flex justify-center mt-3 mb-3">
-              <VoiceNavigation
-                currentStep={currentStep}
-                selectedCountry={selectedCountry}
-                selectedCuisine={selectedCuisine}
-                selectedCity={selectedCity}
-                availableCountries={topCountries}
-                availableCuisines={availableCuisines}
-                availableCities={cities}
-                businesses={businesses}
-                onCountrySelect={handleCountrySelect}
-                onCuisineSelect={handleCuisineSelect}
-                onCitySelect={handleCitySelectAndProceed}
-                onGetNow={handleGetNow}
-                voicePreferences={voicePreferences}
-              />
+            <div className="flex justify-center mt-3 mb-3 px-4">
+              <div className="w-full max-w-sm mx-auto">
+                <VoiceNavigation
+                  currentStep={currentStep}
+                  selectedCountry={selectedCountry}
+                  selectedCuisine={selectedCuisine}
+                  selectedCity={selectedCity}
+                  availableCountries={topCountries}
+                  availableCuisines={availableCuisines}
+                  availableCities={cities}
+                  businesses={businesses}
+                  onCountrySelect={handleCountrySelect}
+                  onCuisineSelect={handleCuisineSelect}
+                  onCitySelect={handleCitySelectAndProceed}
+                  onGetNow={handleGetNow}
+                  voicePreferences={voicePreferences}
+                />
+              </div>
             </div>
           )}
 

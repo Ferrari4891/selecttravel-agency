@@ -637,9 +637,10 @@ export const VoiceNavigation: React.FC<VoiceNavigationProps> = ({
     return (
       <Button
         onClick={() => setVoiceState(prev => ({ ...prev, voiceEnabled: true, showPanel: true }))}
-        className="bg-green-600 hover:bg-green-700 text-white font-medium w-12 h-12 text-sm"
+        className="bg-green-600 hover:bg-green-700 text-white font-medium w-full h-8 text-sm"
       >
-        <Mic className="h-4 w-4" />
+        <Mic className="h-4 w-4 mr-2" />
+        Select Voice
       </Button>
     );
   }
@@ -650,9 +651,10 @@ export const VoiceNavigation: React.FC<VoiceNavigationProps> = ({
       {!voiceState.showPanel && (
         <Button
           onClick={togglePanel}
-          className="bg-green-600 hover:bg-green-700 text-white font-medium w-12 h-12 text-sm"
+          className="bg-green-600 hover:bg-green-700 text-white font-medium w-full h-8 text-sm"
         >
-          <Mic className="h-4 w-4" />
+          <Mic className="h-4 w-4 mr-2" />
+          Select Voice
         </Button>
       )}
 
