@@ -132,6 +132,11 @@ export const VoiceNavigation: React.FC<VoiceNavigationProps> = ({
       speechSynthesisRef.current.cancel();
     }
 
+    // Stop listening while speaking to prevent feedback
+    if (recognitionRef.current && voiceState.isListening) {
+      recognitionRef.current.stop();
+    }
+
     const utterance = new SpeechSynthesisUtterance(text);
     utterance.rate = 1.0; // Normal speech speed
     utterance.pitch = 0.9; // Slightly lower pitch for mature, refined tone
@@ -176,7 +181,7 @@ export const VoiceNavigation: React.FC<VoiceNavigationProps> = ({
             console.warn('Speech recognition start after TTS failed:', error);
           }
         }
-      }, 800);
+      }, 1000);
     };
 
     speechSynthesisRef.current.speak(utterance);
@@ -348,6 +353,12 @@ export const VoiceNavigation: React.FC<VoiceNavigationProps> = ({
 
   // Handle country selection
   const handleCountrySelection = (transcript: string) => {
+    console.log('🎤 Country selection - transcript:', transcript);
+    console.log('🎤 Available countries:', availableCountries);
+    
+    // Normalize transcript for better matching
+    const normalizedTranscript = transcript.toLowerCase().trim().replace(/[.,!?]/g, '');
+    
     // Country aliases for better matching
     const countryAliases: Record<string, string[]> = {
       'United States': ['usa', 'us', 'america', 'united states', 'states'],
@@ -355,24 +366,45 @@ export const VoiceNavigation: React.FC<VoiceNavigationProps> = ({
       'United Arab Emirates': ['uae', 'emirates', 'united arab emirates'],
       'South Korea': ['korea', 'south korea'],
       'New Zealand': ['new zealand', 'nz'],
-      'South Africa': ['south africa', 'africa'],
+      'South Africa': ['south africa'],
+      'China': ['china', 'chinese'],
+      'France': ['france', 'french'],
+      'Germany': ['germany', 'german'],
+      'Italy': ['italy', 'italian'],
+      'Spain': ['spain', 'spanish'],
+      'Japan': ['japan', 'japanese'],
+      'Canada': ['canada', 'canadian'],
+      'Mexico': ['mexico', 'mexican'],
+      'Brazil': ['brazil', 'brazilian'],
+      'India': ['india', 'indian'],
     };
 
-    let foundCountry = availableCountries.find(country =>
-      transcript.includes(country.toLowerCase()) ||
-      country.toLowerCase().includes(transcript.replace(/\s+/g, ' ').trim())
+    let foundCountry = null;
+    
+    // First, try exact country name match
+    foundCountry = availableCountries.find(country =>
+      normalizedTranscript === country.toLowerCase() ||
+      normalizedTranscript.includes(country.toLowerCase())
     );
 
-    // Check aliases if no direct match
+    // If no exact match, check aliases
     if (!foundCountry) {
       for (const [country, aliases] of Object.entries(countryAliases)) {
-        if (availableCountries.includes(country) && 
-            aliases.some(alias => transcript.includes(alias))) {
-          foundCountry = country;
-          break;
+        if (availableCountries.includes(country)) {
+          const aliasMatch = aliases.find(alias => 
+            normalizedTranscript === alias || 
+            normalizedTranscript.includes(alias)
+          );
+          if (aliasMatch) {
+            foundCountry = country;
+            console.log('🎤 Found country via alias:', country, 'for alias:', aliasMatch);
+            break;
+          }
         }
       }
     }
+
+    console.log('🎤 Final matched country:', foundCountry);
 
     if (foundCountry) {
       setVoiceState(prev => ({
@@ -605,10 +637,9 @@ export const VoiceNavigation: React.FC<VoiceNavigationProps> = ({
     return (
       <Button
         onClick={() => setVoiceState(prev => ({ ...prev, voiceEnabled: true, showPanel: true }))}
-        className="bg-green-600 hover:bg-green-700 text-white font-medium px-6 py-1 text-sm w-20 h-6"
+        className="bg-green-600 hover:bg-green-700 text-white font-medium w-12 h-12 text-sm"
       >
-        <Mic className="h-3 w-3 mr-1" />
-        Voice
+        <Mic className="h-4 w-4" />
       </Button>
     );
   }
@@ -619,10 +650,9 @@ export const VoiceNavigation: React.FC<VoiceNavigationProps> = ({
       {!voiceState.showPanel && (
         <Button
           onClick={togglePanel}
-          className="bg-green-600 hover:bg-green-700 text-white font-medium px-6 py-1 text-sm w-20 h-6"
+          className="bg-green-600 hover:bg-green-700 text-white font-medium w-12 h-12 text-sm"
         >
-          <Mic className="h-3 w-3 mr-1" />
-          Voice
+          <Mic className="h-4 w-4" />
         </Button>
       )}
 

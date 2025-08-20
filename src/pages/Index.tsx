@@ -540,10 +540,10 @@ const Index: React.FC = () => {
           {!voicePreferences?.voice_enabled && (
             <div className="flex justify-center mt-3 mb-3">
               <Button 
-                className="bg-green-600 hover:bg-green-700 text-white font-medium px-6 py-1 text-sm w-20 h-6" 
+                className="bg-green-600 hover:bg-green-700 text-white font-medium w-12 h-12 text-sm" 
                 onClick={() => setShowPreferencesDialog(true)}
               >
-                <Mic className="h-3 w-3 mr-1" /> Voice
+                <Mic className="h-4 w-4" />
               </Button>
             </div>
           )}
