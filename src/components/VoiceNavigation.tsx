@@ -591,161 +591,56 @@ export const VoiceNavigation: React.FC<VoiceNavigationProps> = ({
     }
   };
 
+  // Simple compact voice interface
+  if (!voiceState.voiceEnabled) {
+    return null; // Don't show anything when voice is disabled
+  }
+
   return (
-    <Card className="w-full max-w-4xl mx-auto mb-8 border-2 border-primary/20">
-      <CardContent className="p-8">
-        <div className="space-y-6">
-          {/* Header */}
-          <div className="text-center space-y-2">
-            <h2 className="text-3xl font-bold text-primary">Voice Navigation for Seniors</h2>
-            <p className="text-lg text-muted-foreground">
-              Complete the form using your voice - just click the microphone and speak naturally
-            </p>
+    <div className="fixed bottom-4 right-4 z-50">
+      <div className="flex flex-col items-end gap-2">
+        {/* Status indicators */}
+        {voiceState.isListening && (
+          <Badge variant="default" className="bg-green-500 text-white animate-pulse">
+            🎤 Listening...
+          </Badge>
+        )}
+        {voiceState.isProcessing && (
+          <Badge variant="default" className="bg-blue-500 text-white">
+            🔄 Processing...
+          </Badge>
+        )}
+        {voiceState.isWaitingForConfirmation && (
+          <Badge variant="default" className="bg-yellow-500 text-white">
+            ❓ Confirm?
+          </Badge>
+        )}
+        
+        {/* Current transcript */}
+        {voiceState.currentTranscript && (
+          <div className="bg-background border rounded-lg p-2 max-w-xs">
+            <p className="text-sm text-primary">{voiceState.currentTranscript}</p>
           </div>
+        )}
 
-          {/* Voice Toggle */}
-          <div className="flex flex-col items-center space-y-4 p-6 bg-muted/30 rounded-lg">
-            <div className="flex items-center space-x-3">
-              <Label htmlFor="voice-toggle" className="text-lg font-medium">
-                Enable Voice Navigation
-              </Label>
-              <Switch
-                id="voice-toggle"
-                checked={voiceState.voiceEnabled}
-                onCheckedChange={toggleVoiceNavigation}
-                className="data-[state=checked]:bg-primary"
-              />
-            </div>
-            <p className="text-sm text-muted-foreground text-center max-w-md">
-              Turn this on to use voice commands throughout the form. You can turn it off at any time.
-            </p>
-          </div>
-
-          {/* Voice Controls - Only show when enabled */}
-          {voiceState.voiceEnabled && (
-            <div className="space-y-6">
-              {/* Main Voice Button */}
-              <div className="flex justify-center">
-                <Button
-                  onClick={voiceState.isListening ? stopListening : startListening}
-                  size="lg"
-                  className={`w-32 h-32 rounded-full text-2xl font-bold transition-all duration-300 ${
-                    voiceState.isListening 
-                      ? 'bg-red-500 hover:bg-red-600 animate-pulse' 
-                      : 'bg-primary hover:bg-primary/90'
-                  }`}
-                  disabled={voiceState.isProcessing}
-                >
-                  {voiceState.isListening ? (
-                    <MicOff className="w-12 h-12" />
-                  ) : (
-                    <Mic className="w-12 h-12" />
-                  )}
-                </Button>
-              </div>
-
-              {/* Status and Controls */}
-              <div className="space-y-4">
-                {/* Status Badges */}
-                <div className="flex justify-center gap-4 flex-wrap">
-                  {voiceState.isListening && (
-                    <Badge variant="default" className="text-lg py-2 px-4 bg-green-500">
-                      🎤 Listening...
-                    </Badge>
-                  )}
-                  {voiceState.isProcessing && (
-                    <Badge variant="default" className="text-lg py-2 px-4 bg-blue-500">
-                      🔄 Processing...
-                    </Badge>
-                  )}
-                  {voiceState.isWaitingForConfirmation && (
-                    <Badge variant="default" className="text-lg py-2 px-4 bg-yellow-500">
-                      ❓ Waiting for confirmation
-                    </Badge>
-                  )}
-                </div>
-
-                {/* Control Buttons */}
-                <div className="flex justify-center gap-4 flex-wrap">
-                  <Button
-                    onClick={toggleAudio}
-                    variant="outline"
-                    size="lg"
-                    className="text-lg py-3 px-6"
-                  >
-                    {voiceState.audioEnabled ? (
-                      <>
-                        <Volume2 className="w-5 h-5 mr-2" />
-                        Audio On
-                      </>
-                    ) : (
-                      <>
-                        <VolumeX className="w-5 h-5 mr-2" />
-                        Audio Off
-                      </>
-                    )}
-                  </Button>
-
-                  <Button
-                    onClick={() => speak(getCurrentPrompt())}
-                    variant="outline"
-                    size="lg"
-                    className="text-lg py-3 px-6"
-                    disabled={!voiceState.audioEnabled}
-                  >
-                    <RotateCcw className="w-5 h-5 mr-2" />
-                    Repeat
-                  </Button>
-
-                  <Button
-                    onClick={() => speak("You can say commands like: help, repeat, go back, exit, or specific options for each step.")}
-                    variant="outline"
-                    size="lg"
-                    className="text-lg py-3 px-6"
-                  >
-                    <HelpCircle className="w-5 h-5 mr-2" />
-                    Help
-                  </Button>
-                </div>
-
-                {/* Current Transcript */}
-                {voiceState.currentTranscript && (
-                  <div className="bg-muted p-4 rounded-lg">
-                    <p className="text-lg font-semibold">You said:</p>
-                    <p className="text-xl text-primary">{voiceState.currentTranscript}</p>
-                  </div>
-                )}
-
-                {/* Current Status */}
-                <div className="bg-background border rounded-lg p-4">
-                  <p className="text-lg font-semibold mb-2">Current Step: {currentStep} of 4</p>
-                  <p className="text-base text-muted-foreground">{getCurrentPrompt()}</p>
-                </div>
-
-                {/* Progress Display */}
-                <div className="grid grid-cols-1 md:grid-cols-4 gap-4 text-center">
-                  <div className={`p-3 rounded-lg border ${selectedCountry ? 'bg-green-50 border-green-300' : 'bg-muted'}`}>
-                    <p className="font-semibold">Country</p>
-                    <p className="text-sm">{selectedCountry || 'Not selected'}</p>
-                  </div>
-                  <div className={`p-3 rounded-lg border ${selectedCuisine ? 'bg-green-50 border-green-300' : 'bg-muted'}`}>
-                    <p className="font-semibold">Cuisine</p>
-                    <p className="text-sm">{selectedCuisine || 'Not selected'}</p>
-                  </div>
-                  <div className={`p-3 rounded-lg border ${selectedCity ? 'bg-green-50 border-green-300' : 'bg-muted'}`}>
-                    <p className="font-semibold">City</p>
-                    <p className="text-sm">{selectedCity || 'Not selected'}</p>
-                  </div>
-                  <div className={`p-3 rounded-lg border ${businesses.length > 0 ? 'bg-green-50 border-green-300' : 'bg-muted'}`}>
-                    <p className="font-semibold">Results</p>
-                    <p className="text-sm">{businesses.length > 0 ? `${businesses.length} found` : 'Not searched'}</p>
-                  </div>
-                </div>
-              </div>
-            </div>
+        {/* Main voice button */}
+        <Button
+          onClick={voiceState.isListening ? stopListening : startListening}
+          size="lg"
+          className={`w-16 h-16 rounded-full transition-all duration-300 ${
+            voiceState.isListening 
+              ? 'bg-red-500 hover:bg-red-600 text-white animate-pulse' 
+              : 'bg-green-500 hover:bg-green-600 text-white'
+          }`}
+          disabled={voiceState.isProcessing}
+        >
+          {voiceState.isListening ? (
+            <MicOff className="w-6 h-6" />
+          ) : (
+            <Mic className="w-6 h-6" />
           )}
-        </div>
-      </CardContent>
-    </Card>
+        </Button>
+      </div>
+    </div>
   );
 };

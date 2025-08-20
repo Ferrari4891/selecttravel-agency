@@ -539,7 +539,10 @@ const Index: React.FC = () => {
           {/* Quick access to Voice Options when voice is disabled */}
           {!voicePreferences.voice_enabled && (
             <div className="px-4 py-2 flex justify-center">
-              <Button variant="outline" className="rounded-none" onClick={() => setShowPreferencesDialog(true)}>
+              <Button 
+                className="rounded-none bg-green-500 hover:bg-green-600 text-white" 
+                onClick={() => setShowPreferencesDialog(true)}
+              >
                 <Mic className="h-4 w-4 mr-2" /> Voice Options
               </Button>
             </div>

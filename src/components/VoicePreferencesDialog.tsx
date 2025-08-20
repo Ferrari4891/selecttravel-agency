@@ -152,9 +152,19 @@ export const VoicePreferencesDialog: React.FC<VoicePreferencesDialogProps> = ({
     <Dialog open={isOpen} onOpenChange={onOpenChange}>
       <DialogContent className="sm:max-w-md">
         <DialogHeader>
-          <DialogTitle className="flex items-center gap-2">
-            <Mic className="h-5 w-5 text-primary" />
-            Voice Navigation Setup
+          <DialogTitle className="flex items-center justify-between">
+            <div className="flex items-center gap-2">
+              <Mic className="h-5 w-5 text-primary" />
+              Voice Navigation Setup
+            </div>
+            <Button
+              variant="ghost"
+              size="sm"
+              onClick={() => onOpenChange(false)}
+              className="h-6 w-6 p-0 hover:bg-muted"
+            >
+              ×
+            </Button>
           </DialogTitle>
           <DialogDescription>
             Welcome! Would you like to enable voice commands to navigate our forms? 
