@@ -582,28 +582,31 @@ export const VoiceNavigation: React.FC<VoiceNavigationProps> = ({
   // If voice is not enabled, just show the button to open panel
   if (!voiceState.voiceEnabled) {
     return (
-      <Button
-        onClick={() => setVoiceState(prev => ({ ...prev, voiceEnabled: true, showPanel: true }))}
-        className="bg-green-600 hover:bg-green-700 text-white font-medium px-4 py-2"
-      >
-        <Mic className="h-4 w-4 mr-2" />
-        Voice
-      </Button>
-    );
-  }
-
-  return (
-    <div className="relative">
-      {/* Voice activation button */}
-      {!voiceState.showPanel && (
+      <div className="fixed inset-0 flex items-center justify-center z-50 pointer-events-none">
         <Button
-          onClick={togglePanel}
-          className="bg-green-600 hover:bg-green-700 text-white font-medium px-4 py-2"
+          onClick={() => setVoiceState(prev => ({ ...prev, voiceEnabled: true, showPanel: true }))}
+          className="bg-green-600 hover:bg-green-700 text-white font-medium px-4 py-2 pointer-events-auto"
         >
           <Mic className="h-4 w-4 mr-2" />
           Voice
         </Button>
-      )}
+      </div>
+    );
+  }
+
+  return (
+    <div className="fixed inset-0 flex items-center justify-center z-50 pointer-events-none">
+      <div className="relative pointer-events-auto">
+        {/* Voice activation button */}
+        {!voiceState.showPanel && (
+          <Button
+            onClick={togglePanel}
+            className="bg-green-600 hover:bg-green-700 text-white font-medium px-4 py-2"
+          >
+            <Mic className="h-4 w-4 mr-2" />
+            Voice
+          </Button>
+        )}
 
       {/* Voice Control Panel */}
       {voiceState.showPanel && (
@@ -725,6 +728,7 @@ export const VoiceNavigation: React.FC<VoiceNavigationProps> = ({
           </CardContent>
         </Card>
       )}
+      </div>
     </div>
   );
 };
