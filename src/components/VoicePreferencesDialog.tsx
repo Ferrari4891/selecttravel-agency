@@ -25,32 +25,44 @@ export const VoicePreferencesDialog: React.FC<VoicePreferencesDialogProps> = ({
   const [dontShowAgain, setDontShowAgain] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
 
-  // Test voice synthesis
   const testVoice = () => {
     if ('speechSynthesis' in window && audioEnabled) {
       const utterance = new SpeechSynthesisUtterance(
-        "Hello! This is how I sound. I'm here to help you navigate our website using voice commands."
+        "Good afternoon. I am your voice assistant, and I shall be delighted to help you navigate our website using refined voice commands. How may I assist you today?"
       );
       
-      // Set mid-Atlantic middle-aged woman voice preferences
-      utterance.rate = 0.85;
-      utterance.pitch = 1.1;
+      // Senior cultivated English woman voice settings
+      utterance.rate = 0.75; // Slower, more deliberate speech
+      utterance.pitch = 0.9; // Slightly lower pitch for mature tone
       utterance.volume = 0.9;
       
-      // Try to find a suitable English accent female voice
+      // Prioritize senior cultivated English woman voices
       const voices = window.speechSynthesis.getVoices();
-      const femaleVoice = voices.find(voice => 
-        (voice.lang.includes('en-GB') && voice.name.toLowerCase().includes('female')) ||
-        voice.name.includes('Kate') || 
-        voice.name.includes('Serena') ||
-        voice.name.includes('Emma') ||
-        voice.name.includes('Amy') ||
-        (voice.lang.includes('en-GB')) ||
-        (voice.lang.includes('en-AU') && voice.name.toLowerCase().includes('female'))
-      ) || voices.find(voice => voice.lang.includes('en-US') && voice.name.toLowerCase().includes('female')) || voices[0];
+      const preferredVoice = voices.find(voice => 
+        // First priority: British English female voices that sound mature
+        (voice.lang.includes('en-GB') && (
+          voice.name.includes('Emma') ||
+          voice.name.includes('Amy') ||
+          voice.name.includes('Kate') ||
+          voice.name.includes('Serena') ||
+          voice.name.includes('Victoria') ||
+          voice.name.includes('Fiona') ||
+          voice.name.toLowerCase().includes('female')
+        ))
+      ) || voices.find(voice => 
+        // Second priority: Any British English voice
+        voice.lang.includes('en-GB')
+      ) || voices.find(voice => 
+        // Third priority: Australian English female (similar accent)
+        voice.lang.includes('en-AU') && voice.name.toLowerCase().includes('female')
+      ) || voices.find(voice => 
+        // Fallback: Any English female voice
+        voice.lang.includes('en') && voice.name.toLowerCase().includes('female')
+      ) || voices[0];
       
-      if (femaleVoice) {
-        utterance.voice = femaleVoice;
+      if (preferredVoice) {
+        utterance.voice = preferredVoice;
+        console.log('Selected voice:', preferredVoice.name, preferredVoice.lang);
       }
       
       window.speechSynthesis.speak(utterance);
@@ -214,7 +226,7 @@ export const VoicePreferencesDialog: React.FC<VoicePreferencesDialogProps> = ({
                 </Button>
               </div>
               <p className="text-xs text-muted-foreground">
-                Click "Listen" to hear how the voice assistant sounds
+                Click "Listen" to hear our refined English voice assistant
               </p>
             </div>
           )}

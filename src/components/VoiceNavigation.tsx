@@ -131,21 +131,33 @@ export const VoiceNavigation: React.FC<VoiceNavigationProps> = ({
     }
 
     const utterance = new SpeechSynthesisUtterance(text);
-    utterance.rate = 0.9; // Clear speaking rate
-    utterance.pitch = 1.0; // Natural pitch for English accent
+    utterance.rate = 0.75; // Slower, more deliberate speech for seniors
+    utterance.pitch = 0.9; // Slightly lower pitch for mature, refined tone
     utterance.volume = 0.9;
     
-    // English accent woman voice preferences
+    // Prioritize senior cultivated English woman voices
     const voices = speechSynthesisRef.current.getVoices();
     const preferredVoice = voices.find(voice => 
-      (voice.lang.includes('en-GB') && voice.name.toLowerCase().includes('female')) ||
-      voice.name.includes('Kate') || 
-      voice.name.includes('Serena') ||
-      voice.name.includes('Emma') ||
-      voice.name.includes('Amy') ||
-      (voice.lang.includes('en-GB')) ||
-      (voice.lang.includes('en-AU') && voice.name.toLowerCase().includes('female'))
-    ) || voices.find(voice => voice.lang.includes('en-US') && voice.name.toLowerCase().includes('female')) || voices[0];
+      // First priority: British English female voices that sound mature
+      (voice.lang.includes('en-GB') && (
+        voice.name.includes('Emma') ||
+        voice.name.includes('Amy') ||
+        voice.name.includes('Kate') ||
+        voice.name.includes('Serena') ||
+        voice.name.includes('Victoria') ||
+        voice.name.includes('Fiona') ||
+        voice.name.toLowerCase().includes('female')
+      ))
+    ) || voices.find(voice => 
+      // Second priority: Any British English voice
+      voice.lang.includes('en-GB')
+    ) || voices.find(voice => 
+      // Third priority: Australian English female (similar accent)
+      voice.lang.includes('en-AU') && voice.name.toLowerCase().includes('female')
+    ) || voices.find(voice => 
+      // Fallback: Any English female voice
+      voice.lang.includes('en') && voice.name.toLowerCase().includes('female')
+    ) || voices[0];
     
     if (preferredVoice) {
       utterance.voice = preferredVoice;
