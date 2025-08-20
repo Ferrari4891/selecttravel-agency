@@ -399,7 +399,7 @@ export const VoiceNavigation: React.FC<VoiceNavigationProps> = ({
           break;
         case 'city':
           onCitySelect(pendingSelection);
-          speak(`Excellent! You selected ${pendingSelection}. Now I can search for restaurants.`, true);
+          speak(`Excellent! You selected ${pendingSelection}. Now I can search for restaurants. Say 'search' when ready.`, true);
           break;
       }
 
@@ -412,6 +412,13 @@ export const VoiceNavigation: React.FC<VoiceNavigationProps> = ({
         pendingType: null,
         isProcessing: false
       }));
+      
+      // Continue listening for the next step after TTS finishes
+      setTimeout(() => {
+        if (voiceState.voiceEnabled && !isSpeakingRef.current) {
+          listeningDeadlineRef.current = Date.now() + LISTENING_WINDOW_MS;
+        }
+      }, 2000);
     } else if (noWords.some(w => cleaned.includes(w))) {
       speak(`No problem. ${getCurrentPrompt()}`, true);
       lastPendingKeyRef.current = '';
