@@ -328,15 +328,26 @@ export const VoiceNavigation: React.FC<VoiceNavigationProps> = ({
   const handleConfirmation = (transcript: string) => {
     const lower = transcript.toLowerCase();
 
-    // Ignore echoes of our own TTS like "you selected ... is that correct"
-    if (lower.includes('you selected')) {
+    // Remove echoes of our own TTS prompt so we only parse the user's response
+    const cleaned = lower
+      .replace(/you selected[^.?!]*/g, '')
+      .replace(/is that correct[^.?!]*/g, '')
+      .replace(/[^a-z\s]/g, ' ') // strip punctuation
+      .replace(/\s+/g, ' ')
+      .trim();
+
+    // If nothing meaningful remains, ignore this result
+    if (!cleaned) {
       setVoiceState(prev => ({ ...prev, isProcessing: false }));
       return;
     }
 
-    if (lower.includes('yes') || lower.includes('correct') || lower.includes('confirm')) {
+    // Positive/negative vocab
+    const yesWords = ['yes','yeah','yep','correct','confirm','that is correct','that\'s right','right','sure','ok','okay'];
+    const noWords = ['no','nope','wrong','try again','change','cancel'];
+
+    if (yesWords.some(w => cleaned.includes(w))) {
       const { pendingSelection, pendingType } = voiceState;
-      
       switch (pendingType) {
         case 'country':
           onCountrySelect(pendingSelection);
@@ -351,7 +362,7 @@ export const VoiceNavigation: React.FC<VoiceNavigationProps> = ({
           speak(`Excellent! You selected ${pendingSelection}. Now I can search for restaurants.`, true);
           break;
       }
-      
+
       lastPendingKeyRef.current = '';
       lastFinalTranscriptRef.current = '';
       setVoiceState(prev => ({
@@ -361,7 +372,7 @@ export const VoiceNavigation: React.FC<VoiceNavigationProps> = ({
         pendingType: null,
         isProcessing: false
       }));
-    } else if (lower.includes('no') || lower.includes('wrong') || lower.includes('try again')) {
+    } else if (noWords.some(w => cleaned.includes(w))) {
       speak(`No problem. ${getCurrentPrompt()}`, true);
       lastPendingKeyRef.current = '';
       setVoiceState(prev => ({
