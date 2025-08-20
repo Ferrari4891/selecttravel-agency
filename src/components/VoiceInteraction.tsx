@@ -42,9 +42,10 @@ const VoiceInteraction: React.FC<VoiceInteractionProps> = ({ onSearchComplete })
   const [isListening, setIsListening] = useState(false);
   const [currentStep, setCurrentStep] = useState(0);
   const [responses, setResponses] = useState({
-    city: '',
+    country: '',
     activity: '',
-    resultCount: 0
+    city: '',
+    resultCount: 5
   });
   
   const { toast } = useToast();
@@ -52,10 +53,10 @@ const VoiceInteraction: React.FC<VoiceInteractionProps> = ({ onSearchComplete })
   const synthRef = useRef<SpeechSynthesis | null>(null);
 
   const steps = [
-    "What city do you want?",
-    "What do you want to do there? Eat, stay, drink or shop?",
-    "How many results do you want between 1 and 50?",
-    "Say 'Get now' to search"
+    "First, please select your country. You can say the country name or say 'help' to hear available options.",
+    "Now select your activity. Say 'eat', 'stay', 'drink', or 'play'.",
+    "Next, tell me which city you'd like. Say the city name or 'help' for options.",
+    "Finally, say 'get now' to start your search, or say a number between 1 and 50 for how many results you want."
   ];
 
   useEffect(() => {
@@ -132,50 +133,65 @@ const VoiceInteraction: React.FC<VoiceInteractionProps> = ({ onSearchComplete })
     setIsListening(false);
     
     switch (currentStep) {
-      case 0: // City
-        setResponses(prev => ({ ...prev, city: transcript }));
-        setCurrentStep(1);
-        setTimeout(() => speak(steps[1]), 1000);
+      case 0: // Country
+        if (transcript.includes('help')) {
+          speak("Available countries include United States, Canada, Mexico, United Kingdom, France, Germany, Spain, Italy, and many more. Please say your country name.");
+          setTimeout(() => startListening(), 2000);
+        } else {
+          setResponses(prev => ({ ...prev, country: transcript }));
+          setCurrentStep(1);
+          setTimeout(() => speak(steps[1]), 1000);
+        }
         break;
         
       case 1: // Activity
-        const validActivities = ['eat', 'stay', 'drink', 'shop'];
+        const validActivities = ['eat', 'stay', 'drink', 'play'];
         const activity = validActivities.find(act => transcript.includes(act));
         if (activity) {
           setResponses(prev => ({ ...prev, activity }));
           setCurrentStep(2);
           setTimeout(() => speak(steps[2]), 1000);
         } else {
-          speak("Please say eat, stay, drink, or shop");
+          speak("Please say eat, stay, drink, or play");
+          setTimeout(() => startListening(), 2000);
         }
         break;
         
-      case 2: // Result count
-        const numberMatch = transcript.match(/\d+/);
-        if (numberMatch) {
-          const num = parseInt(numberMatch[0]);
-          if (num >= 1 && num <= 50) {
-            setResponses(prev => ({ ...prev, resultCount: num }));
-            setCurrentStep(3);
-            setTimeout(() => speak(steps[3]), 1000);
-          } else {
-            speak("Please say a number between 1 and 50");
-          }
+      case 2: // City
+        if (transcript.includes('help')) {
+          speak("Popular cities include New York, London, Paris, Tokyo, Toronto, and many more. Please say your city name.");
+          setTimeout(() => startListening(), 2000);
         } else {
-          speak("Please say a number between 1 and 50");
+          setResponses(prev => ({ ...prev, city: transcript }));
+          setCurrentStep(3);
+          setTimeout(() => speak(steps[3]), 1000);
         }
         break;
         
-      case 3: // Final command
+      case 3: // Final command or result count
         if (transcript.includes('get now')) {
           onSearchComplete(responses.city, responses.activity, responses.resultCount);
           resetInteraction();
           toast({
             title: "Search Started",
-            description: `Searching for ${responses.activity} in ${responses.city}`,
+            description: `Searching for ${responses.activity} in ${responses.city}, ${responses.country}`,
           });
         } else {
-          speak("Say 'Get now' to start your search");
+          const numberMatch = transcript.match(/\d+/);
+          if (numberMatch) {
+            const num = parseInt(numberMatch[0]);
+            if (num >= 1 && num <= 50) {
+              setResponses(prev => ({ ...prev, resultCount: num }));
+              speak(`Got it! ${num} results. Now say 'get now' to start your search.`);
+              setTimeout(() => startListening(), 2000);
+            } else {
+              speak("Please say a number between 1 and 50, or say 'get now' to search with 5 results.");
+              setTimeout(() => startListening(), 2000);
+            }
+          } else {
+            speak("Say 'get now' to start your search, or say a number between 1 and 50 for how many results you want.");
+            setTimeout(() => startListening(), 2000);
+          }
         }
         break;
     }
@@ -185,7 +201,7 @@ const VoiceInteraction: React.FC<VoiceInteractionProps> = ({ onSearchComplete })
     if (!isActive) {
       setIsActive(true);
       setCurrentStep(0);
-      setResponses({ city: '', activity: '', resultCount: 0 });
+      setResponses({ country: '', activity: '', city: '', resultCount: 5 });
       speak(steps[0]);
     }
   };
@@ -194,7 +210,7 @@ const VoiceInteraction: React.FC<VoiceInteractionProps> = ({ onSearchComplete })
     setIsActive(false);
     setIsListening(false);
     setCurrentStep(0);
-    setResponses({ city: '', activity: '', resultCount: 0 });
+    setResponses({ country: '', activity: '', city: '', resultCount: 5 });
     if (recognitionRef.current) {
       recognitionRef.current.abort();
     }
@@ -232,15 +248,21 @@ const VoiceInteraction: React.FC<VoiceInteractionProps> = ({ onSearchComplete })
             <p className="font-medium">{steps[currentStep]}</p>
           </div>
           
-          {responses.city && (
+          {responses.country && (
             <div className="text-sm">
-              <span className="font-medium">City:</span> {responses.city}
+              <span className="font-medium">Country:</span> {responses.country}
             </div>
           )}
           
           {responses.activity && (
             <div className="text-sm">
               <span className="font-medium">Activity:</span> {responses.activity}
+            </div>
+          )}
+          
+          {responses.city && (
+            <div className="text-sm">
+              <span className="font-medium">City:</span> {responses.city}
             </div>
           )}
           
