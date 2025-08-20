@@ -104,7 +104,7 @@ export const VoiceNavigation: React.FC<VoiceNavigationProps> = ({
     };
   }, []);
 
-  // Speak text with senior-friendly settings and mid-Atlantic voice
+  // Speak text with senior-friendly settings and English accent woman voice
   const speak = (text: string, priority: boolean = false) => {
     if (!voiceState.audioEnabled || !speechSynthesisRef.current) return;
 
@@ -113,19 +113,21 @@ export const VoiceNavigation: React.FC<VoiceNavigationProps> = ({
     }
 
     const utterance = new SpeechSynthesisUtterance(text);
-    utterance.rate = 0.85; // Slower rate for seniors, slightly faster than before
-    utterance.pitch = 1.1; // Slightly higher pitch for mid-Atlantic accent
+    utterance.rate = 0.9; // Clear speaking rate
+    utterance.pitch = 1.0; // Natural pitch for English accent
     utterance.volume = 0.9;
     
-    // Mid-Atlantic middle-aged woman voice preferences
+    // English accent woman voice preferences
     const voices = speechSynthesisRef.current.getVoices();
     const preferredVoice = voices.find(voice => 
-      voice.name.includes('Karen') || 
-      voice.name.includes('Samantha') ||
-      voice.name.includes('Victoria') ||
-      voice.name.includes('Susan') ||
-      (voice.lang.includes('en-US') && voice.name.toLowerCase().includes('female'))
-    ) || voices.find(voice => voice.lang.includes('en-US')) || voices[0];
+      (voice.lang.includes('en-GB') && voice.name.toLowerCase().includes('female')) ||
+      voice.name.includes('Kate') || 
+      voice.name.includes('Serena') ||
+      voice.name.includes('Emma') ||
+      voice.name.includes('Amy') ||
+      (voice.lang.includes('en-GB')) ||
+      (voice.lang.includes('en-AU') && voice.name.toLowerCase().includes('female'))
+    ) || voices.find(voice => voice.lang.includes('en-US') && voice.name.toLowerCase().includes('female')) || voices[0];
     
     if (preferredVoice) {
       utterance.voice = preferredVoice;
@@ -177,7 +179,22 @@ export const VoiceNavigation: React.FC<VoiceNavigationProps> = ({
     setVoiceState(prev => ({ ...prev, isListening: false, isProcessing: false }));
     
     if (event.error === 'no-speech') {
-      speak("I didn't hear anything. Please try again.");
+      speak("I didn't catch that. Please speak more clearly and try again.");
+      // Auto-restart listening after a brief pause
+      setTimeout(() => {
+        if (voiceState.voiceEnabled && recognitionRef.current) {
+          recognitionRef.current.start();
+        }
+      }, 2000);
+    } else if (event.error === 'audio-capture') {
+      speak("I can't access your microphone. Please check your microphone settings.");
+    } else if (event.error === 'not-allowed') {
+      speak("Microphone access is not allowed. Please enable microphone permissions.");
+      toast({
+        title: "Microphone Access Required",
+        description: "Please allow microphone access to use voice navigation.",
+        variant: "destructive"
+      });
     } else {
       speak("Sorry, I had trouble understanding. Please try again.");
     }
@@ -490,14 +507,35 @@ export const VoiceNavigation: React.FC<VoiceNavigationProps> = ({
       return;
     }
 
-    speak(getCurrentPrompt(), true);
-    
-    // Start listening after speech ends
-    setTimeout(() => {
-      if (recognitionRef.current) {
-        recognitionRef.current.start();
-      }
-    }, 2000);
+    // Check microphone permissions first
+    navigator.mediaDevices.getUserMedia({ audio: true })
+      .then(() => {
+        speak(getCurrentPrompt(), true);
+        
+        // Start listening after speech ends
+        setTimeout(() => {
+          if (recognitionRef.current && voiceState.voiceEnabled) {
+            try {
+              recognitionRef.current.start();
+            } catch (error) {
+              console.error('Failed to start speech recognition:', error);
+              toast({
+                title: "Voice Recognition Error",
+                description: "Failed to start voice recognition. Please try again.",
+                variant: "destructive"
+              });
+            }
+          }
+        }, 3000);
+      })
+      .catch((error) => {
+        console.error('Microphone access denied:', error);
+        toast({
+          title: "Microphone Access Required",
+          description: "Please allow microphone access to use voice navigation.",
+          variant: "destructive"
+        });
+      });
   };
 
   // Stop listening

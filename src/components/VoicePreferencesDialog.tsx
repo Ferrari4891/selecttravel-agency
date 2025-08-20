@@ -36,15 +36,17 @@ export const VoicePreferencesDialog: React.FC<VoicePreferencesDialogProps> = ({
       utterance.pitch = 1.1;
       utterance.volume = 0.9;
       
-      // Try to find a suitable female voice
+      // Try to find a suitable English accent female voice
       const voices = window.speechSynthesis.getVoices();
       const femaleVoice = voices.find(voice => 
-        voice.name.includes('Karen') || 
-        voice.name.includes('Samantha') ||
-        voice.name.includes('Victoria') ||
-        voice.name.includes('Susan') ||
-        voice.lang.includes('en-US') && voice.name.toLowerCase().includes('female')
-      ) || voices.find(voice => voice.lang.includes('en-US')) || voices[0];
+        (voice.lang.includes('en-GB') && voice.name.toLowerCase().includes('female')) ||
+        voice.name.includes('Kate') || 
+        voice.name.includes('Serena') ||
+        voice.name.includes('Emma') ||
+        voice.name.includes('Amy') ||
+        (voice.lang.includes('en-GB')) ||
+        (voice.lang.includes('en-AU') && voice.name.toLowerCase().includes('female'))
+      ) || voices.find(voice => voice.lang.includes('en-US') && voice.name.toLowerCase().includes('female')) || voices[0];
       
       if (femaleVoice) {
         utterance.voice = femaleVoice;
@@ -61,7 +63,7 @@ export const VoicePreferencesDialog: React.FC<VoicePreferencesDialogProps> = ({
       const preferences = {
         voice_enabled: voiceEnabled,
         audio_enabled: audioEnabled,
-        voice_preference: 'mid-atlantic-female',
+        voice_preference: 'english-female',
         updated_at: new Date().toISOString()
       };
 
@@ -99,7 +101,7 @@ export const VoicePreferencesDialog: React.FC<VoicePreferencesDialogProps> = ({
     const preferences = {
       voice_enabled: false,
       audio_enabled: true,
-      voice_preference: 'mid-atlantic-female',
+      voice_preference: 'english-female',
       updated_at: new Date().toISOString()
     };
     

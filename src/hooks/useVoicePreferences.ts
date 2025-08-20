@@ -12,7 +12,7 @@ interface VoicePreferences {
 const defaultPreferences: VoicePreferences = {
   voice_enabled: false,
   audio_enabled: true,
-  voice_preference: 'mid-atlantic-female',
+  voice_preference: 'english-female',
   updated_at: new Date().toISOString()
 };
 
