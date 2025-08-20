@@ -75,6 +75,11 @@ export const VoiceNavigation: React.FC<VoiceNavigationProps> = ({
   const speechSynthesisRef = useRef<SpeechSynthesis | null>(null);
   const listeningDeadlineRef = useRef<number>(0);
   const LISTENING_WINDOW_MS = 20000; // Allow up to 20s response time for seniors
+  
+  // De-duplication and speaking state refs
+  const lastFinalTranscriptRef = useRef<string>('');
+  const lastPendingKeyRef = useRef<string>('');
+  const isSpeakingRef = useRef<boolean>(false);
 
   // Initialize Speech APIs
   useEffect(() => {
@@ -171,8 +176,12 @@ export const VoiceNavigation: React.FC<VoiceNavigationProps> = ({
     }
 
     // Ensure speech recognition starts only after TTS completely finishes
+    utterance.onstart = () => {
+      isSpeakingRef.current = true;
+    };
     utterance.onend = () => {
-      // Wait a bit longer to ensure no audio feedback
+      isSpeakingRef.current = false;
+      // Wait a bit longer to ensure no audio feedback from TTS is captured
       setTimeout(() => {
         if (voiceState.voiceEnabled && recognitionRef.current && !voiceState.isListening) {
           try {
@@ -181,7 +190,7 @@ export const VoiceNavigation: React.FC<VoiceNavigationProps> = ({
             console.warn('Speech recognition start after TTS failed:', error);
           }
         }
-      }, 1000);
+      }, 1600);
     };
 
     speechSynthesisRef.current.speak(utterance);
@@ -219,7 +228,13 @@ export const VoiceNavigation: React.FC<VoiceNavigationProps> = ({
 
     setVoiceState(prev => ({ ...prev, currentTranscript: transcript }));
 
-    if (event.results[event.results.length - 1].isFinal) {
+    const isFinal = event.results[event.results.length - 1].isFinal;
+    if (isFinal) {
+      if (transcript === lastFinalTranscriptRef.current) {
+        // Ignore duplicate final transcripts
+        return;
+      }
+      lastFinalTranscriptRef.current = transcript;
       processVoiceCommand(transcript);
     }
   };
@@ -311,24 +326,34 @@ export const VoiceNavigation: React.FC<VoiceNavigationProps> = ({
 
   // Handle confirmation responses
   const handleConfirmation = (transcript: string) => {
-    if (transcript.includes('yes') || transcript.includes('correct') || transcript.includes('confirm')) {
+    const lower = transcript.toLowerCase();
+
+    // Ignore echoes of our own TTS like "you selected ... is that correct"
+    if (lower.includes('you selected')) {
+      setVoiceState(prev => ({ ...prev, isProcessing: false }));
+      return;
+    }
+
+    if (lower.includes('yes') || lower.includes('correct') || lower.includes('confirm')) {
       const { pendingSelection, pendingType } = voiceState;
       
       switch (pendingType) {
         case 'country':
           onCountrySelect(pendingSelection);
-          speak(`Great! You selected ${pendingSelection}. Now let's choose your cuisine type.`);
+          speak(`Great! You selected ${pendingSelection}. Now let's choose your cuisine type.`, true);
           break;
         case 'cuisine':
           onCuisineSelect(pendingSelection);
-          speak(`Perfect! You selected ${pendingSelection}. Now let's choose your city.`);
+          speak(`Perfect! You selected ${pendingSelection}. Now let's choose your city.`, true);
           break;
         case 'city':
           onCitySelect(pendingSelection);
-          speak(`Excellent! You selected ${pendingSelection}. Now I can search for restaurants.`);
+          speak(`Excellent! You selected ${pendingSelection}. Now I can search for restaurants.`, true);
           break;
       }
       
+      lastPendingKeyRef.current = '';
+      lastFinalTranscriptRef.current = '';
       setVoiceState(prev => ({
         ...prev,
         isWaitingForConfirmation: false,
@@ -336,8 +361,9 @@ export const VoiceNavigation: React.FC<VoiceNavigationProps> = ({
         pendingType: null,
         isProcessing: false
       }));
-    } else if (transcript.includes('no') || transcript.includes('wrong') || transcript.includes('try again')) {
-      speak(`No problem. ${getCurrentPrompt()}`);
+    } else if (lower.includes('no') || lower.includes('wrong') || lower.includes('try again')) {
+      speak(`No problem. ${getCurrentPrompt()}`, true);
+      lastPendingKeyRef.current = '';
       setVoiceState(prev => ({
         ...prev,
         isWaitingForConfirmation: false,
@@ -407,6 +433,12 @@ export const VoiceNavigation: React.FC<VoiceNavigationProps> = ({
     console.log('🎤 Final matched country:', foundCountry);
 
     if (foundCountry) {
+      const key = `country:${foundCountry}`;
+      if (lastPendingKeyRef.current === key && voiceState.isWaitingForConfirmation) {
+        setVoiceState(prev => ({ ...prev, isProcessing: false }));
+        return; // prevent duplicate confirmation prompts
+      }
+
       setVoiceState(prev => ({
         ...prev,
         isWaitingForConfirmation: true,
@@ -414,9 +446,10 @@ export const VoiceNavigation: React.FC<VoiceNavigationProps> = ({
         pendingType: 'country',
         isProcessing: false
       }));
-      speak(`You selected ${foundCountry}. Is that correct?`);
+      lastPendingKeyRef.current = key;
+      speak(`You selected ${foundCountry}. Is that correct?`, true);
     } else {
-      speak("Sorry, I didn't recognize that country. Please try again or say 'help' to hear available options.");
+      speak("Sorry, I didn't recognize that country. Please try again or say 'help' to hear available options.", true);
       setVoiceState(prev => ({ ...prev, isProcessing: false }));
     }
   };
@@ -429,6 +462,12 @@ export const VoiceNavigation: React.FC<VoiceNavigationProps> = ({
     );
 
     if (foundCuisine) {
+      const key = `cuisine:${foundCuisine}`;
+      if (lastPendingKeyRef.current === key && voiceState.isWaitingForConfirmation) {
+        setVoiceState(prev => ({ ...prev, isProcessing: false }));
+        return;
+      }
+
       setVoiceState(prev => ({
         ...prev,
         isWaitingForConfirmation: true,
@@ -436,9 +475,10 @@ export const VoiceNavigation: React.FC<VoiceNavigationProps> = ({
         pendingType: 'cuisine',
         isProcessing: false
       }));
-      speak(`You selected ${foundCuisine}. Is that correct?`);
+      lastPendingKeyRef.current = key;
+      speak(`You selected ${foundCuisine}. Is that correct?`, true);
     } else {
-      speak("Sorry, that cuisine type is not available. Would you like to hear the available cuisines or try another cuisine?");
+      speak("Sorry, that cuisine type is not available. Would you like to hear the available cuisines or try another cuisine?", true);
       setVoiceState(prev => ({ ...prev, isProcessing: false }));
     }
   };
@@ -451,6 +491,12 @@ export const VoiceNavigation: React.FC<VoiceNavigationProps> = ({
     );
 
     if (foundCity) {
+      const key = `city:${foundCity}`;
+      if (lastPendingKeyRef.current === key && voiceState.isWaitingForConfirmation) {
+        setVoiceState(prev => ({ ...prev, isProcessing: false }));
+        return;
+      }
+
       setVoiceState(prev => ({
         ...prev,
         isWaitingForConfirmation: true,
@@ -458,9 +504,10 @@ export const VoiceNavigation: React.FC<VoiceNavigationProps> = ({
         pendingType: 'city',
         isProcessing: false
       }));
-      speak(`You selected ${foundCity}. Is that correct?`);
+      lastPendingKeyRef.current = key;
+      speak(`You selected ${foundCity}. Is that correct?`, true);
     } else {
-      speak("Sorry, that city is not available in the selected country. Would you like to hear the available cities or try another city?");
+      speak("Sorry, that city is not available in the selected country. Would you like to hear the available cities or try another city?", true);
       setVoiceState(prev => ({ ...prev, isProcessing: false }));
     }
   };
@@ -594,6 +641,9 @@ export const VoiceNavigation: React.FC<VoiceNavigationProps> = ({
     // Check microphone permissions first
     navigator.mediaDevices.getUserMedia({ audio: true })
       .then(() => {
+        // Clear previous dedupe guards
+        lastFinalTranscriptRef.current = '';
+        lastPendingKeyRef.current = '';
         speak(getCurrentPrompt(), true);
         
         // Extend listening window for seniors
