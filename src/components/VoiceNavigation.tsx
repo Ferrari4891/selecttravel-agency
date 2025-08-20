@@ -437,13 +437,8 @@ export const VoiceNavigation: React.FC<VoiceNavigationProps> = ({
         isProcessing: false
       }));
 
-      // After a brief pause, ask the next question based on the updated step
-      setTimeout(() => {
-        if (voiceState.voiceEnabled) {
-          speak(getCurrentPrompt(), false); // queue the standard prompt for the next step
-          listeningDeadlineRef.current = Date.now() + LISTENING_WINDOW_MS;
-        }
-      }, 900);
+      // Next prompt will be handled by auto-advance effect when selections update.
+
     } else if (noWords.some(w => cleaned.includes(w))) {
       console.log('❌ Confirmation NO');
       speak(`No problem. ${getCurrentPrompt()}`, true);
