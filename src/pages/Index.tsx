@@ -538,23 +538,22 @@ const Index: React.FC = () => {
 
           {/* Voice button positioned between help button and progress indicators */}
           {!voicePreferences?.voice_enabled && (
-            <div className="flex justify-center mt-3 mb-3 px-4">
-              <div className="w-full max-w-sm mx-auto">
-                <Button 
-                  className="bg-green-600 hover:bg-green-700 text-white font-medium w-full h-8 text-sm" 
-                  onClick={() => setShowPreferencesDialog(true)}
-                >
-                  <Mic className="h-4 w-4 mr-2" />
-                  Select Voice
-                </Button>
-              </div>
+            <div className="flex justify-center mt-3 mb-3">
+              <Button 
+                className="bg-green-600 hover:bg-green-700 text-white font-medium h-8 text-sm" 
+                style={{ width: 'calc(5rem + 1.5rem)' }}
+                onClick={() => setShowPreferencesDialog(true)}
+              >
+                <Mic className="h-4 w-4 mr-2" />
+                Select Voice
+              </Button>
             </div>
           )}
 
           {/* Voice Navigation Component positioned between help button and progress indicators */}
           {voicePreferences?.voice_enabled && (
-            <div className="flex justify-center mt-3 mb-3 px-4">
-              <div className="w-full max-w-sm mx-auto">
+            <div className="flex justify-center mt-3 mb-3">
+              <div style={{ width: 'calc(5rem + 1.5rem)' }}>
                 <VoiceNavigation
                   currentStep={currentStep}
                   selectedCountry={selectedCountry}
