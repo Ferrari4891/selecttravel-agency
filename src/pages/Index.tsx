@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useRef, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
@@ -109,6 +109,16 @@ const Index: React.FC = () => {
   const [businesses, setBusinesses] = useState<Business[]>([]);
   const [showResults, setShowResults] = useState(false);
   const [staticImageIndex, setStaticImageIndex] = useState(0);
+
+  // Measure progress indicator width to align voice button exactly with 1-4 buttons span
+  const progressRef = useRef<HTMLDivElement | null>(null);
+  const [progressWidth, setProgressWidth] = useState(0);
+  useEffect(() => {
+    const update = () => setProgressWidth(progressRef.current?.offsetWidth || 0);
+    update();
+    window.addEventListener('resize', update);
+    return () => window.removeEventListener('resize', update);
+  }, []);
 
   // Voice preferences
   const {
@@ -540,8 +550,8 @@ const Index: React.FC = () => {
           {!voicePreferences?.voice_enabled && (
             <div className="flex justify-center mt-3 mb-3">
               <Button 
-                className="bg-green-600 hover:bg-green-700 text-white font-medium h-8 text-sm" 
-                style={{ width: 'calc(5rem + 1.5rem)' }}
+                className="bg-green-600 hover:bg-green-700 text-white font-medium h-8 text-sm rounded-none" 
+                style={{ width: progressWidth || undefined }}
                 onClick={() => setShowPreferencesDialog(true)}
               >
                 <Mic className="h-4 w-4 mr-2" />
@@ -553,7 +563,7 @@ const Index: React.FC = () => {
           {/* Voice Navigation Component positioned between help button and progress indicators */}
           {voicePreferences?.voice_enabled && (
             <div className="flex justify-center mt-3 mb-3">
-              <div style={{ width: 'calc(5rem + 1.5rem)' }}>
+              <div style={{ width: progressWidth || undefined }}>
                 <VoiceNavigation
                   currentStep={currentStep}
                   selectedCountry={selectedCountry}
@@ -577,7 +587,7 @@ const Index: React.FC = () => {
           <div className="flex-1 flex items-center justify-center px-4 pb-4">
             <div className="w-full max-w-sm mx-auto">{/* Compact container for no-scroll fit */}
               {/* Progress Indicator */}
-              <div className="flex justify-center space-x-2 mb-6">
+              <div ref={progressRef} className="flex justify-center space-x-2 mb-6">
                 {[
                   { step: 1, label: 'Country' },
                   { step: 2, label: 'Cuisine' },
