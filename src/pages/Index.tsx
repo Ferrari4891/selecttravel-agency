@@ -288,9 +288,9 @@ const Index: React.FC = () => {
                   onClick={() => window.location.href = '/'}
                   variant="outline" 
                   size="sm"
-                  className="h-8 w-8 rounded-none border-black"
+                  className="h-12 w-12 rounded-none border-black bg-black hover:bg-black/80"
                 >
-                  <Home className="h-7 w-7" />
+                  <Home className="h-10 w-10 text-white" />
                 </Button>
               </div>
 
@@ -308,9 +308,9 @@ const Index: React.FC = () => {
                 <Button 
                   onClick={() => window.location.href = '/'}
                   variant="outline" 
-                  className="h-10 w-10 rounded-none border-black"
+                  className="h-14 w-14 rounded-none border-black bg-black hover:bg-black/80"
                 >
-                  <Home className="h-8 w-8" />
+                  <Home className="h-12 w-12 text-white" />
                 </Button>
               </div>
             </div>
