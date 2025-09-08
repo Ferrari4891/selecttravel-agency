@@ -249,15 +249,6 @@ const Index: React.FC = () => {
         <div className="relative z-10 min-h-screen flex flex-col">
           {/* Header Section */}
           <div className="flex-shrink-0 flex flex-col justify-center items-center text-center px-4 py-8 mt-2">
-            <h1 className="text-white font-bold text-2xl leading-tight mb-2">
-              {t('main_heading')}
-            </h1>
-            <p className="text-white text-base mb-1">
-              Made for seniors by seniors
-            </p>
-            <p className="text-white text-sm mb-4">
-              Discover the perfect dining experience in your chosen destination
-            </p>
             <div className="flex justify-center">
               <Link 
                 to="/how-to" 
