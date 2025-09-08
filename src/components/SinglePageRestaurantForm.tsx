@@ -164,6 +164,7 @@ export const SinglePageRestaurantForm: React.FC<SinglePageRestaurantFormProps> =
             <img src="/lovable-uploads/6ce4c283-5ad7-4b59-a3a8-4254d29cd162.png" alt="Dining Guide Logo" className="w-full h-full object-contain" />
           </div>
           <h2 className="text-2xl font-black text-black">DINING GUIDE</h2>
+          <p className="text-lg font-black text-black">The Fastest</p>
           <p className="text-base font-bold text-black">Made for seniors by seniors</p>
           <h3 className="text-xl font-bold text-black">Find Restaurants & Bars</h3>
           <p className="text-base font-semibold text-muted-foreground">In 15 seconds or less</p>
