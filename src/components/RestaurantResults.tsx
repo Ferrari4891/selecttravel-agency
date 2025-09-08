@@ -156,17 +156,26 @@ export const RestaurantResults: React.FC<RestaurantResultsProps> = ({
                   View on Maps
                 </Button>
 
-                {restaurant.contactDetails.email && (
-                  <Button
-                    variant="outline"
-                    size="sm"
-                    className="w-full flex items-center justify-center gap-2 text-sm rounded-none border-black"
-                    onClick={() => window.open(`mailto:${restaurant.contactDetails.email}`)}
-                  >
-                    <Mail className="h-4 w-4" />
-                    Send Email
-                  </Button>
-                )}
+              {restaurant.contactDetails.email && (
+                <Button
+                  variant="outline"
+                  size="sm"
+                  className="w-full flex items-center justify-center gap-2 text-sm rounded-none border-black"
+                  onClick={() => window.open(`mailto:${restaurant.contactDetails.email}`)}
+                >
+                  <Mail className="h-4 w-4" />
+                  Send Email
+                </Button>
+              )}
+              
+              <Button
+                variant="outline"
+                size="sm"
+                className="w-full flex items-center justify-center gap-2 text-sm rounded-none border-black"
+              >
+                <Badge className="h-4 w-4" />
+                Voucher
+              </Button>
               </div>
 
               {/* Social Media Links */}
@@ -341,17 +350,26 @@ export const RestaurantResults: React.FC<RestaurantResultsProps> = ({
                 View on Maps
               </Button>
 
-              {restaurant.contactDetails.email && (
-                <Button
-                  variant="outline"
-                  size="sm"
-                  className="w-full flex items-center justify-center gap-2 text-sm rounded-none border-black"
-                  onClick={() => window.open(`mailto:${restaurant.contactDetails.email}`)}
-                >
-                  <Mail className="h-4 w-4" />
-                  Send Email
-                </Button>
-              )}
+            {restaurant.contactDetails.email && (
+              <Button
+                variant="outline"
+                size="sm"
+                className="w-full flex items-center justify-center gap-2 text-sm rounded-none border-black"
+                onClick={() => window.open(`mailto:${restaurant.contactDetails.email}`)}
+              >
+                <Mail className="h-4 w-4" />
+                Send Email
+              </Button>
+            )}
+            
+            <Button
+              variant="outline"
+              size="sm"
+              className="w-full flex items-center justify-center gap-2 text-sm rounded-none border-black"
+            >
+              <Badge className="h-4 w-4" />
+              Voucher
+            </Button>
             </div>
 
             {/* Social Media Links */}
