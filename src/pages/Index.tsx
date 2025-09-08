@@ -399,7 +399,31 @@ const Index: React.FC = () => {
 
             {/* Results content */}
             <div className="p-4">
-              <RestaurantResults businesses={businesses} />
+              <RestaurantResults 
+                restaurants={businesses.map(business => ({
+                  name: business.name,
+                  address: business.address,
+                  googleMapRef: business.mapLink,
+                  socialMediaLinks: {
+                    facebook: business.facebook,
+                    instagram: business.instagram,
+                    twitter: business.twitter,
+                  },
+                  contactDetails: {
+                    phone: business.phone,
+                    email: business.email,
+                    website: business.website,
+                    menuLink: business.menuLink,
+                  },
+                  imageLinks: [business.image],
+                  rating: business.rating,
+                  reviewCount: business.reviewCount,
+                  source: business.source
+                }))} 
+                selectedCity={searchParams?.city || ''} 
+                selectedCountry={searchParams?.country || ''} 
+                selectedCategory={searchParams?.cuisine}
+              />
             </div>
           </div>
         )}
