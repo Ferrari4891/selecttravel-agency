@@ -159,16 +159,15 @@ export const SinglePageRestaurantForm: React.FC<SinglePageRestaurantFormProps> =
     <Card className="w-full max-w-md mx-auto bg-white/95 backdrop-blur-sm border-2 border-white rounded-none shadow-lg">
       <CardContent className="p-6 space-y-6">
         {/* Header with dining logo */}
-        <div className="text-center space-y-3">
+        <div className="text-center space-y-1">
           <div className="w-20 h-20 mx-auto flex items-center justify-center rounded-none bg-black">
             <img src="/lovable-uploads/6ce4c283-5ad7-4b59-a3a8-4254d29cd162.png" alt="Dining Guide Logo" className="w-full h-full object-contain" />
           </div>
-          <h2 className="text-2xl font-black text-black">DINING GUIDE</h2>
-          <p className="text-lg font-black text-black">The Fastest</p>
-          <p className="text-base font-bold text-black">Made for seniors by seniors</p>
-          <h3 className="text-xl font-bold text-black">FIND WHAT YOU WANT!</h3>
-          <p className="text-base font-semibold text-muted-foreground">In 15 seconds or less</p>
-          <p className="text-sm font-medium text-muted-foreground">Discover the perfect dining experience in your chosen destination</p>
+          <h2 className="text-3xl font-black text-black">GLOBAL DINING GUIDE</h2>
+          <p className="text-xl font-black text-black">Made for seniors by seniors</p>
+          <h3 className="text-2xl font-bold text-black">FIND WHAT YOU WANT!</h3>
+          <p className="text-lg font-semibold text-muted-foreground">In 15 seconds or less</p>
+          <p className="text-base font-medium text-muted-foreground">Discover the perfect dining experience in your chosen destination worldwide</p>
         </div>
 
         {/* Current Selections */}
