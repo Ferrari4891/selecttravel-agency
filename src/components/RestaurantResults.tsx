@@ -184,37 +184,63 @@ export const RestaurantResults: React.FC<RestaurantResultsProps> = ({
                 restaurant.socialMediaLinks.twitter) && (
                 <div className="space-y-2 pt-2 border-t border-black">
                   <p className="text-sm font-medium">Follow Us:</p>
-                  <div className="flex gap-2">
-                    {restaurant.socialMediaLinks.facebook && (
-                      <Button
-                        variant="outline"
-                        size="sm"
-                        className="flex-1 rounded-none border-black"
-                        onClick={() => window.open(restaurant.socialMediaLinks.facebook, '_blank')}
-                      >
-                        Facebook
-                      </Button>
-                    )}
-                    {restaurant.socialMediaLinks.instagram && (
-                      <Button
-                        variant="outline"
-                        size="sm"
-                        className="flex-1 rounded-none border-black"
-                        onClick={() => window.open(restaurant.socialMediaLinks.instagram, '_blank')}
-                      >
-                        Instagram
-                      </Button>
-                    )}
-                    {restaurant.socialMediaLinks.twitter && (
-                      <Button
-                        variant="outline"
-                        size="sm"
-                        className="flex-1 rounded-none border-black"
-                        onClick={() => window.open(restaurant.socialMediaLinks.twitter, '_blank')}
-                      >
-                        Twitter
-                      </Button>
-                    )}
+                  <div className="grid grid-cols-2 gap-2">
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      className="rounded-none border-black"
+                    >
+                      Facebook
+                    </Button>
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      className="rounded-none border-black"
+                    >
+                      Instagram
+                    </Button>
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      className="rounded-none border-black"
+                    >
+                      Twitter
+                    </Button>
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      className="rounded-none border-black"
+                    >
+                      TikTok
+                    </Button>
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      className="rounded-none border-black"
+                    >
+                      YouTube
+                    </Button>
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      className="rounded-none border-black"
+                    >
+                      LinkedIn
+                    </Button>
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      className="rounded-none border-black"
+                    >
+                      Snapchat
+                    </Button>
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      className="rounded-none border-black"
+                    >
+                      Pinterest
+                    </Button>
                   </div>
                 </div>
               )}
@@ -378,37 +404,63 @@ export const RestaurantResults: React.FC<RestaurantResultsProps> = ({
               restaurant.socialMediaLinks.twitter) && (
               <div className="space-y-2 pt-2 border-t border-black">
                 <p className="text-sm font-medium">Follow Us:</p>
-                <div className="flex gap-2">
-                  {restaurant.socialMediaLinks.facebook && (
-                    <Button
-                      variant="outline"
-                      size="sm"
-                      className="flex-1 rounded-none border-black"
-                      onClick={() => window.open(restaurant.socialMediaLinks.facebook, '_blank')}
-                    >
-                      Facebook
-                    </Button>
-                  )}
-                  {restaurant.socialMediaLinks.instagram && (
-                    <Button
-                      variant="outline"
-                      size="sm"
-                      className="flex-1 rounded-none border-black"
-                      onClick={() => window.open(restaurant.socialMediaLinks.instagram, '_blank')}
-                    >
-                      Instagram
-                    </Button>
-                  )}
-                  {restaurant.socialMediaLinks.twitter && (
-                    <Button
-                      variant="outline"
-                      size="sm"
-                      className="flex-1 rounded-none border-black"
-                      onClick={() => window.open(restaurant.socialMediaLinks.twitter, '_blank')}
-                    >
-                      Twitter
-                    </Button>
-                  )}
+                <div className="grid grid-cols-4 gap-2">
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    className="rounded-none border-black"
+                  >
+                    Facebook
+                  </Button>
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    className="rounded-none border-black"
+                  >
+                    Instagram
+                  </Button>
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    className="rounded-none border-black"
+                  >
+                    Twitter
+                  </Button>
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    className="rounded-none border-black"
+                  >
+                    TikTok
+                  </Button>
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    className="rounded-none border-black"
+                  >
+                    YouTube
+                  </Button>
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    className="rounded-none border-black"
+                  >
+                    LinkedIn
+                  </Button>
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    className="rounded-none border-black"
+                  >
+                    Snapchat
+                  </Button>
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    className="rounded-none border-black"
+                  >
+                    Pinterest
+                  </Button>
                 </div>
               </div>
             )}
