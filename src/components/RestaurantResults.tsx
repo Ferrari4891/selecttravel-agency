@@ -146,15 +146,15 @@ export const RestaurantResults: React.FC<RestaurantResultsProps> = ({
                   </Button>
                 )}
                 
-                <Button
-                  variant="outline"
-                  size="sm"
-                  className="w-full flex items-center justify-center gap-2 text-sm rounded-none border-black"
-                  onClick={() => window.open(restaurant.googleMapRef, '_blank')}
-                >
-                  <MapPin className="h-4 w-4" />
-                  View on Maps
-                </Button>
+                 <Button
+                   variant="outline"
+                   size="sm"
+                   className="w-full flex items-center justify-center gap-2 text-sm rounded-none border-black"
+                   onClick={() => window.open(restaurant.googleMapRef, '_blank')}
+                 >
+                   <MapPin className="h-8 w-8" />
+                   View on Maps
+                 </Button>
 
               {restaurant.contactDetails.email && (
                 <Button
@@ -366,15 +366,15 @@ export const RestaurantResults: React.FC<RestaurantResultsProps> = ({
                 </Button>
               )}
               
-              <Button
-                variant="outline"
-                size="sm"
-                className="w-full flex items-center justify-center gap-2 text-sm rounded-none border-black"
-                onClick={() => window.open(restaurant.googleMapRef, '_blank')}
-              >
-                <MapPin className="h-4 w-4" />
-                View on Maps
-              </Button>
+               <Button
+                 variant="outline"
+                 size="sm"
+                 className="w-full flex items-center justify-center gap-2 text-sm rounded-none border-black"
+                 onClick={() => window.open(restaurant.googleMapRef, '_blank')}
+               >
+                 <MapPin className="h-8 w-8" />
+                 View on Maps
+               </Button>
 
             {restaurant.contactDetails.email && (
               <Button
