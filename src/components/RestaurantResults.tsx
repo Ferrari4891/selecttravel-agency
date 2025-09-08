@@ -3,7 +3,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
-import { MapPin, Star, ExternalLink, Phone, Mail, Globe, Menu } from 'lucide-react';
+import { MapPin, Star, ExternalLink, Phone, Mail, Globe, Menu, Ticket } from 'lucide-react';
 import { MailingListSignup } from './MailingListSignup';
 import SaveBusinessButton from './SaveBusinessButton';
 import { useIsMobile } from '@/hooks/use-mobile';
@@ -173,7 +173,7 @@ export const RestaurantResults: React.FC<RestaurantResultsProps> = ({
                 size="sm"
                 className="w-full flex items-center justify-center gap-2 text-sm rounded-none border-black"
               >
-                <Badge className="h-4 w-4" />
+                <Ticket className="h-4 w-4" />
                 Voucher
               </Button>
               </div>
@@ -367,7 +367,7 @@ export const RestaurantResults: React.FC<RestaurantResultsProps> = ({
               size="sm"
               className="w-full flex items-center justify-center gap-2 text-sm rounded-none border-black"
             >
-              <Badge className="h-4 w-4" />
+              <Ticket className="h-4 w-4" />
               Voucher
             </Button>
             </div>
