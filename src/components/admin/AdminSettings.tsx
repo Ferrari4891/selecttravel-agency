@@ -320,12 +320,6 @@ export const AdminSettings = () => {
                   onToggle={(value) => toast({ title: "Setting Updated", description: `Search analytics ${value ? 'enabled' : 'disabled'}` })}
                 />
                 <SystemSetting
-                  title="Voice Features"
-                  description="Enable voice interaction and speech-to-text"
-                  value={true}
-                  onToggle={(value) => toast({ title: "Setting Updated", description: `Voice features ${value ? 'enabled' : 'disabled'}` })}
-                />
-                <SystemSetting
                   title="Real-time Updates"
                   description="Enable real-time data synchronization"
                   value={true}

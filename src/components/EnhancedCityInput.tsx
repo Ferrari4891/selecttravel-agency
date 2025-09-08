@@ -4,11 +4,11 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Command, CommandEmpty, CommandGroup, CommandInput, CommandItem, CommandList } from '@/components/ui/command';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
-import { MapPin, ChevronDown, Mic, MicOff, Loader2 } from 'lucide-react';
+import { MapPin, ChevronDown } from 'lucide-react';
 import { toast } from 'sonner';
 import { cn } from '@/lib/utils';
 import { regionData } from '@/data/locationData';
-import { supabase } from '@/integrations/supabase/client';
+
 
 interface EnhancedCityInputProps {
   value: string;
@@ -22,11 +22,7 @@ export const EnhancedCityInput: React.FC<EnhancedCityInputProps> = ({
   placeholder = "Enter or select a city"
 }) => {
   const [open, setOpen] = useState(false);
-  const [isListening, setIsListening] = useState(false);
-  const [isTranscribing, setIsTranscribing] = useState(false);
   const [inputValue, setInputValue] = useState(value);
-  const mediaRecorderRef = useRef<MediaRecorder | null>(null);
-  const audioChunksRef = useRef<Blob[]>([]);
 
   // Get all cities from regionData
   const allCities = React.useMemo(() => {
@@ -67,83 +63,6 @@ export const EnhancedCityInput: React.FC<EnhancedCityInputProps> = ({
     setOpen(false);
   };
 
-  const startVoiceInput = async () => {
-    if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
-      toast.error('Voice input not supported in this browser');
-      return;
-    }
-
-    try {
-      const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
-      
-      mediaRecorderRef.current = new MediaRecorder(stream);
-      audioChunksRef.current = [];
-      
-      mediaRecorderRef.current.ondataavailable = (event) => {
-        audioChunksRef.current.push(event.data);
-      };
-      
-      mediaRecorderRef.current.onstop = async () => {
-        const audioBlob = new Blob(audioChunksRef.current, { type: 'audio/webm' });
-        await transcribeAudio(audioBlob);
-        
-        // Stop all tracks to turn off microphone
-        stream.getTracks().forEach(track => track.stop());
-      };
-      
-      setIsListening(true);
-      mediaRecorderRef.current.start();
-      
-      // Auto-stop after 5 seconds
-      setTimeout(() => {
-        if (mediaRecorderRef.current && isListening) {
-          stopVoiceInput();
-        }
-      }, 5000);
-      
-    } catch (error) {
-      console.error('Error accessing microphone:', error);
-      toast.error('Could not access microphone');
-    }
-  };
-
-  const stopVoiceInput = () => {
-    if (mediaRecorderRef.current && mediaRecorderRef.current.state === 'recording') {
-      mediaRecorderRef.current.stop();
-      setIsListening(false);
-    }
-  };
-
-  const transcribeAudio = async (audioBlob: Blob) => {
-    setIsTranscribing(true);
-    
-    try {
-      // Convert blob to base64
-      const arrayBuffer = await audioBlob.arrayBuffer();
-      const uint8Array = new Uint8Array(arrayBuffer);
-      const base64Audio = btoa(String.fromCharCode(...uint8Array));
-      
-      const { data, error } = await supabase.functions.invoke('voice-to-text', {
-        body: { audio: base64Audio }
-      });
-      
-      if (error) {
-        throw error;
-      }
-      
-      if (data?.text) {
-        const transcribedText = data.text.trim();
-        handleInputChange(transcribedText);
-        toast.success(`Voice input: "${transcribedText}"`);
-      }
-      
-    } catch (error) {
-      console.error('Transcription error:', error);
-      toast.error('Voice transcription failed');
-    } finally {
-      setIsTranscribing(false);
-    }
-  };
 
   return (
     <div className="space-y-2">
@@ -213,38 +132,7 @@ export const EnhancedCityInput: React.FC<EnhancedCityInputProps> = ({
             />
           )}
         </div>
-        
-        <Button
-          variant="outline"
-          size="icon"
-          onClick={isListening ? stopVoiceInput : startVoiceInput}
-          disabled={isTranscribing}
-          className={cn(
-            "h-10 w-10",
-            isListening && "bg-red-500 hover:bg-red-600 text-white"
-          )}
-        >
-          {isTranscribing ? (
-            <Loader2 className="h-4 w-4 animate-spin" />
-          ) : isListening ? (
-            <MicOff className="h-4 w-4" />
-          ) : (
-            <Mic className="h-4 w-4" />
-          )}
-        </Button>
       </div>
-      
-      {isListening && (
-        <p className="text-sm text-muted-foreground animate-pulse">
-          🎤 Listening... (speak the city name)
-        </p>
-      )}
-      
-      {isTranscribing && (
-        <p className="text-sm text-muted-foreground">
-          ⏳ Transcribing audio...
-        </p>
-      )}
     </div>
   );
 };

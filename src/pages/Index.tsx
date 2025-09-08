@@ -9,10 +9,7 @@ import { toast } from '@/hooks/use-toast';
 import { Navigation } from '@/components/Navigation';
 import Footer from '@/components/Footer';
 import { RestaurantResults } from '@/components/RestaurantResults';
-import { VoiceNavigation } from '@/components/VoiceNavigation';
-import { VoicePreferencesDialog } from '@/components/VoicePreferencesDialog';
-import { useVoicePreferences } from '@/hooks/useVoicePreferences';
-import { Utensils, Coffee, Bed, Gamepad2, MapPin, Download, RotateCcw, Loader2, Search, Menu, Home, Info, HelpCircle, Users, Mic } from 'lucide-react';
+import { Utensils, Coffee, Bed, Gamepad2, MapPin, Download, RotateCcw, Loader2, Search, Menu, Home, Info, HelpCircle, Users } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 import { Input } from '@/components/ui/input';
 import { regionData } from '@/data/locationData';
@@ -120,13 +117,6 @@ const Index: React.FC = () => {
     return () => window.removeEventListener('resize', update);
   }, []);
 
-  // Voice preferences
-  const {
-    preferences: voicePreferences,
-    showPreferencesDialog,
-    setShowPreferencesDialog,
-    handlePreferencesSaved
-  } = useVoicePreferences();
 
   const availableCuisines = useMemo(() => {
     return selectedCountry ? countryCuisineData[selectedCountry] || [] : [];
@@ -546,42 +536,6 @@ const Index: React.FC = () => {
             )}
           </div>
 
-          {/* Voice button positioned between help button and progress indicators */}
-          {!voicePreferences?.voice_enabled && (
-            <div className="flex justify-center mt-3 mb-3">
-              <Button 
-                className="bg-green-600 hover:bg-green-700 text-white font-medium h-8 text-sm rounded-none" 
-                style={{ width: progressWidth || undefined }}
-                onClick={() => setShowPreferencesDialog(true)}
-              >
-                <Mic className="h-4 w-4 mr-2" />
-                Select Voice
-              </Button>
-            </div>
-          )}
-
-          {/* Voice Navigation Component positioned between help button and progress indicators */}
-          {voicePreferences?.voice_enabled && (
-            <div className="flex justify-center mt-3 mb-3">
-              <div style={{ width: progressWidth || undefined }}>
-                <VoiceNavigation
-                  currentStep={currentStep}
-                  selectedCountry={selectedCountry}
-                  selectedCuisine={selectedCuisine}
-                  selectedCity={selectedCity}
-                  availableCountries={topCountries}
-                  availableCuisines={availableCuisines}
-                  availableCities={cities}
-                  businesses={businesses}
-                  onCountrySelect={handleCountrySelect}
-                  onCuisineSelect={handleCuisineSelect}
-                  onCitySelect={handleCitySelectAndProceed}
-                  onGetNow={handleGetNow}
-                  voicePreferences={voicePreferences}
-                />
-              </div>
-            </div>
-          )}
 
           {/* Middle Section - Selection Interface */}
           <div className="flex-1 flex items-center justify-center px-4 pb-4">
@@ -769,12 +723,6 @@ const Index: React.FC = () => {
 
         </div>
 
-        {/* Voice Preferences Dialog */}
-        <VoicePreferencesDialog
-          isOpen={showPreferencesDialog}
-          onOpenChange={setShowPreferencesDialog}
-          onPreferencesSaved={handlePreferencesSaved}
-        />
 
         {/* Results Section - Fixed for desktop visibility and scrolling */}
         {showResults && businesses.length > 0 && (
