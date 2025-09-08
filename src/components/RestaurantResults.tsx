@@ -95,6 +95,13 @@ export const RestaurantResults: React.FC<RestaurantResultsProps> = ({
                 </div>
               </div>
 
+              {/* Placeholder Text */}
+              <div className="space-y-1 text-sm text-muted-foreground">
+                <p>Authentic cuisine served in a welcoming atmosphere with excellent service.</p>
+                <p>Fresh ingredients and traditional recipes make this a local favorite.</p>
+                <p>Perfect for casual dining, family gatherings, and special occasions.</p>
+              </div>
+
               {/* Address */}
               <div className="flex items-start gap-2">
                 <MapPin className="h-4 w-4 text-muted-foreground mt-0.5 flex-shrink-0" />
@@ -271,6 +278,13 @@ export const RestaurantResults: React.FC<RestaurantResultsProps> = ({
                   </div>
                 )}
               </div>
+            </div>
+
+            {/* Placeholder Text */}
+            <div className="space-y-1 text-sm text-muted-foreground">
+              <p>Authentic cuisine served in a welcoming atmosphere with excellent service.</p>
+              <p>Fresh ingredients and traditional recipes make this a local favorite.</p>
+              <p>Perfect for casual dining, family gatherings, and special occasions.</p>
             </div>
 
             {/* Address */}
