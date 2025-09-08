@@ -193,9 +193,9 @@ export const SinglePageRestaurantForm: React.FC<SinglePageRestaurantFormProps> =
 
         {/* Country Selection */}
         <div className="space-y-2">
-          <label className="text-base font-bold text-foreground">Select Country</label>
+          <label className="text-lg font-bold text-foreground">Select Country</label>
           <Select onValueChange={handleCountrySelect} value={selectedCountry}>
-            <SelectTrigger className="w-full h-12 text-base bg-background text-foreground border-2 border-border rounded-none">
+            <SelectTrigger className="w-full h-12 text-base font-bold bg-background text-foreground border-2 border-border rounded-none">
               <SelectValue placeholder="Choose a country" />
             </SelectTrigger>
             <SelectContent className="bg-background border-2 border-border rounded-none max-h-60 overflow-y-auto z-[100]">
@@ -210,9 +210,9 @@ export const SinglePageRestaurantForm: React.FC<SinglePageRestaurantFormProps> =
 
         {/* City Selection */}
         <div className="space-y-2">
-          <label className="text-base font-bold text-foreground">Select City</label>
+          <label className="text-lg font-bold text-foreground">Select City</label>
           <Select onValueChange={handleCitySelect} value={selectedCity} disabled={!selectedCountry}>
-            <SelectTrigger className="w-full h-12 text-base bg-background text-foreground border-2 border-border rounded-none">
+            <SelectTrigger className="w-full h-12 text-base font-bold bg-background text-foreground border-2 border-border rounded-none">
               <SelectValue placeholder="Choose a city" />
             </SelectTrigger>
             <SelectContent className="bg-background border-2 border-border rounded-none max-h-48 overflow-y-auto z-[200]">
@@ -233,7 +233,7 @@ export const SinglePageRestaurantForm: React.FC<SinglePageRestaurantFormProps> =
               value={citySearchInput}
               onChange={(e) => setCitySearchInput(e.target.value)}
               onKeyDown={handleCityInputKeyDown}
-              className="w-full h-12 text-base bg-background text-foreground border-2 border-border rounded-none"
+              className="w-full h-12 text-base font-bold bg-background text-foreground border-2 border-border rounded-none"
               disabled={!selectedCountry}
             />
             {citySearchInput.trim() && (
@@ -252,9 +252,9 @@ export const SinglePageRestaurantForm: React.FC<SinglePageRestaurantFormProps> =
 
         {/* Cuisine Selection */}
         <div className="space-y-2">
-          <label className="text-base font-bold text-foreground">Select Cuisine</label>
+          <label className="text-lg font-bold text-foreground">Select Cuisine</label>
           <Select onValueChange={handleCuisineSelect} value={selectedCuisine} disabled={!selectedCountry}>
-            <SelectTrigger className="w-full h-12 text-base bg-background text-foreground border-2 border-border rounded-none">
+            <SelectTrigger className="w-full h-12 text-base font-bold bg-background text-foreground border-2 border-border rounded-none">
               <SelectValue placeholder="Choose cuisine type" />
             </SelectTrigger>
             <SelectContent className="bg-background border-2 border-border rounded-none max-h-60 overflow-y-auto z-[100]">
@@ -269,9 +269,9 @@ export const SinglePageRestaurantForm: React.FC<SinglePageRestaurantFormProps> =
 
         {/* Number of Results */}
         <div className="space-y-2">
-          <label className="text-base font-bold text-foreground">Number of Results</label>
+          <label className="text-lg font-bold text-foreground">Number of Results</label>
           <Select onValueChange={(value) => setResultCount(parseInt(value))} value={resultCount.toString()}>
-            <SelectTrigger className="w-full h-12 text-base bg-background text-foreground border-2 border-border rounded-none">
+            <SelectTrigger className="w-full h-12 text-base font-bold bg-background text-foreground border-2 border-border rounded-none">
               <SelectValue placeholder="Choose number of results" />
             </SelectTrigger>
             <SelectContent className="bg-background border-2 border-border rounded-none max-h-40 overflow-y-auto z-[300]">
