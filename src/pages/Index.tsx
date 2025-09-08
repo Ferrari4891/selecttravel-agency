@@ -285,115 +285,42 @@ const Index: React.FC = () => {
             <div className="sticky top-0 bg-white z-50 px-4 py-4 border-b border-dotted border-gray-400">
               {/* Mobile layout */}
               <div className="flex items-center justify-between md:hidden">
-                {/* Logo for mobile */}
-                <span className="font-bold text-black text-sm">seniortravel.agency</span>
-                <div className="flex gap-2">
-                  <Button 
-                    onClick={exportToCSV}
-                    variant="outline" 
-                    size="sm"
-                    className="h-12 w-12 rounded-none border-black"
-                  >
-                    <Download className="h-4 w-4" />
-                  </Button>
-                  <Button 
-                    onClick={handleReset}
-                    variant="outline" 
-                    size="sm"
-                    className="h-12 w-12 rounded-none border-black"
-                  >
-                    <RotateCcw className="h-4 w-4" />
-                  </Button>
-                  <Sheet>
-                    <SheetTrigger asChild>
-                      <Button 
-                        variant="outline" 
-                        className="h-12 w-12 rounded-none border-black"
-                        size="sm"
-                      >
-                        <Menu className="h-5 w-5 text-black" />
-                      </Button>
-                    </SheetTrigger>
-                    <SheetContent side="right" className="w-[85vw] sm:w-80 max-w-sm">
-                      <div className="flex flex-col gap-3 pt-6 h-full">
-                        <Button 
-                          variant="ghost" 
-                          className="w-full justify-start h-12 text-left" 
-                          onClick={() => window.location.href = '/'}
-                        >
-                          <Home className="h-5 w-5 mr-3" />
-                          <span className="text-base">Home</span>
-                        </Button>
-                        <Button variant="ghost" className="w-full justify-start h-12 text-left" asChild>
-                          <a href="/about-us">
-                            <Info className="h-5 w-5 mr-3" />
-                            <span className="text-base">About Us</span>
-                          </a>
-                        </Button>
-                        <Button variant="ghost" className="w-full justify-start h-12 text-left" asChild>
-                          <a href="/how-to">
-                            <HelpCircle className="h-5 w-5 mr-3" />
-                            <span className="text-base">How To</span>
-                          </a>
-                        </Button>
-                        <Button variant="ghost" className="w-full justify-start h-12 text-left" asChild>
-                          <a href="/advertise">
-                            <Info className="h-5 w-5 mr-3" />
-                            <span className="text-base">Advertise</span>
-                          </a>
-                        </Button>
-                        <Button variant="ghost" className="w-full justify-start h-12 text-left" asChild>
-                          <a href="/toolbox">
-                            <Info className="h-5 w-5 mr-3" />
-                            <span className="text-base">Toolbox</span>
-                          </a>
-                        </Button>
-                        <Button variant="ghost" className="w-full justify-start h-12 text-left" asChild>
-                          <a href="/business-centre">
-                            <Users className="h-5 w-5 mr-3" />
-                            <span className="text-base">Business Centre</span>
-                          </a>
-                        </Button>
-                        <div className="flex-1"></div>
-                        <div className="border-t pt-3">
-                          <p className="text-sm text-gray-600 text-center">
-                            Made for seniors by seniors
-                          </p>
-                        </div>
-                      </div>
-                    </SheetContent>
-                  </Sheet>
+                {/* Logo and text for mobile */}
+                <div className="flex items-center gap-2">
+                  <div className="w-8 h-8">
+                    <img src="/lovable-uploads/6ce4c283-5ad7-4b59-a3a8-4254d29cd162.png" alt="Logo" className="w-full h-full object-contain" />
+                  </div>
+                  <span className="font-bold text-black text-sm">seniorstravelagency.com</span>
                 </div>
+                {/* Home button for mobile */}
+                <Button 
+                  onClick={() => window.location.href = '/'}
+                  variant="outline" 
+                  size="sm"
+                  className="h-8 w-8 rounded-none border-black"
+                >
+                  <Home className="h-4 w-4" />
+                </Button>
               </div>
 
               {/* Desktop layout */}
               <div className="hidden md:flex items-center justify-between">
-                {/* Logo and branding for desktop */}
-                <div className="flex items-center space-x-4">
-                  <span className="font-bold text-black text-lg">seniortravel.agency</span>
-                  <div className="h-6 w-px bg-gray-300"></div>
-                  <span className="text-gray-600 text-sm">Made for seniors by seniors</span>
+                {/* Logo and text for desktop */}
+                <div className="flex items-center gap-3">
+                  <div className="w-10 h-10">
+                    <img src="/lovable-uploads/6ce4c283-5ad7-4b59-a3a8-4254d29cd162.png" alt="Logo" className="w-full h-full object-contain" />
+                  </div>
+                  <span className="font-bold text-black text-lg">seniorstravelagency.com</span>
                 </div>
                 
-                {/* Action buttons for desktop */}
-                <div className="flex gap-3">
-                  <Button 
-                    onClick={exportToCSV}
-                    variant="outline" 
-                    className="h-10 px-4 rounded-none border-black"
-                  >
-                    <Download className="h-4 w-4 mr-2" />
-                    Export CSV
-                  </Button>
-                  <Button 
-                    onClick={handleReset}
-                    variant="outline" 
-                    className="h-10 px-4 rounded-none border-black"
-                  >
-                    <RotateCcw className="h-4 w-4 mr-2" />
-                    New Search
-                  </Button>
-                </div>
+                {/* Home button for desktop */}
+                <Button 
+                  onClick={() => window.location.href = '/'}
+                  variant="outline" 
+                  className="h-10 w-10 rounded-none border-black"
+                >
+                  <Home className="h-5 w-5" />
+                </Button>
               </div>
             </div>
 
