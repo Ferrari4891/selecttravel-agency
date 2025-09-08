@@ -278,7 +278,7 @@ const Index: React.FC = () => {
               <div className="flex items-center justify-between md:hidden">
                 {/* Logo and text for mobile */}
                 <div className="flex items-center gap-2">
-                  <div className="w-8 h-8">
+                  <div className="w-12 h-12">
                     <img src="/lovable-uploads/6ce4c283-5ad7-4b59-a3a8-4254d29cd162.png" alt="Logo" className="w-full h-full object-contain" />
                   </div>
                   <span className="font-bold text-black text-sm">seniorstravelagency.com</span>
@@ -298,7 +298,7 @@ const Index: React.FC = () => {
               <div className="hidden md:flex items-center justify-between">
                 {/* Logo and text for desktop */}
                 <div className="flex items-center gap-3">
-                  <div className="w-10 h-10">
+                  <div className="w-12 h-12">
                     <img src="/lovable-uploads/6ce4c283-5ad7-4b59-a3a8-4254d29cd162.png" alt="Logo" className="w-full h-full object-contain" />
                   </div>
                   <span className="font-bold text-black text-lg">seniorstravelagency.com</span>
@@ -308,9 +308,9 @@ const Index: React.FC = () => {
                 <Button 
                   onClick={() => window.location.href = '/'}
                   variant="outline" 
-                  className="h-14 w-14 rounded-none border-black bg-black hover:bg-black/80"
+                  className="h-12 w-12 rounded-none border-black bg-black hover:bg-black/80"
                 >
-                  <Home className="h-12 w-12 text-white" />
+                  <Home className="h-10 w-10 text-white" />
                 </Button>
               </div>
             </div>
