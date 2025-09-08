@@ -280,7 +280,7 @@ const Index: React.FC = () => {
 
         {/* Results Section */}
         {showResults && businesses.length > 0 && (
-          <div className="relative z-50 bg-white min-h-screen w-full md:absolute md:top-0 md:left-0 md:right-0 md:overflow-y-auto">
+          <div className="absolute z-50 bg-white min-h-screen w-full top-0 left-0 right-0 overflow-y-auto">
             {/* Navigation header with logo and action buttons */}
             <div className="sticky top-0 bg-white z-50 px-4 py-4 border-b border-dotted border-gray-400">
               {/* Mobile layout */}
