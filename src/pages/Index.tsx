@@ -299,7 +299,7 @@ const Index: React.FC = () => {
                   size="sm"
                   className="h-8 w-8 rounded-none border-black"
                 >
-                  <Home className="h-6 w-6" />
+                  <Home className="h-7 w-7" />
                 </Button>
               </div>
 
@@ -319,7 +319,7 @@ const Index: React.FC = () => {
                   variant="outline" 
                   className="h-10 w-10 rounded-none border-black"
                 >
-                  <Home className="h-7 w-7" />
+                  <Home className="h-8 w-8" />
                 </Button>
               </div>
             </div>
