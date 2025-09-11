@@ -17,6 +17,7 @@ import { GoogleMap } from '@/components/GoogleMap';
 import { ChevronUp, ChevronDown } from 'lucide-react';
 import { getFlagEmoji } from '@/data/flagIcons';
 import { EnhancedSelect } from '@/components/ui/enhanced-select';
+import { BusinessMediaForm } from './BusinessMediaForm';
 
 const businessSchema = z.object({
   business_name: z.string().min(1, 'Business name is required'),
@@ -1331,6 +1332,21 @@ export const BusinessProfile: React.FC<BusinessProfileProps> = ({
             })}
           </div>
         </div>
+
+        {/* Business Media Section */}
+        {business?.id && (
+          <div className="space-y-4">
+            <BusinessMediaForm 
+              businessId={business.id}
+              onSave={() => {
+                toast({
+                  title: "Success",
+                  description: "Business media updated successfully!",
+                });
+              }}
+            />
+          </div>
+        )}
 
         {/* Location Preview */}
         {(form.watch('address') || form.watch('city')) && (
