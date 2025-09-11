@@ -35,7 +35,7 @@ const BusinessAuth = () => {
               Showcase your establishment, manage your information, and grow your customer base.
             </p>
           </div>
-          <div className="bg-card border p-6 w-full">
+          <div className="bg-card p-6 w-full">
             <BusinessProfile onBusinessCreated={handleBusinessCreated} />
           </div>
         </div>

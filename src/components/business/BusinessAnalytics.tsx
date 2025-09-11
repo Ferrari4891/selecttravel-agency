@@ -221,7 +221,7 @@ export const BusinessAnalytics: React.FC<BusinessAnalyticsProps> = ({ businessId
 
       {/* Charts */}
       {uniqueMetrics.length > 0 && (
-        <div className="space-y-6">
+        <div className="space-y-4">
           {uniqueMetrics.slice(0, 4).map((metric) => {
             const chartData = getChartData(metric);
             if (chartData.length === 0) return null;

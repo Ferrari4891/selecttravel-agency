@@ -1,5 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { supabase } from '@/integrations/supabase/client';
+import { Button } from '@/components/ui/button';
 
 interface GoogleMapProps {
   address?: string;
@@ -18,11 +19,15 @@ export const GoogleMap: React.FC<GoogleMapProps> = ({
 }) => {
   const mapRef = useRef<HTMLDivElement>(null);
   const [error, setError] = useState<string | null>(null);
-  const [isLoading, setIsLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState(false);
+  const [showMap, setShowMap] = useState(false);
 
   useEffect(() => {
+    if (!showMap) return;
+    
     let scriptLoadTimeout: number | undefined;
     let overallTimeout: number | undefined;
+    
     const loadGoogleMaps = async () => {
       // Check if we have address data
       if (!address && !city) {
@@ -31,6 +36,7 @@ export const GoogleMap: React.FC<GoogleMapProps> = ({
         return;
       }
 
+      setIsLoading(true);
       try {
         // Get Google Maps API key from Supabase function with timeout
         const timeoutPromise = new Promise((_, reject) => 
@@ -69,7 +75,6 @@ export const GoogleMap: React.FC<GoogleMapProps> = ({
             };
 
             document.head.appendChild(script);
-            // Start retry loop immediately in case onload doesn't fire
             initializeMap();
           } else {
             existing.onload = () => {
@@ -81,11 +86,9 @@ export const GoogleMap: React.FC<GoogleMapProps> = ({
               setError("Failed to load Google Maps");
               setIsLoading(false);
             };
-            // Also start retry loop immediately
             initializeMap();
           }
 
-          // Safety timeout in case the script never loads
           scriptLoadTimeout = window.setTimeout(() => {
             if (!window.google) {
               setError("Failed to load Google Maps");
@@ -106,7 +109,6 @@ export const GoogleMap: React.FC<GoogleMapProps> = ({
       let attempts = 0;
 
       const tryInit = () => {
-        // Wait for both the container ref and Google Maps library
         if (!mapRef.current || !window.google || !window.google.maps) {
           attempts += 1;
           if (attempts >= MAX_RETRIES) {
@@ -122,13 +124,11 @@ export const GoogleMap: React.FC<GoogleMapProps> = ({
           const geocoder = new window.google.maps.Geocoder();
           const searchAddress = [address, city, country].filter(Boolean).join(', ');
 
-          // Geocode the address
           geocoder.geocode({ address: searchAddress }, (results, status) => {
             try {
               if (status === 'OK' && results && results[0]) {
                 const location = results[0].geometry.location;
 
-                // Create the map
                 const map = new window.google.maps.Map(mapRef.current!, {
                   center: location,
                   zoom: 15,
@@ -142,7 +142,6 @@ export const GoogleMap: React.FC<GoogleMapProps> = ({
                   ]
                 });
 
-                // Add a marker
                 new window.google.maps.Marker({
                   position: location,
                   map: map,
@@ -178,7 +177,6 @@ export const GoogleMap: React.FC<GoogleMapProps> = ({
       tryInit();
     };
 
-    // Global safety to prevent infinite spinner
     overallTimeout = window.setTimeout(() => {
       setError((prev) => prev ?? "Map preview unavailable");
       setIsLoading(false);
@@ -189,39 +187,83 @@ export const GoogleMap: React.FC<GoogleMapProps> = ({
       if (scriptLoadTimeout) clearTimeout(scriptLoadTimeout);
       if (overallTimeout) clearTimeout(overallTimeout);
     };
-  }, [address, city, country]);
+  }, [address, city, country, showMap]);
+
+  if (!showMap) {
+    return (
+      <div className={`${className} space-y-2`}>
+        <Button 
+          variant="outline" 
+          onClick={() => setShowMap(true)}
+          className="w-full"
+        >
+          Show Map Preview
+        </Button>
+      </div>
+    );
+  }
 
   if (error) {
     return (
-      <div 
-        className={`${className} bg-muted rounded-lg flex items-center justify-center text-muted-foreground`}
-        style={{ height }}
-      >
-        <p>{error}</p>
+      <div className={`${className} space-y-2`}>
+        <div 
+          className="bg-muted rounded-lg flex items-center justify-center text-muted-foreground"
+          style={{ height }}
+        >
+          <p>{error}</p>
+        </div>
+        <Button 
+          variant="outline" 
+          onClick={() => {
+            setShowMap(false);
+            setError(null);
+          }}
+          className="w-full"
+        >
+          Hide Map
+        </Button>
       </div>
     );
   }
 
   if (isLoading) {
     return (
-      <div 
-        className={`${className} bg-muted rounded-lg flex items-center justify-center`}
-        style={{ height }}
-      >
-        <div className="flex items-center space-x-2">
-          <div className="w-4 h-4 border-2 border-primary border-t-transparent rounded-full animate-spin"></div>
-          <span className="text-muted-foreground">Loading map...</span>
+      <div className={`${className} space-y-2`}>
+        <div 
+          className="bg-muted rounded-lg flex items-center justify-center"
+          style={{ height }}
+        >
+          <div className="flex items-center space-x-2">
+            <div className="w-4 h-4 border-2 border-primary border-t-transparent rounded-full animate-spin"></div>
+            <span className="text-muted-foreground">Loading map...</span>
+          </div>
         </div>
+        <Button 
+          variant="outline" 
+          onClick={() => setShowMap(false)}
+          className="w-full"
+        >
+          Hide Map
+        </Button>
       </div>
     );
   }
 
   return (
-    <div 
-      ref={mapRef} 
-      className={`${className} rounded-lg border`}
-      style={{ height }}
-    />
+    <div className={`${className} space-y-2`}>
+      <div 
+        ref={mapRef} 
+        className="rounded-lg border"
+        style={{ height }}
+      />
+      <Button 
+        variant="outline" 
+        onClick={() => setShowMap(false)}
+        className="w-full"
+      >
+        Hide Map
+      </Button>
+    </div>
   );
 };
 
