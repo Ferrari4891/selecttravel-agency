@@ -128,164 +128,150 @@ export const MyInvitations = () => {
   }
 
   return (
-    <div className="space-y-6">
-      <div className="flex justify-between items-center">
-        <h2 className="text-2xl font-bold">My Invitations</h2>
-        <Badge variant="outline">{invitations.length} total</Badge>
-      </div>
+    <div className="space-y-4">
+      {invitations.length === 0 ? (
+        <Card>
+          <CardContent className="p-6 text-center">
+            <Users className="h-8 w-8 mx-auto mb-3 text-muted-foreground" />
+            <h3 className="text-base font-semibold mb-2">No invitations yet</h3>
+            <p className="text-sm text-muted-foreground">
+              Start planning with friends
+            </p>
+          </CardContent>
+        </Card>
+      ) : (
+        <div className="space-y-4">
+          {invitations.map((invitation) => {
+            const responseCounts = getResponseCounts(invitation.invitation_rsvps);
+            const totalGuests = invitation.invitation_rsvps
+              .filter(rsvp => rsvp.response === 'yes')
+              .reduce((sum, rsvp) => sum + rsvp.guest_count, 0);
 
-      <div className="grid gap-6">
-        {invitations.map((invitation) => {
-          const responseCounts = getResponseCounts(invitation.invitation_rsvps);
-          const totalGuests = invitation.invitation_rsvps
-            .filter(rsvp => rsvp.response === 'yes')
-            .reduce((sum, rsvp) => sum + rsvp.guest_count, 0);
-
-          return (
-            <Card key={invitation.id}>
-              <CardHeader>
-                <div className="flex justify-between items-start">
-                  <div className="space-y-2">
-                    <CardTitle className="text-xl">{invitation.group_name}</CardTitle>
-                    <div className="flex items-center gap-2 text-muted-foreground">
-                      <MapPin className="h-4 w-4" />
-                      <span className="font-medium">{invitation.venues.business_name}</span>
-                    </div>
-                    <p className="text-sm text-muted-foreground">
-                      {invitation.venues.address}
-                    </p>
-                  </div>
-                  <Badge variant={getStatusColor(invitation.status, invitation.rsvp_deadline)}>
-                    {getStatusText(invitation.status, invitation.rsvp_deadline)}
-                  </Badge>
-                </div>
-              </CardHeader>
-
-              <CardContent className="space-y-4">
-                {/* Date & Time Info */}
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                  <div className="flex items-center gap-2">
-                    <Calendar className="h-4 w-4 text-muted-foreground" />
-                    <div>
-                      <p className="text-sm font-medium">Event Date</p>
-                      <p className="text-sm text-muted-foreground">
-                        {format(new Date(invitation.proposed_date), 'PPP')}
+            return (
+              <Card key={invitation.id}>
+                <CardHeader className="p-4">
+                  <div className="flex justify-between items-start">
+                    <div className="space-y-1 flex-1 min-w-0">
+                      <CardTitle className="text-base truncate">{invitation.group_name}</CardTitle>
+                      <div className="flex items-center gap-1 text-muted-foreground">
+                        <MapPin className="h-3 w-3" />
+                        <span className="text-sm truncate">{invitation.venues.business_name}</span>
+                      </div>
+                      <p className="text-xs text-muted-foreground truncate">
+                        {invitation.venues.address}
                       </p>
                     </div>
+                    <Badge variant={getStatusColor(invitation.status, invitation.rsvp_deadline)} className="text-xs">
+                      {getStatusText(invitation.status, invitation.rsvp_deadline)}
+                    </Badge>
                   </div>
-                  <div className="flex items-center gap-2">
-                    <Clock className="h-4 w-4 text-muted-foreground" />
-                    <div>
-                      <p className="text-sm font-medium">RSVP Deadline</p>
-                      <p className="text-sm text-muted-foreground">
-                        {format(new Date(invitation.rsvp_deadline), 'PPP')}
-                      </p>
+                </CardHeader>
+
+                <CardContent className="p-4 pt-0 space-y-3">
+                  {/* Date Info */}
+                  <div className="space-y-2">
+                    <div className="flex items-center gap-2">
+                      <Calendar className="h-3 w-3 text-muted-foreground" />
+                      <div>
+                        <p className="text-xs font-medium">Event</p>
+                        <p className="text-xs text-muted-foreground">
+                          {format(new Date(invitation.proposed_date), 'MMM d, yyyy')}
+                        </p>
+                      </div>
                     </div>
                   </div>
-                </div>
 
-                {/* RSVP Summary */}
-                <div className="space-y-2">
-                  <h4 className="font-medium">RSVP Responses</h4>
-                  <div className="flex flex-wrap gap-2">
-                    <Badge variant="outline" className="bg-green-50 text-green-700 border-green-200">
-                      ✓ {responseCounts.yes} Yes ({totalGuests} guests)
-                    </Badge>
-                    <Badge variant="outline" className="bg-yellow-50 text-yellow-700 border-yellow-200">
-                      ? {responseCounts.maybe} Maybe
-                    </Badge>
-                    <Badge variant="outline" className="bg-red-50 text-red-700 border-red-200">
-                      ✗ {responseCounts.no} No
-                    </Badge>
-                    <Badge variant="outline" className="bg-gray-50 text-gray-700 border-gray-200">
-                      ⏳ {responseCounts.pending} Pending
-                    </Badge>
-                  </div>
-                </div>
-
-                {/* Individual Responses */}
-                {invitation.invitation_rsvps.length > 0 && (
+                  {/* RSVP Summary */}
                   <div className="space-y-2">
-                    <h4 className="font-medium">Individual Responses</h4>
-                    <div className="space-y-2 max-h-40 overflow-y-auto">
-                      {invitation.invitation_rsvps.map((rsvp) => (
-                        <div key={rsvp.id} className="flex justify-between items-center p-2 bg-muted/50 rounded">
-                          <div>
-                            <p className="text-sm font-medium">{rsvp.invitee_email}</p>
-                            {rsvp.response_message && (
-                              <p className="text-xs text-muted-foreground">"{rsvp.response_message}"</p>
-                            )}
-                          </div>
-                          <div className="flex items-center gap-2">
-                            {rsvp.response === 'yes' && rsvp.guest_count > 1 && (
-                              <Badge variant="outline" className="text-xs">
-                                {rsvp.guest_count} guests
+                    <h4 className="text-sm font-medium">Responses</h4>
+                    <div className="flex flex-wrap gap-1">
+                      <Badge variant="outline" className="bg-green-50 text-green-700 border-green-200 text-xs">
+                        ✓ {responseCounts.yes}
+                      </Badge>
+                      <Badge variant="outline" className="bg-yellow-50 text-yellow-700 border-yellow-200 text-xs">
+                        ? {responseCounts.maybe}
+                      </Badge>
+                      <Badge variant="outline" className="bg-red-50 text-red-700 border-red-200 text-xs">
+                        ✗ {responseCounts.no}
+                      </Badge>
+                      <Badge variant="outline" className="bg-gray-50 text-gray-700 border-gray-200 text-xs">
+                        ⏳ {responseCounts.pending}
+                      </Badge>
+                    </div>
+                  </div>
+
+                  {/* Individual Responses - Compact */}
+                  {invitation.invitation_rsvps.length > 0 && (
+                    <div className="space-y-2">
+                      <h4 className="text-sm font-medium">Details</h4>
+                      <div className="space-y-1 max-h-32 overflow-y-auto">
+                        {invitation.invitation_rsvps.slice(0, 3).map((rsvp) => (
+                          <div key={rsvp.id} className="flex justify-between items-center p-2 bg-muted/30 rounded">
+                            <div className="flex-1 min-w-0">
+                              <p className="text-xs font-medium truncate">{rsvp.invitee_email}</p>
+                            </div>
+                            <div className="flex items-center gap-1">
+                              {rsvp.response === 'yes' && rsvp.guest_count > 1 && (
+                                <Badge variant="outline" className="text-xs">
+                                  {rsvp.guest_count}
+                                </Badge>
+                              )}
+                              <Badge 
+                                variant={rsvp.response === 'yes' ? 'default' : 'outline'}
+                                className={`text-xs ${
+                                  rsvp.response === 'yes' ? 'bg-green-100 text-green-800' :
+                                  rsvp.response === 'no' ? 'bg-red-100 text-red-800' :
+                                  rsvp.response === 'maybe' ? 'bg-yellow-100 text-yellow-800' :
+                                  'bg-gray-100 text-gray-800'
+                                }`}
+                              >
+                                {rsvp.response.charAt(0).toUpperCase()}
                               </Badge>
-                            )}
-                            <Badge 
-                              variant={rsvp.response === 'yes' ? 'default' : 'outline'}
-                              className={
-                                rsvp.response === 'yes' ? 'bg-green-100 text-green-800' :
-                                rsvp.response === 'no' ? 'bg-red-100 text-red-800' :
-                                rsvp.response === 'maybe' ? 'bg-yellow-100 text-yellow-800' :
-                                'bg-gray-100 text-gray-800'
-                              }
-                            >
-                              {rsvp.response.charAt(0).toUpperCase() + rsvp.response.slice(1)}
-                            </Badge>
+                            </div>
                           </div>
-                        </div>
-                      ))}
+                        ))}
+                        {invitation.invitation_rsvps.length > 3 && (
+                          <p className="text-xs text-muted-foreground text-center">
+                            +{invitation.invitation_rsvps.length - 3} more
+                          </p>
+                        )}
+                      </div>
                     </div>
-                  </div>
-                )}
+                  )}
 
-                {/* Action Buttons */}
-                <div className="flex flex-wrap gap-2 pt-2 border-t">
-                  <Button
-                    size="sm"
-                    variant="outline"
-                    onClick={() => copyInviteLink(invitation.invite_token)}
-                  >
-                    <Copy className="h-4 w-4 mr-2" />
-                    Copy Link
-                  </Button>
-                  <Button
-                    size="sm"
-                    variant="outline"
-                    asChild
-                  >
-                    <a 
-                      href={`/rsvp/${invitation.invite_token}`} 
-                      target="_blank" 
-                      rel="noopener noreferrer"
+                  {/* Action Buttons */}
+                  <div className="flex gap-2 pt-2 border-t">
+                    <Button
+                      size="sm"
+                      variant="outline"
+                      onClick={() => copyInviteLink(invitation.invite_token)}
+                      className="flex-1 text-xs"
                     >
-                      <ExternalLink className="h-4 w-4 mr-2" />
-                      View RSVP Page
-                    </a>
-                  </Button>
-                  <Button
-                    size="sm"
-                    variant="outline"
-                    disabled
-                  >
-                    <Edit className="h-4 w-4 mr-2" />
-                    Edit (Coming Soon)
-                  </Button>
-                  <Button
-                    size="sm"
-                    variant="outline"
-                    disabled
-                  >
-                    <Trash2 className="h-4 w-4 mr-2" />
-                    Cancel (Coming Soon)
-                  </Button>
-                </div>
-              </CardContent>
-            </Card>
-          );
-        })}
-      </div>
+                      <Copy className="h-3 w-3 mr-1" />
+                      Copy
+                    </Button>
+                    <Button
+                      size="sm"
+                      variant="outline"
+                      asChild
+                      className="flex-1 text-xs"
+                    >
+                      <a 
+                        href={`/rsvp/${invitation.invite_token}`} 
+                        target="_blank" 
+                        rel="noopener noreferrer"
+                      >
+                        <ExternalLink className="h-3 w-3 mr-1" />
+                        View
+                      </a>
+                    </Button>
+                  </div>
+                </CardContent>
+              </Card>
+            );
+          })}
+        </div>
+      )}
     </div>
   );
 };

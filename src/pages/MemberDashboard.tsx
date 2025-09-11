@@ -1,15 +1,16 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useAuth } from '@/contexts/AuthContext';
 import { supabase } from '@/integrations/supabase/client';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Checkbox } from '@/components/ui/checkbox';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { ArrowLeft, Users, MapPin, Calendar, ChevronDown, Star, Phone, Globe, Plus, Clock, Copy, ExternalLink, Edit, Trash2 } from 'lucide-react';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { ArrowLeft, Users, MapPin, Calendar, Plus, Clock, Copy, ExternalLink } from 'lucide-react';
 import { Link, useNavigate } from 'react-router-dom';
 import { Navigation } from '@/components/Navigation';
 import Footer from '@/components/Footer';
+import MobileContainer from '@/components/MobileContainer';
 import { toast } from 'sonner';
 import { format } from 'date-fns';
 import heroImage from "@/assets/hero-members.jpg";
@@ -97,12 +98,6 @@ const MemberDashboard = () => {
   const [invitations, setInvitations] = useState<GroupInvitation[]>([]);
   const [selectedRestaurant, setSelectedRestaurant] = useState<SavedRestaurant | null>(null);
   const [showCreateInvitation, setShowCreateInvitation] = useState(false);
-
-  // Refs for scrolling to sections
-  const preferencesRef = useRef<HTMLDivElement>(null);
-  const recentPlacesRef = useRef<HTMLDivElement>(null);
-  const collectionsRef = useRef<HTMLDivElement>(null);
-  const invitationsRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     if (user) {
@@ -337,36 +332,33 @@ const MemberDashboard = () => {
   }
 
   return (
-    <div className="min-h-screen bg-background">
-      <Navigation />
-      
-      {/* Hero Section */}
-      <div className="relative w-full h-96 mb-8">
-        <div className="w-full h-full bg-background relative" style={{
-          border: '8px solid white',
-          boxShadow: '0 8px 12px -4px rgba(169, 169, 169, 0.4)'
-        }}>
-          <img src={heroImage} alt="Member Dashboard" className="w-full h-full object-cover" />
-          
-          <div className="absolute inset-0 bg-black bg-opacity-40 flex items-center justify-center">
+    <MobileContainer>
+      <div className="min-h-screen bg-background">
+        <Navigation />
+        
+        {/* Hero Section - Mobile Optimized */}
+        <div className="relative w-full h-48 md:h-64 mb-4">
+          <img 
+            src={heroImage} 
+            alt="Member Dashboard" 
+            className="w-full h-full object-cover"
+          />
+          <div className="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center">
             <div className="text-center text-white px-4">
-              <h1 className="text-2xl font-bold mb-2 md:text-4xl lg:text-5xl">My Dashboard</h1>
-              <p className="text-sm md:text-lg">Welcome back, {user?.email}</p>
+              <h1 className="text-2xl md:text-4xl font-bold mb-2">My Dashboard</h1>
+              <p className="text-sm md:text-lg">Welcome back</p>
             </div>
           </div>
         </div>
-      </div>
 
-      {/* Content Section */}
-      <div className="container mx-auto px-4 pb-12">
-        <div className="max-w-4xl mx-auto space-y-8">
-          
-          {/* Header with navigation */}
-          <div className="flex items-center justify-between">
+        {/* Content Section */}
+        <div className="px-4 pb-8 space-y-4">
+          {/* Header Actions */}
+          <div className="flex items-center justify-between mb-4">
             <Link to="/">
               <Button variant="outline" size="sm">
                 <ArrowLeft className="h-4 w-4 mr-2" />
-                Back to Home
+                Back
               </Button>
             </Link>
             <Button variant="outline" size="sm" onClick={handleSignOut}>
@@ -374,473 +366,408 @@ const MemberDashboard = () => {
             </Button>
           </div>
 
-          {/* My Dashboard Section */}
-          <Card className="w-full">
-            <CardHeader className="bg-background">
-              <CardTitle className="text-center border-b-2 border-black pb-2 text-3xl text-foreground font-extrabold">
-                MY DASHBOARD
-              </CardTitle>
-              
-              {/* Navigation Menu */}
-              <div className="pt-4">
-                {/* Desktop buttons */}
-                <div className="hidden md:flex flex-wrap gap-2 justify-center">
-                  <Button 
-                    size="sm" 
-                    className="bg-black text-white hover:bg-gray-800 text-xs px-3 py-1 rounded-none"
-                    onClick={() => preferencesRef.current?.scrollIntoView({ behavior: 'smooth' })}
-                  >
-                    Preferences
-                  </Button>
-                  <Button 
-                    size="sm" 
-                    className="bg-black text-white hover:bg-gray-800 text-xs px-3 py-1 rounded-none"
-                    onClick={() => recentPlacesRef.current?.scrollIntoView({ behavior: 'smooth' })}
-                  >
-                    Recent Activity
-                  </Button>
-                  <Button 
-                    size="sm" 
-                    className="bg-black text-white hover:bg-gray-800 text-xs px-3 py-1 rounded-none"
-                    onClick={() => navigate('/collections')}
-                  >
-                    My Collections
-                  </Button>
-                  <Button 
-                    size="sm" 
-                    className="bg-black text-white hover:bg-gray-800 text-xs px-3 py-1 rounded-none"
-                    onClick={() => invitationsRef.current?.scrollIntoView({ behavior: 'smooth' })}
-                  >
-                    Invitations
-                  </Button>
-                </div>
-                
-                {/* Mobile dropdown fallback */}
-                <div className="md:hidden">
-                  <Select onValueChange={(value) => {
-                    switch(value) {
-                      case 'preferences':
-                        preferencesRef.current?.scrollIntoView({ behavior: 'smooth' });
-                        break;
-                      case 'recent':
-                        recentPlacesRef.current?.scrollIntoView({ behavior: 'smooth' });
-                        break;
-                      case 'collections':
-                        navigate('/collections');
-                        break;
-                      case 'invitations':
-                        invitationsRef.current?.scrollIntoView({ behavior: 'smooth' });
-                        break;
-                    }
-                  }}>
-                    <SelectTrigger className="bg-black text-white border-black hover:bg-gray-800">
-                      <SelectValue placeholder="Select your preferences" />
-                    </SelectTrigger>
-                    <SelectContent className="bg-white border border-gray-200 z-50">
-                      <SelectItem value="preferences" className="hover:bg-gray-100">Preferences</SelectItem>
-                      <SelectItem value="recent" className="hover:bg-gray-100">Recent Activity</SelectItem>
-                      <SelectItem value="collections" className="hover:bg-gray-100">My Collections</SelectItem>
-                      <SelectItem value="invitations" className="hover:bg-gray-100">Invitations</SelectItem>
-                    </SelectContent>
-                  </Select>
-                </div>
-              </div>
-            </CardHeader>
-            <CardContent className="pt-6">
-              
-              {/* Preferences Section */}
-              <div ref={preferencesRef} className="space-y-6">
-                <p className="text-lg text-center mb-8 text-gray-700">
-                  Update your preferences below to personalize your restaurant recommendations.
-                </p>
-                
-                <div className="space-y-6">
-                  <div className="space-y-4">
-                    <div className="flex items-center space-x-4 p-4 border rounded-lg bg-gray-50">
+          <Tabs defaultValue="preferences" className="w-full">
+            <TabsList className="grid w-full grid-cols-4 mb-6">
+              <TabsTrigger value="preferences" className="text-xs p-2">
+                Prefs
+              </TabsTrigger>
+              <TabsTrigger value="recent" className="text-xs p-2">
+                Recent
+              </TabsTrigger>
+              <TabsTrigger value="collections" className="text-xs p-2">
+                Lists
+              </TabsTrigger>
+              <TabsTrigger value="invitations" className="text-xs p-2">
+                Events
+              </TabsTrigger>
+            </TabsList>
+            <TabsContent value="preferences" className="space-y-4">
+              <Card>
+                <CardHeader className="bg-background p-4">
+                  <CardTitle className="text-center border-b border-border pb-2 text-lg font-bold">
+                    Your Preferences
+                  </CardTitle>
+                </CardHeader>
+                <CardContent className="p-4">
+                  <p className="text-sm text-center mb-4 text-muted-foreground">
+                    Customize your recommendations
+                  </p>
+                  
+                  <div className="space-y-3">
+                    <div className="flex items-center space-x-3 p-3 border rounded bg-muted/30">
                       <Checkbox 
                         id="wheelchair_access" 
                         checked={preferences.wheelchair_access} 
                         onCheckedChange={checked => handlePreferenceChange('wheelchair_access', checked as boolean)}
-                        className="h-6 w-6"
+                        className="h-5 w-5"
                       />
-                      <label htmlFor="wheelchair_access" className="text-lg font-medium cursor-pointer">
-                        ♿ Wheelchair Access Required
+                      <label htmlFor="wheelchair_access" className="text-sm font-medium cursor-pointer flex-1">
+                        ♿ Wheelchair Access
                       </label>
                     </div>
 
-                    <div className="flex items-center space-x-4 p-4 border rounded-lg bg-gray-50">
+                    <div className="flex items-center space-x-3 p-3 border rounded bg-muted/30">
                       <Checkbox 
                         id="senior_discounts" 
                         checked={preferences.senior_discounts} 
                         onCheckedChange={checked => handlePreferenceChange('senior_discounts', checked as boolean)}
-                        className="h-6 w-6"
+                        className="h-5 w-5"
                       />
-                      <label htmlFor="senior_discounts" className="text-lg font-medium cursor-pointer">
-                        💰 Senior Discounts Available
+                      <label htmlFor="senior_discounts" className="text-sm font-medium cursor-pointer flex-1">
+                        💰 Senior Discounts
                       </label>
                     </div>
 
-                    <div className="flex items-center space-x-4 p-4 border rounded-lg bg-gray-50">
+                    <div className="flex items-center space-x-3 p-3 border rounded bg-muted/30">
                       <Checkbox 
                         id="extended_hours" 
                         checked={preferences.extended_hours} 
                         onCheckedChange={checked => handlePreferenceChange('extended_hours', checked as boolean)}
-                        className="h-6 w-6"
+                        className="h-5 w-5"
                       />
-                      <label htmlFor="extended_hours" className="text-lg font-medium cursor-pointer">
-                        🕐 Extended Open Hours
+                      <label htmlFor="extended_hours" className="text-sm font-medium cursor-pointer flex-1">
+                        🕐 Extended Hours
                       </label>
                     </div>
 
-                    <div className="flex items-center space-x-4 p-4 border rounded-lg bg-gray-50">
+                    <div className="flex items-center space-x-3 p-3 border rounded bg-muted/30">
                       <Checkbox 
                         id="low_noise" 
                         checked={preferences.low_noise} 
                         onCheckedChange={checked => handlePreferenceChange('low_noise', checked as boolean)}
-                        className="h-6 w-6"
+                        className="h-5 w-5"
                       />
-                      <label htmlFor="low_noise" className="text-lg font-medium cursor-pointer">
+                      <label htmlFor="low_noise" className="text-sm font-medium cursor-pointer flex-1">
                         🔇 Quiet Environment
                       </label>
                     </div>
 
-                    <div className="flex items-center space-x-4 p-4 border rounded-lg bg-gray-50">
+                    <div className="flex items-center space-x-3 p-3 border rounded bg-muted/30">
                       <Checkbox 
                         id="public_transport" 
                         checked={preferences.public_transport} 
                         onCheckedChange={checked => handlePreferenceChange('public_transport', checked as boolean)}
-                        className="h-6 w-6"
+                        className="h-5 w-5"
                       />
-                      <label htmlFor="public_transport" className="text-lg font-medium cursor-pointer">
-                        🚌 Easy Public Transport Access
+                      <label htmlFor="public_transport" className="text-sm font-medium cursor-pointer flex-1">
+                        🚌 Public Transport
                       </label>
                     </div>
 
-                    <div className="flex items-center space-x-4 p-4 border rounded-lg bg-gray-50">
+                    <div className="flex items-center space-x-3 p-3 border rounded bg-muted/30">
                       <Checkbox 
                         id="air_conditioned" 
                         checked={preferences.air_conditioned} 
                         onCheckedChange={checked => handlePreferenceChange('air_conditioned', checked as boolean)}
-                        className="h-6 w-6"
+                        className="h-5 w-5"
                       />
-                      <label htmlFor="air_conditioned" className="text-lg font-medium cursor-pointer">
+                      <label htmlFor="air_conditioned" className="text-sm font-medium cursor-pointer flex-1">
                         ❄️ Air Conditioned
                       </label>
                     </div>
 
-                    <div className="flex items-center space-x-4 p-4 border rounded-lg bg-gray-50">
+                    <div className="flex items-center space-x-3 p-3 border rounded bg-muted/30">
                       <Checkbox 
                         id="outdoor_seating" 
                         checked={preferences.outdoor_seating} 
                         onCheckedChange={checked => handlePreferenceChange('outdoor_seating', checked as boolean)}
-                        className="h-6 w-6"
+                        className="h-5 w-5"
                       />
-                      <label htmlFor="outdoor_seating" className="text-lg font-medium cursor-pointer">
-                        🌳 Outdoor Seating Available
+                      <label htmlFor="outdoor_seating" className="text-sm font-medium cursor-pointer flex-1">
+                        🌳 Outdoor Seating
                       </label>
                     </div>
 
-                    <div className="flex items-center space-x-4 p-4 border rounded-lg bg-gray-50">
+                    <div className="flex items-center space-x-3 p-3 border rounded bg-muted/30">
                       <Checkbox 
                         id="gluten_free" 
                         checked={preferences.gluten_free} 
                         onCheckedChange={checked => handlePreferenceChange('gluten_free', checked as boolean)}
-                        className="h-6 w-6"
+                        className="h-5 w-5"
                       />
-                      <label htmlFor="gluten_free" className="text-lg font-medium cursor-pointer">
+                      <label htmlFor="gluten_free" className="text-sm font-medium cursor-pointer flex-1">
                         🌾 Gluten-Free Options
                       </label>
                     </div>
 
-                    <div className="flex items-center space-x-4 p-4 border rounded-lg bg-gray-50">
+                    <div className="flex items-center space-x-3 p-3 border rounded bg-muted/30">
                       <Checkbox 
                         id="pet_friendly" 
                         checked={preferences.pet_friendly} 
                         onCheckedChange={checked => handlePreferenceChange('pet_friendly', checked as boolean)}
-                        className="h-6 w-6"
+                        className="h-5 w-5"
                       />
-                      <label htmlFor="pet_friendly" className="text-lg font-medium cursor-pointer">
+                      <label htmlFor="pet_friendly" className="text-sm font-medium cursor-pointer flex-1">
                         🐕 Pet-Friendly
                       </label>
                     </div>
 
-                    <div className="flex items-center space-x-4 p-4 border rounded-lg bg-gray-50">
+                    <div className="flex items-center space-x-3 p-3 border rounded bg-muted/30">
                       <Checkbox 
                         id="online_booking" 
                         checked={preferences.online_booking} 
                         onCheckedChange={checked => handlePreferenceChange('online_booking', checked as boolean)}
-                        className="h-6 w-6"
+                        className="h-5 w-5"
                       />
-                      <label htmlFor="online_booking" className="text-lg font-medium cursor-pointer">
-                        💻 Online Booking Available
+                      <label htmlFor="online_booking" className="text-sm font-medium cursor-pointer flex-1">
+                        💻 Online Booking
                       </label>
                     </div>
 
-                    <div className="p-4 border rounded-lg bg-gray-50">
-                      <div className="flex items-center space-x-4">
-                        <span className="text-lg font-medium">🌍 Preferred Language:</span>
-                        <Button variant="outline" onClick={showLanguagePopup}>
-                          Change Language
+                    <div className="p-3 border rounded bg-muted/30">
+                      <div className="flex items-center justify-between">
+                        <span className="text-sm font-medium">🌍 Language</span>
+                        <Button variant="outline" size="sm" onClick={showLanguagePopup}>
+                          Change
                         </Button>
                       </div>
                     </div>
-                  </div>
-                  
-                  <div className="flex justify-center mt-8">
-                    <Button 
-                      onClick={handleSavePreferences}
-                      disabled={saving}
-                      className="px-8 py-3 text-lg"
-                    >
-                      {saving ? 'SAVING...' : 'SAVE PREFERENCES'}
-                    </Button>
-                  </div>
-                </div>
-              </div>
-            </CardContent>
-          </Card>
-
-          {/* My Collections Section */}
-          <Card className="w-full" ref={collectionsRef}>
-            <CardHeader className="bg-background">
-              <CardTitle className="text-center border-b-2 border-black pb-2 text-3xl text-foreground font-extrabold">
-                MY COLLECTIONS
-              </CardTitle>
-            </CardHeader>
-            <CardContent className="pt-6">
-              {collections.length === 0 ? (
-                <div className="text-center py-12 text-muted-foreground">
-                  <div className="space-y-4">
-                    <h4 className="text-lg font-medium">No collections yet</h4>
-                    <p className="text-sm">Start saving restaurants to create your first collection</p>
-                    <Link to="/">
-                      <Button variant="outline" className="rounded-none">
-                        <Plus className="h-4 w-4 mr-2" />
-                        Explore Restaurants
+                    
+                    <div className="flex justify-center mt-6">
+                      <Button 
+                        onClick={handleSavePreferences}
+                        disabled={saving}
+                        className="w-full px-6 py-3 text-sm"
+                      >
+                        {saving ? 'SAVING...' : 'SAVE PREFERENCES'}
                       </Button>
-                    </Link>
+                    </div>
                   </div>
-                </div>
-              ) : (
-                <div className="space-y-4">
-                  {collections.map((collection) => (
-                    <div key={collection.id} className="p-4 border rounded-lg w-full">
-                      <div className="space-y-2">
-                        <h4 className="font-medium">{collection.name}</h4>
-                        {collection.description && (
-                          <p className="text-sm text-muted-foreground">{collection.description}</p>
-                        )}
-                        <div className="flex items-center gap-2">
-                          <Badge variant="secondary" className="text-xs">{collection.restaurantCount} items</Badge>
-                          {collection.is_public && <Badge variant="outline" className="text-xs">Public</Badge>}
-                        </div>
+                </CardContent>
+              </Card>
+            </TabsContent>
+
+            <TabsContent value="collections" className="space-y-4">
+              <Card>
+                <CardHeader className="bg-background p-4">
+                  <CardTitle className="text-center border-b border-border pb-2 text-lg font-bold">
+                    My Collections
+                  </CardTitle>
+                </CardHeader>
+                <CardContent className="p-4">
+                  {collections.length === 0 ? (
+                    <div className="text-center py-8 text-muted-foreground">
+                      <div className="space-y-3">
+                        <h4 className="text-base font-medium">No collections yet</h4>
+                        <p className="text-sm">Start saving restaurants</p>
+                        <Link to="/">
+                          <Button variant="outline" size="sm">
+                            <Plus className="h-4 w-4 mr-2" />
+                            Explore
+                          </Button>
+                        </Link>
                       </div>
                     </div>
-                  ))}
-                </div>
-              )}
-            </CardContent>
-          </Card>
-
-          {/* Recent Saved Places Section */}
-          <Card className="w-full" ref={recentPlacesRef}>
-            <CardHeader className="bg-background">
-              <CardTitle className="text-center border-b-2 border-black pb-2 text-3xl text-foreground font-extrabold">
-                RECENT SAVED PLACES
-              </CardTitle>
-            </CardHeader>
-            <CardContent className="pt-6">
-              {recentRestaurants.length === 0 ? (
-                <div className="text-center py-12 text-muted-foreground">
-                  <div className="space-y-4">
-                    <h4 className="text-lg font-medium">No saved restaurants yet</h4>
-                    <p className="text-sm">Start exploring and save your favorite places</p>
-                    <Link to="/">
-                      <Button variant="outline" className="rounded-none">
-                        <Plus className="h-4 w-4 mr-2" />
-                        Find Restaurants
-                      </Button>
-                    </Link>
-                  </div>
-                </div>
-              ) : (
-                <div className="space-y-4">
-                  {recentRestaurants.map((restaurant) => (
-                    <div key={restaurant.id} className="p-4 border rounded-lg w-full">
-                      <div className="space-y-4">
-                        <div className="space-y-2">
-                          <h4 className="font-semibold text-lg">{restaurant.restaurant_name}</h4>
-                          <div className="flex items-center gap-2 text-muted-foreground">
-                            <MapPin className="h-4 w-4" />
-                            <span className="text-sm">{restaurant.restaurant_address}</span>
-                          </div>
-                          <div className="flex items-center gap-4 text-sm text-muted-foreground">
-                            <span>{restaurant.city}, {restaurant.country}</span>
-                            {restaurant.category && (
-                              <Badge variant="outline" className="text-xs">{restaurant.category}</Badge>
-                            )}
-                          </div>
-                          <div className="text-xs text-muted-foreground">
-                            Saved on {format(new Date(restaurant.created_at), 'PPP')}
-                          </div>
-                        </div>
-                        <div className="flex flex-col gap-2">
-                          <Button
-                            variant="default"
-                            size="sm"
-                            onClick={() => {
-                              setSelectedRestaurant(restaurant);
-                              setShowCreateInvitation(true);
-                            }}
-                            className="rounded-none w-full"
-                          >
-                            <Users className="h-4 w-4 mr-2" />
-                            Create Invitation
-                          </Button>
-                          <Button
-                            variant="outline"
-                            size="sm"
-                            onClick={() => handleDeleteRestaurant(restaurant.id)}
-                            className="text-red-600 hover:text-red-700 hover:bg-red-50 rounded-none w-full"
-                          >
-                            Remove
-                          </Button>
-                        </div>
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              )}
-            </CardContent>
-          </Card>
-
-          {/* My Invitations Section */}
-          <Card className="w-full" ref={invitationsRef}>
-            <CardHeader className="bg-background">
-              <CardTitle className="text-center border-b-2 border-black pb-2 text-3xl text-foreground font-extrabold">
-                MY INVITATIONS
-              </CardTitle>
-            </CardHeader>
-            <CardContent className="pt-6">
-              {invitations.length === 0 ? (
-                <div className="text-center py-12 text-muted-foreground">
-                  <Users className="h-12 w-12 mx-auto mb-4" />
-                  <h4 className="text-lg font-medium">No invitations yet</h4>
-                  <p className="text-sm">Start planning trips with friends by creating your first group invitation from your saved places!</p>
-                </div>
-              ) : (
-                <div className="space-y-6">
-                  {invitations.map((invitation) => {
-                    const responseCounts = getResponseCounts(invitation.invitation_rsvps);
-                    const totalGuests = invitation.invitation_rsvps
-                      .filter(rsvp => rsvp.response === 'yes')
-                      .reduce((sum, rsvp) => sum + rsvp.guest_count, 0);
-
-                    return (
-                      <div key={invitation.id} className="p-6 border rounded-lg w-full">
-                        <div className="space-y-4">
-                          {/* Header */}
-                          <div className="flex justify-between items-start">
-                            <div className="space-y-2">
-                              <h4 className="text-xl font-semibold">{invitation.group_name}</h4>
-                              <div className="flex items-center gap-2 text-muted-foreground">
-                                <MapPin className="h-4 w-4" />
-                                <span className="font-medium">{invitation.venues.business_name}</span>
-                              </div>
-                              <p className="text-sm text-muted-foreground">
-                                {invitation.venues.address}
-                              </p>
-                            </div>
-                            <Badge variant={getStatusColor(invitation.status, invitation.rsvp_deadline)}>
-                              {getStatusText(invitation.status, invitation.rsvp_deadline)}
-                            </Badge>
-                          </div>
-
-                          {/* Date & Time Info */}
-                          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                            <div className="flex items-center gap-2">
-                              <Calendar className="h-4 w-4 text-muted-foreground" />
-                              <div>
-                                <p className="text-sm font-medium">Event Date</p>
-                                <p className="text-sm text-muted-foreground">
-                                  {format(new Date(invitation.proposed_date), 'PPP')}
-                                </p>
-                              </div>
-                            </div>
-                            <div className="flex items-center gap-2">
-                              <Clock className="h-4 w-4 text-muted-foreground" />
-                              <div>
-                                <p className="text-sm font-medium">RSVP Deadline</p>
-                                <p className="text-sm text-muted-foreground">
-                                  {format(new Date(invitation.rsvp_deadline), 'PPP')}
-                                </p>
-                              </div>
-                            </div>
-                          </div>
-
-                          {/* RSVP Summary */}
+                  ) : (
+                    <div className="space-y-3">
+                      {collections.map((collection) => (
+                        <div key={collection.id} className="p-3 border rounded bg-muted/30">
                           <div className="space-y-2">
-                            <h5 className="font-medium">RSVP Responses</h5>
-                            <div className="flex flex-wrap gap-2">
-                              <Badge variant="outline" className="bg-green-50 text-green-700 border-green-200">
-                                ✓ {responseCounts.yes} Yes ({totalGuests} guests)
-                              </Badge>
-                              <Badge variant="outline" className="bg-yellow-50 text-yellow-700 border-yellow-200">
-                                ? {responseCounts.maybe} Maybe
-                              </Badge>
-                              <Badge variant="outline" className="bg-red-50 text-red-700 border-red-200">
-                                ✗ {responseCounts.no} No
-                              </Badge>
-                              <Badge variant="outline" className="bg-gray-50 text-gray-700 border-gray-200">
-                                ⏳ {responseCounts.pending} Pending
-                              </Badge>
+                            <h4 className="font-medium text-sm">{collection.name}</h4>
+                            {collection.description && (
+                              <p className="text-xs text-muted-foreground">{collection.description}</p>
+                            )}
+                            <div className="flex items-center gap-2">
+                              <Badge variant="secondary" className="text-xs">{collection.restaurantCount} items</Badge>
+                              {collection.is_public && <Badge variant="outline" className="text-xs">Public</Badge>}
                             </div>
                           </div>
+                        </div>
+                      ))}
+                    </div>
+                  )}
+                </CardContent>
+              </Card>
+            </TabsContent>
 
-                          {/* Action Buttons */}
-                          <div className="flex flex-wrap gap-2 pt-2 border-t">
-                            <Button
-                              size="sm"
-                              variant="outline"
-                              onClick={() => copyInviteLink(invitation.invite_token)}
-                            >
-                              <Copy className="h-4 w-4 mr-2" />
-                              Copy Link
-                            </Button>
-                            <Button
-                              size="sm"
-                              variant="outline"
-                              asChild
-                            >
-                              <a 
-                                href={`/rsvp/${invitation.invite_token}`} 
-                                target="_blank" 
-                                rel="noopener noreferrer"
+            <TabsContent value="recent" className="space-y-4">
+              <Card>
+                <CardHeader className="bg-background p-4">
+                  <CardTitle className="text-center border-b border-border pb-2 text-lg font-bold">
+                    Recent Places
+                  </CardTitle>
+                </CardHeader>
+                <CardContent className="p-4">
+                  {recentRestaurants.length === 0 ? (
+                    <div className="text-center py-8 text-muted-foreground">
+                      <div className="space-y-3">
+                        <h4 className="text-base font-medium">No saved places yet</h4>
+                        <p className="text-sm">Start exploring</p>
+                        <Link to="/">
+                          <Button variant="outline" size="sm">
+                            <Plus className="h-4 w-4 mr-2" />
+                            Find Places
+                          </Button>
+                        </Link>
+                      </div>
+                    </div>
+                  ) : (
+                    <div className="space-y-3">
+                      {recentRestaurants.map((restaurant) => (
+                        <div key={restaurant.id} className="p-3 border rounded bg-muted/30">
+                          <div className="space-y-3">
+                            <div className="space-y-1">
+                              <h4 className="font-medium text-sm">{restaurant.restaurant_name}</h4>
+                              <div className="flex items-center gap-1 text-muted-foreground">
+                                <MapPin className="h-3 w-3" />
+                                <span className="text-xs">{restaurant.restaurant_address}</span>
+                              </div>
+                              <div className="flex items-center gap-2 text-xs text-muted-foreground">
+                                <span>{restaurant.city}, {restaurant.country}</span>
+                                {restaurant.category && (
+                                  <Badge variant="outline" className="text-xs">{restaurant.category}</Badge>
+                                )}
+                              </div>
+                            </div>
+                            <div className="flex gap-2">
+                              <Button
+                                variant="default"
+                                size="sm"
+                                onClick={() => {
+                                  setSelectedRestaurant(restaurant);
+                                  setShowCreateInvitation(true);
+                                }}
+                                className="flex-1 text-xs"
                               >
-                                <ExternalLink className="h-4 w-4 mr-2" />
-                                View RSVP Page
-                              </a>
-                            </Button>
+                                <Users className="h-3 w-3 mr-1" />
+                                Invite
+                              </Button>
+                              <Button
+                                variant="outline"
+                                size="sm"
+                                onClick={() => handleDeleteRestaurant(restaurant.id)}
+                                className="text-destructive hover:text-destructive text-xs"
+                              >
+                                Remove
+                              </Button>
+                            </div>
                           </div>
                         </div>
-                      </div>
-                    );
-                  })}
-                </div>
-              )}
-            </CardContent>
-          </Card>
+                      ))}
+                    </div>
+                  )}
+                </CardContent>
+              </Card>
+            </TabsContent>
+
+            <TabsContent value="invitations" className="space-y-4">
+              <Card>
+                <CardHeader className="bg-background p-4">
+                  <CardTitle className="text-center border-b border-border pb-2 text-lg font-bold">
+                    My Invitations
+                  </CardTitle>
+                </CardHeader>
+                <CardContent className="p-4">
+                  {invitations.length === 0 ? (
+                    <div className="text-center py-8 text-muted-foreground">
+                      <Users className="h-8 w-8 mx-auto mb-3" />
+                      <h4 className="text-base font-medium">No invitations yet</h4>
+                      <p className="text-sm">Start planning with friends</p>
+                    </div>
+                  ) : (
+                    <div className="space-y-4">
+                      {invitations.map((invitation) => {
+                        const responseCounts = getResponseCounts(invitation.invitation_rsvps);
+                        const totalGuests = invitation.invitation_rsvps
+                          .filter(rsvp => rsvp.response === 'yes')
+                          .reduce((sum, rsvp) => sum + rsvp.guest_count, 0);
+
+                        return (
+                          <div key={invitation.id} className="p-3 border rounded bg-muted/30">
+                            <div className="space-y-3">
+                              {/* Header */}
+                              <div className="flex justify-between items-start">
+                                <div className="space-y-1 flex-1 min-w-0">
+                                  <h4 className="text-sm font-semibold truncate">{invitation.group_name}</h4>
+                                  <div className="flex items-center gap-1 text-muted-foreground">
+                                    <MapPin className="h-3 w-3" />
+                                    <span className="text-xs truncate">{invitation.venues.business_name}</span>
+                                  </div>
+                                </div>
+                                <Badge variant={getStatusColor(invitation.status, invitation.rsvp_deadline)} className="text-xs">
+                                  {getStatusText(invitation.status, invitation.rsvp_deadline)}
+                                </Badge>
+                              </div>
+
+                              {/* Date Info */}
+                              <div className="space-y-2">
+                                <div className="flex items-center gap-2">
+                                  <Calendar className="h-3 w-3 text-muted-foreground" />
+                                  <div>
+                                    <p className="text-xs font-medium">Event</p>
+                                    <p className="text-xs text-muted-foreground">
+                                      {format(new Date(invitation.proposed_date), 'MMM d, yyyy')}
+                                    </p>
+                                  </div>
+                                </div>
+                              </div>
+
+                              {/* RSVP Summary */}
+                              <div className="space-y-2">
+                                <div className="flex flex-wrap gap-1">
+                                  <Badge variant="outline" className="bg-green-50 text-green-700 border-green-200 text-xs">
+                                    ✓ {responseCounts.yes}
+                                  </Badge>
+                                  <Badge variant="outline" className="bg-yellow-50 text-yellow-700 border-yellow-200 text-xs">
+                                    ? {responseCounts.maybe}
+                                  </Badge>
+                                  <Badge variant="outline" className="bg-red-50 text-red-700 border-red-200 text-xs">
+                                    ✗ {responseCounts.no}
+                                  </Badge>
+                                  <Badge variant="outline" className="bg-gray-50 text-gray-700 border-gray-200 text-xs">
+                                    ⏳ {responseCounts.pending}
+                                  </Badge>
+                                </div>
+                              </div>
+
+                              {/* Action Buttons */}
+                              <div className="flex gap-2 pt-2 border-t">
+                                <Button
+                                  size="sm"
+                                  variant="outline"
+                                  onClick={() => copyInviteLink(invitation.invite_token)}
+                                  className="flex-1 text-xs"
+                                >
+                                  <Copy className="h-3 w-3 mr-1" />
+                                  Copy
+                                </Button>
+                                <Button
+                                  size="sm"
+                                  variant="outline"
+                                  asChild
+                                  className="flex-1 text-xs"
+                                >
+                                  <a 
+                                    href={`/rsvp/${invitation.invite_token}`} 
+                                    target="_blank" 
+                                    rel="noopener noreferrer"
+                                  >
+                                    <ExternalLink className="h-3 w-3 mr-1" />
+                                    View
+                                  </a>
+                                </Button>
+                              </div>
+                            </div>
+                          </div>
+                        );
+                      })}
+                    </div>
+                  )}
+                </CardContent>
+              </Card>
+            </TabsContent>
+          </Tabs>
         </div>
+
+        <CreateInvitationDialog
+          open={showCreateInvitation}
+          onOpenChange={setShowCreateInvitation}
+          restaurant={selectedRestaurant}
+        />
+
+        <Footer />
       </div>
-
-      <CreateInvitationDialog
-        open={showCreateInvitation}
-        onOpenChange={setShowCreateInvitation}
-        restaurant={selectedRestaurant}
-      />
-
-      <Footer />
-    </div>
+    </MobileContainer>
   );
 };
 

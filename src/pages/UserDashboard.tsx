@@ -8,9 +8,11 @@ import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { MyInvitations } from "@/components/MyInvitations";
 import { useLanguage } from "@/contexts/LanguageContext";
-import { useTranslation } from "react-i18next";
 import Footer from "@/components/Footer";
+import MobileContainer from "@/components/MobileContainer";
 import { toast } from "sonner";
+import { ArrowLeft } from "lucide-react";
+import { Link } from "react-router-dom";
 import heroImage from "@/assets/hero-members.jpg";
 
 interface UserPreferences {
@@ -130,196 +132,199 @@ const { user, signOut } = useAuth();
   }
 
   return (
-    <div className="min-h-screen bg-background">
-      <Navigation />
-      
-      {/* Hero Section */}
-      <div className="relative w-full h-96 mb-8">
-        <div className="w-full h-full bg-background relative" style={{
-          border: '8px solid white',
-          boxShadow: '0 8px 12px -4px rgba(169, 169, 169, 0.4)'
-        }}>
-          <img src={heroImage} alt="Members Dashboard" className="w-full h-full object-cover" />
-          
-          <div className="absolute inset-0 bg-black bg-opacity-40 flex items-center justify-center">
-            <div className="text-center text-white">
-              <h1 className="text-4xl font-bold mb-4 md:text-9xl">My Preferences</h1>
-              <p className="text-lg">Welcome back, {user?.email}</p>
+    <MobileContainer>
+      <div className="min-h-screen bg-background">
+        <Navigation />
+        
+        {/* Hero Section - Mobile Optimized */}
+        <div className="relative w-full h-48 md:h-64 mb-4">
+          <img 
+            src={heroImage} 
+            alt="Members Dashboard" 
+            className="w-full h-full object-cover"
+          />
+          <div className="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center">
+            <div className="text-center text-white px-4">
+              <h1 className="text-2xl md:text-4xl font-bold mb-2">My Dashboard</h1>
+              <p className="text-sm md:text-lg">Welcome back</p>
             </div>
           </div>
         </div>
-      </div>
 
-      {/* Content Section */}
-      <div className="container mx-auto px-4 pb-12">
-        <div className="max-w-4xl mx-auto">
-          <div className="flex justify-between items-center mb-6">
-            <h2 className="text-2xl font-bold">Member Dashboard</h2>
-            <Button variant="outline" onClick={handleSignOut}>
+        {/* Content Section */}
+        <div className="px-4 pb-8 space-y-4">
+          {/* Header Actions */}
+          <div className="flex items-center justify-between mb-4">
+            <Link to="/">
+              <Button variant="outline" size="sm">
+                <ArrowLeft className="h-4 w-4 mr-2" />
+                Back
+              </Button>
+            </Link>
+            <Button variant="outline" size="sm" onClick={handleSignOut}>
               Sign Out
             </Button>
           </div>
 
           <Tabs defaultValue="preferences" className="w-full">
-            <TabsList className="grid w-full grid-cols-2 mb-8">
-              <TabsTrigger value="preferences" className="text-lg py-3">My Preferences</TabsTrigger>
-              <TabsTrigger value="invitations" className="text-lg py-3">My Invitations</TabsTrigger>
+            <TabsList className="grid w-full grid-cols-2 mb-6">
+              <TabsTrigger value="preferences" className="text-sm md:text-base py-2">
+                Preferences
+              </TabsTrigger>
+              <TabsTrigger value="invitations" className="text-sm md:text-base py-2">
+                Invitations
+              </TabsTrigger>
             </TabsList>
 
-            <TabsContent value="preferences" className="space-y-6">
+            <TabsContent value="preferences" className="space-y-4">
               <Card>
-                <CardHeader className="bg-background">
-                  <CardTitle className="text-center border-b-2 border-black pb-2 text-3xl text-foreground font-extrabold">
-                    YOUR SAVED PREFERENCES
+                <CardHeader className="bg-background p-4">
+                  <CardTitle className="text-center border-b border-border pb-2 text-xl md:text-2xl font-bold">
+                    Your Preferences
                   </CardTitle>
                 </CardHeader>
-                <CardContent className="pt-6">
-                  <p className="text-lg text-center mb-8 text-gray-700">
-                    Update your preferences below to personalize your restaurant recommendations.
+                <CardContent className="p-4">
+                  <p className="text-sm md:text-base text-center mb-6 text-muted-foreground">
+                    Customize your restaurant recommendations
                   </p>
                   
-                  <div className="space-y-6">
-                    <h3 className="text-xl font-semibold mb-4">Select your preferences:</h3>
-                    
-                    <div className="space-y-8">
-                      {/* Senior-friendly large checkbox preferences */}
-                      <div className="grid grid-cols-1 gap-6">
-                        <div className="flex items-center space-x-4 p-4 border rounded-lg bg-gray-50">
-                          <Checkbox 
-                            id="wheelchair_access" 
-                            checked={preferences.wheelchair_access} 
-                            onCheckedChange={checked => handlePreferenceChange('wheelchair_access', checked as boolean)}
-                            className="h-6 w-6"
-                          />
-                          <label htmlFor="wheelchair_access" className="text-lg font-medium cursor-pointer">
-                            ♿ Wheelchair Access Required
-                          </label>
-                        </div>
+                  <div className="space-y-4">
+                    <div className="space-y-3">
+                      <div className="flex items-center space-x-3 p-3 border rounded bg-muted/30">
+                        <Checkbox 
+                          id="wheelchair_access" 
+                          checked={preferences.wheelchair_access} 
+                          onCheckedChange={checked => handlePreferenceChange('wheelchair_access', checked as boolean)}
+                          className="h-5 w-5"
+                        />
+                        <label htmlFor="wheelchair_access" className="text-sm md:text-base font-medium cursor-pointer flex-1">
+                          ♿ Wheelchair Access
+                        </label>
+                      </div>
 
-                        <div className="flex items-center space-x-4 p-4 border rounded-lg bg-gray-50">
-                          <Checkbox 
-                            id="senior_discounts" 
-                            checked={preferences.senior_discounts} 
-                            onCheckedChange={checked => handlePreferenceChange('senior_discounts', checked as boolean)}
-                            className="h-6 w-6"
-                          />
-                          <label htmlFor="senior_discounts" className="text-lg font-medium cursor-pointer">
-                            💰 Senior Discounts Available
-                          </label>
-                        </div>
+                      <div className="flex items-center space-x-3 p-3 border rounded bg-muted/30">
+                        <Checkbox 
+                          id="senior_discounts" 
+                          checked={preferences.senior_discounts} 
+                          onCheckedChange={checked => handlePreferenceChange('senior_discounts', checked as boolean)}
+                          className="h-5 w-5"
+                        />
+                        <label htmlFor="senior_discounts" className="text-sm md:text-base font-medium cursor-pointer flex-1">
+                          💰 Senior Discounts
+                        </label>
+                      </div>
 
-                        <div className="flex items-center space-x-4 p-4 border rounded-lg bg-gray-50">
-                          <Checkbox 
-                            id="extended_hours" 
-                            checked={preferences.extended_hours} 
-                            onCheckedChange={checked => handlePreferenceChange('extended_hours', checked as boolean)}
-                            className="h-6 w-6"
-                          />
-                          <label htmlFor="extended_hours" className="text-lg font-medium cursor-pointer">
-                            🕐 Extended Open Hours
-                          </label>
-                        </div>
+                      <div className="flex items-center space-x-3 p-3 border rounded bg-muted/30">
+                        <Checkbox 
+                          id="extended_hours" 
+                          checked={preferences.extended_hours} 
+                          onCheckedChange={checked => handlePreferenceChange('extended_hours', checked as boolean)}
+                          className="h-5 w-5"
+                        />
+                        <label htmlFor="extended_hours" className="text-sm md:text-base font-medium cursor-pointer flex-1">
+                          🕐 Extended Hours
+                        </label>
+                      </div>
 
-                        <div className="flex items-center space-x-4 p-4 border rounded-lg bg-gray-50">
-                          <Checkbox 
-                            id="low_noise" 
-                            checked={preferences.low_noise} 
-                            onCheckedChange={checked => handlePreferenceChange('low_noise', checked as boolean)}
-                            className="h-6 w-6"
-                          />
-                          <label htmlFor="low_noise" className="text-lg font-medium cursor-pointer">
-                            🔇 Quiet Environment
-                          </label>
-                        </div>
+                      <div className="flex items-center space-x-3 p-3 border rounded bg-muted/30">
+                        <Checkbox 
+                          id="low_noise" 
+                          checked={preferences.low_noise} 
+                          onCheckedChange={checked => handlePreferenceChange('low_noise', checked as boolean)}
+                          className="h-5 w-5"
+                        />
+                        <label htmlFor="low_noise" className="text-sm md:text-base font-medium cursor-pointer flex-1">
+                          🔇 Quiet Environment
+                        </label>
+                      </div>
 
-                        <div className="flex items-center space-x-4 p-4 border rounded-lg bg-gray-50">
-                          <Checkbox 
-                            id="public_transport" 
-                            checked={preferences.public_transport} 
-                            onCheckedChange={checked => handlePreferenceChange('public_transport', checked as boolean)}
-                            className="h-6 w-6"
-                          />
-                          <label htmlFor="public_transport" className="text-lg font-medium cursor-pointer">
-                            🚌 Easy Public Transport Access
-                          </label>
-                        </div>
+                      <div className="flex items-center space-x-3 p-3 border rounded bg-muted/30">
+                        <Checkbox 
+                          id="public_transport" 
+                          checked={preferences.public_transport} 
+                          onCheckedChange={checked => handlePreferenceChange('public_transport', checked as boolean)}
+                          className="h-5 w-5"
+                        />
+                        <label htmlFor="public_transport" className="text-sm md:text-base font-medium cursor-pointer flex-1">
+                          🚌 Public Transport
+                        </label>
+                      </div>
 
-                        <div className="flex items-center space-x-4 p-4 border rounded-lg bg-gray-50">
-                          <Checkbox 
-                            id="air_conditioned" 
-                            checked={preferences.air_conditioned} 
-                            onCheckedChange={checked => handlePreferenceChange('air_conditioned', checked as boolean)}
-                            className="h-6 w-6"
-                          />
-                          <label htmlFor="air_conditioned" className="text-lg font-medium cursor-pointer">
-                            ❄️ Air Conditioned
-                          </label>
-                        </div>
+                      <div className="flex items-center space-x-3 p-3 border rounded bg-muted/30">
+                        <Checkbox 
+                          id="air_conditioned" 
+                          checked={preferences.air_conditioned} 
+                          onCheckedChange={checked => handlePreferenceChange('air_conditioned', checked as boolean)}
+                          className="h-5 w-5"
+                        />
+                        <label htmlFor="air_conditioned" className="text-sm md:text-base font-medium cursor-pointer flex-1">
+                          ❄️ Air Conditioned
+                        </label>
+                      </div>
 
-                        <div className="flex items-center space-x-4 p-4 border rounded-lg bg-gray-50">
-                          <Checkbox 
-                            id="outdoor_seating" 
-                            checked={preferences.outdoor_seating} 
-                            onCheckedChange={checked => handlePreferenceChange('outdoor_seating', checked as boolean)}
-                            className="h-6 w-6"
-                          />
-                          <label htmlFor="outdoor_seating" className="text-lg font-medium cursor-pointer">
-                            🌳 Outdoor Seating Available
-                          </label>
-                        </div>
+                      <div className="flex items-center space-x-3 p-3 border rounded bg-muted/30">
+                        <Checkbox 
+                          id="outdoor_seating" 
+                          checked={preferences.outdoor_seating} 
+                          onCheckedChange={checked => handlePreferenceChange('outdoor_seating', checked as boolean)}
+                          className="h-5 w-5"
+                        />
+                        <label htmlFor="outdoor_seating" className="text-sm md:text-base font-medium cursor-pointer flex-1">
+                          🌳 Outdoor Seating
+                        </label>
+                      </div>
 
-                        <div className="flex items-center space-x-4 p-4 border rounded-lg bg-gray-50">
-                          <Checkbox 
-                            id="gluten_free" 
-                            checked={preferences.gluten_free} 
-                            onCheckedChange={checked => handlePreferenceChange('gluten_free', checked as boolean)}
-                            className="h-6 w-6"
-                          />
-                          <label htmlFor="gluten_free" className="text-lg font-medium cursor-pointer">
-                            🌾 Gluten-Free Options
-                          </label>
-                        </div>
+                      <div className="flex items-center space-x-3 p-3 border rounded bg-muted/30">
+                        <Checkbox 
+                          id="gluten_free" 
+                          checked={preferences.gluten_free} 
+                          onCheckedChange={checked => handlePreferenceChange('gluten_free', checked as boolean)}
+                          className="h-5 w-5"
+                        />
+                        <label htmlFor="gluten_free" className="text-sm md:text-base font-medium cursor-pointer flex-1">
+                          🌾 Gluten-Free Options
+                        </label>
+                      </div>
 
-                        <div className="flex items-center space-x-4 p-4 border rounded-lg bg-gray-50">
-                          <Checkbox 
-                            id="pet_friendly" 
-                            checked={preferences.pet_friendly} 
-                            onCheckedChange={checked => handlePreferenceChange('pet_friendly', checked as boolean)}
-                            className="h-6 w-6"
-                          />
-                          <label htmlFor="pet_friendly" className="text-lg font-medium cursor-pointer">
-                            🐕 Pet-Friendly
-                          </label>
-                        </div>
+                      <div className="flex items-center space-x-3 p-3 border rounded bg-muted/30">
+                        <Checkbox 
+                          id="pet_friendly" 
+                          checked={preferences.pet_friendly} 
+                          onCheckedChange={checked => handlePreferenceChange('pet_friendly', checked as boolean)}
+                          className="h-5 w-5"
+                        />
+                        <label htmlFor="pet_friendly" className="text-sm md:text-base font-medium cursor-pointer flex-1">
+                          🐕 Pet-Friendly
+                        </label>
+                      </div>
 
-                        <div className="flex items-center space-x-4 p-4 border rounded-lg bg-gray-50">
-                          <Checkbox 
-                            id="online_booking" 
-                            checked={preferences.online_booking} 
-                            onCheckedChange={checked => handlePreferenceChange('online_booking', checked as boolean)}
-                            className="h-6 w-6"
-                          />
-                          <label htmlFor="online_booking" className="text-lg font-medium cursor-pointer">
-                            💻 Online Booking Available
-                          </label>
-                        </div>
+                      <div className="flex items-center space-x-3 p-3 border rounded bg-muted/30">
+                        <Checkbox 
+                          id="online_booking" 
+                          checked={preferences.online_booking} 
+                          onCheckedChange={checked => handlePreferenceChange('online_booking', checked as boolean)}
+                          className="h-5 w-5"
+                        />
+                        <label htmlFor="online_booking" className="text-sm md:text-base font-medium cursor-pointer flex-1">
+                          💻 Online Booking
+                        </label>
+                      </div>
 
-                        <div className="p-4 border rounded-lg bg-gray-50">
-                          <div className="flex items-center space-x-4">
-                            <span className="text-lg font-medium">🌍 Preferred Language:</span>
-                            <Button variant="outline" onClick={showLanguagePopup}>
-                              Change Language
-                            </Button>
-                          </div>
+                      <div className="p-3 border rounded bg-muted/30">
+                        <div className="flex items-center justify-between">
+                          <span className="text-sm md:text-base font-medium">🌍 Language</span>
+                          <Button variant="outline" size="sm" onClick={showLanguagePopup}>
+                            Change
+                          </Button>
                         </div>
                       </div>
                     </div>
                     
-                    <div className="flex justify-center mt-8">
+                    <div className="flex justify-center mt-6">
                       <Button 
                         onClick={handleSavePreferences}
                         disabled={saving}
-                        className="px-8 py-3 text-lg"
+                        className="w-full md:w-auto px-8 py-3 text-sm md:text-base"
                       >
                         {saving ? 'SAVING...' : 'SAVE PREFERENCES'}
                       </Button>
@@ -329,15 +334,15 @@ const { user, signOut } = useAuth();
               </Card>
             </TabsContent>
 
-            <TabsContent value="invitations" className="space-y-6">
+            <TabsContent value="invitations" className="space-y-4">
               <MyInvitations />
             </TabsContent>
           </Tabs>
         </div>
-      </div>
 
-      <Footer />
-    </div>
+        <Footer />
+      </div>
+    </MobileContainer>
   );
 };
 
