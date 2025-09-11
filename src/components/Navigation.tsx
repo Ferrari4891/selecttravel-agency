@@ -453,7 +453,7 @@ const { user } = useAuth();
                     </Button>
                   ) : (
                     <Button variant="ghost" className="w-full justify-start h-10 text-left touch-target" asChild>
-                      <Link to="/business-auth" onClick={() => setMenuOpen(false)}>
+                      <Link to="/business-login" onClick={() => setMenuOpen(false)}>
                         <Building2 className="h-4 w-4 mr-2" />
                         <span className="text-sm">Business Login</span>
                       </Link>

@@ -65,7 +65,7 @@ const Footer = ({ themeClass }: FooterProps) => {
                 Business Dashboard
               </Link>
             ) : (
-              <Link to="/auth" className="hover:opacity-80 transition-opacity">
+              <Link to="/business-login" className="hover:opacity-80 transition-opacity">
                 Business Login
               </Link>
             )}
