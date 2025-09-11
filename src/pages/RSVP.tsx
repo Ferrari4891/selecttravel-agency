@@ -21,12 +21,9 @@ interface Invitation {
   rsvp_deadline: string;
   custom_message: string;
   status: string;
-  saved_restaurants: {
-    restaurant_name: string;
-    restaurant_address: string;
-    city: string;
-    country: string;
-    restaurant_data: any;
+  venues: {
+    business_name: string;
+    address: string;
   };
 }
 
@@ -56,12 +53,9 @@ export const RSVP = () => {
         .from('group_invitations')
         .select(`
           *,
-          saved_restaurants (
-            restaurant_name,
-            restaurant_address,
-            city,
-            country,
-            restaurant_data
+          venues (
+            business_name,
+            address
           )
         `)
         .eq('invite_token', token)
@@ -220,13 +214,10 @@ export const RSVP = () => {
                 <div className="space-y-2">
                   <div className="flex items-center justify-center gap-2">
                     <MapPinIcon className="h-4 w-4 text-muted-foreground" />
-                    <span className="font-medium">{invitation.saved_restaurants.restaurant_name}</span>
+                    <span className="font-medium">{invitation.venues.business_name}</span>
                   </div>
                   <p className="text-muted-foreground text-sm">
-                    {invitation.saved_restaurants.restaurant_address}
-                  </p>
-                  <p className="text-muted-foreground text-sm">
-                    {invitation.saved_restaurants.city}, {invitation.saved_restaurants.country}
+                    {invitation.venues.address}
                   </p>
                 </div>
 

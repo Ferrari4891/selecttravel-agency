@@ -18,11 +18,9 @@ interface GroupInvitation {
   status: string;
   invite_token: string;
   created_at: string;
-  saved_restaurants: {
-    restaurant_name: string;
-    restaurant_address: string;
-    city: string;
-    country: string;
+  venues: {
+    business_name: string;
+    address: string;
   };
   invitation_rsvps: Array<{
     id: string;
@@ -53,11 +51,9 @@ export const MyInvitations = () => {
         .from('group_invitations')
         .select(`
           *,
-          saved_restaurants (
-            restaurant_name,
-            restaurant_address,
-            city,
-            country
+          venues (
+            business_name,
+            address
           ),
           invitation_rsvps (
             id,
@@ -153,10 +149,10 @@ export const MyInvitations = () => {
                     <CardTitle className="text-xl">{invitation.group_name}</CardTitle>
                     <div className="flex items-center gap-2 text-muted-foreground">
                       <MapPin className="h-4 w-4" />
-                      <span className="font-medium">{invitation.saved_restaurants.restaurant_name}</span>
+                      <span className="font-medium">{invitation.venues.business_name}</span>
                     </div>
                     <p className="text-sm text-muted-foreground">
-                      {invitation.saved_restaurants.restaurant_address}, {invitation.saved_restaurants.city}
+                      {invitation.venues.address}
                     </p>
                   </div>
                   <Badge variant={getStatusColor(invitation.status, invitation.rsvp_deadline)}>

@@ -61,7 +61,7 @@ export const CreateInvitationDialog = ({ open, onOpenChange, restaurant }: Creat
         .insert({
           creator_id: user.id,
           group_name: groupName,
-          saved_restaurant_id: restaurant.id,
+          venue_id: restaurant.id,
           proposed_date: proposedDate.toISOString(),
           rsvp_deadline: rsvpDeadline.toISOString(),
           custom_message: customMessage
