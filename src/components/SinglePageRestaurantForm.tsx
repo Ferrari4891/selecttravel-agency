@@ -7,6 +7,7 @@ import { Input } from '@/components/ui/input';
 import { Search, Loader2, RotateCcw } from 'lucide-react';
 import { toast } from '@/hooks/use-toast';
 import { regionData } from '@/data/locationData';
+import { useLocationData } from '@/hooks/useLocationData';
 // import diningLogo from '@/assets/dining-logo.png';
 
 interface SinglePageRestaurantFormProps {
@@ -37,18 +38,16 @@ const countryCuisineData: CountryCuisineData = {
   'United Kingdom': ['African Food', 'British Food', 'Cajun Food', 'Caribbean Food', 'Chinese Food', 'Eastern European Food', 'French Food', 'German Food', 'Greek Food', 'Indian Food', 'International Food', 'Irish Food', 'Italian Food', 'Japanese Food', 'Mediterranean Food', 'Mexican Food', 'South American Food', 'Spanish Food', 'Thai Food', 'Vietnamese Food']
 };
 
-const topCountries = [
-  'France',
-  'Spain', 
-  'United States',
-  'China',
-  'Italy',
-  'Turkey',
-  'Mexico',
-  'Thailand',
-  'Germany',
-  'United Kingdom'
-];
+// Get all countries from regionData
+const getAllCountries = () => {
+  const countries: string[] = [];
+  Object.values(regionData).forEach(region => {
+    region.countries.forEach(country => {
+      countries.push(country.name);
+    });
+  });
+  return countries.sort();
+};
 
 export const SinglePageRestaurantForm: React.FC<SinglePageRestaurantFormProps> = ({
   onSearch,
@@ -60,6 +59,8 @@ export const SinglePageRestaurantForm: React.FC<SinglePageRestaurantFormProps> =
   const [selectedCity, setSelectedCity] = useState<string>('');
   const [citySearchInput, setCitySearchInput] = useState<string>('');
   const [resultCount, setResultCount] = useState<number>(5);
+
+  const allCountries = getAllCountries();
 
   const availableCuisines = useMemo(() => {
     return selectedCountry ? countryCuisineData[selectedCountry] || [] : [];
@@ -202,8 +203,8 @@ export const SinglePageRestaurantForm: React.FC<SinglePageRestaurantFormProps> =
             <SelectTrigger className="w-full h-12 text-base font-bold bg-background text-foreground border-2 border-border rounded-none">
               <SelectValue placeholder="Choose a country" />
             </SelectTrigger>
-            <SelectContent className="bg-background border-2 border-border rounded-none max-h-60 overflow-y-auto z-[100]">
-              {topCountries.map((country) => (
+            <SelectContent className="bg-white border-2 border-border rounded-none max-h-60 overflow-y-auto z-[100]">
+              {allCountries.map((country) => (
                 <SelectItem key={country} value={country} className="text-base py-3 rounded-none hover:bg-muted">
                   {country}
                 </SelectItem>
@@ -219,7 +220,7 @@ export const SinglePageRestaurantForm: React.FC<SinglePageRestaurantFormProps> =
             <SelectTrigger className="w-full h-12 text-base font-bold bg-background text-foreground border-2 border-border rounded-none">
               <SelectValue placeholder="Choose a city" />
             </SelectTrigger>
-            <SelectContent className="bg-background border-2 border-border rounded-none max-h-48 overflow-y-auto z-[200]">
+            <SelectContent className="bg-white border-2 border-border rounded-none max-h-48 overflow-y-auto z-[200]">
               {cities.map((city) => (
                 <SelectItem key={city} value={city} className="text-base py-3 rounded-none hover:bg-muted">
                   {city}
@@ -261,7 +262,7 @@ export const SinglePageRestaurantForm: React.FC<SinglePageRestaurantFormProps> =
             <SelectTrigger className="w-full h-12 text-base font-bold bg-background text-foreground border-2 border-border rounded-none">
               <SelectValue placeholder="Choose cuisine type" />
             </SelectTrigger>
-            <SelectContent className="bg-background border-2 border-border rounded-none max-h-60 overflow-y-auto z-[100]">
+            <SelectContent className="bg-white border-2 border-border rounded-none max-h-60 overflow-y-auto z-[100]">
               {availableCuisines.map((cuisine) => (
                 <SelectItem key={cuisine} value={cuisine} className="text-base py-3 rounded-none hover:bg-muted">
                   {cuisine}
@@ -278,7 +279,7 @@ export const SinglePageRestaurantForm: React.FC<SinglePageRestaurantFormProps> =
             <SelectTrigger className="w-full h-12 text-base font-bold bg-background text-foreground border-2 border-border rounded-none">
               <SelectValue placeholder="Choose number of results" />
             </SelectTrigger>
-            <SelectContent className="bg-background border-2 border-border rounded-none max-h-40 overflow-y-auto z-[300]">
+            <SelectContent className="bg-white border-2 border-border rounded-none max-h-40 overflow-y-auto z-[300]">
               {[1, 5, 10].map((count) => (
                 <SelectItem key={count} value={count.toString()} className="text-base py-3 rounded-none hover:bg-muted">
                   {count} result{count > 1 ? 's' : ''}
