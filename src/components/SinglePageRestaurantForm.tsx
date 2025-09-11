@@ -164,10 +164,9 @@ export const SinglePageRestaurantForm: React.FC<SinglePageRestaurantFormProps> =
             <img src="/lovable-uploads/6ce4c283-5ad7-4b59-a3a8-4254d29cd162.png" alt="Dining Guide Logo" className="w-full h-full object-contain" />
           </div>
           <h2 className="text-3xl font-black text-black">GLOBAL DINING GUIDE</h2>
-          <p className="text-xl font-black text-black">Made for seniors by seniors</p>
           <h3 className="text-2xl font-bold text-black">FIND WHAT YOU WANT!</h3>
           <p className="text-lg font-semibold text-muted-foreground">In 15 seconds or less</p>
-          <p className="text-base font-medium text-muted-foreground">Discover the perfect dining experience in your chosen destination worldwide</p>
+          <p className="text-base font-medium text-muted-foreground">Discover the perfect dining experience in your chosen destination worldwide.</p>
         </div>
 
         {/* Current Selections */}
@@ -193,6 +192,7 @@ export const SinglePageRestaurantForm: React.FC<SinglePageRestaurantFormProps> =
 
         {/* Country Selection */}
         <div className="space-y-2">
+          <p className="text-base font-normal text-black">Made for seniors by seniors</p>
           <label className="text-lg font-bold text-foreground">Select Country</label>
           <Select onValueChange={handleCountrySelect} value={selectedCountry}>
             <SelectTrigger className="w-full h-12 text-base font-bold bg-background text-foreground border-2 border-border rounded-none">
