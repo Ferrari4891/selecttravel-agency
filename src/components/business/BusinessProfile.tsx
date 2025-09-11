@@ -18,6 +18,7 @@ import { ChevronUp, ChevronDown } from 'lucide-react';
 import { getFlagEmoji } from '@/data/flagIcons';
 import { EnhancedSelect } from '@/components/ui/enhanced-select';
 import { BusinessMediaForm } from './BusinessMediaForm';
+import { BusinessProfilePreview } from './BusinessProfilePreview';
 
 const businessSchema = z.object({
   business_name: z.string().min(1, 'Business name is required'),
@@ -557,161 +558,14 @@ export const BusinessProfile: React.FC<BusinessProfileProps> = ({
   if (showPreview) {
     const formData = getCurrentFormValues();
     return (
-      <div className="w-full max-w-none mx-auto px-2 sm:px-4">
-        <div className="bg-card border rounded-lg p-6 sm:p-8 lg:p-16 max-w-none">
-          <div className="mb-6">
-            <h2 className="text-2xl font-bold mb-2">Business Profile Preview</h2>
-            <p className="text-muted-foreground">Review your business profile before publishing</p>
-          </div>
-          
-          <div className="w-full space-y-8">
-            {/* Business Header */}
-            <div className="text-center pb-6 border-b border-dotted border-border">
-              <div className="mb-1">
-                <p className="text-sm font-medium text-black uppercase tracking-wide">Business Name</p>
-                <h3 className="text-2xl sm:text-3xl font-bold">{formData.business_name || 'Business Name'}</h3>
-              </div>
-              <div>
-                <p className="text-sm font-medium text-black uppercase tracking-wide">Business Type</p>
-                <p className="text-lg sm:text-xl text-foreground">
-                  {formData.business_category && formData.business_subtype 
-                    ? `${formData.business_category} - ${formData.business_subtype}${formData.business_specific_type ? ` (${formData.business_specific_type})` : ''}` 
-                    : 'Business Type'}
-                </p>
-              </div>
-            </div>
-            
-            {/* Business Images */}
-            {(formData.image_1_url || formData.image_2_url || formData.image_3_url) && (
-              <div className="space-y-4 pb-6 border-b border-dotted border-border">
-                <p className="text-sm font-medium text-black uppercase tracking-wide">Business Photos</p>
-                <div className="space-y-4">
-                  {formData.image_1_url && (
-                    <div className="w-full aspect-video rounded-lg overflow-hidden">
-                      <img src={formData.image_1_url} alt="Business photo 1" className="w-full h-full object-cover" />
-                    </div>
-                  )}
-                  {formData.image_2_url && (
-                    <div className="w-full aspect-video rounded-lg overflow-hidden">
-                      <img src={formData.image_2_url} alt="Business photo 2" className="w-full h-full object-cover" />
-                    </div>
-                  )}
-                  {formData.image_3_url && (
-                    <div className="w-full aspect-video rounded-lg overflow-hidden">
-                      <img src={formData.image_3_url} alt="Business photo 3" className="w-full h-full object-cover" />
-                    </div>
-                  )}
-                </div>
-              </div>
-            )}
-            
-            {/* About Section */}
-            {formData.description && (
-              <div className="space-y-2 pb-6 border-b border-dotted border-border">
-                <p className="text-sm font-medium text-black uppercase tracking-wide">About</p>
-                <p className="text-foreground leading-relaxed">{formData.description}</p>
-              </div>
-            )}
-            
-            {/* Contact Information */}
-            <div className="space-y-4 pb-6 border-b border-dotted border-border">
-              <p className="text-sm font-medium text-black uppercase tracking-wide">Contact Information</p>
-              <div className="space-y-3">
-                {formData.email && (
-                  <div>
-                    <p className="text-xs font-medium text-muted-foreground uppercase tracking-wide">Email</p>
-                    <p className="text-foreground">{formData.email}</p>
-                  </div>
-                )}
-                {formData.phone && (
-                  <div>
-                    <p className="text-xs font-medium text-muted-foreground uppercase tracking-wide">Phone</p>
-                    <p className="text-foreground">{formData.phone}</p>
-                  </div>
-                )}
-                {formData.website && (
-                  <div>
-                    <p className="text-xs font-medium text-muted-foreground uppercase tracking-wide">Website</p>
-                    <p className="text-primary break-all">{formData.website}</p>
-                  </div>
-                )}
-              </div>
-            </div>
-            
-            {/* Location */}
-            <div className="space-y-2 pb-6 border-b border-dotted border-border">
-              <p className="text-sm font-medium text-black uppercase tracking-wide">Location</p>
-              <div className="text-foreground space-y-1">
-                {formData.address && <p>{formData.address}</p>}
-                <p>{formData.city}{formData.state && `, ${formData.state}`}</p>
-                <p>{formData.country} {formData.postal_code}</p>
-              </div>
-            </div>
-            
-            {/* Business Hours */}
-            <div className="space-y-2 pb-6 border-b border-dotted border-border">
-              <p className="text-sm font-medium text-black uppercase tracking-wide">Business Hours</p>
-              <div className="text-sm text-foreground whitespace-pre-wrap font-sans">
-                {formatBusinessHours(businessHours)}
-              </div>
-            </div>
-            
-            {/* Social Media */}
-            {(formData.facebook || formData.instagram || formData.twitter || formData.linkedin) && (
-              <div className="space-y-4">
-                <p className="text-sm font-medium text-black uppercase tracking-wide">Social Media</p>
-                <div className="space-y-3">
-                  {formData.facebook && (
-                    <div>
-                      <p className="text-xs font-medium text-muted-foreground uppercase tracking-wide">Facebook</p>
-                      <p className="text-primary break-all">{formData.facebook}</p>
-                    </div>
-                  )}
-                  {formData.instagram && (
-                    <div>
-                      <p className="text-xs font-medium text-muted-foreground uppercase tracking-wide">Instagram</p>
-                      <p className="text-primary break-all">{formData.instagram}</p>
-                    </div>
-                  )}
-                  {formData.twitter && (
-                    <div>
-                      <p className="text-xs font-medium text-muted-foreground uppercase tracking-wide">Twitter</p>
-                      <p className="text-primary break-all">{formData.twitter}</p>
-                    </div>
-                  )}
-                  {formData.linkedin && (
-                    <div>
-                      <p className="text-xs font-medium text-muted-foreground uppercase tracking-wide">LinkedIn</p>
-                      <p className="text-primary break-all">{formData.linkedin}</p>
-                    </div>
-                  )}
-                </div>
-              </div>
-            )}
-          </div>
-          
-          {/* Action Buttons */}
-          <div className="pt-8 border-t mt-8">
-            <div className="flex flex-row gap-3 justify-center">
-              <Button 
-                variant="outline" 
-                onClick={() => setShowPreview(false)}
-                className="w-auto px-6"
-              >
-                Edit Profile
-              </Button>
-              <Button 
-                onClick={form.handleSubmit(onSubmit)} 
-                disabled={loading} 
-                className="w-auto px-8 py-2 h-9"
-                size="default"
-              >
-                {loading ? "Saving..." : business ? "Update Profile" : "Create Profile"}
-              </Button>
-            </div>
-          </div>
-        </div>
-      </div>
+      <BusinessProfilePreview
+        formData={formData}
+        businessHours={businessHours}
+        onEdit={() => setShowPreview(false)}
+        onSave={form.handleSubmit(onSubmit)}
+        loading={loading}
+        isUpdate={!!business}
+      />
     );
   }
 
