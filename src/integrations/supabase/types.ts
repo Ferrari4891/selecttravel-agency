@@ -7,7 +7,7 @@ export type Json =
   | Json[]
 
 export type Database = {
-  // Allows to automatically instanciate createClient with right options
+  // Allows to automatically instantiate createClient with right options
   // instead of createClient<Database, { PostgrestVersion: 'XX' }>(URL, KEY)
   __InternalSupabase: {
     PostgrestVersion: "12.2.3 (519615d)"
@@ -50,6 +50,30 @@ export type Database = {
         }
         Relationships: []
       }
+      blocked_users: {
+        Row: {
+          blocked_by: string | null
+          created_at: string
+          email: string
+          id: string
+          reason: string | null
+        }
+        Insert: {
+          blocked_by?: string | null
+          created_at?: string
+          email: string
+          id?: string
+          reason?: string | null
+        }
+        Update: {
+          blocked_by?: string | null
+          created_at?: string
+          email?: string
+          id?: string
+          reason?: string | null
+        }
+        Relationships: []
+      }
       business_analytics: {
         Row: {
           business_id: string
@@ -80,6 +104,47 @@ export type Database = {
             foreignKeyName: "business_analytics_business_id_fkey"
             columns: ["business_id"]
             isOneToOne: false
+            referencedRelation: "businesses"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      business_media: {
+        Row: {
+          business_id: string
+          created_at: string
+          id: string
+          images: Json | null
+          media_type: Database["public"]["Enums"]["media_type"]
+          updated_at: string
+          youtube_id: string | null
+          youtube_url: string | null
+        }
+        Insert: {
+          business_id: string
+          created_at?: string
+          id?: string
+          images?: Json | null
+          media_type: Database["public"]["Enums"]["media_type"]
+          updated_at?: string
+          youtube_id?: string | null
+          youtube_url?: string | null
+        }
+        Update: {
+          business_id?: string
+          created_at?: string
+          id?: string
+          images?: Json | null
+          media_type?: Database["public"]["Enums"]["media_type"]
+          updated_at?: string
+          youtube_id?: string | null
+          youtube_url?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "business_media_business_id_fkey"
+            columns: ["business_id"]
+            isOneToOne: true
             referencedRelation: "businesses"
             referencedColumns: ["id"]
           },
@@ -264,6 +329,36 @@ export type Database = {
         }
         Relationships: []
       }
+      carousel_images: {
+        Row: {
+          caption: string | null
+          created_at: string
+          id: string
+          image_url: string
+          is_active: boolean
+          sort_order: number
+          updated_at: string
+        }
+        Insert: {
+          caption?: string | null
+          created_at?: string
+          id?: string
+          image_url: string
+          is_active?: boolean
+          sort_order?: number
+          updated_at?: string
+        }
+        Update: {
+          caption?: string | null
+          created_at?: string
+          id?: string
+          image_url?: string
+          is_active?: boolean
+          sort_order?: number
+          updated_at?: string
+        }
+        Relationships: []
+      }
       collection_shares: {
         Row: {
           collection_id: string
@@ -328,50 +423,201 @@ export type Database = {
       }
       group_invitations: {
         Row: {
+          approval_status: string
           created_at: string
           creator_id: string
           custom_message: string | null
           group_name: string
           id: string
           invite_token: string
+          invite_type: string
           proposed_date: string
           rsvp_deadline: string
-          saved_restaurant_id: string
+          selected_member_ids: Json | null
           status: string
           updated_at: string
+          venue_id: string
         }
         Insert: {
+          approval_status?: string
           created_at?: string
           creator_id: string
           custom_message?: string | null
           group_name: string
           id?: string
           invite_token?: string
+          invite_type?: string
           proposed_date: string
           rsvp_deadline: string
-          saved_restaurant_id: string
+          selected_member_ids?: Json | null
           status?: string
           updated_at?: string
+          venue_id: string
         }
         Update: {
+          approval_status?: string
           created_at?: string
           creator_id?: string
           custom_message?: string | null
           group_name?: string
           id?: string
           invite_token?: string
+          invite_type?: string
           proposed_date?: string
           rsvp_deadline?: string
-          saved_restaurant_id?: string
+          selected_member_ids?: Json | null
           status?: string
           updated_at?: string
+          venue_id?: string
         }
         Relationships: [
           {
-            foreignKeyName: "fk_saved_restaurant"
-            columns: ["saved_restaurant_id"]
+            foreignKeyName: "fk_venue"
+            columns: ["venue_id"]
             isOneToOne: false
-            referencedRelation: "saved_restaurants"
+            referencedRelation: "venues"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      help_card_feedback: {
+        Row: {
+          created_at: string
+          feedback_text: string | null
+          help_card_id: string
+          id: string
+          is_helpful: boolean
+          user_id: string | null
+        }
+        Insert: {
+          created_at?: string
+          feedback_text?: string | null
+          help_card_id: string
+          id?: string
+          is_helpful: boolean
+          user_id?: string | null
+        }
+        Update: {
+          created_at?: string
+          feedback_text?: string | null
+          help_card_id?: string
+          id?: string
+          is_helpful?: boolean
+          user_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "help_card_feedback_help_card_id_fkey"
+            columns: ["help_card_id"]
+            isOneToOne: false
+            referencedRelation: "help_cards"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      help_cards: {
+        Row: {
+          android_store_url: string | null
+          apple_store_url: string | null
+          audio_url: string | null
+          category: string
+          content_type: string
+          created_at: string
+          helpful_count: number
+          id: string
+          image_url: string | null
+          is_active: boolean
+          is_featured: boolean
+          question: string
+          sort_order: number
+          text_content: string | null
+          updated_at: string
+          video_url: string | null
+          view_count: number
+          website_url: string | null
+        }
+        Insert: {
+          android_store_url?: string | null
+          apple_store_url?: string | null
+          audio_url?: string | null
+          category?: string
+          content_type: string
+          created_at?: string
+          helpful_count?: number
+          id?: string
+          image_url?: string | null
+          is_active?: boolean
+          is_featured?: boolean
+          question: string
+          sort_order?: number
+          text_content?: string | null
+          updated_at?: string
+          video_url?: string | null
+          view_count?: number
+          website_url?: string | null
+        }
+        Update: {
+          android_store_url?: string | null
+          apple_store_url?: string | null
+          audio_url?: string | null
+          category?: string
+          content_type?: string
+          created_at?: string
+          helpful_count?: number
+          id?: string
+          image_url?: string | null
+          is_active?: boolean
+          is_featured?: boolean
+          question?: string
+          sort_order?: number
+          text_content?: string | null
+          updated_at?: string
+          video_url?: string | null
+          view_count?: number
+          website_url?: string | null
+        }
+        Relationships: []
+      }
+      help_categories: {
+        Row: {
+          color: string | null
+          created_at: string
+          description: string | null
+          icon: string | null
+          id: string
+          is_active: boolean
+          name: string
+          parent_id: string | null
+          sort_order: number
+        }
+        Insert: {
+          color?: string | null
+          created_at?: string
+          description?: string | null
+          icon?: string | null
+          id?: string
+          is_active?: boolean
+          name: string
+          parent_id?: string | null
+          sort_order?: number
+        }
+        Update: {
+          color?: string | null
+          created_at?: string
+          description?: string | null
+          icon?: string | null
+          id?: string
+          is_active?: boolean
+          name?: string
+          parent_id?: string | null
+          sort_order?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "help_categories_parent_id_fkey"
+            columns: ["parent_id"]
+            isOneToOne: false
+            referencedRelation: "help_categories"
             referencedColumns: ["id"]
           },
         ]
@@ -379,10 +625,11 @@ export type Database = {
       invitation_rsvps: {
         Row: {
           created_at: string
+          first_name: string | null
           guest_count: number | null
           id: string
           invitation_id: string
-          invitee_email: string
+          invitee_email: string | null
           invitee_user_id: string | null
           responded_at: string | null
           response: string | null
@@ -390,10 +637,11 @@ export type Database = {
         }
         Insert: {
           created_at?: string
+          first_name?: string | null
           guest_count?: number | null
           id?: string
           invitation_id: string
-          invitee_email: string
+          invitee_email?: string | null
           invitee_user_id?: string | null
           responded_at?: string | null
           response?: string | null
@@ -401,10 +649,11 @@ export type Database = {
         }
         Update: {
           created_at?: string
+          first_name?: string | null
           guest_count?: number | null
           id?: string
           invitation_id?: string
-          invitee_email?: string
+          invitee_email?: string | null
           invitee_user_id?: string | null
           responded_at?: string | null
           response?: string | null
@@ -420,15 +669,265 @@ export type Database = {
           },
         ]
       }
+      member_photos: {
+        Row: {
+          caption: string | null
+          event_id: string | null
+          id: string
+          is_approved: boolean
+          member_id: string | null
+          photo_url: string
+          updated_at: string | null
+          uploaded_at: string
+          uploaded_by_email: string
+          venue_id: string | null
+        }
+        Insert: {
+          caption?: string | null
+          event_id?: string | null
+          id?: string
+          is_approved?: boolean
+          member_id?: string | null
+          photo_url: string
+          updated_at?: string | null
+          uploaded_at?: string
+          uploaded_by_email: string
+          venue_id?: string | null
+        }
+        Update: {
+          caption?: string | null
+          event_id?: string | null
+          id?: string
+          is_approved?: boolean
+          member_id?: string | null
+          photo_url?: string
+          updated_at?: string | null
+          uploaded_at?: string
+          uploaded_by_email?: string
+          venue_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "member_photos_event_id_fkey"
+            columns: ["event_id"]
+            isOneToOne: false
+            referencedRelation: "group_invitations"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "member_photos_member_id_fkey"
+            columns: ["member_id"]
+            isOneToOne: false
+            referencedRelation: "simple_members"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "member_photos_venue_id_fkey"
+            columns: ["venue_id"]
+            isOneToOne: false
+            referencedRelation: "venues"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      message_replies: {
+        Row: {
+          author_email: string
+          author_id: string | null
+          author_name: string
+          created_at: string
+          id: string
+          is_approved: boolean
+          message_id: string
+          parent_reply_id: string | null
+          reply_text: string
+          updated_at: string
+        }
+        Insert: {
+          author_email: string
+          author_id?: string | null
+          author_name: string
+          created_at?: string
+          id?: string
+          is_approved?: boolean
+          message_id: string
+          parent_reply_id?: string | null
+          reply_text: string
+          updated_at?: string
+        }
+        Update: {
+          author_email?: string
+          author_id?: string | null
+          author_name?: string
+          created_at?: string
+          id?: string
+          is_approved?: boolean
+          message_id?: string
+          parent_reply_id?: string | null
+          reply_text?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      messages: {
+        Row: {
+          author_email: string
+          author_id: string | null
+          author_name: string
+          created_at: string
+          id: string
+          is_approved: boolean
+          message_text: string
+          message_type: string
+          updated_at: string
+        }
+        Insert: {
+          author_email: string
+          author_id?: string | null
+          author_name: string
+          created_at?: string
+          id?: string
+          is_approved?: boolean
+          message_text: string
+          message_type?: string
+          updated_at?: string
+        }
+        Update: {
+          author_email?: string
+          author_id?: string | null
+          author_name?: string
+          created_at?: string
+          id?: string
+          is_approved?: boolean
+          message_text?: string
+          message_type?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      navigation_menu_items: {
+        Row: {
+          created_at: string
+          id: string
+          is_active: boolean
+          label: string
+          path: string
+          requires_auth: boolean
+          requires_member: boolean
+          sort_order: number
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          is_active?: boolean
+          label: string
+          path: string
+          requires_auth?: boolean
+          requires_member?: boolean
+          sort_order?: number
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          is_active?: boolean
+          label?: string
+          path?: string
+          requires_auth?: boolean
+          requires_member?: boolean
+          sort_order?: number
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      page_templates: {
+        Row: {
+          created_at: string
+          description: string | null
+          id: string
+          is_active: boolean
+          name: string
+          template_data: Json
+          thumbnail_url: string | null
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          description?: string | null
+          id?: string
+          is_active?: boolean
+          name: string
+          template_data?: Json
+          thumbnail_url?: string | null
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          description?: string | null
+          id?: string
+          is_active?: boolean
+          name?: string
+          template_data?: Json
+          thumbnail_url?: string | null
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      pages: {
+        Row: {
+          content: Json
+          created_at: string
+          created_by: string | null
+          id: string
+          is_published: boolean
+          meta_description: string | null
+          meta_title: string | null
+          slug: string
+          template_id: string | null
+          title: string
+          updated_at: string
+        }
+        Insert: {
+          content?: Json
+          created_at?: string
+          created_by?: string | null
+          id?: string
+          is_published?: boolean
+          meta_description?: string | null
+          meta_title?: string | null
+          slug: string
+          template_id?: string | null
+          title: string
+          updated_at?: string
+        }
+        Update: {
+          content?: Json
+          created_at?: string
+          created_by?: string | null
+          id?: string
+          is_published?: boolean
+          meta_description?: string | null
+          meta_title?: string | null
+          slug?: string
+          template_id?: string | null
+          title?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
       profiles: {
         Row: {
           age_group: string | null
           avatar_url: string | null
           created_at: string
           display_name: string | null
+          email: string | null
+          first_name: string | null
           gender: string | null
           id: string
           is_admin: boolean | null
+          last_name: string | null
           member_since: string
           preferred_language: string | null
           updated_at: string
@@ -439,9 +938,12 @@ export type Database = {
           avatar_url?: string | null
           created_at?: string
           display_name?: string | null
+          email?: string | null
+          first_name?: string | null
           gender?: string | null
           id?: string
           is_admin?: boolean | null
+          last_name?: string | null
           member_since?: string
           preferred_language?: string | null
           updated_at?: string
@@ -452,9 +954,12 @@ export type Database = {
           avatar_url?: string | null
           created_at?: string
           display_name?: string | null
+          email?: string | null
+          first_name?: string | null
           gender?: string | null
           id?: string
           is_admin?: boolean | null
+          last_name?: string | null
           member_since?: string
           preferred_language?: string | null
           updated_at?: string
@@ -511,6 +1016,45 @@ export type Database = {
             referencedColumns: ["id"]
           },
         ]
+      }
+      simple_members: {
+        Row: {
+          created_at: string
+          display_name: string
+          email: string
+          first_name: string
+          id: string
+          is_active: boolean
+          joined_at: string
+          last_name: string
+          receive_notifications: boolean
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          display_name: string
+          email: string
+          first_name: string
+          id?: string
+          is_active?: boolean
+          joined_at?: string
+          last_name: string
+          receive_notifications?: boolean
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          display_name?: string
+          email?: string
+          first_name?: string
+          id?: string
+          is_active?: boolean
+          joined_at?: string
+          last_name?: string
+          receive_notifications?: boolean
+          updated_at?: string
+        }
+        Relationships: []
       }
       "Test Eat": {
         Row: {
@@ -614,6 +1158,87 @@ export type Database = {
         }
         Relationships: []
       }
+      venue_ratings: {
+        Row: {
+          created_at: string
+          id: string
+          rating: number
+          updated_at: string
+          user_id: string
+          venue_id: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          rating: number
+          updated_at?: string
+          user_id: string
+          venue_id: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          rating?: number
+          updated_at?: string
+          user_id?: string
+          venue_id?: string
+        }
+        Relationships: []
+      }
+      venues: {
+        Row: {
+          address: string
+          average_rating: number | null
+          business_name: string
+          created_at: string
+          description: string
+          facebook_link: string | null
+          google_maps_link: string | null
+          id: string
+          image_1_url: string | null
+          image_2_url: string | null
+          image_3_url: string | null
+          rating_count: number | null
+          status: string
+          submitted_by: string | null
+          updated_at: string
+        }
+        Insert: {
+          address: string
+          average_rating?: number | null
+          business_name: string
+          created_at?: string
+          description: string
+          facebook_link?: string | null
+          google_maps_link?: string | null
+          id?: string
+          image_1_url?: string | null
+          image_2_url?: string | null
+          image_3_url?: string | null
+          rating_count?: number | null
+          status?: string
+          submitted_by?: string | null
+          updated_at?: string
+        }
+        Update: {
+          address?: string
+          average_rating?: number | null
+          business_name?: string
+          created_at?: string
+          description?: string
+          facebook_link?: string | null
+          google_maps_link?: string | null
+          id?: string
+          image_1_url?: string | null
+          image_2_url?: string | null
+          image_3_url?: string | null
+          rating_count?: number | null
+          status?: string
+          submitted_by?: string | null
+          updated_at?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
@@ -623,8 +1248,21 @@ export type Database = {
         Args: Record<PropertyKey, never>
         Returns: undefined
       }
+      get_rsvp_counts: {
+        Args: { invitation_ids: string[] }
+        Returns: {
+          attending: number
+          invitation_id: string
+          not_attending: number
+          total: number
+        }[]
+      }
       is_admin: {
-        Args: { user_id: string }
+        Args: Record<PropertyKey, never> | { user_id: string }
+        Returns: boolean
+      }
+      is_user_admin: {
+        Args: { user_id_param: string }
         Returns: boolean
       }
       set_admin_by_email: {
@@ -633,7 +1271,7 @@ export type Database = {
       }
     }
     Enums: {
-      [_ in never]: never
+      media_type: "carousel" | "image" | "youtube"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -760,6 +1398,8 @@ export type CompositeTypes<
 
 export const Constants = {
   public: {
-    Enums: {},
+    Enums: {
+      media_type: ["carousel", "image", "youtube"],
+    },
   },
 } as const
