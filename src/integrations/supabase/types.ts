@@ -150,6 +150,36 @@ export type Database = {
           },
         ]
       }
+      business_registrations: {
+        Row: {
+          auth_user_id: string | null
+          business_name: string
+          created_at: string
+          email: string
+          id: string
+          status: string
+          updated_at: string
+        }
+        Insert: {
+          auth_user_id?: string | null
+          business_name: string
+          created_at?: string
+          email: string
+          id?: string
+          status?: string
+          updated_at?: string
+        }
+        Update: {
+          auth_user_id?: string | null
+          business_name?: string
+          created_at?: string
+          email?: string
+          id?: string
+          status?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
       business_subscriptions: {
         Row: {
           amount: number

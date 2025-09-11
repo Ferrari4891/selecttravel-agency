@@ -302,6 +302,13 @@ const { user } = useAuth();
                     <span className="text-sm">Business Centre</span>
                   </Link>
                 </Button>
+                
+                <Button variant="ghost" className="w-full justify-start h-10 text-left touch-target" asChild>
+                  <Link to="/business-register" onClick={() => setMenuOpen(false)}>
+                    <Building2 className="h-4 w-4 mr-2" />
+                    <span className="text-sm">Add a Business</span>
+                  </Link>
+                </Button>
                  
                  <Button variant="ghost" className="w-full justify-start h-10 text-left touch-target" asChild>
                    <Link to="/flipbook-test" onClick={() => setMenuOpen(false)}>

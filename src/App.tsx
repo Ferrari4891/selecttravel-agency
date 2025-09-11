@@ -31,6 +31,9 @@ import AdminDashboard from "./pages/AdminDashboard";
 import BusinessCentre from "./pages/BusinessCentre";
 import FlipbookTest from "./pages/FlipbookTest";
 import NotFound from "./pages/NotFound";
+import BusinessRegistration from "./components/business/BusinessRegistration";
+import BusinessSetup from "./components/business/BusinessSetup";
+import BusinessLogin from "./components/business/BusinessLogin";
 
 const queryClient = new QueryClient();
 
@@ -62,6 +65,9 @@ const App = () => (
                 {/* Auth routes */}
                 <Route path="/auth" element={<Auth />} />
                 <Route path="/business-auth" element={<BusinessAuth />} />
+                <Route path="/business-register" element={<BusinessRegistration />} />
+                <Route path="/business-setup" element={<BusinessSetup />} />
+                <Route path="/business-login" element={<BusinessLogin />} />
                 
                 {/* Protected routes requiring Supabase authentication */}
                 <Route path="/dashboard" element={<ProtectedRoute><MemberDashboard /></ProtectedRoute>} />

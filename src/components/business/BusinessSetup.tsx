@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -7,6 +7,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Navigation } from '@/components/Navigation';
 import { useToast } from '@/hooks/use-toast';
 import { supabase } from '@/integrations/supabase/client';
+import { useAuth } from '@/contexts/AuthContext';
 
 const BusinessSetup = () => {
   const [password, setPassword] = useState('');
@@ -15,17 +16,44 @@ const BusinessSetup = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const { toast } = useToast();
+  const { user } = useAuth();
 
-  const registrationData = location.state;
+  const [registrationData, setRegistrationData] = useState<any>(null);
+
+  // Load registration data from localStorage or location state
+  useEffect(() => {
+    const tempData = localStorage.getItem('tempBusinessRegistration');
+    const stateData = location.state;
+    
+    if (stateData) {
+      setRegistrationData(stateData);
+    } else if (tempData) {
+      const parsed = JSON.parse(tempData);
+      // Check if data is not too old (1 hour)
+      if (Date.now() - parsed.timestamp < 3600000) {
+        setRegistrationData(parsed);
+      } else {
+        localStorage.removeItem('tempBusinessRegistration');
+        navigate('/business-register');
+      }
+    } else {
+      navigate('/business-register');
+    }
+  }, [location.state, navigate]);
+
+  // Redirect if already fully authenticated
+  useEffect(() => {
+    if (user && registrationData) {
+      navigate('/business-dashboard');
+    }
+  }, [user, registrationData, navigate]);
 
   if (!registrationData) {
-    toast({
-      title: "Error",
-      description: "Registration data not found. Please register again.",
-      variant: "destructive",
-    });
-    navigate('/business-register');
-    return null;
+    return (
+      <div className="min-h-screen bg-background flex items-center justify-center">
+        <div>Loading...</div>
+      </div>
+    );
   }
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -61,7 +89,7 @@ const BusinessSetup = () => {
     setIsSubmitting(true);
 
     try {
-      // Create business user account in Supabase Auth
+      // Create business account with Supabase Auth
       const { data: authData, error: authError } = await supabase.auth.signUp({
         email: registrationData.email,
         password: password,
@@ -79,21 +107,31 @@ const BusinessSetup = () => {
       }
 
       if (authData.user) {
-        // Update registration status
-        await supabase
-          .from('business_registrations')
-          .update({ 
-            status: 'completed',
-            auth_user_id: authData.user.id
-          })
-          .eq('id', registrationData.registrationId);
+        // Create business profile in businesses table
+        const { error: businessError } = await supabase
+          .from('businesses')
+          .insert({
+            user_id: authData.user.id,
+            business_name: registrationData.businessName,
+            email: registrationData.email,
+            business_type: 'Pending', // Will be updated when they complete the profile
+            status: 'setup_required'
+          });
+
+        if (businessError) {
+          console.error('Business creation error:', businessError);
+          // Continue anyway - they can create business profile later
+        }
+
+        // Clean up temporary registration data
+        localStorage.removeItem('tempBusinessRegistration');
 
         toast({
           title: "Account Created Successfully!",
-          description: "You can now log in to manage your business profile.",
+          description: "You can now access your business dashboard!",
         });
 
-        navigate('/business-login');
+        navigate('/business-dashboard');
       }
 
     } catch (error: any) {

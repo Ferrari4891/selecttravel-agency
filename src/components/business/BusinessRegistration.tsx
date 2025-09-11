@@ -30,43 +30,22 @@ const BusinessRegistration = () => {
     setIsSubmitting(true);
 
     try {
-      // Create initial business registration record
-      const { data, error } = await supabase
-        .from('business_registrations')
-        .insert({
-          business_name: businessName.trim(),
-          email: email.trim(),
-          status: 'pending_setup'
-        })
-        .select()
-        .single();
-
-      if (error) {
-        if (error.code === '23505') { // Unique constraint violation
-          toast({
-            title: "Email Already Registered",
-            description: "This email is already registered. Please use the business login to access your account.",
-            variant: "destructive",
-          });
-          navigate('/business-login');
-          return;
-        }
-        throw error;
-      }
+      // Store business information in localStorage temporarily and redirect to setup
+      const tempRegistration = {
+        businessName: businessName.trim(),
+        email: email.trim(),
+        timestamp: Date.now()
+      };
+      
+      localStorage.setItem('tempBusinessRegistration', JSON.stringify(tempRegistration));
 
       toast({
         title: "Registration Successful!",
-        description: "Please check your email for next steps to complete your business setup.",
+        description: "Please proceed to set up your business account.",
       });
 
-      // For now, redirect to business setup - in production you'd send an email
-      navigate('/business-setup', { 
-        state: { 
-          registrationId: data.id,
-          businessName: data.business_name,
-          email: data.email 
-        } 
-      });
+      // Redirect to business setup
+      navigate('/business-setup');
 
     } catch (error) {
       console.error('Registration error:', error);
