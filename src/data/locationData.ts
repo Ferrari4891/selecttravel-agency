@@ -216,6 +216,26 @@ export const regionData = {
       {
         name: "Jordan",
         cities: ["Amman", "Zarqa", "Irbid", "Russeifa", "Wadi as-Sir", "Aqaba", "Madaba", "Sahab", "Mafraq", "Jerash"]
+      },
+      {
+        name: "Lebanon",
+        cities: ["Beirut", "Tripoli", "Sidon", "Tyre", "Nabatieh", "Zahle", "Baalbek", "Jounieh", "Byblos", "Aley"]
+      },
+      {
+        name: "Qatar",
+        cities: ["Doha", "Al Rayyan", "Umm Salal", "Al Khor", "Al Wakrah", "Dukhan", "Mesaieed", "Lusail", "Al Shamal", "Al Daayen"]
+      }
+    ]
+  },
+  "Oceania": {
+    countries: [
+      {
+        name: "Australia",
+        cities: ["Sydney", "Melbourne", "Brisbane", "Perth", "Adelaide", "Gold Coast", "Newcastle", "Canberra", "Sunshine Coast", "Wollongong"]
+      },
+      {
+        name: "New Zealand",
+        cities: ["Auckland", "Wellington", "Christchurch", "Hamilton", "Tauranga", "Napier-Hastings", "Dunedin", "Palmerston North", "Nelson", "Rotorua"]
       }
     ]
   }
