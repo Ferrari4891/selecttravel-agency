@@ -190,9 +190,13 @@ export const SinglePageRestaurantForm: React.FC<SinglePageRestaurantFormProps> =
           </div>
         )}
 
+        {/* Made for seniors text - centered between tagline and country selector */}
+        <div className="flex items-center justify-center py-4">
+          <p className="text-base font-normal text-black">Made for seniors by seniors</p>
+        </div>
+
         {/* Country Selection */}
         <div className="space-y-2">
-          <p className="text-base font-normal text-black">Made for seniors by seniors</p>
           <label className="text-lg font-bold text-foreground">Select Country</label>
           <Select onValueChange={handleCountrySelect} value={selectedCountry}>
             <SelectTrigger className="w-full h-12 text-base font-bold bg-background text-foreground border-2 border-border rounded-none">
