@@ -6,18 +6,47 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { useToast } from '@/hooks/use-toast';
-import { Search, Building2, Calendar, CreditCard, MapPin } from 'lucide-react';
+import { Search, Building2, Calendar, CreditCard, MapPin, Edit } from 'lucide-react';
+import { EditBusinessDialog } from './EditBusinessDialog';
 
 interface Business {
   id: string;
   business_name: string;
   business_type: string;
+  description: string | null;
+  website: string | null;
+  phone: string | null;
+  email: string | null;
+  address: string | null;
   city: string | null;
+  state: string | null;
   country: string | null;
-  subscription_status: string | null;
-  subscription_tier: string | null;
-  subscription_end_date: string | null;
+  postal_code: string | null;
   status: string;
+  subscription_tier: string | null;
+  subscription_status: string | null;
+  subscription_end_date: string | null;
+  facebook: string | null;
+  instagram: string | null;
+  twitter: string | null;
+  linkedin: string | null;
+  logo_url: string | null;
+  image_1_url: string | null;
+  image_2_url: string | null;
+  image_3_url: string | null;
+  wheelchair_access: boolean | null;
+  extended_hours: boolean | null;
+  gluten_free: boolean | null;
+  low_noise: boolean | null;
+  public_transport: boolean | null;
+  pet_friendly: boolean | null;
+  outdoor_seating: boolean | null;
+  senior_discounts: boolean | null;
+  online_booking: boolean | null;
+  air_conditioned: boolean | null;
+  business_hours: any;
+  admin_notes: string | null;
+  rejection_reason: string | null;
   created_at: string;
   user_id: string;
 }
@@ -27,6 +56,8 @@ export const BusinessManagement = () => {
   const [loading, setLoading] = useState(true);
   const [searchTerm, setSearchTerm] = useState('');
   const [statusFilter, setStatusFilter] = useState<string>('all');
+  const [editingBusiness, setEditingBusiness] = useState<Business | null>(null);
+  const [isEditDialogOpen, setIsEditDialogOpen] = useState(false);
   const { toast } = useToast();
 
   useEffect(() => {
@@ -81,6 +112,17 @@ export const BusinessManagement = () => {
         variant: "destructive"
       });
     }
+  };
+
+  const handleEditBusiness = (business: Business) => {
+    setEditingBusiness(business);
+    setIsEditDialogOpen(true);
+  };
+
+  const handleBusinessUpdate = (updatedBusiness: Business) => {
+    setBusinesses(businesses.map(business => 
+      business.id === updatedBusiness.id ? updatedBusiness : business
+    ));
   };
 
   const getStatusBadge = (status: string) => {
@@ -203,9 +245,17 @@ export const BusinessManagement = () => {
                   </div>
                 </div>
 
-                {/* Status Controls */}
+                {/* Action Controls */}
                 <div className="flex items-center justify-between pt-3 border-t">
-                  <span className="text-sm font-medium">Business Status</span>
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    onClick={() => handleEditBusiness(business)}
+                    className="flex items-center gap-2"
+                  >
+                    <Edit className="h-4 w-4" />
+                    Edit Business
+                  </Button>
                   <Select
                     value={business.status}
                     onValueChange={(value) => updateBusinessStatus(business.id, value)}
@@ -234,6 +284,16 @@ export const BusinessManagement = () => {
           </CardContent>
         </Card>
       )}
+
+      <EditBusinessDialog
+        business={editingBusiness}
+        isOpen={isEditDialogOpen}
+        onClose={() => {
+          setIsEditDialogOpen(false);
+          setEditingBusiness(null);
+        }}
+        onUpdate={handleBusinessUpdate}
+      />
     </div>
   );
 };
