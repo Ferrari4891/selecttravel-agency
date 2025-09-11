@@ -247,20 +247,8 @@ const Index: React.FC = () => {
         
         {/* Main content */}
         <div className="relative z-10 min-h-screen flex flex-col">
-          {/* Header Section */}
-          <div className="flex-shrink-0 flex flex-col justify-center items-center text-center px-4 py-8 mt-2">
-            <div className="flex justify-center">
-              <Link 
-                to="/how-to" 
-                className="border border-white/80 hover:border-white w-10 h-10 flex items-center justify-center transition-colors hover:bg-white/10 rounded-none"
-              >
-                <span className="text-white font-bold text-lg">?</span>
-              </Link>
-            </div>
-          </div>
-
           {/* Form Section */}
-          <div className="flex-1 flex items-center justify-center px-4 pb-8">
+          <div className="flex-1 flex items-center justify-center px-4 pt-1 pb-8">
             <SinglePageRestaurantForm
               onSearch={handleSearch}
               onReset={handleReset}
