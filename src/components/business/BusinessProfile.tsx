@@ -19,6 +19,8 @@ import { getFlagEmoji } from '@/data/flagIcons';
 import { EnhancedSelect } from '@/components/ui/enhanced-select';
 import { BusinessMediaForm } from './BusinessMediaForm';
 import { BusinessProfilePreview } from './BusinessProfilePreview';
+import { LocationSelector } from '@/components/shared/LocationSelector';
+import { regionData } from '@/data/locationData';
 
 const businessSchema = z.object({
   business_name: z.string().min(1, 'Business name is required'),
@@ -336,6 +338,11 @@ export const BusinessProfile: React.FC<BusinessProfileProps> = ({
   );
   const [selectedCategory, setSelectedCategory] = useState(business?.business_category || '');
   const [selectedSubtype, setSelectedSubtype] = useState(business?.business_subtype || '');
+  
+  // Unified location state
+  const [selectedRegion, setSelectedRegion] = useState('');
+  const [selectedCountry, setSelectedCountry] = useState('');
+  const [selectedCity, setSelectedCity] = useState('');
 
   const form = useForm<BusinessFormData>({
     resolver: zodResolver(businessSchema),
@@ -752,105 +759,71 @@ export const BusinessProfile: React.FC<BusinessProfileProps> = ({
             name="country"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Country</FormLabel>
-                <FormControl>
-                  <EnhancedSelect
-                    options={countries.map(country => ({
-                      value: country,
-                      label: country,
-                      flag: getFlagEmoji(country)
-                    }))}
-                    value={field.value}
-                    onValueChange={(value) => {
-                      field.onChange(value);
-                      // Clear city and state when country changes
-                      form.setValue('city', '');
-                      form.setValue('state', '');
-                      form.setValue('custom_city', '');
-                      setShowCustomCity(false);
-                    }}
-                    placeholder="Select country"
-                    className="w-full"
-                  />
-                </FormControl>
-                <FormMessage />
+                <FormLabel>Region</FormLabel>
+                <LocationSelector
+                  selectedRegion={selectedRegion}
+                  selectedCountry={selectedCountry}
+                  selectedCity={selectedCity}
+                  onRegionChange={(region) => {
+                    setSelectedRegion(region);
+                    setSelectedCountry('');
+                    setSelectedCity('');
+                    form.setValue('country', '');
+                    form.setValue('city', '');
+                    form.setValue('custom_city', '');
+                    setShowCustomCity(false);
+                  }}
+                  onCountryChange={(country) => {
+                    setSelectedCountry(country);
+                    setSelectedCity('');
+                    field.onChange(country);
+                    form.setValue('city', '');
+                    form.setValue('custom_city', '');
+                    setShowCustomCity(false);
+                  }}
+                  onCityChange={(city) => {
+                    setSelectedCity(city);
+                    form.setValue('city', city);
+                    form.setValue('custom_city', '');
+                    setShowCustomCity(false);
+                  }}
+                  showCustomCity={showCustomCity}
+                  customCity={form.watch('custom_city')}
+                  onCustomCityChange={(city) => {
+                    form.setValue('custom_city', city);
+                    form.setValue('city', '');
+                  }}
+                  onToggleCustomCity={() => setShowCustomCity(!showCustomCity)}
+                  labels={{
+                    region: 'Region',
+                    country: 'Country',
+                    city: 'City',
+                    customCity: 'Custom City Name'
+                  }}
+                />
               </FormItem>
             )}
           />
 
-          {watchedCountry && statesByCountry[watchedCountry] && (
+          {/* Custom city field */}
+          {showCustomCity && (
             <FormField
               control={form.control}
-              name="state"
+              name="custom_city"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>State/Province</FormLabel>
-                  <Select 
-                    onValueChange={(value) => {
-                      field.onChange(value);
-                      // Clear city when state changes
-                      form.setValue('city', '');
-                      form.setValue('custom_city', '');
-                      setShowCustomCity(false);
-                    }} 
-                    defaultValue={field.value}
-                  >
-                    <FormControl>
-                      <SelectTrigger>
-                        <SelectValue placeholder="Select state/province" />
-                      </SelectTrigger>
-                    </FormControl>
-                    <SelectContent>
-                      {statesByCountry[watchedCountry].map((state) => (
-                        <SelectItem key={state} value={state}>
-                          {state}
-                        </SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
+                  <FormLabel>Custom City Name</FormLabel>
+                  <FormControl>
+                    <Input
+                      {...field}
+                      placeholder="Enter city name"
+                    />
+                  </FormControl>
                   <FormMessage />
                 </FormItem>
               )}
             />
           )}
-
-          <FormField
-            control={form.control}
-            name="city"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>City</FormLabel>
-                <Select 
-                  onValueChange={(value) => {
-                    field.onChange(value);
-                    form.setValue('custom_city', '');
-                    setShowCustomCity(false);
-                    // Set state automatically when city is selected from legacy mapping
-                    if (statesByCityLegacy[value]) {
-                      form.setValue('state', statesByCityLegacy[value]);
-                    }
-                  }} 
-                  defaultValue={field.value}
-                >
-                  <FormControl>
-                    <SelectTrigger>
-                      <SelectValue placeholder={watchedCountry ? "Select city" : "Select country first"} />
-                    </SelectTrigger>
-                  </FormControl>
-                  <SelectContent>
-                    {watchedCountry && citiesByCountry[watchedCountry] ? 
-                      citiesByCountry[watchedCountry].map((city) => (
-                        <SelectItem key={city} value={city}>
-                          {city}
-                        </SelectItem>
-                      )) : null
-                    }
-                  </SelectContent>
-                </Select>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
 
           {watchedCountry && (
             <div className="space-y-2">
