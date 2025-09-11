@@ -432,7 +432,7 @@ export const BusinessProfile: React.FC<BusinessProfileProps> = ({
           description: "Business profile updated successfully!",
         });
       } else {
-        // Create new business
+        // Create new business with pending status for admin approval
         const { data: newBusiness, error } = await supabase
           .from('businesses')
           .insert({
@@ -456,6 +456,7 @@ export const BusinessProfile: React.FC<BusinessProfileProps> = ({
             image_1_url: data.image_1_url,
             image_2_url: data.image_2_url,
             image_3_url: data.image_3_url,
+            status: 'pending', // New businesses start as pending approval
             // Business amenities
             wheelchair_access: data.wheelchair_access,
             extended_hours: data.extended_hours,
@@ -474,6 +475,10 @@ export const BusinessProfile: React.FC<BusinessProfileProps> = ({
         if (error) throw error;
 
         onBusinessCreated?.(newBusiness);
+        toast({
+          title: "Success",
+          description: "Business profile submitted successfully! Your business is now pending admin approval and will be visible to visitors once approved.",
+        });
       }
     } catch (error: any) {
       toast({

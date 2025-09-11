@@ -9,6 +9,7 @@ import { useToast } from '@/hooks/use-toast';
 import { Home, Shield, Users, Building2, BarChart3, Settings } from 'lucide-react';
 import { UserManagement } from '@/components/admin/UserManagement';
 import { BusinessManagement } from '@/components/admin/BusinessManagement';
+import { BusinessApprovalDashboard } from '@/components/admin/BusinessApprovalDashboard';
 import { SystemAnalytics } from '@/components/admin/SystemAnalytics';
 import { AdminSettings } from '@/components/admin/AdminSettings';
 
@@ -110,8 +111,12 @@ const AdminDashboard = () => {
       </header>
 
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        <Tabs defaultValue="analytics" className="space-y-6">
+        <Tabs defaultValue="approvals" className="space-y-6">
           <TabsList className="grid w-full grid-cols-1 h-auto">
+            <TabsTrigger value="approvals" className="text-sm font-medium px-4 py-3">
+              <Building2 className="h-4 w-4 mr-2" />
+              Business Approvals
+            </TabsTrigger>
             <TabsTrigger value="analytics" className="text-sm font-medium px-4 py-3">
               <BarChart3 className="h-4 w-4 mr-2" />
               Analytics
@@ -129,6 +134,20 @@ const AdminDashboard = () => {
               Settings
             </TabsTrigger>
           </TabsList>
+
+          <TabsContent value="approvals">
+            <Card className="border shadow-md bg-background">
+              <CardHeader>
+                <CardTitle className="text-lg font-semibold">Business Approvals</CardTitle>
+                <CardDescription className="text-sm text-muted-foreground">
+                  Review and approve new business applications to make them visible to visitors.
+                </CardDescription>
+              </CardHeader>
+              <CardContent>
+                <BusinessApprovalDashboard />
+              </CardContent>
+            </Card>
+          </TabsContent>
 
           <TabsContent value="analytics">
             <Card className="border shadow-md bg-background">

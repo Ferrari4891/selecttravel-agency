@@ -239,7 +239,10 @@ export type Database = {
       businesses: {
         Row: {
           address: string | null
+          admin_notes: string | null
           air_conditioned: boolean | null
+          approved_at: string | null
+          approved_by: string | null
           business_hours: Json | null
           business_name: string
           business_type: string
@@ -265,6 +268,7 @@ export type Database = {
           phone: string | null
           postal_code: string | null
           public_transport: boolean | null
+          rejection_reason: string | null
           senior_discounts: boolean | null
           state: string | null
           status: string
@@ -279,7 +283,10 @@ export type Database = {
         }
         Insert: {
           address?: string | null
+          admin_notes?: string | null
           air_conditioned?: boolean | null
+          approved_at?: string | null
+          approved_by?: string | null
           business_hours?: Json | null
           business_name: string
           business_type: string
@@ -305,6 +312,7 @@ export type Database = {
           phone?: string | null
           postal_code?: string | null
           public_transport?: boolean | null
+          rejection_reason?: string | null
           senior_discounts?: boolean | null
           state?: string | null
           status?: string
@@ -319,7 +327,10 @@ export type Database = {
         }
         Update: {
           address?: string | null
+          admin_notes?: string | null
           air_conditioned?: boolean | null
+          approved_at?: string | null
+          approved_by?: string | null
           business_hours?: Json | null
           business_name?: string
           business_type?: string
@@ -345,6 +356,7 @@ export type Database = {
           phone?: string | null
           postal_code?: string | null
           public_transport?: boolean | null
+          rejection_reason?: string | null
           senior_discounts?: boolean | null
           state?: string | null
           status?: string
@@ -1274,6 +1286,10 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
+      approve_business: {
+        Args: { admin_user_id: string; business_id: string; notes?: string }
+        Returns: undefined
+      }
       create_admin_user: {
         Args: Record<PropertyKey, never>
         Returns: undefined
@@ -1294,6 +1310,15 @@ export type Database = {
       is_user_admin: {
         Args: { user_id_param: string }
         Returns: boolean
+      }
+      reject_business: {
+        Args: {
+          admin_user_id: string
+          business_id: string
+          notes?: string
+          reason: string
+        }
+        Returns: undefined
       }
       set_admin_by_email: {
         Args: { user_email: string }
