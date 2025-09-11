@@ -132,7 +132,7 @@ const Dashboard = () => {
             </TabsContent>
 
             <TabsContent value="media" className="space-y-6">
-              <div className="grid gap-6 lg:grid-cols-2">
+              <div className="space-y-6">
                 <BusinessMediaForm businessId={business.id} />
                 <BusinessMediaPreview media={null} />
               </div>
