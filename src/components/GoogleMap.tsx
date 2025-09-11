@@ -30,10 +30,17 @@ export const GoogleMap: React.FC<GoogleMapProps> = ({
       }
 
       try {
-        // Get Google Maps API key from Supabase function
-        const { data, error: keyError } = await supabase.functions.invoke('get-google-maps-key');
+        // Get Google Maps API key from Supabase function with timeout
+        const timeoutPromise = new Promise((_, reject) => 
+          setTimeout(() => reject(new Error('Request timeout')), 10000)
+        );
+        
+        const apiKeyPromise = supabase.functions.invoke('get-google-maps-key');
+        
+        const { data, error: keyError } = await Promise.race([apiKeyPromise, timeoutPromise]) as any;
         
         if (keyError || !data?.apiKey) {
+          console.error('Google Maps API key fetch error:', keyError);
           setError("Map preview unavailable (API key not configured)");
           setIsLoading(false);
           return;
