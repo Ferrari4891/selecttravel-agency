@@ -248,7 +248,7 @@ const Index: React.FC = () => {
         {/* Main content */}
         <div className="relative z-10 min-h-screen flex flex-col">
           {/* Form Section */}
-          <div className="flex-1 flex items-center justify-center px-4 pt-2 pb-8">
+          <div className="flex-1 flex items-center justify-center px-4 pt-4 pb-8">
             <SinglePageRestaurantForm
               onSearch={handleSearch}
               onReset={handleReset}
