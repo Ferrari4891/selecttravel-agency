@@ -231,7 +231,7 @@ export const regionData = {
     countries: [
       {
         name: "Australia",
-        cities: ["Sydney", "Melbourne", "Brisbane", "Perth", "Adelaide", "Gold Coast", "Newcastle", "Canberra", "Sunshine Coast", "Wollongong", "Woolgoolga", ]
+        cities: ["Sydney", "Melbourne", "Brisbane", "Perth", "Adelaide", "Gold Coast", "Newcastle", "Canberra", "Sunshine Coast", "Wollongong", "Woolgoolga","Coffs Harbour", ]
       },
       {
         name: "New Zealand",
