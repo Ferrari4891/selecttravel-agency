@@ -8,6 +8,8 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { BusinessProfile } from '@/components/business/BusinessProfile';
 import { BusinessAnalytics } from '@/components/business/BusinessAnalytics';
 import { SubscriptionManagement } from '@/components/business/SubscriptionManagement';
+import { BusinessMediaForm } from '@/components/business/BusinessMediaForm';
+import { BusinessMediaPreview } from '@/components/business/BusinessMediaPreview';
 import { useToast } from '@/hooks/use-toast';
 import { Home } from 'lucide-react';
 interface Business {
@@ -110,6 +112,7 @@ const Dashboard = () => {
           </Card> : <Tabs defaultValue="profile" className="space-y-6">
             <TabsList className="grid w-full grid-cols-1 h-auto">
               <TabsTrigger value="profile" className="text-sm font-medium px-4 py-3">Business Profile</TabsTrigger>
+              <TabsTrigger value="media" className="text-sm font-medium px-4 py-3">Media</TabsTrigger>
               <TabsTrigger value="analytics" className="text-sm font-medium px-4 py-3">Analytics</TabsTrigger>
               <TabsTrigger value="subscription" className="text-sm font-medium px-4 py-3">Subscription</TabsTrigger>
             </TabsList>
@@ -126,6 +129,13 @@ const Dashboard = () => {
                   <BusinessProfile business={business} onBusinessUpdated={setBusiness} />
                 </CardContent>
               </Card>
+            </TabsContent>
+
+            <TabsContent value="media" className="space-y-6">
+              <div className="grid gap-6 lg:grid-cols-2">
+                <BusinessMediaForm businessId={business.id} />
+                <BusinessMediaPreview media={null} />
+              </div>
             </TabsContent>
 
             <TabsContent value="analytics">
