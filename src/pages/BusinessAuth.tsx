@@ -27,7 +27,7 @@ const BusinessAuth = () => {
   return <div className="min-h-screen bg-background">
       <Navigation />
       <div className="container mx-auto px-4 py-8">
-        <div className="max-w-4xl mx-auto">
+        <div className="w-full">
           <div className="text-center mb-8">
             <h1 className="text-3xl font-bold text-foreground mb-4">ADD YOUR BUSINESS</h1>
             <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
@@ -35,7 +35,7 @@ const BusinessAuth = () => {
               Showcase your establishment, manage your information, and grow your customer base.
             </p>
           </div>
-          <div className="bg-card border rounded-lg p-6">
+          <div className="bg-card border p-6">
             <BusinessProfile onBusinessCreated={handleBusinessCreated} />
           </div>
         </div>

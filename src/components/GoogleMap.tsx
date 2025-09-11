@@ -22,6 +22,7 @@ export const GoogleMap: React.FC<GoogleMapProps> = ({
 
   useEffect(() => {
     let scriptLoadTimeout: number | undefined;
+    let overallTimeout: number | undefined;
     const loadGoogleMaps = async () => {
       // Check if we have address data
       if (!address && !city) {
@@ -97,68 +98,92 @@ export const GoogleMap: React.FC<GoogleMapProps> = ({
     };
 
     const initializeMap = async () => {
-      if (!mapRef.current || !window.google) return;
+      const MAX_RETRIES = 10;
+      let attempts = 0;
 
-      try {
-        const geocoder = new window.google.maps.Geocoder();
-        const searchAddress = [address, city, country].filter(Boolean).join(', ');
-
-        // Geocode the address
-        geocoder.geocode({ address: searchAddress }, (results, status) => {
-          try {
-            if (status === 'OK' && results && results[0]) {
-              const location = results[0].geometry.location;
-              
-              // Create the map
-              const map = new window.google.maps.Map(mapRef.current!, {
-                center: location,
-                zoom: 15,
-                mapTypeId: window.google.maps.MapTypeId.ROADMAP,
-                styles: [
-                  {
-                    featureType: 'poi',
-                    elementType: 'labels',
-                    stylers: [{ visibility: 'off' }]
-                  }
-                ]
-              });
-
-              // Add a marker
-              new window.google.maps.Marker({
-                position: location,
-                map: map,
-                title: searchAddress,
-                icon: {
-                  url: 'data:image/svg+xml;charset=UTF-8,' + encodeURIComponent(`
-                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                      <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z" fill="#FF6B6B"/>
-                      <circle cx="12" cy="9" r="2.5" fill="white"/>
-                    </svg>
-                  `),
-                  scaledSize: new window.google.maps.Size(32, 32),
-                  anchor: new window.google.maps.Point(16, 32)
-                }
-              });
-            } else {
-              console.error('Geocode failed:', status, results);
-              setError("Location not found");
-            }
-          } catch (e) {
-            console.error('Map initialization error:', e);
+      const tryInit = () => {
+        // Wait for both the container ref and Google Maps library
+        if (!mapRef.current || !window.google || !window.google.maps) {
+          attempts += 1;
+          if (attempts >= MAX_RETRIES) {
             setError("Error initializing map");
-          } finally {
             setIsLoading(false);
+            return;
           }
-        });
-      } catch (err) {
-        setError("Error initializing map");
-        setIsLoading(false);
-      }
+          setTimeout(tryInit, 300);
+          return;
+        }
+
+        try {
+          const geocoder = new window.google.maps.Geocoder();
+          const searchAddress = [address, city, country].filter(Boolean).join(', ');
+
+          // Geocode the address
+          geocoder.geocode({ address: searchAddress }, (results, status) => {
+            try {
+              if (status === 'OK' && results && results[0]) {
+                const location = results[0].geometry.location;
+
+                // Create the map
+                const map = new window.google.maps.Map(mapRef.current!, {
+                  center: location,
+                  zoom: 15,
+                  mapTypeId: window.google.maps.MapTypeId.ROADMAP,
+                  styles: [
+                    {
+                      featureType: 'poi',
+                      elementType: 'labels',
+                      stylers: [{ visibility: 'off' }]
+                    }
+                  ]
+                });
+
+                // Add a marker
+                new window.google.maps.Marker({
+                  position: location,
+                  map: map,
+                  title: searchAddress,
+                  icon: {
+                    url: 'data:image/svg+xml;charset=UTF-8,' + encodeURIComponent(`
+                      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z" fill="#FF6B6B"/>
+                        <circle cx="12" cy="9" r="2.5" fill="white"/>
+                      </svg>
+                    `),
+                    scaledSize: new window.google.maps.Size(32, 32),
+                    anchor: new window.google.maps.Point(16, 32)
+                  }
+                });
+              } else {
+                console.error('Geocode failed:', status, results);
+                setError("Location not found");
+              }
+            } catch (e) {
+              console.error('Map initialization error:', e);
+              setError("Error initializing map");
+            } finally {
+              setIsLoading(false);
+            }
+          });
+        } catch (err) {
+          setError("Error initializing map");
+          setIsLoading(false);
+        }
+      };
+
+      tryInit();
     };
+
+    // Global safety to prevent infinite spinner
+    overallTimeout = window.setTimeout(() => {
+      setError((prev) => prev ?? "Map preview unavailable");
+      setIsLoading(false);
+    }, 15000);
 
     loadGoogleMaps();
     return () => {
       if (scriptLoadTimeout) clearTimeout(scriptLoadTimeout);
+      if (overallTimeout) clearTimeout(overallTimeout);
     };
   }, [address, city, country]);
 
