@@ -29,7 +29,6 @@ const businessSchema = z.object({
     message: "Please enter a valid URL"
   }),
   phone: z.string().optional(),
-  country_code: z.string().optional(),
   email: z.string().email().optional().or(z.literal('')),
   address: z.string().optional(),
   city: z.string().optional(),
@@ -347,7 +346,6 @@ export const BusinessProfile: React.FC<BusinessProfileProps> = ({
       description: business?.description || '',
       website: business?.website || '',
       phone: business?.phone || '',
-      country_code: business?.country_code || '+1',
       email: business?.email || '',
       address: business?.address || '',
       city: business?.city || '',
@@ -395,7 +393,6 @@ export const BusinessProfile: React.FC<BusinessProfileProps> = ({
             description: data.description,
             website: data.website,
             phone: data.phone,
-            country_code: data.country_code,
             email: data.email,
             address: data.address,
             city: data.custom_city || data.city,
@@ -444,7 +441,6 @@ export const BusinessProfile: React.FC<BusinessProfileProps> = ({
             description: data.description,
             website: data.website,
             phone: data.phone,
-            country_code: data.country_code,
             email: data.email,
             address: data.address,
             city: data.custom_city || data.city,
@@ -850,45 +846,19 @@ export const BusinessProfile: React.FC<BusinessProfileProps> = ({
             )}
           />
 
-          <div className="space-y-2">
-            <label className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">Phone Number</label>
-            <div className="flex gap-2">
-              <FormField
-                control={form.control}
-                name="country_code"
-                render={({ field }) => (
-                  <FormItem className="w-32">
-                    <FormControl>
-                      <EnhancedSelect
-                        options={countryPhoneCodes.map(item => ({
-                          value: item.code,
-                          label: `${item.code} ${item.country}`,
-                          flag: getFlagEmoji(item.country)
-                        }))}
-                        value={field.value}
-                        onValueChange={field.onChange}
-                        placeholder="+1"
-                        className="w-full"
-                        displayFormat={(option) => `${option.flag} ${option.value}`}
-                      />
-                    </FormControl>
-                  </FormItem>
-                )}
-              />
-              <FormField
-                control={form.control}
-                name="phone"
-                render={({ field }) => (
-                  <FormItem className="flex-1">
-                    <FormControl>
-                      <Input {...field} placeholder="Phone number" />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-            </div>
-          </div>
+          <FormField
+            control={form.control}
+            name="phone"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Phone Number</FormLabel>
+                <FormControl>
+                  <Input {...field} placeholder="Phone number with country code" />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
 
           <FormField
             control={form.control}
