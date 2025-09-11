@@ -79,43 +79,48 @@ export const GoogleMap: React.FC<GoogleMapProps> = ({
 
         // Geocode the address
         geocoder.geocode({ address: searchAddress }, (results, status) => {
-          if (status === 'OK' && results && results[0]) {
-            const location = results[0].geometry.location;
-            
-            // Create the map
-            const map = new window.google.maps.Map(mapRef.current!, {
-              center: location,
-              zoom: 15,
-              mapTypeId: window.google.maps.MapTypeId.ROADMAP,
-              styles: [
-                {
-                  featureType: 'poi',
-                  elementType: 'labels',
-                  stylers: [{ visibility: 'off' }]
+          try {
+            if (status === 'OK' && results && results[0]) {
+              const location = results[0].geometry.location;
+              
+              // Create the map
+              const map = new window.google.maps.Map(mapRef.current!, {
+                center: location,
+                zoom: 15,
+                mapTypeId: window.google.maps.MapTypeId.ROADMAP,
+                styles: [
+                  {
+                    featureType: 'poi',
+                    elementType: 'labels',
+                    stylers: [{ visibility: 'off' }]
+                  }
+                ]
+              });
+
+              // Add a marker
+              new window.google.maps.Marker({
+                position: location,
+                map: map,
+                title: searchAddress,
+                icon: {
+                  url: 'data:image/svg+xml;charset=UTF-8,' + encodeURIComponent(`
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                      <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z" fill="#FF6B6B"/>
+                      <circle cx="12" cy="9" r="2.5" fill="white"/>
+                    </svg>
+                  `),
+                  scaledSize: new window.google.maps.Size(32, 32),
+                  anchor: new window.google.maps.Point(16, 32)
                 }
-              ]
-            });
-
-            // Add a marker
-            new window.google.maps.Marker({
-              position: location,
-              map: map,
-              title: searchAddress,
-              icon: {
-                url: 'data:image/svg+xml;charset=UTF-8,' + encodeURIComponent(`
-                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z" fill="#FF6B6B"/>
-                    <circle cx="12" cy="9" r="2.5" fill="white"/>
-                  </svg>
-                `),
-                scaledSize: new window.google.maps.Size(32, 32),
-                anchor: new window.google.maps.Point(16, 32)
-              }
-            });
-
-            setIsLoading(false);
-          } else {
-            setError("Location not found");
+              });
+            } else {
+              console.error('Geocode failed:', status, results);
+              setError("Location not found");
+            }
+          } catch (e) {
+            console.error('Map initialization error:', e);
+            setError("Error initializing map");
+          } finally {
             setIsLoading(false);
           }
         });
