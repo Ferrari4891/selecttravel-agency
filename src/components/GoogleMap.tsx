@@ -21,6 +21,7 @@ export const GoogleMap: React.FC<GoogleMapProps> = ({
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
+    let scriptLoadTimeout: number | undefined;
     const loadGoogleMaps = async () => {
       // Check if we have address data
       if (!address && !city) {
@@ -49,18 +50,43 @@ export const GoogleMap: React.FC<GoogleMapProps> = ({
         const apiKey = data.apiKey;
 
         if (!window.google) {
-          const script = document.createElement('script');
-          script.src = `https://maps.googleapis.com/maps/api/js?key=${apiKey}&libraries=places`;
-          script.async = true;
-          script.defer = true;
+          const existing = document.querySelector('script[src^="https://maps.googleapis.com/maps/api/js"]') as HTMLScriptElement | null;
+          if (!existing) {
+            const script = document.createElement('script');
+            script.src = `https://maps.googleapis.com/maps/api/js?key=${apiKey}&libraries=places`;
+            script.async = true;
+            script.defer = true;
 
-          script.onload = () => initializeMap();
-          script.onerror = () => {
-            setError("Failed to load Google Maps");
-            setIsLoading(false);
-          };
+            script.onload = () => {
+              if (scriptLoadTimeout) clearTimeout(scriptLoadTimeout);
+              initializeMap();
+            };
+            script.onerror = () => {
+              if (scriptLoadTimeout) clearTimeout(scriptLoadTimeout);
+              setError("Failed to load Google Maps");
+              setIsLoading(false);
+            };
 
-          document.head.appendChild(script);
+            document.head.appendChild(script);
+          } else {
+            existing.onload = () => {
+              if (scriptLoadTimeout) clearTimeout(scriptLoadTimeout);
+              initializeMap();
+            };
+            existing.onerror = () => {
+              if (scriptLoadTimeout) clearTimeout(scriptLoadTimeout);
+              setError("Failed to load Google Maps");
+              setIsLoading(false);
+            };
+          }
+
+          // Safety timeout in case the script never loads
+          scriptLoadTimeout = window.setTimeout(() => {
+            if (!window.google) {
+              setError("Failed to load Google Maps");
+              setIsLoading(false);
+            }
+          }, 12000);
         } else {
           initializeMap();
         }
@@ -131,6 +157,9 @@ export const GoogleMap: React.FC<GoogleMapProps> = ({
     };
 
     loadGoogleMaps();
+    return () => {
+      if (scriptLoadTimeout) clearTimeout(scriptLoadTimeout);
+    };
   }, [address, city, country]);
 
   if (error) {
