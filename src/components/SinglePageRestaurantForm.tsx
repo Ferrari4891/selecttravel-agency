@@ -14,29 +14,36 @@ interface SinglePageRestaurantFormProps {
   onSearch: (searchParams: {
     country: string;
     city: string;
-    cuisine: string;
+    category: string;
+    subcategory: string;
+    type: string;
     resultCount: number;
   }) => void;
   onReset: () => void;
   isLoading: boolean;
 }
 
-interface CountryCuisineData {
-  [key: string]: string[];
-}
+const restaurantFoodTypes = [
+  'African Food', 'British Food', 'Cajun Food', 'Caribbean Food', 'Chinese Food', 
+  'Eastern European Food', 'French Food', 'German Food', 'Greek Food', 'Indian Food', 
+  'International Food', 'Irish Food', 'Italian Food', 'Japanese Food', 'Mediterranean Food', 
+  'Mexican Food', 'South American Food', 'Spanish Food', 'Thai Food', 'Vietnamese Food'
+];
 
-const countryCuisineData: CountryCuisineData = {
-  'France': ['African Food', 'British Food', 'Cajun Food', 'Caribbean Food', 'Chinese Food', 'Eastern European Food', 'French Food', 'German Food', 'Greek Food', 'Indian Food', 'International Food', 'Irish Food', 'Italian Food', 'Japanese Food', 'Mediterranean Food', 'Mexican Food', 'South American Food', 'Spanish Food', 'Thai Food', 'Vietnamese Food'],
-  'Spain': ['African Food', 'British Food', 'Cajun Food', 'Caribbean Food', 'Chinese Food', 'Eastern European Food', 'French Food', 'German Food', 'Greek Food', 'Indian Food', 'International Food', 'Irish Food', 'Italian Food', 'Japanese Food', 'Mediterranean Food', 'Mexican Food', 'South American Food', 'Spanish Food', 'Thai Food', 'Vietnamese Food'],
-  'United States': ['African Food', 'British Food', 'Cajun Food', 'Caribbean Food', 'Chinese Food', 'Eastern European Food', 'French Food', 'German Food', 'Greek Food', 'Indian Food', 'International Food', 'Irish Food', 'Italian Food', 'Japanese Food', 'Mediterranean Food', 'Mexican Food', 'South American Food', 'Spanish Food', 'Thai Food', 'Vietnamese Food'],
-  'China': ['African Food', 'British Food', 'Cajun Food', 'Caribbean Food', 'Chinese Food', 'Eastern European Food', 'French Food', 'German Food', 'Greek Food', 'Indian Food', 'International Food', 'Irish Food', 'Italian Food', 'Japanese Food', 'Mediterranean Food', 'Mexican Food', 'South American Food', 'Spanish Food', 'Thai Food', 'Vietnamese Food'],
-  'Italy': ['African Food', 'British Food', 'Cajun Food', 'Caribbean Food', 'Chinese Food', 'Eastern European Food', 'French Food', 'German Food', 'Greek Food', 'Indian Food', 'International Food', 'Irish Food', 'Italian Food', 'Japanese Food', 'Mediterranean Food', 'Mexican Food', 'South American Food', 'Spanish Food', 'Thai Food', 'Vietnamese Food'],
-  'Turkey': ['African Food', 'British Food', 'Cajun Food', 'Caribbean Food', 'Chinese Food', 'Eastern European Food', 'French Food', 'German Food', 'Greek Food', 'Indian Food', 'International Food', 'Irish Food', 'Italian Food', 'Japanese Food', 'Mediterranean Food', 'Mexican Food', 'South American Food', 'Spanish Food', 'Thai Food', 'Vietnamese Food'],
-  'Mexico': ['African Food', 'British Food', 'Cajun Food', 'Caribbean Food', 'Chinese Food', 'Eastern European Food', 'French Food', 'German Food', 'Greek Food', 'Indian Food', 'International Food', 'Irish Food', 'Italian Food', 'Japanese Food', 'Mediterranean Food', 'Mexican Food', 'South American Food', 'Spanish Food', 'Thai Food', 'Vietnamese Food'],
-  'Thailand': ['African Food', 'British Food', 'Cajun Food', 'Caribbean Food', 'Chinese Food', 'Eastern European Food', 'French Food', 'German Food', 'Greek Food', 'Indian Food', 'International Food', 'Irish Food', 'Italian Food', 'Japanese Food', 'Mediterranean Food', 'Mexican Food', 'South American Food', 'Spanish Food', 'Thai Food', 'Vietnamese Food'],
-  'Germany': ['African Food', 'British Food', 'Cajun Food', 'Caribbean Food', 'Chinese Food', 'Eastern European Food', 'French Food', 'German Food', 'Greek Food', 'Indian Food', 'International Food', 'Irish Food', 'Italian Food', 'Japanese Food', 'Mediterranean Food', 'Mexican Food', 'South American Food', 'Spanish Food', 'Thai Food', 'Vietnamese Food'],
-  'United Kingdom': ['African Food', 'British Food', 'Cajun Food', 'Caribbean Food', 'Chinese Food', 'Eastern European Food', 'French Food', 'German Food', 'Greek Food', 'Indian Food', 'International Food', 'Irish Food', 'Italian Food', 'Japanese Food', 'Mediterranean Food', 'Mexican Food', 'South American Food', 'Spanish Food', 'Thai Food', 'Vietnamese Food']
-};
+const fastFoodTypes = [
+  'Burger Chains', 'Pizza Chains', 'Chicken Chains', 'Sandwich Shops', 'Taco Shops',
+  'Asian Fast Food', 'Coffee Chains', 'Bakery Chains', 'Ice Cream Shops', 'Donut Shops'
+];
+
+const barTypes = [
+  'Sports Bars', 'Wine Bars', 'Cocktail Bars', 'Beer Gardens', 'Rooftop Bars',
+  'Dive Bars', 'Hotel Bars', 'Beach Bars', 'Whiskey Bars', 'Piano Bars'
+];
+
+const clubTypes = [
+  'Dance Clubs', 'Jazz Clubs', 'Comedy Clubs', 'Strip Clubs', 'Karaoke Bars',
+  'Live Music Venues', 'Lounge Bars', 'Themed Clubs', 'Beach Clubs', 'Underground Clubs'
+];
 
 // Get all countries from regionData
 const getAllCountries = () => {
@@ -55,16 +62,27 @@ export const SinglePageRestaurantForm: React.FC<SinglePageRestaurantFormProps> =
   isLoading
 }) => {
   const [selectedCountry, setSelectedCountry] = useState<string>('');
-  const [selectedCuisine, setSelectedCuisine] = useState<string>('');
+  const [selectedCategory, setSelectedCategory] = useState<string>(''); // Food or Drink
+  const [selectedSubcategory, setSelectedSubcategory] = useState<string>(''); // Restaurant/Fast Food or Bar/Club
+  const [selectedType, setSelectedType] = useState<string>(''); // Specific type
   const [selectedCity, setSelectedCity] = useState<string>('');
   const [citySearchInput, setCitySearchInput] = useState<string>('');
   const [resultCount, setResultCount] = useState<number>(5);
 
   const allCountries = getAllCountries();
 
-  const availableCuisines = useMemo(() => {
-    return selectedCountry ? countryCuisineData[selectedCountry] || [] : [];
-  }, [selectedCountry]);
+  const availableTypes = useMemo(() => {
+    if (selectedCategory === 'Food' && selectedSubcategory === 'Restaurants') {
+      return restaurantFoodTypes;
+    } else if (selectedCategory === 'Food' && selectedSubcategory === 'Fast Food') {
+      return fastFoodTypes;
+    } else if (selectedCategory === 'Drink' && selectedSubcategory === 'Bars') {
+      return barTypes;
+    } else if (selectedCategory === 'Drink' && selectedSubcategory === 'Clubs') {
+      return clubTypes;
+    }
+    return [];
+  }, [selectedCategory, selectedSubcategory]);
 
   const cities = useMemo(() => {
     if (!selectedCountry) return [];
@@ -80,13 +98,26 @@ export const SinglePageRestaurantForm: React.FC<SinglePageRestaurantFormProps> =
 
   const handleCountrySelect = (country: string) => {
     setSelectedCountry(country);
-    setSelectedCuisine('');
+    setSelectedCategory('');
+    setSelectedSubcategory('');
+    setSelectedType('');
     setSelectedCity('');
     setCitySearchInput('');
   };
 
-  const handleCuisineSelect = (cuisine: string) => {
-    setSelectedCuisine(cuisine);
+  const handleCategorySelect = (category: string) => {
+    setSelectedCategory(category);
+    setSelectedSubcategory('');
+    setSelectedType('');
+  };
+
+  const handleSubcategorySelect = (subcategory: string) => {
+    setSelectedSubcategory(subcategory);
+    setSelectedType('');
+  };
+
+  const handleTypeSelect = (type: string) => {
+    setSelectedType(type);
   };
 
   const handleCitySelect = (city: string) => {
@@ -135,11 +166,13 @@ export const SinglePageRestaurantForm: React.FC<SinglePageRestaurantFormProps> =
     
     const cityToUse = selectedCity || citySearchInput.trim();
     
-    if (selectedCountry && selectedCuisine && cityToUse && resultCount > 0) {
+    if (selectedCountry && selectedCategory && selectedSubcategory && selectedType && cityToUse && resultCount > 0) {
       onSearch({
         country: selectedCountry,
         city: cityToUse,
-        cuisine: selectedCuisine,
+        category: selectedCategory,
+        subcategory: selectedSubcategory,
+        type: selectedType,
         resultCount
       });
     }
@@ -147,14 +180,16 @@ export const SinglePageRestaurantForm: React.FC<SinglePageRestaurantFormProps> =
 
   const handleReset = () => {
     setSelectedCountry('');
-    setSelectedCuisine('');
+    setSelectedCategory('');
+    setSelectedSubcategory('');
+    setSelectedType('');
     setSelectedCity('');
     setCitySearchInput('');
     setResultCount(5);
     onReset();
   };
 
-  const isComplete = selectedCountry && selectedCuisine && (selectedCity || citySearchInput.trim()) && resultCount > 0;
+  const isComplete = selectedCountry && selectedCategory && selectedSubcategory && selectedType && (selectedCity || citySearchInput.trim()) && resultCount > 0;
 
   return (
     <Card className="w-full max-w-md mx-auto bg-white/95 backdrop-blur-sm border-2 border-white rounded-none shadow-lg">
@@ -171,16 +206,26 @@ export const SinglePageRestaurantForm: React.FC<SinglePageRestaurantFormProps> =
         </div>
 
         {/* Current Selections */}
-        {(selectedCountry || selectedCuisine || selectedCity || citySearchInput.trim()) && (
+        {(selectedCountry || selectedCategory || selectedSubcategory || selectedType || selectedCity || citySearchInput.trim()) && (
           <div className="flex flex-wrap gap-2 justify-center">
             {selectedCountry && (
               <Badge variant="secondary" className="bg-muted text-foreground text-xs px-2 py-1 rounded-none">
                 {selectedCountry}
               </Badge>
             )}
-            {selectedCuisine && (
+            {selectedCategory && (
               <Badge variant="secondary" className="bg-muted text-foreground text-xs px-2 py-1 rounded-none">
-                {selectedCuisine}
+                {selectedCategory}
+              </Badge>
+            )}
+            {selectedSubcategory && (
+              <Badge variant="secondary" className="bg-muted text-foreground text-xs px-2 py-1 rounded-none">
+                {selectedSubcategory}
+              </Badge>
+            )}
+            {selectedType && (
+              <Badge variant="secondary" className="bg-muted text-foreground text-xs px-2 py-1 rounded-none">
+                {selectedType}
               </Badge>
             )}
             {(selectedCity || citySearchInput.trim()) && (
@@ -255,22 +300,79 @@ export const SinglePageRestaurantForm: React.FC<SinglePageRestaurantFormProps> =
           </div>
         </div>
 
-        {/* Cuisine Selection */}
+        {/* Food or Drink Selection */}
         <div className="space-y-2">
-          <label className="text-lg font-bold text-foreground">Select Cuisine</label>
-          <Select onValueChange={handleCuisineSelect} value={selectedCuisine} disabled={!selectedCountry}>
+          <label className="text-lg font-bold text-foreground">Select Category</label>
+          <Select onValueChange={handleCategorySelect} value={selectedCategory} disabled={!selectedCountry}>
             <SelectTrigger className="w-full h-12 text-base font-bold bg-background text-foreground border-2 border-border rounded-none">
-              <SelectValue placeholder="Choose cuisine type" />
+              <SelectValue placeholder="Choose Food or Drink" />
             </SelectTrigger>
             <SelectContent className="bg-white border-2 border-border rounded-none max-h-60 overflow-y-auto z-[100]">
-              {availableCuisines.map((cuisine) => (
-                <SelectItem key={cuisine} value={cuisine} className="text-base py-3 rounded-none hover:bg-muted">
-                  {cuisine}
-                </SelectItem>
-              ))}
+              <SelectItem value="Food" className="text-base py-3 rounded-none hover:bg-muted">
+                Food
+              </SelectItem>
+              <SelectItem value="Drink" className="text-base py-3 rounded-none hover:bg-muted">
+                Drink
+              </SelectItem>
             </SelectContent>
           </Select>
         </div>
+
+        {/* Subcategory Selection */}
+        {selectedCategory && (
+          <div className="space-y-2">
+            <label className="text-lg font-bold text-foreground">
+              Select {selectedCategory === 'Food' ? 'Dining Type' : 'Venue Type'}
+            </label>
+            <Select onValueChange={handleSubcategorySelect} value={selectedSubcategory} disabled={!selectedCategory}>
+              <SelectTrigger className="w-full h-12 text-base font-bold bg-background text-foreground border-2 border-border rounded-none">
+                <SelectValue placeholder={selectedCategory === 'Food' ? 'Choose dining type' : 'Choose venue type'} />
+              </SelectTrigger>
+              <SelectContent className="bg-white border-2 border-border rounded-none max-h-60 overflow-y-auto z-[100]">
+                {selectedCategory === 'Food' ? (
+                  <>
+                    <SelectItem value="Restaurants" className="text-base py-3 rounded-none hover:bg-muted">
+                      Restaurants
+                    </SelectItem>
+                    <SelectItem value="Fast Food" className="text-base py-3 rounded-none hover:bg-muted">
+                      Fast Food
+                    </SelectItem>
+                  </>
+                ) : (
+                  <>
+                    <SelectItem value="Bars" className="text-base py-3 rounded-none hover:bg-muted">
+                      Bars
+                    </SelectItem>
+                    <SelectItem value="Clubs" className="text-base py-3 rounded-none hover:bg-muted">
+                      Clubs
+                    </SelectItem>
+                  </>
+                )}
+              </SelectContent>
+            </Select>
+          </div>
+        )}
+
+        {/* Type Selection */}
+        {selectedSubcategory && availableTypes.length > 0 && (
+          <div className="space-y-2">
+            <label className="text-lg font-bold text-foreground">
+              Select {selectedCategory === 'Food' ? 'Cuisine Type' : 'Venue Style'}
+            </label>
+            <Select onValueChange={handleTypeSelect} value={selectedType} disabled={!selectedSubcategory}>
+              <SelectTrigger className="w-full h-12 text-base font-bold bg-background text-foreground border-2 border-border rounded-none">
+                <SelectValue placeholder={selectedCategory === 'Food' ? 'Choose cuisine type' : 'Choose venue style'} />
+              </SelectTrigger>
+              <SelectContent className="bg-white border-2 border-border rounded-none max-h-60 overflow-y-auto z-[100]">
+                {availableTypes.map((type) => (
+                  <SelectItem key={type} value={type} className="text-base py-3 rounded-none hover:bg-muted">
+                    {type}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+          </div>
+        )}
 
         {/* Number of Results */}
         <div className="space-y-2">

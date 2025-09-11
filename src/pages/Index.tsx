@@ -42,7 +42,9 @@ interface Business {
 interface SearchParams {
   country: string;
   city: string;
-  cuisine: string;
+  category: string;
+  subcategory: string;
+  type: string;
   resultCount: number;
 }
 
@@ -108,7 +110,7 @@ const Index: React.FC = () => {
       let query = supabase
         .from('businesses')
         .select('*')
-        .eq('business_type', params.cuisine)
+        .eq('business_type', params.type)
         .eq('city', params.city)
         .eq('country', params.country)
         .eq('status', 'active')
@@ -209,7 +211,7 @@ const Index: React.FC = () => {
     const link = document.createElement('a');
     const url = URL.createObjectURL(blob);
     link.setAttribute('href', url);
-    link.setAttribute('download', `${searchParams.cuisine}_${searchParams.city}_${searchParams.country}.csv`);
+    link.setAttribute('download', `${searchParams.type}_${searchParams.city}_${searchParams.country}.csv`);
     link.style.visibility = 'hidden';
     document.body.appendChild(link);
     link.click();
@@ -328,7 +330,7 @@ const Index: React.FC = () => {
                 }))} 
                 selectedCity={searchParams?.city || ''} 
                 selectedCountry={searchParams?.country || ''} 
-                selectedCategory={searchParams?.cuisine}
+                selectedCategory={searchParams?.type}
               />
             </div>
           </div>
