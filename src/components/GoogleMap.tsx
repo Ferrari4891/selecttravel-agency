@@ -1,4 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
+import { supabase } from '@/integrations/supabase/client';
 
 interface GoogleMapProps {
   address?: string;
@@ -29,13 +30,16 @@ export const GoogleMap: React.FC<GoogleMapProps> = ({
       }
 
       try {
-        // Load Google Maps JavaScript API
-        const apiKey = (window as any).__GOOGLE_MAPS_API_KEY__ || (import.meta as any)?.env?.VITE_GOOGLE_MAPS_API_KEY;
-        if (!apiKey) {
+        // Get Google Maps API key from Supabase function
+        const { data, error: keyError } = await supabase.functions.invoke('get-google-maps-key');
+        
+        if (keyError || !data?.apiKey) {
           setError("Map preview unavailable (API key not configured)");
           setIsLoading(false);
           return;
         }
+
+        const apiKey = data.apiKey;
 
         if (!window.google) {
           const script = document.createElement('script');
