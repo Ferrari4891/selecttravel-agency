@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { supabase } from '@/integrations/supabase/client';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { useToast } from '@/hooks/use-toast';
@@ -164,57 +164,53 @@ export const BusinessManagement = () => {
         </div>
       </div>
 
-      {/* Businesses Table */}
-      <div className="border rounded-lg overflow-hidden">
-        <Table>
-          <TableHeader>
-            <TableRow>
-              <TableHead>Business</TableHead>
-              <TableHead>Location</TableHead>
-              <TableHead>Subscription</TableHead>
-              <TableHead>Status</TableHead>
-              <TableHead>Registered</TableHead>
-              <TableHead>Actions</TableHead>
-            </TableRow>
-          </TableHeader>
-          <TableBody>
-            {filteredBusinesses.map((business) => (
-              <TableRow key={business.id}>
-                <TableCell>
+      {/* Businesses Grid */}
+      <div className="grid gap-4">
+        {filteredBusinesses.map((business) => (
+          <Card key={business.id} className="border shadow-sm">
+            <CardContent className="p-4">
+              <div className="space-y-4">
+                {/* Business Header */}
+                <div className="flex items-center justify-between">
                   <div className="flex items-center gap-3">
-                    <div className="w-8 h-8 bg-primary/10 rounded-full flex items-center justify-center">
-                      <Building2 className="h-4 w-4 text-primary" />
+                    <div className="w-10 h-10 bg-primary/10 rounded-full flex items-center justify-center">
+                      <Building2 className="h-5 w-5 text-primary" />
                     </div>
                     <div>
-                      <div className="font-medium">{business.business_name}</div>
-                      <div className="text-sm text-gray-500">{business.business_type}</div>
+                      <div className="font-medium text-base">{business.business_name}</div>
+                      <div className="text-sm text-muted-foreground">{business.business_type}</div>
                     </div>
                   </div>
-                </TableCell>
-                <TableCell>
-                  <div className="flex items-center gap-2 text-sm">
-                    <MapPin className="h-4 w-4 text-gray-400" />
+                  {getStatusBadge(business.status)}
+                </div>
+
+                {/* Business Details */}
+                <div className="space-y-3">
+                  <div className="flex items-center gap-2 text-sm text-muted-foreground">
+                    <MapPin className="h-4 w-4" />
                     <span>{business.city}, {business.country}</span>
                   </div>
-                </TableCell>
-                <TableCell>
-                  {getSubscriptionBadge(business.subscription_status, business.subscription_tier)}
-                </TableCell>
-                <TableCell>
-                  {getStatusBadge(business.status)}
-                </TableCell>
-                <TableCell>
-                  <div className="flex items-center gap-2 text-sm text-gray-600">
+                  
+                  <div className="flex items-center gap-2 text-sm text-muted-foreground">
                     <Calendar className="h-4 w-4" />
-                    {new Date(business.created_at).toLocaleDateString()}
+                    <span>Registered: {new Date(business.created_at).toLocaleDateString()}</span>
                   </div>
-                </TableCell>
-                <TableCell>
+
+                  <div className="flex items-center gap-2">
+                    <CreditCard className="h-4 w-4 text-muted-foreground" />
+                    <span className="text-sm text-muted-foreground">Subscription:</span>
+                    {getSubscriptionBadge(business.subscription_status, business.subscription_tier)}
+                  </div>
+                </div>
+
+                {/* Status Controls */}
+                <div className="flex items-center justify-between pt-3 border-t">
+                  <span className="text-sm font-medium">Business Status</span>
                   <Select
                     value={business.status}
                     onValueChange={(value) => updateBusinessStatus(business.id, value)}
                   >
-                    <SelectTrigger className="w-[120px]">
+                    <SelectTrigger className="w-[140px]">
                       <SelectValue />
                     </SelectTrigger>
                     <SelectContent>
@@ -223,18 +219,20 @@ export const BusinessManagement = () => {
                       <SelectItem value="suspended">Suspended</SelectItem>
                     </SelectContent>
                   </Select>
-                </TableCell>
-              </TableRow>
-            ))}
-          </TableBody>
-        </Table>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+        ))}
       </div>
 
       {filteredBusinesses.length === 0 && (
-        <div className="text-center py-12 text-gray-500">
-          <Building2 className="h-12 w-12 mx-auto mb-4 opacity-50" />
-          <div>No businesses found matching your criteria.</div>
-        </div>
+        <Card className="border shadow-sm">
+          <CardContent className="text-center py-12">
+            <Building2 className="h-12 w-12 mx-auto mb-4 opacity-50 text-muted-foreground" />
+            <div className="text-muted-foreground">No businesses found matching your criteria.</div>
+          </CardContent>
+        </Card>
       )}
     </div>
   );

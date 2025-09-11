@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { supabase } from '@/integrations/supabase/client';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Switch } from '@/components/ui/switch';
 import { Badge } from '@/components/ui/badge';
 import { useToast } from '@/hooks/use-toast';
@@ -115,88 +115,86 @@ export const UserManagement = () => {
         </div>
       </div>
 
-      {/* Users Table */}
-      <div className="border rounded-lg overflow-hidden">
-        <Table>
-          <TableHeader>
-            <TableRow>
-              <TableHead>User</TableHead>
-              <TableHead>Details</TableHead>
-              <TableHead>Member Since</TableHead>
-              <TableHead>Role</TableHead>
-              <TableHead>Actions</TableHead>
-            </TableRow>
-          </TableHeader>
-          <TableBody>
-            {filteredUsers.map((user) => (
-              <TableRow key={user.id}>
-                <TableCell>
+      {/* Users Grid */}
+      <div className="grid gap-4">
+        {filteredUsers.map((user) => (
+          <Card key={user.id} className="border shadow-sm">
+            <CardContent className="p-4">
+              <div className="space-y-4">
+                {/* User Header */}
+                <div className="flex items-center justify-between">
                   <div className="flex items-center gap-3">
-                    <div className="w-8 h-8 bg-primary/10 rounded-full flex items-center justify-center">
-                      <User className="h-4 w-4 text-primary" />
+                    <div className="w-10 h-10 bg-primary/10 rounded-full flex items-center justify-center">
+                      <User className="h-5 w-5 text-primary" />
                     </div>
                     <div>
-                      <div className="font-medium">
+                      <div className="font-medium text-base">
                         {user.display_name || 'No name set'}
                       </div>
-                      <div className="text-sm text-gray-500 font-mono">
-                        {user.user_id.slice(0, 8)}...
+                      <div className="text-sm text-muted-foreground font-mono">
+                        ID: {user.user_id.slice(0, 8)}...
                       </div>
                     </div>
                   </div>
-                </TableCell>
-                <TableCell>
-                  <div className="space-y-1">
-                    {user.age_group && (
-                      <Badge variant="outline" className="text-xs">
-                        {user.age_group}
-                      </Badge>
-                    )}
-                    {user.gender && (
-                      <Badge variant="outline" className="text-xs">
-                        {user.gender}
-                      </Badge>
-                    )}
-                  </div>
-                </TableCell>
-                <TableCell>
-                  <div className="flex items-center gap-2 text-sm text-gray-600">
+                  {user.is_admin ? (
+                    <Badge variant="default" className="flex items-center gap-1">
+                      <Shield className="h-3 w-3" />
+                      Admin
+                    </Badge>
+                  ) : (
+                    <Badge variant="secondary">Member</Badge>
+                  )}
+                </div>
+
+                {/* User Details */}
+                <div className="space-y-3">
+                  <div className="flex items-center gap-2 text-sm text-muted-foreground">
                     <Calendar className="h-4 w-4" />
-                    {new Date(user.member_since).toLocaleDateString()}
+                    <span>Member since: {new Date(user.member_since).toLocaleDateString()}</span>
                   </div>
-                </TableCell>
-                <TableCell>
-                  <div className="flex items-center gap-2">
-                    {user.is_admin ? (
-                      <Badge variant="default" className="flex items-center gap-1">
-                        <Shield className="h-3 w-3" />
-                        Admin
-                      </Badge>
-                    ) : (
-                      <Badge variant="secondary">Member</Badge>
-                    )}
-                  </div>
-                </TableCell>
-                <TableCell>
+                  
+                  {(user.age_group || user.gender) && (
+                    <div className="flex flex-wrap gap-2">
+                      {user.age_group && (
+                        <Badge variant="outline" className="text-xs">
+                          Age: {user.age_group}
+                        </Badge>
+                      )}
+                      {user.gender && (
+                        <Badge variant="outline" className="text-xs">
+                          Gender: {user.gender}
+                        </Badge>
+                      )}
+                    </div>
+                  )}
+                </div>
+
+                {/* Admin Controls */}
+                <div className="flex items-center justify-between pt-3 border-t">
+                  <span className="text-sm font-medium">Admin Privileges</span>
                   <div className="flex items-center gap-2">
                     <Switch
                       checked={user.is_admin}
                       onCheckedChange={() => toggleAdminStatus(user.user_id, user.is_admin)}
                     />
-                    <span className="text-sm text-gray-600">Admin</span>
+                    <span className="text-sm text-muted-foreground">
+                      {user.is_admin ? 'Enabled' : 'Disabled'}
+                    </span>
                   </div>
-                </TableCell>
-              </TableRow>
-            ))}
-          </TableBody>
-        </Table>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+        ))}
       </div>
 
       {filteredUsers.length === 0 && (
-        <div className="text-center py-12 text-gray-500">
-          <User className="h-12 w-12 mx-auto mb-4 opacity-50" />
-          <div>No users found matching your search.</div>
-        </div>
+        <Card className="border shadow-sm">
+          <CardContent className="text-center py-12">
+            <User className="h-12 w-12 mx-auto mb-4 opacity-50 text-muted-foreground" />
+            <div className="text-muted-foreground">No users found matching your search.</div>
+          </CardContent>
+        </Card>
       )}
     </div>
   );
