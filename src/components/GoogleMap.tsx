@@ -69,6 +69,8 @@ export const GoogleMap: React.FC<GoogleMapProps> = ({
             };
 
             document.head.appendChild(script);
+            // Start retry loop immediately in case onload doesn't fire
+            initializeMap();
           } else {
             existing.onload = () => {
               if (scriptLoadTimeout) clearTimeout(scriptLoadTimeout);
@@ -79,6 +81,8 @@ export const GoogleMap: React.FC<GoogleMapProps> = ({
               setError("Failed to load Google Maps");
               setIsLoading(false);
             };
+            // Also start retry loop immediately
+            initializeMap();
           }
 
           // Safety timeout in case the script never loads
@@ -98,7 +102,7 @@ export const GoogleMap: React.FC<GoogleMapProps> = ({
     };
 
     const initializeMap = async () => {
-      const MAX_RETRIES = 10;
+      const MAX_RETRIES = 40;
       let attempts = 0;
 
       const tryInit = () => {
@@ -110,7 +114,7 @@ export const GoogleMap: React.FC<GoogleMapProps> = ({
             setIsLoading(false);
             return;
           }
-          setTimeout(tryInit, 300);
+          setTimeout(tryInit, 600);
           return;
         }
 
@@ -178,7 +182,7 @@ export const GoogleMap: React.FC<GoogleMapProps> = ({
     overallTimeout = window.setTimeout(() => {
       setError((prev) => prev ?? "Map preview unavailable");
       setIsLoading(false);
-    }, 15000);
+    }, 25000);
 
     loadGoogleMaps();
     return () => {

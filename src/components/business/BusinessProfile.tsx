@@ -716,7 +716,7 @@ export const BusinessProfile: React.FC<BusinessProfileProps> = ({
   }
 
   return (
-    <div className="w-full mx-auto px-4">
+    <div className="w-full mx-auto px-0">
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
           <div className="grid grid-cols-1 gap-3">
