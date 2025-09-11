@@ -22,7 +22,9 @@ const businessSchema = z.object({
   business_name: z.string().min(1, 'Business name is required'),
   business_type: z.string().min(1, 'Business type is required'),
   description: z.string().max(180, 'Description must be 180 characters or less').optional(),
-  website: z.string().url().optional().or(z.literal('')),
+  website: z.string().optional().refine((val) => !val || z.string().url().safeParse(val).success, {
+    message: "Please enter a valid URL"
+  }),
   phone: z.string().optional(),
   country_code: z.string().optional(),
   email: z.string().email().optional().or(z.literal('')),
