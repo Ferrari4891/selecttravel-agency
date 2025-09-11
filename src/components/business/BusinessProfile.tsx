@@ -20,7 +20,9 @@ import { EnhancedSelect } from '@/components/ui/enhanced-select';
 
 const businessSchema = z.object({
   business_name: z.string().min(1, 'Business name is required'),
-  business_type: z.string().min(1, 'Business type is required'),
+  business_category: z.string().min(1, 'Business category is required'),
+  business_subtype: z.string().min(1, 'Business subtype is required'),
+  business_specific_type: z.string().optional(),
   description: z.string().max(180, 'Description must be 180 characters or less').optional(),
   website: z.string().optional().refine((val) => !val || z.string().url().safeParse(val).success, {
     message: "Please enter a valid URL"
@@ -62,9 +64,19 @@ interface BusinessProfileProps {
   onBusinessUpdated?: (business: any) => void;
 }
 
-const businessTypes = [
-  'Japanese', 'Korean', 'French', 'Italian', 'Chinese', 'Mexican', 'Indian', 'Thai'
-];
+// Business type hierarchical structure
+const businessCategories = ['Food', 'Drink'];
+
+const businessSubtypes = {
+  Food: ['Restaurant', 'Fast Food', 'Street Food'],
+  Drink: ['Bar', 'Club', 'Pub']
+};
+
+const foodTypes = {
+  Restaurant: ['Japanese', 'Korean', 'French', 'Italian', 'Chinese', 'Mexican', 'Indian', 'Thai', 'American', 'Mediterranean', 'Vietnamese', 'Greek', 'Spanish', 'Lebanese', 'Turkish', 'Moroccan', 'Ethiopian', 'Peruvian', 'Brazilian', 'Argentinian'],
+  'Fast Food': ['Burgers', 'Pizza', 'Chicken', 'Sandwiches', 'Tacos', 'Fish & Chips', 'Chinese Takeaway', 'Kebab', 'Fried Chicken', 'Noodles', 'Wraps', 'Hot Dogs', 'Subs'],
+  'Street Food': ['Food Truck', 'Hot Dogs', 'Tacos', 'Kebabs', 'Crepes', 'Ice Cream', 'Pretzels', 'Roasted Nuts', 'Fruit Stands', 'BBQ', 'Falafel', 'Empanadas', 'Churros', 'Corn Dogs']
+};
 
 const countries = [
   'Afghanistan', 'Algeria', 'American Samoa', 'Andorra', 'Angola', 'Antigua and Barbuda',
@@ -321,11 +333,16 @@ export const BusinessProfile: React.FC<BusinessProfileProps> = ({
       sunday: { open: '10:00', close: '16:00', closed: true }
     }
   );
+  const [selectedCategory, setSelectedCategory] = useState(business?.business_category || '');
+  const [selectedSubtype, setSelectedSubtype] = useState(business?.business_subtype || '');
+
   const form = useForm<BusinessFormData>({
     resolver: zodResolver(businessSchema),
     defaultValues: {
       business_name: business?.business_name || '',
-      business_type: business?.business_type || '',
+      business_category: business?.business_category || '',
+      business_subtype: business?.business_subtype || '',
+      business_specific_type: business?.business_specific_type || '',
       description: business?.description || '',
       website: business?.website || '',
       phone: business?.phone || '',
@@ -373,7 +390,7 @@ export const BusinessProfile: React.FC<BusinessProfileProps> = ({
           .from('businesses')
           .update({
             business_name: data.business_name,
-            business_type: data.business_type,
+            business_type: `${data.business_category} - ${data.business_subtype}${data.business_specific_type ? ` (${data.business_specific_type})` : ''}`,
             description: data.description,
             website: data.website,
             phone: data.phone,
@@ -422,7 +439,7 @@ export const BusinessProfile: React.FC<BusinessProfileProps> = ({
           .insert({
             user_id: user.id,
             business_name: data.business_name,
-            business_type: data.business_type,
+            business_type: `${data.business_category} - ${data.business_subtype}${data.business_specific_type ? ` (${data.business_specific_type})` : ''}`,
             description: data.description,
             website: data.website,
             phone: data.phone,
@@ -559,7 +576,11 @@ export const BusinessProfile: React.FC<BusinessProfileProps> = ({
               </div>
               <div>
                 <p className="text-sm font-medium text-black uppercase tracking-wide">Business Type</p>
-                <p className="text-lg sm:text-xl text-foreground">{formData.business_type || 'Business Type'}</p>
+                <p className="text-lg sm:text-xl text-foreground">
+                  {formData.business_category && formData.business_subtype 
+                    ? `${formData.business_category} - ${formData.business_subtype}${formData.business_specific_type ? ` (${formData.business_specific_type})` : ''}` 
+                    : 'Business Type'}
+                </p>
               </div>
             </div>
             
@@ -716,23 +737,33 @@ export const BusinessProfile: React.FC<BusinessProfileProps> = ({
             )}
           />
 
+          {/* Business Category */}
           <FormField
             control={form.control}
-            name="business_type"
+            name="business_category"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Category</FormLabel>
-                <Select onValueChange={field.onChange} defaultValue={field.value}>
-              <FormControl>
-                <SelectTrigger className="w-full">
-                  <SelectValue placeholder="Select business type" />
-                </SelectTrigger>
-              </FormControl>
-              <SelectContent className="w-full min-w-[200px]">
-                {businessTypes.map((type) => (
-                  <SelectItem key={type} value={type}>
-                    {type}
-                  </SelectItem>
+                <FormLabel>Business Category</FormLabel>
+                <Select 
+                  onValueChange={(value) => {
+                    field.onChange(value);
+                    setSelectedCategory(value);
+                    setSelectedSubtype('');
+                    form.setValue('business_subtype', '');
+                    form.setValue('business_specific_type', '');
+                  }} 
+                  value={field.value}
+                >
+                  <FormControl>
+                    <SelectTrigger className="w-full">
+                      <SelectValue placeholder="Select category" />
+                    </SelectTrigger>
+                  </FormControl>
+                  <SelectContent className="w-full min-w-[200px]">
+                    {businessCategories.map((category) => (
+                      <SelectItem key={category} value={category}>
+                        {category}
+                      </SelectItem>
                 ))}
               </SelectContent>
                 </Select>
@@ -740,6 +771,69 @@ export const BusinessProfile: React.FC<BusinessProfileProps> = ({
               </FormItem>
             )}
           />
+
+          {/* Business Subtype */}
+          {selectedCategory && (
+            <FormField
+              control={form.control}
+              name="business_subtype"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Business Type</FormLabel>
+                  <Select 
+                    onValueChange={(value) => {
+                      field.onChange(value);
+                      setSelectedSubtype(value);
+                      form.setValue('business_specific_type', '');
+                    }} 
+                    value={field.value}
+                  >
+                    <FormControl>
+                      <SelectTrigger className="w-full">
+                        <SelectValue placeholder="Select type" />
+                      </SelectTrigger>
+                    </FormControl>
+                    <SelectContent className="w-full min-w-[200px]">
+                      {businessSubtypes[selectedCategory as keyof typeof businessSubtypes]?.map((subtype) => (
+                        <SelectItem key={subtype} value={subtype}>
+                          {subtype}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+          )}
+
+          {/* Business Specific Type (only for food) */}
+          {selectedCategory === 'Food' && selectedSubtype && foodTypes[selectedSubtype as keyof typeof foodTypes] && (
+            <FormField
+              control={form.control}
+              name="business_specific_type"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Cuisine/Food Type</FormLabel>
+                  <Select onValueChange={field.onChange} value={field.value}>
+                    <FormControl>
+                      <SelectTrigger className="w-full">
+                        <SelectValue placeholder="Select cuisine type" />
+                      </SelectTrigger>
+                    </FormControl>
+                    <SelectContent className="w-full min-w-[200px]">
+                      {foodTypes[selectedSubtype as keyof typeof foodTypes]?.map((foodType) => (
+                        <SelectItem key={foodType} value={foodType}>
+                          {foodType}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+          )}
 
           <FormField
             control={form.control}
