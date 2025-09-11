@@ -12,6 +12,8 @@ import { BusinessMediaForm } from '@/components/business/BusinessMediaForm';
 import { BusinessMediaPreview } from '@/components/business/BusinessMediaPreview';
 import { useToast } from '@/hooks/use-toast';
 import { Home } from 'lucide-react';
+import MobileContainer from '@/components/MobileContainer';
+import heroImage from "@/assets/hero-business-centre.jpg";
 interface Business {
   id: string;
   business_name: string;
@@ -70,103 +72,112 @@ const Dashboard = () => {
         <div>Loading...</div>
       </div>;
   }
-  return <div className="min-h-screen bg-background">
-      <header className="bg-white shadow-sm border-b-8 border-white">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="py-4 sm:py-6 space-y-3">
-            {/* Main heading spanning full width */}
-            <h1 className="text-xl sm:text-2xl lg:text-3xl font-bold text-gray-900">
-              Business Dashboard
-            </h1>
-            
-            {/* Welcome message on second line */}
-            <p className="text-sm text-gray-600">
-              Welcome, {user?.email}
-            </p>
-            
-            {/* Buttons on third line */}
-            <div className="flex gap-3">
-              <Button variant="outline" size="sm" onClick={() => navigate('/')}>
-                <Home className="h-4 w-4 mr-2" />
-                Home
-              </Button>
-              <Button onClick={signOut} variant="outline" size="sm">
-                Sign Out
-              </Button>
-            </div>
+  return <MobileContainer>
+    <div className="min-h-screen bg-background">
+      {/* Hero Section - Mobile Optimized */}
+      <div className="relative w-full h-48 md:h-64 mb-4">
+        <img 
+          src={heroImage} 
+          alt="Business Dashboard" 
+          className="w-full h-full object-cover"
+        />
+        <div className="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center">
+          <div className="text-center text-white px-4">
+            <h1 className="text-2xl md:text-4xl font-bold mb-2">Business Dashboard</h1>
+            <p className="text-sm md:text-lg">Welcome, {user?.email}</p>
           </div>
         </div>
-      </header>
+      </div>
 
-      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+      {/* Content Section */}
+      <div className="px-4 pb-8 space-y-4">
+        {/* Header Actions */}
+        <div className="flex items-center justify-between mb-4">
+          <Button variant="outline" size="sm" onClick={() => navigate('/')}>
+            <Home className="h-4 w-4 mr-2" />
+            Home
+          </Button>
+          <Button onClick={signOut} variant="outline" size="sm">
+            Sign Out
+          </Button>
+        </div>
         {!business ? <Card className="border shadow-md">
             <CardHeader className="text-center space-y-4 pb-6">
-              <CardTitle className="text-2xl font-bold text-foreground">Create Your Business Profile</CardTitle>
-              <CardDescription className="text-base leading-relaxed max-w-2xl mx-auto">
+              <CardTitle className="text-xl md:text-2xl font-bold text-foreground">Create Your Business Profile</CardTitle>
+              <CardDescription className="text-sm md:text-base leading-relaxed mx-auto">
                 Get started by setting up your comprehensive business profile to unlock all platform features and maximize your business potential.
               </CardDescription>
             </CardHeader>
             <CardContent>
               <BusinessProfile onBusinessCreated={handleBusinessCreated} />
             </CardContent>
-          </Card> : <Tabs defaultValue="profile" className="space-y-6">
-            <TabsList className="grid w-full grid-cols-1 h-auto">
-              <TabsTrigger value="profile" className="text-sm font-medium px-4 py-3">Business Profile</TabsTrigger>
-              <TabsTrigger value="media" className="text-sm font-medium px-4 py-3">Media</TabsTrigger>
-              <TabsTrigger value="analytics" className="text-sm font-medium px-4 py-3">Analytics</TabsTrigger>
-              <TabsTrigger value="subscription" className="text-sm font-medium px-4 py-3">Subscription</TabsTrigger>
+          </Card> : <Tabs defaultValue="profile" className="space-y-4">
+            <TabsList className="grid w-full grid-cols-1 gap-2 h-auto bg-transparent p-0">
+              <TabsTrigger value="profile" className="w-full text-sm md:text-base font-medium px-4 py-3 border border-border rounded data-[state=active]:bg-primary data-[state=active]:text-primary-foreground">Business Profile</TabsTrigger>
+              <TabsTrigger value="media" className="w-full text-sm md:text-base font-medium px-4 py-3 border border-border rounded data-[state=active]:bg-primary data-[state=active]:text-primary-foreground">Media</TabsTrigger>
+              <TabsTrigger value="analytics" className="w-full text-sm md:text-base font-medium px-4 py-3 border border-border rounded data-[state=active]:bg-primary data-[state=active]:text-primary-foreground">Analytics</TabsTrigger>
+              <TabsTrigger value="subscription" className="w-full text-sm md:text-base font-medium px-4 py-3 border border-border rounded data-[state=active]:bg-primary data-[state=active]:text-primary-foreground">Subscription</TabsTrigger>
             </TabsList>
 
-            <TabsContent value="profile">
+            <TabsContent value="profile" className="space-y-4">
               <Card className="border shadow-md bg-background">
-                <CardHeader>
-                  <CardTitle className="text-lg font-semibold">Business Profile</CardTitle>
-                  <CardDescription className="text-sm text-muted-foreground">
+                <CardHeader className="bg-background p-4">
+                  <CardTitle className="text-center border-b border-border pb-2 text-xl md:text-2xl font-bold">Business Profile</CardTitle>
+                  <CardDescription className="text-sm md:text-base text-center text-muted-foreground">
                     Manage your business information and settings.
                   </CardDescription>
                 </CardHeader>
-                <CardContent>
+                <CardContent className="p-4">
                   <BusinessProfile business={business} onBusinessUpdated={setBusiness} />
                 </CardContent>
               </Card>
             </TabsContent>
 
-            <TabsContent value="media" className="space-y-6">
-              <div className="space-y-6">
-                <BusinessMediaForm businessId={business.id} />
-                <BusinessMediaPreview media={null} />
-              </div>
+            <TabsContent value="media" className="space-y-4">
+              <Card className="border shadow-md bg-background">
+                <CardHeader className="bg-background p-4">
+                  <CardTitle className="text-center border-b border-border pb-2 text-xl md:text-2xl font-bold">Media Management</CardTitle>
+                  <CardDescription className="text-sm md:text-base text-center text-muted-foreground">
+                    Upload and manage your business media.
+                  </CardDescription>
+                </CardHeader>
+                <CardContent className="p-4 space-y-6">
+                  <BusinessMediaForm businessId={business.id} />
+                  <BusinessMediaPreview media={null} />
+                </CardContent>
+              </Card>
             </TabsContent>
 
-            <TabsContent value="analytics">
+            <TabsContent value="analytics" className="space-y-4">
               <Card className="border shadow-md bg-background">
-                <CardHeader>
-                  <CardTitle className="text-lg font-semibold">Business Analytics</CardTitle>
-                  <CardDescription className="text-sm text-muted-foreground">
+                <CardHeader className="bg-background p-4">
+                  <CardTitle className="text-center border-b border-border pb-2 text-xl md:text-2xl font-bold">Business Analytics</CardTitle>
+                  <CardDescription className="text-sm md:text-base text-center text-muted-foreground">
                     Track your business performance and metrics.
                   </CardDescription>
                 </CardHeader>
-                <CardContent>
+                <CardContent className="p-4">
                   <BusinessAnalytics businessId={business.id} />
                 </CardContent>
               </Card>
             </TabsContent>
 
-            <TabsContent value="subscription">
+            <TabsContent value="subscription" className="space-y-4">
               <Card className="border shadow-md bg-background">
-                <CardHeader>
-                  <CardTitle className="text-lg font-semibold">Subscription Management</CardTitle>
-                  <CardDescription className="text-sm text-muted-foreground">
+                <CardHeader className="bg-background p-4">
+                  <CardTitle className="text-center border-b border-border pb-2 text-xl md:text-2xl font-bold">Subscription Management</CardTitle>
+                  <CardDescription className="text-sm md:text-base text-center text-muted-foreground">
                     Manage your subscription plan and billing.
                   </CardDescription>
                 </CardHeader>
-                <CardContent>
+                <CardContent className="p-4">
                   <SubscriptionManagement business={business} />
                 </CardContent>
               </Card>
             </TabsContent>
           </Tabs>}
-      </main>
-    </div>;
+        </div>
+      </div>
+    </MobileContainer>;
 };
 export default Dashboard;

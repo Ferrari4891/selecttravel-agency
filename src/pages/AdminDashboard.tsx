@@ -12,6 +12,8 @@ import { BusinessManagement } from '@/components/admin/BusinessManagement';
 import { BusinessApprovalDashboard } from '@/components/admin/BusinessApprovalDashboard';
 import { SystemAnalytics } from '@/components/admin/SystemAnalytics';
 import { AdminSettings } from '@/components/admin/AdminSettings';
+import MobileContainer from '@/components/MobileContainer';
+import heroImage from "@/assets/hero-business-centre.jpg";
 
 const AdminDashboard = () => {
   const { user, signOut } = useAuth();
@@ -78,135 +80,141 @@ const AdminDashboard = () => {
   }
 
   return (
-    <div className="min-h-screen bg-background">
-      <header className="bg-white shadow-sm border-b-8 border-white">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="py-4 sm:py-6 space-y-3">
-            <div className="flex items-center gap-3">
-              <Shield className="h-8 w-8 text-primary" />
-              <h1 className="text-xl sm:text-2xl lg:text-3xl font-bold text-gray-900">
-                Administrator Dashboard
-              </h1>
+    <MobileContainer>
+      <div className="min-h-screen bg-background">
+        {/* Hero Section - Mobile Optimized */}
+        <div className="relative w-full h-48 md:h-64 mb-4">
+          <img 
+            src={heroImage} 
+            alt="Administrator Dashboard" 
+            className="w-full h-full object-cover"
+          />
+          <div className="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center">
+            <div className="text-center text-white px-4">
+              <div className="flex items-center justify-center gap-3 mb-2">
+                <Shield className="h-8 w-8 text-white" />
+                <h1 className="text-2xl md:text-4xl font-bold">Administrator Dashboard</h1>
+              </div>
+              <p className="text-sm md:text-lg">System administrator panel</p>
             </div>
-            
-            <p className="text-sm text-gray-600">
-              System administrator panel - {user?.email}
-            </p>
-            
-            <div className="flex gap-3">
+          </div>
+        </div>
+
+        {/* Content Section */}
+        <div className="px-4 pb-8 space-y-4">
+          {/* Header Actions */}
+          <div className="flex flex-col gap-2 mb-4">
+            <div className="flex items-center justify-between">
               <Button variant="outline" size="sm" onClick={() => navigate('/')}>
                 <Home className="h-4 w-4 mr-2" />
                 Home
-              </Button>
-              <Button variant="outline" size="sm" onClick={() => navigate('/dashboard')}>
-                <Users className="h-4 w-4 mr-2" />
-                Member Dashboard
               </Button>
               <Button onClick={signOut} variant="outline" size="sm">
                 Sign Out
               </Button>
             </div>
-          </div>
-        </div>
-      </header>
-
-      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        <Tabs defaultValue="approvals" className="space-y-6">
-          <TabsList className="grid w-full grid-cols-1 h-auto">
-            <TabsTrigger value="approvals" className="text-sm font-medium px-4 py-3">
-              <Building2 className="h-4 w-4 mr-2" />
-              Business Approvals
-            </TabsTrigger>
-            <TabsTrigger value="analytics" className="text-sm font-medium px-4 py-3">
-              <BarChart3 className="h-4 w-4 mr-2" />
-              Analytics
-            </TabsTrigger>
-            <TabsTrigger value="users" className="text-sm font-medium px-4 py-3">
+            <Button variant="outline" size="sm" onClick={() => navigate('/dashboard')} className="w-full">
               <Users className="h-4 w-4 mr-2" />
-              Users
-            </TabsTrigger>
-            <TabsTrigger value="businesses" className="text-sm font-medium px-4 py-3">
-              <Building2 className="h-4 w-4 mr-2" />
-              Businesses
-            </TabsTrigger>
-            <TabsTrigger value="settings" className="text-sm font-medium px-4 py-3">
-              <Settings className="h-4 w-4 mr-2" />
-              Settings
-            </TabsTrigger>
-          </TabsList>
+              Member Dashboard
+            </Button>
+          </div>
+          <Tabs defaultValue="approvals" className="space-y-4">
+            <TabsList className="grid w-full grid-cols-1 gap-2 h-auto bg-transparent p-0">
+              <TabsTrigger value="approvals" className="w-full text-sm md:text-base font-medium px-4 py-3 border border-border rounded data-[state=active]:bg-primary data-[state=active]:text-primary-foreground">
+                <Building2 className="h-4 w-4 mr-2" />
+                Business Approvals
+              </TabsTrigger>
+              <TabsTrigger value="analytics" className="w-full text-sm md:text-base font-medium px-4 py-3 border border-border rounded data-[state=active]:bg-primary data-[state=active]:text-primary-foreground">
+                <BarChart3 className="h-4 w-4 mr-2" />
+                Analytics
+              </TabsTrigger>
+              <TabsTrigger value="users" className="w-full text-sm md:text-base font-medium px-4 py-3 border border-border rounded data-[state=active]:bg-primary data-[state=active]:text-primary-foreground">
+                <Users className="h-4 w-4 mr-2" />
+                Users
+              </TabsTrigger>
+              <TabsTrigger value="businesses" className="w-full text-sm md:text-base font-medium px-4 py-3 border border-border rounded data-[state=active]:bg-primary data-[state=active]:text-primary-foreground">
+                <Building2 className="h-4 w-4 mr-2" />
+                Businesses
+              </TabsTrigger>
+              <TabsTrigger value="settings" className="w-full text-sm md:text-base font-medium px-4 py-3 border border-border rounded data-[state=active]:bg-primary data-[state=active]:text-primary-foreground">
+                <Settings className="h-4 w-4 mr-2" />
+                Settings
+              </TabsTrigger>
+            </TabsList>
 
-          <TabsContent value="approvals">
-            <Card className="border shadow-md bg-background">
-              <CardHeader>
-                <CardTitle className="text-lg font-semibold">Business Approvals</CardTitle>
-                <CardDescription className="text-sm text-muted-foreground">
-                  Review and approve new business applications to make them visible to visitors.
-                </CardDescription>
-              </CardHeader>
-              <CardContent>
-                <BusinessApprovalDashboard />
-              </CardContent>
-            </Card>
-          </TabsContent>
+            <TabsContent value="approvals" className="space-y-4">
+              <Card className="border shadow-md bg-background">
+                <CardHeader className="bg-background p-4">
+                  <CardTitle className="text-center border-b border-border pb-2 text-xl md:text-2xl font-bold">Business Approvals</CardTitle>
+                  <CardDescription className="text-sm md:text-base text-center text-muted-foreground">
+                    Review and approve new business applications to make them visible to visitors.
+                  </CardDescription>
+                </CardHeader>
+                <CardContent className="p-4">
+                  <BusinessApprovalDashboard />
+                </CardContent>
+              </Card>
+            </TabsContent>
 
-          <TabsContent value="analytics">
-            <Card className="border shadow-md bg-background">
-              <CardHeader>
-                <CardTitle className="text-lg font-semibold">System Analytics</CardTitle>
-                <CardDescription className="text-sm text-muted-foreground">
-                  Monitor platform performance, user activity, and system metrics.
-                </CardDescription>
-              </CardHeader>
-              <CardContent>
-                <SystemAnalytics />
-              </CardContent>
-            </Card>
-          </TabsContent>
+            <TabsContent value="analytics" className="space-y-4">
+              <Card className="border shadow-md bg-background">
+                <CardHeader className="bg-background p-4">
+                  <CardTitle className="text-center border-b border-border pb-2 text-xl md:text-2xl font-bold">System Analytics</CardTitle>
+                  <CardDescription className="text-sm md:text-base text-center text-muted-foreground">
+                    Monitor platform performance, user activity, and system metrics.
+                  </CardDescription>
+                </CardHeader>
+                <CardContent className="p-4">
+                  <SystemAnalytics />
+                </CardContent>
+              </Card>
+            </TabsContent>
 
-          <TabsContent value="users">
-            <Card className="border shadow-md bg-background">
-              <CardHeader>
-                <CardTitle className="text-lg font-semibold">User Management</CardTitle>
-                <CardDescription className="text-sm text-muted-foreground">
-                  Manage user accounts, roles, and access permissions.
-                </CardDescription>
-              </CardHeader>
-              <CardContent>
-                <UserManagement />
-              </CardContent>
-            </Card>
-          </TabsContent>
+            <TabsContent value="users" className="space-y-4">
+              <Card className="border shadow-md bg-background">
+                <CardHeader className="bg-background p-4">
+                  <CardTitle className="text-center border-b border-border pb-2 text-xl md:text-2xl font-bold">User Management</CardTitle>
+                  <CardDescription className="text-sm md:text-base text-center text-muted-foreground">
+                    Manage user accounts, roles, and access permissions.
+                  </CardDescription>
+                </CardHeader>
+                <CardContent className="p-4">
+                  <UserManagement />
+                </CardContent>
+              </Card>
+            </TabsContent>
 
-          <TabsContent value="businesses">
-            <Card className="border shadow-md bg-background">
-              <CardHeader>
-                <CardTitle className="text-lg font-semibold">Business Management</CardTitle>
-                <CardDescription className="text-sm text-muted-foreground">
-                  Oversee business listings, subscriptions, and compliance.
-                </CardDescription>
-              </CardHeader>
-              <CardContent>
-                <BusinessManagement />
-              </CardContent>
-            </Card>
-          </TabsContent>
+            <TabsContent value="businesses" className="space-y-4">
+              <Card className="border shadow-md bg-background">
+                <CardHeader className="bg-background p-4">
+                  <CardTitle className="text-center border-b border-border pb-2 text-xl md:text-2xl font-bold">Business Management</CardTitle>
+                  <CardDescription className="text-sm md:text-base text-center text-muted-foreground">
+                    Oversee business listings, subscriptions, and compliance.
+                  </CardDescription>
+                </CardHeader>
+                <CardContent className="p-4">
+                  <BusinessManagement />
+                </CardContent>
+              </Card>
+            </TabsContent>
 
-          <TabsContent value="settings">
-            <Card className="border shadow-md bg-background">
-              <CardHeader>
-                <CardTitle className="text-lg font-semibold">System Settings</CardTitle>
-                <CardDescription className="text-sm text-muted-foreground">
-                  Configure platform settings, permissions, and system parameters.
-                </CardDescription>
-              </CardHeader>
-              <CardContent>
-                <AdminSettings />
-              </CardContent>
-            </Card>
-          </TabsContent>
-        </Tabs>
-      </main>
-    </div>
+            <TabsContent value="settings" className="space-y-4">
+              <Card className="border shadow-md bg-background">
+                <CardHeader className="bg-background p-4">
+                  <CardTitle className="text-center border-b border-border pb-2 text-xl md:text-2xl font-bold">System Settings</CardTitle>
+                  <CardDescription className="text-sm md:text-base text-center text-muted-foreground">
+                    Configure platform settings, permissions, and system parameters.
+                  </CardDescription>
+                </CardHeader>
+                <CardContent className="p-4">
+                  <AdminSettings />
+                </CardContent>
+              </Card>
+            </TabsContent>
+          </Tabs>
+        </div>
+      </div>
+    </MobileContainer>
   );
 };
 
