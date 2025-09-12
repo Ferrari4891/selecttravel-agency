@@ -58,6 +58,12 @@ export const RestaurantResults: React.FC<RestaurantResultsProps> = ({
         
         {restaurants.map((restaurant, index) => (
           <Card key={`mobile-restaurant-${index}`} className="rounded-none shadow-lg">
+            {/* Business Name */}
+            <div className="p-4 pb-0">
+              <h3 className="font-bold text-lg uppercase text-black">
+                {restaurant.name}
+              </h3>
+            </div>
             {/* Restaurant Image */}
             <div className="aspect-video relative overflow-hidden">
               <img
@@ -65,12 +71,6 @@ export const RestaurantResults: React.FC<RestaurantResultsProps> = ({
                 alt={restaurant.name}
                 className="w-full h-full object-cover"
               />
-              {/* Business Name Overlay */}
-              <div className="absolute top-3 left-3 right-3">
-                <h3 className="font-bold text-lg uppercase text-white bg-black/80 px-3 py-2 rounded-none">
-                  {restaurant.name}
-                </h3>
-              </div>
               <div className="absolute top-3 right-3">
                 <Badge variant="secondary" className="bg-white/90 text-black rounded-none">
                   {restaurant.source}
@@ -283,6 +283,12 @@ export const RestaurantResults: React.FC<RestaurantResultsProps> = ({
       
       {restaurants.map((restaurant, index) => (
         <Card key={`desktop-restaurant-${index}`} className="rounded-none shadow-lg">
+          {/* Business Name */}
+          <div className="p-4 pb-0">
+            <h3 className="font-bold text-lg uppercase text-black">
+              {restaurant.name}
+            </h3>
+          </div>
           {/* Restaurant Image */}
           <div className="aspect-video relative overflow-hidden">
             <img
@@ -290,12 +296,6 @@ export const RestaurantResults: React.FC<RestaurantResultsProps> = ({
               alt={restaurant.name}
               className="w-full h-full object-cover"
             />
-            {/* Business Name Overlay */}
-            <div className="absolute top-3 left-3 right-3">
-              <h3 className="font-bold text-lg uppercase text-white bg-black/80 px-3 py-2 rounded-none">
-                {restaurant.name}
-              </h3>
-            </div>
             <div className="absolute top-3 right-3">
               <Badge variant="secondary" className="bg-white/90 text-black rounded-none">
                 {restaurant.source}
