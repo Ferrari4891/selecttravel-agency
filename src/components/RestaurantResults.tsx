@@ -65,6 +65,12 @@ export const RestaurantResults: React.FC<RestaurantResultsProps> = ({
                 alt={restaurant.name}
                 className="w-full h-full object-cover"
               />
+              {/* Business Name Overlay */}
+              <div className="absolute top-3 left-3 right-3">
+                <h3 className="font-bold text-lg uppercase text-white bg-black/80 px-3 py-2 rounded-none">
+                  {restaurant.name}
+                </h3>
+              </div>
               <div className="absolute top-3 right-3">
                 <Badge variant="secondary" className="bg-white/90 text-black rounded-none">
                   {restaurant.source}
@@ -73,9 +79,8 @@ export const RestaurantResults: React.FC<RestaurantResultsProps> = ({
             </div>
             
             <CardContent className="p-4 space-y-4">
-              {/* Restaurant Name & Rating */}
+              {/* Restaurant Rating */}
               <div className="space-y-2">
-                <h3 className="font-bold text-lg uppercase">{restaurant.name}</h3>
                 <div className="flex items-center gap-2">
                   <div className="flex items-center gap-1">
                     <Star className="h-4 w-4 fill-yellow-400 text-yellow-400" />
@@ -285,6 +290,12 @@ export const RestaurantResults: React.FC<RestaurantResultsProps> = ({
               alt={restaurant.name}
               className="w-full h-full object-cover"
             />
+            {/* Business Name Overlay */}
+            <div className="absolute top-3 left-3 right-3">
+              <h3 className="font-bold text-lg uppercase text-white bg-black/80 px-3 py-2 rounded-none">
+                {restaurant.name}
+              </h3>
+            </div>
             <div className="absolute top-3 right-3">
               <Badge variant="secondary" className="bg-white/90 text-black rounded-none">
                 {restaurant.source}
@@ -293,9 +304,8 @@ export const RestaurantResults: React.FC<RestaurantResultsProps> = ({
           </div>
           
           <CardContent className="p-4 space-y-4">
-            {/* Restaurant Name & Rating */}
+            {/* Restaurant Rating */}
             <div className="space-y-2">
-              <h3 className="font-bold text-lg uppercase">{restaurant.name}</h3>
               <div className="flex items-center gap-2">
                 <div className="flex items-center gap-1">
                   <Star className="h-4 w-4 fill-yellow-400 text-yellow-400" />
