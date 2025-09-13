@@ -157,7 +157,7 @@ const Dashboard = () => {
                   </CardDescription>
                 </CardHeader>
                 <CardContent className="p-4">
-                  <BusinessAnalytics businessId={business.id} />
+                  <BusinessAnalytics businessId={business.id} subscriptionTier={business.subscription_tier || 'trial'} />
                 </CardContent>
               </Card>
             </TabsContent>

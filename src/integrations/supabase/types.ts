@@ -236,6 +236,87 @@ export type Database = {
           },
         ]
       }
+      business_views: {
+        Row: {
+          business_id: string
+          id: string
+          referrer: string | null
+          session_id: string | null
+          user_agent: string | null
+          viewed_at: string
+          visitor_ip: string | null
+        }
+        Insert: {
+          business_id: string
+          id?: string
+          referrer?: string | null
+          session_id?: string | null
+          user_agent?: string | null
+          viewed_at?: string
+          visitor_ip?: string | null
+        }
+        Update: {
+          business_id?: string
+          id?: string
+          referrer?: string | null
+          session_id?: string | null
+          user_agent?: string | null
+          viewed_at?: string
+          visitor_ip?: string | null
+        }
+        Relationships: []
+      }
+      business_vouchers: {
+        Row: {
+          business_id: string
+          created_at: string
+          current_uses: number | null
+          description: string | null
+          discount_value: number
+          end_date: string
+          id: string
+          is_active: boolean
+          max_uses: number | null
+          min_purchase_amount: number | null
+          start_date: string
+          title: string
+          updated_at: string
+          voucher_type: Database["public"]["Enums"]["voucher_type"]
+        }
+        Insert: {
+          business_id: string
+          created_at?: string
+          current_uses?: number | null
+          description?: string | null
+          discount_value: number
+          end_date: string
+          id?: string
+          is_active?: boolean
+          max_uses?: number | null
+          min_purchase_amount?: number | null
+          start_date?: string
+          title: string
+          updated_at?: string
+          voucher_type: Database["public"]["Enums"]["voucher_type"]
+        }
+        Update: {
+          business_id?: string
+          created_at?: string
+          current_uses?: number | null
+          description?: string | null
+          discount_value?: number
+          end_date?: string
+          id?: string
+          is_active?: boolean
+          max_uses?: number | null
+          min_purchase_amount?: number | null
+          start_date?: string
+          title?: string
+          updated_at?: string
+          voucher_type?: Database["public"]["Enums"]["voucher_type"]
+        }
+        Relationships: []
+      }
       businesses: {
         Row: {
           address: string | null
@@ -1281,6 +1362,30 @@ export type Database = {
         }
         Relationships: []
       }
+      voucher_usage: {
+        Row: {
+          amount_saved: number
+          id: string
+          used_at: string
+          user_email: string | null
+          voucher_id: string
+        }
+        Insert: {
+          amount_saved: number
+          id?: string
+          used_at?: string
+          user_email?: string | null
+          voucher_id: string
+        }
+        Update: {
+          amount_saved?: number
+          id?: string
+          used_at?: string
+          user_email?: string | null
+          voucher_id?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
@@ -1327,6 +1432,7 @@ export type Database = {
     }
     Enums: {
       media_type: "carousel" | "image" | "youtube"
+      voucher_type: "percentage_discount" | "fixed_amount" | "buy_one_get_one"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -1455,6 +1561,7 @@ export const Constants = {
   public: {
     Enums: {
       media_type: ["carousel", "image", "youtube"],
+      voucher_type: ["percentage_discount", "fixed_amount", "buy_one_get_one"],
     },
   },
 } as const

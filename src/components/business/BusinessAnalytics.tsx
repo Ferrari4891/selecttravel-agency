@@ -5,11 +5,15 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { useToast } from '@/hooks/use-toast';
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, BarChart, Bar } from 'recharts';
+import { RealTimeAnalytics } from './RealTimeAnalytics';
+import { VoucherManagement } from './VoucherManagement';
 
 interface BusinessAnalyticsProps {
   businessId: string;
+  subscriptionTier: string;
 }
 
 interface AnalyticsData {
@@ -24,7 +28,7 @@ const metricTypes = [
   'conversion_rate', 'customer_satisfaction', 'inventory_turnover'
 ];
 
-export const BusinessAnalytics: React.FC<BusinessAnalyticsProps> = ({ businessId }) => {
+export const BusinessAnalytics: React.FC<BusinessAnalyticsProps> = ({ businessId, subscriptionTier }) => {
   const [analytics, setAnalytics] = useState<AnalyticsData[]>([]);
   const [loading, setLoading] = useState(true);
   const [adding, setAdding] = useState(false);
@@ -139,124 +143,140 @@ export const BusinessAnalytics: React.FC<BusinessAnalyticsProps> = ({ businessId
   const uniqueMetrics = [...new Set(analytics.map(item => item.metric_name))];
 
   return (
-    <div className="space-y-6">
-      {/* Add New Metric */}
-      <Card className="border-8 border-white shadow-md">
-        <CardHeader>
-          <CardTitle className="text-lg font-semibold">Add New Metric</CardTitle>
-          <CardDescription className="text-sm text-muted-foreground">
-            Track your business performance by adding key metrics.
-          </CardDescription>
-        </CardHeader>
-        <CardContent>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-            <div>
-              <Label htmlFor="metric_name">Metric Type</Label>
-              <Select 
-                value={newMetric.metric_name} 
-                onValueChange={(value) => setNewMetric({ ...newMetric, metric_name: value })}
-              >
-                <SelectTrigger>
-                  <SelectValue placeholder="Select metric" />
-                </SelectTrigger>
-                <SelectContent>
-                  {metricTypes.map((type) => (
-                    <SelectItem key={type} value={type}>
-                      {type.charAt(0).toUpperCase() + type.slice(1).replace('_', ' ')}
-                    </SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
-            </div>
-            
-            <div>
-              <Label htmlFor="metric_value">Value</Label>
-              <Input
-                id="metric_value"
-                type="number"
-                step="0.01"
-                value={newMetric.metric_value}
-                onChange={(e) => setNewMetric({ ...newMetric, metric_value: e.target.value })}
-                placeholder="0.00"
-              />
-            </div>
-            
-            <div>
-              <Label htmlFor="metric_date">Date</Label>
-              <Input
-                id="metric_date"
-                type="date"
-                value={newMetric.metric_date}
-                onChange={(e) => setNewMetric({ ...newMetric, metric_date: e.target.value })}
-              />
-            </div>
-            
-            <div className="flex items-end">
-              <Button onClick={addMetric} disabled={adding}>
-                {adding ? "Adding..." : "Add Metric"}
-              </Button>
-            </div>
-          </div>
-        </CardContent>
-      </Card>
+    <Tabs defaultValue="metrics" className="space-y-6">
+      <TabsList className="grid grid-cols-3 w-full">
+        <TabsTrigger value="metrics">Business Metrics</TabsTrigger>
+        <TabsTrigger value="realtime">Real-Time Analytics</TabsTrigger>
+        <TabsTrigger value="vouchers">Voucher Management</TabsTrigger>
+      </TabsList>
 
-      {/* Metrics Summary */}
-      {Object.keys(metricSummary).length > 0 && (
-        <div className="space-y-4">
-          {Object.entries(metricSummary).slice(0, 6).map(([metric, data]) => (
-            <Card key={metric} className="border-8 border-white shadow-md">
-              <CardHeader className="pb-3">
-                <CardTitle className="text-lg font-semibold">
-                  {metric.charAt(0).toUpperCase() + metric.slice(1).replace('_', ' ')}
-                </CardTitle>
-              </CardHeader>
-              <CardContent>
-                <div className="text-2xl font-bold text-foreground">{data.avg.toFixed(2)}</div>
-                <p className="text-sm text-muted-foreground mt-1">Average value</p>
-              </CardContent>
-            </Card>
-          ))}
-        </div>
-      )}
+      <TabsContent value="metrics" className="space-y-6">
+        {/* Add New Metric */}
+        <Card className="border-8 border-white shadow-md">
+          <CardHeader>
+            <CardTitle className="text-lg font-semibold">Add New Metric</CardTitle>
+            <CardDescription className="text-sm text-muted-foreground">
+              Track your business performance by adding key metrics.
+            </CardDescription>
+          </CardHeader>
+          <CardContent>
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+              <div>
+                <Label htmlFor="metric_name">Metric Type</Label>
+                <Select 
+                  value={newMetric.metric_name} 
+                  onValueChange={(value) => setNewMetric({ ...newMetric, metric_name: value })}
+                >
+                  <SelectTrigger>
+                    <SelectValue placeholder="Select metric" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {metricTypes.map((type) => (
+                      <SelectItem key={type} value={type}>
+                        {type.charAt(0).toUpperCase() + type.slice(1).replace('_', ' ')}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              </div>
+              
+              <div>
+                <Label htmlFor="metric_value">Value</Label>
+                <Input
+                  id="metric_value"
+                  type="number"
+                  step="0.01"
+                  value={newMetric.metric_value}
+                  onChange={(e) => setNewMetric({ ...newMetric, metric_value: e.target.value })}
+                  placeholder="0.00"
+                />
+              </div>
+              
+              <div>
+                <Label htmlFor="metric_date">Date</Label>
+                <Input
+                  id="metric_date"
+                  type="date"
+                  value={newMetric.metric_date}
+                  onChange={(e) => setNewMetric({ ...newMetric, metric_date: e.target.value })}
+                />
+              </div>
+              
+              <div className="flex items-end">
+                <Button onClick={addMetric} disabled={adding}>
+                  {adding ? "Adding..." : "Add Metric"}
+                </Button>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
 
-      {/* Charts */}
-      {uniqueMetrics.length > 0 && (
-        <div className="space-y-4">
-          {uniqueMetrics.slice(0, 4).map((metric) => {
-            const chartData = getChartData(metric);
-            if (chartData.length === 0) return null;
-
-            return (
+        {/* Metrics Summary */}
+        {Object.keys(metricSummary).length > 0 && (
+          <div className="space-y-4">
+            {Object.entries(metricSummary).slice(0, 6).map(([metric, data]) => (
               <Card key={metric} className="border-8 border-white shadow-md">
-                <CardHeader>
+                <CardHeader className="pb-3">
                   <CardTitle className="text-lg font-semibold">
-                    {metric.charAt(0).toUpperCase() + metric.slice(1).replace('_', ' ')} Trend
+                    {metric.charAt(0).toUpperCase() + metric.slice(1).replace('_', ' ')}
                   </CardTitle>
                 </CardHeader>
                 <CardContent>
-                  <ResponsiveContainer width="100%" height={200}>
-                    <LineChart data={chartData}>
-                      <CartesianGrid strokeDasharray="3 3" />
-                      <XAxis dataKey="date" />
-                      <YAxis />
-                      <Tooltip />
-                      <Line type="monotone" dataKey="value" stroke="#8884d8" strokeWidth={2} />
-                    </LineChart>
-                  </ResponsiveContainer>
+                  <div className="text-2xl font-bold text-foreground">{data.avg.toFixed(2)}</div>
+                  <p className="text-sm text-muted-foreground mt-1">Average value</p>
                 </CardContent>
               </Card>
-            );
-          })}
-        </div>
-      )}
+            ))}
+          </div>
+        )}
 
-      {analytics.length === 0 && (
-        <Card className="border-8 border-white shadow-md">
-          <CardContent className="text-center py-8">
-            <p className="text-gray-600">No analytics data yet. Start by adding your first metric!</p>
-          </CardContent>
-        </Card>
-      )}
-    </div>
+        {/* Charts */}
+        {uniqueMetrics.length > 0 && (
+          <div className="space-y-4">
+            {uniqueMetrics.slice(0, 4).map((metric) => {
+              const chartData = getChartData(metric);
+              if (chartData.length === 0) return null;
+
+              return (
+                <Card key={metric} className="border-8 border-white shadow-md">
+                  <CardHeader>
+                    <CardTitle className="text-lg font-semibold">
+                      {metric.charAt(0).toUpperCase() + metric.slice(1).replace('_', ' ')} Trend
+                    </CardTitle>
+                  </CardHeader>
+                  <CardContent>
+                    <ResponsiveContainer width="100%" height={200}>
+                      <LineChart data={chartData}>
+                        <CartesianGrid strokeDasharray="3 3" />
+                        <XAxis dataKey="date" />
+                        <YAxis />
+                        <Tooltip />
+                        <Line type="monotone" dataKey="value" stroke="#8884d8" strokeWidth={2} />
+                      </LineChart>
+                    </ResponsiveContainer>
+                  </CardContent>
+                </Card>
+              );
+            })}
+          </div>
+        )}
+
+        {analytics.length === 0 && (
+          <Card className="border-8 border-white shadow-md">
+            <CardContent className="text-center py-8">
+              <p className="text-gray-600">No analytics data yet. Start by adding your first metric!</p>
+            </CardContent>
+          </Card>
+        )}
+      </TabsContent>
+
+      <TabsContent value="realtime">
+        <RealTimeAnalytics businessId={businessId} subscriptionTier={subscriptionTier} />
+      </TabsContent>
+
+      <TabsContent value="vouchers">
+        <VoucherManagement businessId={businessId} subscriptionTier={subscriptionTier} />
+      </TabsContent>
+    </Tabs>
   );
 };
