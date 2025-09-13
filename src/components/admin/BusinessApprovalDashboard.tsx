@@ -85,7 +85,7 @@ const BusinessApprovalCard: React.FC<{ business: Business } & ApprovalActions> =
           <p className="text-sm">{business.description}</p>
         )}
         
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
+        <div className="grid grid-cols-1 gap-4 text-sm">
           {business.email && (
             <div className="flex items-center gap-2">
               <Mail className="h-4 w-4 text-muted-foreground" />
@@ -99,7 +99,7 @@ const BusinessApprovalCard: React.FC<{ business: Business } & ApprovalActions> =
             </div>
           )}
           {(business.address || business.city) && (
-            <div className="flex items-center gap-2 md:col-span-2">
+            <div className="flex items-center gap-2">
               <MapPin className="h-4 w-4 text-muted-foreground" />
               <span>
                 {business.address && `${business.address}, `}
@@ -131,10 +131,10 @@ const BusinessApprovalCard: React.FC<{ business: Business } & ApprovalActions> =
         )}
 
         {business.status === 'pending' && (
-          <div className="flex flex-col sm:flex-row gap-2">
+          <div className="flex flex-col gap-2">
             <Button 
               onClick={() => setShowApprovalForm(true)}
-              className="flex-1 w-full rounded-none"
+              className="w-full rounded-none"
               size="sm"
             >
               <CheckCircle className="h-4 w-4 mr-2" />
@@ -143,7 +143,7 @@ const BusinessApprovalCard: React.FC<{ business: Business } & ApprovalActions> =
             <Button 
               onClick={() => setShowRejectionForm(true)}
               variant="destructive"
-              className="flex-1 w-full rounded-none"
+              className="w-full rounded-none"
               size="sm"
             >
               <XCircle className="h-4 w-4 mr-2" />
@@ -161,7 +161,7 @@ const BusinessApprovalCard: React.FC<{ business: Business } & ApprovalActions> =
               className="w-full p-2 text-sm border rounded-none resize-none"
               rows={3}
             />
-            <div className="flex flex-col sm:flex-row gap-2">
+            <div className="flex flex-col gap-2">
               <Button
                 onClick={() => {
                   onApprove(business.id, approvalNotes);
@@ -169,7 +169,7 @@ const BusinessApprovalCard: React.FC<{ business: Business } & ApprovalActions> =
                   setApprovalNotes('');
                 }}
                 size="sm"
-                className="flex-1 w-full rounded-none"
+                className="w-full rounded-none"
               >
                 Confirm Approval
               </Button>
@@ -198,7 +198,7 @@ const BusinessApprovalCard: React.FC<{ business: Business } & ApprovalActions> =
               rows={2}
               required
             />
-            <div className="flex flex-col sm:flex-row gap-2">
+            <div className="flex flex-col gap-2">
               <Button
                 onClick={() => {
                   if (rejectionReason.trim()) {
@@ -210,7 +210,7 @@ const BusinessApprovalCard: React.FC<{ business: Business } & ApprovalActions> =
                 }}
                 variant="destructive"
                 size="sm"
-                className="flex-1 w-full rounded-none"
+                className="w-full rounded-none"
                 disabled={!rejectionReason.trim()}
               >
                 Confirm Rejection

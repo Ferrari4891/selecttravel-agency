@@ -124,7 +124,23 @@ export const BusinessManagement = () => {
       if (authError || !userData?.user) {
         toast({
           title: "Not signed in",
-          description: "Please sign in as an admin to manage subscriptions.",
+          description: "Please sign in to manage subscriptions.",
+          variant: "destructive",
+        });
+        return;
+      }
+
+      // Verify admin privileges explicitly
+      const { data: profile, error: profileError } = await supabase
+        .from('profiles')
+        .select('is_admin')
+        .eq('user_id', userData.user.id)
+        .maybeSingle();
+
+      if (profileError || !profile?.is_admin) {
+        toast({
+          title: "Insufficient permissions",
+          description: "You must be an administrator to update subscriptions.",
           variant: "destructive",
         });
         return;
@@ -133,7 +149,7 @@ export const BusinessManagement = () => {
       const { error } = await supabase.rpc('admin_update_business_subscription', {
         p_business_id: businessId,
         p_tier: tier,
-        p_status: status
+        p_status: status,
       });
 
       if (error) throw error;
@@ -236,11 +252,11 @@ export const BusinessManagement = () => {
               placeholder="Search businesses..."
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
-              className="pl-10"
+              className="pl-10 rounded-none w-full"
             />
           </div>
           <Select value={statusFilter} onValueChange={setStatusFilter}>
-            <SelectTrigger className="w-full sm:w-[140px]">
+            <SelectTrigger className="w-full sm:w-[140px] rounded-none">
               <SelectValue placeholder="Status" />
             </SelectTrigger>
             <SelectContent>
@@ -312,7 +328,7 @@ export const BusinessManagement = () => {
                       variant="outline"
                       size="sm"
                       onClick={() => handleEditBusiness(business)}
-                      className="flex items-center gap-2 justify-center"
+                      className="flex items-center gap-2 justify-center rounded-none w-full sm:w-auto"
                     >
                       <Edit className="h-4 w-4" />
                       Edit
@@ -321,7 +337,7 @@ export const BusinessManagement = () => {
                       variant="outline"
                       size="sm"
                       onClick={() => handleManageSubscription(business)}
-                      className="flex items-center gap-2 justify-center"
+                      className="flex items-center gap-2 justify-center rounded-none w-full sm:w-auto"
                     >
                       <Zap className="h-4 w-4" />
                       Subscription
@@ -331,7 +347,7 @@ export const BusinessManagement = () => {
                     value={business.status}
                     onValueChange={(value) => updateBusinessStatus(business.id, value)}
                   >
-                    <SelectTrigger className="w-full sm:w-[140px]">
+                    <SelectTrigger className="w-full sm:w-[140px] rounded-none">
                       <SelectValue />
                     </SelectTrigger>
                     <SelectContent>
@@ -392,7 +408,7 @@ export const BusinessManagement = () => {
                   <Button
                     onClick={() => updateSubscription(selectedBusiness.id, 'trial', 'active')}
                     variant="outline"
-                    className="justify-start"
+                    className="justify-start rounded-none w-full"
                   >
                     Set to Trial Plan
                   </Button>
@@ -400,7 +416,7 @@ export const BusinessManagement = () => {
                   <Button
                     onClick={() => updateSubscription(selectedBusiness.id, 'business', 'active')}
                     variant="outline"
-                    className="justify-start"
+                    className="justify-start rounded-none w-full"
                   >
                     <Building2 className="h-4 w-4 mr-2" />
                     Upgrade to Business Plan
@@ -409,7 +425,7 @@ export const BusinessManagement = () => {
                   <Button
                     onClick={() => updateSubscription(selectedBusiness.id, 'firstclass', 'active')}
                     variant="outline"
-                    className="justify-start bg-gradient-to-r from-yellow-50 to-orange-50 border-yellow-200"
+                    className="justify-start rounded-none w-full bg-gradient-to-r from-yellow-50 to-orange-50 border-yellow-200"
                   >
                     <Crown className="h-4 w-4 mr-2 text-yellow-600" />
                     Upgrade to First Class Plan
@@ -418,7 +434,7 @@ export const BusinessManagement = () => {
                   <Button
                     onClick={() => updateSubscription(selectedBusiness.id, selectedBusiness.subscription_tier || 'trial', 'suspended')}
                     variant="destructive"
-                    className="justify-start"
+                    className="justify-start rounded-none w-full"
                   >
                     Suspend Subscription
                   </Button>
