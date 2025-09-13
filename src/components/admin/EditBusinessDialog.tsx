@@ -142,12 +142,25 @@ export const EditBusinessDialog: React.FC<EditBusinessDialogProps> = ({
                 </div>
                 <div>
                   <Label htmlFor="business_type">Business Type</Label>
-                  <Input
-                    id="business_type"
+                  <Select
                     value={formData.business_type || ''}
-                    onChange={(e) => handleInputChange('business_type', e.target.value)}
-                    required
-                  />
+                    onValueChange={(value) => handleInputChange('business_type', value)}
+                  >
+                    <SelectTrigger>
+                      <SelectValue placeholder="Select business type" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="restaurant">Restaurant</SelectItem>
+                      <SelectItem value="bar">Bar</SelectItem>
+                      <SelectItem value="cafe">Cafe</SelectItem>
+                      <SelectItem value="hotel">Hotel</SelectItem>
+                      <SelectItem value="retail">Retail</SelectItem>
+                      <SelectItem value="service">Service</SelectItem>
+                      <SelectItem value="entertainment">Entertainment</SelectItem>
+                      <SelectItem value="attraction">Attraction</SelectItem>
+                      <SelectItem value="other">Other</SelectItem>
+                    </SelectContent>
+                  </Select>
                 </div>
               </div>
 
@@ -191,9 +204,8 @@ export const EditBusinessDialog: React.FC<EditBusinessDialogProps> = ({
                     </SelectTrigger>
                     <SelectContent>
                       <SelectItem value="trial">Trial</SelectItem>
-                      <SelectItem value="basic">Basic</SelectItem>
-                      <SelectItem value="premium">Premium</SelectItem>
-                      <SelectItem value="enterprise">Enterprise</SelectItem>
+                      <SelectItem value="business">Business</SelectItem>
+                      <SelectItem value="firstclass">First Class</SelectItem>
                     </SelectContent>
                   </Select>
                 </div>

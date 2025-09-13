@@ -107,11 +107,11 @@ export const BusinessManagement = () => {
         title: "Success",
         description: `Business status updated to ${newStatus}.`
       });
-    } catch (error) {
+    } catch (error: any) {
       console.error('Error updating business status:', error);
       toast({
         title: "Error",
-        description: "Failed to update business status.",
+        description: error?.message ? `Failed to update business status: ${error.message}` : "Failed to update business status.",
         variant: "destructive"
       });
     }
@@ -152,11 +152,11 @@ export const BusinessManagement = () => {
 
       setIsSubscriptionDialogOpen(false);
       setSelectedBusiness(null);
-    } catch (error) {
+    } catch (error: any) {
       console.error('Error updating subscription:', error);
       toast({
         title: "Error",
-        description: "Failed to update subscription.",
+        description: error?.message ? `Failed to update subscription: ${error.message}` : "Failed to update subscription.",
         variant: "destructive"
       });
     }
