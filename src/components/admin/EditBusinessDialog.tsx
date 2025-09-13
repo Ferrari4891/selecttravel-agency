@@ -76,7 +76,19 @@ export const EditBusinessDialog: React.FC<EditBusinessDialogProps> = ({
   }, [business]);
 
   const handleInputChange = (field: keyof Business, value: any) => {
-    setFormData(prev => ({ ...prev, [field]: value }));
+    setFormData(prev => {
+      const updates: any = { ...prev, [field]: value };
+      if (field === 'subscription_status') {
+        if (value === 'trial') {
+          updates.subscription_tier = null;
+          updates.subscription_end_date = null;
+        } else if (value === 'active' && !updates.subscription_tier) {
+          // Default to economy when activating and no tier is set
+          updates.subscription_tier = 'economy';
+        }
+      }
+      return updates;
+    });
   };
 
   const handleSubmit = async (e: React.FormEvent) => {

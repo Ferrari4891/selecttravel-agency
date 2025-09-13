@@ -118,7 +118,7 @@ export const BusinessManagement = () => {
     }
   };
 
-  const updateSubscription = async (businessId: string, tier: string, status: string) => {
+  const updateSubscription = async (businessId: string, tier: string | null, status: string) => {
     try {
       const { data: userData, error: authError } = await supabase.auth.getUser();
       if (authError || !userData?.user) {
@@ -146,11 +146,21 @@ export const BusinessManagement = () => {
         return;
       }
 
-      const { error } = await supabase.rpc('admin_update_business_subscription', {
-        p_business_id: businessId,
-        p_tier: tier,
-        p_status: status,
-      });
+      // Align with DB constraint: when status is 'trial', tier must be NULL
+      const tierToSend = status === 'trial' ? null : tier;
+      const endDate = status === 'active'
+        ? new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toISOString()
+        : null;
+
+      const { error } = await supabase
+        .from('businesses')
+        .update({
+          subscription_tier: tierToSend,
+          subscription_status: status,
+          subscription_end_date: endDate,
+          updated_at: new Date().toISOString(),
+        })
+        .eq('id', businessId);
 
       if (error) throw error;
 
@@ -158,18 +168,16 @@ export const BusinessManagement = () => {
         business.id === businessId 
           ? { 
               ...business, 
-              subscription_tier: tier,
+              subscription_tier: tierToSend,
               subscription_status: status,
-              subscription_end_date: status === 'active' 
-                ? new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toISOString()
-                : null
+              subscription_end_date: endDate
             }
           : business
       ));
 
       toast({
         title: "Success",
-        description: `Subscription updated to ${tier} (${status}).`
+        description: `Subscription updated to ${tierToSend ?? 'none'} (${status}).`
       });
 
       setIsSubscriptionDialogOpen(false);
@@ -406,11 +414,11 @@ export const BusinessManagement = () => {
                 
                 <div className="grid gap-2">
                   <Button
-                    onClick={() => updateSubscription(selectedBusiness.id, 'economy', 'trial')}
+                    onClick={() => updateSubscription(selectedBusiness.id, null, 'trial')}
                     variant="outline"
                     className="justify-start rounded-none w-full"
                   >
-                    Set to Trial Status (Economy Tier)
+                    Set to Trial Status
                   </Button>
                   
                   <Button
@@ -419,7 +427,7 @@ export const BusinessManagement = () => {
                     className="justify-start rounded-none w-full"
                   >
                     <Building2 className="h-4 w-4 mr-2" />
-                    Upgrade to Business (Economy) Plan
+                    Activate Business (Economy) Plan
                   </Button>
                   
                   <Button
@@ -428,11 +436,11 @@ export const BusinessManagement = () => {
                     className="justify-start rounded-none w-full bg-gradient-to-r from-yellow-50 to-orange-50 border-yellow-200"
                   >
                     <Crown className="h-4 w-4 mr-2 text-yellow-600" />
-                    Upgrade to First Class Plan
+                    Activate First Class Plan
                   </Button>
                   
                   <Button
-                    onClick={() => updateSubscription(selectedBusiness.id, selectedBusiness.subscription_tier || 'economy', 'suspended')}
+                    onClick={() => updateSubscription(selectedBusiness.id, selectedBusiness.subscription_tier ?? null, 'suspended')}
                     variant="destructive"
                     className="justify-start rounded-none w-full"
                   >
