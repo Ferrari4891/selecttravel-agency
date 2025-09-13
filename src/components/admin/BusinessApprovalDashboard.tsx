@@ -131,10 +131,10 @@ const BusinessApprovalCard: React.FC<{ business: Business } & ApprovalActions> =
         )}
 
         {business.status === 'pending' && (
-          <div className="flex gap-2">
+          <div className="flex flex-col sm:flex-row gap-2">
             <Button 
               onClick={() => setShowApprovalForm(true)}
-              className="flex-1"
+              className="flex-1 w-full rounded-none"
               size="sm"
             >
               <CheckCircle className="h-4 w-4 mr-2" />
@@ -143,7 +143,7 @@ const BusinessApprovalCard: React.FC<{ business: Business } & ApprovalActions> =
             <Button 
               onClick={() => setShowRejectionForm(true)}
               variant="destructive"
-              className="flex-1"
+              className="flex-1 w-full rounded-none"
               size="sm"
             >
               <XCircle className="h-4 w-4 mr-2" />
@@ -158,10 +158,10 @@ const BusinessApprovalCard: React.FC<{ business: Business } & ApprovalActions> =
               placeholder="Add approval notes (optional)..."
               value={approvalNotes}
               onChange={(e) => setApprovalNotes(e.target.value)}
-              className="w-full p-2 text-sm border rounded resize-none"
+              className="w-full p-2 text-sm border rounded-none resize-none"
               rows={3}
             />
-            <div className="flex gap-2">
+            <div className="flex flex-col sm:flex-row gap-2">
               <Button
                 onClick={() => {
                   onApprove(business.id, approvalNotes);
@@ -169,7 +169,7 @@ const BusinessApprovalCard: React.FC<{ business: Business } & ApprovalActions> =
                   setApprovalNotes('');
                 }}
                 size="sm"
-                className="flex-1"
+                className="flex-1 w-full rounded-none"
               >
                 Confirm Approval
               </Button>
@@ -180,6 +180,7 @@ const BusinessApprovalCard: React.FC<{ business: Business } & ApprovalActions> =
                 }}
                 variant="outline"
                 size="sm"
+                className="w-full rounded-none"
               >
                 Cancel
               </Button>
@@ -193,11 +194,11 @@ const BusinessApprovalCard: React.FC<{ business: Business } & ApprovalActions> =
               placeholder="Reason for rejection (required)..."
               value={rejectionReason}
               onChange={(e) => setRejectionReason(e.target.value)}
-              className="w-full p-2 text-sm border rounded resize-none"
+              className="w-full p-2 text-sm border rounded-none resize-none"
               rows={2}
               required
             />
-            <div className="flex gap-2">
+            <div className="flex flex-col sm:flex-row gap-2">
               <Button
                 onClick={() => {
                   if (rejectionReason.trim()) {
@@ -209,7 +210,7 @@ const BusinessApprovalCard: React.FC<{ business: Business } & ApprovalActions> =
                 }}
                 variant="destructive"
                 size="sm"
-                className="flex-1"
+                className="flex-1 w-full rounded-none"
                 disabled={!rejectionReason.trim()}
               >
                 Confirm Rejection
@@ -222,6 +223,7 @@ const BusinessApprovalCard: React.FC<{ business: Business } & ApprovalActions> =
                 }}
                 variant="outline"
                 size="sm"
+                className="w-full rounded-none"
               >
                 Cancel
               </Button>
@@ -347,11 +349,12 @@ export const BusinessApprovalDashboard: React.FC = () => {
           <p className="text-muted-foreground">Review and manage business applications</p>
         </div>
         
-        <div className="flex gap-2">
+        <div className="flex flex-col sm:flex-row gap-2 w-full">
           <Button
             variant={filter === 'pending' ? 'default' : 'outline'}
             onClick={() => setFilter('pending')}
             size="sm"
+            className="w-full rounded-none"
           >
             Pending ({getStatusCount('pending')})
           </Button>
@@ -359,6 +362,7 @@ export const BusinessApprovalDashboard: React.FC = () => {
             variant={filter === 'approved' ? 'default' : 'outline'}
             onClick={() => setFilter('approved')}
             size="sm"
+            className="w-full rounded-none"
           >
             Approved ({getStatusCount('approved')})
           </Button>
@@ -366,6 +370,7 @@ export const BusinessApprovalDashboard: React.FC = () => {
             variant={filter === 'rejected' ? 'default' : 'outline'}
             onClick={() => setFilter('rejected')}
             size="sm"
+            className="w-full rounded-none"
           >
             Rejected ({getStatusCount('rejected')})
           </Button>
@@ -373,6 +378,7 @@ export const BusinessApprovalDashboard: React.FC = () => {
             variant={filter === 'all' ? 'default' : 'outline'}
             onClick={() => setFilter('all')}
             size="sm"
+            className="w-full rounded-none"
           >
             All ({businesses.length})
           </Button>

@@ -120,6 +120,16 @@ export const BusinessManagement = () => {
 
   const updateSubscription = async (businessId: string, tier: string, status: string) => {
     try {
+      const { data: userData, error: authError } = await supabase.auth.getUser();
+      if (authError || !userData?.user) {
+        toast({
+          title: "Not signed in",
+          description: "Please sign in as an admin to manage subscriptions.",
+          variant: "destructive",
+        });
+        return;
+      }
+
       const { error } = await supabase.rpc('admin_update_business_subscription', {
         p_business_id: businessId,
         p_tier: tier,
