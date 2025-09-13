@@ -1182,6 +1182,51 @@ export type Database = {
         }
         Relationships: []
       }
+      subscription_plans: {
+        Row: {
+          annual_discount_percentage: number
+          annual_price: number
+          created_at: string
+          description: string | null
+          features: Json
+          id: string
+          is_active: boolean
+          monthly_price: number
+          name: string
+          sort_order: number
+          tier: string
+          updated_at: string
+        }
+        Insert: {
+          annual_discount_percentage?: number
+          annual_price?: number
+          created_at?: string
+          description?: string | null
+          features?: Json
+          id?: string
+          is_active?: boolean
+          monthly_price?: number
+          name: string
+          sort_order?: number
+          tier: string
+          updated_at?: string
+        }
+        Update: {
+          annual_discount_percentage?: number
+          annual_price?: number
+          created_at?: string
+          description?: string | null
+          features?: Json
+          id?: string
+          is_active?: boolean
+          monthly_price?: number
+          name?: string
+          sort_order?: number
+          tier?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
       "Test Eat": {
         Row: {
           Address: string

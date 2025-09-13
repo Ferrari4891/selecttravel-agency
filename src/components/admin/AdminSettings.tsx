@@ -9,6 +9,7 @@ import { useToast } from '@/hooks/use-toast';
 import { supabase } from '@/integrations/supabase/client';
 import { Settings, Shield, Mail, Database, Users, Sliders } from 'lucide-react';
 import { AmenityManagement } from './AmenityManagement';
+import { SubscriptionPlanManagement } from './SubscriptionPlanManagement';
 
 export const AdminSettings = () => {
   const [newAdminEmail, setNewAdminEmail] = useState('');
@@ -62,9 +63,10 @@ export const AdminSettings = () => {
   return (
     <div className="space-y-6">
       <Tabs defaultValue="admin" className="space-y-4">
-        <TabsList className="grid w-full grid-cols-5">
+        <TabsList className="grid w-full grid-cols-6">
           <TabsTrigger value="admin">Admin Management</TabsTrigger>
           <TabsTrigger value="amenities">Amenities</TabsTrigger>
+          <TabsTrigger value="subscriptions">Subscription Plans</TabsTrigger>
           <TabsTrigger value="system">System Settings</TabsTrigger>
           <TabsTrigger value="security">Security</TabsTrigger>
           <TabsTrigger value="database">Database</TabsTrigger>
@@ -152,6 +154,10 @@ export const AdminSettings = () => {
 
         <TabsContent value="amenities" className="space-y-4">
           <AmenityManagement />
+        </TabsContent>
+
+        <TabsContent value="subscriptions" className="space-y-4">
+          <SubscriptionPlanManagement />
         </TabsContent>
 
         <TabsContent value="system" className="space-y-6">
