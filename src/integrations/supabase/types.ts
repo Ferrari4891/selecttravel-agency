@@ -326,6 +326,7 @@ export type Database = {
           approved_by: string | null
           business_hours: Json | null
           business_name: string
+          business_subcategory: string | null
           business_type: string
           city: string | null
           country: string | null
@@ -370,6 +371,7 @@ export type Database = {
           approved_by?: string | null
           business_hours?: Json | null
           business_name: string
+          business_subcategory?: string | null
           business_type: string
           city?: string | null
           country?: string | null
@@ -414,6 +416,7 @@ export type Database = {
           approved_by?: string | null
           business_hours?: Json | null
           business_name?: string
+          business_subcategory?: string | null
           business_type?: string
           city?: string | null
           country?: string | null
@@ -1391,6 +1394,10 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
+      admin_update_business_subscription: {
+        Args: { p_business_id: string; p_status: string; p_tier: string }
+        Returns: undefined
+      }
       approve_business: {
         Args: { admin_user_id: string; business_id: string; notes?: string }
         Returns: undefined

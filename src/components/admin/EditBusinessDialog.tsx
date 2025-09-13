@@ -15,6 +15,7 @@ interface Business {
   id: string;
   business_name: string;
   business_type: string;
+  business_subcategory: string | null;
   description: string | null;
   website: string | null;
   phone: string | null;
@@ -130,7 +131,7 @@ export const EditBusinessDialog: React.FC<EditBusinessDialogProps> = ({
             </TabsList>
 
             <TabsContent value="basic" className="space-y-4">
-              <div className="grid grid-cols-2 gap-4">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div>
                   <Label htmlFor="business_name">Business Name</Label>
                   <Input
@@ -144,7 +145,11 @@ export const EditBusinessDialog: React.FC<EditBusinessDialogProps> = ({
                   <Label htmlFor="business_type">Business Type</Label>
                   <Select
                     value={formData.business_type || ''}
-                    onValueChange={(value) => handleInputChange('business_type', value)}
+                    onValueChange={(value) => {
+                      handleInputChange('business_type', value);
+                      // Reset subcategory when type changes
+                      handleInputChange('business_subcategory', '');
+                    }}
                   >
                     <SelectTrigger>
                       <SelectValue placeholder="Select business type" />
@@ -162,6 +167,92 @@ export const EditBusinessDialog: React.FC<EditBusinessDialogProps> = ({
                     </SelectContent>
                   </Select>
                 </div>
+                <div>
+                  <Label htmlFor="business_subcategory">Subcategory</Label>
+                  <Select
+                    value={formData.business_subcategory || ''}
+                    onValueChange={(value) => handleInputChange('business_subcategory', value)}
+                    disabled={!formData.business_type}
+                  >
+                    <SelectTrigger>
+                      <SelectValue placeholder="Select subcategory" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      {formData.business_type === 'restaurant' && (
+                        <>
+                          <SelectItem value="fine-dining">Fine Dining</SelectItem>
+                          <SelectItem value="casual-dining">Casual Dining</SelectItem>
+                          <SelectItem value="fast-food">Fast Food</SelectItem>
+                          <SelectItem value="buffet">Buffet</SelectItem>
+                          <SelectItem value="food-truck">Food Truck</SelectItem>
+                          <SelectItem value="takeaway">Takeaway</SelectItem>
+                        </>
+                      )}
+                      {formData.business_type === 'bar' && (
+                        <>
+                          <SelectItem value="sports-bar">Sports Bar</SelectItem>
+                          <SelectItem value="cocktail-bar">Cocktail Bar</SelectItem>
+                          <SelectItem value="wine-bar">Wine Bar</SelectItem>
+                          <SelectItem value="pub">Pub</SelectItem>
+                          <SelectItem value="nightclub">Nightclub</SelectItem>
+                        </>
+                      )}
+                      {formData.business_type === 'cafe' && (
+                        <>
+                          <SelectItem value="coffee-shop">Coffee Shop</SelectItem>
+                          <SelectItem value="tea-house">Tea House</SelectItem>
+                          <SelectItem value="bakery-cafe">Bakery Cafe</SelectItem>
+                          <SelectItem value="internet-cafe">Internet Cafe</SelectItem>
+                        </>
+                      )}
+                      {formData.business_type === 'hotel' && (
+                        <>
+                          <SelectItem value="luxury">Luxury Hotel</SelectItem>
+                          <SelectItem value="boutique">Boutique Hotel</SelectItem>
+                          <SelectItem value="budget">Budget Hotel</SelectItem>
+                          <SelectItem value="resort">Resort</SelectItem>
+                          <SelectItem value="bed-breakfast">Bed & Breakfast</SelectItem>
+                        </>
+                      )}
+                      {formData.business_type === 'retail' && (
+                        <>
+                          <SelectItem value="clothing">Clothing Store</SelectItem>
+                          <SelectItem value="electronics">Electronics</SelectItem>
+                          <SelectItem value="grocery">Grocery Store</SelectItem>
+                          <SelectItem value="bookstore">Bookstore</SelectItem>
+                          <SelectItem value="gift-shop">Gift Shop</SelectItem>
+                        </>
+                      )}
+                      {formData.business_type === 'service' && (
+                        <>
+                          <SelectItem value="beauty-salon">Beauty Salon</SelectItem>
+                          <SelectItem value="spa">Spa</SelectItem>
+                          <SelectItem value="gym">Gym/Fitness</SelectItem>
+                          <SelectItem value="automotive">Automotive</SelectItem>
+                          <SelectItem value="cleaning">Cleaning Service</SelectItem>
+                        </>
+                      )}
+                      {formData.business_type === 'entertainment' && (
+                        <>
+                          <SelectItem value="cinema">Cinema</SelectItem>
+                          <SelectItem value="theater">Theater</SelectItem>
+                          <SelectItem value="arcade">Arcade</SelectItem>
+                          <SelectItem value="bowling">Bowling Alley</SelectItem>
+                          <SelectItem value="karaoke">Karaoke</SelectItem>
+                        </>
+                      )}
+                      {formData.business_type === 'attraction' && (
+                        <>
+                          <SelectItem value="museum">Museum</SelectItem>
+                          <SelectItem value="gallery">Art Gallery</SelectItem>
+                          <SelectItem value="park">Park</SelectItem>
+                          <SelectItem value="zoo">Zoo</SelectItem>
+                          <SelectItem value="landmark">Landmark</SelectItem>
+                        </>
+                      )}
+                    </SelectContent>
+                  </Select>
+                </div>
               </div>
 
               <div>
@@ -174,7 +265,7 @@ export const EditBusinessDialog: React.FC<EditBusinessDialogProps> = ({
                 />
               </div>
 
-              <div className="grid grid-cols-2 gap-4">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div>
                   <Label htmlFor="status">Status</Label>
                   <Select

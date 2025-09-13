@@ -14,6 +14,7 @@ interface Business {
   id: string;
   business_name: string;
   business_type: string;
+  business_subcategory: string | null;
   description: string | null;
   website: string | null;
   phone: string | null;
@@ -119,18 +120,11 @@ export const BusinessManagement = () => {
 
   const updateSubscription = async (businessId: string, tier: string, status: string) => {
     try {
-      const endDate = status === 'active' 
-        ? new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toISOString() // 30 days from now
-        : null;
-
-      const { error } = await supabase
-        .from('businesses')
-        .update({ 
-          subscription_tier: tier,
-          subscription_status: status,
-          subscription_end_date: endDate
-        })
-        .eq('id', businessId);
+      const { error } = await supabase.rpc('admin_update_business_subscription', {
+        p_business_id: businessId,
+        p_tier: tier,
+        p_status: status
+      });
 
       if (error) throw error;
 
@@ -140,7 +134,9 @@ export const BusinessManagement = () => {
               ...business, 
               subscription_tier: tier,
               subscription_status: status,
-              subscription_end_date: endDate
+              subscription_end_date: status === 'active' 
+                ? new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toISOString()
+                : null
             }
           : business
       ));
@@ -222,9 +218,9 @@ export const BusinessManagement = () => {
   return (
     <div className="space-y-6">
       {/* Search, Filter and Stats */}
-      <div className="flex flex-col sm:flex-row gap-4 items-start sm:items-center justify-between">
-        <div className="flex gap-3 flex-1">
-          <div className="relative flex-1 max-w-sm">
+      <div className="flex flex-col gap-4">
+        <div className="flex flex-col sm:flex-row gap-3 w-full">
+          <div className="relative flex-1">
             <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400" />
             <Input
               placeholder="Search businesses..."
@@ -234,7 +230,7 @@ export const BusinessManagement = () => {
             />
           </div>
           <Select value={statusFilter} onValueChange={setStatusFilter}>
-            <SelectTrigger className="w-[140px]">
+            <SelectTrigger className="w-full sm:w-[140px]">
               <SelectValue placeholder="Status" />
             </SelectTrigger>
             <SelectContent>
@@ -246,7 +242,7 @@ export const BusinessManagement = () => {
           </Select>
         </div>
         
-        <div className="flex gap-4">
+        <div className="flex justify-center sm:justify-end gap-4">
           <div className="text-center">
             <div className="text-2xl font-bold text-primary">{businesses.length}</div>
             <div className="text-sm text-gray-600">Total</div>
@@ -300,13 +296,13 @@ export const BusinessManagement = () => {
                 </div>
 
                 {/* Action Controls */}
-                <div className="flex items-center justify-between pt-3 border-t">
-                  <div className="flex gap-2">
+                <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3 pt-3 border-t">
+                  <div className="flex flex-col sm:flex-row gap-2">
                     <Button
                       variant="outline"
                       size="sm"
                       onClick={() => handleEditBusiness(business)}
-                      className="flex items-center gap-2"
+                      className="flex items-center gap-2 justify-center"
                     >
                       <Edit className="h-4 w-4" />
                       Edit
@@ -315,7 +311,7 @@ export const BusinessManagement = () => {
                       variant="outline"
                       size="sm"
                       onClick={() => handleManageSubscription(business)}
-                      className="flex items-center gap-2"
+                      className="flex items-center gap-2 justify-center"
                     >
                       <Zap className="h-4 w-4" />
                       Subscription
@@ -325,7 +321,7 @@ export const BusinessManagement = () => {
                     value={business.status}
                     onValueChange={(value) => updateBusinessStatus(business.id, value)}
                   >
-                    <SelectTrigger className="w-[140px]">
+                    <SelectTrigger className="w-full sm:w-[140px]">
                       <SelectValue />
                     </SelectTrigger>
                     <SelectContent>
