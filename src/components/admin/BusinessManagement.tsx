@@ -6,8 +6,9 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { useToast } from '@/hooks/use-toast';
-import { Search, Building2, Calendar, CreditCard, MapPin, Edit } from 'lucide-react';
+import { Search, Building2, Calendar, CreditCard, MapPin, Edit, Crown, Zap } from 'lucide-react';
 import { EditBusinessDialog } from './EditBusinessDialog';
+import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
 
 interface Business {
   id: string;
@@ -58,6 +59,8 @@ export const BusinessManagement = () => {
   const [statusFilter, setStatusFilter] = useState<string>('all');
   const [editingBusiness, setEditingBusiness] = useState<Business | null>(null);
   const [isEditDialogOpen, setIsEditDialogOpen] = useState(false);
+  const [isSubscriptionDialogOpen, setIsSubscriptionDialogOpen] = useState(false);
+  const [selectedBusiness, setSelectedBusiness] = useState<Business | null>(null);
   const { toast } = useToast();
 
   useEffect(() => {
@@ -114,9 +117,59 @@ export const BusinessManagement = () => {
     }
   };
 
+  const updateSubscription = async (businessId: string, tier: string, status: string) => {
+    try {
+      const endDate = status === 'active' 
+        ? new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toISOString() // 30 days from now
+        : null;
+
+      const { error } = await supabase
+        .from('businesses')
+        .update({ 
+          subscription_tier: tier,
+          subscription_status: status,
+          subscription_end_date: endDate
+        })
+        .eq('id', businessId);
+
+      if (error) throw error;
+
+      setBusinesses(businesses.map(business => 
+        business.id === businessId 
+          ? { 
+              ...business, 
+              subscription_tier: tier,
+              subscription_status: status,
+              subscription_end_date: endDate
+            }
+          : business
+      ));
+
+      toast({
+        title: "Success",
+        description: `Subscription updated to ${tier} (${status}).`
+      });
+
+      setIsSubscriptionDialogOpen(false);
+      setSelectedBusiness(null);
+    } catch (error) {
+      console.error('Error updating subscription:', error);
+      toast({
+        title: "Error",
+        description: "Failed to update subscription.",
+        variant: "destructive"
+      });
+    }
+  };
+
   const handleEditBusiness = (business: Business) => {
     setEditingBusiness(business);
     setIsEditDialogOpen(true);
+  };
+
+  const handleManageSubscription = (business: Business) => {
+    setSelectedBusiness(business);
+    setIsSubscriptionDialogOpen(true);
   };
 
   const handleBusinessUpdate = (updatedBusiness: Business) => {
@@ -139,14 +192,15 @@ export const BusinessManagement = () => {
   };
 
   const getSubscriptionBadge = (status: string | null, tier: string | null) => {
-    if (!status) return <Badge variant="outline">No Subscription</Badge>;
+    if (!status || !tier) return <Badge variant="outline">No Subscription</Badge>;
     
-    const color = status === 'active' ? 'default' : 
-                  status === 'trial' ? 'secondary' : 'destructive';
+    const isActive = status === 'active';
+    const isFirstClass = tier === 'firstclass';
     
     return (
-      <Badge variant={color}>
-        {tier ? `${tier} - ${status}` : status}
+      <Badge variant={isActive ? 'default' : 'secondary'} className={isFirstClass ? 'bg-gradient-to-r from-yellow-500 to-orange-500 text-white' : ''}>
+        {isFirstClass && <Crown className="h-3 w-3 mr-1" />}
+        {tier.charAt(0).toUpperCase() + tier.slice(1)} - {status}
       </Badge>
     );
   };
@@ -247,15 +301,26 @@ export const BusinessManagement = () => {
 
                 {/* Action Controls */}
                 <div className="flex items-center justify-between pt-3 border-t">
-                  <Button
-                    variant="outline"
-                    size="sm"
-                    onClick={() => handleEditBusiness(business)}
-                    className="flex items-center gap-2"
-                  >
-                    <Edit className="h-4 w-4" />
-                    Edit Business
-                  </Button>
+                  <div className="flex gap-2">
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      onClick={() => handleEditBusiness(business)}
+                      className="flex items-center gap-2"
+                    >
+                      <Edit className="h-4 w-4" />
+                      Edit
+                    </Button>
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      onClick={() => handleManageSubscription(business)}
+                      className="flex items-center gap-2"
+                    >
+                      <Zap className="h-4 w-4" />
+                      Subscription
+                    </Button>
+                  </div>
                   <Select
                     value={business.status}
                     onValueChange={(value) => updateBusinessStatus(business.id, value)}
@@ -294,6 +359,69 @@ export const BusinessManagement = () => {
         }}
         onUpdate={handleBusinessUpdate}
       />
+
+      {/* Subscription Management Dialog */}
+      <Dialog open={isSubscriptionDialogOpen} onOpenChange={setIsSubscriptionDialogOpen}>
+        <DialogContent className="max-w-md">
+          <DialogHeader>
+            <DialogTitle>Manage Subscription</DialogTitle>
+            <DialogDescription>
+              Update subscription tier and status for {selectedBusiness?.business_name}
+            </DialogDescription>
+          </DialogHeader>
+          
+          {selectedBusiness && (
+            <div className="space-y-4">
+              <div className="p-4 bg-muted rounded-lg">
+                <div className="text-sm font-medium">Current Subscription</div>
+                <div className="mt-1">
+                  {getSubscriptionBadge(selectedBusiness.subscription_status, selectedBusiness.subscription_tier)}
+                </div>
+              </div>
+
+              <div className="space-y-3">
+                <div className="text-sm font-medium">Quick Actions</div>
+                
+                <div className="grid gap-2">
+                  <Button
+                    onClick={() => updateSubscription(selectedBusiness.id, 'trial', 'active')}
+                    variant="outline"
+                    className="justify-start"
+                  >
+                    Set to Trial Plan
+                  </Button>
+                  
+                  <Button
+                    onClick={() => updateSubscription(selectedBusiness.id, 'business', 'active')}
+                    variant="outline"
+                    className="justify-start"
+                  >
+                    <Building2 className="h-4 w-4 mr-2" />
+                    Upgrade to Business Plan
+                  </Button>
+                  
+                  <Button
+                    onClick={() => updateSubscription(selectedBusiness.id, 'firstclass', 'active')}
+                    variant="outline"
+                    className="justify-start bg-gradient-to-r from-yellow-50 to-orange-50 border-yellow-200"
+                  >
+                    <Crown className="h-4 w-4 mr-2 text-yellow-600" />
+                    Upgrade to First Class Plan
+                  </Button>
+                  
+                  <Button
+                    onClick={() => updateSubscription(selectedBusiness.id, selectedBusiness.subscription_tier || 'trial', 'suspended')}
+                    variant="destructive"
+                    className="justify-start"
+                  >
+                    Suspend Subscription
+                  </Button>
+                </div>
+              </div>
+            </div>
+          )}
+        </DialogContent>
+      </Dialog>
     </div>
   );
 };
