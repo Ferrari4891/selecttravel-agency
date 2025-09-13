@@ -61,95 +61,111 @@ export const AdminSettings = () => {
   );
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-4">
       <Tabs defaultValue="admin" className="space-y-4">
-        <TabsList className="grid w-full grid-cols-6">
-          <TabsTrigger value="admin">Admin Management</TabsTrigger>
-          <TabsTrigger value="amenities">Amenities</TabsTrigger>
-          <TabsTrigger value="subscriptions">Subscription Plans</TabsTrigger>
-          <TabsTrigger value="system">System Settings</TabsTrigger>
-          <TabsTrigger value="security">Security</TabsTrigger>
-          <TabsTrigger value="database">Database</TabsTrigger>
+        <TabsList className="grid w-full grid-cols-2 gap-1 h-auto bg-transparent p-0 md:grid-cols-3">
+          <TabsTrigger value="admin" className="text-xs md:text-sm p-2 md:p-3 data-[state=active]:bg-primary data-[state=active]:text-primary-foreground">
+            <Users className="h-3 w-3 md:h-4 md:w-4 mr-1" />
+            Admin
+          </TabsTrigger>
+          <TabsTrigger value="amenities" className="text-xs md:text-sm p-2 md:p-3 data-[state=active]:bg-primary data-[state=active]:text-primary-foreground">
+            <Sliders className="h-3 w-3 md:h-4 md:w-4 mr-1" />
+            Amenities
+          </TabsTrigger>
+          <TabsTrigger value="subscriptions" className="text-xs md:text-sm p-2 md:p-3 data-[state=active]:bg-primary data-[state=active]:text-primary-foreground">
+            <Settings className="h-3 w-3 md:h-4 md:w-4 mr-1" />
+            Plans
+          </TabsTrigger>
+          <TabsTrigger value="system" className="text-xs md:text-sm p-2 md:p-3 data-[state=active]:bg-primary data-[state=active]:text-primary-foreground">
+            <Database className="h-3 w-3 md:h-4 md:w-4 mr-1" />
+            System
+          </TabsTrigger>
+          <TabsTrigger value="security" className="text-xs md:text-sm p-2 md:p-3 data-[state=active]:bg-primary data-[state=active]:text-primary-foreground">
+            <Shield className="h-3 w-3 md:h-4 md:w-4 mr-1" />
+            Security
+          </TabsTrigger>
+          <TabsTrigger value="database" className="text-xs md:text-sm p-2 md:p-3 data-[state=active]:bg-primary data-[state=active]:text-primary-foreground">
+            <Database className="h-3 w-3 md:h-4 md:w-4 mr-1" />
+            Database
+          </TabsTrigger>
         </TabsList>
 
-        <TabsContent value="admin" className="space-y-6">
-          <div className="grid gap-6">
-            <Card>
-              <CardHeader className="pb-4">
-                <CardTitle className="flex items-center gap-2 text-lg">
-                  <Users className="h-5 w-5 text-primary" />
-                  Grant Administrator Access
-                </CardTitle>
-                <CardDescription className="text-sm">
-                  Promote existing platform users to administrator status
-                </CardDescription>
-              </CardHeader>
-              <CardContent>
-                <form onSubmit={handleCreateAdmin} className="space-y-4">
-                  <div className="space-y-2">
-                    <Label htmlFor="admin-email" className="text-sm font-medium">
-                      User Email Address
-                    </Label>
-                    <div className="flex gap-3">
-                      <Input
-                        id="admin-email"
-                        type="email"
-                        placeholder="user@example.com"
-                        value={newAdminEmail}
-                        onChange={(e) => setNewAdminEmail(e.target.value)}
-                        className="flex-1"
-                        disabled={loading}
-                      />
-                      <Button 
-                        type="submit" 
-                        disabled={loading || !newAdminEmail.trim()}
-                        className="min-w-[120px]"
-                      >
-                        {loading ? 'Granting...' : 'Grant Access'}
-                      </Button>
-                    </div>
-                    <div className="flex items-start gap-2 mt-2">
-                      <div className="w-1 h-1 rounded-full bg-muted-foreground mt-2 flex-shrink-0"></div>
-                      <p className="text-xs text-muted-foreground">
-                        The user must have an existing account on the platform before admin privileges can be granted.
-                      </p>
-                    </div>
+        <TabsContent value="admin" className="space-y-4">
+          <Card>
+            <CardHeader className="p-4">
+              <CardTitle className="flex items-center gap-2 text-base md:text-lg">
+                <Users className="h-4 w-4 md:h-5 md:w-5 text-primary" />
+                Grant Administrator Access
+              </CardTitle>
+              <CardDescription className="text-sm">
+                Promote existing platform users to administrator status
+              </CardDescription>
+            </CardHeader>
+            <CardContent className="p-4 pt-0">
+              <form onSubmit={handleCreateAdmin} className="space-y-4">
+                <div className="space-y-2">
+                  <Label htmlFor="admin-email" className="text-sm font-medium">
+                    User Email Address
+                  </Label>
+                  <div className="flex flex-col gap-2 md:flex-row md:gap-3">
+                    <Input
+                      id="admin-email"
+                      type="email"
+                      placeholder="user@example.com"
+                      value={newAdminEmail}
+                      onChange={(e) => setNewAdminEmail(e.target.value)}
+                      className="flex-1"
+                      disabled={loading}
+                    />
+                    <Button 
+                      type="submit" 
+                      disabled={loading || !newAdminEmail.trim()}
+                      className="w-full md:w-auto md:min-w-[120px]"
+                    >
+                      {loading ? 'Granting...' : 'Grant Access'}
+                    </Button>
                   </div>
-                </form>
-              </CardContent>
-            </Card>
-
-            <Card className="border-muted">
-              <CardHeader className="pb-4">
-                <CardTitle className="flex items-center gap-2 text-lg">
-                  <Shield className="h-5 w-5 text-orange-500" />
-                  Administrator Guidelines
-                </CardTitle>
-              </CardHeader>
-              <CardContent>
-                <div className="space-y-3 text-sm">
-                  <div className="flex items-start gap-2">
-                    <div className="w-1 h-1 rounded-full bg-orange-500 mt-2 flex-shrink-0"></div>
-                    <p className="text-muted-foreground">
-                      Administrators have full access to all platform features and user data
-                    </p>
-                  </div>
-                  <div className="flex items-start gap-2">
-                    <div className="w-1 h-1 rounded-full bg-orange-500 mt-2 flex-shrink-0"></div>
-                    <p className="text-muted-foreground">
-                      Admin privileges cannot be revoked through this interface - contact system administrator
-                    </p>
-                  </div>
-                  <div className="flex items-start gap-2">
-                    <div className="w-1 h-1 rounded-full bg-orange-500 mt-2 flex-shrink-0"></div>
-                    <p className="text-muted-foreground">
-                      Only grant admin access to trusted team members
+                  <div className="flex items-start gap-2 mt-2">
+                    <div className="w-1 h-1 rounded-full bg-muted-foreground mt-2 flex-shrink-0"></div>
+                    <p className="text-xs text-muted-foreground">
+                      The user must have an existing account on the platform before admin privileges can be granted.
                     </p>
                   </div>
                 </div>
-              </CardContent>
-            </Card>
-          </div>
+              </form>
+            </CardContent>
+          </Card>
+
+          <Card className="border-muted">
+            <CardHeader className="p-4">
+              <CardTitle className="flex items-center gap-2 text-base md:text-lg">
+                <Shield className="h-4 w-4 md:h-5 md:w-5 text-orange-500" />
+                Administrator Guidelines
+              </CardTitle>
+            </CardHeader>
+            <CardContent className="p-4 pt-0">
+              <div className="space-y-3 text-sm">
+                <div className="flex items-start gap-2">
+                  <div className="w-1 h-1 rounded-full bg-orange-500 mt-2 flex-shrink-0"></div>
+                  <p className="text-muted-foreground">
+                    Administrators have full access to all platform features and user data
+                  </p>
+                </div>
+                <div className="flex items-start gap-2">
+                  <div className="w-1 h-1 rounded-full bg-orange-500 mt-2 flex-shrink-0"></div>
+                  <p className="text-muted-foreground">
+                    Admin privileges cannot be revoked through this interface - contact system administrator
+                  </p>
+                </div>
+                <div className="flex items-start gap-2">
+                  <div className="w-1 h-1 rounded-full bg-orange-500 mt-2 flex-shrink-0"></div>
+                  <p className="text-muted-foreground">
+                    Only grant admin access to trusted team members
+                  </p>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
         </TabsContent>
 
         <TabsContent value="amenities" className="space-y-4">
@@ -160,19 +176,19 @@ export const AdminSettings = () => {
           <SubscriptionPlanManagement />
         </TabsContent>
 
-        <TabsContent value="system" className="space-y-6">
-          <div className="grid gap-6">
+        <TabsContent value="system" className="space-y-4">
+          <div className="space-y-4">
             <Card>
-              <CardHeader className="pb-4">
-                <CardTitle className="flex items-center gap-2 text-lg">
-                  <Settings className="h-5 w-5 text-primary" />
+              <CardHeader className="p-4">
+                <CardTitle className="flex items-center gap-2 text-base md:text-lg">
+                  <Settings className="h-4 w-4 md:h-5 md:w-5 text-primary" />
                   Registration Settings
                 </CardTitle>
                 <CardDescription className="text-sm">
                   Control user and business account creation
                 </CardDescription>
               </CardHeader>
-              <CardContent className="space-y-6">
+              <CardContent className="p-4 pt-0 space-y-4">
                 <SystemSetting
                   title="User Registration"
                   description="Allow new users to create personal accounts"
@@ -195,16 +211,16 @@ export const AdminSettings = () => {
             </Card>
 
             <Card>
-              <CardHeader className="pb-4">
-                <CardTitle className="flex items-center gap-2 text-lg">
-                  <Mail className="h-5 w-5 text-primary" />
+              <CardHeader className="p-4">
+                <CardTitle className="flex items-center gap-2 text-base md:text-lg">
+                  <Mail className="h-4 w-4 md:h-5 md:w-5 text-primary" />
                   Communication Settings
                 </CardTitle>
                 <CardDescription className="text-sm">
                   Configure email notifications and messaging
                 </CardDescription>
               </CardHeader>
-              <CardContent className="space-y-6">
+              <CardContent className="p-4 pt-0 space-y-4">
                 <SystemSetting
                   title="Email Notifications"
                   description="Send automated system notification emails to users"
@@ -227,16 +243,16 @@ export const AdminSettings = () => {
             </Card>
 
             <Card>
-              <CardHeader className="pb-4">
-                <CardTitle className="flex items-center gap-2 text-lg">
-                  <Shield className="h-5 w-5 text-primary" />
+              <CardHeader className="p-4">
+                <CardTitle className="flex items-center gap-2 text-base md:text-lg">
+                  <Shield className="h-4 w-4 md:h-5 md:w-5 text-primary" />
                   API & Security Settings
                 </CardTitle>
                 <CardDescription className="text-sm">
                   Configure API access and security policies
                 </CardDescription>
               </CardHeader>
-              <CardContent className="space-y-6">
+              <CardContent className="p-4 pt-0 space-y-4">
                 <SystemSetting
                   title="API Rate Limiting"
                   description="Enable rate limiting for API endpoints"
@@ -265,16 +281,16 @@ export const AdminSettings = () => {
             </Card>
 
             <Card>
-              <CardHeader className="pb-4">
-                <CardTitle className="flex items-center gap-2 text-lg">
-                  <Database className="h-5 w-5 text-primary" />
+              <CardHeader className="p-4">
+                <CardTitle className="flex items-center gap-2 text-base md:text-lg">
+                  <Database className="h-4 w-4 md:h-5 md:w-5 text-primary" />
                   Content & Data Management
                 </CardTitle>
                 <CardDescription className="text-sm">
                   Configure content moderation and data handling
                 </CardDescription>
               </CardHeader>
-              <CardContent className="space-y-6">
+              <CardContent className="p-4 pt-0 space-y-4">
                 <SystemSetting
                   title="Content Moderation"
                   description="Enable automatic content moderation for user submissions"
@@ -303,16 +319,16 @@ export const AdminSettings = () => {
             </Card>
 
             <Card>
-              <CardHeader className="pb-4">
-                <CardTitle className="flex items-center gap-2 text-lg">
-                  <Sliders className="h-5 w-5 text-primary" />
+              <CardHeader className="p-4">
+                <CardTitle className="flex items-center gap-2 text-base md:text-lg">
+                  <Sliders className="h-4 w-4 md:h-5 md:w-5 text-primary" />
                   Performance & Features
                 </CardTitle>
                 <CardDescription className="text-sm">
                   Configure platform features and performance settings
                 </CardDescription>
               </CardHeader>
-              <CardContent className="space-y-6">
+              <CardContent className="p-4 pt-0 space-y-4">
                 <SystemSetting
                   title="Caching"
                   description="Enable server-side caching for improved performance"
@@ -335,16 +351,16 @@ export const AdminSettings = () => {
             </Card>
 
             <Card>
-              <CardHeader className="pb-4">
-                <CardTitle className="flex items-center gap-2 text-lg">
-                  <Settings className="h-5 w-5 text-red-500" />
+              <CardHeader className="p-4">
+                <CardTitle className="flex items-center gap-2 text-base md:text-lg">
+                  <Settings className="h-4 w-4 md:h-5 md:w-5 text-red-500" />
                   System Status
                 </CardTitle>
                 <CardDescription className="text-sm">
                   Control platform availability and maintenance
                 </CardDescription>
               </CardHeader>
-              <CardContent className="space-y-6">
+              <CardContent className="p-4 pt-0 space-y-4">
                 <SystemSetting
                   title="Maintenance Mode"
                   description="Enable maintenance mode to restrict access during system updates"
@@ -364,16 +380,16 @@ export const AdminSettings = () => {
 
         <TabsContent value="security" className="space-y-4">
           <Card>
-            <CardHeader>
-              <CardTitle className="flex items-center gap-2">
-                <Shield className="h-5 w-5" />
+            <CardHeader className="p-4">
+              <CardTitle className="flex items-center gap-2 text-base md:text-lg">
+                <Shield className="h-4 w-4 md:h-5 md:w-5" />
                 Security Settings
               </CardTitle>
               <CardDescription>
                 Configure security policies and access controls.
               </CardDescription>
             </CardHeader>
-            <CardContent className="space-y-4">
+            <CardContent className="p-4 pt-0 space-y-4">
               <SystemSetting
                 title="Two-Factor Authentication"
                 description="Require 2FA for admin accounts"
