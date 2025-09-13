@@ -294,8 +294,7 @@ export const EditBusinessDialog: React.FC<EditBusinessDialogProps> = ({
                       <SelectValue placeholder="Select tier" />
                     </SelectTrigger>
                     <SelectContent>
-                      <SelectItem value="trial">Trial</SelectItem>
-                      <SelectItem value="business">Business</SelectItem>
+                      <SelectItem value="economy">Economy (Business Class)</SelectItem>
                       <SelectItem value="firstclass">First Class</SelectItem>
                     </SelectContent>
                   </Select>
@@ -544,8 +543,7 @@ export const EditBusinessDialog: React.FC<EditBusinessDialogProps> = ({
                     <SelectContent>
                       <SelectItem value="trial">Trial</SelectItem>
                       <SelectItem value="active">Active</SelectItem>
-                      <SelectItem value="cancelled">Cancelled</SelectItem>
-                      <SelectItem value="expired">Expired</SelectItem>
+                      <SelectItem value="suspended">Suspended</SelectItem>
                     </SelectContent>
                   </Select>
                 </div>
