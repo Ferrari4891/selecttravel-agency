@@ -148,21 +148,23 @@ export const BusinessManagement = () => {
 
       // Align with DB constraint: when status is 'trial', tier must be NULL
       const tierToSend = status === 'trial' ? null : tier;
+
+      // Use SECURITY DEFINER RPC to ensure admin updates bypass RLS safely
+      const { data: _rpcData, error: rpcError } = await supabase.rpc(
+        'admin_update_business_subscription',
+        {
+          p_business_id: businessId,
+          p_tier: tierToSend,
+          p_status: status,
+        }
+      );
+
+      if (rpcError) throw rpcError;
+
+      // Mirror the expected end date locally for immediate UI feedback
       const endDate = status === 'active'
         ? new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toISOString()
         : null;
-
-      const { error } = await supabase
-        .from('businesses')
-        .update({
-          subscription_tier: tierToSend,
-          subscription_status: status,
-          subscription_end_date: endDate,
-          updated_at: new Date().toISOString(),
-        })
-        .eq('id', businessId);
-
-      if (error) throw error;
 
       setBusinesses(businesses.map(business => 
         business.id === businessId 
