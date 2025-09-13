@@ -83,8 +83,8 @@ export const EditBusinessDialog: React.FC<EditBusinessDialogProps> = ({
           updates.subscription_tier = null;
           updates.subscription_end_date = null;
         } else if (value === 'active' && !updates.subscription_tier) {
-          // Default to economy when activating and no tier is set
-          updates.subscription_tier = 'economy';
+          // Default to basic when activating and no tier is set
+          updates.subscription_tier = 'basic';
         }
       }
       return updates;
@@ -97,12 +97,27 @@ export const EditBusinessDialog: React.FC<EditBusinessDialogProps> = ({
 
     setLoading(true);
     try {
+      const sanitizedForm: any = { ...formData };
+
+      // Map legacy app values to DB-enforced values
+      if (sanitizedForm.subscription_status === 'suspended') {
+        sanitizedForm.subscription_status = 'canceled';
+      }
+      if (sanitizedForm.subscription_status === 'trial') {
+        sanitizedForm.subscription_tier = null;
+        sanitizedForm.subscription_end_date = null;
+      } else if (sanitizedForm.subscription_status === 'active' && !sanitizedForm.subscription_tier) {
+        sanitizedForm.subscription_tier = 'basic';
+      }
+      if (sanitizedForm.subscription_tier === 'economy') sanitizedForm.subscription_tier = 'basic';
+      if (sanitizedForm.subscription_tier === 'firstclass') sanitizedForm.subscription_tier = 'premium';
+
       const { data, error } = await supabase
         .from('businesses')
-        .update(formData)
+        .update(sanitizedForm)
         .eq('id', business.id)
         .select()
-        .single();
+        .maybeSingle();
 
       if (error) throw error;
 
@@ -306,8 +321,9 @@ export const EditBusinessDialog: React.FC<EditBusinessDialogProps> = ({
                       <SelectValue placeholder="Select tier" />
                     </SelectTrigger>
                     <SelectContent>
-                      <SelectItem value="economy">Economy (Business Class)</SelectItem>
-                      <SelectItem value="firstclass">First Class</SelectItem>
+                      <SelectItem value="basic">Basic</SelectItem>
+                      <SelectItem value="premium">Premium</SelectItem>
+                      <SelectItem value="enterprise">Enterprise</SelectItem>
                     </SelectContent>
                   </Select>
                 </div>
@@ -555,7 +571,8 @@ export const EditBusinessDialog: React.FC<EditBusinessDialogProps> = ({
                     <SelectContent>
                       <SelectItem value="trial">Trial</SelectItem>
                       <SelectItem value="active">Active</SelectItem>
-                      <SelectItem value="suspended">Suspended</SelectItem>
+                      <SelectItem value="past_due">Past Due</SelectItem>
+                      <SelectItem value="canceled">Canceled</SelectItem>
                     </SelectContent>
                   </Select>
                 </div>

@@ -227,7 +227,7 @@ export const BusinessManagement = () => {
     if (!status || !tier) return <Badge variant="outline">No Subscription</Badge>;
     
     const isActive = status === 'active';
-    const isFirstClass = tier === 'firstclass';
+    const isFirstClass = tier === 'firstclass' || tier === 'premium' || tier === 'enterprise';
     
     return (
       <Badge variant={isActive ? 'default' : 'secondary'} className={isFirstClass ? 'bg-gradient-to-r from-yellow-500 to-orange-500 text-white' : ''}>
@@ -424,25 +424,25 @@ export const BusinessManagement = () => {
                   </Button>
                   
                   <Button
-                    onClick={() => updateSubscription(selectedBusiness.id, 'economy', 'active')}
+                    onClick={() => updateSubscription(selectedBusiness.id, 'basic', 'active')}
                     variant="outline"
                     className="justify-start rounded-none w-full"
                   >
                     <Building2 className="h-4 w-4 mr-2" />
-                    Activate Business (Economy) Plan
+                    Activate Basic Plan
                   </Button>
                   
                   <Button
-                    onClick={() => updateSubscription(selectedBusiness.id, 'firstclass', 'active')}
+                    onClick={() => updateSubscription(selectedBusiness.id, 'premium', 'active')}
                     variant="outline"
                     className="justify-start rounded-none w-full bg-gradient-to-r from-yellow-50 to-orange-50 border-yellow-200"
                   >
                     <Crown className="h-4 w-4 mr-2 text-yellow-600" />
-                    Activate First Class Plan
+                    Activate Premium Plan
                   </Button>
                   
                   <Button
-                    onClick={() => updateSubscription(selectedBusiness.id, selectedBusiness.subscription_tier ?? null, 'suspended')}
+                    onClick={() => updateSubscription(selectedBusiness.id, selectedBusiness.subscription_tier ?? null, 'canceled')}
                     variant="destructive"
                     className="justify-start rounded-none w-full"
                   >
