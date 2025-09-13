@@ -10,6 +10,7 @@ import { BusinessAnalytics } from '@/components/business/BusinessAnalytics';
 import { SubscriptionManagement } from '@/components/business/SubscriptionManagement';
 import { BusinessMediaForm } from '@/components/business/BusinessMediaForm';
 import { BusinessMediaPreview } from '@/components/business/BusinessMediaPreview';
+import { VoucherManagement } from '@/components/business/VoucherManagement';
 import { useToast } from '@/hooks/use-toast';
 import { Home } from 'lucide-react';
 import MobileContainer from '@/components/MobileContainer';
@@ -116,6 +117,7 @@ const Dashboard = () => {
               <TabsTrigger value="profile" className="w-full text-sm md:text-base font-medium px-4 py-3 border border-border rounded data-[state=active]:bg-primary data-[state=active]:text-primary-foreground">Business Profile</TabsTrigger>
               <TabsTrigger value="media" className="w-full text-sm md:text-base font-medium px-4 py-3 border border-border rounded data-[state=active]:bg-primary data-[state=active]:text-primary-foreground">Media</TabsTrigger>
               <TabsTrigger value="analytics" className="w-full text-sm md:text-base font-medium px-4 py-3 border border-border rounded data-[state=active]:bg-primary data-[state=active]:text-primary-foreground">Analytics</TabsTrigger>
+              <TabsTrigger value="vouchers" className="w-full text-sm md:text-base font-medium px-4 py-3 border border-border rounded data-[state=active]:bg-primary data-[state=active]:text-primary-foreground">Vouchers</TabsTrigger>
               <TabsTrigger value="subscription" className="w-full text-sm md:text-base font-medium px-4 py-3 border border-border rounded data-[state=active]:bg-primary data-[state=active]:text-primary-foreground">Subscription</TabsTrigger>
             </TabsList>
 
@@ -158,6 +160,20 @@ const Dashboard = () => {
                 </CardHeader>
                 <CardContent className="p-4">
                   <BusinessAnalytics businessId={business.id} subscriptionTier={business.subscription_tier || 'trial'} />
+                </CardContent>
+              </Card>
+            </TabsContent>
+
+            <TabsContent value="vouchers" className="space-y-4">
+              <Card className="border shadow-md bg-background">
+                <CardHeader className="bg-background p-4">
+                  <CardTitle className="text-center border-b border-border pb-2 text-xl md:text-2xl font-bold">Voucher Management</CardTitle>
+                  <CardDescription className="text-sm md:text-base text-center text-muted-foreground">
+                    Create and manage discount vouchers for your customers.
+                  </CardDescription>
+                </CardHeader>
+                <CardContent className="p-4">
+                  <VoucherManagement businessId={business.id} subscriptionTier={business.subscription_tier || 'trial'} />
                 </CardContent>
               </Card>
             </TabsContent>
