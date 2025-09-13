@@ -289,7 +289,7 @@ export const BusinessManagement = () => {
             <CardContent className="p-4">
               <div className="space-y-4">
                 {/* Business Header */}
-                <div className="flex items-center justify-between">
+                <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2">
                   <div className="flex items-center gap-3">
                     <div className="w-10 h-10 bg-primary/10 rounded-full flex items-center justify-center">
                       <Building2 className="h-5 w-5 text-primary" />
@@ -406,20 +406,20 @@ export const BusinessManagement = () => {
                 
                 <div className="grid gap-2">
                   <Button
-                    onClick={() => updateSubscription(selectedBusiness.id, 'trial', 'active')}
+                    onClick={() => updateSubscription(selectedBusiness.id, 'economy', 'trial')}
                     variant="outline"
                     className="justify-start rounded-none w-full"
                   >
-                    Set to Trial Plan
+                    Set to Trial Status (Economy Tier)
                   </Button>
                   
                   <Button
-                    onClick={() => updateSubscription(selectedBusiness.id, 'business', 'active')}
+                    onClick={() => updateSubscription(selectedBusiness.id, 'economy', 'active')}
                     variant="outline"
                     className="justify-start rounded-none w-full"
                   >
                     <Building2 className="h-4 w-4 mr-2" />
-                    Upgrade to Business Plan
+                    Upgrade to Business (Economy) Plan
                   </Button>
                   
                   <Button
@@ -432,7 +432,7 @@ export const BusinessManagement = () => {
                   </Button>
                   
                   <Button
-                    onClick={() => updateSubscription(selectedBusiness.id, selectedBusiness.subscription_tier || 'trial', 'suspended')}
+                    onClick={() => updateSubscription(selectedBusiness.id, selectedBusiness.subscription_tier || 'economy', 'suspended')}
                     variant="destructive"
                     className="justify-start rounded-none w-full"
                   >
