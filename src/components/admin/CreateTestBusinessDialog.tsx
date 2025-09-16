@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -6,9 +6,17 @@ import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Switch } from '@/components/ui/switch';
+import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 import { supabase } from '@/integrations/supabase/client';
 import { useToast } from '@/hooks/use-toast';
 import { useAuth } from '@/contexts/AuthContext';
+import { Upload, X, Youtube, Image as ImageIcon, ExternalLink } from 'lucide-react';
+import { 
+  MediaType, 
+  extractYouTubeId, 
+  isValidYouTubeId, 
+  uploadAndProcessImage 
+} from '@/lib/businessMedia';
 
 interface CreateTestBusinessDialogProps {
   isOpen: boolean;
@@ -92,11 +100,133 @@ export const CreateTestBusinessDialog: React.FC<CreateTestBusinessDialogProps> =
     outdoor_seating: false,
     senior_discounts: false,
     online_booking: false,
-    air_conditioned: false
+    air_conditioned: false,
+    // Social media
+    facebook: '',
+    instagram: '',
+    twitter: '',
+    linkedin: '',
+    tiktok: '',
+    youtube: '',
+    // Transport apps
+    grab_link: '',
+    uber_link: ''
   });
+
+  // Media upload states
+  const [mediaType, setMediaType] = useState<MediaType>('image');
+  const [mediaImages, setMediaImages] = useState<File[]>([]);
+  const [youtubePreviews, setYoutubePreviews] = useState<string[]>([]);
+  const [youtubeUrl, setYoutubeUrl] = useState('');
+  const [imageAltTexts, setImageAltTexts] = useState<string[]>(['']);
+  
   const [loading, setLoading] = useState(false);
   const { toast } = useToast();
   const { user } = useAuth();
+
+  // Update media options based on subscription
+  useEffect(() => {
+    const subscription = formData.subscription;
+    if (subscription === 'trial' || subscription === 'basic') {
+      setMediaType('image');
+      setMediaImages([]);
+      setYoutubePreviews([]);
+      setYoutubeUrl('');
+      setImageAltTexts(['']);
+    } else if (subscription === 'premium') {
+      if (mediaType === 'youtube') {
+        setMediaType('carousel');
+      }
+      setYoutubeUrl('');
+    }
+  }, [formData.subscription]);
+
+  // Get subscription permissions
+  const getMediaPermissions = () => {
+    const subscription = formData.subscription;
+    return {
+      singleImage: true, // Available to all
+      carousel: subscription === 'premium' || subscription === 'firstclass',
+      youtube: subscription === 'firstclass'
+    };
+  };
+
+  const initializeMediaForType = (type: MediaType) => {
+    if (type === 'carousel') {
+      setMediaImages(Array(3).fill(null));
+      setImageAltTexts(Array(3).fill(''));
+      setYoutubePreviews([]);
+    } else if (type === 'image') {
+      setMediaImages([]);
+      setImageAltTexts(['']);
+      setYoutubePreviews([]);
+    } else {
+      setMediaImages([]);
+      setImageAltTexts([]);
+      setYoutubePreviews([]);
+    }
+  };
+
+  const handleMediaTypeChange = (type: MediaType) => {
+    setMediaType(type);
+    initializeMediaForType(type);
+    setYoutubeUrl('');
+  };
+
+  const handleImageUpload = (index: number, file: File) => {
+    if (!file.type.startsWith('image/')) {
+      toast({
+        title: "Invalid file",
+        description: "Please select an image file",
+        variant: "destructive"
+      });
+      return;
+    }
+
+    if (file.size > 10 * 1024 * 1024) {
+      toast({
+        title: "File too large", 
+        description: "Image must be less than 10MB",
+        variant: "destructive"
+      });
+      return;
+    }
+
+    const newImages = [...mediaImages];
+    newImages[index] = file;
+    setMediaImages(newImages);
+
+    // Create preview
+    const reader = new FileReader();
+    reader.onload = (e) => {
+      const newPreviews = [...youtubePreviews];
+      newPreviews[index] = e.target?.result as string;
+      setYoutubePreviews(newPreviews);
+    };
+    reader.readAsDataURL(file);
+  };
+
+  const handleImageRemove = (index: number) => {
+    const newImages = [...mediaImages];
+    newImages[index] = null as any;
+    setMediaImages(newImages);
+
+    const newPreviews = [...youtubePreviews];
+    newPreviews[index] = '';
+    setYoutubePreviews(newPreviews);
+  };
+
+  const generateAppLink = (appType: 'grab' | 'uber', location: string) => {
+    const encodedLocation = encodeURIComponent(location);
+    
+    if (appType === 'grab') {
+      // Grab deep link format
+      return `grab://open?screen=booking&pickup=my_location&destination=${encodedLocation}`;
+    } else {
+      // Uber deep link format  
+      return `uber://?action=setPickup&pickup=my_location&dropoff[formatted_address]=${encodedLocation}`;
+    }
+  };
 
   const handleInputChange = (field: string, value: string | boolean) => {
     setFormData(prev => ({ ...prev, [field]: value }));
@@ -107,6 +237,26 @@ export const CreateTestBusinessDialog: React.FC<CreateTestBusinessDialogProps> =
       toast({
         title: "Validation Error", 
         description: "Please fill in all required fields (name, category, subcategory, and type)",
+        variant: "destructive"
+      });
+      return;
+    }
+
+    // Validate media based on type and subscription
+    const permissions = getMediaPermissions();
+    if (mediaType === 'carousel' && !permissions.carousel) {
+      toast({
+        title: "Subscription Required",
+        description: "Carousel media requires Premium or First Class subscription",
+        variant: "destructive"
+      });
+      return;
+    }
+    
+    if (mediaType === 'youtube' && !permissions.youtube) {
+      toast({
+        title: "Subscription Required", 
+        description: "YouTube video requires First Class subscription",
         variant: "destructive"
       });
       return;
@@ -123,7 +273,12 @@ export const CreateTestBusinessDialog: React.FC<CreateTestBusinessDialogProps> =
           : null
       };
 
-      const { error } = await supabase.from('businesses').insert([{
+      // Generate transport app links
+      const businessAddress = formData.address || `${formData.business_name}, ${selectedCity}`;
+      const grabLink = formData.grab_link || generateAppLink('grab', businessAddress);
+      const uberLink = formData.uber_link || generateAppLink('uber', businessAddress);
+
+      const { data: businessData, error } = await supabase.from('businesses').insert([{
         user_id: user?.id,
         business_name: formData.business_name,
         business_type: `${formData.category} - ${formData.subcategory} - ${formData.business_type}`,
@@ -134,6 +289,10 @@ export const CreateTestBusinessDialog: React.FC<CreateTestBusinessDialogProps> =
         phone: formData.phone,
         email: formData.email,
         website: formData.website,
+        facebook: formData.facebook,
+        instagram: formData.instagram,
+        twitter: formData.twitter,
+        linkedin: formData.linkedin,
         status: 'active', // Auto-approve test businesses
         ...subscriptionData,
         wheelchair_access: formData.wheelchair_access,
@@ -146,9 +305,57 @@ export const CreateTestBusinessDialog: React.FC<CreateTestBusinessDialogProps> =
         senior_discounts: formData.senior_discounts,
         online_booking: formData.online_booking,
         air_conditioned: formData.air_conditioned
-      }]);
+      }]).select().single();
 
       if (error) throw error;
+
+      // Handle media upload if there's media content
+      if (businessData?.id && (
+        (mediaType === 'image' && mediaImages[0]) ||
+        (mediaType === 'carousel' && mediaImages.filter(Boolean).length === 3) ||
+        (mediaType === 'youtube' && youtubeUrl && isValidYouTubeId(extractYouTubeId(youtubeUrl) || ''))
+      )) {
+        let mediaData: any = {
+          business_id: businessData.id,
+          media_type: mediaType
+        };
+
+        if (mediaType === 'youtube') {
+          const youtubeId = extractYouTubeId(youtubeUrl);
+          mediaData.youtube_url = youtubeUrl;
+          mediaData.youtube_id = youtubeId;
+          mediaData.images = null;
+        } else {
+          // Upload images
+          const imagePromises = mediaImages.filter(Boolean).map(async (file, index) => {
+            const path = await uploadAndProcessImage(file, businessData.id);
+            return {
+              url: path,
+              alt: imageAltTexts[index] || `${formData.business_name} image ${index + 1}`,
+              width: 1920,
+              height: 1080
+            };
+          });
+
+          const processedImages = await Promise.all(imagePromises);
+          mediaData.images = processedImages;
+          mediaData.youtube_url = null;
+          mediaData.youtube_id = null;
+        }
+
+        const { error: mediaError } = await supabase
+          .from('business_media')
+          .upsert(mediaData, { onConflict: 'business_id' });
+
+        if (mediaError) {
+          console.error('Media upload error:', mediaError);
+          toast({
+            title: "Warning",
+            description: "Business created but media upload failed",
+            variant: "destructive"
+          });
+        }
+      }
 
       toast({
         title: "Success",
@@ -176,8 +383,22 @@ export const CreateTestBusinessDialog: React.FC<CreateTestBusinessDialogProps> =
         outdoor_seating: false,
         senior_discounts: false,
         online_booking: false,
-        air_conditioned: false
+        air_conditioned: false,
+        facebook: '',
+        instagram: '',
+        twitter: '',
+        linkedin: '',
+        tiktok: '',
+        youtube: '',
+        grab_link: '',
+        uber_link: ''
       });
+      
+      setMediaType('image');
+      setMediaImages([]);
+      setYoutubePreviews([]);
+      setYoutubeUrl('');
+      setImageAltTexts(['']);
 
       onBusinessCreated();
       onClose();
@@ -363,6 +584,199 @@ export const CreateTestBusinessDialog: React.FC<CreateTestBusinessDialogProps> =
                 ))}
               </SelectContent>
             </Select>
+          </div>
+
+          {/* Media Upload Section */}
+          <div className="space-y-4">
+            <h3 className="font-medium">Business Media (Header Images 16:9)</h3>
+            <div className="space-y-4">
+              <div>
+                <Label className="text-base font-medium">Media Type</Label>
+                <p className="text-sm text-muted-foreground">
+                  {getMediaPermissions().singleImage && 'Single image: Available to all subscriptions'}<br/>
+                  {getMediaPermissions().carousel && 'Carousel: Business/First Class only'}<br/>
+                  {getMediaPermissions().youtube && 'YouTube: First Class only'}
+                </p>
+                <RadioGroup 
+                  value={mediaType} 
+                  onValueChange={handleMediaTypeChange}
+                  className="mt-2"
+                >
+                  <div className="flex items-center space-x-2">
+                    <RadioGroupItem value="image" id="single-image" />
+                    <Label htmlFor="single-image">Single image</Label>
+                  </div>
+                  <div className="flex items-center space-x-2">
+                    <RadioGroupItem 
+                      value="carousel" 
+                      id="carousel-images" 
+                      disabled={!getMediaPermissions().carousel}
+                    />
+                    <Label htmlFor="carousel-images" className={!getMediaPermissions().carousel ? 'text-muted-foreground' : ''}>
+                      3-image carousel (2s intervals) - Business/First Class
+                    </Label>
+                  </div>
+                  <div className="flex items-center space-x-2">
+                    <RadioGroupItem 
+                      value="youtube" 
+                      id="youtube-video" 
+                      disabled={!getMediaPermissions().youtube}
+                    />
+                    <Label htmlFor="youtube-video" className={!getMediaPermissions().youtube ? 'text-muted-foreground' : ''}>
+                      YouTube video - First Class only
+                    </Label>
+                  </div>
+                </RadioGroup>
+              </div>
+
+              {/* Image Upload */}
+              {(mediaType === 'image' || mediaType === 'carousel') && (
+                <div>
+                  <Label>Upload Images (JPG, PNG, WEBP, max 10MB)</Label>
+                  <div className="grid gap-4 mt-2">
+                    {Array.from({ length: mediaType === 'carousel' ? 3 : 1 }).map((_, index) => (
+                      <div key={index} className="border border-dashed p-4 space-y-3">
+                        <Label>Image {index + 1} {mediaType === 'carousel' && '(Required)'}</Label>
+                        
+                        {youtubePreviews[index] ? (
+                          <div className="space-y-2">
+                            <img 
+                              src={youtubePreviews[index]} 
+                              alt={`Preview ${index + 1}`}
+                              className="w-full h-32 object-cover border"
+                            />
+                            <div className="flex gap-2">
+                              <Input
+                                placeholder="Alt text for accessibility"
+                                value={imageAltTexts[index] || ''}
+                                onChange={(e) => {
+                                  const newAltTexts = [...imageAltTexts];
+                                  newAltTexts[index] = e.target.value;
+                                  setImageAltTexts(newAltTexts);
+                                }}
+                                className="rounded-none"
+                              />
+                              <Button
+                                type="button"
+                                variant="outline"
+                                size="sm"
+                                onClick={() => handleImageRemove(index)}
+                              >
+                                <X className="h-4 w-4" />
+                              </Button>
+                            </div>
+                          </div>
+                        ) : (
+                          <div className="border border-dashed p-8 text-center">
+                            <input
+                              type="file"
+                              accept="image/*"
+                              onChange={(e) => {
+                                const file = e.target.files?.[0];
+                                if (file) handleImageUpload(index, file);
+                              }}
+                              className="hidden"
+                              id={`upload-${index}`}
+                            />
+                            <Label htmlFor={`upload-${index}`} className="cursor-pointer">
+                              <div className="flex flex-col items-center space-y-2">
+                                <Upload className="h-8 w-8 text-muted-foreground" />
+                                <span className="text-sm text-muted-foreground">
+                                  Click to upload image
+                                </span>
+                              </div>
+                            </Label>
+                          </div>
+                        )}
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
+
+              {/* YouTube URL */}
+              {mediaType === 'youtube' && (
+                <div>
+                  <Label htmlFor="youtube-url">YouTube URL</Label>
+                  <Input
+                    id="youtube-url"
+                    value={youtubeUrl}
+                    onChange={(e) => setYoutubeUrl(e.target.value)}
+                    placeholder="https://www.youtube.com/watch?v=..."
+                    className="rounded-none"
+                  />
+                  {youtubeUrl && isValidYouTubeId(extractYouTubeId(youtubeUrl) || '') && (
+                    <div className="mt-2 aspect-video">
+                      <iframe
+                        src={`https://www.youtube-nocookie.com/embed/${extractYouTubeId(youtubeUrl)}`}
+                        title="YouTube preview"
+                        frameBorder="0"
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                        allowFullScreen
+                        className="w-full h-full"
+                      />
+                    </div>
+                  )}
+                </div>
+              )}
+            </div>
+          </div>
+
+          {/* Social Media Links */}
+          <div className="space-y-4">
+            <h3 className="font-medium">Social Media & Online Presence</h3>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              {[
+                { key: 'facebook', label: 'Facebook', placeholder: 'https://facebook.com/yourpage' },
+                { key: 'instagram', label: 'Instagram', placeholder: 'https://instagram.com/yourpage' },
+                { key: 'twitter', label: 'Twitter/X', placeholder: 'https://twitter.com/yourpage' },
+                { key: 'linkedin', label: 'LinkedIn', placeholder: 'https://linkedin.com/company/yourpage' },
+                { key: 'tiktok', label: 'TikTok', placeholder: 'https://tiktok.com/@yourpage' },
+                { key: 'youtube', label: 'YouTube Channel', placeholder: 'https://youtube.com/c/yourchannel' }
+              ].map((social) => (
+                <div key={social.key}>
+                  <Label htmlFor={social.key}>{social.label}</Label>
+                  <Input
+                    id={social.key}
+                    value={formData[social.key as keyof typeof formData] as string}
+                    onChange={(e) => handleInputChange(social.key, e.target.value)}
+                    placeholder={social.placeholder}
+                    className="rounded-none"
+                  />
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {/* Transport App Links */}
+          <div className="space-y-4">
+            <h3 className="font-medium">Transport App Integration</h3>
+            <p className="text-sm text-muted-foreground">
+              Links will auto-generate based on business address. These will open the app if installed, 
+              or redirect to app stores if not installed.
+            </p>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div>
+                <Label htmlFor="grab_link">Grab Link (Optional Override)</Label>
+                <Input
+                  id="grab_link"
+                  value={formData.grab_link}
+                  onChange={(e) => handleInputChange('grab_link', e.target.value)}
+                  placeholder="Auto-generated from address"
+                  className="rounded-none"
+                />
+              </div>
+              <div>
+                <Label htmlFor="uber_link">Uber Link (Optional Override)</Label>
+                <Input
+                  id="uber_link"
+                  value={formData.uber_link}
+                  onChange={(e) => handleInputChange('uber_link', e.target.value)}
+                  placeholder="Auto-generated from address"
+                  className="rounded-none"
+                />
+              </div>
+            </div>
           </div>
 
           {/* Amenities */}
