@@ -17,10 +17,47 @@ interface CreateTestBusinessDialogProps {
   onBusinessCreated: () => void;
 }
 
-const businessTypes = [
-  'Restaurant', 'Cafe', 'Bar', 'Hotel', 'Spa', 'Tour Agency', 
-  'Shop', 'Market', 'Service', 'Entertainment'
-];
+// Business type hierarchical structure matching the home page
+const businessCategories = {
+  'Food': {
+    'Restaurants': [
+      'African Food', 'British Food', 'Cajun Food', 'Caribbean Food', 'Chinese Food', 
+      'Eastern European Food', 'French Food', 'German Food', 'Greek Food', 'Indian Food', 
+      'International Food', 'Irish Food', 'Italian Food', 'Japanese Food', 'Mediterranean Food', 
+      'Mexican Food', 'South American Food', 'Spanish Food', 'Thai Food', 'Vietnamese Food'
+    ],
+    'Fast Food': [
+      'Burger Chains', 'Pizza Chains', 'Chicken Chains', 'Sandwich Shops', 'Taco Shops',
+      'Asian Fast Food', 'Coffee Chains', 'Bakery Chains', 'Ice Cream Shops', 'Donut Shops'
+    ]
+  },
+  'Drink': {
+    'Bars': [
+      'Sports Bars', 'Wine Bars', 'Cocktail Bars', 'Beer Gardens', 'Rooftop Bars',
+      'Dive Bars', 'Hotel Bars', 'Beach Bars', 'Whiskey Bars', 'Piano Bars'
+    ],
+    'Clubs': [
+      'Dance Clubs', 'Jazz Clubs', 'Comedy Clubs', 'Strip Clubs', 'Karaoke Bars',
+      'Live Music Venues', 'Lounge Bars', 'Themed Clubs', 'Beach Clubs', 'Underground Clubs'
+    ]
+  },
+  'Stay': {
+    'Hotels': [
+      'Luxury Hotels', 'Business Hotels', 'Budget Hotels', 'Boutique Hotels', 'Resort Hotels'
+    ],
+    'Alternative': [
+      'Hostels', 'Bed & Breakfast', 'Vacation Rentals', 'Guesthouses', 'Motels'
+    ]
+  },
+  'Play': {
+    'Entertainment': [
+      'Theaters', 'Cinemas', 'Concert Halls', 'Comedy Venues', 'Arcades'
+    ],
+    'Recreation': [
+      'Sports Centers', 'Gyms', 'Spas', 'Adventure Parks', 'Gaming Centers'
+    ]
+  }
+};
 
 const subscriptionTiers = [
   { value: 'trial', label: 'Trial (Free)', tier: null },
@@ -37,6 +74,8 @@ export const CreateTestBusinessDialog: React.FC<CreateTestBusinessDialogProps> =
 }) => {
   const [formData, setFormData] = useState({
     business_name: '',
+    category: '',
+    subcategory: '',
     business_type: '',
     description: '',
     address: '',
@@ -64,10 +103,10 @@ export const CreateTestBusinessDialog: React.FC<CreateTestBusinessDialogProps> =
   };
 
   const handleSubmit = async () => {
-    if (!formData.business_name || !formData.business_type) {
+    if (!formData.business_name || !formData.category || !formData.subcategory || !formData.business_type) {
       toast({
-        title: "Validation Error",
-        description: "Business name and type are required.",
+        title: "Validation Error", 
+        description: "Please fill in all required fields (name, category, subcategory, and type)",
         variant: "destructive"
       });
       return;
@@ -87,7 +126,7 @@ export const CreateTestBusinessDialog: React.FC<CreateTestBusinessDialogProps> =
       const { error } = await supabase.from('businesses').insert([{
         user_id: user?.id,
         business_name: formData.business_name,
-        business_type: formData.business_type,
+        business_type: `${formData.category} - ${formData.subcategory} - ${formData.business_type}`,
         description: formData.description,
         address: formData.address,
         city: selectedCity,
@@ -119,6 +158,8 @@ export const CreateTestBusinessDialog: React.FC<CreateTestBusinessDialogProps> =
       // Reset form
       setFormData({
         business_name: '',
+        category: '',
+        subcategory: '',
         business_type: '',
         description: '',
         address: '',
@@ -166,7 +207,7 @@ export const CreateTestBusinessDialog: React.FC<CreateTestBusinessDialogProps> =
           {/* Basic Information */}
           <div className="space-y-4">
             <h3 className="font-medium">Basic Information</h3>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div className="space-y-4">
               <div>
                 <Label htmlFor="business_name">Business Name *</Label>
                 <Input
@@ -177,19 +218,76 @@ export const CreateTestBusinessDialog: React.FC<CreateTestBusinessDialogProps> =
                   className="rounded-none"
                 />
               </div>
+
               <div>
-                <Label htmlFor="business_type">Business Type *</Label>
-                <Select value={formData.business_type} onValueChange={(value) => handleInputChange('business_type', value)}>
+                <Label htmlFor="category">Category *</Label>
+                <Select 
+                  value={formData.category} 
+                  onValueChange={(value) => {
+                    handleInputChange('category', value);
+                    handleInputChange('subcategory', '');
+                    handleInputChange('business_type', '');
+                  }}
+                >
                   <SelectTrigger className="rounded-none">
-                    <SelectValue placeholder="Select type" />
+                    <SelectValue placeholder="Select category" />
                   </SelectTrigger>
                   <SelectContent>
-                    {businessTypes.map((type) => (
-                      <SelectItem key={type} value={type}>{type}</SelectItem>
+                    {Object.keys(businessCategories).map((category) => (
+                      <SelectItem key={category} value={category}>
+                        {category}
+                      </SelectItem>
                     ))}
                   </SelectContent>
                 </Select>
               </div>
+
+              {formData.category && (
+                <div>
+                  <Label htmlFor="subcategory">Subcategory *</Label>
+                  <Select 
+                    value={formData.subcategory} 
+                    onValueChange={(value) => {
+                      handleInputChange('subcategory', value);
+                      handleInputChange('business_type', '');
+                    }}
+                  >
+                    <SelectTrigger className="rounded-none">
+                      <SelectValue placeholder="Select subcategory" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      {Object.keys(businessCategories[formData.category as keyof typeof businessCategories] || {}).map((subcategory) => (
+                        <SelectItem key={subcategory} value={subcategory}>
+                          {subcategory}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                </div>
+              )}
+
+              {formData.category && formData.subcategory && (
+                <div>
+                  <Label htmlFor="business_type">Business Type *</Label>
+                  <Select value={formData.business_type} onValueChange={(value) => handleInputChange('business_type', value)}>
+                    <SelectTrigger className="rounded-none">
+                      <SelectValue placeholder="Select business type" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      {(() => {
+                        const category = businessCategories[formData.category as keyof typeof businessCategories];
+                        if (!category) return [];
+                        const subcategory = category[formData.subcategory as keyof typeof category] as string[] | undefined;
+                        return (subcategory || []).map((type: string) => (
+                          <SelectItem key={type} value={type}>
+                            {type}
+                          </SelectItem>
+                        ));
+                      })()}
+                    </SelectContent>
+                  </Select>
+                </div>
+              )}
             </div>
 
             <div>
