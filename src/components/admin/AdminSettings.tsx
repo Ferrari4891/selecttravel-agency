@@ -9,7 +9,8 @@ import { useToast } from '@/hooks/use-toast';
 import { supabase } from '@/integrations/supabase/client';
 import { Settings, Shield, Mail, Database, Users, Sliders } from 'lucide-react';
 import { AmenityManagement } from './AmenityManagement';
-import { SubscriptionPlanManagement } from './SubscriptionPlanManagement';
+import { EnhancedSubscriptionManagement } from './EnhancedSubscriptionManagement';
+import { TestMarketDashboard } from './TestMarketDashboard';
 
 export const AdminSettings = () => {
   const [newAdminEmail, setNewAdminEmail] = useState('');
@@ -63,7 +64,7 @@ export const AdminSettings = () => {
   return (
     <div className="space-y-4">
       <Tabs defaultValue="admin" className="space-y-4">
-        <TabsList className="grid w-full grid-cols-2 gap-1 h-auto bg-transparent p-0 md:grid-cols-3">
+        <TabsList className="grid w-full grid-cols-2 gap-1 h-auto bg-transparent p-0 md:grid-cols-3 lg:grid-cols-4">
           <TabsTrigger value="admin" className="text-xs md:text-sm p-2 md:p-3 data-[state=active]:bg-primary data-[state=active]:text-primary-foreground">
             <Users className="h-3 w-3 md:h-4 md:w-4 mr-1" />
             Admin
@@ -75,6 +76,10 @@ export const AdminSettings = () => {
           <TabsTrigger value="subscriptions" className="text-xs md:text-sm p-2 md:p-3 data-[state=active]:bg-primary data-[state=active]:text-primary-foreground">
             <Settings className="h-3 w-3 md:h-4 md:w-4 mr-1" />
             Plans
+          </TabsTrigger>
+          <TabsTrigger value="testmarket" className="text-xs md:text-sm p-2 md:p-3 data-[state=active]:bg-primary data-[state=active]:text-primary-foreground">
+            <Database className="h-3 w-3 md:h-4 md:w-4 mr-1" />
+            Test Market
           </TabsTrigger>
           <TabsTrigger value="system" className="text-xs md:text-sm p-2 md:p-3 data-[state=active]:bg-primary data-[state=active]:text-primary-foreground">
             <Database className="h-3 w-3 md:h-4 md:w-4 mr-1" />
@@ -173,7 +178,7 @@ export const AdminSettings = () => {
         </TabsContent>
 
         <TabsContent value="subscriptions" className="space-y-4">
-          <SubscriptionPlanManagement />
+          <EnhancedSubscriptionManagement />
         </TabsContent>
 
         <TabsContent value="system" className="space-y-4">
@@ -456,6 +461,10 @@ export const AdminSettings = () => {
               </div>
             </CardContent>
           </Card>
+        </TabsContent>
+
+        <TabsContent value="testmarket" className="space-y-4">
+          <TestMarketDashboard />
         </TabsContent>
       </Tabs>
     </div>
