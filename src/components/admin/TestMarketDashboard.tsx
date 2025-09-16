@@ -119,13 +119,13 @@ export const TestMarketDashboard = () => {
         </div>
 
         {/* City Selection */}
-        <div className="flex flex-col sm:flex-row items-start sm:items-center gap-3">
+        <div className="flex flex-col items-start gap-3">
           <div className="flex items-center gap-2">
             <MapPin className="h-4 w-4 text-muted-foreground" />
             <Label>Test Market:</Label>
           </div>
           <Select value={selectedCity} onValueChange={setSelectedCity}>
-            <SelectTrigger className="w-full sm:w-48 rounded-none">
+            <SelectTrigger className="w-full rounded-none">
               <SelectValue />
             </SelectTrigger>
             <SelectContent>
@@ -138,7 +138,7 @@ export const TestMarketDashboard = () => {
       </div>
 
       {/* Stats Overview */}
-      <div className="grid grid-cols-2 md:grid-cols-5 gap-4">
+      <div className="grid grid-cols-1 gap-4">
         <Card>
           <CardContent className="p-4 text-center">
             <div className="text-2xl font-bold text-primary">{stats.total}</div>
@@ -172,7 +172,7 @@ export const TestMarketDashboard = () => {
       </div>
 
       {/* Action Buttons */}
-      <div className="flex flex-col sm:flex-row gap-3">
+      <div className="flex flex-col gap-3">
         <Button onClick={() => setCreateDialogOpen(true)} className="flex items-center gap-2 rounded-none">
           <Plus className="h-4 w-4" />
           Create Test Business
@@ -191,7 +191,7 @@ export const TestMarketDashboard = () => {
           {filteredBusinesses.map((business) => (
             <Card key={business.id} className="border shadow-sm">
               <CardContent className="p-4">
-                <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+                <div className="flex flex-col items-start justify-between gap-4">
                   <div className="flex items-center gap-3">
                     <div className="w-10 h-10 bg-primary/10 rounded-full flex items-center justify-center">
                       <Building2 className="h-5 w-5 text-primary" />
