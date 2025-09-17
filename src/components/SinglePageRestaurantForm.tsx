@@ -17,7 +17,7 @@ interface SinglePageRestaurantFormProps {
     category: string;
     subcategory: string;
     type: string;
-    resultCount: number;
+    resultCount: number | string;
   }) => void;
   onReset: () => void;
   isLoading: boolean;
@@ -67,9 +67,16 @@ export const SinglePageRestaurantForm: React.FC<SinglePageRestaurantFormProps> =
   const [selectedType, setSelectedType] = useState<string>(''); // Specific type
   const [selectedCity, setSelectedCity] = useState<string>('');
   const [citySearchInput, setCitySearchInput] = useState<string>('');
-  const [resultCount, setResultCount] = useState<number>(5);
+  const [resultCount, setResultCount] = useState<string>('3');
 
   const allCountries = getAllCountries();
+
+  const resultCounts = [
+    { value: "1", label: "1 result" },
+    { value: "3", label: "3 results" },
+    { value: "10", label: "10 results" },
+    { value: "all", label: "All results" },
+  ];
 
   const availableTypes = useMemo(() => {
     if (selectedCategory === 'Food' && selectedSubcategory === 'Restaurants') {
@@ -166,14 +173,14 @@ export const SinglePageRestaurantForm: React.FC<SinglePageRestaurantFormProps> =
     
     const cityToUse = selectedCity || citySearchInput.trim();
     
-    if (selectedCountry && selectedCategory && selectedSubcategory && selectedType && cityToUse && resultCount > 0) {
+    if (selectedCountry && selectedCategory && selectedSubcategory && selectedType && cityToUse && resultCount) {
       onSearch({
         country: selectedCountry,
         city: cityToUse,
         category: selectedCategory,
         subcategory: selectedSubcategory,
         type: selectedType,
-        resultCount
+        resultCount: resultCount === 'all' ? 'all' : parseInt(resultCount)
       });
     }
   };
@@ -185,11 +192,11 @@ export const SinglePageRestaurantForm: React.FC<SinglePageRestaurantFormProps> =
     setSelectedType('');
     setSelectedCity('');
     setCitySearchInput('');
-    setResultCount(5);
+    setResultCount('3');
     onReset();
   };
 
-  const isComplete = selectedCountry && selectedCategory && selectedSubcategory && selectedType && (selectedCity || citySearchInput.trim()) && resultCount > 0;
+  const isComplete = selectedCountry && selectedCategory && selectedSubcategory && selectedType && (selectedCity || citySearchInput.trim()) && resultCount;
 
   return (
     <Card className="w-full max-w-md mx-auto bg-white/95 backdrop-blur-sm border-2 border-white rounded-none shadow-lg">
@@ -377,14 +384,14 @@ export const SinglePageRestaurantForm: React.FC<SinglePageRestaurantFormProps> =
         {/* Number of Results */}
         <div className="space-y-2">
           <label className="text-lg font-bold text-foreground">Number of Results</label>
-          <Select onValueChange={(value) => setResultCount(parseInt(value))} value={resultCount.toString()}>
+          <Select onValueChange={(value) => setResultCount(value)} value={resultCount}>
             <SelectTrigger className="w-full h-12 text-base font-bold bg-background text-foreground border-2 border-border rounded-none">
               <SelectValue placeholder="Choose number of results" />
             </SelectTrigger>
             <SelectContent className="bg-white border-2 border-border rounded-none max-h-40 overflow-y-auto z-[300]">
-              {[1, 5, 10].map((count) => (
-                <SelectItem key={count} value={count.toString()} className="text-base py-3 rounded-none hover:bg-muted">
-                  {count} result{count > 1 ? 's' : ''}
+              {resultCounts.map((count) => (
+                <SelectItem key={count.value} value={count.value} className="text-base py-3 rounded-none hover:bg-muted">
+                  {count.label}
                 </SelectItem>
               ))}
             </SelectContent>

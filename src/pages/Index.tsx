@@ -37,6 +37,7 @@ interface Business {
   image: string;
   imageLinks?: string;
   source: string;
+  subscriptionTier?: string;
 }
 
 interface SearchParams {
@@ -45,7 +46,7 @@ interface SearchParams {
   category: string;
   subcategory: string;
   type: string;
-  resultCount: number;
+  resultCount: number | string;
 }
 
 const Index: React.FC = () => {
@@ -79,7 +80,8 @@ const Index: React.FC = () => {
       '/lovable-uploads/6eeb2749-5d4b-4b88-9d7f-53654734a0d6.png'
     ];
 
-    return businessNames.slice(0, params.resultCount).map((name, index) => ({
+    const count = typeof params.resultCount === 'string' ? parseInt(params.resultCount) : params.resultCount;
+    return businessNames.slice(0, count).map((name, index) => ({
       name,
       address: `${100 + index} Main Street, ${params.city}, ${params.country}`,
       rating: parseFloat((3.0 + Math.random() * 2).toFixed(1)),
@@ -114,7 +116,8 @@ const Index: React.FC = () => {
         .eq('city', params.city)
         .eq('country', params.country)
         .eq('status', 'active')
-        .limit(params.resultCount);
+        .order('subscription_tier', { ascending: false, nullsFirst: false })
+        .order('created_at', { ascending: false });
 
       const { data: realBusinesses, error } = await query;
 
@@ -126,46 +129,81 @@ const Index: React.FC = () => {
 
       if (realBusinesses && realBusinesses.length > 0) {
         console.log('✅ Found real businesses:', realBusinesses.length);
-        // Transform business data to Business format
-        businesses = realBusinesses.map((business) => ({
-          name: business.business_name,
-          address: business.address || `${business.city}, ${business.country}`,
-          rating: 4.0 + Math.random() * 1.0,
-          reviewCount: Math.floor(Math.random() * 500) + 50,
-          phone: business.phone || `+1-555-${String(Math.floor(Math.random() * 9000) + 1000)}`,
-          email: business.email || `info@${business.business_name.toLowerCase().replace(/\s+/g, '')}.com`,
-          website: business.website || `https://www.${business.business_name.toLowerCase().replace(/\s+/g, '')}.com`,
-          mapLink: business.address 
-            ? `https://maps.google.com/?q=${encodeURIComponent(business.address)}`
-            : `https://maps.google.com/?q=${encodeURIComponent(`${business.city}, ${business.country}`)}`,
-          menuLink: business.website || `https://menu.${business.business_name.toLowerCase().replace(/\s+/g, '')}.com`,
-          facebook: business.facebook,
-          instagram: business.instagram,
-          twitter: business.twitter,
-          image: business.image_1_url || '/lovable-uploads/84845629-2fe8-43b5-8500-84324fdcb0ec.png',
-          source: 'Business Directory'
-        }));
+        // Transform business data to Business format with subscription ordering
+        const getSubscriptionPriority = (tier: string | null) => {
+          switch (tier) {
+            case 'firstclass': return 4;
+            case 'premium': return 3;
+            case 'basic': return 2;
+            default: return 1; // trial or null
+          }
+        };
+
+        businesses = realBusinesses
+          .sort((a, b) => {
+            const priorityA = getSubscriptionPriority(a.subscription_tier);
+            const priorityB = getSubscriptionPriority(b.subscription_tier);
+            return priorityB - priorityA;
+          })
+          .map((business) => ({
+            name: business.business_name,
+            address: business.address || `${business.city}, ${business.country}`,
+            rating: 4.0 + Math.random() * 1.0,
+            reviewCount: Math.floor(Math.random() * 500) + 50,
+            phone: business.phone || `+1-555-${String(Math.floor(Math.random() * 9000) + 1000)}`,
+            email: business.email || `info@${business.business_name.toLowerCase().replace(/\s+/g, '')}.com`,
+            website: business.website || `https://www.${business.business_name.toLowerCase().replace(/\s+/g, '')}.com`,
+            mapLink: business.address 
+              ? `https://maps.google.com/?q=${encodeURIComponent(business.address)}`
+              : `https://maps.google.com/?q=${encodeURIComponent(`${business.city}, ${business.country}`)}`,
+            menuLink: business.website || `https://menu.${business.business_name.toLowerCase().replace(/\s+/g, '')}.com`,
+            facebook: business.facebook,
+            instagram: business.instagram,
+            twitter: business.twitter,
+            image: business.image_1_url || '/lovable-uploads/84845629-2fe8-43b5-8500-84324fdcb0ec.png',
+            source: 'Business Directory',
+            subscriptionTier: business.subscription_tier
+          }));
       }
 
-      // If no real businesses found or we need more to reach the target count, 
-      // supplement with mock data
-      if (businesses.length < params.resultCount) {
-        const remainingCount = params.resultCount - businesses.length;
-        const mockBusinesses = generateMockBusinesses(params).slice(0, remainingCount);
-        businesses = [...businesses, ...mockBusinesses];
-      }
+      let finalBusinesses = businesses;
 
-      console.log('📋 Final businesses array:', businesses);
-      setBusinesses(businesses);
+      // Handle result count logic
+      if (params.resultCount !== 'all') {
+        const requestedCount = parseInt(params.resultCount as string);
+        
+        if (businesses.length < requestedCount) {
+          // Generate mock businesses to supplement if needed (except for Danang test market)
+          const isDanangTestMarket = params.city.toLowerCase() === 'danang' || 
+                                   params.city.toLowerCase() === 'da nang';
+          
+          if (!isDanangTestMarket) {
+            const mockBusinessesToGenerate = requestedCount - businesses.length;
+            const mockBusinesses = generateMockBusinesses(params).slice(0, mockBusinessesToGenerate);
+            finalBusinesses = [...businesses, ...mockBusinesses];
+          }
+        } else {
+          // Limit to requested count
+          finalBusinesses = businesses.slice(0, requestedCount);
+        }
+      }
+      // For 'all', show all available businesses
+
+      console.log('📋 Final businesses array:', finalBusinesses);
+      setBusinesses(finalBusinesses);
       setShowResults(true);
-      console.log('🎯 Set showResults to true, businesses length:', businesses.length);
+      console.log('🎯 Set showResults to true, businesses length:', finalBusinesses.length);
 
       const realCount = realBusinesses?.length || 0;
+      const resultText = params.resultCount === 'all' 
+        ? `all ${finalBusinesses.length}` 
+        : `${finalBusinesses.length}`;
+      
       toast({
         title: "Search Complete!",
         description: realCount > 0 
-          ? `Found ${realCount} real businesses${businesses.length > realCount ? ` and ${businesses.length - realCount} additional suggestions` : ''} in ${params.city}, ${params.country}` 
-          : `Found ${businesses.length} suggestions in ${params.city}, ${params.country}`,
+          ? `Found ${resultText} businesses in ${params.city}, ${params.country}` 
+          : `Found ${resultText} suggestions in ${params.city}, ${params.country}`,
       });
     } catch (error) {
       console.error('Error during search:', error);
@@ -326,7 +364,8 @@ const Index: React.FC = () => {
                   imageLinks: [business.image],
                   rating: business.rating,
                   reviewCount: business.reviewCount,
-                  source: business.source
+                  source: business.source,
+                  subscriptionTier: business.subscriptionTier
                 }))} 
                 selectedCity={searchParams?.city || ''} 
                 selectedCountry={searchParams?.country || ''} 

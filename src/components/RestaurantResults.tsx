@@ -6,6 +6,7 @@ import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigge
 import { MapPin, Star, ExternalLink, Phone, Mail, Globe, Menu, Ticket } from 'lucide-react';
 import { MailingListSignup } from './MailingListSignup';
 import SaveBusinessButton from './SaveBusinessButton';
+import { SubscriptionBadge } from '@/components/ui/subscription-badge';
 import { useIsMobile } from '@/hooks/use-mobile';
 
 interface Restaurant {
@@ -27,6 +28,7 @@ interface Restaurant {
   rating: number;
   reviewCount: number;
   source: string;
+  subscriptionTier?: string;
 }
 
 interface RestaurantResultsProps {
@@ -58,12 +60,15 @@ export const RestaurantResults: React.FC<RestaurantResultsProps> = ({
         
         {restaurants.map((restaurant, index) => (
           <Card key={`mobile-restaurant-${index}`} className="rounded-none shadow-lg">
-            {/* Business Name */}
-            <div className="p-4 pb-0">
+          {/* Business Name */}
+          <div className="p-4 pb-0">
+            <div className="flex items-center justify-between">
               <h3 className="font-bold text-lg uppercase text-black">
                 {restaurant.name}
               </h3>
+              <SubscriptionBadge tier={restaurant.subscriptionTier} />
             </div>
+          </div>
             {/* Restaurant Image */}
             <div className="aspect-video relative overflow-hidden">
               <img
@@ -285,9 +290,12 @@ export const RestaurantResults: React.FC<RestaurantResultsProps> = ({
         <Card key={`desktop-restaurant-${index}`} className="rounded-none shadow-lg">
           {/* Business Name */}
           <div className="p-4 pb-0">
-            <h3 className="font-bold text-lg uppercase text-black">
-              {restaurant.name}
-            </h3>
+            <div className="flex items-center justify-between">
+              <h3 className="font-bold text-lg uppercase text-black">
+                {restaurant.name}
+              </h3>
+              <SubscriptionBadge tier={restaurant.subscriptionTier} />
+            </div>
           </div>
           {/* Restaurant Image */}
           <div className="aspect-video relative overflow-hidden">

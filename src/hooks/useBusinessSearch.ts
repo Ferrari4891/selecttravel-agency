@@ -34,7 +34,9 @@ export const useBusinessSearch = () => {
         .eq('business_type', filters.category)
         .eq('city', filters.city)
         .eq('country', filters.country)
-        .eq('status', 'active');
+        .eq('status', 'active')
+        .order('subscription_tier', { ascending: false, nullsFirst: false })
+        .order('created_at', { ascending: false });
 
       // Apply strict matching for user preferences
       if (filters.userPreferences) {
@@ -67,44 +69,60 @@ export const useBusinessSearch = () => {
         return [];
       }
 
-      // Transform business data to match the Restaurant interface
-      const transformedResults = businesses.map((business) => ({
-        name: business.business_name,
-        address: business.address || `${business.city}, ${business.country}`,
-        googleMapRef: business.address 
-          ? `https://maps.google.com/?q=${encodeURIComponent(business.address)}`
-          : `https://maps.google.com/?q=${encodeURIComponent(`${business.city}, ${business.country}`)}`,
-        socialMediaLinks: {
-          facebook: business.facebook || undefined,
-          instagram: business.instagram || undefined,
-          twitter: business.twitter || undefined,
-        },
-        contactDetails: {
-          phone: business.phone || undefined,
-          email: business.email || undefined,
-          website: business.website || undefined,
-        },
-        imageLinks: [
-          business.image_1_url,
-          business.image_2_url,
-          business.image_3_url,
-        ].filter(Boolean),
-        rating: 4.0 + Math.random() * 1.0, // Placeholder rating
-        reviewCount: Math.floor(Math.random() * 500) + 50, // Placeholder review count
-        source: 'Business Directory',
-        businessFeatures: {
-          wheelchair_access: business.wheelchair_access,
-          extended_hours: business.extended_hours,
-          gluten_free: business.gluten_free,
-          low_noise: business.low_noise,
-          public_transport: business.public_transport,
-          pet_friendly: business.pet_friendly,
-          outdoor_seating: business.outdoor_seating,
-          senior_discounts: business.senior_discounts,
-          online_booking: business.online_booking,
-          air_conditioned: business.air_conditioned,
-        },
-      }));
+      // Transform business data to match the Restaurant interface with subscription ordering
+      const getSubscriptionPriority = (tier: string | null) => {
+        switch (tier) {
+          case 'firstclass': return 4;
+          case 'premium': return 3;
+          case 'basic': return 2;
+          default: return 1; // trial or null
+        }
+      };
+
+      const transformedResults = businesses
+        .sort((a, b) => {
+          const priorityA = getSubscriptionPriority(a.subscription_tier);
+          const priorityB = getSubscriptionPriority(b.subscription_tier);
+          return priorityB - priorityA;
+        })
+        .map((business) => ({
+          name: business.business_name,
+          address: business.address || `${business.city}, ${business.country}`,
+          googleMapRef: business.address 
+            ? `https://maps.google.com/?q=${encodeURIComponent(business.address)}`
+            : `https://maps.google.com/?q=${encodeURIComponent(`${business.city}, ${business.country}`)}`,
+          socialMediaLinks: {
+            facebook: business.facebook || undefined,
+            instagram: business.instagram || undefined,
+            twitter: business.twitter || undefined,
+          },
+          contactDetails: {
+            phone: business.phone || undefined,
+            email: business.email || undefined,
+            website: business.website || undefined,
+          },
+          imageLinks: [
+            business.image_1_url,
+            business.image_2_url,
+            business.image_3_url,
+          ].filter(Boolean),
+          rating: 4.0 + Math.random() * 1.0, // Placeholder rating
+          reviewCount: Math.floor(Math.random() * 500) + 50, // Placeholder review count
+          source: 'Business Directory',
+          subscriptionTier: business.subscription_tier,
+          businessFeatures: {
+            wheelchair_access: business.wheelchair_access,
+            extended_hours: business.extended_hours,
+            gluten_free: business.gluten_free,
+            low_noise: business.low_noise,
+            public_transport: business.public_transport,
+            pet_friendly: business.pet_friendly,
+            outdoor_seating: business.outdoor_seating,
+            senior_discounts: business.senior_discounts,
+            online_booking: business.online_booking,
+            air_conditioned: business.air_conditioned,
+          },
+        }));
 
       toast({
         title: "Success!",
