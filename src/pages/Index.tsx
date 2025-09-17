@@ -108,12 +108,22 @@ const Index: React.FC = () => {
     try {
       console.log('⏱️ Starting search for real businesses...');
       
+      // Normalize city (handles diacritics like "Đà Nẵng") and decide query city
+      const normalize = (s: string) => s
+        .normalize('NFD')
+        .replace(/[\u0300-\u036f]/g, '')
+        .toLowerCase()
+        .replace(/[\s-]/g, '');
+      const normalizedCity = normalize(params.city);
+      const isDanang = normalizedCity.includes('danang');
+      const queryCity = isDanang ? 'Danang' : params.city;
+      
       // First try to get real businesses from Supabase
       let query = supabase
         .from('businesses')
         .select('*')
         .eq('business_type', params.type)
-        .eq('city', params.city)
+        .eq('city', queryCity)
         .eq('country', params.country)
         .eq('status', 'active')
         .order('subscription_tier', { ascending: false, nullsFirst: false })
@@ -174,8 +184,7 @@ const Index: React.FC = () => {
         
         if (businesses.length < requestedCount) {
           // Generate mock businesses to supplement if needed (except for Danang test market)
-          const isDanangTestMarket = params.city.toLowerCase() === 'danang' || 
-                                   params.city.toLowerCase() === 'da nang';
+          const isDanangTestMarket = isDanang;
           
           if (!isDanangTestMarket) {
             const mockBusinessesToGenerate = requestedCount - businesses.length;
