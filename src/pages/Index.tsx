@@ -119,10 +119,11 @@ const Index: React.FC = () => {
       const queryCity = isDanang ? 'Danang' : params.city;
       
       // First try to get real businesses from Supabase
+      // Search both business_type and business_categories for multi-category support
       let query = supabase
         .from('businesses')
         .select('*')
-        .eq('business_type', params.type)
+        .or(`business_type.eq.${params.type},business_categories.cs.{${params.type}}`)
         .eq('city', queryCity)
         .eq('country', params.country)
         .eq('status', 'active')

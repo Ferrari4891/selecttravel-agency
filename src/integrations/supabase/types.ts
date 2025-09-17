@@ -324,6 +324,7 @@ export type Database = {
           air_conditioned: boolean | null
           approved_at: string | null
           approved_by: string | null
+          business_categories: string[] | null
           business_hours: Json | null
           business_name: string
           business_subcategory: string | null
@@ -369,6 +370,7 @@ export type Database = {
           air_conditioned?: boolean | null
           approved_at?: string | null
           approved_by?: string | null
+          business_categories?: string[] | null
           business_hours?: Json | null
           business_name: string
           business_subcategory?: string | null
@@ -414,6 +416,7 @@ export type Database = {
           air_conditioned?: boolean | null
           approved_at?: string | null
           approved_by?: string | null
+          business_categories?: string[] | null
           business_hours?: Json | null
           business_name?: string
           business_subcategory?: string | null

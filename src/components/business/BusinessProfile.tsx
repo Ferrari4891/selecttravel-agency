@@ -27,6 +27,7 @@ const businessSchema = z.object({
   business_category: z.string().min(1, 'Business category is required'),
   business_subtype: z.string().min(1, 'Business subtype is required'),
   business_specific_type: z.string().optional(),
+  business_categories: z.array(z.string()).optional(),
   description: z.string().max(180, 'Description must be 180 characters or less').optional(),
   website: z.string().optional().refine((val) => !val || z.string().url().safeParse(val).success, {
     message: "Please enter a valid URL"
@@ -393,11 +394,17 @@ export const BusinessProfile: React.FC<BusinessProfileProps> = ({
     try {
       if (business) {
         // Update existing business
+        // Build categories array - primary category plus any additional ones for first-class
+        const primaryCategory = data.business_category;
+        const additionalCategories = data.business_categories || [];
+        const allCategories = [primaryCategory, ...additionalCategories.filter(c => c !== primaryCategory)];
+        
         const { data: updatedBusiness, error } = await supabase
           .from('businesses')
           .update({
             business_name: data.business_name,
             business_type: `${data.business_category} - ${data.business_subtype}${data.business_specific_type ? ` (${data.business_specific_type})` : ''}`,
+            business_categories: allCategories,
             description: data.description,
             website: data.website,
             phone: data.phone,
@@ -440,12 +447,18 @@ export const BusinessProfile: React.FC<BusinessProfileProps> = ({
         });
       } else {
         // Create new business with pending status for admin approval
+        // Build categories array - primary category plus any additional ones for first-class
+        const primaryCategory = data.business_category;
+        const additionalCategories = data.business_categories || [];
+        const allCategories = [primaryCategory, ...additionalCategories.filter(c => c !== primaryCategory)];
+        
         const { data: newBusiness, error } = await supabase
           .from('businesses')
           .insert({
             user_id: user.id,
             business_name: data.business_name,
             business_type: `${data.business_category} - ${data.business_subtype}${data.business_specific_type ? ` (${data.business_specific_type})` : ''}`,
+            business_categories: allCategories,
             description: data.description,
             website: data.website,
             phone: data.phone,
@@ -696,6 +709,53 @@ export const BusinessProfile: React.FC<BusinessProfileProps> = ({
                 </FormItem>
               )}
             />
+          )}
+
+          {/* Multi-category selection for first-class subscriptions in Danang test market */}
+          {selectedCity === 'Danang' && selectedCategory && (
+            <div className="space-y-2 p-4 border rounded-lg bg-muted/50">
+              <FormLabel className="text-sm font-medium">Multi-Category Feature (First-Class Only)</FormLabel>
+              <p className="text-xs text-muted-foreground mb-3">
+                First-class subscribers can have their business appear in multiple categories. 
+                For example, a restaurant with a bar can appear in both "Food" and "Drink" searches.
+              </p>
+              <div className="flex flex-wrap gap-2">
+                {businessCategories.map((category) => (
+                  <label key={category} className="flex items-center space-x-2 cursor-pointer">
+                    <Checkbox
+                      checked={
+                        selectedCategory === category || 
+                        (form.watch('business_categories') || []).includes(category)
+                      }
+                      onCheckedChange={(checked) => {
+                        const currentCategories = form.watch('business_categories') || [];
+                        let newCategories;
+                        
+                        if (category === selectedCategory) {
+                          // Primary category cannot be unchecked
+                          return;
+                        }
+                        
+                        if (checked) {
+                          newCategories = [...currentCategories.filter(c => c !== category), category];
+                        } else {
+                          newCategories = currentCategories.filter(c => c !== category);
+                        }
+                        
+                        form.setValue('business_categories', newCategories);
+                      }}
+                      disabled={category === selectedCategory}
+                    />
+                    <span className="text-sm">
+                      {category} {category === selectedCategory && '(Primary)'}
+                    </span>
+                  </label>
+                ))}
+              </div>
+              <p className="text-xs text-amber-600 mt-2">
+                💡 This feature requires a first-class subscription to be active.
+              </p>
+            </div>
           )}
 
           <FormField

@@ -31,7 +31,7 @@ export const useBusinessSearch = () => {
       let query = supabase
         .from('businesses')
         .select('*')
-        .eq('business_type', filters.category)
+        .or(`business_type.eq.${filters.category},business_categories.cs.{${filters.category}}`)
         .eq('city', filters.city)
         .eq('country', filters.country)
         .eq('status', 'active')
