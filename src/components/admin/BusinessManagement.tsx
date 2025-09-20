@@ -389,7 +389,11 @@ export const BusinessManagement = () => {
           setIsEditDialogOpen(false);
           setEditingBusiness(null);
         }}
-        onUpdate={handleBusinessUpdate}
+        onBusinessUpdated={() => {
+          fetchBusinesses();
+          setIsEditDialogOpen(false);
+          setEditingBusiness(null);
+        }}
       />
 
       {/* Subscription Management Dialog */}

@@ -56,14 +56,14 @@ interface EditBusinessDialogProps {
   business: Business | null;
   isOpen: boolean;
   onClose: () => void;
-  onUpdate: (updatedBusiness: Business) => void;
+  onBusinessUpdated: () => void;
 }
 
 export const EditBusinessDialog: React.FC<EditBusinessDialogProps> = ({
   business,
   isOpen,
   onClose,
-  onUpdate
+  onBusinessUpdated
 }) => {
   const [formData, setFormData] = useState<Partial<Business>>({});
   const [loading, setLoading] = useState(false);
@@ -121,7 +121,7 @@ export const EditBusinessDialog: React.FC<EditBusinessDialogProps> = ({
 
       if (error) throw error;
 
-      onUpdate(data);
+      onBusinessUpdated();
       toast({
         title: "Success",
         description: "Business updated successfully.",
@@ -324,6 +324,7 @@ export const EditBusinessDialog: React.FC<EditBusinessDialogProps> = ({
                       <SelectItem value="basic">Basic</SelectItem>
                       <SelectItem value="premium">Premium</SelectItem>
                       <SelectItem value="enterprise">Enterprise</SelectItem>
+                      <SelectItem value="firstclass">First Class</SelectItem>
                     </SelectContent>
                   </Select>
                 </div>
