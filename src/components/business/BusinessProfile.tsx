@@ -493,6 +493,8 @@ export const BusinessProfile: React.FC<BusinessProfileProps> = ({
             senior_discounts: data.senior_discounts,
             online_booking: data.online_booking,
             air_conditioned: data.air_conditioned,
+            subscription_tier: 'premium',
+            subscription_status: 'trial'
           })
           .select()
           .single();
