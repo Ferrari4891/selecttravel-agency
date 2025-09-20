@@ -388,9 +388,14 @@ export const BusinessProfile: React.FC<BusinessProfileProps> = ({
   const watchedState = form.watch('state');
 
   const onSubmit = async (data: BusinessFormData) => {
-    if (!user) return;
+    console.log('BusinessProfile: onSubmit called with data:', data);
+    if (!user) {
+      console.log('BusinessProfile: No user found, returning');
+      return;
+    }
 
     setLoading(true);
+    console.log('BusinessProfile: Starting submission process...');
     try {
       if (business) {
         // Update existing business
@@ -492,8 +497,12 @@ export const BusinessProfile: React.FC<BusinessProfileProps> = ({
           .select()
           .single();
 
-        if (error) throw error;
+        if (error) {
+          console.error('BusinessProfile: Error creating business:', error);
+          throw error;
+        }
 
+        console.log('BusinessProfile: Business created successfully:', newBusiness);
         onBusinessCreated?.(newBusiness);
         toast({
           title: "Success",
@@ -501,6 +510,7 @@ export const BusinessProfile: React.FC<BusinessProfileProps> = ({
         });
       }
     } catch (error: any) {
+      console.error('BusinessProfile: Submission error:', error);
       toast({
         title: "Error",
         description: error.message || "Failed to save business profile.",
