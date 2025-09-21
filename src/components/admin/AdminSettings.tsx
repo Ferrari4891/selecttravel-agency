@@ -7,10 +7,11 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { useToast } from '@/hooks/use-toast';
 import { supabase } from '@/integrations/supabase/client';
-import { Settings, Shield, Mail, Database, Users, Sliders } from 'lucide-react';
+import { Settings, Shield, Mail, Database, Users, Sliders, Gift } from 'lucide-react';
 import { AmenityManagement } from './AmenityManagement';
 import { EnhancedSubscriptionManagement } from './EnhancedSubscriptionManagement';
 import { TestMarketDashboard } from './TestMarketDashboard';
+import { GiftCardManagement } from './GiftCardManagement';
 
 export const AdminSettings = () => {
   const [newAdminEmail, setNewAdminEmail] = useState('');
@@ -76,6 +77,10 @@ export const AdminSettings = () => {
           <TabsTrigger value="subscriptions" className="text-xs md:text-sm p-2 md:p-3 data-[state=active]:bg-primary data-[state=active]:text-primary-foreground">
             <Settings className="h-3 w-3 md:h-4 md:w-4 mr-1" />
             Plans
+          </TabsTrigger>
+          <TabsTrigger value="giftcards" className="text-xs md:text-sm p-2 md:p-3 data-[state=active]:bg-primary data-[state=active]:text-primary-foreground">
+            <Gift className="h-3 w-3 md:h-4 md:w-4 mr-1" />
+            Gift Cards
           </TabsTrigger>
           <TabsTrigger value="testmarket" className="text-xs md:text-sm p-2 md:p-3 data-[state=active]:bg-primary data-[state=active]:text-primary-foreground">
             <Database className="h-3 w-3 md:h-4 md:w-4 mr-1" />
@@ -179,6 +184,14 @@ export const AdminSettings = () => {
 
         <TabsContent value="subscriptions" className="space-y-4">
           <EnhancedSubscriptionManagement />
+        </TabsContent>
+
+        <TabsContent value="giftcards" className="space-y-4">
+          <GiftCardManagement />
+        </TabsContent>
+
+        <TabsContent value="testmarket" className="space-y-4">
+          <TestMarketDashboard />
         </TabsContent>
 
         <TabsContent value="system" className="space-y-4">
