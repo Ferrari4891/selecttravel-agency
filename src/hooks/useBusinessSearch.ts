@@ -4,6 +4,8 @@ import { useToast } from '@/hooks/use-toast';
 
 interface BusinessSearchFilters {
   category: string;
+  subcategory?: string;
+  type?: string;
   city: string;
   country: string;
   userPreferences?: {
@@ -28,34 +30,43 @@ export const useBusinessSearch = () => {
     setIsLoading(true);
     
     try {
-      let query = supabase
-        .from('businesses')
-        .select('*')
-        .or(`business_type.eq.${filters.category},business_categories.cs.{${filters.category}}`)
-        .eq('city', filters.city)
-        .eq('country', filters.country)
-        .eq('status', 'active')
-        .order('subscription_tier', { ascending: false, nullsFirst: false })
-        .order('created_at', { ascending: false });
+      // Build query filters
+      const queryFilters: any = {
+        business_category: filters.category,
+        city: filters.city,
+        country: filters.country,
+        status: 'approved'
+      };
 
-      // Apply strict matching for user preferences
-      if (filters.userPreferences) {
-        const prefs = filters.userPreferences;
-        
-        // Only add filters for preferences that are enabled (true)
-        if (prefs.wheelchair_access) query = query.eq('wheelchair_access', true);
-        if (prefs.extended_hours) query = query.eq('extended_hours', true);
-        if (prefs.gluten_free) query = query.eq('gluten_free', true);
-        if (prefs.low_noise) query = query.eq('low_noise', true);
-        if (prefs.public_transport) query = query.eq('public_transport', true);
-        if (prefs.pet_friendly) query = query.eq('pet_friendly', true);
-        if (prefs.outdoor_seating) query = query.eq('outdoor_seating', true);
-        if (prefs.senior_discounts) query = query.eq('senior_discounts', true);
-        if (prefs.online_booking) query = query.eq('online_booking', true);
-        if (prefs.air_conditioned) query = query.eq('air_conditioned', true);
+      if (filters.subcategory) {
+        queryFilters.business_subtype = filters.subcategory;
       }
 
-      const { data: businesses, error } = await query;
+      if (filters.type) {
+        queryFilters.business_specific_type = filters.type;
+      }
+
+      // Add user preference filters
+      if (filters.userPreferences) {
+        const prefs = filters.userPreferences;
+        if (prefs.wheelchair_access) queryFilters.wheelchair_access = true;
+        if (prefs.extended_hours) queryFilters.extended_hours = true;
+        if (prefs.gluten_free) queryFilters.gluten_free = true;
+        if (prefs.low_noise) queryFilters.low_noise = true;
+        if (prefs.public_transport) queryFilters.public_transport = true;
+        if (prefs.pet_friendly) queryFilters.pet_friendly = true;
+        if (prefs.outdoor_seating) queryFilters.outdoor_seating = true;
+        if (prefs.senior_discounts) queryFilters.senior_discounts = true;
+        if (prefs.online_booking) queryFilters.online_booking = true;
+        if (prefs.air_conditioned) queryFilters.air_conditioned = true;
+      }
+
+      const { data: businesses, error } = await supabase
+        .from('businesses')
+        .select('*')
+        .match(queryFilters)
+        .order('subscription_tier', { ascending: false, nullsFirst: false })
+        .order('created_at', { ascending: false });
 
       if (error) {
         throw error;

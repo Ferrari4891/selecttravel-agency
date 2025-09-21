@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef, useEffect, useMemo } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import * as z from 'zod';
@@ -68,18 +68,22 @@ interface BusinessProfileProps {
   onBusinessUpdated?: (business: any) => void;
 }
 
-// Business type hierarchical structure
+// Business type hierarchical structure - aligned with search forms
 const businessCategories = ['Food', 'Drink'];
 
 const businessSubtypes = {
-  Food: ['Restaurant', 'Fast Food', 'Street Food'],
-  Drink: ['Bar', 'Club', 'Pub']
+  Food: ['Restaurants', 'Fast Food'],
+  Drink: ['Bars', 'Clubs']
 };
 
-const foodTypes = {
-  Restaurant: ['Japanese', 'Korean', 'French', 'Italian', 'Chinese', 'Mexican', 'Indian', 'Thai', 'American', 'Mediterranean', 'Vietnamese', 'Greek', 'Spanish', 'Lebanese', 'Turkish', 'Moroccan', 'Ethiopian', 'Peruvian', 'Brazilian', 'Argentinian'],
-  'Fast Food': ['Burgers', 'Pizza', 'Chicken', 'Sandwiches', 'Tacos', 'Fish & Chips', 'Chinese Takeaway', 'Kebab', 'Fried Chicken', 'Noodles', 'Wraps', 'Hot Dogs', 'Subs'],
-  'Street Food': ['Food Truck', 'Hot Dogs', 'Tacos', 'Kebabs', 'Crepes', 'Ice Cream', 'Pretzels', 'Roasted Nuts', 'Fruit Stands', 'BBQ', 'Falafel', 'Empanadas', 'Churros', 'Corn Dogs']
+const cuisineTypes = {
+  Restaurants: ['African Food', 'British Food', 'Cajun Food', 'Caribbean Food', 'Chinese Food', 'Eastern European Food', 'French Food', 'German Food', 'Greek Food', 'Indian Food', 'International Food', 'Irish Food', 'Italian Food', 'Japanese Food', 'Mediterranean Food', 'Mexican Food', 'South American Food', 'Spanish Food', 'Thai Food', 'Vietnamese Food'],
+  'Fast Food': ['Burger Chains', 'Pizza Chains', 'Chicken Chains', 'Sandwich Shops', 'Taco Shops', 'Asian Fast Food', 'Coffee Chains', 'Bakery Chains', 'Ice Cream Shops', 'Donut Shops']
+};
+
+const drinkTypes = {
+  Bars: ['Sports Bars', 'Wine Bars', 'Cocktail Bars', 'Beer Gardens', 'Rooftop Bars', 'Dive Bars', 'Hotel Bars', 'Beach Bars', 'Whiskey Bars', 'Piano Bars'],
+  Clubs: ['Dance Clubs', 'Jazz Clubs', 'Comedy Clubs', 'Strip Clubs', 'Karaoke Bars', 'Live Music Venues', 'Lounge Bars', 'Themed Clubs', 'Beach Clubs', 'Underground Clubs']
 };
 
 const countries = [
@@ -386,6 +390,16 @@ export const BusinessProfile: React.FC<BusinessProfileProps> = ({
   const watchedCountry = form.watch('country');
   const watchedCity = form.watch('city');
   const watchedState = form.watch('state');
+
+  // Calculate available specific types based on category and subtype
+  const availableSpecificTypes = useMemo(() => {
+    if (selectedCategory === 'Food' && selectedSubtype && cuisineTypes[selectedSubtype as keyof typeof cuisineTypes]) {
+      return cuisineTypes[selectedSubtype as keyof typeof cuisineTypes];
+    } else if (selectedCategory === 'Drink' && selectedSubtype && drinkTypes[selectedSubtype as keyof typeof drinkTypes]) {
+      return drinkTypes[selectedSubtype as keyof typeof drinkTypes];
+    }
+    return [];
+  }, [selectedCategory, selectedSubtype]);
 
   const onSubmit = async (data: BusinessFormData) => {
     console.log('BusinessProfile: onSubmit called with data:', data);
@@ -695,24 +709,24 @@ export const BusinessProfile: React.FC<BusinessProfileProps> = ({
             />
           )}
 
-          {/* Business Specific Type (only for food) */}
-          {selectedCategory === 'Food' && selectedSubtype && foodTypes[selectedSubtype as keyof typeof foodTypes] && (
+          {/* Business Specific Type */}
+          {selectedCategory && selectedSubtype && availableSpecificTypes.length > 0 && (
             <FormField
               control={form.control}
               name="business_specific_type"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Cuisine/Food Type</FormLabel>
+                  <FormLabel>{selectedCategory === 'Food' ? 'Cuisine/Food Type' : 'Venue Style'}</FormLabel>
                   <Select onValueChange={field.onChange} value={field.value}>
                     <FormControl>
                       <SelectTrigger className="w-full">
-                        <SelectValue placeholder="Select cuisine type" />
+                        <SelectValue placeholder={`Select ${selectedCategory === 'Food' ? 'cuisine type' : 'venue style'}`} />
                       </SelectTrigger>
                     </FormControl>
                     <SelectContent className="w-full min-w-[200px]">
-                      {foodTypes[selectedSubtype as keyof typeof foodTypes]?.map((foodType) => (
-                        <SelectItem key={foodType} value={foodType}>
-                          {foodType}
+                      {availableSpecificTypes.map((type) => (
+                        <SelectItem key={type} value={type}>
+                          {type}
                         </SelectItem>
                       ))}
                     </SelectContent>

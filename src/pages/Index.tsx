@@ -11,7 +11,7 @@ import { useTranslation } from 'react-i18next';
 import SaveBusinessButton from '@/components/SaveBusinessButton';
 import { SinglePageRestaurantForm } from '@/components/SinglePageRestaurantForm';
 
-import { supabase } from '@/integrations/supabase/client';
+import { useBusinessSearch } from '@/hooks/useBusinessSearch';
 
 // Import hero images
 import heroEat from '@/assets/hero-eat.jpg';
@@ -51,10 +51,10 @@ interface SearchParams {
 
 const Index: React.FC = () => {
   const { t } = useTranslation();
-  const [isLoading, setIsLoading] = useState(false);
   const [businesses, setBusinesses] = useState<Business[]>([]);
   const [showResults, setShowResults] = useState(false);
   const [searchParams, setSearchParams] = useState<SearchParams | null>(null);
+  const { searchBusinesses, isLoading } = useBusinessSearch();
 
   const generateMockBusinesses = (params: SearchParams): Business[] => {
     const businessNames = [
@@ -102,11 +102,10 @@ const Index: React.FC = () => {
   const handleSearch = async (params: SearchParams) => {
     console.log('🚀 handleSearch called with:', params);
     
-    setIsLoading(true);
     setSearchParams(params);
     
     try {
-      console.log('⏱️ Starting search for real businesses...');
+      console.log('⏱️ Starting search for businesses...');
       
       // Normalize city (handles diacritics like "Đà Nẵng") and decide query city
       const normalize = (s: string) => s
@@ -118,64 +117,35 @@ const Index: React.FC = () => {
       const isDanang = normalizedCity.includes('danang');
       const queryCity = isDanang ? 'Danang' : params.city;
       
-      // First try to get real businesses from Supabase
-      // Search both business_type and business_categories for multi-category support
-      let query = supabase
-        .from('businesses')
-        .select('*')
-        .or(`business_type.eq.${params.type},business_categories.cs.{${params.type}}`)
-        .eq('city', queryCity)
-        .eq('country', params.country)
-        .eq('status', 'active')
-        .order('subscription_tier', { ascending: false, nullsFirst: false })
-        .order('created_at', { ascending: false });
+      // Use the business search hook with the new category structure
+      const results = await searchBusinesses({
+        category: params.category,
+        subcategory: params.subcategory,
+        type: params.type,
+        city: queryCity,
+        country: params.country
+      });
 
-      const { data: realBusinesses, error } = await query;
-
-      if (error) {
-        console.error('Database query error:', error);
-      }
-
-      let businesses: Business[] = [];
-
-      if (realBusinesses && realBusinesses.length > 0) {
-        console.log('✅ Found real businesses:', realBusinesses.length);
-        // Transform business data to Business format with subscription ordering
-        const getSubscriptionPriority = (tier: string | null) => {
-          switch (tier) {
-            case 'firstclass': return 4;
-            case 'premium': return 3;
-            case 'basic': return 2;
-            default: return 1; // trial or null
-          }
-        };
-
-        businesses = realBusinesses
-          .sort((a, b) => {
-            const priorityA = getSubscriptionPriority(a.subscription_tier);
-            const priorityB = getSubscriptionPriority(b.subscription_tier);
-            return priorityB - priorityA;
-          })
-          .map((business) => ({
-            name: business.business_name,
-            address: business.address || `${business.city}, ${business.country}`,
-            rating: 4.0 + Math.random() * 1.0,
-            reviewCount: Math.floor(Math.random() * 500) + 50,
-            phone: business.phone || `+1-555-${String(Math.floor(Math.random() * 9000) + 1000)}`,
-            email: business.email || `info@${business.business_name.toLowerCase().replace(/\s+/g, '')}.com`,
-            website: business.website || `https://www.${business.business_name.toLowerCase().replace(/\s+/g, '')}.com`,
-            mapLink: business.address 
-              ? `https://maps.google.com/?q=${encodeURIComponent(business.address)}`
-              : `https://maps.google.com/?q=${encodeURIComponent(`${business.city}, ${business.country}`)}`,
-            menuLink: business.website || `https://menu.${business.business_name.toLowerCase().replace(/\s+/g, '')}.com`,
-            facebook: business.facebook,
-            instagram: business.instagram,
-            twitter: business.twitter,
-            image: business.image_1_url || '/lovable-uploads/84845629-2fe8-43b5-8500-84324fdcb0ec.png',
-            source: 'Business Directory',
-            subscriptionTier: business.subscription_tier
-          }));
-      }
+      // Transform results to match Business interface
+      const businesses: Business[] = results.map((result) => ({
+        name: result.name,
+        address: result.address,
+        rating: result.rating,
+        reviewCount: result.reviewCount,
+        phone: result.contactDetails.phone || `+1-555-${String(Math.floor(Math.random() * 9000) + 1000)}`,
+        email: result.contactDetails.email || `info@${result.name.toLowerCase().replace(/\s+/g, '')}.com`,
+        website: result.contactDetails.website || `https://www.${result.name.toLowerCase().replace(/\s+/g, '')}.com`,
+        mapLink: result.googleMapRef,
+        menuLink: result.contactDetails.website || `https://menu.${result.name.toLowerCase().replace(/\s+/g, '')}.com`,
+        googleMapRef: result.googleMapRef,
+        facebook: result.socialMediaLinks.facebook,
+        instagram: result.socialMediaLinks.instagram,
+        twitter: result.socialMediaLinks.twitter,
+        image: result.imageLinks[0] || '/lovable-uploads/84845629-2fe8-43b5-8500-84324fdcb0ec.png',
+        imageLinks: result.imageLinks.join('; '),
+        source: result.source,
+        subscriptionTier: result.subscriptionTier
+      }));
 
       let finalBusinesses = businesses;
 
@@ -204,7 +174,7 @@ const Index: React.FC = () => {
       setShowResults(true);
       console.log('🎯 Set showResults to true, businesses length:', finalBusinesses.length);
 
-      const realCount = realBusinesses?.length || 0;
+      const realCount = businesses.length;
       const resultText = params.resultCount === 'all' 
         ? `all ${finalBusinesses.length}` 
         : `${finalBusinesses.length}`;
@@ -222,9 +192,6 @@ const Index: React.FC = () => {
         description: "There was an error searching for businesses. Please try again.",
         variant: "destructive"
       });
-    } finally {
-      setIsLoading(false);
-      console.log('🏁 handleSearch finished');
     }
   };
 
