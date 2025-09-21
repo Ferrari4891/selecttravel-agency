@@ -20,6 +20,9 @@ interface TestMarketBusiness {
   business_name: string;
   business_type: string;
   business_subcategory: string | null;
+  business_category: string | null;
+  business_subtype: string | null;
+  business_specific_type: string | null;
   description: string | null;
   website: string | null;
   phone: string | null;

@@ -16,6 +16,9 @@ interface Business {
   business_name: string;
   business_type: string;
   business_subcategory: string | null;
+  business_category: string | null;
+  business_subtype: string | null;
+  business_specific_type: string | null;
   description: string | null;
   website: string | null;
   phone: string | null;
@@ -68,6 +71,36 @@ export const EditBusinessDialog: React.FC<EditBusinessDialogProps> = ({
   const [formData, setFormData] = useState<Partial<Business>>({});
   const [loading, setLoading] = useState(false);
   const { toast } = useToast();
+
+  // Define category options matching SinglePageRestaurantForm
+  const restaurantFoodTypes = [
+    "American Food", "Asian Food", "British Food", "Chinese Food", "European Food",
+    "French Food", "German Food", "Greek Food", "Indian Food", "Italian Food",
+    "Japanese Food", "Korean Food", "Mediterranean Food", "Mexican Food", "Middle Eastern Food",
+    "Russian Food", "Spanish Food", "Thai Food", "Turkish Food", "Vietnamese Food"
+  ];
+
+  const fastFoodTypes = [
+    "Burger Joint", "Fried Chicken", "Pizza", "Sandwich Shop", "Taco Shop"
+  ];
+
+  const barTypes = [
+    "Wine Bar", "Cocktail Bar", "Sports Bar", "Pub", "Beer Garden"
+  ];
+
+  const clubTypes = [
+    "Dance Club", "Jazz Club", "Comedy Club", "Live Music Venue"
+  ];
+
+  const cuisineTypes = {
+    restaurant: restaurantFoodTypes,
+    "fast-food": fastFoodTypes
+  };
+
+  const drinkTypes = {
+    bar: barTypes,
+    club: clubTypes
+  };
 
   useEffect(() => {
     if (business) {
@@ -169,21 +202,24 @@ export const EditBusinessDialog: React.FC<EditBusinessDialogProps> = ({
                   />
                 </div>
                 <div>
-                  <Label htmlFor="business_type">Business Type</Label>
+                  <Label htmlFor="business_category">Business Category</Label>
                   <Select
-                    value={formData.business_type || ''}
+                    value={formData.business_category || ''}
                     onValueChange={(value) => {
-                      handleInputChange('business_type', value);
-                      // Reset subcategory when type changes
-                      handleInputChange('business_subcategory', '');
+                      handleInputChange('business_category', value);
+                      // Reset subtype and specific type when category changes
+                      handleInputChange('business_subtype', '');
+                      handleInputChange('business_specific_type', '');
                     }}
                   >
                     <SelectTrigger>
-                      <SelectValue placeholder="Select business type" />
+                      <SelectValue placeholder="Select category" />
                     </SelectTrigger>
                     <SelectContent>
                       <SelectItem value="restaurant">Restaurant</SelectItem>
+                      <SelectItem value="fast-food">Fast Food</SelectItem>
                       <SelectItem value="bar">Bar</SelectItem>
+                      <SelectItem value="club">Club</SelectItem>
                       <SelectItem value="cafe">Cafe</SelectItem>
                       <SelectItem value="hotel">Hotel</SelectItem>
                       <SelectItem value="retail">Retail</SelectItem>
@@ -195,88 +231,93 @@ export const EditBusinessDialog: React.FC<EditBusinessDialogProps> = ({
                   </Select>
                 </div>
                 <div>
-                  <Label htmlFor="business_subcategory">Subcategory</Label>
+                  <Label htmlFor="business_subtype">Business Subtype</Label>
                   <Select
-                    value={formData.business_subcategory || ''}
-                    onValueChange={(value) => handleInputChange('business_subcategory', value)}
-                    disabled={!formData.business_type}
+                    value={formData.business_subtype || ''}
+                    onValueChange={(value) => {
+                      handleInputChange('business_subtype', value);
+                      // Reset specific type when subtype changes
+                      handleInputChange('business_specific_type', '');
+                    }}
+                    disabled={!formData.business_category}
                   >
                     <SelectTrigger>
-                      <SelectValue placeholder="Select subcategory" />
+                      <SelectValue placeholder="Select subtype" />
                     </SelectTrigger>
                     <SelectContent>
-                      {formData.business_type === 'restaurant' && (
+                      {formData.business_category === 'restaurant' && (
                         <>
-                          <SelectItem value="fine-dining">Fine Dining</SelectItem>
-                          <SelectItem value="casual-dining">Casual Dining</SelectItem>
-                          <SelectItem value="fast-food">Fast Food</SelectItem>
-                          <SelectItem value="buffet">Buffet</SelectItem>
-                          <SelectItem value="food-truck">Food Truck</SelectItem>
-                          <SelectItem value="takeaway">Takeaway</SelectItem>
+                          <SelectItem value="Casual Dining">Casual Dining</SelectItem>
+                          <SelectItem value="Fine Dining">Fine Dining</SelectItem>
+                          <SelectItem value="Family Restaurant">Family Restaurant</SelectItem>
+                          <SelectItem value="Buffet">Buffet</SelectItem>
+                          <SelectItem value="Food Truck">Food Truck</SelectItem>
+                          <SelectItem value="Takeaway">Takeaway</SelectItem>
                         </>
                       )}
-                      {formData.business_type === 'bar' && (
+                      {formData.business_category === 'fast-food' && (
                         <>
-                          <SelectItem value="sports-bar">Sports Bar</SelectItem>
-                          <SelectItem value="cocktail-bar">Cocktail Bar</SelectItem>
-                          <SelectItem value="wine-bar">Wine Bar</SelectItem>
-                          <SelectItem value="pub">Pub</SelectItem>
-                          <SelectItem value="nightclub">Nightclub</SelectItem>
+                          <SelectItem value="Quick Service">Quick Service</SelectItem>
+                          <SelectItem value="Counter Service">Counter Service</SelectItem>
+                          <SelectItem value="Drive-Through">Drive-Through</SelectItem>
                         </>
                       )}
-                      {formData.business_type === 'cafe' && (
+                      {formData.business_category === 'bar' && (
                         <>
-                          <SelectItem value="coffee-shop">Coffee Shop</SelectItem>
-                          <SelectItem value="tea-house">Tea House</SelectItem>
-                          <SelectItem value="bakery-cafe">Bakery Cafe</SelectItem>
-                          <SelectItem value="internet-cafe">Internet Cafe</SelectItem>
+                          <SelectItem value="Traditional Pub">Traditional Pub</SelectItem>
+                          <SelectItem value="Modern Bar">Modern Bar</SelectItem>
+                          <SelectItem value="Lounge">Lounge</SelectItem>
                         </>
                       )}
-                      {formData.business_type === 'hotel' && (
+                      {formData.business_category === 'club' && (
                         <>
-                          <SelectItem value="luxury">Luxury Hotel</SelectItem>
-                          <SelectItem value="boutique">Boutique Hotel</SelectItem>
-                          <SelectItem value="budget">Budget Hotel</SelectItem>
-                          <SelectItem value="resort">Resort</SelectItem>
-                          <SelectItem value="bed-breakfast">Bed & Breakfast</SelectItem>
+                          <SelectItem value="Nightclub">Nightclub</SelectItem>
+                          <SelectItem value="Music Venue">Music Venue</SelectItem>
+                          <SelectItem value="Entertainment Club">Entertainment Club</SelectItem>
                         </>
                       )}
-                      {formData.business_type === 'retail' && (
+                      {formData.business_category === 'cafe' && (
                         <>
-                          <SelectItem value="clothing">Clothing Store</SelectItem>
-                          <SelectItem value="electronics">Electronics</SelectItem>
-                          <SelectItem value="grocery">Grocery Store</SelectItem>
-                          <SelectItem value="bookstore">Bookstore</SelectItem>
-                          <SelectItem value="gift-shop">Gift Shop</SelectItem>
+                          <SelectItem value="Coffee Shop">Coffee Shop</SelectItem>
+                          <SelectItem value="Tea House">Tea House</SelectItem>
+                          <SelectItem value="Bakery Cafe">Bakery Cafe</SelectItem>
+                          <SelectItem value="Internet Cafe">Internet Cafe</SelectItem>
                         </>
                       )}
-                      {formData.business_type === 'service' && (
-                        <>
-                          <SelectItem value="beauty-salon">Beauty Salon</SelectItem>
-                          <SelectItem value="spa">Spa</SelectItem>
-                          <SelectItem value="gym">Gym/Fitness</SelectItem>
-                          <SelectItem value="automotive">Automotive</SelectItem>
-                          <SelectItem value="cleaning">Cleaning Service</SelectItem>
-                        </>
-                      )}
-                      {formData.business_type === 'entertainment' && (
-                        <>
-                          <SelectItem value="cinema">Cinema</SelectItem>
-                          <SelectItem value="theater">Theater</SelectItem>
-                          <SelectItem value="arcade">Arcade</SelectItem>
-                          <SelectItem value="bowling">Bowling Alley</SelectItem>
-                          <SelectItem value="karaoke">Karaoke</SelectItem>
-                        </>
-                      )}
-                      {formData.business_type === 'attraction' && (
-                        <>
-                          <SelectItem value="museum">Museum</SelectItem>
-                          <SelectItem value="gallery">Art Gallery</SelectItem>
-                          <SelectItem value="park">Park</SelectItem>
-                          <SelectItem value="zoo">Zoo</SelectItem>
-                          <SelectItem value="landmark">Landmark</SelectItem>
-                        </>
-                      )}
+                    </SelectContent>
+                  </Select>
+                </div>
+                <div>
+                  <Label htmlFor="business_specific_type">Specific Type (Cuisine/Service)</Label>
+                  <Select
+                    value={formData.business_specific_type || ''}
+                    onValueChange={(value) => handleInputChange('business_specific_type', value)}
+                    disabled={!formData.business_category}
+                  >
+                    <SelectTrigger>
+                      <SelectValue placeholder="Select specific type" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      {(formData.business_category === 'restaurant') && 
+                        cuisineTypes.restaurant?.map(type => (
+                          <SelectItem key={type} value={type}>{type}</SelectItem>
+                        ))
+                      }
+                      {(formData.business_category === 'fast-food') && 
+                        cuisineTypes["fast-food"]?.map(type => (
+                          <SelectItem key={type} value={type}>{type}</SelectItem>
+                        ))
+                      }
+                      {(formData.business_category === 'bar') && 
+                        drinkTypes.bar?.map(type => (
+                          <SelectItem key={type} value={type}>{type}</SelectItem>
+                        ))
+                      }
+                      {(formData.business_category === 'club') && 
+                        drinkTypes.club?.map(type => (
+                          <SelectItem key={type} value={type}>{type}</SelectItem>
+                        ))
+                      }
                     </SelectContent>
                   </Select>
                 </div>
