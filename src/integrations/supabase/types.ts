@@ -325,9 +325,12 @@ export type Database = {
           approved_at: string | null
           approved_by: string | null
           business_categories: string[] | null
+          business_category: string | null
           business_hours: Json | null
           business_name: string
+          business_specific_type: string | null
           business_subcategory: string | null
+          business_subtype: string | null
           business_type: string
           city: string | null
           country: string | null
@@ -371,9 +374,12 @@ export type Database = {
           approved_at?: string | null
           approved_by?: string | null
           business_categories?: string[] | null
+          business_category?: string | null
           business_hours?: Json | null
           business_name: string
+          business_specific_type?: string | null
           business_subcategory?: string | null
+          business_subtype?: string | null
           business_type: string
           city?: string | null
           country?: string | null
@@ -417,9 +423,12 @@ export type Database = {
           approved_at?: string | null
           approved_by?: string | null
           business_categories?: string[] | null
+          business_category?: string | null
           business_hours?: Json | null
           business_name?: string
+          business_specific_type?: string | null
           business_subcategory?: string | null
+          business_subtype?: string | null
           business_type?: string
           city?: string | null
           country?: string | null

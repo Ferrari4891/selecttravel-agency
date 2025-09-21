@@ -76,14 +76,37 @@ const businessSubtypes = {
   Drink: ['Bars', 'Clubs']
 };
 
+// Align with SinglePageRestaurantForm.tsx exactly
+const restaurantFoodTypes = [
+  'African Food', 'British Food', 'Cajun Food', 'Caribbean Food', 'Chinese Food', 
+  'Eastern European Food', 'French Food', 'German Food', 'Greek Food', 'Indian Food', 
+  'International Food', 'Irish Food', 'Italian Food', 'Japanese Food', 'Mediterranean Food', 
+  'Mexican Food', 'South American Food', 'Spanish Food', 'Thai Food', 'Vietnamese Food'
+];
+
+const fastFoodTypes = [
+  'Burger Chains', 'Pizza Chains', 'Chicken Chains', 'Sandwich Shops', 'Taco Shops',
+  'Asian Fast Food', 'Coffee Chains', 'Bakery Chains', 'Ice Cream Shops', 'Donut Shops'
+];
+
+const barTypes = [
+  'Sports Bars', 'Wine Bars', 'Cocktail Bars', 'Beer Gardens', 'Rooftop Bars',
+  'Dive Bars', 'Hotel Bars', 'Beach Bars', 'Whiskey Bars', 'Piano Bars'
+];
+
+const clubTypes = [
+  'Dance Clubs', 'Jazz Clubs', 'Comedy Clubs', 'Strip Clubs', 'Karaoke Bars',
+  'Live Music Venues', 'Lounge Bars', 'Themed Clubs', 'Beach Clubs', 'Underground Clubs'
+];
+
 const cuisineTypes = {
-  Restaurants: ['African Food', 'British Food', 'Cajun Food', 'Caribbean Food', 'Chinese Food', 'Eastern European Food', 'French Food', 'German Food', 'Greek Food', 'Indian Food', 'International Food', 'Irish Food', 'Italian Food', 'Japanese Food', 'Mediterranean Food', 'Mexican Food', 'South American Food', 'Spanish Food', 'Thai Food', 'Vietnamese Food'],
-  'Fast Food': ['Burger Chains', 'Pizza Chains', 'Chicken Chains', 'Sandwich Shops', 'Taco Shops', 'Asian Fast Food', 'Coffee Chains', 'Bakery Chains', 'Ice Cream Shops', 'Donut Shops']
+  Restaurants: restaurantFoodTypes,
+  'Fast Food': fastFoodTypes
 };
 
 const drinkTypes = {
-  Bars: ['Sports Bars', 'Wine Bars', 'Cocktail Bars', 'Beer Gardens', 'Rooftop Bars', 'Dive Bars', 'Hotel Bars', 'Beach Bars', 'Whiskey Bars', 'Piano Bars'],
-  Clubs: ['Dance Clubs', 'Jazz Clubs', 'Comedy Clubs', 'Strip Clubs', 'Karaoke Bars', 'Live Music Venues', 'Lounge Bars', 'Themed Clubs', 'Beach Clubs', 'Underground Clubs']
+  Bars: barTypes,
+  Clubs: clubTypes
 };
 
 const countries = [
