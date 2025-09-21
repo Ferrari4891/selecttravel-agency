@@ -4,6 +4,7 @@ import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { MapPin, Phone, Globe, Mail, Clock, Star } from 'lucide-react';
 import { GoogleMap } from '@/components/GoogleMap';
+import { GiftCardPurchase } from './GiftCardPurchase';
 
 interface BusinessCardProps {
   business: {
@@ -33,6 +34,8 @@ interface BusinessCardProps {
     senior_discounts?: boolean;
     online_booking?: boolean;
     air_conditioned?: boolean;
+    gift_cards_enabled?: boolean;
+    subscription_tier?: string;
   };
   showFullDetails?: boolean;
 }
@@ -208,6 +211,16 @@ export const BusinessCard: React.FC<BusinessCardProps> = ({
                 />
               )}
             </div>
+          </div>
+        )}
+
+        {/* Gift Card Section */}
+        {business.gift_cards_enabled && business.subscription_tier === 'firstclass' && (
+          <div className="pt-4 border-t">
+            <GiftCardPurchase 
+              businessId={business.id} 
+              businessName={business.business_name}
+            />
           </div>
         )}
 

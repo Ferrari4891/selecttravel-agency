@@ -339,6 +339,7 @@ export type Database = {
           email: string | null
           extended_hours: boolean | null
           facebook: string | null
+          gift_cards_enabled: boolean | null
           gluten_free: boolean | null
           id: string
           image_1_url: string | null
@@ -388,6 +389,7 @@ export type Database = {
           email?: string | null
           extended_hours?: boolean | null
           facebook?: string | null
+          gift_cards_enabled?: boolean | null
           gluten_free?: boolean | null
           id?: string
           image_1_url?: string | null
@@ -437,6 +439,7 @@ export type Database = {
           email?: string | null
           extended_hours?: boolean | null
           facebook?: string | null
+          gift_cards_enabled?: boolean | null
           gluten_free?: boolean | null
           id?: string
           image_1_url?: string | null
@@ -558,6 +561,109 @@ export type Database = {
           user_id?: string
         }
         Relationships: []
+      }
+      gift_card_redemptions: {
+        Row: {
+          gift_card_id: string
+          id: string
+          notes: string | null
+          redeemed_amount: number
+          redeemed_at: string
+          redeemed_by_staff: string | null
+          remaining_balance: number
+        }
+        Insert: {
+          gift_card_id: string
+          id?: string
+          notes?: string | null
+          redeemed_amount: number
+          redeemed_at?: string
+          redeemed_by_staff?: string | null
+          remaining_balance?: number
+        }
+        Update: {
+          gift_card_id?: string
+          id?: string
+          notes?: string | null
+          redeemed_amount?: number
+          redeemed_at?: string
+          redeemed_by_staff?: string | null
+          remaining_balance?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "fk_redemptions_gift_card"
+            columns: ["gift_card_id"]
+            isOneToOne: false
+            referencedRelation: "gift_cards"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      gift_cards: {
+        Row: {
+          amount: number
+          business_id: string
+          created_at: string
+          expires_at: string | null
+          id: string
+          message: string | null
+          numeric_code: string
+          purchased_by_email: string
+          purchased_by_name: string
+          qr_code: string
+          recipient_email: string
+          recipient_name: string
+          recipient_phone: string | null
+          status: string
+          stripe_payment_intent_id: string | null
+          updated_at: string
+        }
+        Insert: {
+          amount: number
+          business_id: string
+          created_at?: string
+          expires_at?: string | null
+          id?: string
+          message?: string | null
+          numeric_code: string
+          purchased_by_email: string
+          purchased_by_name: string
+          qr_code: string
+          recipient_email: string
+          recipient_name: string
+          recipient_phone?: string | null
+          status?: string
+          stripe_payment_intent_id?: string | null
+          updated_at?: string
+        }
+        Update: {
+          amount?: number
+          business_id?: string
+          created_at?: string
+          expires_at?: string | null
+          id?: string
+          message?: string | null
+          numeric_code?: string
+          purchased_by_email?: string
+          purchased_by_name?: string
+          qr_code?: string
+          recipient_email?: string
+          recipient_name?: string
+          recipient_phone?: string | null
+          status?: string
+          stripe_payment_intent_id?: string | null
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "fk_gift_cards_business"
+            columns: ["business_id"]
+            isOneToOne: false
+            referencedRelation: "businesses"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       group_invitations: {
         Row: {
