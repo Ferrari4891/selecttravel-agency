@@ -30,16 +30,20 @@ export const useBusinessSearch = () => {
     setIsLoading(true);
     
     try {
-      // Build query filters
+      // Build query filters with correct field names
       const queryFilters: any = {
-        business_category: filters.category,
         city: filters.city,
         country: filters.country,
         status: 'approved'
       };
 
+      // Use the correct field names based on database structure
+      if (filters.category) {
+        queryFilters.business_category = filters.category;
+      }
+
       if (filters.subcategory) {
-        queryFilters.business_subtype = filters.subcategory;
+        queryFilters.business_subcategory = filters.subcategory;
       }
 
       if (filters.type) {
