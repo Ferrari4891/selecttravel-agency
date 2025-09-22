@@ -235,7 +235,7 @@ export const StreamlinedSearchForm: React.FC<StreamlinedSearchFormProps> = ({
               <SelectTrigger>
                 <SelectValue placeholder="Select country" />
               </SelectTrigger>
-              <SelectContent>
+              <SelectContent className="max-h-60 overflow-y-auto">
                 {allCountries.map(country => (
                   <SelectItem key={country} value={country}>
                     {country}
