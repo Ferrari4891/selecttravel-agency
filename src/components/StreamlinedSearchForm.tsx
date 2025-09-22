@@ -194,10 +194,10 @@ export const StreamlinedSearchForm: React.FC<StreamlinedSearchFormProps> = ({
           <label className="text-sm font-medium">Search By:</label>
           <div className="grid grid-cols-2 md:grid-cols-4 gap-2">
             {[
-              { type: 'price' as SearchType, label: 'Price Level', desc: 'Budget range' },
-              { type: 'cuisine' as SearchType, label: 'Cuisine', desc: 'Cultural style' },
-              { type: 'food' as SearchType, label: 'Food Type', desc: 'Specific dish' },
-              { type: 'drink' as SearchType, label: 'Drink Type', desc: 'Beverage style' }
+              { type: 'price' as SearchType, label: 'Price Level' },
+              { type: 'cuisine' as SearchType, label: 'Cuisine' },
+              { type: 'food' as SearchType, label: 'Food Type' },
+              { type: 'drink' as SearchType, label: 'Drink Type' }
             ].map(option => (
               <Button
                 key={option.type}
@@ -207,7 +207,6 @@ export const StreamlinedSearchForm: React.FC<StreamlinedSearchFormProps> = ({
               >
                 {getSearchIcon(option.type)}
                 <span className="text-xs font-medium">{option.label}</span>
-                <span className="text-xs opacity-70">{option.desc}</span>
               </Button>
             ))}
           </div>
