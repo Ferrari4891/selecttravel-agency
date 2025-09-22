@@ -22,11 +22,25 @@ export const useLocationData = (initialRegion = '', initialCountry = '', initial
 
   const cities = useMemo(() => {
     if (!selectedCountry) return [];
-    const country = countries.find(c => c.name === selectedCountry);
+    
+    // Find the country across all regions since we might not have selectedRegion
+    let country = null;
+    if (selectedRegion) {
+      // If we have a region, look in that region
+      const regionCountries = regionData[selectedRegion as keyof typeof regionData]?.countries || [];
+      country = regionCountries.find(c => c.name === selectedCountry);
+    } else {
+      // If no region, search across all regions
+      for (const region of Object.values(regionData)) {
+        country = region.countries.find(c => c.name === selectedCountry);
+        if (country) break;
+      }
+    }
+    
     const baseCities = country?.cities || [];
     // Combine base cities with approved custom cities
     return [...baseCities, ...customCities].sort();
-  }, [selectedCountry, countries, customCities]);
+  }, [selectedCountry, selectedRegion, customCities]);
 
   // Fetch custom cities when country changes
   useEffect(() => {
