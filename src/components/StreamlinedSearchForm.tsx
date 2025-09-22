@@ -215,7 +215,7 @@ export const StreamlinedSearchForm: React.FC<StreamlinedSearchFormProps> = ({
                 key={option.type}
                 variant={searchType === option.type ? "default" : "outline"}
                 onClick={() => handleSearchTypeChange(option.type)}
-                className="h-auto p-3 flex flex-col items-center gap-1"
+                className="h-auto p-3 flex flex-col items-center justify-center gap-1 text-center"
               >
                 {getSearchIcon(option.type)}
                 <span className="text-xs font-medium">{option.label}</span>
