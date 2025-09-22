@@ -598,6 +598,39 @@ export type Database = {
         }
         Relationships: []
       }
+      custom_cities: {
+        Row: {
+          added_by: string | null
+          country: string
+          created_at: string
+          id: string
+          is_active: boolean
+          is_approved: boolean
+          name: string
+          updated_at: string
+        }
+        Insert: {
+          added_by?: string | null
+          country: string
+          created_at?: string
+          id?: string
+          is_active?: boolean
+          is_approved?: boolean
+          name: string
+          updated_at?: string
+        }
+        Update: {
+          added_by?: string | null
+          country?: string
+          created_at?: string
+          id?: string
+          is_active?: boolean
+          is_approved?: boolean
+          name?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
       drink_specialties: {
         Row: {
           category: string

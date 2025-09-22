@@ -5,6 +5,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { Badge } from '@/components/ui/badge';
 import { Input } from '@/components/ui/input';
 import { useLocationData } from '@/hooks/useLocationData';
+import { useCustomCities } from '@/hooks/useCustomCities';
 import { regionData } from '@/data/locationData';
 import { Loader2, MapPin, DollarSign, Utensils, Wine, Coffee } from 'lucide-react';
 
@@ -82,6 +83,7 @@ export const StreamlinedSearchForm: React.FC<StreamlinedSearchFormProps> = ({
   const [resultCount, setResultCount] = useState(25);
 
   const allCountries = useMemo(() => getAllCountries(), []);
+  const { addCustomCity, isLoading: isAddingCity } = useCustomCities();
   
   const { cities } = useLocationData('', selectedCountry, '');
 
@@ -124,13 +126,19 @@ export const StreamlinedSearchForm: React.FC<StreamlinedSearchFormProps> = ({
     (searchType === 'drink' && drinkSpecialty)
   );
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     if (!isComplete) return;
+
+    // If user typed a city that's not in the list, add it first
+    const finalCity = selectedCity || citySearch.trim();
+    if (citySearch.trim() && !cities.includes(citySearch.trim()) && !selectedCity) {
+      await addCustomCity(citySearch.trim(), selectedCountry);
+    }
 
     const filters: SearchFilters = {
       searchType,
       country: selectedCountry,
-      city: selectedCity || citySearch.trim(),
+      city: finalCity,
       resultCount
     };
 
@@ -378,11 +386,11 @@ export const StreamlinedSearchForm: React.FC<StreamlinedSearchFormProps> = ({
         <div className="flex gap-4 pt-4">
           <Button
             onClick={handleSubmit}
-            disabled={!isComplete || isLoading}
+            disabled={!isComplete || isLoading || isAddingCity}
             className="flex-1"
             size="lg"
           >
-            {isLoading ? (
+            {isLoading || isAddingCity ? (
               <>
                 <Loader2 className="mr-2 h-4 w-4 animate-spin" />
                 SELECTING...

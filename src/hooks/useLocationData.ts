@@ -1,5 +1,6 @@
-import { useState, useMemo } from 'react';
+import { useState, useMemo, useEffect } from 'react';
 import { regionData } from '@/data/locationData';
+import { useCustomCities } from './useCustomCities';
 
 /**
  * Hook for managing location selection state
@@ -8,6 +9,8 @@ export const useLocationData = (initialRegion = '', initialCountry = '', initial
   const [selectedRegion, setSelectedRegion] = useState(initialRegion);
   const [selectedCountry, setSelectedCountry] = useState(initialCountry);
   const [selectedCity, setSelectedCity] = useState(initialCity);
+  const [customCities, setCustomCities] = useState<string[]>([]);
+  const { getCustomCities } = useCustomCities();
 
   // Get available options based on current selection
   const regions = useMemo(() => Object.keys(regionData), []);
@@ -20,8 +23,19 @@ export const useLocationData = (initialRegion = '', initialCountry = '', initial
   const cities = useMemo(() => {
     if (!selectedCountry) return [];
     const country = countries.find(c => c.name === selectedCountry);
-    return country?.cities || [];
-  }, [selectedCountry, countries]);
+    const baseCities = country?.cities || [];
+    // Combine base cities with approved custom cities
+    return [...baseCities, ...customCities].sort();
+  }, [selectedCountry, countries, customCities]);
+
+  // Fetch custom cities when country changes
+  useEffect(() => {
+    if (selectedCountry) {
+      getCustomCities(selectedCountry).then(setCustomCities);
+    } else {
+      setCustomCities([]);
+    }
+  }, [selectedCountry, getCustomCities]);
 
   // Reset handlers that cascade down
   const handleRegionChange = (region: string) => {
