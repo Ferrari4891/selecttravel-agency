@@ -37,13 +37,30 @@ export const useBusinessSearch = () => {
         status: 'approved'
       };
 
-      // Use the correct field names based on database structure
+      // Map search categories to database values with fallback logic
       if (filters.category) {
-        queryFilters.business_category = filters.category;
+        // Handle both new category structure and legacy data
+        if (filters.category === 'Food') {
+          // Use OR condition to match both new and legacy categories
+          // This will be handled in the query below
+        } else if (filters.category === 'Drink') {
+          queryFilters.business_category = 'Drink';
+        } else {
+          queryFilters.business_category = filters.category;
+        }
       }
 
       if (filters.subcategory) {
-        queryFilters.business_subcategory = filters.subcategory;
+        // Map new subcategory names to database values
+        const subcategoryMap: { [key: string]: string[] } = {
+          'Restaurants': ['Restaurants', 'restaurant', 'fine-dining', 'casual-dining', 'family-restaurant', 'buffet', 'food-truck', 'takeaway'],
+          'Fast Food': ['Fast Food', 'fast-food', 'quick-service', 'counter-service', 'drive-through'],
+          'Bars': ['Bars', 'bar', 'traditional-pub', 'modern-bar', 'lounge'],
+          'Clubs': ['Clubs', 'club', 'nightclub', 'music-venue', 'entertainment-club']
+        };
+        
+        const possibleValues = subcategoryMap[filters.subcategory] || [filters.subcategory];
+        // We'll handle this in the query using OR conditions
       }
 
       if (filters.type) {
@@ -65,10 +82,58 @@ export const useBusinessSearch = () => {
         if (prefs.air_conditioned) queryFilters.air_conditioned = true;
       }
 
-      const { data: businesses, error } = await supabase
+      // Build the base query
+      let query = supabase
         .from('businesses')
         .select('*')
-        .match(queryFilters)
+        .match({
+          city: filters.city,
+          country: filters.country,
+          status: 'approved'
+        });
+
+      // Handle category filtering with fallback for legacy data
+      if (filters.category === 'Food') {
+        query = query.or('business_category.eq.Food,business_category.eq.restaurant');
+      } else if (filters.category) {
+        query = query.eq('business_category', filters.category);
+      }
+
+      // Handle subcategory filtering with multiple possible values
+      if (filters.subcategory) {
+        const subcategoryMap: { [key: string]: string[] } = {
+          'Restaurants': ['Restaurants', 'restaurant', 'fine-dining', 'casual-dining', 'family-restaurant', 'buffet', 'food-truck', 'takeaway'],
+          'Fast Food': ['Fast Food', 'fast-food', 'quick-service', 'counter-service', 'drive-through'],
+          'Bars': ['Bars', 'bar', 'traditional-pub', 'modern-bar', 'lounge'],
+          'Clubs': ['Clubs', 'club', 'nightclub', 'music-venue', 'entertainment-club']
+        };
+        
+        const possibleValues = subcategoryMap[filters.subcategory] || [filters.subcategory];
+        const orConditions = possibleValues.map(val => `business_subcategory.eq.${val}`).join(',');
+        query = query.or(orConditions);
+      }
+
+      // Handle specific type filtering
+      if (filters.type) {
+        query = query.eq('business_specific_type', filters.type);
+      }
+
+      // Add user preference filters
+      if (filters.userPreferences) {
+        const prefs = filters.userPreferences;
+        if (prefs.wheelchair_access) query = query.eq('wheelchair_access', true);
+        if (prefs.extended_hours) query = query.eq('extended_hours', true);
+        if (prefs.gluten_free) query = query.eq('gluten_free', true);
+        if (prefs.low_noise) query = query.eq('low_noise', true);
+        if (prefs.public_transport) query = query.eq('public_transport', true);
+        if (prefs.pet_friendly) query = query.eq('pet_friendly', true);
+        if (prefs.outdoor_seating) query = query.eq('outdoor_seating', true);
+        if (prefs.senior_discounts) query = query.eq('senior_discounts', true);
+        if (prefs.online_booking) query = query.eq('online_booking', true);
+        if (prefs.air_conditioned) query = query.eq('air_conditioned', true);
+      }
+
+      const { data: businesses, error } = await query
         .order('subscription_tier', { ascending: false, nullsFirst: false })
         .order('created_at', { ascending: false });
 

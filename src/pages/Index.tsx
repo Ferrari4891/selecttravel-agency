@@ -106,6 +106,13 @@ const Index: React.FC = () => {
     
     try {
       console.log('⏱️ Starting search for businesses...');
+      console.log('🔍 Search parameters:', {
+        category: params.category,
+        subcategory: params.subcategory, 
+        type: params.type,
+        city: params.city,
+        country: params.country
+      });
       
       // Normalize city (handles diacritics like "Đà Nẵng") and decide query city
       const normalize = (s: string) => s
