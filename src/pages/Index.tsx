@@ -204,7 +204,7 @@ const Index: React.FC = () => {
                   <div className="w-12 h-12">
                     <img src="/lovable-uploads/6ce4c283-5ad7-4b59-a3a8-4254d29cd162.png" alt="Logo" className="w-full h-full object-contain" />
                   </div>
-                  <span className="font-bold text-black text-sm">YOUR SEARCH RESULTS!</span>
+                  <span className="font-bold text-black text-sm">YOUR SELECTION RESULTS!</span>
                 </div>
                 {/* Home button for mobile */}
                 <Button 
@@ -224,7 +224,7 @@ const Index: React.FC = () => {
                   <div className="w-12 h-12">
                     <img src="/lovable-uploads/6ce4c283-5ad7-4b59-a3a8-4254d29cd162.png" alt="Logo" className="w-full h-full object-contain" />
                   </div>
-                  <span className="font-bold text-black text-lg">YOUR SEARCH RESULTS!</span>
+                  <span className="font-bold text-black text-lg">YOUR SELECTION RESULTS!</span>
                 </div>
                 
                 {/* Home button for desktop */}

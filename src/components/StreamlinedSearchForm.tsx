@@ -117,7 +117,7 @@ export const StreamlinedSearchForm: React.FC<StreamlinedSearchFormProps> = ({
     setDrinkSpecialty('');
   };
 
-  const isComplete = selectedCountry && selectedCity && (
+  const isComplete = selectedCountry && (citySearch.trim() || selectedCity) && (
     (searchType === 'price' && priceLevel) ||
     (searchType === 'cuisine' && cuisineType) ||
     (searchType === 'food' && foodSpecialty) ||
@@ -130,7 +130,7 @@ export const StreamlinedSearchForm: React.FC<StreamlinedSearchFormProps> = ({
     const filters: SearchFilters = {
       searchType,
       country: selectedCountry,
-      city: selectedCity,
+      city: selectedCity || citySearch.trim(),
       resultCount
     };
 
@@ -187,7 +187,7 @@ export const StreamlinedSearchForm: React.FC<StreamlinedSearchFormProps> = ({
         <div>
           <h1 className="text-2xl font-bold">Find Your Perfect Experience</h1>
           <p className="text-muted-foreground">
-            Choose your search method and discover exactly what you're looking for
+            Choose your selection method and discover exactly what you're looking for
           </p>
         </div>
       </CardHeader>
@@ -195,7 +195,7 @@ export const StreamlinedSearchForm: React.FC<StreamlinedSearchFormProps> = ({
       <CardContent className="space-y-6">
         {/* Search Type Selection */}
         <div className="space-y-3">
-          <label className="text-sm font-medium">Search By:</label>
+          <label className="text-sm font-medium">Select By:</label>
           <div className="grid grid-cols-2 md:grid-cols-4 gap-2">
             {[
               { type: 'price' as SearchType, label: 'Price Level' },
@@ -239,24 +239,32 @@ export const StreamlinedSearchForm: React.FC<StreamlinedSearchFormProps> = ({
 
           <div className="space-y-2">
             <label className="text-sm font-medium">City</label>
-            <div className="relative">
+            <div className="space-y-2">
               <Input
-                placeholder="Search for a city..."
+                placeholder="Type city name or select from list..."
                 value={citySearch}
                 onChange={(e) => handleCitySearch(e.target.value)}
                 disabled={!selectedCountry}
               />
-              {filteredCities.length > 0 && citySearch && !selectedCity && (
-                <div className="absolute top-full left-0 right-0 z-50 bg-background border rounded-md shadow-lg max-h-48 overflow-y-auto">
-                  {filteredCities.slice(0, 10).map((city) => (
-                    <button
-                      key={city}
-                      className="w-full text-left px-3 py-2 hover:bg-muted text-sm"
-                      onClick={() => handleCitySelect(city)}
-                    >
-                      {city}
-                    </button>
-                  ))}
+              
+              {selectedCountry && cities.length > 0 && (
+                <Select value={selectedCity} onValueChange={handleCitySelect}>
+                  <SelectTrigger>
+                    <SelectValue placeholder="Or select from existing cities" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {cities.map(city => (
+                      <SelectItem key={city} value={city}>
+                        {city}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              )}
+              
+              {citySearch && !cities.includes(citySearch) && selectedCountry && (
+                <div className="text-xs text-muted-foreground p-2 bg-muted rounded">
+                  Will add "{citySearch}" as a new city for {selectedCountry}
                 </div>
               )}
             </div>
@@ -377,10 +385,10 @@ export const StreamlinedSearchForm: React.FC<StreamlinedSearchFormProps> = ({
             {isLoading ? (
               <>
                 <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                SEARCHING...
+                SELECTING...
               </>
             ) : (
-              'SEARCH'
+              'SELECT'
             )}
           </Button>
           <Button
