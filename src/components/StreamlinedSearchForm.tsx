@@ -260,7 +260,7 @@ export const StreamlinedSearchForm: React.FC<StreamlinedSearchFormProps> = ({
                   <SelectTrigger>
                     <SelectValue placeholder="Or select from existing cities" />
                   </SelectTrigger>
-                  <SelectContent>
+                  <SelectContent className="max-h-60 overflow-y-auto">
                     {cities.map(city => (
                       <SelectItem key={city} value={city}>
                         {city}
@@ -309,7 +309,7 @@ export const StreamlinedSearchForm: React.FC<StreamlinedSearchFormProps> = ({
               <SelectTrigger>
                 <SelectValue placeholder="Select cuisine type" />
               </SelectTrigger>
-              <SelectContent>
+              <SelectContent className="max-h-60 overflow-y-auto">
                 {cuisineOptions.map(cuisine => (
                   <SelectItem key={cuisine} value={cuisine}>
                     {cuisine}
@@ -324,7 +324,7 @@ export const StreamlinedSearchForm: React.FC<StreamlinedSearchFormProps> = ({
               <SelectTrigger>
                 <SelectValue placeholder="Select food type" />
               </SelectTrigger>
-              <SelectContent>
+              <SelectContent className="max-h-60 overflow-y-auto">
                 {foodOptions.map(food => (
                   <SelectItem key={food} value={food}>
                     {food}
@@ -339,7 +339,7 @@ export const StreamlinedSearchForm: React.FC<StreamlinedSearchFormProps> = ({
               <SelectTrigger>
                 <SelectValue placeholder="Select drink type" />
               </SelectTrigger>
-              <SelectContent>
+              <SelectContent className="max-h-60 overflow-y-auto">
                 {drinkOptions.map(drink => (
                   <SelectItem key={drink} value={drink}>
                     {drink}
