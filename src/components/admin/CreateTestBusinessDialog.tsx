@@ -17,6 +17,7 @@ import {
   isValidYouTubeId, 
   uploadAndProcessImage 
 } from '@/lib/businessMedia';
+import { GiftCardManagement } from '@/components/business/GiftCardManagement';
 
 interface CreateTestBusinessDialogProps {
   isOpen: boolean;
@@ -101,6 +102,7 @@ export const CreateTestBusinessDialog: React.FC<CreateTestBusinessDialogProps> =
     senior_discounts: false,
     online_booking: false,
     air_conditioned: false,
+    gift_cards_enabled: false,
     // Social media
     facebook: '',
     instagram: '',
@@ -304,7 +306,8 @@ export const CreateTestBusinessDialog: React.FC<CreateTestBusinessDialogProps> =
         outdoor_seating: formData.outdoor_seating,
         senior_discounts: formData.senior_discounts,
         online_booking: formData.online_booking,
-        air_conditioned: formData.air_conditioned
+        air_conditioned: formData.air_conditioned,
+        gift_cards_enabled: formData.gift_cards_enabled
       }]).select().single();
 
       if (error) throw error;
@@ -384,6 +387,7 @@ export const CreateTestBusinessDialog: React.FC<CreateTestBusinessDialogProps> =
         senior_discounts: false,
         online_booking: false,
         air_conditioned: false,
+        gift_cards_enabled: false,
         facebook: '',
         instagram: '',
         twitter: '',
@@ -806,6 +810,30 @@ export const CreateTestBusinessDialog: React.FC<CreateTestBusinessDialogProps> =
               ))}
             </div>
           </div>
+
+          {/* Gift Card Management - Only for First Class */}
+          {formData.subscription === 'firstclass' && (
+            <div className="space-y-4">
+              <h3 className="font-medium">Gift Cards</h3>
+              <div className="border rounded-lg p-4">
+                <div className="flex items-center space-x-2">
+                  <input
+                    type="checkbox"
+                    id="gift_cards_enabled"
+                    checked={formData.gift_cards_enabled}
+                    onChange={(e) => handleInputChange('gift_cards_enabled', e.target.checked)}
+                    className="rounded"
+                  />
+                  <Label htmlFor="gift_cards_enabled" className="text-sm">
+                    Enable Gift Cards for this business
+                  </Label>
+                </div>
+                <p className="text-xs text-muted-foreground mt-2">
+                  Gift cards allow customers to purchase prepaid credit for your business. Configure amounts after creation.
+                </p>
+              </div>
+            </div>
+          )}
 
           {/* Action Buttons */}
           <div className="flex gap-2 pt-4">

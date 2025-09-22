@@ -52,6 +52,7 @@ interface Business {
   business_hours: any;
   admin_notes: string | null;
   rejection_reason: string | null;
+  gift_cards_enabled: boolean | null;
   created_at: string;
   user_id: string;
 }

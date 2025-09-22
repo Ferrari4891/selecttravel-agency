@@ -10,6 +10,7 @@ import { Switch } from '@/components/ui/switch';
 import { useToast } from '@/hooks/use-toast';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Loader2 } from 'lucide-react';
+import { GiftCardManagement } from '@/components/business/GiftCardManagement';
 
 interface Business {
   id: string;
@@ -53,6 +54,7 @@ interface Business {
   business_hours: any;
   admin_notes: string | null;
   rejection_reason: string | null;
+  gift_cards_enabled: boolean | null;
 }
 
 interface EditBusinessDialogProps {
@@ -183,10 +185,11 @@ export const EditBusinessDialog: React.FC<EditBusinessDialogProps> = ({
 
         <form onSubmit={handleSubmit}>
           <Tabs defaultValue="basic" className="w-full">
-            <TabsList className="grid w-full grid-cols-4">
+            <TabsList className="grid w-full grid-cols-5">
               <TabsTrigger value="basic">Basic Info</TabsTrigger>
               <TabsTrigger value="contact">Contact</TabsTrigger>
               <TabsTrigger value="features">Features</TabsTrigger>
+              <TabsTrigger value="giftcards">Gift Cards</TabsTrigger>
               <TabsTrigger value="admin">Admin</TabsTrigger>
             </TabsList>
 
@@ -575,6 +578,15 @@ export const EditBusinessDialog: React.FC<EditBusinessDialogProps> = ({
                   </div>
                 </div>
               </div>
+            </TabsContent>
+
+            <TabsContent value="giftcards" className="space-y-4">
+              <GiftCardManagement
+                businessId={business.id}
+                subscriptionTier={formData.subscription_tier || ''}
+                giftCardsEnabled={formData.gift_cards_enabled || false}
+                onToggleGiftCards={(enabled) => handleInputChange('gift_cards_enabled', enabled)}
+              />
             </TabsContent>
 
             <TabsContent value="admin" className="space-y-4">
