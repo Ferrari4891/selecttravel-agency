@@ -1,23 +1,15 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
-import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
 import { toast } from '@/hooks/use-toast';
 import { Navigation } from '@/components/Navigation';
 import Footer from '@/components/Footer';
 import { RestaurantResults } from '@/components/RestaurantResults';
-import { Download, RotateCcw, Menu, Home, Info, HelpCircle, Users } from 'lucide-react';
+import { Home } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
-import SaveBusinessButton from '@/components/SaveBusinessButton';
-import { SinglePageRestaurantForm } from '@/components/SinglePageRestaurantForm';
-
-import { useBusinessSearch } from '@/hooks/useBusinessSearch';
+import { StreamlinedSearchForm } from '@/components/StreamlinedSearchForm';
+import { useStreamlinedSearch } from '@/hooks/useStreamlinedSearch';
 
 // Import hero images
-import heroEat from '@/assets/hero-eat.jpg';
-import heroDrink from '@/assets/hero-drink.jpg';
-import heroStay from '@/assets/hero-stay.jpg';
-import heroPlay from '@/assets/hero-play.jpg';
 import heroBackground from '@/assets/hero-background.jpg';
 
 interface Business {
@@ -40,98 +32,40 @@ interface Business {
   subscriptionTier?: string;
 }
 
-interface SearchParams {
+interface StreamlinedSearchParams {
+  searchType: 'price' | 'cuisine' | 'food' | 'drink';
   country: string;
   city: string;
-  category: string;
-  subcategory: string;
-  type: string;
-  resultCount: number | string;
+  priceLevel?: string;
+  cuisineType?: string;
+  foodSpecialty?: string;
+  drinkSpecialty?: string;
+  resultCount: number;
 }
 
 const Index: React.FC = () => {
   const { t } = useTranslation();
   const [businesses, setBusinesses] = useState<Business[]>([]);
   const [showResults, setShowResults] = useState(false);
-  const [searchParams, setSearchParams] = useState<SearchParams | null>(null);
-  const { searchBusinesses, isLoading } = useBusinessSearch();
+  const [searchParams, setSearchParams] = useState<StreamlinedSearchParams | null>(null);
+  const { searchBusinesses, isLoading } = useStreamlinedSearch();
 
-  const generateMockBusinesses = (params: SearchParams): Business[] => {
-    const businessNames = [
-      'The Golden Fork', 'Urban Bistro', 'Sunset Café', 'Mountain View Restaurant',
-      'Coastal Grill', 'The Local Pub', 'Heritage Hotel', 'Modern Suites',
-      'Adventure Sports Center', 'Entertainment Complex', 'Wine Bar & Lounge',
-      'Family Restaurant', 'Boutique Inn', 'Gaming Center', 'Coffee Roasters',
-      'Fine Dining House', 'Beach Resort', 'Sports Bar', 'Luxury Lodge',
-      'Activity Center', 'Central Plaza', 'Metro Grill', 'Riverside Cafe',
-      'Downtown Lounge', 'Grand Hotel', 'City Center', 'Royal Restaurant',
-      'Elite Bistro', 'Premium Venue', 'Classic Eatery', 'Modern Bar',
-      'Urban Lodge', 'Sunset Restaurant', 'Golden Cafe', 'Prime Location',
-      'Central Hub', 'Main Street Grill', 'Plaza Hotel', 'Metro Bar',
-      'Downtown Restaurant', 'City Cafe', 'Grand Lounge', 'Elite Hotel',
-      'Premium Restaurant', 'Classic Bar', 'Modern Hotel', 'Urban Cafe',
-      'Riverside Restaurant', 'Central Lounge', 'Metro Hotel', 'Plaza Bar'
-    ];
-
-    const restaurantImages = [
-      '/lovable-uploads/84845629-2fe8-43b5-8500-84324fdcb0ec.png',
-      '/lovable-uploads/c15f396d-92ad-4582-a3f5-25d92bfbd8dd.png',
-      '/lovable-uploads/fb361fa1-a99f-4c63-aa4b-68502ea4bb3e.png',
-      '/lovable-uploads/6eeb2749-5d4b-4b88-9d7f-53654734a0d6.png'
-    ];
-
-    const count = typeof params.resultCount === 'string' ? parseInt(params.resultCount) : params.resultCount;
-    return businessNames.slice(0, count).map((name, index) => ({
-      name,
-      address: `${100 + index} Main Street, ${params.city}, ${params.country}`,
-      rating: parseFloat((3.0 + Math.random() * 2).toFixed(1)),
-      reviewCount: Math.floor(Math.random() * 500) + 50,
-      phone: `+1-555-${String(Math.floor(Math.random() * 9000) + 1000)}`,
-      email: `info@${name.toLowerCase().replace(/\s+/g, '')}.com`,
-      website: `https://www.${name.toLowerCase().replace(/\s+/g, '')}.com`,
-      mapLink: `https://maps.google.com/?q=${encodeURIComponent(name + ' ' + params.city)}`,
-      menuLink: `https://menu.${name.toLowerCase().replace(/\s+/g, '')}.com`,
-      facebook: Math.random() > 0.5 ? `https://facebook.com/${name.toLowerCase().replace(/\s+/g, '')}` : undefined,
-      instagram: Math.random() > 0.5 ? `https://instagram.com/${name.toLowerCase().replace(/\s+/g, '')}` : undefined,
-      twitter: Math.random() > 0.5 ? `https://twitter.com/${name.toLowerCase().replace(/\s+/g, '')}` : undefined,
-      image: restaurantImages[Math.floor(Math.random() * restaurantImages.length)],
-      source: 'SmartGuides Database'
-    }));
-  };
-
-  const handleSearch = async (params: SearchParams) => {
+  const handleSearch = async (params: StreamlinedSearchParams) => {
     console.log('🚀 handleSearch called with:', params);
     
     setSearchParams(params);
     
     try {
-      console.log('⏱️ Starting search for businesses...');
+      console.log('⏱️ Starting streamlined search for businesses...');
       console.log('🔍 Search parameters:', {
-        category: params.category,
-        subcategory: params.subcategory, 
-        type: params.type,
+        searchType: params.searchType,
         city: params.city,
-        country: params.country
+        country: params.country,
+        criteria: params.priceLevel || params.cuisineType || params.foodSpecialty || params.drinkSpecialty
       });
       
-      // Normalize city (handles diacritics like "Đà Nẵng") and decide query city
-      const normalize = (s: string) => s
-        .normalize('NFD')
-        .replace(/[\u0300-\u036f]/g, '')
-        .toLowerCase()
-        .replace(/[\s-]/g, '');
-      const normalizedCity = normalize(params.city);
-      const isDanang = normalizedCity.includes('danang');
-      const queryCity = isDanang ? 'Danang' : params.city;
-      
-      // Use the business search hook with the new category structure
-      const results = await searchBusinesses({
-        category: params.category,
-        subcategory: params.subcategory,
-        type: params.type,
-        city: queryCity,
-        country: params.country
-      });
+      // Use the streamlined search hook
+      const results = await searchBusinesses(params);
 
       // Transform results to match Business interface
       const businesses: Business[] = results.map((result) => ({
@@ -154,43 +88,23 @@ const Index: React.FC = () => {
         subscriptionTier: result.subscriptionTier
       }));
 
-      let finalBusinesses = businesses;
-
-      // Handle result count logic
-      if (params.resultCount !== 'all') {
-        const requestedCount = parseInt(params.resultCount as string);
-        
-        if (businesses.length < requestedCount) {
-          // Generate mock businesses to supplement if needed (except for Danang test market)
-          const isDanangTestMarket = isDanang;
-          
-          if (!isDanangTestMarket) {
-            const mockBusinessesToGenerate = requestedCount - businesses.length;
-            const mockBusinesses = generateMockBusinesses(params).slice(0, mockBusinessesToGenerate);
-            finalBusinesses = [...businesses, ...mockBusinesses];
-          }
-        } else {
-          // Limit to requested count
-          finalBusinesses = businesses.slice(0, requestedCount);
-        }
-      }
-      // For 'all', show all available businesses
-
-      console.log('📋 Final businesses array:', finalBusinesses);
-      setBusinesses(finalBusinesses);
+      console.log('📋 Final businesses array:', businesses);
+      setBusinesses(businesses);
       setShowResults(true);
-      console.log('🎯 Set showResults to true, businesses length:', finalBusinesses.length);
+      console.log('🎯 Set showResults to true, businesses length:', businesses.length);
 
-      const realCount = businesses.length;
-      const resultText = params.resultCount === 'all' 
-        ? `all ${finalBusinesses.length}` 
-        : `${finalBusinesses.length}`;
+      const searchTypeLabel = {
+        'price': params.priceLevel,
+        'cuisine': params.cuisineType,
+        'food': params.foodSpecialty,
+        'drink': params.drinkSpecialty
+      }[params.searchType];
       
       toast({
         title: "Search Complete!",
-        description: realCount > 0 
-          ? `Found ${resultText} businesses in ${params.city}, ${params.country}` 
-          : `Found ${resultText} suggestions in ${params.city}, ${params.country}`,
+        description: businesses.length > 0 
+          ? `Found ${businesses.length} ${searchTypeLabel} options in ${params.city}, ${params.country}` 
+          : `No ${searchTypeLabel} options found in ${params.city}, ${params.country}`,
       });
     } catch (error) {
       console.error('Error during search:', error);
@@ -233,7 +147,9 @@ const Index: React.FC = () => {
     const link = document.createElement('a');
     const url = URL.createObjectURL(blob);
     link.setAttribute('href', url);
-    link.setAttribute('download', `${searchParams.type}_${searchParams.city}_${searchParams.country}.csv`);
+    
+    const searchCriteria = searchParams.priceLevel || searchParams.cuisineType || searchParams.foodSpecialty || searchParams.drinkSpecialty || 'results';
+    link.setAttribute('download', `${searchCriteria}_${searchParams.city}_${searchParams.country}.csv`);
     link.style.visibility = 'hidden';
     document.body.appendChild(link);
     link.click();
@@ -245,11 +161,6 @@ const Index: React.FC = () => {
     });
   };
 
-  // Get background image
-  const getBackgroundImage = () => {
-    return heroBackground;
-  };
-
   return (
     <div className="min-h-screen bg-background">
       {/* Single page layout */}
@@ -258,7 +169,7 @@ const Index: React.FC = () => {
         <div 
           className="absolute inset-0 z-0"
           style={{
-            backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)), url(${getBackgroundImage()})`,
+            backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)), url(${heroBackground})`,
             backgroundSize: 'cover',
             backgroundPosition: 'center',
           }}
@@ -273,7 +184,7 @@ const Index: React.FC = () => {
         <div className="relative z-10 min-h-screen flex flex-col">
           {/* Form Section */}
           <div className="flex-1 flex items-center justify-center px-4 pt-4 pb-8">
-            <SinglePageRestaurantForm
+            <StreamlinedSearchForm
               onSearch={handleSearch}
               onReset={handleReset}
               isLoading={isLoading}
@@ -293,7 +204,7 @@ const Index: React.FC = () => {
                   <div className="w-12 h-12">
                     <img src="/lovable-uploads/6ce4c283-5ad7-4b59-a3a8-4254d29cd162.png" alt="Logo" className="w-full h-full object-contain" />
                   </div>
-                  <span className="font-bold text-black text-sm">YOUR RESTAURANT RESULTS!</span>
+                  <span className="font-bold text-black text-sm">YOUR SEARCH RESULTS!</span>
                 </div>
                 {/* Home button for mobile */}
                 <Button 
@@ -313,7 +224,7 @@ const Index: React.FC = () => {
                   <div className="w-12 h-12">
                     <img src="/lovable-uploads/6ce4c283-5ad7-4b59-a3a8-4254d29cd162.png" alt="Logo" className="w-full h-full object-contain" />
                   </div>
-                  <span className="font-bold text-black text-lg">YOUR RESTAURANT RESULTS!</span>
+                  <span className="font-bold text-black text-lg">YOUR SEARCH RESULTS!</span>
                 </div>
                 
                 {/* Home button for desktop */}
@@ -353,7 +264,13 @@ const Index: React.FC = () => {
                 }))} 
                 selectedCity={searchParams?.city || ''} 
                 selectedCountry={searchParams?.country || ''} 
-                selectedCategory={searchParams?.type}
+                selectedCategory={
+                  searchParams?.priceLevel || 
+                  searchParams?.cuisineType || 
+                  searchParams?.foodSpecialty || 
+                  searchParams?.drinkSpecialty || 
+                  'results'
+                }
               />
             </div>
           </div>

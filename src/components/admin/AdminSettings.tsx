@@ -10,6 +10,7 @@ import { supabase } from '@/integrations/supabase/client';
 import { Settings, Shield, Mail, Database, Users, Sliders, Gift } from 'lucide-react';
 import { AmenityManagement } from './AmenityManagement';
 import { EnhancedSubscriptionManagement } from './EnhancedSubscriptionManagement';
+import { PriceLevelManagement } from './PriceLevelManagement';
 import { TestMarketDashboard } from './TestMarketDashboard';
 import { GiftCardManagement } from './GiftCardManagement';
 

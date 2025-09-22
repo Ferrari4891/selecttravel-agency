@@ -335,10 +335,13 @@ export type Database = {
           city: string | null
           country: string | null
           created_at: string
+          cuisine_type: string | null
           description: string | null
+          drink_specialties: string[] | null
           email: string | null
           extended_hours: boolean | null
           facebook: string | null
+          food_specialties: string[] | null
           gift_cards_enabled: boolean | null
           gluten_free: boolean | null
           id: string
@@ -354,6 +357,7 @@ export type Database = {
           pet_friendly: boolean | null
           phone: string | null
           postal_code: string | null
+          price_level: string | null
           public_transport: boolean | null
           rejection_reason: string | null
           senior_discounts: boolean | null
@@ -385,10 +389,13 @@ export type Database = {
           city?: string | null
           country?: string | null
           created_at?: string
+          cuisine_type?: string | null
           description?: string | null
+          drink_specialties?: string[] | null
           email?: string | null
           extended_hours?: boolean | null
           facebook?: string | null
+          food_specialties?: string[] | null
           gift_cards_enabled?: boolean | null
           gluten_free?: boolean | null
           id?: string
@@ -404,6 +411,7 @@ export type Database = {
           pet_friendly?: boolean | null
           phone?: string | null
           postal_code?: string | null
+          price_level?: string | null
           public_transport?: boolean | null
           rejection_reason?: string | null
           senior_discounts?: boolean | null
@@ -435,10 +443,13 @@ export type Database = {
           city?: string | null
           country?: string | null
           created_at?: string
+          cuisine_type?: string | null
           description?: string | null
+          drink_specialties?: string[] | null
           email?: string | null
           extended_hours?: boolean | null
           facebook?: string | null
+          food_specialties?: string[] | null
           gift_cards_enabled?: boolean | null
           gluten_free?: boolean | null
           id?: string
@@ -454,6 +465,7 @@ export type Database = {
           pet_friendly?: boolean | null
           phone?: string | null
           postal_code?: string | null
+          price_level?: string | null
           public_transport?: boolean | null
           rejection_reason?: string | null
           senior_discounts?: boolean | null
@@ -559,6 +571,84 @@ export type Database = {
           name?: string
           updated_at?: string
           user_id?: string
+        }
+        Relationships: []
+      }
+      cuisine_types: {
+        Row: {
+          created_at: string
+          id: string
+          is_active: boolean
+          name: string
+          sort_order: number
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          is_active?: boolean
+          name: string
+          sort_order?: number
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          is_active?: boolean
+          name?: string
+          sort_order?: number
+        }
+        Relationships: []
+      }
+      drink_specialties: {
+        Row: {
+          category: string
+          created_at: string
+          id: string
+          is_active: boolean
+          name: string
+          sort_order: number
+        }
+        Insert: {
+          category?: string
+          created_at?: string
+          id?: string
+          is_active?: boolean
+          name: string
+          sort_order?: number
+        }
+        Update: {
+          category?: string
+          created_at?: string
+          id?: string
+          is_active?: boolean
+          name?: string
+          sort_order?: number
+        }
+        Relationships: []
+      }
+      food_specialties: {
+        Row: {
+          category: string
+          created_at: string
+          id: string
+          is_active: boolean
+          name: string
+          sort_order: number
+        }
+        Insert: {
+          category?: string
+          created_at?: string
+          id?: string
+          is_active?: boolean
+          name: string
+          sort_order?: number
+        }
+        Update: {
+          category?: string
+          created_at?: string
+          id?: string
+          is_active?: boolean
+          name?: string
+          sort_order?: number
         }
         Relationships: []
       }
@@ -1156,6 +1246,36 @@ export type Database = {
           slug?: string
           template_id?: string | null
           title?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      price_level_settings: {
+        Row: {
+          created_at: string
+          description: string | null
+          id: string
+          level: string
+          max_price: number
+          min_price: number
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          description?: string | null
+          id?: string
+          level: string
+          max_price?: number
+          min_price?: number
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          description?: string | null
+          id?: string
+          level?: string
+          max_price?: number
+          min_price?: number
           updated_at?: string
         }
         Relationships: []

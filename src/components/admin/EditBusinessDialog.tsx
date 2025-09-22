@@ -22,6 +22,10 @@ interface Business {
   business_specific_type: string | null;
   description: string | null;
   website: string | null;
+  price_level?: string;
+  cuisine_type?: string;
+  food_specialties?: string[];
+  drink_specialties?: string[];
   phone: string | null;
   email: string | null;
   address: string | null;
@@ -185,8 +189,9 @@ export const EditBusinessDialog: React.FC<EditBusinessDialogProps> = ({
 
         <form onSubmit={handleSubmit}>
           <Tabs defaultValue="basic" className="w-full">
-            <TabsList className="grid w-full grid-cols-5">
+            <TabsList className="grid w-full grid-cols-6">
               <TabsTrigger value="basic">Basic Info</TabsTrigger>
+              <TabsTrigger value="search">Search Options</TabsTrigger>
               <TabsTrigger value="contact">Contact</TabsTrigger>
               <TabsTrigger value="features">Features</TabsTrigger>
               <TabsTrigger value="giftcards">Gift Cards</TabsTrigger>
@@ -371,6 +376,169 @@ export const EditBusinessDialog: React.FC<EditBusinessDialogProps> = ({
                       <SelectItem value="firstclass">First Class</SelectItem>
                     </SelectContent>
                   </Select>
+                </div>
+              </div>
+            </TabsContent>
+
+            <TabsContent value="search" className="space-y-4">
+              <div className="space-y-6">
+                <div>
+                  <h4 className="text-lg font-medium mb-4">Search & Discovery Settings</h4>
+                  <p className="text-sm text-muted-foreground mb-4">
+                    Configure how customers can find your business through the new streamlined search options.
+                  </p>
+                </div>
+
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                  <div>
+                    <Label htmlFor="price_level">Price Level</Label>
+                    <Select
+                      value={formData.price_level || ''}
+                      onValueChange={(value) => handleInputChange('price_level', value)}
+                    >
+                      <SelectTrigger>
+                        <SelectValue placeholder="Select price level" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="$">$ (Budget-friendly)</SelectItem>
+                        <SelectItem value="$$">$$ (Mid-range)</SelectItem>
+                        <SelectItem value="$$$">$$$ (Premium)</SelectItem>
+                      </SelectContent>
+                    </Select>
+                  </div>
+
+                  <div>
+                    <Label htmlFor="cuisine_type">Cuisine Type</Label>
+                    <Select
+                      value={formData.cuisine_type || ''}
+                      onValueChange={(value) => handleInputChange('cuisine_type', value)}
+                    >
+                      <SelectTrigger>
+                        <SelectValue placeholder="Select cuisine" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="Mexican">Mexican</SelectItem>
+                        <SelectItem value="Chinese">Chinese</SelectItem>
+                        <SelectItem value="Italian">Italian</SelectItem>
+                        <SelectItem value="French">French</SelectItem>
+                        <SelectItem value="Japanese">Japanese</SelectItem>
+                        <SelectItem value="Indian">Indian</SelectItem>
+                        <SelectItem value="Thai">Thai</SelectItem>
+                        <SelectItem value="American">American</SelectItem>
+                        <SelectItem value="Mediterranean">Mediterranean</SelectItem>
+                        <SelectItem value="Korean">Korean</SelectItem>
+                        <SelectItem value="Vietnamese">Vietnamese</SelectItem>
+                        <SelectItem value="Greek">Greek</SelectItem>
+                        <SelectItem value="Spanish">Spanish</SelectItem>
+                        <SelectItem value="Turkish">Turkish</SelectItem>
+                        <SelectItem value="Lebanese">Lebanese</SelectItem>
+                      </SelectContent>
+                    </Select>
+                  </div>
+
+                  <div>
+                    <Label>Food Specialties</Label>
+                    <div className="text-xs text-muted-foreground mb-2">
+                      Current: {formData.food_specialties?.join(', ') || 'None selected'}
+                    </div>
+                    <Select
+                      onValueChange={(value) => {
+                        const current = formData.food_specialties || [];
+                        if (!current.includes(value)) {
+                          handleInputChange('food_specialties', [...current, value]);
+                        }
+                      }}
+                    >
+                      <SelectTrigger>
+                        <SelectValue placeholder="Add food specialty" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="Pizza">Pizza</SelectItem>
+                        <SelectItem value="Burger">Burger</SelectItem>
+                        <SelectItem value="Steak">Steak</SelectItem>
+                        <SelectItem value="Pasta">Pasta</SelectItem>
+                        <SelectItem value="Sushi">Sushi</SelectItem>
+                        <SelectItem value="Tacos">Tacos</SelectItem>
+                        <SelectItem value="BBQ">BBQ</SelectItem>
+                        <SelectItem value="Seafood">Seafood</SelectItem>
+                        <SelectItem value="Chicken">Chicken</SelectItem>
+                        <SelectItem value="Salad">Salad</SelectItem>
+                        <SelectItem value="Sandwich">Sandwich</SelectItem>
+                        <SelectItem value="Noodles">Noodles</SelectItem>
+                        <SelectItem value="Curry">Curry</SelectItem>
+                        <SelectItem value="Soup">Soup</SelectItem>
+                        <SelectItem value="Dessert">Dessert</SelectItem>
+                      </SelectContent>
+                    </Select>
+                    {formData.food_specialties && formData.food_specialties.length > 0 && (
+                      <div className="flex flex-wrap gap-1 mt-2">
+                        {formData.food_specialties.map((specialty) => (
+                          <span
+                            key={specialty}
+                            className="inline-flex items-center px-2 py-1 rounded-full text-xs bg-primary/10 text-primary cursor-pointer hover:bg-primary/20"
+                            onClick={() => {
+                              const updated = formData.food_specialties?.filter(s => s !== specialty) || [];
+                              handleInputChange('food_specialties', updated);
+                            }}
+                          >
+                            {specialty} ×
+                          </span>
+                        ))}
+                      </div>
+                    )}
+                  </div>
+                </div>
+
+                <div className="grid grid-cols-1 gap-4">
+                  <div>
+                    <Label>Drink Specialties</Label>
+                    <div className="text-xs text-muted-foreground mb-2">
+                      Current: {formData.drink_specialties?.join(', ') || 'None selected'}
+                    </div>
+                    <Select
+                      onValueChange={(value) => {
+                        const current = formData.drink_specialties || [];
+                        if (!current.includes(value)) {
+                          handleInputChange('drink_specialties', [...current, value]);
+                        }
+                      }}
+                    >
+                      <SelectTrigger>
+                        <SelectValue placeholder="Add drink specialty" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="Craft Beer">Craft Beer</SelectItem>
+                        <SelectItem value="Wine">Wine</SelectItem>
+                        <SelectItem value="Cocktails">Cocktails</SelectItem>
+                        <SelectItem value="Whiskey">Whiskey</SelectItem>
+                        <SelectItem value="Vodka">Vodka</SelectItem>
+                        <SelectItem value="Gin">Gin</SelectItem>
+                        <SelectItem value="Rum">Rum</SelectItem>
+                        <SelectItem value="Tequila">Tequila</SelectItem>
+                        <SelectItem value="Coffee">Coffee</SelectItem>
+                        <SelectItem value="Tea">Tea</SelectItem>
+                        <SelectItem value="Smoothies">Smoothies</SelectItem>
+                        <SelectItem value="Fresh Juice">Fresh Juice</SelectItem>
+                        <SelectItem value="Soft Drinks">Soft Drinks</SelectItem>
+                      </SelectContent>
+                    </Select>
+                    {formData.drink_specialties && formData.drink_specialties.length > 0 && (
+                      <div className="flex flex-wrap gap-1 mt-2">
+                        {formData.drink_specialties.map((specialty) => (
+                          <span
+                            key={specialty}
+                            className="inline-flex items-center px-2 py-1 rounded-full text-xs bg-primary/10 text-primary cursor-pointer hover:bg-primary/20"
+                            onClick={() => {
+                              const updated = formData.drink_specialties?.filter(s => s !== specialty) || [];
+                              handleInputChange('drink_specialties', updated);
+                            }}
+                          >
+                            {specialty} ×
+                          </span>
+                        ))}
+                      </div>
+                    )}
+                  </div>
                 </div>
               </div>
             </TabsContent>
