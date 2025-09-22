@@ -59,6 +59,10 @@ const getAllCountries = () => {
       allCountries.add(country.name);
     });
   });
+  
+  // Ensure Vietnam is explicitly included
+  allCountries.add('Vietnam');
+  
   return Array.from(allCountries).sort();
 };
 
