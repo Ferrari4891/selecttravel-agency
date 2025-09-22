@@ -12,6 +12,19 @@ export const useLocationData = (initialRegion = '', initialCountry = '', initial
   const [customCities, setCustomCities] = useState<string[]>([]);
   const { getCustomCities } = useCustomCities();
 
+  // Sync internal state when initial props change (controlled usage)
+  useEffect(() => {
+    if (initialRegion !== undefined) setSelectedRegion(initialRegion);
+  }, [initialRegion]);
+
+  useEffect(() => {
+    if (initialCountry !== undefined) setSelectedCountry(initialCountry);
+  }, [initialCountry]);
+
+  useEffect(() => {
+    if (initialCity !== undefined) setSelectedCity(initialCity);
+  }, [initialCity]);
+
   // Get available options based on current selection
   const regions = useMemo(() => Object.keys(regionData), []);
   
