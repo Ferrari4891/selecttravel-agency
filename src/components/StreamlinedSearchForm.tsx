@@ -204,7 +204,7 @@ export const StreamlinedSearchForm: React.FC<StreamlinedSearchFormProps> = ({
       <CardContent className="space-y-6">
         {/* Search Type Selection */}
         <div className="space-y-4 text-center">
-          <label className="text-lg font-semibold block">Select By:</label>
+          <label className="text-xl font-bold block">Select By:</label>
           <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
             {[
               { type: 'price' as SearchType, label: 'Price Level' },
@@ -216,10 +216,21 @@ export const StreamlinedSearchForm: React.FC<StreamlinedSearchFormProps> = ({
                 key={option.type}
                 variant={searchType === option.type ? "default" : "outline"}
                 onClick={() => handleSearchTypeChange(option.type)}
-                className="h-auto p-4 flex flex-col items-center justify-center gap-2 text-center"
+                className={`h-auto p-4 flex flex-col items-center justify-center gap-2 text-center min-h-[80px] ${
+                  searchType === option.type ? 'bg-green-600 hover:bg-green-700 text-white' : ''
+                }`}
               >
                 {getSearchIcon(option.type)}
-                <span className="text-sm font-medium">{option.label}</span>
+                <span className="text-xs font-medium leading-tight text-center break-words">
+                  {option.label.split(' ').length > 1 ? (
+                    <>
+                      {option.label.split(' ')[0]}<br />
+                      {option.label.split(' ').slice(1).join(' ')}
+                    </>
+                  ) : (
+                    option.label
+                  )}
+                </span>
               </Button>
             ))}
           </div>
@@ -228,8 +239,8 @@ export const StreamlinedSearchForm: React.FC<StreamlinedSearchFormProps> = ({
         {/* Location Selection */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div className="space-y-2">
-            <label className="text-base font-semibold flex items-center gap-1">
-              <MapPin className="h-4 w-4" />
+            <label className="text-xl font-bold flex items-center gap-1">
+              <MapPin className="h-5 w-5" />
               Country
             </label>
             <Select value={selectedCountry} onValueChange={handleCountrySelect}>
@@ -247,7 +258,7 @@ export const StreamlinedSearchForm: React.FC<StreamlinedSearchFormProps> = ({
           </div>
 
           <div className="space-y-2">
-            <label className="text-base font-semibold">City</label>
+            <label className="text-xl font-bold">City</label>
             <div className="space-y-2">
               {selectedCountry && cities.length > 0 && (
                 <Select value={selectedCity} onValueChange={handleCitySelect}>
@@ -283,7 +294,7 @@ export const StreamlinedSearchForm: React.FC<StreamlinedSearchFormProps> = ({
 
         {/* Search Criteria Selection */}
         <div className="space-y-2">
-          <label className="text-sm font-medium">
+          <label className="text-xl font-bold">
             {searchType === 'price' && 'Price Level'}
             {searchType === 'cuisine' && 'Cuisine Type'}
             {searchType === 'food' && 'Food Specialty'}
@@ -354,7 +365,7 @@ export const StreamlinedSearchForm: React.FC<StreamlinedSearchFormProps> = ({
 
         {/* Result Count */}
         <div className="space-y-2">
-          <label className="text-sm font-medium">Number of Results</label>
+          <label className="text-xl font-bold">Number of Results</label>
           <Select value={resultCount.toString()} onValueChange={(value) => setResultCount(parseInt(value))}>
             <SelectTrigger className="w-32">
               <SelectValue />
