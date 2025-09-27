@@ -360,54 +360,88 @@ export const StreamlinedSearchForm: React.FC<StreamlinedSearchFormProps> = ({
                           Request "{citySearch}" to be added
                         </Button>
                       </DialogTrigger>
-                      <DialogContent className="sm:max-w-md">
-                        <DialogHeader>
-                          <DialogTitle>Request New City: {citySearch}</DialogTitle>
-                        </DialogHeader>
-                        <div className="space-y-4">
-                          <p className="text-sm text-muted-foreground">
-                            Help us grow! Request that we add "{citySearch}, {selectedCountry}" to our database. 
-                            We'll notify you when it's added with businesses.
-                          </p>
-                          <div className="space-y-3">
-                            <Input
-                              placeholder="Your email address (required)*"
-                              type="email"
-                              value={requestForm.email}
-                              onChange={(e) => setRequestForm(prev => ({ ...prev, email: e.target.value }))}
-                              required
-                            />
-                            <Input
-                              placeholder="Your name (optional)"
-                              value={requestForm.name}
-                              onChange={(e) => setRequestForm(prev => ({ ...prev, name: e.target.value }))}
-                            />
-                            <Textarea
-                              placeholder="Why would you like this city added? (optional)"
-                              value={requestForm.message}
-                              onChange={(e) => setRequestForm(prev => ({ ...prev, message: e.target.value }))}
-                              rows={3}
-                            />
+                      <DialogContent className="sm:max-w-lg">
+                        <DialogHeader className="space-y-3">
+                          <DialogTitle className="text-xl font-semibold">Request New City</DialogTitle>
+                          <div className="text-center p-3 bg-blue-50 rounded-lg border border-blue-200">
+                            <p className="text-sm font-medium text-blue-900">
+                              {citySearch}, {selectedCountry}
+                            </p>
+                            <p className="text-xs text-blue-700 mt-1">
+                              Help us expand our network to this location
+                            </p>
                           </div>
-                          <div className="flex gap-2">
+                        </DialogHeader>
+                        
+                        <div className="space-y-6 pt-2">
+                          <p className="text-sm text-gray-600 leading-relaxed">
+                            We'll add this city to our database and notify you via email when businesses become available in this location.
+                          </p>
+                          
+                          <div className="space-y-4">
+                            <div className="space-y-2">
+                              <label className="text-sm font-medium text-gray-700">
+                                Email Address <span className="text-red-500">*</span>
+                              </label>
+                              <Input
+                                placeholder="Enter your email address"
+                                type="email"
+                                value={requestForm.email}
+                                onChange={(e) => setRequestForm(prev => ({ ...prev, email: e.target.value }))}
+                                className="h-10"
+                                required
+                              />
+                            </div>
+                            
+                            <div className="space-y-2">
+                              <label className="text-sm font-medium text-gray-700">
+                                Your Name <span className="text-gray-400 text-xs">(optional)</span>
+                              </label>
+                              <Input
+                                placeholder="Enter your name"
+                                value={requestForm.name}
+                                onChange={(e) => setRequestForm(prev => ({ ...prev, name: e.target.value }))}
+                                className="h-10"
+                              />
+                            </div>
+                            
+                            <div className="space-y-2">
+                              <label className="text-sm font-medium text-gray-700">
+                                Additional Comments <span className="text-gray-400 text-xs">(optional)</span>
+                              </label>
+                              <Textarea
+                                placeholder="Tell us why this city would be valuable to add..."
+                                value={requestForm.message}
+                                onChange={(e) => setRequestForm(prev => ({ ...prev, message: e.target.value }))}
+                                rows={3}
+                                className="resize-none"
+                              />
+                            </div>
+                          </div>
+                          
+                          <div className="flex flex-col sm:flex-row gap-3 pt-4 border-t">
                             <Button
                               onClick={handleCityRequest}
-                              disabled={isSubmittingRequest || !requestForm.email}
-                              className="flex-1"
+                              disabled={isSubmittingRequest || !requestForm.email.trim()}
+                              className="flex-1 h-11"
                             >
                               {isSubmittingRequest ? (
                                 <>
                                   <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                                  Submitting...
+                                  Submitting Request...
                                 </>
                               ) : (
-                                'Submit Request'
+                                <>
+                                  <Plus className="mr-2 h-4 w-4" />
+                                  Submit Request
+                                </>
                               )}
                             </Button>
                             <Button
                               variant="outline"
                               onClick={() => setShowCityRequest(false)}
                               disabled={isSubmittingRequest}
+                              className="h-11 px-6"
                             >
                               Cancel
                             </Button>
