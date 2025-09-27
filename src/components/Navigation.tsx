@@ -174,7 +174,7 @@ const { user } = useAuth();
         {/* Logo */}
         <div className="flex items-center gap-3 h-12 px-2 sm:px-3 hover:bg-gray-100 transition-colors cursor-pointer touch-target flex-1" onClick={() => window.location.href = '/'}>
           <img src={logo55Plus} alt="55+ Guides Logo" className="h-8 w-8 flex-shrink-0" />
-          <span className="font-bold text-black text-xl sm:text-3xl whitespace-nowrap flex-1 text-center">55plusguides.com</span>
+          <span className="font-bold text-green-600 text-lg sm:text-2xl whitespace-nowrap flex-1 text-center">55plusguides.com</span>
         </div>
 
       {/* Hamburger Menu */}
