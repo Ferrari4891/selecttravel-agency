@@ -8,6 +8,7 @@ import { useLocationData } from '@/hooks/useLocationData';
 import { useCustomCities } from '@/hooks/useCustomCities';
 import { regionData } from '@/data/locationData';
 import { Loader2, MapPin, DollarSign, Utensils, Wine, Coffee } from 'lucide-react';
+import restaurantGuideLogo from '@/assets/restaurant-guide-logo.png';
 
 type SearchType = 'price' | 'cuisine' | 'food' | 'drink';
 
@@ -185,6 +186,13 @@ export const StreamlinedSearchForm: React.FC<StreamlinedSearchFormProps> = ({
   return (
     <Card className="w-full max-w-4xl mx-auto">
       <CardHeader className="text-center space-y-4">
+        <div className="flex justify-center">
+          <img 
+            src={restaurantGuideLogo}
+            alt="Restaurant Guide Logo" 
+            className="h-20 w-auto"
+          />
+        </div>
         <div className="flex justify-center">
           <img 
             src="/lovable-uploads/logo-black.png" 
