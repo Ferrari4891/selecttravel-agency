@@ -203,9 +203,9 @@ export const StreamlinedSearchForm: React.FC<StreamlinedSearchFormProps> = ({
 
       <CardContent className="space-y-6">
         {/* Search Type Selection */}
-        <div className="space-y-3">
-          <label className="text-sm font-medium">Select By:</label>
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-2">
+        <div className="space-y-4 text-center">
+          <label className="text-lg font-semibold block">Select By:</label>
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
             {[
               { type: 'price' as SearchType, label: 'Price Level' },
               { type: 'cuisine' as SearchType, label: 'Cuisine' },
@@ -216,10 +216,10 @@ export const StreamlinedSearchForm: React.FC<StreamlinedSearchFormProps> = ({
                 key={option.type}
                 variant={searchType === option.type ? "default" : "outline"}
                 onClick={() => handleSearchTypeChange(option.type)}
-                className="h-auto p-3 flex flex-col items-center justify-center gap-1 text-center"
+                className="h-auto p-4 flex flex-col items-center justify-center gap-2 text-center"
               >
                 {getSearchIcon(option.type)}
-                <span className="text-xs font-medium">{option.label}</span>
+                <span className="text-sm font-medium">{option.label}</span>
               </Button>
             ))}
           </div>
@@ -228,17 +228,17 @@ export const StreamlinedSearchForm: React.FC<StreamlinedSearchFormProps> = ({
         {/* Location Selection */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div className="space-y-2">
-            <label className="text-sm font-medium flex items-center gap-1">
-              <MapPin className="h-3 w-3" />
+            <label className="text-base font-semibold flex items-center gap-1">
+              <MapPin className="h-4 w-4" />
               Country
             </label>
             <Select value={selectedCountry} onValueChange={handleCountrySelect}>
-              <SelectTrigger>
+              <SelectTrigger className="text-base">
                 <SelectValue placeholder="Select country" />
               </SelectTrigger>
               <SelectContent className="max-h-60 overflow-y-auto">
                 {allCountries.map(country => (
-                  <SelectItem key={country} value={country}>
+                  <SelectItem key={country} value={country} className="text-base">
                     {country}
                   </SelectItem>
                 ))}
@@ -247,23 +247,16 @@ export const StreamlinedSearchForm: React.FC<StreamlinedSearchFormProps> = ({
           </div>
 
           <div className="space-y-2">
-            <label className="text-sm font-medium">City</label>
+            <label className="text-base font-semibold">City</label>
             <div className="space-y-2">
-              <Input
-                placeholder="Type city name or select from list..."
-                value={citySearch}
-                onChange={(e) => handleCitySearch(e.target.value)}
-                disabled={!selectedCountry}
-              />
-              
               {selectedCountry && cities.length > 0 && (
                 <Select value={selectedCity} onValueChange={handleCitySelect}>
-                  <SelectTrigger>
-                    <SelectValue placeholder="Or select from existing cities" />
+                  <SelectTrigger className="text-base">
+                    <SelectValue placeholder="Select from existing cities" />
                   </SelectTrigger>
                   <SelectContent className="max-h-60 overflow-y-auto">
                     {cities.map(city => (
-                      <SelectItem key={city} value={city}>
+                      <SelectItem key={city} value={city} className="text-base">
                         {city}
                       </SelectItem>
                     ))}
@@ -271,8 +264,16 @@ export const StreamlinedSearchForm: React.FC<StreamlinedSearchFormProps> = ({
                 </Select>
               )}
               
+              <Input
+                placeholder="Or type city name..."
+                value={citySearch}
+                onChange={(e) => handleCitySearch(e.target.value)}
+                disabled={!selectedCountry}
+                className="text-base"
+              />
+              
               {citySearch && !cities.includes(citySearch) && selectedCountry && (
-                <div className="text-xs text-muted-foreground p-2 bg-muted rounded">
+                <div className="text-sm text-muted-foreground p-2 bg-muted rounded">
                   Will add "{citySearch}" as a new city for {selectedCountry}
                 </div>
               )}
