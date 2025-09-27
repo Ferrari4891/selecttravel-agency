@@ -95,6 +95,7 @@ export const StreamlinedSearchForm: React.FC<StreamlinedSearchFormProps> = ({
     name: '',
     message: ''
   });
+  const [businessSuggestions, setBusinessSuggestions] = useState<string[]>(['']);
   const [isSubmittingRequest, setIsSubmittingRequest] = useState(false);
 
   const allCountries = useMemo(() => getAllCountries(), []);
@@ -188,6 +189,22 @@ export const StreamlinedSearchForm: React.FC<StreamlinedSearchFormProps> = ({
     onReset();
   };
 
+  const addBusinessField = () => {
+    setBusinessSuggestions([...businessSuggestions, '']);
+  };
+
+  const removeBusinessField = (index: number) => {
+    if (businessSuggestions.length > 1) {
+      setBusinessSuggestions(businessSuggestions.filter((_, i) => i !== index));
+    }
+  };
+
+  const updateBusinessSuggestion = (index: number, value: string) => {
+    const updated = [...businessSuggestions];
+    updated[index] = value;
+    setBusinessSuggestions(updated);
+  };
+
   const handleCityRequest = async () => {
     if (!requestForm.email || !citySearch || !selectedCountry) {
       toast({
@@ -198,9 +215,12 @@ export const StreamlinedSearchForm: React.FC<StreamlinedSearchFormProps> = ({
       return;
     }
 
+    const validBusinessSuggestions = businessSuggestions.filter(business => business.trim());
+
     setIsSubmittingRequest(true);
     try {
-      const { error } = await supabase
+      // Submit city request
+      const { error: cityError } = await supabase
         .from('city_requests')
         .insert({
           city_name: citySearch,
@@ -210,15 +230,32 @@ export const StreamlinedSearchForm: React.FC<StreamlinedSearchFormProps> = ({
           request_message: requestForm.message || null
         });
 
-      if (error) throw error;
+      if (cityError) throw cityError;
+
+      // Submit business suggestions if any
+      if (validBusinessSuggestions.length > 0) {
+        const businessSuggestionsText = `Business suggestions for ${citySearch}, ${selectedCountry}:\n${validBusinessSuggestions.map((business, index) => `${index + 1}. ${business}`).join('\n')}`;
+        
+        const { error: messageError } = await supabase
+          .from('messages')
+          .insert({
+            author_name: requestForm.name || 'Anonymous',
+            author_email: requestForm.email,
+            message_text: businessSuggestionsText,
+            message_type: 'business_suggestion'
+          });
+
+        if (messageError) throw messageError;
+      }
 
       toast({
         title: "Request Submitted!",
-        description: `Thank you! We'll notify you at ${requestForm.email} when ${citySearch} is added with businesses.`
+        description: `Thank you! We'll notify you at ${requestForm.email} when ${citySearch} is added${validBusinessSuggestions.length > 0 ? ' with your suggested businesses' : ''}.`
       });
 
       setShowCityRequest(false);
       setRequestForm({ email: '', name: '', message: '' });
+      setBusinessSuggestions(['']);
     } catch (error) {
       console.error('Error submitting city request:', error);
       toast({
@@ -411,6 +448,45 @@ export const StreamlinedSearchForm: React.FC<StreamlinedSearchFormProps> = ({
                               />
                             </div>
                             
+                            <div className="space-y-2">
+                              <label className="text-sm font-medium text-gray-700">
+                                Business Suggestions <span className="text-gray-400 text-xs">(optional)</span>
+                              </label>
+                              <div className="space-y-2">
+                                {businessSuggestions.map((business, index) => (
+                                  <div key={index} className="flex gap-2">
+                                    <Input
+                                      placeholder={`Business name ${index + 1}`}
+                                      value={business}
+                                      onChange={(e) => updateBusinessSuggestion(index, e.target.value)}
+                                      className="flex-1"
+                                    />
+                                    {businessSuggestions.length > 1 && (
+                                      <Button
+                                        type="button"
+                                        variant="outline"
+                                        size="sm"
+                                        onClick={() => removeBusinessField(index)}
+                                        className="px-3"
+                                      >
+                                        ×
+                                      </Button>
+                                    )}
+                                  </div>
+                                ))}
+                                <Button
+                                  type="button"
+                                  variant="outline"
+                                  size="sm"
+                                  onClick={addBusinessField}
+                                  className="w-full"
+                                >
+                                  <Plus className="h-4 w-4 mr-2" />
+                                  Add Another Business
+                                </Button>
+                              </div>
+                            </div>
+
                             <div className="space-y-2">
                               <label className="text-sm font-medium text-gray-700">
                                 Additional Comments <span className="text-gray-400 text-xs">(optional)</span>
