@@ -512,6 +512,48 @@ export type Database = {
         }
         Relationships: []
       }
+      city_requests: {
+        Row: {
+          admin_notes: string | null
+          city_name: string
+          country: string
+          created_at: string
+          id: string
+          notified_at: string | null
+          request_message: string | null
+          requester_email: string
+          requester_name: string | null
+          status: string
+          updated_at: string
+        }
+        Insert: {
+          admin_notes?: string | null
+          city_name: string
+          country: string
+          created_at?: string
+          id?: string
+          notified_at?: string | null
+          request_message?: string | null
+          requester_email: string
+          requester_name?: string | null
+          status?: string
+          updated_at?: string
+        }
+        Update: {
+          admin_notes?: string | null
+          city_name?: string
+          country?: string
+          created_at?: string
+          id?: string
+          notified_at?: string | null
+          request_message?: string | null
+          requester_email?: string
+          requester_name?: string | null
+          status?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
       collection_shares: {
         Row: {
           collection_id: string

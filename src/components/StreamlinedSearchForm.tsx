@@ -4,10 +4,14 @@ import { Button } from '@/components/ui/button';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Badge } from '@/components/ui/badge';
 import { Input } from '@/components/ui/input';
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
+import { Textarea } from '@/components/ui/textarea';
 import { useLocationData } from '@/hooks/useLocationData';
 import { useCustomCities } from '@/hooks/useCustomCities';
 import { regionData } from '@/data/locationData';
-import { Loader2, MapPin, DollarSign, Utensils, Wine, Coffee } from 'lucide-react';
+import { Loader2, MapPin, DollarSign, Utensils, Wine, Coffee, Plus } from 'lucide-react';
+import { supabase } from '@/integrations/supabase/client';
+import { useToast } from '@/hooks/use-toast';
 import restaurantGuideLogo from '@/assets/restaurant-guide-logo.png';
 
 type SearchType = 'price' | 'cuisine' | 'food' | 'drink';
@@ -73,6 +77,7 @@ export const StreamlinedSearchForm: React.FC<StreamlinedSearchFormProps> = ({
   onReset,
   isLoading
 }) => {
+  const { toast } = useToast();
   const [searchType, setSearchType] = useState<SearchType>('price');
   const [selectedCountry, setSelectedCountry] = useState('');
   const [citySearch, setCitySearch] = useState('');
@@ -82,6 +87,15 @@ export const StreamlinedSearchForm: React.FC<StreamlinedSearchFormProps> = ({
   const [foodSpecialty, setFoodSpecialty] = useState('');
   const [drinkSpecialty, setDrinkSpecialty] = useState('');
   const [resultCount, setResultCount] = useState(25);
+  
+  // City request dialog state
+  const [showCityRequest, setShowCityRequest] = useState(false);
+  const [requestForm, setRequestForm] = useState({
+    email: '',
+    name: '',
+    message: ''
+  });
+  const [isSubmittingRequest, setIsSubmittingRequest] = useState(false);
 
   const allCountries = useMemo(() => getAllCountries(), []);
   const { addCustomCity, isLoading: isAddingCity } = useCustomCities();
@@ -172,6 +186,49 @@ export const StreamlinedSearchForm: React.FC<StreamlinedSearchFormProps> = ({
     setDrinkSpecialty('');
     setResultCount(25);
     onReset();
+  };
+
+  const handleCityRequest = async () => {
+    if (!requestForm.email || !citySearch || !selectedCountry) {
+      toast({
+        title: "Missing Information",
+        description: "Please fill in all required fields.",
+        variant: "destructive"
+      });
+      return;
+    }
+
+    setIsSubmittingRequest(true);
+    try {
+      const { error } = await supabase
+        .from('city_requests')
+        .insert({
+          city_name: citySearch,
+          country: selectedCountry,
+          requester_email: requestForm.email,
+          requester_name: requestForm.name || null,
+          request_message: requestForm.message || null
+        });
+
+      if (error) throw error;
+
+      toast({
+        title: "Request Submitted!",
+        description: `Thank you! We'll notify you at ${requestForm.email} when ${citySearch} is added with businesses.`
+      });
+
+      setShowCityRequest(false);
+      setRequestForm({ email: '', name: '', message: '' });
+    } catch (error) {
+      console.error('Error submitting city request:', error);
+      toast({
+        title: "Error",
+        description: "Failed to submit request. Please try again.",
+        variant: "destructive"
+      });
+    } finally {
+      setIsSubmittingRequest(false);
+    }
   };
 
   const getSearchIcon = (type: SearchType) => {
@@ -277,19 +334,90 @@ export const StreamlinedSearchForm: React.FC<StreamlinedSearchFormProps> = ({
               
               <div className="text-center text-base font-medium text-gray-600">OR</div>
               
-              <Input
-                placeholder="Type city name..."
-                value={citySearch}
-                onChange={(e) => handleCitySearch(e.target.value)}
-                disabled={!selectedCountry}
-                className="text-base"
-              />
-              
-              {citySearch && !cities.includes(citySearch) && selectedCountry && (
-                <div className="text-sm text-muted-foreground p-2 bg-muted rounded">
-                  Will add "{citySearch}" as a new city for {selectedCountry}
-                </div>
-              )}
+              <div className="space-y-2">
+                <Input
+                  placeholder="Type city name..."
+                  value={citySearch}
+                  onChange={(e) => handleCitySearch(e.target.value)}
+                  disabled={!selectedCountry}
+                  className="text-base"
+                />
+                
+                {citySearch && !cities.includes(citySearch) && selectedCountry && (
+                  <div className="space-y-2">
+                    <div className="text-sm text-muted-foreground p-2 bg-muted rounded">
+                      "{citySearch}" is not in our database yet.
+                    </div>
+                    <Dialog open={showCityRequest} onOpenChange={setShowCityRequest}>
+                      <DialogTrigger asChild>
+                        <Button 
+                          variant="outline" 
+                          size="sm" 
+                          className="w-full"
+                          onClick={() => setShowCityRequest(true)}
+                        >
+                          <Plus className="h-4 w-4 mr-2" />
+                          Request "{citySearch}" to be added
+                        </Button>
+                      </DialogTrigger>
+                      <DialogContent className="sm:max-w-md">
+                        <DialogHeader>
+                          <DialogTitle>Request New City: {citySearch}</DialogTitle>
+                        </DialogHeader>
+                        <div className="space-y-4">
+                          <p className="text-sm text-muted-foreground">
+                            Help us grow! Request that we add "{citySearch}, {selectedCountry}" to our database. 
+                            We'll notify you when it's added with businesses.
+                          </p>
+                          <div className="space-y-3">
+                            <Input
+                              placeholder="Your email address (required)*"
+                              type="email"
+                              value={requestForm.email}
+                              onChange={(e) => setRequestForm(prev => ({ ...prev, email: e.target.value }))}
+                              required
+                            />
+                            <Input
+                              placeholder="Your name (optional)"
+                              value={requestForm.name}
+                              onChange={(e) => setRequestForm(prev => ({ ...prev, name: e.target.value }))}
+                            />
+                            <Textarea
+                              placeholder="Why would you like this city added? (optional)"
+                              value={requestForm.message}
+                              onChange={(e) => setRequestForm(prev => ({ ...prev, message: e.target.value }))}
+                              rows={3}
+                            />
+                          </div>
+                          <div className="flex gap-2">
+                            <Button
+                              onClick={handleCityRequest}
+                              disabled={isSubmittingRequest || !requestForm.email}
+                              className="flex-1"
+                            >
+                              {isSubmittingRequest ? (
+                                <>
+                                  <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                                  Submitting...
+                                </>
+                              ) : (
+                                'Submit Request'
+                              )}
+                            </Button>
+                            <Button
+                              variant="outline"
+                              onClick={() => setShowCityRequest(false)}
+                              disabled={isSubmittingRequest}
+                            >
+                              Cancel
+                            </Button>
+                          </div>
+                        </div>
+                      </DialogContent>
+                    </Dialog>
+                  </div>
+                )}
+              </div>
             </div>
           </div>
         </div>
