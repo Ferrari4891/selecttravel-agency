@@ -501,11 +501,11 @@ export const StreamlinedSearchForm: React.FC<StreamlinedSearchFormProps> = ({
                             </div>
                           </div>
                           
-                          <div className="flex flex-col sm:flex-row gap-3 pt-4 border-t">
+                          <div className="flex flex-col gap-3 pt-4 border-t">
                             <Button
                               onClick={handleCityRequest}
                               disabled={isSubmittingRequest || !requestForm.email.trim()}
-                              className="flex-1 h-11"
+                              className="w-full h-11"
                             >
                               {isSubmittingRequest ? (
                                 <>
@@ -523,7 +523,7 @@ export const StreamlinedSearchForm: React.FC<StreamlinedSearchFormProps> = ({
                               variant="outline"
                               onClick={() => setShowCityRequest(false)}
                               disabled={isSubmittingRequest}
-                              className="h-11 px-6"
+                              className="w-full h-11"
                             >
                               Cancel
                             </Button>
