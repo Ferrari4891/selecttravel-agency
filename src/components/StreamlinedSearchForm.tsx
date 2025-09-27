@@ -193,13 +193,6 @@ export const StreamlinedSearchForm: React.FC<StreamlinedSearchFormProps> = ({
             className="h-20 w-auto"
           />
         </div>
-        <div className="flex justify-center">
-          <img 
-            src="/lovable-uploads/logo-black.png" 
-            alt="Logo" 
-            className="h-12 w-auto"
-          />
-        </div>
         <div>
           <h1 className="text-2xl font-bold">Find Your Perfect Experience</h1>
           <p className="text-muted-foreground">
