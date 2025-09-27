@@ -400,7 +400,7 @@ export const StreamlinedSearchForm: React.FC<StreamlinedSearchFormProps> = ({
           <Button
             onClick={handleSubmit}
             disabled={!isComplete || isLoading || isAddingCity}
-            className="flex-1"
+            className={`flex-1 ${isComplete && !isLoading && !isAddingCity ? 'bg-green-600 hover:bg-green-700 text-white' : ''}`}
             size="lg"
           >
             {isLoading || isAddingCity ? (
