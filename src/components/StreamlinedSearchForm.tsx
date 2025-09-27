@@ -24,7 +24,7 @@ interface SearchFilters {
   cuisineType?: string;
   foodSpecialty?: string;
   drinkSpecialty?: string;
-  resultCount: number;
+  resultCount: number | 'All';
 }
 
 interface StreamlinedSearchFormProps {
@@ -56,7 +56,7 @@ const drinkOptions = [
   'Tequila', 'Coffee', 'Tea', 'Smoothies', 'Fresh Juice', 'Soft Drinks'
 ];
 
-const resultCountOptions = [10, 25, 50, 100];
+const resultCountOptions = [1, 5, 10, 'All'];
 
 const getAllCountries = () => {
   const allCountries = new Set<string>();
@@ -86,7 +86,7 @@ export const StreamlinedSearchForm: React.FC<StreamlinedSearchFormProps> = ({
   const [cuisineType, setCuisineType] = useState('');
   const [foodSpecialty, setFoodSpecialty] = useState('');
   const [drinkSpecialty, setDrinkSpecialty] = useState('');
-  const [resultCount, setResultCount] = useState(25);
+  const [resultCount, setResultCount] = useState<number | 'All'>(5);
   
   // City request dialog state
   const [showCityRequest, setShowCityRequest] = useState(false);
@@ -184,7 +184,7 @@ export const StreamlinedSearchForm: React.FC<StreamlinedSearchFormProps> = ({
     setCuisineType('');
     setFoodSpecialty('');
     setDrinkSpecialty('');
-    setResultCount(25);
+    setResultCount(5);
     onReset();
   };
 
@@ -536,7 +536,7 @@ export const StreamlinedSearchForm: React.FC<StreamlinedSearchFormProps> = ({
         {/* Result Count */}
         <div className="space-y-2">
           <label className="text-xl font-bold">Number of Results</label>
-          <Select value={resultCount.toString()} onValueChange={(value) => setResultCount(parseInt(value))}>
+          <Select value={resultCount.toString()} onValueChange={(value) => setResultCount(value === 'All' ? 'All' : parseInt(value))}>
             <SelectTrigger className="w-32">
               <SelectValue />
             </SelectTrigger>
