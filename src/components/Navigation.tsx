@@ -172,9 +172,9 @@ const { user } = useAuth();
     <div className="w-full bg-white/95 backdrop-blur-sm shadow-sm sticky top-0 z-50">
       <div className="flex items-center gap-2 sm:gap-4 justify-between px-4 py-4">
         {/* Logo */}
-        <div className="flex items-center gap-3 h-12 px-2 sm:px-3 hover:bg-gray-100 transition-colors cursor-pointer touch-target" onClick={() => window.location.href = '/'}>
-          <img src={logo55Plus} alt="55+ Guides Logo" className="h-8 w-8" />
-          <span className="font-semibold text-black text-sm sm:text-base whitespace-nowrap">55plusguides.com</span>
+        <div className="flex items-center gap-3 h-12 px-2 sm:px-3 hover:bg-gray-100 transition-colors cursor-pointer touch-target flex-1" onClick={() => window.location.href = '/'}>
+          <img src={logo55Plus} alt="55+ Guides Logo" className="h-8 w-8 flex-shrink-0" />
+          <span className="font-bold text-black text-xl sm:text-3xl whitespace-nowrap flex-1 text-center">55plusguides.com</span>
         </div>
 
       {/* Hamburger Menu */}
