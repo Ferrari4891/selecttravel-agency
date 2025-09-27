@@ -8,6 +8,7 @@ import { useAuth } from '@/contexts/AuthContext';
 import { useLanguage } from '@/contexts/LanguageContext';
 import { useToast } from '@/hooks/use-toast';
 import { supabase } from '@/integrations/supabase/client';
+import logo55Plus from '@/assets/55plus-logo.png';
 
 interface NavigationProps {
   onMenuStateChange?: (isOpen: boolean) => void;
@@ -172,8 +173,8 @@ const { user } = useAuth();
       <div className="flex items-center gap-2 sm:gap-4 justify-between px-4 py-4">
         {/* Logo */}
         <div className="flex items-center gap-3 h-12 px-2 sm:px-3 hover:bg-gray-100 transition-colors cursor-pointer touch-target" onClick={() => window.location.href = '/'}>
-          <Globe className="h-6 w-6 text-black" />
-          <span className="font-semibold text-black text-sm sm:text-base whitespace-nowrap">seniorstravelagency.com</span>
+          <img src={logo55Plus} alt="55+ Guides Logo" className="h-8 w-8" />
+          <span className="font-semibold text-black text-sm sm:text-base whitespace-nowrap">55plusguides.com</span>
         </div>
 
       {/* Hamburger Menu */}
