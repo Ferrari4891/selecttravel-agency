@@ -275,8 +275,10 @@ export const StreamlinedSearchForm: React.FC<StreamlinedSearchFormProps> = ({
                 </Select>
               )}
               
+              <div className="text-center text-base font-medium text-gray-600">OR</div>
+              
               <Input
-                placeholder="Or type city name..."
+                placeholder="Type city name..."
                 value={citySearch}
                 onChange={(e) => handleCitySearch(e.target.value)}
                 disabled={!selectedCountry}
