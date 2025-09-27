@@ -344,20 +344,26 @@ export const StreamlinedSearchForm: React.FC<StreamlinedSearchFormProps> = ({
                 />
                 
                 {citySearch && !cities.includes(citySearch) && selectedCountry && (
-                  <div className="space-y-2">
-                    <div className="text-sm text-muted-foreground p-2 bg-muted rounded">
-                      "{citySearch}" is not in our database yet.
+                  <div className="space-y-3">
+                    <div className="text-sm text-muted-foreground p-3 bg-amber-50 border border-amber-200 rounded-lg">
+                      <div className="font-medium text-amber-800">City not found</div>
+                      <div className="text-amber-700">"{citySearch}" is not in our database yet.</div>
                     </div>
                     <Dialog open={showCityRequest} onOpenChange={setShowCityRequest}>
                       <DialogTrigger asChild>
                         <Button 
                           variant="outline" 
                           size="sm" 
-                          className="w-full"
+                          className="w-full h-12 flex flex-col items-center justify-center gap-1 border-2 border-dashed border-blue-300 hover:border-blue-400 hover:bg-blue-50 transition-colors"
                           onClick={() => setShowCityRequest(true)}
                         >
-                          <Plus className="h-4 w-4 mr-2" />
-                          Request "{citySearch}" to be added
+                          <div className="flex items-center gap-2">
+                            <Plus className="h-4 w-4" />
+                            <span className="font-medium">Request City</span>
+                          </div>
+                          <span className="text-xs text-muted-foreground">
+                            Add "{citySearch.length > 15 ? `${citySearch.substring(0, 15)}...` : citySearch}" to database
+                          </span>
                         </Button>
                       </DialogTrigger>
                       <DialogContent className="sm:max-w-lg">
