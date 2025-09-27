@@ -403,8 +403,8 @@ export const StreamlinedSearchForm: React.FC<StreamlinedSearchFormProps> = ({
                           </span>
                         </Button>
                       </DialogTrigger>
-                      <DialogContent className="sm:max-w-lg">
-                        <DialogHeader className="space-y-3">
+                      <DialogContent className="sm:max-w-lg max-h-[85vh] flex flex-col">
+                        <DialogHeader className="space-y-3 flex-shrink-0">
                           <DialogTitle className="text-xl font-semibold">Request New City</DialogTitle>
                           <div className="text-center p-3 bg-blue-50 rounded-lg border border-blue-200">
                             <p className="text-sm font-medium text-blue-900">
@@ -416,7 +416,7 @@ export const StreamlinedSearchForm: React.FC<StreamlinedSearchFormProps> = ({
                           </div>
                         </DialogHeader>
                         
-                        <div className="space-y-6 pt-2">
+                        <div className="flex-1 overflow-y-auto space-y-6 pt-2 px-1">
                           <p className="text-sm text-gray-600 leading-relaxed">
                             We'll add this city to our database and notify you via email when businesses become available in this location.
                           </p>
@@ -500,34 +500,34 @@ export const StreamlinedSearchForm: React.FC<StreamlinedSearchFormProps> = ({
                               />
                             </div>
                           </div>
-                          
-                          <div className="flex flex-col gap-3 pt-4 border-t">
-                            <Button
-                              onClick={handleCityRequest}
-                              disabled={isSubmittingRequest || !requestForm.email.trim()}
-                              className="w-full h-11"
-                            >
-                              {isSubmittingRequest ? (
-                                <>
-                                  <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                                  Submitting Request...
-                                </>
-                              ) : (
-                                <>
-                                  <Plus className="mr-2 h-4 w-4" />
-                                  Submit Request
-                                </>
-                              )}
-                            </Button>
-                            <Button
-                              variant="outline"
-                              onClick={() => setShowCityRequest(false)}
-                              disabled={isSubmittingRequest}
-                              className="w-full h-11"
-                            >
-                              Cancel
-                            </Button>
-                          </div>
+                        </div>
+                        
+                        <div className="flex flex-col gap-3 pt-4 border-t flex-shrink-0 bg-white">
+                          <Button
+                            onClick={handleCityRequest}
+                            disabled={isSubmittingRequest || !requestForm.email.trim()}
+                            className="w-full h-11"
+                          >
+                            {isSubmittingRequest ? (
+                              <>
+                                <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                                Submitting Request...
+                              </>
+                            ) : (
+                              <>
+                                <Plus className="mr-2 h-4 w-4" />
+                                Submit Request
+                              </>
+                            )}
+                          </Button>
+                          <Button
+                            variant="outline"
+                            onClick={() => setShowCityRequest(false)}
+                            disabled={isSubmittingRequest}
+                            className="w-full h-11"
+                          >
+                            Cancel
+                          </Button>
                         </div>
                       </DialogContent>
                     </Dialog>
