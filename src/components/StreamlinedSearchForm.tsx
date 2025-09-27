@@ -251,7 +251,7 @@ export const StreamlinedSearchForm: React.FC<StreamlinedSearchFormProps> = ({
           />
         </div>
         <div>
-          <h1 className="text-2xl font-bold">Find Your Perfect Experience</h1>
+          <h1 className="text-2xl font-bold">Get what you're looking for</h1>
           <p className="text-muted-foreground">
             Choose your selection method and discover exactly what you're looking for
           </p>
@@ -576,10 +576,10 @@ export const StreamlinedSearchForm: React.FC<StreamlinedSearchFormProps> = ({
             {isLoading || isAddingCity ? (
               <>
                 <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                SELECTING...
+                GETTING...
               </>
             ) : (
-              'SELECT'
+              'GET NOW!'
             )}
           </Button>
           <Button
