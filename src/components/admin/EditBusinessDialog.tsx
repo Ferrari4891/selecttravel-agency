@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { supabase } from '@/integrations/supabase/client';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
@@ -108,17 +108,24 @@ export const EditBusinessDialog: React.FC<EditBusinessDialogProps> = ({
     club: clubTypes
   };
 
-useEffect(() => {
-  console.log('EditBusinessDialog: business prop changed:', business?.business_name);
-  if (business) {
-    console.log('Setting form data with business:', business);
-    setFormData(business);
-  } else if (!isOpen) {
-    // Only clear when the dialog is actually closing to avoid wiping user input during transient nulls
-    console.log('Clearing form data');
-    setFormData({});
-  }
-}, [business, isOpen]);
+  const lastBusinessIdRef = useRef<string | null>(null);
+
+  useEffect(() => {
+    console.log('EditBusinessDialog: business prop changed:', business?.business_name);
+    // Only set form data when a NEW business (by id) is passed in while open
+    if (isOpen && business && business.id !== lastBusinessIdRef.current) {
+      console.log('Setting form data with business:', business);
+      setFormData(business);
+      lastBusinessIdRef.current = business.id;
+    }
+
+    // Clear the form only when the dialog is actually closing
+    if (!isOpen && !business) {
+      console.log('Clearing form data');
+      setFormData({});
+      lastBusinessIdRef.current = null;
+    }
+  }, [isOpen, business?.id]);
 
   const handleInputChange = (field: keyof Business, value: any) => {
     console.log('Field change:', field, '->', value);
