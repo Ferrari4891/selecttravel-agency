@@ -261,7 +261,7 @@ export const EditBusinessDialog: React.FC<EditBusinessDialogProps> = ({
         title: "Success",
         description: "Business updated successfully.",
       });
-      onClose();
+      // Don't call onClose here - let the parent handle closing
     } catch (error) {
       console.error('Error updating business:', error);
       toast({
