@@ -65,7 +65,7 @@ interface EditBusinessDialogProps {
   business: Business | null;
   isOpen: boolean;
   onClose: () => void;
-  onBusinessUpdated: () => void;
+  onBusinessUpdated: (updated: Business) => void;
 }
 
 export const EditBusinessDialog: React.FC<EditBusinessDialogProps> = ({
@@ -225,7 +225,7 @@ export const EditBusinessDialog: React.FC<EditBusinessDialogProps> = ({
       }
 
       console.log('Update successful, calling onBusinessUpdated');
-      onBusinessUpdated();
+      onBusinessUpdated(data as Business);
       toast({
         title: "Success",
         description: "Business updated successfully.",

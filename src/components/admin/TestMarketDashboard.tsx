@@ -134,7 +134,8 @@ export const TestMarketDashboard = () => {
     }
   };
 
-  const handleBusinessUpdated = () => {
+  const handleBusinessUpdated = (updated: any) => {
+    setBusinesses(prev => prev.map(b => b.id === updated.id ? { ...b, ...updated } : b));
     fetchTestMarketBusinesses(); // Refresh the list
     setEditDialogOpen(false);
     setSelectedBusiness(null);
