@@ -398,13 +398,9 @@ export const BusinessManagement = () => {
         onBusinessUpdated={(updated) => {
           console.log('BusinessManagement: onBusinessUpdated called');
           setBusinesses(prev => prev.map(b => b.id === updated.id ? { ...b, ...updated } : b));
-          // Update the editingBusiness state to keep the dialog in sync
-          if (editingBusiness && editingBusiness.id === updated.id) {
-            setEditingBusiness({ ...editingBusiness, ...updated });
-          }
-          // Close the dialog after successful update
-          setIsEditDialogOpen(false);
-          setEditingBusiness(null);
+          // Update the editingBusiness state with the saved data
+          setEditingBusiness({ ...editingBusiness, ...updated } as Business);
+          // DON'T close the dialog - let user see the saved values
         }}
       />
 

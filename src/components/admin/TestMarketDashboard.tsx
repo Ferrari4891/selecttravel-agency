@@ -138,9 +138,9 @@ export const TestMarketDashboard = () => {
     console.log('TestMarketDashboard: handleBusinessUpdated called');
     setBusinesses(prev => prev.map(b => b.id === updated.id ? { ...b, ...updated } : b));
     setFilteredBusinesses(prev => prev.map(b => b.id === updated.id ? { ...b, ...updated } : b));
-    // Close the dialog after successful update
-    setEditDialogOpen(false);
-    setSelectedBusiness(null);
+    // Update the selectedBusiness state with the saved data  
+    setSelectedBusiness({ ...selectedBusiness, ...updated });
+    // DON'T close the dialog - let user see the saved values
   };
 
   const getSubscriptionStats = () => {
