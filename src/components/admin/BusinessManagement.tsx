@@ -407,9 +407,7 @@ export const BusinessManagement = () => {
         <DialogContent className="max-w-md">
           <DialogHeader>
             <DialogTitle>Manage Subscription</DialogTitle>
-            <DialogDescription>
-              Update subscription tier and status for {selectedBusiness?.business_name}
-            </DialogDescription>
+            <DialogDescription>Update subscription tier and status for {selectedBusiness?.business_name}</DialogDescription>
           </DialogHeader>
           
           {selectedBusiness && (

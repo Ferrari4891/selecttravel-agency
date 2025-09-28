@@ -172,8 +172,6 @@ export const EditBusinessDialog: React.FC<EditBusinessDialogProps> = ({
       } else if (sanitizedForm.subscription_status === 'active' && !sanitizedForm.subscription_tier) {
         sanitizedForm.subscription_tier = 'basic';
       }
-      if (sanitizedForm.subscription_tier === 'economy') sanitizedForm.subscription_tier = 'basic';
-      if (sanitizedForm.subscription_tier === 'firstclass') sanitizedForm.subscription_tier = 'premium';
 
       const changedKeys = Object.keys(sanitizedForm).filter((k) => (sanitizedForm as any)[k] !== (business as any)[k]);
       console.log('Submitting business update for business id', business.id, 'changed fields:', changedKeys);
@@ -190,7 +188,9 @@ export const EditBusinessDialog: React.FC<EditBusinessDialogProps> = ({
         'business_hours','admin_notes','rejection_reason','gift_cards_enabled'
       ] as const;
 
-      for (const key of allowedKeys) {
+      // Only include changed and allowed keys in the update payload
+      for (const key of changedKeys) {
+        if (!allowedKeys.includes(key as any)) continue;
         let value = (sanitizedForm as any)[key];
         if (typeof value === 'string') {
           value = value.trim();
@@ -198,6 +198,14 @@ export const EditBusinessDialog: React.FC<EditBusinessDialogProps> = ({
         }
         (updatePayload as any)[key] = value;
       }
+
+      if (Object.keys(updatePayload).length === 0) {
+        console.log('No changes detected, skipping update');
+        setLoading(false);
+        onClose();
+        return;
+      }
+
 
       const { data, error } = await supabase
         .from('businesses')
