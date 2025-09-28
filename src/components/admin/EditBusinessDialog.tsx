@@ -278,7 +278,10 @@ useEffect(() => {
   if (!business) return null;
 
   return (
-    <Dialog open={isOpen} onOpenChange={onClose}>
+    <Dialog open={isOpen} onOpenChange={(open) => {
+      // Only trigger onClose when the dialog is actually closing
+      if (!open) onClose();
+    }}>
       <DialogContent className="max-w-4xl max-h-[90vh] overflow-y-auto">
         <DialogHeader>
           <DialogTitle>Edit Business: {business.business_name}</DialogTitle>

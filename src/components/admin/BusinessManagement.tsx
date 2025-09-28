@@ -83,6 +83,21 @@ export const BusinessManagement = () => {
       if (error) throw error;
       console.log('Fetched businesses:', data?.length, 'businesses');
       setBusinesses(data || []);
+
+      // Debug: inspect the server values for the currently edited business
+      if (data && editingBusiness?.id) {
+        const refreshed = data.find(b => b.id === editingBusiness.id);
+        if (refreshed) {
+          console.log('Server values for editing business:', {
+            id: refreshed.id,
+            business_specific_type: refreshed.business_specific_type,
+            cuisine_type: refreshed.cuisine_type,
+            food_specialties: refreshed.food_specialties,
+            drink_specialties: refreshed.drink_specialties,
+            business_type: refreshed.business_type,
+          });
+        }
+      }
     } catch (error) {
       console.error('Error fetching businesses:', error);
       toast({
@@ -396,10 +411,17 @@ export const BusinessManagement = () => {
           setEditingBusiness(null);
         }}
         onBusinessUpdated={(updated) => {
-          console.log('BusinessManagement: onBusinessUpdated called');
+          console.log('BusinessManagement: onBusinessUpdated called', {
+            updated_id: updated.id,
+            business_specific_type: updated.business_specific_type,
+            cuisine_type: updated.cuisine_type,
+            food_specialties: updated.food_specialties,
+            drink_specialties: updated.drink_specialties,
+            business_type: updated.business_type,
+          });
           setBusinesses(prev => prev.map(b => b.id === updated.id ? { ...b, ...updated } : b));
-          // Update the editingBusiness state with the saved data
-          setEditingBusiness({ ...editingBusiness, ...updated } as Business);
+          // Update the editingBusiness state with the saved data using functional update
+          setEditingBusiness(prev => (prev && prev.id === updated.id) ? ({ ...prev, ...updated } as Business) : prev);
           // DON'T close the dialog - let user see the saved values
         }}
       />
