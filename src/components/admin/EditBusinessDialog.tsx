@@ -141,9 +141,7 @@ export const EditBusinessDialog: React.FC<EditBusinessDialogProps> = ({
 
     setLoading(true);
     try {
-      console.log('Submitting business update with data:', formData);
-      
-      // Check admin status before updating
+      // Preparing to submit business update
       const { data: userData, error: authError } = await supabase.auth.getUser();
       if (authError || !userData?.user) {
         throw new Error('Not authenticated');
@@ -176,16 +174,39 @@ export const EditBusinessDialog: React.FC<EditBusinessDialogProps> = ({
       if (sanitizedForm.subscription_tier === 'economy') sanitizedForm.subscription_tier = 'basic';
       if (sanitizedForm.subscription_tier === 'firstclass') sanitizedForm.subscription_tier = 'premium';
 
-      console.log('Sanitized form data:', sanitizedForm);
+      const changedKeys = Object.keys(sanitizedForm).filter((k) => (sanitizedForm as any)[k] !== (business as any)[k]);
+      console.log('Submitting business update for business id', business.id, 'changed fields:', changedKeys);
+
+      const updatePayload: any = {};
+      const allowedKeys = [
+        'business_name','business_type','business_subcategory','business_category','business_subtype','business_specific_type',
+        'description','website','price_level','cuisine_type','food_specialties','drink_specialties',
+        'phone','email','address','city','state','country','postal_code',
+        'status','subscription_tier','subscription_status','subscription_end_date',
+        'facebook','instagram','twitter','linkedin',
+        'logo_url','image_1_url','image_2_url','image_3_url',
+        'wheelchair_access','extended_hours','gluten_free','low_noise','public_transport','pet_friendly','outdoor_seating','senior_discounts','online_booking','air_conditioned',
+        'business_hours','admin_notes','rejection_reason','gift_cards_enabled'
+      ] as const;
+
+      for (const key of allowedKeys) {
+        let value = (sanitizedForm as any)[key];
+        if (typeof value === 'string') {
+          value = value.trim();
+          if (value === '') value = null; // normalize empty strings to null for optional fields
+        }
+        (updatePayload as any)[key] = value;
+      }
 
       const { data, error } = await supabase
         .from('businesses')
-        .update(sanitizedForm)
+        .update(updatePayload)
         .eq('id', business.id)
         .select()
         .maybeSingle();
 
-      console.log('Update result:', { data, error });
+
+      console.log('Update result status:', error ? 'error' : 'success');
 
       if (error) throw error;
 
