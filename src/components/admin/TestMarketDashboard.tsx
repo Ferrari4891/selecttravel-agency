@@ -135,10 +135,9 @@ export const TestMarketDashboard = () => {
   };
 
   const handleBusinessUpdated = (updated: any) => {
+    console.log('TestMarketDashboard: handleBusinessUpdated called');
     setBusinesses(prev => prev.map(b => b.id === updated.id ? { ...b, ...updated } : b));
-    fetchTestMarketBusinesses(); // Refresh the list
-    setEditDialogOpen(false);
-    setSelectedBusiness(null);
+    setFilteredBusinesses(prev => prev.map(b => b.id === updated.id ? { ...b, ...updated } : b));
   };
 
   const getSubscriptionStats = () => {

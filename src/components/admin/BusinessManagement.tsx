@@ -396,9 +396,8 @@ export const BusinessManagement = () => {
           setEditingBusiness(null);
         }}
         onBusinessUpdated={(updated) => {
+          console.log('BusinessManagement: onBusinessUpdated called');
           setBusinesses(prev => prev.map(b => b.id === updated.id ? { ...b, ...updated } : b));
-          setIsEditDialogOpen(false);
-          setEditingBusiness(null);
         }}
       />
 
