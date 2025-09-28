@@ -221,6 +221,19 @@ export const EditBusinessDialog: React.FC<EditBusinessDialogProps> = ({
         (updatePayload as any).cuisine_type = finalCuisine;
       }
 
+      // Force-include critical classification fields from the form to ensure persistence
+      const criticalKeys: (keyof Business)[] = ['business_subtype', 'business_specific_type', 'cuisine_type'];
+      for (const k of criticalKeys) {
+        if (k in sanitizedForm) {
+          let v: any = (sanitizedForm as any)[k];
+          if (typeof v === 'string') {
+            v = v.trim();
+            if (v === '') v = null;
+          }
+          (updatePayload as any)[k] = v;
+        }
+      }
+
       if (Object.keys(updatePayload).length === 0) {
         console.log('No changes detected, skipping update');
         setLoading(false);
@@ -228,6 +241,7 @@ export const EditBusinessDialog: React.FC<EditBusinessDialogProps> = ({
         return;
       }
 
+      console.log('Final update payload:', updatePayload);
 
       const { data, error } = await supabase
         .from('businesses')
@@ -235,7 +249,6 @@ export const EditBusinessDialog: React.FC<EditBusinessDialogProps> = ({
         .eq('id', business.id)
         .select()
         .maybeSingle();
-
 
       console.log('Update result status:', error ? 'error' : 'success');
 
