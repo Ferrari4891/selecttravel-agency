@@ -138,6 +138,10 @@ export const TestMarketDashboard = () => {
     console.log('TestMarketDashboard: handleBusinessUpdated called');
     setBusinesses(prev => prev.map(b => b.id === updated.id ? { ...b, ...updated } : b));
     setFilteredBusinesses(prev => prev.map(b => b.id === updated.id ? { ...b, ...updated } : b));
+    // Also update the selectedBusiness state to keep the dialog in sync
+    if (selectedBusiness && selectedBusiness.id === updated.id) {
+      setSelectedBusiness(updated);
+    }
   };
 
   const getSubscriptionStats = () => {

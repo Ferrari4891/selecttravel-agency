@@ -398,6 +398,10 @@ export const BusinessManagement = () => {
         onBusinessUpdated={(updated) => {
           console.log('BusinessManagement: onBusinessUpdated called');
           setBusinesses(prev => prev.map(b => b.id === updated.id ? { ...b, ...updated } : b));
+          // Also update the editingBusiness state to keep the dialog in sync
+          if (editingBusiness && editingBusiness.id === updated.id) {
+            setEditingBusiness({ ...editingBusiness, ...updated });
+          }
         }}
       />
 
