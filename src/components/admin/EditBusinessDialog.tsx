@@ -175,7 +175,10 @@ export const EditBusinessDialog: React.FC<EditBusinessDialogProps> = ({
 
       const changedKeys = Object.keys(sanitizedForm).filter((k) => (sanitizedForm as any)[k] !== (business as any)[k]);
       console.log('Submitting business update for business id', business.id, 'changed fields:', changedKeys);
+      console.log('Form values - subtype:', sanitizedForm.business_subtype, 'specific_type:', sanitizedForm.business_specific_type, 'cuisine:', sanitizedForm.cuisine_type);
+      console.log('Original values - subtype:', business.business_subtype, 'specific_type:', business.business_specific_type, 'cuisine:', business.cuisine_type);
 
+      // Build update payload - always include critical fields
       const updatePayload: any = {};
       const allowedKeys = [
         'business_name','business_type','business_subcategory','business_category','business_subtype','business_specific_type',
@@ -188,60 +191,49 @@ export const EditBusinessDialog: React.FC<EditBusinessDialogProps> = ({
         'business_hours','admin_notes','rejection_reason','gift_cards_enabled'
       ] as const;
 
-      // Only include changed and allowed keys in the update payload
+      // Include all changed fields
       for (const key of changedKeys) {
         if (!allowedKeys.includes(key as any)) continue;
         let value = (sanitizedForm as any)[key];
         if (typeof value === 'string') {
           value = value.trim();
-          if (value === '') value = null; // normalize empty strings to null for optional fields
+          if (value === '') value = null;
         }
         (updatePayload as any)[key] = value;
       }
 
-      // Ensure derived fields are persisted even if not edited directly
-      const category = (sanitizedForm.business_category ?? business.business_category) || '';
-      const subtype = (sanitizedForm.business_subtype ?? business.business_subtype) || '';
-      const specific = (sanitizedForm.business_specific_type ?? business.business_specific_type) || '';
+      // ALWAYS include these critical fields regardless of change detection
+      const criticalFields = ['business_subtype', 'business_specific_type', 'cuisine_type'];
+      for (const field of criticalFields) {
+        let value = (sanitizedForm as any)[field];
+        if (typeof value === 'string') {
+          value = value.trim();
+          if (value === '') value = null;
+        }
+        (updatePayload as any)[field] = value;
+      }
 
-      // Derive business_type consistently with BusinessProfile formatting
+      // Ensure derived fields are persisted
+      const category = (sanitizedForm.business_category ?? business.business_category) || '';
+      const subtype = (updatePayload.business_subtype ?? business.business_subtype) || '';
+      const specific = (updatePayload.business_specific_type ?? business.business_specific_type) || '';
+
+      // Derive business_type consistently
       let derivedBusinessType = '';
       if (category) {
         derivedBusinessType = `${category}${subtype ? ` - ${subtype}` : ''}${specific ? ` (${specific})` : ''}`;
       }
-      if (derivedBusinessType && derivedBusinessType !== business.business_type) {
-        (updatePayload as any).business_type = derivedBusinessType;
+      if (derivedBusinessType) {
+        updatePayload.business_type = derivedBusinessType;
       }
 
-      // If cuisine_type not explicitly set, infer from specific type for restaurants/fast-food
-      const explicitCuisine = sanitizedForm.cuisine_type ?? null;
+      // Handle cuisine_type logic
+      const explicitCuisine = updatePayload.cuisine_type ?? null;
       const inferredCuisine = (category === 'restaurant' || category === 'fast-food') && specific ? specific : null;
       const finalCuisine = explicitCuisine ?? inferredCuisine;
-      if ((finalCuisine ?? null) !== (business.cuisine_type ?? null)) {
-        (updatePayload as any).cuisine_type = finalCuisine;
-      }
+      updatePayload.cuisine_type = finalCuisine;
 
-      // Force-include critical classification fields from the form regardless of change detection
-      const criticalKeys: (keyof Business)[] = ['business_subtype', 'business_specific_type', 'cuisine_type'];
-      for (const k of criticalKeys) {
-        // Always include these fields if they exist in the form
-        let v: any = (sanitizedForm as any)[k];
-        if (typeof v === 'string') {
-          v = v.trim();
-          if (v === '') v = null;
-        }
-        // Always set these critical fields in the payload
-        (updatePayload as any)[k] = v;
-      }
-
-      if (Object.keys(updatePayload).length === 0) {
-        console.log('No changes detected, skipping update');
-        setLoading(false);
-        onClose();
-        return;
-      }
-
-      console.log('Final update payload:', updatePayload);
+      console.log('Final update payload:', JSON.stringify(updatePayload, null, 2));
 
       const { data, error } = await supabase
         .from('businesses')
