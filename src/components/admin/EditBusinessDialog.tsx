@@ -251,7 +251,11 @@ export const EditBusinessDialog: React.FC<EditBusinessDialogProps> = ({
         throw new Error('No data returned from update operation');
       }
 
-      console.log('Update successful, calling onBusinessUpdated');
+      console.log('Update successful, calling onBusinessUpdated with:', data);
+      
+      // Update the form data with the returned values to reflect the save
+      setFormData(data as Business);
+      
       onBusinessUpdated(data as Business);
       toast({
         title: "Success",
