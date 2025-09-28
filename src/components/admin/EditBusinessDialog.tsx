@@ -109,8 +109,13 @@ export const EditBusinessDialog: React.FC<EditBusinessDialogProps> = ({
   };
 
   useEffect(() => {
+    console.log('EditBusinessDialog: business prop changed:', business?.business_name);
     if (business) {
+      console.log('Setting form data with business:', business);
       setFormData(business);
+    } else {
+      console.log('Clearing form data');
+      setFormData({});
     }
   }, [business]);
 
@@ -136,6 +141,26 @@ export const EditBusinessDialog: React.FC<EditBusinessDialogProps> = ({
 
     setLoading(true);
     try {
+      console.log('Submitting business update with data:', formData);
+      
+      // Check admin status before updating
+      const { data: userData, error: authError } = await supabase.auth.getUser();
+      if (authError || !userData?.user) {
+        throw new Error('Not authenticated');
+      }
+      
+      const { data: profile, error: profileError } = await supabase
+        .from('profiles')
+        .select('is_admin')
+        .eq('user_id', userData.user.id)
+        .maybeSingle();
+        
+      if (profileError || !profile?.is_admin) {
+        throw new Error('Insufficient admin privileges');
+      }
+      
+      console.log('Admin verification successful');
+      
       const sanitizedForm: any = { ...formData };
 
       // Map legacy app values to DB-enforced values
@@ -151,6 +176,8 @@ export const EditBusinessDialog: React.FC<EditBusinessDialogProps> = ({
       if (sanitizedForm.subscription_tier === 'economy') sanitizedForm.subscription_tier = 'basic';
       if (sanitizedForm.subscription_tier === 'firstclass') sanitizedForm.subscription_tier = 'premium';
 
+      console.log('Sanitized form data:', sanitizedForm);
+
       const { data, error } = await supabase
         .from('businesses')
         .update(sanitizedForm)
@@ -158,8 +185,16 @@ export const EditBusinessDialog: React.FC<EditBusinessDialogProps> = ({
         .select()
         .maybeSingle();
 
+      console.log('Update result:', { data, error });
+
       if (error) throw error;
 
+      if (!data) {
+        console.error('No data returned from update operation');
+        throw new Error('No data returned from update operation');
+      }
+
+      console.log('Update successful, calling onBusinessUpdated');
       onBusinessUpdated();
       toast({
         title: "Success",

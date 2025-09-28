@@ -73,6 +73,7 @@ export const BusinessManagement = () => {
   }, []);
 
   const fetchBusinesses = async () => {
+    console.log('fetchBusinesses called - refreshing business list');
     try {
       const { data, error } = await supabase
         .from('businesses')
@@ -80,6 +81,7 @@ export const BusinessManagement = () => {
         .order('created_at', { ascending: false });
 
       if (error) throw error;
+      console.log('Fetched businesses:', data?.length, 'businesses');
       setBusinesses(data || []);
     } catch (error) {
       console.error('Error fetching businesses:', error);

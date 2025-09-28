@@ -80,6 +80,7 @@ export const TestMarketDashboard = () => {
   }, [selectedCity]);
 
   const fetchTestMarketBusinesses = async () => {
+    console.log('fetchTestMarketBusinesses called for city:', selectedCity);
     try {
       const { data, error } = await supabase
         .from('businesses')
@@ -88,6 +89,7 @@ export const TestMarketDashboard = () => {
         .order('created_at', { ascending: false });
 
       if (error) throw error;
+      console.log('Fetched test market businesses:', data?.length, 'businesses for', selectedCity);
       setBusinesses(data || []);
       setFilteredBusinesses(data || []);
     } catch (error) {
