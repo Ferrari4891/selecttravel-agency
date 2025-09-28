@@ -108,16 +108,17 @@ export const EditBusinessDialog: React.FC<EditBusinessDialogProps> = ({
     club: clubTypes
   };
 
-  useEffect(() => {
-    console.log('EditBusinessDialog: business prop changed:', business?.business_name);
-    if (business) {
-      console.log('Setting form data with business:', business);
-      setFormData(business);
-    } else {
-      console.log('Clearing form data');
-      setFormData({});
-    }
-  }, [business]);
+useEffect(() => {
+  console.log('EditBusinessDialog: business prop changed:', business?.business_name);
+  if (business) {
+    console.log('Setting form data with business:', business);
+    setFormData(business);
+  } else if (!isOpen) {
+    // Only clear when the dialog is actually closing to avoid wiping user input during transient nulls
+    console.log('Clearing form data');
+    setFormData({});
+  }
+}, [business, isOpen]);
 
   const handleInputChange = (field: keyof Business, value: any) => {
     console.log('Field change:', field, '->', value);
