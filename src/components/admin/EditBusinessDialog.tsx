@@ -221,17 +221,17 @@ export const EditBusinessDialog: React.FC<EditBusinessDialogProps> = ({
         (updatePayload as any).cuisine_type = finalCuisine;
       }
 
-      // Force-include critical classification fields from the form to ensure persistence
+      // Force-include critical classification fields from the form regardless of change detection
       const criticalKeys: (keyof Business)[] = ['business_subtype', 'business_specific_type', 'cuisine_type'];
       for (const k of criticalKeys) {
-        if (k in sanitizedForm) {
-          let v: any = (sanitizedForm as any)[k];
-          if (typeof v === 'string') {
-            v = v.trim();
-            if (v === '') v = null;
-          }
-          (updatePayload as any)[k] = v;
+        // Always include these fields if they exist in the form
+        let v: any = (sanitizedForm as any)[k];
+        if (typeof v === 'string') {
+          v = v.trim();
+          if (v === '') v = null;
         }
+        // Always set these critical fields in the payload
+        (updatePayload as any)[k] = v;
       }
 
       if (Object.keys(updatePayload).length === 0) {
