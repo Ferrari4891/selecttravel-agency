@@ -52,7 +52,7 @@ const Index: React.FC = () => {
   const [searchParams, setSearchParams] = useState<StreamlinedSearchParams | null>(null);
   const [interfaceMode, setInterfaceMode] = useState<'voice' | 'touch'>('touch');
   const { searchBusinesses, isLoading } = useStreamlinedSearch();
-  const { isListening, speak } = useVoiceInterface();
+  const { isListening, speak, startListening, processVoiceCommand } = useVoiceInterface();
 
   const handleSearch = async (params: StreamlinedSearchParams) => {
     console.log('🚀 handleSearch called with:', params);
@@ -130,9 +130,18 @@ const Index: React.FC = () => {
     setInterfaceMode(mode);
     
     if (mode === 'voice') {
-      speak('Voice mode activated. You can now use voice commands to search for restaurants.');
+      speak("You can now use voice to GET WHAT YOU WANT! Try saying 'Find Italian restaurants in Paris' or 'Show me budget restaurants in Tokyo'");
     } else {
-      speak('Touch mode activated. Use the form to search for restaurants.');
+      speak("You can now use touch to GET WHAT YOU WANT!");
+    }
+  };
+
+  const handleVoiceSearch = () => {
+    if (interfaceMode === 'voice') {
+      speak("Listening for your restaurant search...");
+      startListening((command) => {
+        processVoiceCommand(command, handleSearch);
+      });
     }
   };
 
@@ -213,12 +222,25 @@ const Index: React.FC = () => {
                 isLoading={isLoading}
               />
               
+              {/* Voice Search Button */}
+              {interfaceMode === 'voice' && (
+                <div className="mt-4 text-center">
+                  <Button
+                    onClick={handleVoiceSearch}
+                    disabled={isListening}
+                    className="w-full bg-primary hover:bg-primary/90"
+                  >
+                    {isListening ? 'Listening...' : 'Start Voice Search'}
+                  </Button>
+                </div>
+              )}
+              
               {/* Voice status indicator */}
               {interfaceMode === 'voice' && isListening && (
                 <div className="mt-4 text-center">
                   <div className="inline-flex items-center gap-2 px-4 py-2 bg-primary/10 rounded-lg">
                     <div className="w-2 h-2 bg-red-500 rounded-full animate-pulse"></div>
-                    <span className="text-sm text-primary font-medium">Listening...</span>
+                    <span className="text-sm text-primary font-medium">Listening for your command...</span>
                   </div>
                 </div>
               )}

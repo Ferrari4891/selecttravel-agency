@@ -63,7 +63,7 @@ export const useVoiceInterface = () => {
     loadUserLanguagePreference();
   }, [user, i18n]);
 
-  const startListening = useCallback(() => {
+  const startListening = useCallback((onVoiceCommand?: (command: string) => void) => {
     if (!state.isSupported) {
       setState(prev => ({ ...prev, error: 'Speech recognition not supported' }));
       return;
@@ -73,8 +73,8 @@ export const useVoiceInterface = () => {
     const recognition = new SpeechRecognition();
 
     recognition.lang = i18n.language || 'en-US';
-    recognition.continuous = true;
-    recognition.interimResults = true;
+    recognition.continuous = false;
+    recognition.interimResults = false;
 
     recognition.onstart = () => {
       setState(prev => ({ ...prev, isListening: true, error: null }));
@@ -84,7 +84,7 @@ export const useVoiceInterface = () => {
       setState(prev => ({ ...prev, isListening: false }));
     };
 
-    recognition.onerror = (event) => {
+    recognition.onerror = (event: any) => {
       setState(prev => ({ 
         ...prev, 
         isListening: false, 
@@ -92,16 +92,20 @@ export const useVoiceInterface = () => {
       }));
     };
 
-    recognition.onresult = (event) => {
+    recognition.onresult = (event: any) => {
       const transcript = Array.from(event.results)
-        .map(result => result[0].transcript)
+        .map((result: any) => result[0].transcript)
         .join('');
       
-      // Process voice command here
-      console.log('Voice transcript:', transcript);
+      console.log('Voice command received:', transcript);
+      
+      if (onVoiceCommand) {
+        onVoiceCommand(transcript.toLowerCase());
+      }
     };
 
     recognition.start();
+    return recognition;
   }, [state.isSupported, i18n.language]);
 
   const stopListening = useCallback(() => {
@@ -117,6 +121,22 @@ export const useVoiceInterface = () => {
     const utterance = new SpeechSynthesisUtterance(text);
     utterance.lang = i18n.language || 'en-US';
     
+    // Set female voice
+    const voices = speechSynthesis.getVoices();
+    const femaleVoice = voices.find(voice => 
+      voice.name.toLowerCase().includes('female') ||
+      voice.name.toLowerCase().includes('zira') ||
+      voice.name.toLowerCase().includes('hazel') ||
+      voice.name.toLowerCase().includes('samantha') ||
+      voice.name.toLowerCase().includes('karen') ||
+      voice.name.toLowerCase().includes('susan') ||
+      voice.name.toLowerCase().includes('victoria')
+    );
+    
+    if (femaleVoice) {
+      utterance.voice = femaleVoice;
+    }
+    
     utterance.onstart = () => {
       setState(prev => ({ ...prev, isSpeaking: true }));
     };
@@ -128,11 +148,100 @@ export const useVoiceInterface = () => {
     speechSynthesis.speak(utterance);
   }, [i18n.language]);
 
+  // Process voice commands for restaurant search
+  const processVoiceCommand = useCallback((command: string, onSearch?: (params: any) => void) => {
+    const lowerCommand = command.toLowerCase();
+    
+    // Extract search parameters from voice command
+    const searchParams: any = {
+      searchType: 'cuisine',
+      resultCount: 10
+    };
+
+    // Extract cuisine types
+    if (lowerCommand.includes('italian')) searchParams.cuisineType = 'Italian';
+    else if (lowerCommand.includes('chinese')) searchParams.cuisineType = 'Chinese';
+    else if (lowerCommand.includes('french')) searchParams.cuisineType = 'French';
+    else if (lowerCommand.includes('japanese')) searchParams.cuisineType = 'Japanese';
+    else if (lowerCommand.includes('mexican')) searchParams.cuisineType = 'Mexican';
+    else if (lowerCommand.includes('indian')) searchParams.cuisineType = 'Indian';
+    else if (lowerCommand.includes('thai')) searchParams.cuisineType = 'Thai';
+    else if (lowerCommand.includes('american')) searchParams.cuisineType = 'American';
+
+    // Extract price levels
+    if (lowerCommand.includes('budget') || lowerCommand.includes('cheap')) {
+      searchParams.searchType = 'price';
+      searchParams.priceLevel = 'Budget';
+    } else if (lowerCommand.includes('expensive') || lowerCommand.includes('fine dining')) {
+      searchParams.searchType = 'price';
+      searchParams.priceLevel = 'Premium';
+    }
+
+    // Extract food specialties
+    if (lowerCommand.includes('pizza')) {
+      searchParams.searchType = 'food';
+      searchParams.foodSpecialty = 'Pizza';
+    } else if (lowerCommand.includes('burger')) {
+      searchParams.searchType = 'food';
+      searchParams.foodSpecialty = 'Burger';
+    } else if (lowerCommand.includes('steak')) {
+      searchParams.searchType = 'food';
+      searchParams.foodSpecialty = 'Steak';
+    }
+
+    // Extract drink specialties
+    if (lowerCommand.includes('wine') || lowerCommand.includes('wine bar')) {
+      searchParams.searchType = 'drink';
+      searchParams.drinkSpecialty = 'Wine';
+    } else if (lowerCommand.includes('cocktail') || lowerCommand.includes('bar')) {
+      searchParams.searchType = 'drink';
+      searchParams.drinkSpecialty = 'Cocktails';
+    }
+
+    // Extract location
+    let city = '';
+    let country = '';
+    
+    // Common cities
+    const cityPatterns = [
+      { pattern: /in paris/i, city: 'Paris', country: 'France' },
+      { pattern: /in london/i, city: 'London', country: 'United Kingdom' },
+      { pattern: /in new york/i, city: 'New York', country: 'United States' },
+      { pattern: /in tokyo/i, city: 'Tokyo', country: 'Japan' },
+      { pattern: /in rome/i, city: 'Rome', country: 'Italy' },
+      { pattern: /in madrid/i, city: 'Madrid', country: 'Spain' },
+      { pattern: /in berlin/i, city: 'Berlin', country: 'Germany' },
+      { pattern: /in barcelona/i, city: 'Barcelona', country: 'Spain' },
+      { pattern: /in amsterdam/i, city: 'Amsterdam', country: 'Netherlands' }
+    ];
+
+    for (const { pattern, city: c, country: co } of cityPatterns) {
+      if (pattern.test(lowerCommand)) {
+        city = c;
+        country = co;
+        break;
+      }
+    }
+
+    if (city && country) {
+      searchParams.city = city;
+      searchParams.country = country;
+      
+      if (onSearch) {
+        speak(`Searching for ${searchParams.cuisineType || searchParams.priceLevel || searchParams.foodSpecialty || searchParams.drinkSpecialty || 'restaurants'} in ${city}, ${country}`);
+        onSearch(searchParams);
+      }
+    } else {
+      speak("Please specify a city for your search. For example, say 'Find Italian restaurants in Paris'");
+    }
+  }, [speak]);
+
   return {
     ...state,
     startListening,
     stopListening,
     speak,
+    processVoiceCommand,
     isAuthenticated: !!user
   };
 };
