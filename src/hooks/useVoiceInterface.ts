@@ -3,6 +3,14 @@ import { useAuth } from '@/contexts/AuthContext';
 import { useTranslation } from 'react-i18next';
 import { supabase } from '@/integrations/supabase/client';
 
+// Extend the Window interface to include speech recognition
+declare global {
+  interface Window {
+    SpeechRecognition: any;
+    webkitSpeechRecognition: any;
+  }
+}
+
 interface VoiceInterfaceState {
   isListening: boolean;
   isSpeaking: boolean;
@@ -33,11 +41,16 @@ export const useVoiceInterface = () => {
       if (!user) return;
 
       try {
-        const { data: profile } = await supabase
+        const { data: profile, error } = await supabase
           .from('profiles')
           .select('language_preference')
           .eq('user_id', user.id)
-          .single();
+          .maybeSingle();
+
+        if (error) {
+          console.log('Error loading language preference:', error);
+          return;
+        }
 
         if (profile?.language_preference && profile.language_preference !== i18n.language) {
           await i18n.changeLanguage(profile.language_preference);
@@ -56,7 +69,7 @@ export const useVoiceInterface = () => {
       return;
     }
 
-    const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+    const SpeechRecognition = (window as any).SpeechRecognition || (window as any).webkitSpeechRecognition;
     const recognition = new SpeechRecognition();
 
     recognition.lang = i18n.language || 'en-US';

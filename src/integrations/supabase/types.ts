@@ -1366,6 +1366,7 @@ export type Database = {
           gender: string | null
           id: string
           is_admin: boolean | null
+          language_preference: string | null
           last_name: string | null
           member_since: string
           preferred_language: string | null
@@ -1382,6 +1383,7 @@ export type Database = {
           gender?: string | null
           id?: string
           is_admin?: boolean | null
+          language_preference?: string | null
           last_name?: string | null
           member_since?: string
           preferred_language?: string | null
@@ -1398,6 +1400,7 @@ export type Database = {
           gender?: string | null
           id?: string
           is_admin?: boolean | null
+          language_preference?: string | null
           last_name?: string | null
           member_since?: string
           preferred_language?: string | null

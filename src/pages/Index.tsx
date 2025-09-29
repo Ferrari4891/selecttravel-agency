@@ -8,6 +8,8 @@ import { Home } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 import { StreamlinedSearchForm } from '@/components/StreamlinedSearchForm';
 import { useStreamlinedSearch } from '@/hooks/useStreamlinedSearch';
+import { VoiceTouchToggle } from '@/components/VoiceTouchToggle';
+import { useVoiceInterface } from '@/hooks/useVoiceInterface';
 
 // Import hero images
 import heroBackground from '@/assets/hero-background.jpg';
@@ -48,7 +50,9 @@ const Index: React.FC = () => {
   const [businesses, setBusinesses] = useState<Business[]>([]);
   const [showResults, setShowResults] = useState(false);
   const [searchParams, setSearchParams] = useState<StreamlinedSearchParams | null>(null);
+  const [interfaceMode, setInterfaceMode] = useState<'voice' | 'touch'>('touch');
   const { searchBusinesses, isLoading } = useStreamlinedSearch();
+  const { isListening, speak } = useVoiceInterface();
 
   const handleSearch = async (params: StreamlinedSearchParams) => {
     console.log('🚀 handleSearch called with:', params);
@@ -122,6 +126,16 @@ const Index: React.FC = () => {
     setSearchParams(null);
   };
 
+  const handleModeChange = (mode: 'voice' | 'touch') => {
+    setInterfaceMode(mode);
+    
+    if (mode === 'voice') {
+      speak('Voice mode activated. You can now use voice commands to search for restaurants.');
+    } else {
+      speak('Touch mode activated. Use the form to search for restaurants.');
+    }
+  };
+
   const exportToCSV = () => {
     if (!searchParams) return;
     
@@ -182,13 +196,33 @@ const Index: React.FC = () => {
         
         {/* Main content */}
         <div className="relative z-10 min-h-screen flex flex-col">
+          {/* Voice/Touch Toggle */}
+          <div className="flex justify-center pt-4 px-4">
+            <VoiceTouchToggle 
+              onModeChange={handleModeChange}
+              className="mb-4"
+            />
+          </div>
+          
           {/* Form Section */}
           <div className="flex-1 flex items-center justify-center px-4 pt-4 pb-8">
-            <StreamlinedSearchForm
-              onSearch={handleSearch}
-              onReset={handleReset}
-              isLoading={isLoading}
-            />
+            <div className="w-full max-w-md">
+              <StreamlinedSearchForm
+                onSearch={handleSearch}
+                onReset={handleReset}
+                isLoading={isLoading}
+              />
+              
+              {/* Voice status indicator */}
+              {interfaceMode === 'voice' && isListening && (
+                <div className="mt-4 text-center">
+                  <div className="inline-flex items-center gap-2 px-4 py-2 bg-primary/10 rounded-lg">
+                    <div className="w-2 h-2 bg-red-500 rounded-full animate-pulse"></div>
+                    <span className="text-sm text-primary font-medium">Listening...</span>
+                  </div>
+                </div>
+              )}
+            </div>
           </div>
         </div>
 
