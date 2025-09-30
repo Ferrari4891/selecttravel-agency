@@ -53,7 +53,7 @@ const Index: React.FC = () => {
   const [searchParams, setSearchParams] = useState<StreamlinedSearchParams | null>(null);
   const [interfaceMode, setInterfaceMode] = useState<'voice' | 'touch'>('touch');
   const { searchBusinesses, isLoading } = useStreamlinedSearch();
-  const { isListening, speak, startListening, stopListening, processVoiceCommand, isAuthenticated } = useVoiceInterface();
+  const { isListening, speak, startListening, stopListening, stopSpeaking, processVoiceCommand, isAuthenticated } = useVoiceInterface();
   const { user } = useAuth();
 
   const handleSearch = async (params: StreamlinedSearchParams) => {
@@ -150,13 +150,15 @@ const Index: React.FC = () => {
   const handleStopVoice = () => {
     // Stop all voice activity immediately
     stopListening();
+    stopSpeaking();
     // Force stop all speech synthesis immediately
-    if (window.speechSynthesis.speaking) {
+    try {
+      if (window.speechSynthesis.speaking) {
+        window.speechSynthesis.cancel();
+      }
+      window.speechSynthesis.pause();
       window.speechSynthesis.cancel();
-    }
-    // Additional safety - pause and clear the queue
-    window.speechSynthesis.pause();
-    window.speechSynthesis.cancel();
+    } catch {}
   };
 
   const exportToCSV = () => {

@@ -29,6 +29,7 @@ export const useVoiceInterface = () => {
   const { user } = useAuth();
   const { i18n } = useTranslation();
   const recognitionRef = useRef<any>(null);
+  const utteranceRef = useRef<SpeechSynthesisUtterance | null>(null);
 
   // Check browser support
   useEffect(() => {
@@ -112,10 +113,24 @@ export const useVoiceInterface = () => {
 
   const stopListening = useCallback(() => {
     if (recognitionRef.current) {
-      recognitionRef.current.stop();
+      try {
+        recognitionRef.current.abort?.(); // abort is immediate
+      } catch (e) {
+        try { recognitionRef.current.stop?.(); } catch {}
+      }
       recognitionRef.current = null;
     }
     setState(prev => ({ ...prev, isListening: false }));
+  }, []);
+
+  const stopSpeaking = useCallback(() => {
+    try {
+      window.speechSynthesis.cancel();
+      window.speechSynthesis.pause();
+      window.speechSynthesis.cancel();
+    } catch {}
+    utteranceRef.current = null;
+    setState(prev => ({ ...prev, isSpeaking: false }));
   }, []);
 
   const speak = useCallback((text: string) => {
@@ -124,30 +139,49 @@ export const useVoiceInterface = () => {
       return;
     }
 
+    try {
+      // Stop any ongoing speech immediately before speaking new text
+      window.speechSynthesis.cancel();
+    } catch {}
+
     const utterance = new SpeechSynthesisUtterance(text);
     utterance.lang = i18n.language || 'en-US';
-    
-    // Set female voice
-    const voices = speechSynthesis.getVoices();
-    const femaleVoice = voices.find(voice => 
-      voice.name.toLowerCase().includes('female') ||
-      voice.name.toLowerCase().includes('zira') ||
-      voice.name.toLowerCase().includes('hazel') ||
-      voice.name.toLowerCase().includes('samantha') ||
-      voice.name.toLowerCase().includes('karen') ||
-      voice.name.toLowerCase().includes('susan') ||
-      voice.name.toLowerCase().includes('victoria')
-    );
-    
-    if (femaleVoice) {
-      utterance.voice = femaleVoice;
+
+    // Prefer a female voice if available
+    const pickFemaleVoice = () => {
+      const voices = speechSynthesis.getVoices();
+      const candidates = ['female', 'zira', 'hazel', 'samantha', 'karen', 'susan', 'victoria'];
+      return voices.find(v => candidates.some(c => v.name.toLowerCase().includes(c)));
+    };
+
+    const assignVoice = () => {
+      const femaleVoice = pickFemaleVoice();
+      if (femaleVoice) utterance.voice = femaleVoice;
+    };
+
+    // In some browsers voices load asynchronously
+    if (speechSynthesis.getVoices().length === 0) {
+      const once = () => {
+        assignVoice();
+        speechSynthesis.onvoiceschanged = null;
+      };
+      speechSynthesis.onvoiceschanged = once;
+    } else {
+      assignVoice();
     }
-    
+
     utterance.onstart = () => {
+      utteranceRef.current = utterance;
       setState(prev => ({ ...prev, isSpeaking: true }));
     };
-    
+
     utterance.onend = () => {
+      if (utteranceRef.current === utterance) utteranceRef.current = null;
+      setState(prev => ({ ...prev, isSpeaking: false }));
+    };
+
+    utterance.onerror = () => {
+      if (utteranceRef.current === utterance) utteranceRef.current = null;
       setState(prev => ({ ...prev, isSpeaking: false }));
     };
 
@@ -246,6 +280,7 @@ export const useVoiceInterface = () => {
     ...state,
     startListening,
     stopListening,
+    stopSpeaking,
     speak,
     processVoiceCommand,
     isAuthenticated: !!user
