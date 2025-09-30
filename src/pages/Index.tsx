@@ -150,6 +150,12 @@ const Index: React.FC = () => {
   const handleStopVoice = () => {
     // Stop all voice activity immediately
     stopListening();
+    // Force stop all speech synthesis immediately
+    if (window.speechSynthesis.speaking) {
+      window.speechSynthesis.cancel();
+    }
+    // Additional safety - pause and clear the queue
+    window.speechSynthesis.pause();
     window.speechSynthesis.cancel();
   };
 
@@ -243,13 +249,6 @@ const Index: React.FC = () => {
                     <span className="text-xs font-bold">Stop</span>
                   </Button>
                 </div>
-                
-                {user && (
-                  <div className="flex items-center gap-1 text-xs text-muted-foreground">
-                    <div className="w-2 h-2 bg-primary rounded-full animate-pulse"></div>
-                    <span>Active</span>
-                  </div>
-                )}
               </div>
             )}
             
