@@ -214,33 +214,33 @@ const Index: React.FC = () => {
             
             {/* Voice Controls - directly under toggle */}
             {interfaceMode === 'voice' && (
-              <div className="w-full max-w-md">
-                <div className="flex gap-2 mb-4">
-                  <Button
-                    onClick={handleVoiceSearch}
-                    disabled={isListening}
-                    className="flex-1 bg-green-600 hover:bg-green-700 text-white"
-                  >
-                    {isListening ? 'Listening...' : 'Start Listening'}
-                  </Button>
-                  <Button
-                    onClick={stopListening}
-                    disabled={!isListening}
-                    className="flex-1 bg-red-600 hover:bg-red-700 text-white"
-                  >
-                    Stop
-                  </Button>
+              <div className="flex items-center gap-1 bg-muted rounded-md p-1">
+                <Button
+                  onClick={handleVoiceSearch}
+                  disabled={isListening}
+                  size="sm"
+                  className="flex items-center gap-2 h-8 bg-green-600 hover:bg-green-700 text-white"
+                >
+                  <span className="text-xs">{isListening ? 'Listening...' : 'Start'}</span>
+                </Button>
+                <Button
+                  onClick={stopListening}
+                  disabled={!isListening}
+                  size="sm"
+                  className="flex items-center gap-2 h-8 bg-red-600 hover:bg-red-700 text-white"
+                >
+                  <span className="text-xs">Stop</span>
+                </Button>
+              </div>
+            )}
+            
+            {/* Voice status indicator */}
+            {interfaceMode === 'voice' && isListening && (
+              <div className="mt-2">
+                <div className="inline-flex items-center gap-2 px-4 py-2 bg-primary/10 rounded-lg">
+                  <div className="w-2 h-2 bg-red-500 rounded-full animate-pulse"></div>
+                  <span className="text-sm text-primary font-medium">Listening for your command...</span>
                 </div>
-                
-                {/* Voice status indicator */}
-                {isListening && (
-                  <div className="text-center mb-4">
-                    <div className="inline-flex items-center gap-2 px-4 py-2 bg-primary/10 rounded-lg">
-                      <div className="w-2 h-2 bg-red-500 rounded-full animate-pulse"></div>
-                      <span className="text-sm text-primary font-medium">Listening for your command...</span>
-                    </div>
-                  </div>
-                )}
               </div>
             )}
           </div>
