@@ -10,6 +10,7 @@ import { StreamlinedSearchForm } from '@/components/StreamlinedSearchForm';
 import { useStreamlinedSearch } from '@/hooks/useStreamlinedSearch';
 import { VoiceTouchToggle } from '@/components/VoiceTouchToggle';
 import { useVoiceInterface } from '@/hooks/useVoiceInterface';
+import { useAuth } from '@/contexts/AuthContext';
 
 // Import hero images
 import heroBackground from '@/assets/hero-background.jpg';
@@ -52,7 +53,8 @@ const Index: React.FC = () => {
   const [searchParams, setSearchParams] = useState<StreamlinedSearchParams | null>(null);
   const [interfaceMode, setInterfaceMode] = useState<'voice' | 'touch'>('touch');
   const { searchBusinesses, isLoading } = useStreamlinedSearch();
-  const { isListening, speak, startListening, stopListening, processVoiceCommand } = useVoiceInterface();
+  const { isListening, speak, startListening, stopListening, processVoiceCommand, isAuthenticated } = useVoiceInterface();
+  const { user } = useAuth();
 
   const handleSearch = async (params: StreamlinedSearchParams) => {
     console.log('🚀 handleSearch called with:', params);
@@ -214,32 +216,45 @@ const Index: React.FC = () => {
             
             {/* Voice Controls - directly under toggle */}
             {interfaceMode === 'voice' && (
-              <div className="flex items-center gap-1 bg-muted rounded-md p-1">
-                <Button
-                  onClick={handleVoiceSearch}
-                  disabled={isListening}
-                  size="sm"
-                  className="flex items-center gap-2 h-8 bg-green-600 hover:bg-green-700 text-white"
-                >
-                  <span className="text-xs">{isListening ? 'Listening...' : 'Start'}</span>
-                </Button>
-                <Button
-                  onClick={stopListening}
-                  disabled={!isListening}
-                  size="sm"
-                  className="flex items-center gap-2 h-8 bg-red-600 hover:bg-red-700 text-white"
-                >
-                  <span className="text-xs">Stop</span>
-                </Button>
+              <div className={`flex items-center gap-2 p-2 bg-card rounded-lg border mt-2 ${user ? 'w-full' : ''}`}>
+                <div className="flex items-center gap-1 bg-muted rounded-md p-1 flex-1">
+                  <Button
+                    onClick={handleVoiceSearch}
+                    disabled={isListening}
+                    variant={isListening ? "default" : "secondary"}
+                    size="sm"
+                    className="flex items-center gap-2 h-8 flex-1 transition-all duration-200"
+                  >
+                    <div className={`w-2 h-2 rounded-full ${isListening ? 'bg-red-500 animate-pulse' : 'bg-green-500'}`}></div>
+                    <span className="text-xs">{isListening ? 'Listening...' : 'Start'}</span>
+                  </Button>
+                  <Button
+                    onClick={stopListening}
+                    disabled={!isListening}
+                    variant="ghost"
+                    size="sm"
+                    className="flex items-center gap-2 h-8 flex-1 hover:bg-destructive/10 hover:text-destructive transition-all duration-200"
+                  >
+                    <div className="w-2 h-2 bg-muted-foreground rounded-full"></div>
+                    <span className="text-xs">Stop</span>
+                  </Button>
+                </div>
+                
+                {user && (
+                  <div className="flex items-center gap-1 text-xs text-muted-foreground">
+                    <div className="w-2 h-2 bg-primary rounded-full animate-pulse"></div>
+                    <span>Active</span>
+                  </div>
+                )}
               </div>
             )}
             
             {/* Voice status indicator */}
             {interfaceMode === 'voice' && isListening && (
-              <div className="mt-2">
-                <div className="inline-flex items-center gap-2 px-4 py-2 bg-primary/10 rounded-lg">
-                  <div className="w-2 h-2 bg-red-500 rounded-full animate-pulse"></div>
-                  <span className="text-sm text-primary font-medium">Listening for your command...</span>
+              <div className="mt-3">
+                <div className="inline-flex items-center gap-2 px-3 py-1.5 bg-primary/5 border border-primary/20 rounded-full">
+                  <div className="w-1.5 h-1.5 bg-primary rounded-full animate-pulse"></div>
+                  <span className="text-xs text-primary font-medium">Listening for your command...</span>
                 </div>
               </div>
             )}
