@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect, useCallback, useRef } from 'react';
 import { useAuth } from '@/contexts/AuthContext';
 import { useTranslation } from 'react-i18next';
 import { supabase } from '@/integrations/supabase/client';
@@ -28,6 +28,7 @@ export const useVoiceInterface = () => {
   
   const { user } = useAuth();
   const { i18n } = useTranslation();
+  const recognitionRef = useRef<any>(null);
 
   // Check browser support
   useEffect(() => {
@@ -104,11 +105,16 @@ export const useVoiceInterface = () => {
       }
     };
 
+    recognitionRef.current = recognition;
     recognition.start();
     return recognition;
   }, [state.isSupported, i18n.language]);
 
   const stopListening = useCallback(() => {
+    if (recognitionRef.current) {
+      recognitionRef.current.stop();
+      recognitionRef.current = null;
+    }
     setState(prev => ({ ...prev, isListening: false }));
   }, []);
 

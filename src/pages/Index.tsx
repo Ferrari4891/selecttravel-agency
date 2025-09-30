@@ -52,7 +52,7 @@ const Index: React.FC = () => {
   const [searchParams, setSearchParams] = useState<StreamlinedSearchParams | null>(null);
   const [interfaceMode, setInterfaceMode] = useState<'voice' | 'touch'>('touch');
   const { searchBusinesses, isLoading } = useStreamlinedSearch();
-  const { isListening, speak, startListening, processVoiceCommand } = useVoiceInterface();
+  const { isListening, speak, startListening, stopListening, processVoiceCommand } = useVoiceInterface();
 
   const handleSearch = async (params: StreamlinedSearchParams) => {
     console.log('🚀 handleSearch called with:', params);
@@ -206,11 +206,43 @@ const Index: React.FC = () => {
         {/* Main content */}
         <div className="relative z-10 min-h-screen flex flex-col">
           {/* Voice/Touch Toggle */}
-          <div className="flex justify-center pt-4 px-4">
+          <div className="flex flex-col items-center pt-4 px-4">
             <VoiceTouchToggle 
               onModeChange={handleModeChange}
               className="mb-4"
             />
+            
+            {/* Voice Controls - directly under toggle */}
+            {interfaceMode === 'voice' && (
+              <div className="w-full max-w-md">
+                <div className="flex gap-2 mb-4">
+                  <Button
+                    onClick={handleVoiceSearch}
+                    disabled={isListening}
+                    className="flex-1 bg-green-600 hover:bg-green-700 text-white"
+                  >
+                    {isListening ? 'Listening...' : 'Start Listening'}
+                  </Button>
+                  <Button
+                    onClick={stopListening}
+                    disabled={!isListening}
+                    className="flex-1 bg-red-600 hover:bg-red-700 text-white"
+                  >
+                    Stop
+                  </Button>
+                </div>
+                
+                {/* Voice status indicator */}
+                {isListening && (
+                  <div className="text-center mb-4">
+                    <div className="inline-flex items-center gap-2 px-4 py-2 bg-primary/10 rounded-lg">
+                      <div className="w-2 h-2 bg-red-500 rounded-full animate-pulse"></div>
+                      <span className="text-sm text-primary font-medium">Listening for your command...</span>
+                    </div>
+                  </div>
+                )}
+              </div>
+            )}
           </div>
           
           {/* Form Section */}
@@ -222,28 +254,6 @@ const Index: React.FC = () => {
                 isLoading={isLoading}
               />
               
-              {/* Voice Search Button */}
-              {interfaceMode === 'voice' && (
-                <div className="mt-4 text-center">
-                  <Button
-                    onClick={handleVoiceSearch}
-                    disabled={isListening}
-                    className="w-full bg-primary hover:bg-primary/90"
-                  >
-                    {isListening ? 'Listening...' : 'Start Voice Search'}
-                  </Button>
-                </div>
-              )}
-              
-              {/* Voice status indicator */}
-              {interfaceMode === 'voice' && isListening && (
-                <div className="mt-4 text-center">
-                  <div className="inline-flex items-center gap-2 px-4 py-2 bg-primary/10 rounded-lg">
-                    <div className="w-2 h-2 bg-red-500 rounded-full animate-pulse"></div>
-                    <span className="text-sm text-primary font-medium">Listening for your command...</span>
-                  </div>
-                </div>
-              )}
             </div>
           </div>
         </div>
