@@ -147,6 +147,12 @@ const Index: React.FC = () => {
     }
   };
 
+  const handleStopVoice = () => {
+    // Stop all voice activity immediately
+    stopListening();
+    window.speechSynthesis.cancel();
+  };
+
   const exportToCSV = () => {
     if (!searchParams) return;
     
@@ -216,27 +222,25 @@ const Index: React.FC = () => {
             
             {/* Voice Controls - directly under toggle */}
             {interfaceMode === 'voice' && (
-              <div className={`flex items-center gap-2 p-2 bg-card rounded-lg border mt-2 ${user ? 'w-full' : ''}`}>
+              <div className="flex items-center gap-2 p-2 bg-card rounded-lg border">
                 <div className="flex items-center gap-1 bg-muted rounded-md p-1 flex-1">
                   <Button
                     onClick={handleVoiceSearch}
                     disabled={isListening}
-                    variant={isListening ? "default" : "secondary"}
                     size="sm"
-                    className="flex items-center gap-2 h-8 flex-1 transition-all duration-200"
+                    className="flex items-center gap-2 h-8 flex-1 bg-green-600 hover:bg-green-700 text-white font-bold transition-all duration-200"
                   >
-                    <div className={`w-2 h-2 rounded-full ${isListening ? 'bg-red-500 animate-pulse' : 'bg-green-500'}`}></div>
-                    <span className="text-xs">{isListening ? 'Listening...' : 'Start'}</span>
+                    <div className={`w-2 h-2 rounded-full ${isListening ? 'bg-white animate-pulse' : 'bg-white'}`}></div>
+                    <span className="text-xs font-bold">{isListening ? 'Listening...' : 'Start'}</span>
                   </Button>
                   <Button
-                    onClick={stopListening}
+                    onClick={handleStopVoice}
                     disabled={!isListening}
-                    variant="ghost"
                     size="sm"
-                    className="flex items-center gap-2 h-8 flex-1 hover:bg-destructive/10 hover:text-destructive transition-all duration-200"
+                    className="flex items-center gap-2 h-8 flex-1 bg-red-600 hover:bg-red-700 text-white font-bold transition-all duration-200 disabled:bg-red-300"
                   >
-                    <div className="w-2 h-2 bg-muted-foreground rounded-full"></div>
-                    <span className="text-xs">Stop</span>
+                    <div className="w-2 h-2 bg-white rounded-full"></div>
+                    <span className="text-xs font-bold">Stop</span>
                   </Button>
                 </div>
                 
