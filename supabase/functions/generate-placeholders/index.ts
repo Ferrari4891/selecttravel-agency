@@ -131,7 +131,7 @@ Deno.serve(async (req) => {
       'basic', 'basic', 'basic', 'basic'
     ];
 
-    const priceLevels = ['$', '$$', '$$$', '$$$$', '$', '$$', '$$$', '$$$$', '$$', '$$$'];
+    const priceLevels = ['$', '$$', '$$$', '$', '$$', '$$$', '$$', '$$$', '$', '$$'];
     
     const cuisineTypes = [
       'Italian', 'Mexican', 'Chinese', 'American', 'French',
