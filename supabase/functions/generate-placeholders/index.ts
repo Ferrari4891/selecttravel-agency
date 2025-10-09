@@ -131,6 +131,27 @@ Deno.serve(async (req) => {
       'basic', 'basic', 'basic', 'basic'
     ];
 
+    const priceLevels = ['$', '$$', '$$$', '$$$$', '$', '$$', '$$$', '$$$$', '$$', '$$$'];
+    
+    const cuisineTypes = [
+      'Italian', 'Mexican', 'Chinese', 'American', 'French',
+      'Japanese', 'Thai', 'Indian', 'Mediterranean', 'Korean'
+    ];
+
+    const foodSpecialties = [
+      ['Pizza', 'Pasta'], ['Tacos', 'Burritos'], ['Dim Sum', 'Noodles'],
+      ['Burgers', 'Steaks'], ['Croissants', 'Soufflé'], ['Sushi', 'Ramen'],
+      ['Pad Thai', 'Curry'], ['Tandoori', 'Biryani'], ['Falafel', 'Hummus'],
+      ['BBQ', 'Kimchi']
+    ];
+
+    const drinkSpecialties = [
+      ['Wine', 'Cocktails'], ['Margaritas', 'Tequila'], ['Tea', 'Sake'],
+      ['Craft Beer', 'Whiskey'], ['Champagne', 'Wine'], ['Sake', 'Whiskey'],
+      ['Beer', 'Cocktails'], ['Gin', 'Rum'], ['Wine', 'Spirits'],
+      ['Soju', 'Beer']
+    ];
+
     let totalCreated = 0;
     const batchSize = 100;
     let currentBatch: any[] = [];
@@ -144,6 +165,7 @@ Deno.serve(async (req) => {
             const businessType = businessTypes[i % businessTypes.length];
             const tier = tiers[i];
 
+            const typeIndex = i % businessTypes.length;
             const business = {
               user_id: userId,
               business_name: 'BOUNCE BEACH',
@@ -163,7 +185,11 @@ Deno.serve(async (req) => {
               subscription_status: 'active',
               wheelchair_access: true,
               pet_friendly: true,
-              outdoor_seating: true
+              outdoor_seating: true,
+              price_level: priceLevels[typeIndex],
+              cuisine_type: cuisineTypes[typeIndex],
+              food_specialties: foodSpecialties[typeIndex],
+              drink_specialties: drinkSpecialties[typeIndex]
             };
 
             currentBatch.push(business);
