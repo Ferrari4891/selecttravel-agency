@@ -13,6 +13,7 @@ import { EnhancedSubscriptionManagement } from './EnhancedSubscriptionManagement
 import { PriceLevelManagement } from './PriceLevelManagement';
 import { TestMarketDashboard } from './TestMarketDashboard';
 import { GiftCardManagement } from './GiftCardManagement';
+import { PlaceholderGenerator } from './PlaceholderGenerator';
 
 export const AdminSettings = () => {
   const [newAdminEmail, setNewAdminEmail] = useState('');
@@ -98,6 +99,10 @@ export const AdminSettings = () => {
           <TabsTrigger value="database" className="text-xs md:text-sm p-2 md:p-3 data-[state=active]:bg-primary data-[state=active]:text-primary-foreground">
             <Database className="h-3 w-3 md:h-4 md:w-4 mr-1" />
             Database
+          </TabsTrigger>
+          <TabsTrigger value="placeholders" className="text-xs md:text-sm p-2 md:p-3 data-[state=active]:bg-primary data-[state=active]:text-primary-foreground">
+            <Database className="h-3 w-3 md:h-4 md:w-4 mr-1" />
+            Placeholders
           </TabsTrigger>
         </TabsList>
 
@@ -479,6 +484,10 @@ export const AdminSettings = () => {
 
         <TabsContent value="testmarket" className="space-y-4">
           <TestMarketDashboard />
+        </TabsContent>
+
+        <TabsContent value="placeholders" className="space-y-4">
+          <PlaceholderGenerator />
         </TabsContent>
       </Tabs>
     </div>
