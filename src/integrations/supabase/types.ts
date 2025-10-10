@@ -336,6 +336,7 @@ export type Database = {
           country: string | null
           created_at: string
           cuisine_type: string | null
+          custom_amenities: Json | null
           description: string | null
           drink_specialties: string[] | null
           email: string | null
@@ -390,6 +391,7 @@ export type Database = {
           country?: string | null
           created_at?: string
           cuisine_type?: string | null
+          custom_amenities?: Json | null
           description?: string | null
           drink_specialties?: string[] | null
           email?: string | null
@@ -444,6 +446,7 @@ export type Database = {
           country?: string | null
           created_at?: string
           cuisine_type?: string | null
+          custom_amenities?: Json | null
           description?: string | null
           drink_specialties?: string[] | null
           email?: string | null

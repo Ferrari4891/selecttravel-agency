@@ -17,6 +17,7 @@ import { useQuery } from '@tanstack/react-query';
 import { uploadImage } from '@/lib/imageUtils';
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 import { Label } from '@/components/ui/label';
+import { AddAmenityDialog } from './AddAmenityDialog';
 
 const businessSchema = z.object({
   business_name: z.string().min(1, 'Business name required'),
@@ -42,16 +43,7 @@ const businessSchema = z.object({
   image_3_url: z.string().optional(),
   voucher_title: z.string().optional(),
   voucher_description: z.string().optional(),
-  wheelchair_access: z.boolean().default(false),
-  extended_hours: z.boolean().default(false),
-  gluten_free: z.boolean().default(false),
-  low_noise: z.boolean().default(false),
-  public_transport: z.boolean().default(false),
-  pet_friendly: z.boolean().default(false),
-  outdoor_seating: z.boolean().default(false),
-  senior_discounts: z.boolean().default(false),
-  online_booking: z.boolean().default(false),
-  air_conditioned: z.boolean().default(false),
+  custom_amenities: z.record(z.boolean()).optional(),
 });
 
 type BusinessFormData = z.infer<typeof businessSchema>;
@@ -115,22 +107,26 @@ export const PlaceholderGenerator = () => {
     },
   });
 
+  const { data: amenityOptions = [], refetch: refetchAmenities } = useQuery({
+    queryKey: ['amenity-options'],
+    queryFn: async () => {
+      const { data, error } = await supabase
+        .from('amenity_options')
+        .select('*')
+        .eq('is_active', true)
+        .order('sort_order', { ascending: true });
+      if (error) throw error;
+      return data || [];
+    },
+  });
+
   const form = useForm<BusinessFormData>({
     resolver: zodResolver(businessSchema),
     defaultValues: {
       subscription_tier: 'basic',
       business_type: 'EAT',
       price_level: '$',
-      wheelchair_access: false,
-      extended_hours: false,
-      gluten_free: false,
-      low_noise: false,
-      public_transport: false,
-      pet_friendly: false,
-      outdoor_seating: false,
-      senior_discounts: false,
-      online_booking: false,
-      air_conditioned: false,
+      custom_amenities: {},
       facebook: '',
       instagram: '',
       twitter: '',
@@ -144,6 +140,7 @@ export const PlaceholderGenerator = () => {
   });
 
   const watchTier = form.watch('subscription_tier');
+  const watchCustomAmenities = form.watch('custom_amenities') || {};
   const watchBusinessType = form.watch('business_type');
 
   const validateImageFile = (file: File): Promise<boolean> => {
@@ -254,16 +251,7 @@ export const PlaceholderGenerator = () => {
         image_1_url: uploadedImageUrls.image_1 || data.image_1_url || null,
         image_2_url: uploadedImageUrls.image_2 || data.image_2_url || null,
         image_3_url: uploadedImageUrls.image_3 || data.image_3_url || null,
-        wheelchair_access: data.wheelchair_access,
-        extended_hours: data.extended_hours,
-        gluten_free: data.gluten_free,
-        low_noise: data.low_noise,
-        public_transport: data.public_transport,
-        pet_friendly: data.pet_friendly,
-        outdoor_seating: data.outdoor_seating,
-        senior_discounts: data.senior_discounts,
-        online_booking: data.online_booking,
-        air_conditioned: data.air_conditioned,
+        custom_amenities: data.custom_amenities || {},
       };
 
       const { data: insertedBusiness, error } = await supabase
@@ -729,146 +717,29 @@ export const PlaceholderGenerator = () => {
                   </>
                 )}
 
-                <div className="space-y-2">
-                  <h4 className="font-semibold">Amenities</h4>
+                <div className="space-y-4">
+                  <div className="flex items-center justify-between">
+                    <h4 className="font-semibold">Amenities</h4>
+                    <AddAmenityDialog onAmenityAdded={refetchAmenities} />
+                  </div>
                   <div className="grid grid-cols-2 gap-2">
-                    <FormField
-                      control={form.control}
-                      name="wheelchair_access"
-                      render={({ field }) => (
-                        <FormItem className="flex items-center space-x-2 space-y-0">
-                          <FormControl>
-                            <Checkbox checked={field.value} onCheckedChange={field.onChange} />
-                          </FormControl>
-                          <FormLabel className="font-normal">Wheelchair Access</FormLabel>
-                        </FormItem>
-                      )}
-                    />
-
-                    <FormField
-                      control={form.control}
-                      name="public_transport"
-                      render={({ field }) => (
-                        <FormItem className="flex items-center space-x-2 space-y-0">
-                          <FormControl>
-                            <Checkbox checked={field.value} onCheckedChange={field.onChange} />
-                          </FormControl>
-                          <FormLabel className="font-normal">Public Transport</FormLabel>
-                        </FormItem>
-                      )}
-                    />
-
-                    <FormField
-                      control={form.control}
-                      name="pet_friendly"
-                      render={({ field }) => (
-                        <FormItem className="flex items-center space-x-2 space-y-0">
-                          <FormControl>
-                            <Checkbox checked={field.value} onCheckedChange={field.onChange} />
-                          </FormControl>
-                          <FormLabel className="font-normal">Pet Friendly</FormLabel>
-                        </FormItem>
-                      )}
-                    />
-
-                    <FormField
-                      control={form.control}
-                      name="outdoor_seating"
-                      render={({ field }) => (
-                        <FormItem className="flex items-center space-x-2 space-y-0">
-                          <FormControl>
-                            <Checkbox checked={field.value} onCheckedChange={field.onChange} />
-                          </FormControl>
-                          <FormLabel className="font-normal">Outdoor Seating</FormLabel>
-                        </FormItem>
-                      )}
-                    />
-
-                    <FormField
-                      control={form.control}
-                      name="air_conditioned"
-                      render={({ field }) => (
-                        <FormItem className="flex items-center space-x-2 space-y-0">
-                          <FormControl>
-                            <Checkbox checked={field.value} onCheckedChange={field.onChange} />
-                          </FormControl>
-                          <FormLabel className="font-normal">Air Conditioned</FormLabel>
-                        </FormItem>
-                      )}
-                    />
-
-                    <FormField
-                      control={form.control}
-                      name="senior_discounts"
-                      render={({ field }) => (
-                        <FormItem className="flex items-center space-x-2 space-y-0">
-                          <FormControl>
-                            <Checkbox checked={field.value} onCheckedChange={field.onChange} />
-                          </FormControl>
-                          <FormLabel className="font-normal">Senior Discounts</FormLabel>
-                        </FormItem>
-                      )}
-                    />
-
-                    {watchTier !== 'basic' && (
-                      <>
-                        <FormField
-                          control={form.control}
-                          name="extended_hours"
-                          render={({ field }) => (
-                            <FormItem className="flex items-center space-x-2 space-y-0">
-                              <FormControl>
-                                <Checkbox checked={field.value} onCheckedChange={field.onChange} />
-                              </FormControl>
-                              <FormLabel className="font-normal">Extended Hours</FormLabel>
-                            </FormItem>
-                          )}
+                    {amenityOptions.map((amenity) => (
+                      <div key={amenity.id} className="flex items-center space-x-2">
+                        <Checkbox
+                          checked={watchCustomAmenities[amenity.option_key] || false}
+                          onCheckedChange={(checked) => {
+                            const current = form.getValues('custom_amenities') || {};
+                            form.setValue('custom_amenities', {
+                              ...current,
+                              [amenity.option_key]: checked === true,
+                            });
+                          }}
                         />
-
-                        <FormField
-                          control={form.control}
-                          name="online_booking"
-                          render={({ field }) => (
-                            <FormItem className="flex items-center space-x-2 space-y-0">
-                              <FormControl>
-                                <Checkbox checked={field.value} onCheckedChange={field.onChange} />
-                              </FormControl>
-                              <FormLabel className="font-normal">Online Booking</FormLabel>
-                            </FormItem>
-                          )}
-                        />
-                      </>
-                    )}
-
-                    {watchBusinessType === 'EAT' && (
-                      <>
-                        <FormField
-                          control={form.control}
-                          name="gluten_free"
-                          render={({ field }) => (
-                            <FormItem className="flex items-center space-x-2 space-y-0">
-                              <FormControl>
-                                <Checkbox checked={field.value} onCheckedChange={field.onChange} />
-                              </FormControl>
-                              <FormLabel className="font-normal">Gluten Free Options</FormLabel>
-                            </FormItem>
-                          )}
-                        />
-
-                        <FormField
-                          control={form.control}
-                          name="low_noise"
-                          render={({ field }) => (
-                            <FormItem className="flex items-center space-x-2 space-y-0">
-                              <FormControl>
-                                <Checkbox checked={field.value} onCheckedChange={field.onChange} />
-                              </FormControl>
-                              <FormLabel className="font-normal">Low Noise</FormLabel>
-                            </FormItem>
-                          )}
-                        />
-                      </>
-                    )}
+                        <Label className="font-normal cursor-pointer" htmlFor={amenity.option_key}>
+                          {amenity.display_name}
+                        </Label>
+                      </div>
+                    ))}
                   </div>
                 </div>
 
