@@ -462,66 +462,68 @@ export const PlaceholderGenerator = () => {
                   )}
                 />
 
-                <div className="space-y-2">
-                  <h4 className="font-semibold">Social Media</h4>
-                  <div className="grid grid-cols-2 gap-4">
-                    <FormField
-                      control={form.control}
-                      name="facebook"
-                      render={({ field }) => (
-                        <FormItem>
-                          <FormLabel>Facebook (Optional)</FormLabel>
-                          <FormControl>
-                            <Input {...field} placeholder="https://facebook.com/..." />
-                          </FormControl>
-                          <FormMessage />
-                        </FormItem>
-                      )}
-                    />
+                {(watchTier === 'premium' || watchTier === 'firstclass') && (
+                  <div className="space-y-2">
+                    <h4 className="font-semibold">Social Media (Premium & First Class)</h4>
+                    <div className="grid grid-cols-2 gap-4">
+                      <FormField
+                        control={form.control}
+                        name="facebook"
+                        render={({ field }) => (
+                          <FormItem>
+                            <FormLabel>Facebook (Optional)</FormLabel>
+                            <FormControl>
+                              <Input {...field} placeholder="https://facebook.com/..." />
+                            </FormControl>
+                            <FormMessage />
+                          </FormItem>
+                        )}
+                      />
 
-                    <FormField
-                      control={form.control}
-                      name="instagram"
-                      render={({ field }) => (
-                        <FormItem>
-                          <FormLabel>Instagram (Optional)</FormLabel>
-                          <FormControl>
-                            <Input {...field} placeholder="https://instagram.com/..." />
-                          </FormControl>
-                          <FormMessage />
-                        </FormItem>
-                      )}
-                    />
+                      <FormField
+                        control={form.control}
+                        name="instagram"
+                        render={({ field }) => (
+                          <FormItem>
+                            <FormLabel>Instagram (Optional)</FormLabel>
+                            <FormControl>
+                              <Input {...field} placeholder="https://instagram.com/..." />
+                            </FormControl>
+                            <FormMessage />
+                          </FormItem>
+                        )}
+                      />
 
-                    <FormField
-                      control={form.control}
-                      name="twitter"
-                      render={({ field }) => (
-                        <FormItem>
-                          <FormLabel>Twitter (Optional)</FormLabel>
-                          <FormControl>
-                            <Input {...field} placeholder="https://twitter.com/..." />
-                          </FormControl>
-                          <FormMessage />
-                        </FormItem>
-                      )}
-                    />
+                      <FormField
+                        control={form.control}
+                        name="twitter"
+                        render={({ field }) => (
+                          <FormItem>
+                            <FormLabel>Twitter (Optional)</FormLabel>
+                            <FormControl>
+                              <Input {...field} placeholder="https://twitter.com/..." />
+                            </FormControl>
+                            <FormMessage />
+                          </FormItem>
+                        )}
+                      />
 
-                    <FormField
-                      control={form.control}
-                      name="linkedin"
-                      render={({ field }) => (
-                        <FormItem>
-                          <FormLabel>LinkedIn (Optional)</FormLabel>
-                          <FormControl>
-                            <Input {...field} placeholder="https://linkedin.com/..." />
-                          </FormControl>
-                          <FormMessage />
-                        </FormItem>
-                      )}
-                    />
+                      <FormField
+                        control={form.control}
+                        name="linkedin"
+                        render={({ field }) => (
+                          <FormItem>
+                            <FormLabel>LinkedIn (Optional)</FormLabel>
+                            <FormControl>
+                              <Input {...field} placeholder="https://linkedin.com/..." />
+                            </FormControl>
+                            <FormMessage />
+                          </FormItem>
+                        )}
+                      />
+                    </div>
                   </div>
-                </div>
+                )}
 
                 {watchTier === 'firstclass' && (
                   <>
