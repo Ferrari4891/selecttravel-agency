@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
@@ -12,8 +12,11 @@ import { supabase } from '@/integrations/supabase/client';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import * as z from 'zod';
-import { Plus, Loader2 } from 'lucide-react';
+import { Plus, Loader2, Upload, Link as LinkIcon } from 'lucide-react';
 import { useQuery } from '@tanstack/react-query';
+import { uploadImage } from '@/lib/imageUtils';
+import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
+import { Label } from '@/components/ui/label';
 
 const businessSchema = z.object({
   business_name: z.string().min(1, 'Business name required'),
@@ -34,9 +37,9 @@ const businessSchema = z.object({
   instagram: z.string().url().optional().or(z.literal('')),
   twitter: z.string().url().optional().or(z.literal('')),
   linkedin: z.string().url().optional().or(z.literal('')),
-  image_1_url: z.string().url().optional().or(z.literal('')),
-  image_2_url: z.string().url().optional().or(z.literal('')),
-  image_3_url: z.string().url().optional().or(z.literal('')),
+  image_1_url: z.string().optional(),
+  image_2_url: z.string().optional(),
+  image_3_url: z.string().optional(),
   voucher_title: z.string().optional(),
   voucher_description: z.string().optional(),
   wheelchair_access: z.boolean().default(false),
@@ -56,6 +59,21 @@ type BusinessFormData = z.infer<typeof businessSchema>;
 export const PlaceholderGenerator = () => {
   const [open, setOpen] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [imageInputType, setImageInputType] = useState<{ [key: string]: 'url' | 'upload' }>({
+    image_1: 'url',
+    image_2: 'url',
+    image_3: 'url',
+  });
+  const [imageFiles, setImageFiles] = useState<{ [key: string]: File | null }>({
+    image_1: null,
+    image_2: null,
+    image_3: null,
+  });
+  const [imagePreviews, setImagePreviews] = useState<{ [key: string]: string }>({
+    image_1: '',
+    image_2: '',
+    image_3: '',
+  });
   const { toast } = useToast();
 
   const { data: cuisineTypes = [] } = useQuery({
@@ -128,12 +146,87 @@ export const PlaceholderGenerator = () => {
   const watchTier = form.watch('subscription_tier');
   const watchBusinessType = form.watch('business_type');
 
+  const validateImageFile = (file: File): Promise<boolean> => {
+    return new Promise((resolve, reject) => {
+      const validTypes = ['image/jpeg', 'image/jpg', 'image/png', 'image/webp'];
+      
+      if (!validTypes.includes(file.type)) {
+        reject(new Error('Invalid file type. Only JPEG, JPG, PNG, and WEBP are allowed.'));
+        return;
+      }
+
+      if (file.size > 3 * 1024 * 1024) {
+        reject(new Error('File size must be less than 3MB.'));
+        return;
+      }
+
+      const img = new Image();
+      img.onload = () => {
+        const aspectRatio = img.width / img.height;
+        const target = 16 / 9;
+        const tolerance = 0.1;
+        
+        if (Math.abs(aspectRatio - target) > tolerance) {
+          reject(new Error('Image must be in 16:9 aspect ratio.'));
+        } else {
+          resolve(true);
+        }
+      };
+      img.onerror = () => reject(new Error('Failed to load image.'));
+      img.src = URL.createObjectURL(file);
+    });
+  };
+
+  const handleImageFileChange = async (key: string, file: File | null) => {
+    if (!file) {
+      setImageFiles({ ...imageFiles, [key]: null });
+      setImagePreviews({ ...imagePreviews, [key]: '' });
+      return;
+    }
+
+    try {
+      await validateImageFile(file);
+      setImageFiles({ ...imageFiles, [key]: file });
+      setImagePreviews({ ...imagePreviews, [key]: URL.createObjectURL(file) });
+    } catch (error: any) {
+      toast({
+        variant: 'destructive',
+        title: 'Invalid Image',
+        description: error.message,
+      });
+      setImageFiles({ ...imageFiles, [key]: null });
+      setImagePreviews({ ...imagePreviews, [key]: '' });
+    }
+  };
+
   const onSubmit = async (data: BusinessFormData) => {
     try {
       setIsSubmitting(true);
 
       const { data: { user } } = await supabase.auth.getUser();
       if (!user) throw new Error('Not authenticated');
+
+      // Upload images if files are selected
+      let uploadedImageUrls: { [key: string]: string } = {};
+      
+      for (const key of ['image_1', 'image_2', 'image_3']) {
+        if (imageInputType[key] === 'upload' && imageFiles[key]) {
+          try {
+            const fileName = await uploadImage(imageFiles[key]!);
+            const { data: { publicUrl } } = supabase.storage
+              .from('heroimages')
+              .getPublicUrl(fileName);
+            uploadedImageUrls[key] = publicUrl;
+          } catch (error: any) {
+            toast({
+              variant: 'destructive',
+              title: 'Image Upload Failed',
+              description: `Failed to upload ${key}: ${error.message}`,
+            });
+            throw error;
+          }
+        }
+      }
 
       const businessData = {
         user_id: user.id,
@@ -158,9 +251,9 @@ export const PlaceholderGenerator = () => {
         instagram: data.instagram,
         twitter: data.twitter,
         linkedin: data.linkedin,
-        image_1_url: data.image_1_url,
-        image_2_url: data.image_2_url,
-        image_3_url: data.image_3_url,
+        image_1_url: uploadedImageUrls.image_1 || data.image_1_url || null,
+        image_2_url: uploadedImageUrls.image_2 || data.image_2_url || null,
+        image_3_url: uploadedImageUrls.image_3 || data.image_3_url || null,
         wheelchair_access: data.wheelchair_access,
         extended_hours: data.extended_hours,
         gluten_free: data.gluten_free,
@@ -527,51 +620,80 @@ export const PlaceholderGenerator = () => {
 
                 {watchTier === 'firstclass' && (
                   <>
-                    <div className="space-y-2">
+                    <div className="space-y-4">
                       <h4 className="font-semibold">Media (First Class Only)</h4>
-                      <div className="grid grid-cols-1 gap-4">
-                        <FormField
-                          control={form.control}
-                          name="image_1_url"
-                          render={({ field }) => (
-                            <FormItem>
-                              <FormLabel>Image 1 URL (Optional)</FormLabel>
-                              <FormControl>
-                                <Input {...field} placeholder="https://..." />
-                              </FormControl>
-                              <FormMessage />
-                            </FormItem>
-                          )}
-                        />
+                      <p className="text-sm text-muted-foreground">
+                        Images must be 16:9 aspect ratio, max 3MB (JPEG, PNG, WEBP only)
+                      </p>
+                      
+                      {['image_1', 'image_2', 'image_3'].map((imageKey, index) => (
+                        <div key={imageKey} className="space-y-2 border rounded-lg p-4">
+                          <Label>Image {index + 1} (Optional)</Label>
+                          <RadioGroup
+                            value={imageInputType[imageKey]}
+                            onValueChange={(value: 'url' | 'upload') => {
+                              setImageInputType({ ...imageInputType, [imageKey]: value });
+                              if (value === 'url') {
+                                setImageFiles({ ...imageFiles, [imageKey]: null });
+                                setImagePreviews({ ...imagePreviews, [imageKey]: '' });
+                              } else {
+                                form.setValue(`${imageKey}_url` as any, '');
+                              }
+                            }}
+                            className="flex gap-4"
+                          >
+                            <div className="flex items-center space-x-2">
+                              <RadioGroupItem value="url" id={`${imageKey}-url`} />
+                              <Label htmlFor={`${imageKey}-url`} className="font-normal flex items-center gap-1">
+                                <LinkIcon className="h-3 w-3" />
+                                URL
+                              </Label>
+                            </div>
+                            <div className="flex items-center space-x-2">
+                              <RadioGroupItem value="upload" id={`${imageKey}-upload`} />
+                              <Label htmlFor={`${imageKey}-upload`} className="font-normal flex items-center gap-1">
+                                <Upload className="h-3 w-3" />
+                                Upload
+                              </Label>
+                            </div>
+                          </RadioGroup>
 
-                        <FormField
-                          control={form.control}
-                          name="image_2_url"
-                          render={({ field }) => (
-                            <FormItem>
-                              <FormLabel>Image 2 URL (Optional)</FormLabel>
-                              <FormControl>
-                                <Input {...field} placeholder="https://..." />
-                              </FormControl>
-                              <FormMessage />
-                            </FormItem>
+                          {imageInputType[imageKey] === 'url' ? (
+                            <FormField
+                              control={form.control}
+                              name={`${imageKey}_url` as any}
+                              render={({ field }) => (
+                                <FormItem>
+                                  <FormControl>
+                                    <Input {...field} placeholder="https://example.com/image.jpg" />
+                                  </FormControl>
+                                  <FormMessage />
+                                </FormItem>
+                              )}
+                            />
+                          ) : (
+                            <div className="space-y-2">
+                              <Input
+                                type="file"
+                                accept="image/jpeg,image/jpg,image/png,image/webp"
+                                onChange={(e) => {
+                                  const file = e.target.files?.[0] || null;
+                                  handleImageFileChange(imageKey, file);
+                                }}
+                              />
+                              {imagePreviews[imageKey] && (
+                                <div className="relative w-full aspect-video rounded-lg overflow-hidden border">
+                                  <img
+                                    src={imagePreviews[imageKey]}
+                                    alt={`Preview ${index + 1}`}
+                                    className="w-full h-full object-cover"
+                                  />
+                                </div>
+                              )}
+                            </div>
                           )}
-                        />
-
-                        <FormField
-                          control={form.control}
-                          name="image_3_url"
-                          render={({ field }) => (
-                            <FormItem>
-                              <FormLabel>Image 3 URL (Optional)</FormLabel>
-                              <FormControl>
-                                <Input {...field} placeholder="https://..." />
-                              </FormControl>
-                              <FormMessage />
-                            </FormItem>
-                          )}
-                        />
-                      </div>
+                        </div>
+                      ))}
                     </div>
 
                     <div className="space-y-2">
