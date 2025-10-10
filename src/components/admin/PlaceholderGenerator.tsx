@@ -30,6 +30,15 @@ const businessSchema = z.object({
   phone: z.string().optional(),
   email: z.string().email().optional().or(z.literal('')),
   website: z.string().url().optional().or(z.literal('')),
+  facebook: z.string().url().optional().or(z.literal('')),
+  instagram: z.string().url().optional().or(z.literal('')),
+  twitter: z.string().url().optional().or(z.literal('')),
+  linkedin: z.string().url().optional().or(z.literal('')),
+  image_1_url: z.string().url().optional().or(z.literal('')),
+  image_2_url: z.string().url().optional().or(z.literal('')),
+  image_3_url: z.string().url().optional().or(z.literal('')),
+  voucher_title: z.string().optional(),
+  voucher_description: z.string().optional(),
   wheelchair_access: z.boolean().default(false),
   extended_hours: z.boolean().default(false),
   gluten_free: z.boolean().default(false),
@@ -104,6 +113,15 @@ export const PlaceholderGenerator = () => {
       senior_discounts: false,
       online_booking: false,
       air_conditioned: false,
+      facebook: '',
+      instagram: '',
+      twitter: '',
+      linkedin: '',
+      image_1_url: '',
+      image_2_url: '',
+      image_3_url: '',
+      voucher_title: '',
+      voucher_description: '',
     },
   });
 
@@ -136,6 +154,13 @@ export const PlaceholderGenerator = () => {
         phone: data.phone,
         email: data.email,
         website: data.website,
+        facebook: data.facebook,
+        instagram: data.instagram,
+        twitter: data.twitter,
+        linkedin: data.linkedin,
+        image_1_url: data.image_1_url,
+        image_2_url: data.image_2_url,
+        image_3_url: data.image_3_url,
         wheelchair_access: data.wheelchair_access,
         extended_hours: data.extended_hours,
         gluten_free: data.gluten_free,
@@ -148,9 +173,29 @@ export const PlaceholderGenerator = () => {
         air_conditioned: data.air_conditioned,
       };
 
-      const { error } = await supabase.from('businesses').insert([businessData]);
+      const { data: insertedBusiness, error } = await supabase
+        .from('businesses')
+        .insert([businessData])
+        .select()
+        .single();
 
       if (error) throw error;
+
+      // Create placeholder voucher for first class tier
+      if (data.subscription_tier === 'firstclass' && data.voucher_title && insertedBusiness) {
+        const { error: voucherError } = await supabase.from('business_vouchers').insert([{
+          business_id: insertedBusiness.id,
+          title: data.voucher_title,
+          description: data.voucher_description || 'Placeholder voucher - to be configured',
+          voucher_type: 'percentage_discount',
+          discount_value: 10,
+          start_date: new Date().toISOString(),
+          end_date: new Date(Date.now() + 90 * 24 * 60 * 60 * 1000).toISOString(),
+          is_active: false,
+        }]);
+        
+        if (voucherError) console.error('Voucher creation error:', voucherError);
+      }
 
       toast({
         title: 'Success',
@@ -416,6 +461,149 @@ export const PlaceholderGenerator = () => {
                     </FormItem>
                   )}
                 />
+
+                <div className="space-y-2">
+                  <h4 className="font-semibold">Social Media</h4>
+                  <div className="grid grid-cols-2 gap-4">
+                    <FormField
+                      control={form.control}
+                      name="facebook"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>Facebook (Optional)</FormLabel>
+                          <FormControl>
+                            <Input {...field} placeholder="https://facebook.com/..." />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+
+                    <FormField
+                      control={form.control}
+                      name="instagram"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>Instagram (Optional)</FormLabel>
+                          <FormControl>
+                            <Input {...field} placeholder="https://instagram.com/..." />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+
+                    <FormField
+                      control={form.control}
+                      name="twitter"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>Twitter (Optional)</FormLabel>
+                          <FormControl>
+                            <Input {...field} placeholder="https://twitter.com/..." />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+
+                    <FormField
+                      control={form.control}
+                      name="linkedin"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>LinkedIn (Optional)</FormLabel>
+                          <FormControl>
+                            <Input {...field} placeholder="https://linkedin.com/..." />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                  </div>
+                </div>
+
+                {watchTier === 'firstclass' && (
+                  <>
+                    <div className="space-y-2">
+                      <h4 className="font-semibold">Media (First Class Only)</h4>
+                      <div className="grid grid-cols-1 gap-4">
+                        <FormField
+                          control={form.control}
+                          name="image_1_url"
+                          render={({ field }) => (
+                            <FormItem>
+                              <FormLabel>Image 1 URL (Optional)</FormLabel>
+                              <FormControl>
+                                <Input {...field} placeholder="https://..." />
+                              </FormControl>
+                              <FormMessage />
+                            </FormItem>
+                          )}
+                        />
+
+                        <FormField
+                          control={form.control}
+                          name="image_2_url"
+                          render={({ field }) => (
+                            <FormItem>
+                              <FormLabel>Image 2 URL (Optional)</FormLabel>
+                              <FormControl>
+                                <Input {...field} placeholder="https://..." />
+                              </FormControl>
+                              <FormMessage />
+                            </FormItem>
+                          )}
+                        />
+
+                        <FormField
+                          control={form.control}
+                          name="image_3_url"
+                          render={({ field }) => (
+                            <FormItem>
+                              <FormLabel>Image 3 URL (Optional)</FormLabel>
+                              <FormControl>
+                                <Input {...field} placeholder="https://..." />
+                              </FormControl>
+                              <FormMessage />
+                            </FormItem>
+                          )}
+                        />
+                      </div>
+                    </div>
+
+                    <div className="space-y-2">
+                      <h4 className="font-semibold">Voucher (First Class Only - Placeholder)</h4>
+                      <FormField
+                        control={form.control}
+                        name="voucher_title"
+                        render={({ field }) => (
+                          <FormItem>
+                            <FormLabel>Voucher Title (Optional)</FormLabel>
+                            <FormControl>
+                              <Input {...field} placeholder="e.g., 10% Off Special" />
+                            </FormControl>
+                            <FormMessage />
+                          </FormItem>
+                        )}
+                      />
+
+                      <FormField
+                        control={form.control}
+                        name="voucher_description"
+                        render={({ field }) => (
+                          <FormItem>
+                            <FormLabel>Voucher Description (Optional)</FormLabel>
+                            <FormControl>
+                              <Textarea {...field} placeholder="Placeholder voucher details..." />
+                            </FormControl>
+                            <FormMessage />
+                          </FormItem>
+                        )}
+                      />
+                    </div>
+                  </>
+                )}
 
                 <div className="space-y-2">
                   <h4 className="font-semibold">Amenities</h4>
