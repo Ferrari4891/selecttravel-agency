@@ -1830,6 +1830,10 @@ export type Database = {
         Args: Record<PropertyKey, never>
         Returns: undefined
       }
+      generate_unique_card_number: {
+        Args: Record<PropertyKey, never>
+        Returns: string
+      }
       get_rsvp_counts: {
         Args: { invitation_ids: string[] }
         Returns: {
