@@ -7,6 +7,7 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { MyInvitations } from "@/components/MyInvitations";
+import { MemberCard } from "@/components/MemberCard";
 import { useLanguage } from "@/contexts/LanguageContext";
 import Footer from "@/components/Footer";
 import MobileContainer from "@/components/MobileContainer";
@@ -166,8 +167,11 @@ const { user, signOut } = useAuth();
             </Button>
           </div>
 
-          <Tabs defaultValue="preferences" className="w-full">
-            <TabsList className="grid w-full grid-cols-2 mb-6">
+          <Tabs defaultValue="card" className="w-full">
+            <TabsList className="grid w-full grid-cols-3 mb-6">
+              <TabsTrigger value="card" className="text-sm md:text-base py-2">
+                My Card
+              </TabsTrigger>
               <TabsTrigger value="preferences" className="text-sm md:text-base py-2">
                 Preferences
               </TabsTrigger>
@@ -175,6 +179,10 @@ const { user, signOut } = useAuth();
                 Invitations
               </TabsTrigger>
             </TabsList>
+
+            <TabsContent value="card" className="space-y-4">
+              <MemberCard />
+            </TabsContent>
 
             <TabsContent value="preferences" className="space-y-4">
               <Card>

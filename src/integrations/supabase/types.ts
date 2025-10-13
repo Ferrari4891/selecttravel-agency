@@ -1081,6 +1081,66 @@ export type Database = {
           },
         ]
       }
+      member_cards: {
+        Row: {
+          card_number: string
+          created_at: string | null
+          id: string
+          is_active: boolean | null
+          issued_at: string | null
+          last_used_at: string | null
+          member_email: string
+          member_name: string
+          profile_id: string | null
+          qr_code_data: string
+          simple_member_id: string | null
+          updated_at: string | null
+        }
+        Insert: {
+          card_number: string
+          created_at?: string | null
+          id?: string
+          is_active?: boolean | null
+          issued_at?: string | null
+          last_used_at?: string | null
+          member_email: string
+          member_name: string
+          profile_id?: string | null
+          qr_code_data: string
+          simple_member_id?: string | null
+          updated_at?: string | null
+        }
+        Update: {
+          card_number?: string
+          created_at?: string | null
+          id?: string
+          is_active?: boolean | null
+          issued_at?: string | null
+          last_used_at?: string | null
+          member_email?: string
+          member_name?: string
+          profile_id?: string | null
+          qr_code_data?: string
+          simple_member_id?: string | null
+          updated_at?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "member_cards_profile_id_fkey"
+            columns: ["profile_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["user_id"]
+          },
+          {
+            foreignKeyName: "member_cards_simple_member_id_fkey"
+            columns: ["simple_member_id"]
+            isOneToOne: false
+            referencedRelation: "simple_members"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       member_photos: {
         Row: {
           caption: string | null
