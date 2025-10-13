@@ -220,44 +220,13 @@ export const MemberCard = () => {
       {/* Full Downloadable Card */}
       <div className="text-center">
         <h2 className="text-xl font-semibold mb-4">Download Your Card</h2>
-        <Card className="overflow-hidden max-w-4xl mx-auto">
+        <Card className="overflow-hidden max-w-md mx-auto">
           <CardContent className="p-0">
-            <div 
-              className="relative w-full aspect-[16/10] bg-cover bg-center"
-              style={{ backgroundImage: `url(${memberCardBg})` }}
-            >
-              {/* Logo in upper left */}
-              <div className="absolute top-4 left-4">
-                <img 
-                  src="/lovable-uploads/logo-white.png" 
-                  alt="SmartGuidebooks.com" 
-                  className="h-12 md:h-16 w-auto"
-                />
-              </div>
-
-              {/* QR Code */}
-              <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 -mt-12">
-                {qrCodeUrl && (
-                  <div className="bg-white p-4">
-                    <img 
-                      src={qrCodeUrl} 
-                      alt="Member QR Code" 
-                      className="w-48 h-48 md:w-64 md:h-64"
-                    />
-                  </div>
-                )}
-              </div>
-
-              {/* Footer with member info - overlays the green section of the background */}
-              <div className="absolute bottom-0 left-0 right-0 py-6 px-8">
-                <div className="text-center space-y-2">
-                  <p className="text-white text-2xl md:text-3xl font-bold">
-                    {cardData.member_name.toUpperCase()}
-                  </p>
-                  <p className="text-white text-xl md:text-2xl font-bold tracking-wider">
-                    {formatCardNumber(cardData.card_number)}
-                  </p>
-                </div>
+            <div className="bg-muted aspect-[16/10] flex items-center justify-center">
+              <div className="text-center space-y-4 p-8">
+                <p className="text-muted-foreground text-sm">Card Preview</p>
+                <p className="text-lg font-semibold">{cardData.member_name}</p>
+                <p className="text-sm tracking-wider">{formatCardNumber(cardData.card_number)}</p>
               </div>
             </div>
           </CardContent>
