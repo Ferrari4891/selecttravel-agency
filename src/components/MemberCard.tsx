@@ -94,12 +94,6 @@ export const MemberCard = () => {
         // Draw background
         ctx.drawImage(bgImg, 0, 0, canvas.width, canvas.height);
 
-        // Add branding text at top
-        ctx.fillStyle = '#FFFFFF';
-        ctx.font = 'bold 48px Arial';
-        ctx.textAlign = 'center';
-        ctx.fillText('SMARTGUIDEBOOKS.COM', canvas.width / 2, 100);
-
         // Draw QR code in center
         if (qrCodeUrl) {
           const qrImg = new Image();
@@ -115,21 +109,16 @@ export const MemberCard = () => {
             
             ctx.drawImage(qrImg, qrX, qrY, qrSize, qrSize);
 
-            // Draw green footer section
-            const footerHeight = 200;
-            const footerY = canvas.height - footerHeight;
-            ctx.fillStyle = '#2F4F2F'; // Dark green
-            ctx.fillRect(0, footerY, canvas.width, footerHeight);
-
-            // Member name
+            // Member name and card number (positioned at bottom over the green section in background)
+            const textY = canvas.height - 150;
             ctx.fillStyle = '#FFFFFF';
             ctx.font = 'bold 56px Arial';
             ctx.textAlign = 'center';
-            ctx.fillText(cardData.member_name.toUpperCase(), canvas.width / 2, footerY + 80);
+            ctx.fillText(cardData.member_name.toUpperCase(), canvas.width / 2, textY);
 
             // Card number
             ctx.font = 'bold 44px Arial';
-            ctx.fillText(formatCardNumber(cardData.card_number), canvas.width / 2, footerY + 150);
+            ctx.fillText(formatCardNumber(cardData.card_number), canvas.width / 2, textY + 70);
 
             // Download
             canvas.toBlob((blob) => {
@@ -226,15 +215,8 @@ export const MemberCard = () => {
               className="relative w-full aspect-[16/10] bg-cover bg-center"
               style={{ backgroundImage: `url(${memberCardBg})` }}
             >
-              {/* Branding */}
-              <div className="absolute top-8 left-0 right-0 text-center">
-                <h3 className="text-3xl md:text-4xl font-bold text-white drop-shadow-lg">
-                  SMARTGUIDEBOOKS.COM
-                </h3>
-              </div>
-
               {/* QR Code */}
-              <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
+              <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 -mt-12">
                 {qrCodeUrl && (
                   <div className="bg-white p-4">
                     <img 
@@ -246,8 +228,8 @@ export const MemberCard = () => {
                 )}
               </div>
 
-              {/* Footer with member info */}
-              <div className="absolute bottom-0 left-0 right-0 bg-[#2F4F2F] py-6 px-8">
+              {/* Footer with member info - overlays the green section of the background */}
+              <div className="absolute bottom-0 left-0 right-0 py-6 px-8">
                 <div className="text-center space-y-2">
                   <p className="text-white text-2xl md:text-3xl font-bold">
                     {cardData.member_name.toUpperCase()}
