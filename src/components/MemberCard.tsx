@@ -7,6 +7,7 @@ import { Download, Loader2 } from 'lucide-react';
 import QRCode from 'qrcode';
 import { toast } from '@/hooks/use-toast';
 import memberCardBg from '@/assets/member-card-bg.png';
+import memberCardPlaceholder from '@/assets/member-card-placeholder.png';
 
 interface MemberCardData {
   id: string;
@@ -96,19 +97,19 @@ export const MemberCard = () => {
         });
       };
 
-      const [bgImg, logoImg, qrImg] = await Promise.all([
+      const [bgImg, qrImg] = await Promise.all([
         loadImage(memberCardBg),
-        loadImage('/lovable-uploads/logo-white.png'),
         qrCodeUrl ? loadImage(qrCodeUrl) : Promise.resolve(null)
       ]);
 
       // Draw background
       ctx.drawImage(bgImg, 0, 0, canvas.width, canvas.height);
 
-      // Draw logo in upper left corner
-      const logoHeight = 80;
-      const logoWidth = logoHeight * (logoImg.width / logoImg.height);
-      ctx.drawImage(logoImg, 40, 40, logoWidth, logoHeight);
+      // Draw text logo "SmartGuidebooks.com" in upper left corner
+      ctx.fillStyle = '#FFFFFF';
+      ctx.font = 'bold 48px Arial';
+      ctx.textAlign = 'left';
+      ctx.fillText('SMARTGUIDEBOOKS.COM', 40, 90);
 
       // Draw QR code in center
       if (qrImg) {
@@ -222,13 +223,11 @@ export const MemberCard = () => {
         <h2 className="text-xl font-semibold mb-4">Download Your Card</h2>
         <Card className="overflow-hidden max-w-md mx-auto">
           <CardContent className="p-0">
-            <div className="bg-muted aspect-[16/10] flex items-center justify-center">
-              <div className="text-center space-y-4 p-8">
-                <p className="text-muted-foreground text-sm">Card Preview</p>
-                <p className="text-lg font-semibold">{cardData.member_name}</p>
-                <p className="text-sm tracking-wider">{formatCardNumber(cardData.card_number)}</p>
-              </div>
-            </div>
+            <img 
+              src={memberCardPlaceholder} 
+              alt="Membership Card Preview" 
+              className="w-full h-auto"
+            />
           </CardContent>
         </Card>
 
