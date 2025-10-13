@@ -85,72 +85,71 @@ export const MemberCard = () => {
       canvas.width = 1200;
       canvas.height = 750;
 
-      // Load background image
-      const bgImg = new Image();
-      bgImg.crossOrigin = 'anonymous';
-      bgImg.src = memberCardBg;
-
-      bgImg.onload = () => {
-        // Draw background
-        ctx.drawImage(bgImg, 0, 0, canvas.width, canvas.height);
-
-        // Load and draw logo in upper left
-        const logoImg = new Image();
-        logoImg.crossOrigin = 'anonymous';
-        logoImg.src = '/lovable-uploads/logo-white.png';
-        
-        logoImg.onload = () => {
-          // Draw logo in upper left corner
-          const logoHeight = 80;
-          const logoWidth = logoHeight * (logoImg.width / logoImg.height);
-          ctx.drawImage(logoImg, 40, 40, logoWidth, logoHeight);
-        };
-
-        // Draw QR code in center
-        if (qrCodeUrl) {
-          const qrImg = new Image();
-          qrImg.src = qrCodeUrl;
-          qrImg.onload = () => {
-            const qrSize = 300;
-            const qrX = (canvas.width - qrSize) / 2;
-            const qrY = 200;
-            
-            // White background for QR
-            ctx.fillStyle = '#FFFFFF';
-            ctx.fillRect(qrX - 20, qrY - 20, qrSize + 40, qrSize + 40);
-            
-            ctx.drawImage(qrImg, qrX, qrY, qrSize, qrSize);
-
-            // Member name and card number (positioned at bottom over the green section in background)
-            const textY = canvas.height - 150;
-            ctx.fillStyle = '#FFFFFF';
-            ctx.font = 'bold 56px Arial';
-            ctx.textAlign = 'center';
-            ctx.fillText(cardData.member_name.toUpperCase(), canvas.width / 2, textY);
-
-            // Card number
-            ctx.font = 'bold 44px Arial';
-            ctx.fillText(formatCardNumber(cardData.card_number), canvas.width / 2, textY + 70);
-
-            // Download
-            canvas.toBlob((blob) => {
-              if (blob) {
-                const url = URL.createObjectURL(blob);
-                const a = document.createElement('a');
-                a.href = url;
-                a.download = `membership-card-${cardData.card_number}.png`;
-                a.click();
-                URL.revokeObjectURL(url);
-                
-                toast({
-                  title: 'Card downloaded',
-                  description: 'Your membership card has been downloaded.',
-                });
-              }
-            });
-          };
-        }
+      // Load all images first
+      const loadImage = (src: string): Promise<HTMLImageElement> => {
+        return new Promise((resolve, reject) => {
+          const img = new Image();
+          img.crossOrigin = 'anonymous';
+          img.onload = () => resolve(img);
+          img.onerror = reject;
+          img.src = src;
+        });
       };
+
+      const [bgImg, logoImg, qrImg] = await Promise.all([
+        loadImage(memberCardBg),
+        loadImage('/lovable-uploads/logo-white.png'),
+        qrCodeUrl ? loadImage(qrCodeUrl) : Promise.resolve(null)
+      ]);
+
+      // Draw background
+      ctx.drawImage(bgImg, 0, 0, canvas.width, canvas.height);
+
+      // Draw logo in upper left corner
+      const logoHeight = 80;
+      const logoWidth = logoHeight * (logoImg.width / logoImg.height);
+      ctx.drawImage(logoImg, 40, 40, logoWidth, logoHeight);
+
+      // Draw QR code in center
+      if (qrImg) {
+        const qrSize = 300;
+        const qrX = (canvas.width - qrSize) / 2;
+        const qrY = 200;
+        
+        // White background for QR
+        ctx.fillStyle = '#FFFFFF';
+        ctx.fillRect(qrX - 20, qrY - 20, qrSize + 40, qrSize + 40);
+        
+        ctx.drawImage(qrImg, qrX, qrY, qrSize, qrSize);
+      }
+
+      // Member name and card number (positioned at bottom over the green section in background)
+      const textY = canvas.height - 150;
+      ctx.fillStyle = '#FFFFFF';
+      ctx.font = 'bold 56px Arial';
+      ctx.textAlign = 'center';
+      ctx.fillText(cardData.member_name.toUpperCase(), canvas.width / 2, textY);
+
+      // Card number
+      ctx.font = 'bold 44px Arial';
+      ctx.fillText(formatCardNumber(cardData.card_number), canvas.width / 2, textY + 70);
+
+      // Download
+      canvas.toBlob((blob) => {
+        if (blob) {
+          const url = URL.createObjectURL(blob);
+          const a = document.createElement('a');
+          a.href = url;
+          a.download = `membership-card-${cardData.card_number}.png`;
+          a.click();
+          URL.revokeObjectURL(url);
+          
+          toast({
+            title: 'Card downloaded',
+            description: 'Your membership card has been downloaded.',
+          });
+        }
+      });
     } catch (error) {
       console.error('Error downloading card:', error);
       toast({
@@ -227,6 +226,15 @@ export const MemberCard = () => {
               className="relative w-full aspect-[16/10] bg-cover bg-center"
               style={{ backgroundImage: `url(${memberCardBg})` }}
             >
+              {/* Logo in upper left */}
+              <div className="absolute top-4 left-4">
+                <img 
+                  src="/lovable-uploads/logo-white.png" 
+                  alt="SmartGuidebooks.com" 
+                  className="h-12 md:h-16 w-auto"
+                />
+              </div>
+
               {/* QR Code */}
               <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 -mt-12">
                 {qrCodeUrl && (
