@@ -16,6 +16,8 @@ import { format } from 'date-fns';
 import heroImage from "@/assets/hero-members.jpg";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { CreateInvitationDialog } from "@/components/CreateInvitationDialog";
+import { MemberCard } from "@/components/MemberCard";
+import { MemberVisitHistory } from "@/components/member/MemberVisitHistory";
 
 interface UserPreferences {
   wheelchair_access: boolean;
@@ -366,8 +368,14 @@ const MemberDashboard = () => {
             </Button>
           </div>
 
-          <Tabs defaultValue="preferences" className="w-full">
-            <TabsList className="grid w-full grid-cols-4 mb-6">
+          <Tabs defaultValue="card" className="w-full">
+            <TabsList className="grid w-full grid-cols-3 sm:grid-cols-6 mb-6">
+              <TabsTrigger value="card" className="text-xs p-2">
+                Card
+              </TabsTrigger>
+              <TabsTrigger value="visits" className="text-xs p-2">
+                Visits
+              </TabsTrigger>
               <TabsTrigger value="preferences" className="text-xs p-2">
                 Prefs
               </TabsTrigger>
@@ -381,6 +389,16 @@ const MemberDashboard = () => {
                 Events
               </TabsTrigger>
             </TabsList>
+
+            {/* My Card Tab */}
+            <TabsContent value="card" className="space-y-4">
+              <MemberCard />
+            </TabsContent>
+
+            {/* Visit History Tab */}
+            <TabsContent value="visits" className="space-y-4">
+              <MemberVisitHistory />
+            </TabsContent>
             <TabsContent value="preferences" className="space-y-4">
               <Card>
                 <CardHeader className="bg-background p-4">

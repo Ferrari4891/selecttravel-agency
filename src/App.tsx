@@ -22,6 +22,7 @@ import JoinFree from "./pages/JoinFree";
 import TVChannel from "./pages/TVChannel";
 import BusinessDashboard from "./pages/BusinessDashboard";
 import UserDashboard from "./pages/UserDashboard";
+import { Navigate } from "react-router-dom";
 import Auth from "./pages/Auth";
 import BusinessAuth from "./pages/BusinessAuth";
 import Collections from "./pages/Collections";
@@ -81,11 +82,7 @@ const App = () => (
                 />
                 <Route 
                   path="/user-dashboard" 
-                  element={
-                    <ProtectedRoute>
-                      <UserDashboard />
-                    </ProtectedRoute>
-                  } 
+                  element={<Navigate to="/dashboard" replace />}
                 />
                 <Route 
                   path="/collections" 
