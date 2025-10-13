@@ -179,61 +179,103 @@ export const MemberCard = () => {
   }
 
   return (
-    <div className="space-y-6">
-      <Card className="overflow-hidden max-w-4xl mx-auto">
-        <CardContent className="p-0">
-          <div 
-            className="relative w-full aspect-[16/10] bg-cover bg-center"
-            style={{ backgroundImage: `url(${memberCardBg})` }}
-          >
-            {/* Branding */}
-            <div className="absolute top-8 left-0 right-0 text-center">
-              <h2 className="text-3xl md:text-4xl font-bold text-white drop-shadow-lg">
-                SMARTGUIDEBOOKS.COM
-              </h2>
-            </div>
-
-            {/* QR Code */}
-            <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
-              {qrCodeUrl && (
-                <div className="bg-white p-4">
-                  <img 
-                    src={qrCodeUrl} 
-                    alt="Member QR Code" 
-                    className="w-48 h-48 md:w-64 md:h-64"
-                  />
-                </div>
-              )}
-            </div>
-
-            {/* Footer with member info */}
-            <div className="absolute bottom-0 left-0 right-0 bg-[#2F4F2F] py-6 px-8">
-              <div className="text-center space-y-2">
-                <p className="text-white text-2xl md:text-3xl font-bold">
-                  {cardData.member_name.toUpperCase()}
-                </p>
-                <p className="text-white text-xl md:text-2xl font-bold tracking-wider">
-                  {formatCardNumber(cardData.card_number)}
-                </p>
+    <div className="space-y-8">
+      {/* Simple Scannable View */}
+      <div className="text-center">
+        <h2 className="text-xl font-semibold mb-4">Scan at Venue</h2>
+        <Card className="max-w-md mx-auto">
+          <CardContent className="p-8">
+            {qrCodeUrl && (
+              <div className="bg-white p-4 inline-block mb-6">
+                <img 
+                  src={qrCodeUrl} 
+                  alt="Member QR Code" 
+                  className="w-64 h-64"
+                />
               </div>
+            )}
+            <div className="space-y-2">
+              <p className="text-sm text-muted-foreground">Member Number</p>
+              <p className="text-2xl font-bold tracking-wider">
+                {formatCardNumber(cardData.card_number)}
+              </p>
+              <p className="text-lg font-semibold text-foreground">
+                {cardData.member_name}
+              </p>
             </div>
-          </div>
-        </CardContent>
-      </Card>
-
-      <div className="flex justify-center">
-        <Button onClick={downloadCard} size="lg">
-          <Download className="mr-2 h-5 w-5" />
-          Download Card
-        </Button>
+          </CardContent>
+        </Card>
       </div>
 
+      {/* Separator */}
+      <div className="relative">
+        <div className="absolute inset-0 flex items-center">
+          <div className="w-full border-t border-border"></div>
+        </div>
+        <div className="relative flex justify-center text-sm">
+          <span className="px-4 bg-background text-muted-foreground">Full Membership Card</span>
+        </div>
+      </div>
+
+      {/* Full Downloadable Card */}
+      <div className="text-center">
+        <h2 className="text-xl font-semibold mb-4">Download Your Card</h2>
+        <Card className="overflow-hidden max-w-4xl mx-auto">
+          <CardContent className="p-0">
+            <div 
+              className="relative w-full aspect-[16/10] bg-cover bg-center"
+              style={{ backgroundImage: `url(${memberCardBg})` }}
+            >
+              {/* Branding */}
+              <div className="absolute top-8 left-0 right-0 text-center">
+                <h3 className="text-3xl md:text-4xl font-bold text-white drop-shadow-lg">
+                  SMARTGUIDEBOOKS.COM
+                </h3>
+              </div>
+
+              {/* QR Code */}
+              <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
+                {qrCodeUrl && (
+                  <div className="bg-white p-4">
+                    <img 
+                      src={qrCodeUrl} 
+                      alt="Member QR Code" 
+                      className="w-48 h-48 md:w-64 md:h-64"
+                    />
+                  </div>
+                )}
+              </div>
+
+              {/* Footer with member info */}
+              <div className="absolute bottom-0 left-0 right-0 bg-[#2F4F2F] py-6 px-8">
+                <div className="text-center space-y-2">
+                  <p className="text-white text-2xl md:text-3xl font-bold">
+                    {cardData.member_name.toUpperCase()}
+                  </p>
+                  <p className="text-white text-xl md:text-2xl font-bold tracking-wider">
+                    {formatCardNumber(cardData.card_number)}
+                  </p>
+                </div>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+
+        <div className="flex justify-center mt-6">
+          <Button onClick={downloadCard} size="lg">
+            <Download className="mr-2 h-5 w-5" />
+            Download Card
+          </Button>
+        </div>
+      </div>
+
+      {/* Instructions */}
       <Card>
         <CardContent className="p-6">
           <h3 className="font-semibold mb-4">How to Use Your Membership Card</h3>
           <ul className="space-y-2 text-sm text-muted-foreground">
-            <li>• Download your card and save it to your phone</li>
-            <li>• Show the QR code at participating first-class businesses</li>
+            <li>• Show the QR code above at participating first-class businesses to scan</li>
+            <li>• Download the full card and save it to your phone for offline access</li>
             <li>• Earn rewards and track your visits automatically</li>
             <li>• Use for bookings and exclusive member benefits</li>
           </ul>
