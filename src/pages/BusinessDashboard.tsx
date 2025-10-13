@@ -11,6 +11,8 @@ import { SubscriptionManagement } from '@/components/business/SubscriptionManage
 import { BusinessMediaForm } from '@/components/business/BusinessMediaForm';
 import { BusinessMediaPreview } from '@/components/business/BusinessMediaPreview';
 import { VoucherManagement } from '@/components/business/VoucherManagement';
+import { BusinessQRScanner } from '@/components/business/BusinessQRScanner';
+import { BusinessVisitDashboard } from '@/components/business/BusinessVisitDashboard';
 import { useToast } from '@/hooks/use-toast';
 import { Home } from 'lucide-react';
 import MobileContainer from '@/components/MobileContainer';
@@ -116,6 +118,9 @@ const Dashboard = () => {
             <TabsList className="grid w-full grid-cols-1 gap-2 h-auto bg-transparent p-0">
               <TabsTrigger value="profile" className="w-full text-sm md:text-base font-medium px-4 py-3 border border-border rounded data-[state=active]:bg-primary data-[state=active]:text-primary-foreground">Business Profile</TabsTrigger>
               <TabsTrigger value="media" className="w-full text-sm md:text-base font-medium px-4 py-3 border border-border rounded data-[state=active]:bg-primary data-[state=active]:text-primary-foreground">Media</TabsTrigger>
+              {business.subscription_tier === 'firstclass' && (
+                <TabsTrigger value="visits" className="w-full text-sm md:text-base font-medium px-4 py-3 border border-border rounded data-[state=active]:bg-primary data-[state=active]:text-primary-foreground">Visit Tracking</TabsTrigger>
+              )}
               <TabsTrigger value="analytics" className="w-full text-sm md:text-base font-medium px-4 py-3 border border-border rounded data-[state=active]:bg-primary data-[state=active]:text-primary-foreground">Analytics</TabsTrigger>
               <TabsTrigger value="vouchers" className="w-full text-sm md:text-base font-medium px-4 py-3 border border-border rounded data-[state=active]:bg-primary data-[state=active]:text-primary-foreground">Vouchers</TabsTrigger>
               <TabsTrigger value="subscription" className="w-full text-sm md:text-base font-medium px-4 py-3 border border-border rounded data-[state=active]:bg-primary data-[state=active]:text-primary-foreground">Subscription</TabsTrigger>
@@ -163,6 +168,23 @@ const Dashboard = () => {
                 </CardContent>
               </Card>
             </TabsContent>
+
+            {business.subscription_tier === 'firstclass' && (
+              <TabsContent value="visits" className="space-y-4">
+                <Card className="border shadow-md bg-background">
+                  <CardHeader className="bg-background p-4">
+                    <CardTitle className="text-center border-b border-border pb-2 text-xl md:text-2xl font-bold">Member Visit Tracking</CardTitle>
+                    <CardDescription className="text-sm md:text-base text-center text-muted-foreground">
+                      Scan member QR codes and track visits to your business.
+                    </CardDescription>
+                  </CardHeader>
+                  <CardContent className="p-4 space-y-6">
+                    <BusinessQRScanner businessId={business.id} />
+                    <BusinessVisitDashboard businessId={business.id} />
+                  </CardContent>
+                </Card>
+              </TabsContent>
+            )}
 
             <TabsContent value="vouchers" className="space-y-4">
               <Card className="border shadow-md bg-background">

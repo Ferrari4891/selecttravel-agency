@@ -8,6 +8,7 @@ import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { MyInvitations } from "@/components/MyInvitations";
 import { MemberCard } from "@/components/MemberCard";
+import { MemberVisitHistory } from "@/components/member/MemberVisitHistory";
 import { useLanguage } from "@/contexts/LanguageContext";
 import Footer from "@/components/Footer";
 import MobileContainer from "@/components/MobileContainer";
@@ -168,20 +169,27 @@ const { user, signOut } = useAuth();
           </div>
 
           <Tabs defaultValue="card" className="w-full">
-            <TabsList className="grid w-full grid-cols-3 mb-6">
-              <TabsTrigger value="card" className="text-sm md:text-base py-2">
+            <TabsList className="grid w-full grid-cols-1 gap-2 h-auto bg-transparent p-0 mb-6">
+              <TabsTrigger value="card" className="w-full text-sm md:text-base font-medium px-4 py-3 border border-border rounded data-[state=active]:bg-primary data-[state=active]:text-primary-foreground">
                 My Card
               </TabsTrigger>
-              <TabsTrigger value="preferences" className="text-sm md:text-base py-2">
+              <TabsTrigger value="visits" className="w-full text-sm md:text-base font-medium px-4 py-3 border border-border rounded data-[state=active]:bg-primary data-[state=active]:text-primary-foreground">
+                Visit History
+              </TabsTrigger>
+              <TabsTrigger value="preferences" className="w-full text-sm md:text-base font-medium px-4 py-3 border border-border rounded data-[state=active]:bg-primary data-[state=active]:text-primary-foreground">
                 Preferences
               </TabsTrigger>
-              <TabsTrigger value="invitations" className="text-sm md:text-base py-2">
+              <TabsTrigger value="invitations" className="w-full text-sm md:text-base font-medium px-4 py-3 border border-border rounded data-[state=active]:bg-primary data-[state=active]:text-primary-foreground">
                 Invitations
               </TabsTrigger>
             </TabsList>
 
             <TabsContent value="card" className="space-y-4">
               <MemberCard />
+            </TabsContent>
+
+            <TabsContent value="visits" className="space-y-4">
+              <MemberVisitHistory />
             </TabsContent>
 
             <TabsContent value="preferences" className="space-y-4">

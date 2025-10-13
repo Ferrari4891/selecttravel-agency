@@ -1202,6 +1202,51 @@ export type Database = {
           },
         ]
       }
+      member_visits: {
+        Row: {
+          business_id: string
+          card_id: string
+          created_at: string
+          id: string
+          notes: string | null
+          updated_at: string
+          visit_date: string
+        }
+        Insert: {
+          business_id: string
+          card_id: string
+          created_at?: string
+          id?: string
+          notes?: string | null
+          updated_at?: string
+          visit_date?: string
+        }
+        Update: {
+          business_id?: string
+          card_id?: string
+          created_at?: string
+          id?: string
+          notes?: string | null
+          updated_at?: string
+          visit_date?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "member_visits_business_id_fkey"
+            columns: ["business_id"]
+            isOneToOne: false
+            referencedRelation: "businesses"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "member_visits_card_id_fkey"
+            columns: ["card_id"]
+            isOneToOne: false
+            referencedRelation: "member_cards"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       message_replies: {
         Row: {
           author_email: string
