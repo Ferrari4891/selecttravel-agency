@@ -94,6 +94,18 @@ export const MemberCard = () => {
         // Draw background
         ctx.drawImage(bgImg, 0, 0, canvas.width, canvas.height);
 
+        // Load and draw logo in upper left
+        const logoImg = new Image();
+        logoImg.crossOrigin = 'anonymous';
+        logoImg.src = '/lovable-uploads/logo-white.png';
+        
+        logoImg.onload = () => {
+          // Draw logo in upper left corner
+          const logoHeight = 80;
+          const logoWidth = logoHeight * (logoImg.width / logoImg.height);
+          ctx.drawImage(logoImg, 40, 40, logoWidth, logoHeight);
+        };
+
         // Draw QR code in center
         if (qrCodeUrl) {
           const qrImg = new Image();
