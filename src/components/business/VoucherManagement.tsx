@@ -257,7 +257,7 @@ export const VoucherManagement: React.FC<VoucherManagementProps> = ({
               Create Voucher
             </Button>
           </DialogTrigger>
-          <DialogContent className="max-w-md">
+          <DialogContent className="max-w-md max-h-[90vh] overflow-y-auto">
             <DialogHeader>
               <DialogTitle>Create New Voucher</DialogTitle>
               <DialogDescription>
@@ -265,17 +265,19 @@ export const VoucherManagement: React.FC<VoucherManagementProps> = ({
               </DialogDescription>
             </DialogHeader>
             
-            <div className="space-y-4">
-              <div>
-                <Label>Voucher Type</Label>
+            <div className="space-y-5 py-4">
+              <div className="space-y-2">
+                <Label htmlFor="voucher-type" className="text-sm font-medium">
+                  Voucher Type
+                </Label>
                 <Select
                   value={formData.voucher_type}
                   onValueChange={(value: any) => setFormData({ ...formData, voucher_type: value })}
                 >
-                  <SelectTrigger>
+                  <SelectTrigger id="voucher-type" className="w-full">
                     <SelectValue />
                   </SelectTrigger>
-                  <SelectContent>
+                  <SelectContent className="bg-background z-50">
                     <SelectItem value="percentage_discount">
                       <div className="flex items-center gap-2">
                         <Percent className="h-4 w-4" />
@@ -298,68 +300,98 @@ export const VoucherManagement: React.FC<VoucherManagementProps> = ({
                 </Select>
               </div>
 
-              <div>
-                <Label>Title *</Label>
+              <div className="space-y-2">
+                <Label htmlFor="voucher-title" className="text-sm font-medium">
+                  Title <span className="text-destructive">*</span>
+                </Label>
                 <Input
+                  id="voucher-title"
                   value={formData.title}
                   onChange={(e) => setFormData({ ...formData, title: e.target.value })}
                   placeholder="e.g., Summer Special 20% Off"
+                  className="w-full"
                 />
               </div>
 
-              <div>
-                <Label>Description</Label>
+              <div className="space-y-2">
+                <Label htmlFor="voucher-description" className="text-sm font-medium">
+                  Description
+                </Label>
                 <Textarea
+                  id="voucher-description"
                   value={formData.description}
                   onChange={(e) => setFormData({ ...formData, description: e.target.value })}
                   placeholder="Describe your offer..."
-                  rows={2}
+                  rows={3}
+                  className="w-full resize-none"
                 />
               </div>
 
-              <div>
-                <Label>
+              <div className="space-y-2">
+                <Label htmlFor="voucher-discount" className="text-sm font-medium">
                   {formData.voucher_type === 'percentage_discount' ? 'Discount Percentage' :
-                   formData.voucher_type === 'fixed_amount' ? 'Discount Amount ($)' : 'Free Items Quantity'} *
+                   formData.voucher_type === 'fixed_amount' ? 'Discount Amount ($)' : 'Free Items Quantity'} <span className="text-destructive">*</span>
                 </Label>
                 <Input
+                  id="voucher-discount"
                   type="number"
+                  min="0"
+                  step={formData.voucher_type === 'percentage_discount' ? '1' : '0.01'}
                   value={formData.discount_value}
                   onChange={(e) => setFormData({ ...formData, discount_value: e.target.value })}
                   placeholder={formData.voucher_type === 'percentage_discount' ? '20' : '10'}
+                  className="w-full"
                 />
               </div>
 
-              <div>
-                <Label>Minimum Purchase ($)</Label>
+              <div className="space-y-2">
+                <Label htmlFor="voucher-min-purchase" className="text-sm font-medium">
+                  Minimum Purchase Amount ($)
+                </Label>
                 <Input
+                  id="voucher-min-purchase"
                   type="number"
+                  min="0"
+                  step="0.01"
                   value={formData.min_purchase_amount}
                   onChange={(e) => setFormData({ ...formData, min_purchase_amount: e.target.value })}
                   placeholder="0"
+                  className="w-full"
                 />
               </div>
 
-              <div>
-                <Label>Maximum Uses (optional)</Label>
+              <div className="space-y-2">
+                <Label htmlFor="voucher-max-uses" className="text-sm font-medium">
+                  Maximum Uses (optional)
+                </Label>
                 <Input
+                  id="voucher-max-uses"
                   type="number"
+                  min="1"
+                  step="1"
                   value={formData.max_uses}
                   onChange={(e) => setFormData({ ...formData, max_uses: e.target.value })}
-                  placeholder="Unlimited"
+                  placeholder="Leave empty for unlimited uses"
+                  className="w-full"
                 />
               </div>
 
-              <div>
-                <Label>End Date *</Label>
+              <div className="space-y-2">
+                <Label htmlFor="voucher-end-date" className="text-sm font-medium">
+                  End Date <span className="text-destructive">*</span>
+                </Label>
                 <Input
+                  id="voucher-end-date"
                   type="date"
+                  min={new Date().toISOString().split('T')[0]}
                   value={formData.end_date}
                   onChange={(e) => setFormData({ ...formData, end_date: e.target.value })}
+                  className="w-full"
                 />
               </div>
 
-              <Button onClick={createVoucher} className="w-full">
+              <Button onClick={createVoucher} className="w-full mt-6">
+                <Plus className="h-4 w-4 mr-2" />
                 Create Voucher
               </Button>
             </div>
