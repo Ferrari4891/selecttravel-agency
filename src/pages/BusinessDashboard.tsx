@@ -6,7 +6,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Button } from '@/components/ui/button';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { BusinessProfile } from '@/components/business/BusinessProfile';
-import { BusinessAnalytics } from '@/components/business/BusinessAnalytics';
+import { ComprehensiveAnalytics } from '@/components/business/ComprehensiveAnalytics';
 import { SubscriptionManagement } from '@/components/business/SubscriptionManagement';
 import { BusinessMediaForm } from '@/components/business/BusinessMediaForm';
 import { BusinessMediaPreview } from '@/components/business/BusinessMediaPreview';
@@ -158,13 +158,13 @@ const Dashboard = () => {
             <TabsContent value="analytics" className="space-y-4">
               <Card className="border shadow-md bg-background">
                 <CardHeader className="bg-background p-4">
-                  <CardTitle className="text-center border-b border-border pb-2 text-xl md:text-2xl font-bold">Business Analytics</CardTitle>
+                  <CardTitle className="text-center border-b border-border pb-2 text-xl md:text-2xl font-bold">Comprehensive Analytics</CardTitle>
                   <CardDescription className="text-sm md:text-base text-center text-muted-foreground">
-                    Track your business performance and metrics.
+                    Track all interactions across online and physical channels.
                   </CardDescription>
                 </CardHeader>
                 <CardContent className="p-4">
-                  <BusinessAnalytics businessId={business.id} subscriptionTier={business.subscription_tier || 'trial'} />
+                  <ComprehensiveAnalytics businessId={business.id} subscriptionTier={business.subscription_tier || 'trial'} />
                 </CardContent>
               </Card>
             </TabsContent>

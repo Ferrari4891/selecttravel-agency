@@ -104,6 +104,13 @@ export type Database = {
             foreignKeyName: "business_analytics_business_id_fkey"
             columns: ["business_id"]
             isOneToOne: false
+            referencedRelation: "business_analytics_overview"
+            referencedColumns: ["business_id"]
+          },
+          {
+            foreignKeyName: "business_analytics_business_id_fkey"
+            columns: ["business_id"]
+            isOneToOne: false
             referencedRelation: "businesses"
             referencedColumns: ["id"]
           },
@@ -141,6 +148,13 @@ export type Database = {
           youtube_url?: string | null
         }
         Relationships: [
+          {
+            foreignKeyName: "business_media_business_id_fkey"
+            columns: ["business_id"]
+            isOneToOne: true
+            referencedRelation: "business_analytics_overview"
+            referencedColumns: ["business_id"]
+          },
           {
             foreignKeyName: "business_media_business_id_fkey"
             columns: ["business_id"]
@@ -227,6 +241,13 @@ export type Database = {
           updated_at?: string
         }
         Relationships: [
+          {
+            foreignKeyName: "business_subscriptions_business_id_fkey"
+            columns: ["business_id"]
+            isOneToOne: false
+            referencedRelation: "business_analytics_overview"
+            referencedColumns: ["business_id"]
+          },
           {
             foreignKeyName: "business_subscriptions_business_id_fkey"
             columns: ["business_id"]
@@ -676,6 +697,51 @@ export type Database = {
         }
         Relationships: []
       }
+      customer_interactions: {
+        Row: {
+          business_id: string
+          created_at: string
+          customer_identifier: string | null
+          id: string
+          interaction_data: Json | null
+          interaction_type: string
+          updated_at: string
+        }
+        Insert: {
+          business_id: string
+          created_at?: string
+          customer_identifier?: string | null
+          id?: string
+          interaction_data?: Json | null
+          interaction_type: string
+          updated_at?: string
+        }
+        Update: {
+          business_id?: string
+          created_at?: string
+          customer_identifier?: string | null
+          id?: string
+          interaction_data?: Json | null
+          interaction_type?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "customer_interactions_business_id_fkey"
+            columns: ["business_id"]
+            isOneToOne: false
+            referencedRelation: "business_analytics_overview"
+            referencedColumns: ["business_id"]
+          },
+          {
+            foreignKeyName: "customer_interactions_business_id_fkey"
+            columns: ["business_id"]
+            isOneToOne: false
+            referencedRelation: "businesses"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       drink_specialties: {
         Row: {
           category: string
@@ -824,6 +890,13 @@ export type Database = {
           updated_at?: string
         }
         Relationships: [
+          {
+            foreignKeyName: "fk_gift_cards_business"
+            columns: ["business_id"]
+            isOneToOne: false
+            referencedRelation: "business_analytics_overview"
+            referencedColumns: ["business_id"]
+          },
           {
             foreignKeyName: "fk_gift_cards_business"
             columns: ["business_id"]
@@ -1231,6 +1304,13 @@ export type Database = {
           visit_date?: string
         }
         Relationships: [
+          {
+            foreignKeyName: "member_visits_business_id_fkey"
+            columns: ["business_id"]
+            isOneToOne: false
+            referencedRelation: "business_analytics_overview"
+            referencedColumns: ["business_id"]
+          },
           {
             foreignKeyName: "member_visits_business_id_fkey"
             columns: ["business_id"]
@@ -1860,7 +1940,26 @@ export type Database = {
       }
     }
     Views: {
-      [_ in never]: never
+      business_analytics_overview: {
+        Row: {
+          business_id: string | null
+          business_name: string | null
+          month_online_views: number | null
+          month_physical_visits: number | null
+          subscription_tier: string | null
+          today_online_views: number | null
+          today_physical_visits: number | null
+          today_total_interactions: number | null
+          total_interactions: number | null
+          total_online_views: number | null
+          total_physical_visits: number | null
+          unique_online_visitors: number | null
+          unique_physical_visitors: number | null
+          week_online_views: number | null
+          week_physical_visits: number | null
+        }
+        Relationships: []
+      }
     }
     Functions: {
       admin_update_business_subscription: {
@@ -1878,6 +1977,10 @@ export type Database = {
       generate_unique_card_number: {
         Args: Record<PropertyKey, never>
         Returns: string
+      }
+      get_business_analytics_summary: {
+        Args: { p_business_id: string; p_days?: number }
+        Returns: Json
       }
       get_rsvp_counts: {
         Args: { invitation_ids: string[] }
