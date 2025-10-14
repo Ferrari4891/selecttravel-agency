@@ -252,7 +252,7 @@ export function ComprehensiveAnalytics({ businessId, subscriptionTier }: Compreh
         {/* OVERVIEW TAB */}
         <TabsContent value="overview" className="space-y-6">
           {/* Key Metrics */}
-          <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
+          <div className="grid grid-cols-1 gap-4">
             <Card>
               <CardHeader className="pb-3">
                 <CardTitle className="flex items-center gap-2 text-sm font-medium">
@@ -309,7 +309,7 @@ export function ComprehensiveAnalytics({ businessId, subscriptionTier }: Compreh
           </div>
 
           {/* Channel Distribution */}
-          <div className="grid lg:grid-cols-2 gap-6">
+          <div className="grid grid-cols-1 gap-6">
             <Card>
               <CardHeader>
                 <CardTitle>Interaction Channels</CardTitle>
@@ -381,7 +381,7 @@ export function ComprehensiveAnalytics({ businessId, subscriptionTier }: Compreh
 
         {/* ONLINE TAB */}
         <TabsContent value="online" className="space-y-6">
-          <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
+          <div className="grid grid-cols-1 gap-4">
             <Card>
               <CardHeader className="pb-3">
                 <CardTitle className="flex items-center gap-2 text-sm font-medium">
@@ -456,7 +456,7 @@ export function ComprehensiveAnalytics({ businessId, subscriptionTier }: Compreh
 
         {/* PHYSICAL TAB */}
         <TabsContent value="physical" className="space-y-6">
-          <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
+          <div className="grid grid-cols-1 gap-4">
             <Card>
               <CardHeader className="pb-3">
                 <CardTitle className="flex items-center gap-2 text-sm font-medium">
@@ -531,7 +531,7 @@ export function ComprehensiveAnalytics({ businessId, subscriptionTier }: Compreh
 
         {/* REVENUE TAB */}
         <TabsContent value="revenue" className="space-y-6">
-          <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
+          <div className="grid grid-cols-1 gap-4">
             <Card>
               <CardHeader className="pb-3">
                 <CardTitle className="flex items-center gap-2 text-sm font-medium">
@@ -585,7 +585,7 @@ export function ComprehensiveAnalytics({ businessId, subscriptionTier }: Compreh
             </Card>
           </div>
 
-          <div className="grid lg:grid-cols-2 gap-6">
+          <div className="grid grid-cols-1 gap-6">
             <Card>
               <CardHeader>
                 <CardTitle>Voucher Performance</CardTitle>
