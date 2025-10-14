@@ -244,7 +244,7 @@ export const VoucherManagement: React.FC<VoucherManagementProps> = ({
   return (
     <div className="space-y-6">
       {/* Header with Create Button */}
-      <div className="flex justify-between items-center">
+      <div className="space-y-4">
         <div>
           <h2 className="text-2xl font-bold">Voucher Management</h2>
           <p className="text-muted-foreground">Create and manage discount vouchers for your customers</p>
@@ -252,7 +252,7 @@ export const VoucherManagement: React.FC<VoucherManagementProps> = ({
         
         <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
           <DialogTrigger asChild>
-            <Button>
+            <Button className="w-full">
               <Plus className="h-4 w-4 mr-2" />
               Create Voucher
             </Button>
