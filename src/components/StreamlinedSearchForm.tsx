@@ -548,16 +548,16 @@ export const StreamlinedSearchForm: React.FC<StreamlinedSearchFormProps> = ({
           </label>
 
           {searchType === 'price' && (
-            <div className="grid grid-cols-3 gap-2">
+            <div className="flex flex-col gap-2">
               {priceOptions.map(option => (
                 <Button
                   key={option.value}
                   variant={priceLevel === option.value ? "default" : "outline"}
                   onClick={() => setPriceLevel(option.value)}
-                  className="flex flex-col items-center justify-center gap-1 h-auto p-3"
+                  className="flex flex-col items-center justify-center gap-1 h-auto p-3 w-full"
                 >
                   <span className="text-lg font-bold">{option.label}</span>
-                  <span className="text-xs">{option.description}</span>
+                  <span className="text-xs text-center">{option.description}</span>
                 </Button>
               ))}
             </div>
