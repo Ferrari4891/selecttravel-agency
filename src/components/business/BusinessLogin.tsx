@@ -77,40 +77,45 @@ const BusinessLogin = () => {
     <div className="min-h-screen bg-background">
       <Navigation />
       <div className="container mx-auto px-4 py-8">
-        <div className="max-w-md mx-auto space-y-4">
+        <div className="max-w-md mx-auto space-y-6">
           {/* Demo Account Card */}
-          <Card className="border-primary bg-primary/5">
+          <Card className="border-primary/50 bg-primary/5">
             <CardHeader>
-              <CardTitle className="text-lg">🎯 Try Demo Account</CardTitle>
+              <CardTitle className="text-lg">Try Demo Account</CardTitle>
               <CardDescription>
-                Test all features with our demo business account
+                Test all features with our pre-configured demo business
               </CardDescription>
             </CardHeader>
-            <CardContent className="space-y-4">
-              <div className="bg-background p-4 space-y-2">
-                <div>
-                  <Label className="text-xs text-muted-foreground">Email</Label>
-                  <p className="font-mono text-sm">demo@smartguidebooks.com</p>
+            <CardContent className="space-y-3">
+              <div className="space-y-2 p-3 bg-background rounded border">
+                <div className="flex justify-between items-center">
+                  <span className="text-sm font-medium">Email:</span>
+                  <code className="text-sm">demo@smartguidebooks.com</code>
                 </div>
-                <div>
-                  <Label className="text-xs text-muted-foreground">Password</Label>
-                  <p className="font-mono text-sm">Demo2025!</p>
+                <div className="flex justify-between items-center">
+                  <span className="text-sm font-medium">Password:</span>
+                  <code className="text-sm">Demo2025!</code>
                 </div>
               </div>
               <Button
+                type="button"
+                variant="outline"
+                className="w-full"
                 onClick={() => {
                   setEmail('demo@smartguidebooks.com');
                   setPassword('Demo2025!');
+                  toast({
+                    title: "Demo Credentials Loaded",
+                    description: "Click 'Login' to access the demo account",
+                  });
                 }}
-                variant="outline"
-                className="w-full"
               >
                 Use Demo Credentials
               </Button>
             </CardContent>
           </Card>
 
-          {/* Login Card */}
+          {/* Regular Login Card */}
           <Card>
             <CardHeader className="text-center">
               <CardTitle className="text-2xl font-bold">Business Login</CardTitle>
