@@ -404,17 +404,10 @@ export const VoucherManagement: React.FC<VoucherManagementProps> = ({
         </Dialog>
       </div>
 
-      {/* Vouchers List */}
       {/* Redeem Section */}
       <div className="space-y-2">
         <h3 className="text-lg font-semibold">Redeem Vouchers</h3>
-        {/* Inline import to keep file focused */}
-        {/* @ts-ignore - dynamic import pattern */}
-        {(() => {
-          // eslint-disable-next-line @typescript-eslint/no-var-requires
-          const { VoucherQRScanner } = require('./VoucherQRScanner');
-          return <VoucherQRScanner businessId={businessId} />;
-        })()}
+        <VoucherQRScanner businessId={businessId} />
       </div>
 
       {vouchers.length > 0 ? (
@@ -478,24 +471,18 @@ export const VoucherManagement: React.FC<VoucherManagementProps> = ({
                       )}
 
                       {/* Shareable code and QR link */}
-                      {voucher && (
-                        <div className="pt-2 border-t space-y-2">
-                          <div className="flex items-center gap-2 text-xs">
-                            <QrCode className="h-4 w-4" />
-                            <span>Share with customers: </span>
-                            <a
-                              className="underline"
-                              href={`/business/${businessId}/vouchers`}
-                            >
-                              View public voucher page
-                            </a>
-                          </div>
+                      <div className="pt-2 border-t space-y-2">
+                        <div className="flex items-center gap-2 text-xs">
+                          <QrCode className="h-4 w-4" />
+                          <span>Share with customers: </span>
+                          <a
+                            className="underline"
+                            href={`/business/${businessId}/vouchers`}
+                          >
+                            View public voucher page
+                          </a>
                         </div>
-                      )}
-                      <p className="text-xs text-muted-foreground">
-                        Minimum purchase: ${voucher.min_purchase_amount}
-                      </p>
-                    )}
+                      </div>
 
                     {voucherUsage.length > 0 && (
                       <div className="pt-2 border-t">
