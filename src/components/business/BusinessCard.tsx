@@ -195,7 +195,7 @@ export const BusinessCard: React.FC<BusinessCardProps> = ({
         {showFullDetails && (business.image_2_url || business.image_3_url) && (
           <div>
             <h4 className="text-sm font-medium text-foreground mb-2">Gallery</h4>
-            <div className="grid grid-cols-2 gap-2">
+            <div className="flex flex-col gap-2">
               {business.image_2_url && (
                 <img 
                   src={business.image_2_url} 

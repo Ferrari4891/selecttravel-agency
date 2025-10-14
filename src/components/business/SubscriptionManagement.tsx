@@ -130,7 +130,7 @@ const SubscriptionManagement: React.FC<SubscriptionManagementProps> = ({ busines
             </div>
           </div>
 
-          <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+          <div className="flex flex-col gap-6">
             {subscriptionPlans.map((plan) => {
               const currentPrice = selectedPlan === 'monthly' ? plan.monthly_price : plan.annual_price;
               const isCurrentPlan = business?.subscription_tier === plan.tier;

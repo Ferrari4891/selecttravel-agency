@@ -112,7 +112,7 @@ export const BusinessProfilePreview: React.FC<BusinessProfilePreviewProps> = ({
               <Star className="h-5 w-5" />
               Gallery
             </h2>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+            <div className="flex flex-col gap-4">
               {formData.image_1_url && (
                 <div className="aspect-video rounded-lg overflow-hidden bg-muted">
                   <img 
@@ -145,9 +145,9 @@ export const BusinessProfilePreview: React.FC<BusinessProfilePreviewProps> = ({
         </Card>
       )}
 
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+      <div className="flex flex-col gap-6">
         {/* Main Content */}
-        <div className="lg:col-span-2 space-y-6">
+        <div className="space-y-6">
           {/* About Section */}
           {formData.description && (
             <Card>

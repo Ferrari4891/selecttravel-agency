@@ -144,10 +144,10 @@ export const BusinessAnalytics: React.FC<BusinessAnalyticsProps> = ({ businessId
 
   return (
     <Tabs defaultValue="metrics" className="space-y-6">
-      <TabsList className="grid grid-cols-3 w-full">
-        <TabsTrigger value="metrics">Business Metrics</TabsTrigger>
-        <TabsTrigger value="realtime">Real-Time Analytics</TabsTrigger>
-        <TabsTrigger value="vouchers">Voucher Management</TabsTrigger>
+      <TabsList className="flex flex-col w-full gap-2">
+        <TabsTrigger value="metrics" className="w-full">Business Metrics</TabsTrigger>
+        <TabsTrigger value="realtime" className="w-full">Real-Time Analytics</TabsTrigger>
+        <TabsTrigger value="vouchers" className="w-full">Voucher Management</TabsTrigger>
       </TabsList>
 
       <TabsContent value="metrics" className="space-y-6">
@@ -160,7 +160,7 @@ export const BusinessAnalytics: React.FC<BusinessAnalyticsProps> = ({ businessId
             </CardDescription>
           </CardHeader>
           <CardContent>
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+            <div className="flex flex-col gap-4">
               <div>
                 <Label htmlFor="metric_name">Metric Type</Label>
                 <Select 

@@ -452,7 +452,7 @@ export const VoucherManagement: React.FC<VoucherManagementProps> = ({
                       <p className="text-sm text-muted-foreground">{voucher.description}</p>
                     )}
                     
-                    <div className="grid grid-cols-2 gap-4 text-sm">
+                    <div className="flex flex-col gap-4 text-sm">
                       <div className="flex items-center gap-1">
                         <Users className="h-4 w-4" />
                         <span>{voucher.current_uses} uses</span>

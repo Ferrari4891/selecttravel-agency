@@ -206,7 +206,7 @@ export const RealTimeAnalytics: React.FC<RealTimeAnalyticsProps> = ({
   return (
     <div className="space-y-6">
       {/* Real-time metrics */}
-      <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
+      <div className="flex flex-col gap-4">
         <Card className="border-8 border-white shadow-md">
           <CardHeader className="pb-3">
             <CardTitle className="flex items-center gap-2 text-sm font-medium">

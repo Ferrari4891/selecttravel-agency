@@ -242,11 +242,11 @@ export function ComprehensiveAnalytics({ businessId, subscriptionTier }: Compreh
       </div>
 
       <Tabs defaultValue="overview" className="space-y-6">
-        <TabsList className="grid grid-cols-4 w-full">
-          <TabsTrigger value="overview">Overview</TabsTrigger>
-          <TabsTrigger value="online">Online</TabsTrigger>
-          <TabsTrigger value="physical">Physical</TabsTrigger>
-          <TabsTrigger value="revenue">Revenue</TabsTrigger>
+        <TabsList className="flex flex-col w-full gap-2">
+          <TabsTrigger value="overview" className="w-full">Overview</TabsTrigger>
+          <TabsTrigger value="online" className="w-full">Online</TabsTrigger>
+          <TabsTrigger value="physical" className="w-full">Physical</TabsTrigger>
+          <TabsTrigger value="revenue" className="w-full">Revenue</TabsTrigger>
         </TabsList>
 
         {/* OVERVIEW TAB */}
@@ -309,7 +309,7 @@ export function ComprehensiveAnalytics({ businessId, subscriptionTier }: Compreh
           </div>
 
           {/* Channel Distribution */}
-          <div className="grid grid-cols-1 gap-6">
+          <div className="flex flex-col gap-6">
             <Card>
               <CardHeader>
                 <CardTitle>Interaction Channels</CardTitle>
