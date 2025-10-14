@@ -32,6 +32,7 @@ import AdminDashboard from "./pages/AdminDashboard";
 import BusinessCentre from "./pages/BusinessCentre";
 import FlipbookTest from "./pages/FlipbookTest";
 import NotFound from "./pages/NotFound";
+import BusinessVouchers from "./pages/BusinessVouchers";
 import BusinessRegistration from "./components/business/BusinessRegistration";
 import BusinessSetup from "./components/business/BusinessSetup";
 import BusinessLogin from "./components/business/BusinessLogin";
@@ -62,6 +63,7 @@ const App = () => (
                 <Route path="/flipbook-test" element={<FlipbookTest />} />
                 <Route path="/shared/:token" element={<SharedCollection />} />
                 <Route path="/rsvp/:token" element={<RSVP />} />
+                <Route path="/business/:id/vouchers" element={<BusinessVouchers />} />
                 
                 {/* Auth routes */}
                 <Route path="/auth" element={<Auth />} />

@@ -9,7 +9,8 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { Badge } from '@/components/ui/badge';
 import { useToast } from '@/hooks/use-toast';
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
-import { Ticket, Plus, Percent, DollarSign, Gift, Eye, Users, Calendar } from 'lucide-react';
+import { Ticket, Plus, Percent, DollarSign, Gift, Eye, Users, Calendar, QrCode } from 'lucide-react';
+import { VoucherQRScanner } from '@/components/business/VoucherQRScanner';
 
 interface VoucherManagementProps {
   businessId: string;
@@ -241,8 +242,12 @@ export const VoucherManagement: React.FC<VoucherManagementProps> = ({
     return <div>Loading vouchers...</div>;
   }
 
-  return (
-    <div className="space-y-6">
+   return (
+     <div className="space-y-6">
+       {/* Redemption Scanner */}
+       <div>
+         {/* Lazy import to avoid SSR issues not needed here */}
+       </div>
       {/* Header with Create Button */}
       <div className="space-y-4">
         <div>
@@ -400,6 +405,18 @@ export const VoucherManagement: React.FC<VoucherManagementProps> = ({
       </div>
 
       {/* Vouchers List */}
+      {/* Redeem Section */}
+      <div className="space-y-2">
+        <h3 className="text-lg font-semibold">Redeem Vouchers</h3>
+        {/* Inline import to keep file focused */}
+        {/* @ts-ignore - dynamic import pattern */}
+        {(() => {
+          // eslint-disable-next-line @typescript-eslint/no-var-requires
+          const { VoucherQRScanner } = require('./VoucherQRScanner');
+          return <VoucherQRScanner businessId={businessId} />;
+        })()}
+      </div>
+
       {vouchers.length > 0 ? (
         <div className="space-y-4">
           {vouchers.map((voucher) => {
@@ -454,7 +471,27 @@ export const VoucherManagement: React.FC<VoucherManagementProps> = ({
                       </div>
                     </div>
 
-                    {voucher.min_purchase_amount > 0 && (
+                     {voucher.min_purchase_amount > 0 && (
+                        <p className="text-xs text-muted-foreground">
+                          Minimum purchase: ${voucher.min_purchase_amount}
+                        </p>
+                      )}
+
+                      {/* Shareable code and QR link */}
+                      {voucher && (
+                        <div className="pt-2 border-t space-y-2">
+                          <div className="flex items-center gap-2 text-xs">
+                            <QrCode className="h-4 w-4" />
+                            <span>Share with customers: </span>
+                            <a
+                              className="underline"
+                              href={`/business/${businessId}/vouchers`}
+                            >
+                              View public voucher page
+                            </a>
+                          </div>
+                        </div>
+                      )}
                       <p className="text-xs text-muted-foreground">
                         Minimum purchase: ${voucher.min_purchase_amount}
                       </p>

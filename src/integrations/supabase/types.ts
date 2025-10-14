@@ -299,9 +299,11 @@ export type Database = {
           is_active: boolean
           max_uses: number | null
           min_purchase_amount: number | null
+          qr_code_data: string | null
           start_date: string
           title: string
           updated_at: string
+          voucher_code: string | null
           voucher_type: Database["public"]["Enums"]["voucher_type"]
         }
         Insert: {
@@ -315,9 +317,11 @@ export type Database = {
           is_active?: boolean
           max_uses?: number | null
           min_purchase_amount?: number | null
+          qr_code_data?: string | null
           start_date?: string
           title: string
           updated_at?: string
+          voucher_code?: string | null
           voucher_type: Database["public"]["Enums"]["voucher_type"]
         }
         Update: {
@@ -331,9 +335,11 @@ export type Database = {
           is_active?: boolean
           max_uses?: number | null
           min_purchase_amount?: number | null
+          qr_code_data?: string | null
           start_date?: string
           title?: string
           updated_at?: string
+          voucher_code?: string | null
           voucher_type?: Database["public"]["Enums"]["voucher_type"]
         }
         Relationships: []
@@ -1975,6 +1981,10 @@ export type Database = {
         Returns: undefined
       }
       generate_unique_card_number: {
+        Args: Record<PropertyKey, never>
+        Returns: string
+      }
+      generate_voucher_code: {
         Args: Record<PropertyKey, never>
         Returns: string
       }
