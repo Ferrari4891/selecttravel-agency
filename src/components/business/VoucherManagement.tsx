@@ -127,10 +127,10 @@ export const VoucherManagement: React.FC<VoucherManagementProps> = ({
   };
 
   const createVoucher = async () => {
-    if (!formData.title || !formData.discount_value || !formData.end_date) {
+    if (!formData.title.trim() || !formData.discount_value || !formData.end_date) {
       toast({
         title: "Error",
-        description: "Please fill in all required fields.",
+        description: "Please fill in all required fields (Title, Discount Value, and End Date).",
         variant: "destructive",
       });
       return;
