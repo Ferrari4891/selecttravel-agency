@@ -78,23 +78,23 @@ const BusinessLogin = () => {
       <Navigation />
       <div className="container mx-auto px-4 py-8">
         <div className="max-w-md mx-auto space-y-6">
-          {/* Demo Account Card */}
+          {/* Demo Account Section */}
           <Card className="border-primary/50 bg-primary/5">
             <CardHeader>
               <CardTitle className="text-lg">Try Demo Account</CardTitle>
               <CardDescription>
-                Test all features with our pre-configured demo business
+                Test all features with a pre-configured demo business
               </CardDescription>
             </CardHeader>
             <CardContent className="space-y-3">
-              <div className="space-y-2 p-3 bg-background rounded border">
-                <div className="flex justify-between items-center">
-                  <span className="text-sm font-medium">Email:</span>
-                  <code className="text-sm">demo@smartguidebooks.com</code>
+              <div className="space-y-2 text-sm">
+                <div className="flex items-center justify-between p-2 bg-background rounded">
+                  <span className="text-muted-foreground">Email:</span>
+                  <code className="font-mono">demo@smartguidebooks.com</code>
                 </div>
-                <div className="flex justify-between items-center">
-                  <span className="text-sm font-medium">Password:</span>
-                  <code className="text-sm">Demo2025!</code>
+                <div className="flex items-center justify-between p-2 bg-background rounded">
+                  <span className="text-muted-foreground">Password:</span>
+                  <code className="font-mono">Demo2025!</code>
                 </div>
               </div>
               <Button
@@ -104,10 +104,6 @@ const BusinessLogin = () => {
                 onClick={() => {
                   setEmail('demo@smartguidebooks.com');
                   setPassword('Demo2025!');
-                  toast({
-                    title: "Demo Credentials Loaded",
-                    description: "Click 'Login' to access the demo account",
-                  });
                 }}
               >
                 Use Demo Credentials
@@ -115,7 +111,6 @@ const BusinessLogin = () => {
             </CardContent>
           </Card>
 
-          {/* Regular Login Card */}
           <Card>
             <CardHeader className="text-center">
               <CardTitle className="text-2xl font-bold">Business Login</CardTitle>
