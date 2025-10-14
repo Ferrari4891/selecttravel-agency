@@ -77,7 +77,40 @@ const BusinessLogin = () => {
     <div className="min-h-screen bg-background">
       <Navigation />
       <div className="container mx-auto px-4 py-8">
-        <div className="max-w-md mx-auto">
+        <div className="max-w-md mx-auto space-y-4">
+          {/* Demo Account Card */}
+          <Card className="border-primary bg-primary/5">
+            <CardHeader>
+              <CardTitle className="text-lg">🎯 Try Demo Account</CardTitle>
+              <CardDescription>
+                Test all features with our demo business account
+              </CardDescription>
+            </CardHeader>
+            <CardContent className="space-y-4">
+              <div className="bg-background p-4 space-y-2">
+                <div>
+                  <Label className="text-xs text-muted-foreground">Email</Label>
+                  <p className="font-mono text-sm">demo@smartguidebooks.com</p>
+                </div>
+                <div>
+                  <Label className="text-xs text-muted-foreground">Password</Label>
+                  <p className="font-mono text-sm">Demo2025!</p>
+                </div>
+              </div>
+              <Button
+                onClick={() => {
+                  setEmail('demo@smartguidebooks.com');
+                  setPassword('Demo2025!');
+                }}
+                variant="outline"
+                className="w-full"
+              >
+                Use Demo Credentials
+              </Button>
+            </CardContent>
+          </Card>
+
+          {/* Login Card */}
           <Card>
             <CardHeader className="text-center">
               <CardTitle className="text-2xl font-bold">Business Login</CardTitle>
