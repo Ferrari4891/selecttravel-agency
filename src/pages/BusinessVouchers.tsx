@@ -104,7 +104,7 @@ export default function BusinessVouchers() {
             const isExpired = new Date(v.end_date) < new Date();
             return (
               <Card key={v.id} className="overflow-hidden">
-                <div className="relative w-full aspect-video">
+                <div className="relative w-full min-h-[400px]">
                   {/* Voucher Base Image */}
                   <img 
                     src={voucherBase} 
@@ -112,61 +112,88 @@ export default function BusinessVouchers() {
                     className="absolute inset-0 w-full h-full object-cover"
                   />
                   
-                  {/* Text Overlay - Left Side */}
-                  <div className="absolute inset-0 flex">
-                    <div className="flex-1 flex flex-col items-center justify-center p-6 text-center">
-                      <div className="flex items-center gap-2 mb-2">
+                  {/* Main Voucher Content */}
+                  <div className="relative p-8 flex flex-col gap-6">
+                    {/* Header with Badge */}
+                    <div className="flex items-center justify-between">
+                      <div className="flex items-center gap-2">
                         <div className="text-white">{getIcon(v.voucher_type)}</div>
-                        <Badge variant="secondary" className="bg-white/95 text-black">
-                          {isExpired ? "Expired" : "Active"}
-                        </Badge>
+                        <h3 className="text-xl md:text-2xl font-bold text-white drop-shadow-lg">
+                          {businessName}
+                        </h3>
                       </div>
-                      
-                      <h3 className="text-2xl md:text-3xl font-bold text-white mb-2 drop-shadow-lg">
-                        {v.title}
-                      </h3>
-                      
-                      <div className="text-3xl md:text-5xl font-bold text-yellow-300 mb-4 drop-shadow-lg">
-                        {v.voucher_type === "percentage_discount" && `${v.discount_value}% OFF`}
-                        {v.voucher_type === "fixed_amount" && `$${v.discount_value} OFF`}
-                        {v.voucher_type === "buy_one_get_one" && `Buy 1 Get ${v.discount_value} FREE`}
-                      </div>
-                      
-                      {v.description && (
-                        <p className="text-sm md:text-base text-white/90 mb-4 max-w-md drop-shadow">
-                          {v.description}
-                        </p>
-                      )}
-                      
-                      <div className="flex items-center gap-2 text-sm md:text-base text-white/95 mb-3 drop-shadow">
-                        <Calendar className="h-4 w-4" />
-                        <span>Expires {new Date(v.end_date).toLocaleDateString()}</span>
-                      </div>
-                      
-                      <div className="bg-white/95 px-4 py-2 rounded shadow-lg">
-                        <div className="text-xs text-gray-600 mb-1">Voucher Code</div>
-                        <div className="font-mono text-lg md:text-xl font-bold text-gray-900">
-                          {v.voucher_code || "—"}
+                      <Badge variant="secondary" className="bg-white text-black">
+                        {isExpired ? "Expired" : "Active"}
+                      </Badge>
+                    </div>
+
+                    {/* Main Offer Section */}
+                    <div className="flex items-start gap-6">
+                      {/* Left: Offer Details */}
+                      <div className="flex-1 space-y-4">
+                        <h2 className="text-3xl md:text-4xl font-bold text-white drop-shadow-lg">
+                          {v.title}
+                        </h2>
+                        
+                        <div className="text-4xl md:text-6xl font-bold text-yellow-300 drop-shadow-lg">
+                          {v.voucher_type === "percentage_discount" && `${v.discount_value}% OFF`}
+                          {v.voucher_type === "fixed_amount" && `$${v.discount_value} OFF`}
+                          {v.voucher_type === "buy_one_get_one" && `Buy 1 Get ${v.discount_value} FREE`}
                         </div>
+                        
+                        {v.description && (
+                          <p className="text-base md:text-lg text-white drop-shadow">
+                            {v.description}
+                          </p>
+                        )}
+                        
+                        <div className="flex items-center gap-2 text-white drop-shadow">
+                          <Calendar className="h-5 w-5" />
+                          <span className="text-base md:text-lg">
+                            Valid until {new Date(v.end_date).toLocaleDateString()}
+                          </span>
+                        </div>
+                        
+                        <div className="bg-white/95 px-6 py-3 rounded inline-block shadow-lg">
+                          <div className="text-xs text-gray-600 mb-1">Voucher Code</div>
+                          <div className="font-mono text-2xl md:text-3xl font-bold text-gray-900">
+                            {v.voucher_code || "NO CODE NEEDED"}
+                          </div>
+                        </div>
+                      </div>
+
+                      {/* Right: QR Code */}
+                      <div className="flex flex-col items-center gap-2">
+                        {qrMap[v.id] ? (
+                          <div className="bg-white p-4 rounded-lg shadow-xl">
+                            <img 
+                              src={qrMap[v.id]} 
+                              alt={`QR code for ${v.title}`} 
+                              className="w-40 h-40 md:w-48 md:h-48"
+                            />
+                          </div>
+                        ) : (
+                          <div className="w-40 h-40 md:w-48 md:h-48 bg-white/20 rounded-lg flex items-center justify-center">
+                            <QrCode className="h-16 w-16 text-white/50" />
+                          </div>
+                        )}
+                        <p className="text-white text-sm font-medium drop-shadow">Scan to Redeem</p>
                       </div>
                     </div>
-                    
-                    {/* QR Code - Right Side */}
-                    <div className="w-1/3 flex items-center justify-center p-4 bg-white/10">
-                      {qrMap[v.id] ? (
-                        <div className="bg-white p-3 rounded shadow-lg">
-                          <img 
-                            src={qrMap[v.id]} 
-                            alt={`QR code for ${v.title}`} 
-                            className="w-full h-auto"
-                          />
-                          <div className="text-center text-xs text-gray-600 mt-2">Scan to redeem</div>
-                        </div>
-                      ) : (
-                        <div className="w-32 h-32 bg-white/20 rounded flex items-center justify-center">
-                          <QrCode className="h-12 w-12 text-white/50" />
-                        </div>
-                      )}
+
+                    {/* Terms and Conditions */}
+                    <div className="border-t border-white/30 pt-4">
+                      <h4 className="text-sm font-semibold text-white mb-2">Terms & Conditions:</h4>
+                      <ul className="text-xs text-white/90 space-y-1 list-disc list-inside">
+                        <li>Valid for one-time use only</li>
+                        <li>Cannot be combined with other offers</li>
+                        <li>Show this voucher at checkout to redeem</li>
+                        <li>No cash value. Non-transferable.</li>
+                        <li>Valid until {new Date(v.end_date).toLocaleDateString()}</li>
+                        {v.voucher_type === "percentage_discount" && (
+                          <li>Discount applies to eligible items only</li>
+                        )}
+                      </ul>
                     </div>
                   </div>
                 </div>
