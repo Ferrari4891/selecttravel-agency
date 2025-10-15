@@ -291,6 +291,13 @@ const { user } = useAuth();
                 )}
                 
                 <Button variant="ghost" className="w-full justify-start h-10 text-left touch-target" asChild>
+                  <Link to="/vouchers" onClick={() => setMenuOpen(false)}>
+                    <Info className="h-4 w-4 mr-2" />
+                    <span className="text-sm">Discount Vouchers</span>
+                  </Link>
+                </Button>
+                
+                <Button variant="ghost" className="w-full justify-start h-10 text-left touch-target" asChild>
                   <Link to="/tv-channel" onClick={() => setMenuOpen(false)}>
                     <Info className="h-4 w-4 mr-2" />
                     <span className="text-sm">TV Channel</span>

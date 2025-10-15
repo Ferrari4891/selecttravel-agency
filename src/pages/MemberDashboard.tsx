@@ -6,7 +6,7 @@ import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Checkbox } from '@/components/ui/checkbox';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { ArrowLeft, Users, MapPin, Calendar, Plus, Clock, Copy, ExternalLink } from 'lucide-react';
+import { ArrowLeft, Users, MapPin, Calendar, Plus, Clock, Copy, ExternalLink, Gift } from 'lucide-react';
 import { Link, useNavigate } from 'react-router-dom';
 import { Navigation } from '@/components/Navigation';
 import Footer from '@/components/Footer';
@@ -369,12 +369,15 @@ const MemberDashboard = () => {
           </div>
 
           <Tabs defaultValue="card" className="w-full">
-            <TabsList className="grid w-full grid-cols-3 sm:grid-cols-6 mb-6">
+            <TabsList className="grid w-full grid-cols-4 sm:grid-cols-7 mb-6">
               <TabsTrigger value="card" className="text-xs p-2">
                 Card
               </TabsTrigger>
               <TabsTrigger value="visits" className="text-xs p-2">
                 Visits
+              </TabsTrigger>
+              <TabsTrigger value="vouchers" className="text-xs p-2">
+                Vouchers
               </TabsTrigger>
               <TabsTrigger value="preferences" className="text-xs p-2">
                 Prefs
@@ -399,6 +402,29 @@ const MemberDashboard = () => {
             <TabsContent value="visits" className="space-y-4">
               <MemberVisitHistory />
             </TabsContent>
+
+            {/* Vouchers Tab */}
+            <TabsContent value="vouchers" className="space-y-4">
+              <Card>
+                <CardHeader className="bg-background p-4">
+                  <CardTitle className="text-center border-b border-border pb-2 text-lg font-bold">
+                    Available Vouchers
+                  </CardTitle>
+                </CardHeader>
+                <CardContent className="p-4">
+                  <p className="text-sm text-center mb-4 text-muted-foreground">
+                    Browse discount vouchers from businesses near you
+                  </p>
+                  <Link to="/vouchers">
+                    <Button className="w-full">
+                      <Gift className="h-4 w-4 mr-2" />
+                      View All Vouchers
+                    </Button>
+                  </Link>
+                </CardContent>
+              </Card>
+            </TabsContent>
+            
             <TabsContent value="preferences" className="space-y-4">
               <Card>
                 <CardHeader className="bg-background p-4">

@@ -11,6 +11,7 @@ import { SubscriptionManagement } from '@/components/business/SubscriptionManage
 import { BusinessMediaForm } from '@/components/business/BusinessMediaForm';
 import { BusinessMediaPreview } from '@/components/business/BusinessMediaPreview';
 import { VoucherManagement } from '@/components/business/VoucherManagement';
+import { BusinessVoucherQR } from '@/components/business/BusinessVoucherQR';
 import { BusinessQRScanner } from '@/components/business/BusinessQRScanner';
 import { BusinessVisitDashboard } from '@/components/business/BusinessVisitDashboard';
 import { useToast } from '@/hooks/use-toast';
@@ -194,7 +195,11 @@ const Dashboard = () => {
                     Create and manage discount vouchers for your customers.
                   </CardDescription>
                 </CardHeader>
-                <CardContent className="p-4">
+                <CardContent className="p-4 space-y-6">
+                  <BusinessVoucherQR 
+                    businessId={business.id} 
+                    businessName={business.business_name}
+                  />
                   <VoucherManagement businessId={business.id} subscriptionTier={business.subscription_tier || 'trial'} />
                 </CardContent>
               </Card>
