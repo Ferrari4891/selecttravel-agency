@@ -143,12 +143,12 @@ export default function BusinessVouchers() {
                         <div className="text-5xl font-black text-yellow-300">
                           {v.voucher_type === "percentage_discount" && `${v.discount_value}%`}
                           {v.voucher_type === "fixed_amount" && `$${v.discount_value}`}
-                          {v.voucher_type === "buy_one_get_one" && `${v.discount_value}X`}
+                          {v.voucher_type === "buy_one_get_one" && "BUY 1"}
                         </div>
                         <div className="text-lg font-bold text-white">
                           {v.voucher_type === "percentage_discount" && "OFF"}
                           {v.voucher_type === "fixed_amount" && "OFF"}
-                          {v.voucher_type === "buy_one_get_one" && "FREE"}
+                          {v.voucher_type === "buy_one_get_one" && "GET 1 FREE"}
                         </div>
                       </div>
                       
@@ -170,7 +170,7 @@ export default function BusinessVouchers() {
                           <img 
                             src={qrMap[v.id] || placeholderQR} 
                             alt={`QR code for ${v.title}`} 
-                            className="w-32 h-32"
+                            className="w-48 h-48"
                           />
                         </div>
                       </div>
