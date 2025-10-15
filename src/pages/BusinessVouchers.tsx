@@ -8,6 +8,7 @@ import { Badge } from "@/components/ui/badge";
 import { Calendar, Percent, DollarSign, Gift, Ticket, QrCode } from "lucide-react";
 import QRCode from "qrcode";
 import voucherBase from "@/assets/voucher-base.png";
+import { useToast } from "@/components/ui/use-toast";
 
 interface Voucher {
   id: string;
@@ -26,6 +27,7 @@ export default function BusinessVouchers() {
   const [businessName, setBusinessName] = useState<string>("");
   const [vouchers, setVouchers] = useState<Voucher[]>([]);
   const [qrMap, setQrMap] = useState<Record<string, string>>({});
+  const { toast } = useToast();
 
   useEffect(() => {
     document.title = businessName ? `${businessName} Vouchers | 55plus` : "Business Vouchers | 55plus";
@@ -113,9 +115,9 @@ export default function BusinessVouchers() {
                   />
                   
                   {/* Main Content Grid */}
-                  <div className="relative h-full flex">
+                  <div className="relative h-full flex flex-col md:flex-row">
                     {/* Left Section - Main Offer */}
-                    <div className="flex-1 p-12 flex flex-col justify-between">
+                    <div className="flex-1 p-6 md:p-12 flex flex-col justify-between">
                       {/* Header */}
                       <div className="space-y-2">
                         <div className="flex items-center gap-3 mb-4">
@@ -175,31 +177,22 @@ export default function BusinessVouchers() {
                             })}
                           </span>
                         </div>
-                        
-                        <div className="bg-white rounded-xl px-6 py-4 shadow-2xl max-w-sm">
-                          <div className="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-1">
-                            Voucher Code
-                          </div>
-                          <div className="font-mono text-3xl font-bold text-gray-900 tracking-wider">
-                            {v.voucher_code || "NO CODE NEEDED"}
-                          </div>
-                        </div>
                       </div>
                     </div>
 
-                    {/* Right Section - QR & Terms */}
-                    <div className="w-[380px] bg-white/95 backdrop-blur-sm p-8 flex flex-col justify-between border-l-4 border-dashed border-emerald-700/30">
+                    {/* Right Section - QR & Code & Terms */}
+                    <div className="md:w-[360px] w-full bg-white/95 backdrop-blur-sm p-6 md:p-8 flex flex-col justify-between border-t md:border-t-0 md:border-l-4 border-dashed border-emerald-700/30">
                       {/* QR Code Section */}
                       <div className="text-center space-y-4">
                         <h4 className="text-gray-900 font-bold text-lg uppercase tracking-wide">
-                          Scan to Redeem
+                          Scan or Enter Code
                         </h4>
                         
                         {qrMap[v.id] ? (
                           <div className="bg-white p-6 rounded-2xl shadow-lg border-4 border-emerald-600 mx-auto w-fit">
                             <img 
                               src={qrMap[v.id]} 
-                              alt={`QR code for ${v.title}`} 
+                              alt={`QR code for ${v.title} (${v.voucher_code || ''})`} 
                               className="w-56 h-56"
                             />
                           </div>
@@ -208,10 +201,36 @@ export default function BusinessVouchers() {
                             <QrCode className="h-20 w-20 text-gray-400" />
                           </div>
                         )}
-                        
-                        <p className="text-sm font-semibold text-gray-600">
-                          Show this code at checkout
-                        </p>
+
+                        {/* Voucher Number */}
+                        <div className="mt-4">
+                          <div className="text-xs font-semibold text-gray-500 uppercase tracking-wider">
+                            Voucher Number
+                          </div>
+                          <div className="font-mono text-2xl md:text-3xl font-bold text-gray-900 tracking-[0.2em] mt-1">
+                            {v.voucher_code || "NO CODE"}
+                          </div>
+                          <div className="mt-3 flex items-center justify-center gap-2">
+                            <Button
+                              variant="secondary"
+                              size="sm"
+                              className="rounded-none"
+                              disabled={!v.voucher_code}
+                              onClick={() => {
+                                if (v.voucher_code) {
+                                  navigator.clipboard.writeText(v.voucher_code);
+                                  toast({ title: "Code copied", description: "Voucher code copied to clipboard." });
+                                }
+                              }}
+                              aria-label="Copy voucher code"
+                            >
+                              Copy Code
+                            </Button>
+                          </div>
+                          <p className="text-sm font-semibold text-gray-600 mt-3">
+                            Staff: Scan the QR or type the code at POS
+                          </p>
+                        </div>
                       </div>
 
                       {/* Terms */}
