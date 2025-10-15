@@ -180,7 +180,7 @@ export default function BusinessVouchers() {
                           Voucher Code
                         </div>
                         <div className="font-mono text-xl font-bold text-gray-900 my-1">
-                          {v.voucher_code || "NO CODE"}
+                          {v.voucher_code || "DEMO1234"}
                         </div>
                         <Button
                           variant="secondary"
