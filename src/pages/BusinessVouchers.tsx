@@ -166,11 +166,11 @@ export default function BusinessVouchers() {
                       </h4>
                       
                       <div className="flex items-center justify-center">
-                        <div className="bg-white p-3 rounded-lg border-4 border-emerald-600">
+                        <div className="relative w-full aspect-square bg-white rounded-lg border-4 border-emerald-600 p-2">
                           <img 
                             src={qrMap[v.id] || placeholderQR} 
                             alt={`QR code for ${v.title}`} 
-                            className="w-80 h-80"
+                            className="w-full h-full object-contain"
                           />
                         </div>
                       </div>
