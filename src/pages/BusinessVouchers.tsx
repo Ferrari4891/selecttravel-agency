@@ -170,7 +170,7 @@ export default function BusinessVouchers() {
                           <img 
                             src={qrMap[v.id] || placeholderQR} 
                             alt={`QR code for ${v.title}`} 
-                            className="w-64 h-64"
+                            className="w-80 h-80"
                           />
                         </div>
                       </div>
