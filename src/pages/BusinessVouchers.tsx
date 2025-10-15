@@ -103,8 +103,8 @@ export default function BusinessVouchers() {
           {vouchers.map((v) => {
             const isExpired = new Date(v.end_date) < new Date();
             return (
-              <Card key={v.id} className="overflow-hidden">
-                <div className="relative w-full min-h-[400px]">
+              <Card key={v.id} className="overflow-hidden shadow-xl">
+                <div className="relative w-full h-[500px] bg-gradient-to-br from-emerald-600 to-emerald-800">
                   {/* Voucher Base Image */}
                   <img 
                     src={voucherBase} 
@@ -112,88 +112,142 @@ export default function BusinessVouchers() {
                     className="absolute inset-0 w-full h-full object-cover"
                   />
                   
-                  {/* Main Voucher Content */}
-                  <div className="relative p-8 flex flex-col gap-6">
-                    {/* Header with Badge */}
-                    <div className="flex items-center justify-between">
-                      <div className="flex items-center gap-2">
-                        <div className="text-white">{getIcon(v.voucher_type)}</div>
-                        <h3 className="text-xl md:text-2xl font-bold text-white drop-shadow-lg">
-                          {businessName}
-                        </h3>
-                      </div>
-                      <Badge variant="secondary" className="bg-white text-black">
-                        {isExpired ? "Expired" : "Active"}
-                      </Badge>
-                    </div>
-
-                    {/* Main Offer Section */}
-                    <div className="flex items-start gap-6">
-                      {/* Left: Offer Details */}
-                      <div className="flex-1 space-y-4">
-                        <h2 className="text-3xl md:text-4xl font-bold text-white drop-shadow-lg">
-                          {v.title}
-                        </h2>
+                  {/* Main Content Grid */}
+                  <div className="relative h-full flex">
+                    {/* Left Section - Main Offer */}
+                    <div className="flex-1 p-12 flex flex-col justify-between">
+                      {/* Header */}
+                      <div className="space-y-2">
+                        <div className="flex items-center gap-3 mb-4">
+                          <div className="bg-white/20 backdrop-blur-sm p-3 rounded-lg">
+                            {getIcon(v.voucher_type)}
+                          </div>
+                          <div>
+                            <h3 className="text-2xl font-bold text-white uppercase tracking-wide">
+                              {businessName}
+                            </h3>
+                            <p className="text-white/80 text-sm">Premium Discount Voucher</p>
+                          </div>
+                        </div>
                         
-                        <div className="text-4xl md:text-6xl font-bold text-yellow-300 drop-shadow-lg">
-                          {v.voucher_type === "percentage_discount" && `${v.discount_value}% OFF`}
-                          {v.voucher_type === "fixed_amount" && `$${v.discount_value} OFF`}
-                          {v.voucher_type === "buy_one_get_one" && `Buy 1 Get ${v.discount_value} FREE`}
+                        <Badge variant="secondary" className="bg-yellow-400 text-gray-900 font-bold px-4 py-1">
+                          {isExpired ? "EXPIRED" : "ACTIVE OFFER"}
+                        </Badge>
+                      </div>
+
+                      {/* Main Offer */}
+                      <div className="space-y-6">
+                        <div>
+                          <h2 className="text-4xl md:text-5xl font-bold text-white mb-3 leading-tight">
+                            {v.title}
+                          </h2>
+                          
+                          <div className="bg-white/10 backdrop-blur-md border-2 border-white/30 rounded-2xl p-6 inline-block">
+                            <div className="text-6xl md:text-7xl font-black text-yellow-300 drop-shadow-2xl">
+                              {v.voucher_type === "percentage_discount" && `${v.discount_value}%`}
+                              {v.voucher_type === "fixed_amount" && `$${v.discount_value}`}
+                              {v.voucher_type === "buy_one_get_one" && `${v.discount_value}X`}
+                            </div>
+                            <div className="text-2xl font-bold text-white mt-2">
+                              {v.voucher_type === "percentage_discount" && "OFF"}
+                              {v.voucher_type === "fixed_amount" && "OFF"}
+                              {v.voucher_type === "buy_one_get_one" && "FREE"}
+                            </div>
+                          </div>
                         </div>
                         
                         {v.description && (
-                          <p className="text-base md:text-lg text-white drop-shadow">
+                          <p className="text-xl text-white/95 max-w-lg leading-relaxed">
                             {v.description}
                           </p>
                         )}
-                        
-                        <div className="flex items-center gap-2 text-white drop-shadow">
-                          <Calendar className="h-5 w-5" />
-                          <span className="text-base md:text-lg">
-                            Valid until {new Date(v.end_date).toLocaleDateString()}
+                      </div>
+
+                      {/* Footer Info */}
+                      <div className="space-y-4">
+                        <div className="flex items-center gap-3 text-white/90">
+                          <Calendar className="h-6 w-6" />
+                          <span className="text-lg font-medium">
+                            Valid until {new Date(v.end_date).toLocaleDateString('en-US', { 
+                              month: 'long', 
+                              day: 'numeric', 
+                              year: 'numeric' 
+                            })}
                           </span>
                         </div>
                         
-                        <div className="bg-white/95 px-6 py-3 rounded inline-block shadow-lg">
-                          <div className="text-xs text-gray-600 mb-1">Voucher Code</div>
-                          <div className="font-mono text-2xl md:text-3xl font-bold text-gray-900">
+                        <div className="bg-white rounded-xl px-6 py-4 shadow-2xl max-w-sm">
+                          <div className="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-1">
+                            Voucher Code
+                          </div>
+                          <div className="font-mono text-3xl font-bold text-gray-900 tracking-wider">
                             {v.voucher_code || "NO CODE NEEDED"}
                           </div>
                         </div>
                       </div>
+                    </div>
 
-                      {/* Right: QR Code */}
-                      <div className="flex flex-col items-center gap-2">
+                    {/* Right Section - QR & Terms */}
+                    <div className="w-[380px] bg-white/95 backdrop-blur-sm p-8 flex flex-col justify-between border-l-4 border-dashed border-emerald-700/30">
+                      {/* QR Code Section */}
+                      <div className="text-center space-y-4">
+                        <h4 className="text-gray-900 font-bold text-lg uppercase tracking-wide">
+                          Scan to Redeem
+                        </h4>
+                        
                         {qrMap[v.id] ? (
-                          <div className="bg-white p-4 rounded-lg shadow-xl">
+                          <div className="bg-white p-6 rounded-2xl shadow-lg border-4 border-emerald-600 mx-auto w-fit">
                             <img 
                               src={qrMap[v.id]} 
                               alt={`QR code for ${v.title}`} 
-                              className="w-40 h-40 md:w-48 md:h-48"
+                              className="w-56 h-56"
                             />
                           </div>
                         ) : (
-                          <div className="w-40 h-40 md:w-48 md:h-48 bg-white/20 rounded-lg flex items-center justify-center">
-                            <QrCode className="h-16 w-16 text-white/50" />
+                          <div className="w-56 h-56 mx-auto bg-gray-100 rounded-2xl flex items-center justify-center border-4 border-gray-300">
+                            <QrCode className="h-20 w-20 text-gray-400" />
                           </div>
                         )}
-                        <p className="text-white text-sm font-medium drop-shadow">Scan to Redeem</p>
+                        
+                        <p className="text-sm font-semibold text-gray-600">
+                          Show this code at checkout
+                        </p>
                       </div>
-                    </div>
 
-                    {/* Terms and Conditions */}
-                    <div className="border-t border-white/30 pt-4">
-                      <h4 className="text-sm font-semibold text-white mb-2">Terms & Conditions:</h4>
-                      <ul className="text-xs text-white/90 space-y-1 list-disc list-inside">
-                        <li>Valid for one-time use only</li>
-                        <li>Cannot be combined with other offers</li>
-                        <li>Show this voucher at checkout to redeem</li>
-                        <li>No cash value. Non-transferable.</li>
-                        <li>Valid until {new Date(v.end_date).toLocaleDateString()}</li>
-                        {v.voucher_type === "percentage_discount" && (
-                          <li>Discount applies to eligible items only</li>
-                        )}
-                      </ul>
+                      {/* Terms */}
+                      <div className="border-t-2 border-gray-200 pt-6">
+                        <h5 className="text-xs font-bold text-gray-900 uppercase tracking-wider mb-3">
+                          Terms & Conditions
+                        </h5>
+                        <ul className="text-xs text-gray-700 space-y-2 leading-relaxed">
+                          <li className="flex items-start gap-2">
+                            <span className="text-emerald-600 font-bold">•</span>
+                            <span>One-time use only</span>
+                          </li>
+                          <li className="flex items-start gap-2">
+                            <span className="text-emerald-600 font-bold">•</span>
+                            <span>Cannot be combined with other offers</span>
+                          </li>
+                          <li className="flex items-start gap-2">
+                            <span className="text-emerald-600 font-bold">•</span>
+                            <span>Present voucher before payment</span>
+                          </li>
+                          <li className="flex items-start gap-2">
+                            <span className="text-emerald-600 font-bold">•</span>
+                            <span>No cash value • Non-transferable</span>
+                          </li>
+                          <li className="flex items-start gap-2">
+                            <span className="text-emerald-600 font-bold">•</span>
+                            <span>Valid until expiry date shown</span>
+                          </li>
+                          {v.voucher_type === "percentage_discount" && (
+                            <li className="flex items-start gap-2">
+                              <span className="text-emerald-600 font-bold">•</span>
+                              <span>Discount applies to eligible items</span>
+                            </li>
+                          )}
+                        </ul>
+                      </div>
                     </div>
                   </div>
                 </div>
