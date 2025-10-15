@@ -7,7 +7,7 @@ import { Separator } from "@/components/ui/separator";
 import { Badge } from "@/components/ui/badge";
 import { Calendar, Percent, DollarSign, Gift, Ticket, QrCode } from "lucide-react";
 import QRCode from "qrcode";
-import voucherBase from "@/assets/voucher-base.jpg";
+import voucherBase from "@/assets/voucher-base.png";
 
 interface Voucher {
   id: string;
