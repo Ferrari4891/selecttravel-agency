@@ -8,6 +8,7 @@ import { MailingListSignup } from './MailingListSignup';
 import SaveBusinessButton from './SaveBusinessButton';
 import { SubscriptionBadge } from '@/components/ui/subscription-badge';
 import { useIsMobile } from '@/hooks/use-mobile';
+import { useNavigate } from 'react-router-dom';
 
 interface Restaurant {
   name: string;
@@ -29,6 +30,7 @@ interface Restaurant {
   reviewCount: number;
   source: string;
   subscriptionTier?: string;
+  businessId?: string;
 }
 
 interface RestaurantResultsProps {
@@ -45,6 +47,7 @@ export const RestaurantResults: React.FC<RestaurantResultsProps> = ({
   selectedCategory,
 }) => {
   const isMobile = useIsMobile();
+  const navigate = useNavigate();
 
   // Placeholder image for restaurants
   const placeholderImage = '/lovable-uploads/84845629-2fe8-43b5-8500-84324fdcb0ec.png';
@@ -178,14 +181,17 @@ export const RestaurantResults: React.FC<RestaurantResultsProps> = ({
                 </Button>
               )}
               
-              <Button
-                variant="outline"
-                size="sm"
-                className="w-full flex items-center justify-center gap-2 text-sm rounded-none border-black"
-              >
-                <Ticket className="h-4 w-4" />
-                Voucher
-              </Button>
+              {restaurant.subscriptionTier === 'firstclass' && restaurant.businessId && (
+                <Button
+                  variant="outline"
+                  size="sm"
+                  className="w-full flex items-center justify-center gap-2 text-sm rounded-none border-black"
+                  onClick={() => navigate(`/business/${restaurant.businessId}/vouchers`)}
+                >
+                  <Ticket className="h-4 w-4" />
+                  View Vouchers
+                </Button>
+              )}
               </div>
 
               {/* Social Media Links */}
@@ -406,14 +412,17 @@ export const RestaurantResults: React.FC<RestaurantResultsProps> = ({
               </Button>
             )}
             
-            <Button
-              variant="outline"
-              size="sm"
-              className="w-full flex items-center justify-center gap-2 text-sm rounded-none border-black"
-            >
-              <Ticket className="h-4 w-4" />
-              Voucher
-            </Button>
+            {restaurant.subscriptionTier === 'firstclass' && restaurant.businessId && (
+              <Button
+                variant="outline"
+                size="sm"
+                className="w-full flex items-center justify-center gap-2 text-sm rounded-none border-black"
+                onClick={() => navigate(`/business/${restaurant.businessId}/vouchers`)}
+              >
+                <Ticket className="h-4 w-4" />
+                View Vouchers
+              </Button>
+            )}
             </div>
 
             {/* Social Media Links */}

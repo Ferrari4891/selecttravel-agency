@@ -2,9 +2,10 @@ import React from 'react';
 import { Card, CardContent, CardHeader } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
-import { MapPin, Phone, Globe, Mail, Clock, Star } from 'lucide-react';
+import { MapPin, Phone, Globe, Mail, Clock, Star, Ticket } from 'lucide-react';
 import { GoogleMap } from '@/components/GoogleMap';
 import { GiftCardPurchase } from './GiftCardPurchase';
+import { useNavigate } from 'react-router-dom';
 
 interface BusinessCardProps {
   business: {
@@ -44,6 +45,8 @@ export const BusinessCard: React.FC<BusinessCardProps> = ({
   business, 
   showFullDetails = false 
 }) => {
+  const navigate = useNavigate();
+  
   const amenities = [
     { key: 'wheelchair_access', label: 'Wheelchair Access', value: business.wheelchair_access },
     { key: 'extended_hours', label: 'Extended Hours', value: business.extended_hours },
@@ -226,13 +229,24 @@ export const BusinessCard: React.FC<BusinessCardProps> = ({
 
         {/* Action Buttons */}
         {!showFullDetails && (
-          <div className="flex gap-2 pt-2">
-            <Button variant="outline" size="sm" className="flex-1">
+          <div className="flex flex-col gap-2 pt-2">
+            <Button variant="outline" size="sm" className="w-full">
               View Details
             </Button>
             {business.phone && (
               <Button variant="default" size="sm" asChild>
                 <a href={`tel:${business.phone}`}>Call Now</a>
+              </Button>
+            )}
+            {business.subscription_tier === 'firstclass' && (
+              <Button 
+                variant="outline" 
+                size="sm" 
+                className="w-full flex items-center justify-center gap-2"
+                onClick={() => navigate(`/business/${business.id}/vouchers`)}
+              >
+                <Ticket className="h-4 w-4" />
+                View Vouchers
               </Button>
             )}
           </div>
