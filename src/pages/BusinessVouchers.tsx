@@ -50,6 +50,23 @@ export default function BusinessVouchers() {
         .eq("business_id", businessId)
         .gt("end_date", new Date().toISOString())
         .eq("is_active", true);
+      
+      // Pre-generate QR codes for all vouchers
+      if (vs) {
+        const qrCodes: Record<string, string> = {};
+        for (const v of vs) {
+          if (v.qr_code_data) {
+            try {
+              const dataUrl = await QRCode.toDataURL(v.qr_code_data, { margin: 1, scale: 4 });
+              qrCodes[v.id] = dataUrl;
+            } catch (e) {
+              console.error("QR generation error", e);
+            }
+          }
+        }
+        setQrMap(qrCodes);
+      }
+      
       setVouchers(vs || []);
     };
     if (businessId) load();
@@ -66,16 +83,6 @@ export default function BusinessVouchers() {
     }
   };
 
-  const revealQR = async (v: Voucher) => {
-    if (!v.qr_code_data) return;
-    if (qrMap[v.id]) return; // already generated
-    try {
-      const dataUrl = await QRCode.toDataURL(v.qr_code_data, { margin: 1, scale: 4 });
-      setQrMap((m) => ({ ...m, [v.id]: dataUrl }));
-    } catch (e) {
-      console.error("QR generation error", e);
-    }
-  };
 
   return (
     <main className="container mx-auto px-4 py-6 space-y-6">
@@ -105,56 +112,64 @@ export default function BusinessVouchers() {
                     className="absolute inset-0 w-full h-full object-cover"
                   />
                   
-                  {/* Text Overlay */}
-                  <div className="absolute inset-0 flex flex-col items-center justify-center p-6 text-center">
-                    <div className="flex items-center gap-2 mb-2">
-                      {getIcon(v.voucher_type)}
-                      <Badge variant="secondary" className="bg-white/90 text-black">
-                        {isExpired ? "Expired" : "Active"}
-                      </Badge>
-                    </div>
-                    
-                    <h3 className="text-2xl md:text-3xl font-bold text-gray-900 mb-2">
-                      {v.title}
-                    </h3>
-                    
-                    <div className="text-3xl md:text-4xl font-bold text-amber-700 mb-4">
-                      {v.voucher_type === "percentage_discount" && `${v.discount_value}% OFF`}
-                      {v.voucher_type === "fixed_amount" && `$${v.discount_value} OFF`}
-                      {v.voucher_type === "buy_one_get_one" && `Buy 1 Get ${v.discount_value} FREE`}
-                    </div>
-                    
-                    {v.description && (
-                      <p className="text-sm md:text-base text-gray-700 mb-4 max-w-md">
-                        {v.description}
-                      </p>
-                    )}
-                    
-                    <div className="flex items-center gap-2 text-sm md:text-base text-gray-800 mb-3">
-                      <Calendar className="h-4 w-4" />
-                      <span>Expires {new Date(v.end_date).toLocaleDateString()}</span>
-                    </div>
-                    
-                    <div className="bg-white/90 px-4 py-2 rounded">
-                      <div className="text-xs text-gray-600 mb-1">Voucher Code</div>
-                      <div className="font-mono text-lg md:text-xl font-bold text-gray-900">
-                        {v.voucher_code || "—"}
+                  {/* Text Overlay - Left Side */}
+                  <div className="absolute inset-0 flex">
+                    <div className="flex-1 flex flex-col items-center justify-center p-6 text-center">
+                      <div className="flex items-center gap-2 mb-2">
+                        <div className="text-white">{getIcon(v.voucher_type)}</div>
+                        <Badge variant="secondary" className="bg-white/95 text-black">
+                          {isExpired ? "Expired" : "Active"}
+                        </Badge>
                       </div>
+                      
+                      <h3 className="text-2xl md:text-3xl font-bold text-white mb-2 drop-shadow-lg">
+                        {v.title}
+                      </h3>
+                      
+                      <div className="text-3xl md:text-5xl font-bold text-yellow-300 mb-4 drop-shadow-lg">
+                        {v.voucher_type === "percentage_discount" && `${v.discount_value}% OFF`}
+                        {v.voucher_type === "fixed_amount" && `$${v.discount_value} OFF`}
+                        {v.voucher_type === "buy_one_get_one" && `Buy 1 Get ${v.discount_value} FREE`}
+                      </div>
+                      
+                      {v.description && (
+                        <p className="text-sm md:text-base text-white/90 mb-4 max-w-md drop-shadow">
+                          {v.description}
+                        </p>
+                      )}
+                      
+                      <div className="flex items-center gap-2 text-sm md:text-base text-white/95 mb-3 drop-shadow">
+                        <Calendar className="h-4 w-4" />
+                        <span>Expires {new Date(v.end_date).toLocaleDateString()}</span>
+                      </div>
+                      
+                      <div className="bg-white/95 px-4 py-2 rounded shadow-lg">
+                        <div className="text-xs text-gray-600 mb-1">Voucher Code</div>
+                        <div className="font-mono text-lg md:text-xl font-bold text-gray-900">
+                          {v.voucher_code || "—"}
+                        </div>
+                      </div>
+                    </div>
+                    
+                    {/* QR Code - Right Side */}
+                    <div className="w-1/3 flex items-center justify-center p-4 bg-white/10">
+                      {qrMap[v.id] ? (
+                        <div className="bg-white p-3 rounded shadow-lg">
+                          <img 
+                            src={qrMap[v.id]} 
+                            alt={`QR code for ${v.title}`} 
+                            className="w-full h-auto"
+                          />
+                          <div className="text-center text-xs text-gray-600 mt-2">Scan to redeem</div>
+                        </div>
+                      ) : (
+                        <div className="w-32 h-32 bg-white/20 rounded flex items-center justify-center">
+                          <QrCode className="h-12 w-12 text-white/50" />
+                        </div>
+                      )}
                     </div>
                   </div>
                 </div>
-                
-                <CardContent className="pt-4">
-                  <Button onClick={() => revealQR(v)} className="w-full" variant="outline">
-                    <QrCode className="h-4 w-4 mr-2" /> Show QR Code
-                  </Button>
-                  
-                  {qrMap[v.id] && (
-                    <div className="pt-4 flex justify-center">
-                      <img src={qrMap[v.id]} alt={`QR code for ${v.title}`} className="w-48 h-48" />
-                    </div>
-                  )}
-                </CardContent>
               </Card>
             );
           })}
