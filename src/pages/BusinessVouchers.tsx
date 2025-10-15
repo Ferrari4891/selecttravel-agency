@@ -8,7 +8,8 @@ import { Badge } from "@/components/ui/badge";
 import { Calendar, Percent, DollarSign, Gift, Ticket, QrCode } from "lucide-react";
 import QRCode from "qrcode";
 import voucherBase from "@/assets/voucher-base.png";
-import { useToast } from "@/components/ui/use-toast";
+import placeholderQR from "@/assets/placeholder-qr.png";
+import { useToast } from "@/hooks/use-toast";
 
 interface Voucher {
   id: string;
@@ -105,163 +106,122 @@ export default function BusinessVouchers() {
           {vouchers.map((v) => {
             const isExpired = new Date(v.end_date) < new Date();
             return (
-              <Card key={v.id} className="overflow-hidden shadow-xl">
+              <Card key={v.id} className="overflow-hidden">
+                {/* Mobile-First Compact Layout */}
                 <div className="relative w-full bg-gradient-to-br from-emerald-600 to-emerald-800">
-                  {/* Voucher Base Image */}
                   <img 
                     src={voucherBase} 
                     alt="Voucher background" 
-                    className="absolute inset-0 w-full h-full object-cover"
+                    className="absolute inset-0 w-full h-full object-cover opacity-30"
                   />
                   
-                  {/* Main Content Grid */}
-                  <div className="relative flex flex-col md:flex-row">
-                    {/* Left Section - Main Offer */}
-                    <div className="flex-1 p-6 md:p-8 flex flex-col justify-between gap-6">
-                      {/* Header */}
-                      <div className="space-y-2">
-                        <div className="flex items-center gap-2 mb-3">
-                          <div className="bg-white/20 backdrop-blur-sm p-2 rounded">
-                            {getIcon(v.voucher_type)}
-                          </div>
-                          <div>
-                            <h3 className="text-lg md:text-xl font-bold text-white uppercase tracking-wide">
-                              {businessName}
-                            </h3>
-                            <p className="text-white/80 text-xs">Premium Discount Voucher</p>
-                          </div>
+                  <div className="relative p-4 space-y-4">
+                    {/* Header */}
+                    <div className="flex items-center justify-between">
+                      <div className="flex items-center gap-2">
+                        <div className="bg-white/20 p-2 rounded">
+                          {getIcon(v.voucher_type)}
                         </div>
-                        
-                        <Badge variant="secondary" className="bg-yellow-400 text-gray-900 font-bold px-3 py-1 text-xs">
-                          {isExpired ? "EXPIRED" : "ACTIVE OFFER"}
-                        </Badge>
+                        <div>
+                          <h3 className="text-sm font-bold text-white uppercase">
+                            {businessName}
+                          </h3>
+                        </div>
+                      </div>
+                      <Badge variant="secondary" className="bg-yellow-400 text-gray-900 font-bold text-xs px-2 py-0.5">
+                        {isExpired ? "EXPIRED" : "ACTIVE"}
+                      </Badge>
+                    </div>
+
+                    {/* Main Offer */}
+                    <div className="text-center py-4">
+                      <h2 className="text-xl font-bold text-white mb-2">
+                        {v.title}
+                      </h2>
+                      
+                      <div className="inline-block bg-white/10 backdrop-blur-md border-2 border-white/30 rounded-lg px-6 py-3">
+                        <div className="text-5xl font-black text-yellow-300">
+                          {v.voucher_type === "percentage_discount" && `${v.discount_value}%`}
+                          {v.voucher_type === "fixed_amount" && `$${v.discount_value}`}
+                          {v.voucher_type === "buy_one_get_one" && `${v.discount_value}X`}
+                        </div>
+                        <div className="text-lg font-bold text-white">
+                          {v.voucher_type === "percentage_discount" && "OFF"}
+                          {v.voucher_type === "fixed_amount" && "OFF"}
+                          {v.voucher_type === "buy_one_get_one" && "FREE"}
+                        </div>
+                      </div>
+                      
+                      {v.description && (
+                        <p className="text-sm text-white/90 mt-3 px-4">
+                          {v.description}
+                        </p>
+                      )}
+                    </div>
+
+                    {/* QR and Code Section */}
+                    <div className="bg-white rounded-lg p-4 space-y-3">
+                      <h4 className="text-center font-bold text-gray-900 text-sm uppercase">
+                        Scan or Enter Code
+                      </h4>
+                      
+                      <div className="flex items-center justify-center">
+                        <div className="bg-white p-3 rounded-lg border-4 border-emerald-600">
+                          <img 
+                            src={qrMap[v.id] || placeholderQR} 
+                            alt={`QR code for ${v.title}`} 
+                            className="w-32 h-32"
+                          />
+                        </div>
                       </div>
 
-                      {/* Main Offer */}
-                      <div className="space-y-4">
-                        <h2 className="text-2xl md:text-3xl font-bold text-white leading-tight">
-                          {v.title}
-                        </h2>
-                        
-                        <div className="bg-white/10 backdrop-blur-md border-2 border-white/30 rounded-xl p-4 inline-block">
-                          <div className="text-4xl md:text-5xl font-black text-yellow-300 drop-shadow-2xl">
-                            {v.voucher_type === "percentage_discount" && `${v.discount_value}%`}
-                            {v.voucher_type === "fixed_amount" && `$${v.discount_value}`}
-                            {v.voucher_type === "buy_one_get_one" && `${v.discount_value}X`}
-                          </div>
-                          <div className="text-xl font-bold text-white mt-1">
-                            {v.voucher_type === "percentage_discount" && "OFF"}
-                            {v.voucher_type === "fixed_amount" && "OFF"}
-                            {v.voucher_type === "buy_one_get_one" && "FREE"}
-                          </div>
+                      <div className="text-center">
+                        <div className="text-xs font-semibold text-gray-500 uppercase">
+                          Voucher Code
                         </div>
-                        
-                        {v.description && (
-                          <p className="text-base md:text-lg text-white/95 leading-relaxed">
-                            {v.description}
-                          </p>
-                        )}
-                      </div>
-
-                      {/* Footer Info */}
-                      <div className="flex items-center gap-2 text-white/90">
-                        <Calendar className="h-5 w-5" />
-                        <span className="text-sm md:text-base font-medium">
-                          Valid until {new Date(v.end_date).toLocaleDateString('en-US', { 
-                            month: 'long', 
-                            day: 'numeric', 
-                            year: 'numeric' 
-                          })}
-                        </span>
+                        <div className="font-mono text-xl font-bold text-gray-900 my-1">
+                          {v.voucher_code || "NO CODE"}
+                        </div>
+                        <Button
+                          variant="secondary"
+                          size="sm"
+                          className="rounded-none w-full"
+                          disabled={!v.voucher_code}
+                          onClick={() => {
+                            if (v.voucher_code) {
+                              navigator.clipboard.writeText(v.voucher_code);
+                              toast({ title: "Code copied!" });
+                            }
+                          }}
+                        >
+                          Copy Code
+                        </Button>
+                        <p className="text-xs text-gray-600 mt-2 font-medium">
+                          Staff: Scan QR or type code at POS
+                        </p>
                       </div>
                     </div>
 
-                    {/* Right Section - QR & Code & Terms */}
-                    <div className="md:w-[340px] w-full bg-white/95 backdrop-blur-sm p-6 flex flex-col justify-between gap-6 border-t md:border-t-0 md:border-l-4 border-dashed border-emerald-700/30">
-                      {/* QR Code Section */}
-                      <div className="text-center space-y-3">
-                        <h4 className="text-gray-900 font-bold text-base uppercase tracking-wide">
-                          Scan or Enter Code
-                        </h4>
-                        
-                        {qrMap[v.id] ? (
-                          <div className="bg-white p-4 rounded-xl shadow-lg border-4 border-emerald-600 mx-auto w-fit">
-                            <img 
-                              src={qrMap[v.id]} 
-                              alt={`QR code for ${v.title}`} 
-                              className="w-40 h-40 md:w-48 md:h-48"
-                            />
-                          </div>
-                        ) : (
-                          <div className="w-40 h-40 md:w-48 md:h-48 mx-auto bg-gray-100 rounded-xl flex items-center justify-center border-4 border-gray-300">
-                            <QrCode className="h-16 w-16 text-gray-400" />
-                          </div>
+                    {/* Expiry */}
+                    <div className="flex items-center justify-center gap-2 text-white text-sm">
+                      <Calendar className="h-4 w-4" />
+                      <span>Valid until {new Date(v.end_date).toLocaleDateString()}</span>
+                    </div>
+
+                    {/* Terms */}
+                    <div className="bg-white/10 backdrop-blur-sm rounded-lg p-3">
+                      <h5 className="text-xs font-bold text-white uppercase mb-2">
+                        Terms & Conditions
+                      </h5>
+                      <ul className="text-xs text-white/90 space-y-1">
+                        <li>• One-time use only</li>
+                        <li>• Cannot be combined with other offers</li>
+                        <li>• Present before payment</li>
+                        <li>• No cash value • Non-transferable</li>
+                        {v.voucher_type === "percentage_discount" && (
+                          <li>• Discount applies to eligible items</li>
                         )}
-
-                        {/* Voucher Number */}
-                        <div className="mt-3">
-                          <div className="text-xs font-semibold text-gray-500 uppercase tracking-wider">
-                            Voucher Number
-                          </div>
-                          <div className="font-mono text-xl md:text-2xl font-bold text-gray-900 tracking-wider mt-1 break-all">
-                            {v.voucher_code || "NO CODE"}
-                          </div>
-                          <div className="mt-2">
-                            <Button
-                              variant="secondary"
-                              size="sm"
-                              className="rounded-none w-full"
-                              disabled={!v.voucher_code}
-                              onClick={() => {
-                                if (v.voucher_code) {
-                                  navigator.clipboard.writeText(v.voucher_code);
-                                  toast({ title: "Code copied", description: "Voucher code copied to clipboard." });
-                                }
-                              }}
-                            >
-                              Copy Code
-                            </Button>
-                          </div>
-                          <p className="text-xs font-semibold text-gray-600 mt-2">
-                            Staff: Scan QR or type code at POS
-                          </p>
-                        </div>
-                      </div>
-
-                      {/* Terms */}
-                      <div className="border-t-2 border-gray-200 pt-4">
-                        <h5 className="text-xs font-bold text-gray-900 uppercase tracking-wider mb-2">
-                          Terms & Conditions
-                        </h5>
-                        <ul className="text-xs text-gray-700 space-y-1.5 leading-relaxed">
-                          <li className="flex items-start gap-2">
-                            <span className="text-emerald-600 font-bold">•</span>
-                            <span>One-time use only</span>
-                          </li>
-                          <li className="flex items-start gap-2">
-                            <span className="text-emerald-600 font-bold">•</span>
-                            <span>Cannot be combined with other offers</span>
-                          </li>
-                          <li className="flex items-start gap-2">
-                            <span className="text-emerald-600 font-bold">•</span>
-                            <span>Present voucher before payment</span>
-                          </li>
-                          <li className="flex items-start gap-2">
-                            <span className="text-emerald-600 font-bold">•</span>
-                            <span>No cash value • Non-transferable</span>
-                          </li>
-                          <li className="flex items-start gap-2">
-                            <span className="text-emerald-600 font-bold">•</span>
-                            <span>Valid until expiry date shown</span>
-                          </li>
-                          {v.voucher_type === "percentage_discount" && (
-                            <li className="flex items-start gap-2">
-                              <span className="text-emerald-600 font-bold">•</span>
-                              <span>Discount applies to eligible items</span>
-                            </li>
-                          )}
-                        </ul>
-                      </div>
+                      </ul>
                     </div>
                   </div>
                 </div>
