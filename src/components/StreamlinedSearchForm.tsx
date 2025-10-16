@@ -13,6 +13,8 @@ import { Loader2, MapPin, DollarSign, Utensils, Wine, Coffee, Plus } from 'lucid
 import { supabase } from '@/integrations/supabase/client';
 import { useToast } from '@/hooks/use-toast';
 import restaurantGuideLogo from '@/assets/restaurant-guide-logo.png';
+import { VoiceTouchToggle } from '@/components/VoiceTouchToggle';
+import { useVoiceInterface } from '@/hooks/useVoiceInterface';
 
 type SearchType = 'price' | 'cuisine' | 'food' | 'drink';
 
@@ -87,6 +89,8 @@ export const StreamlinedSearchForm: React.FC<StreamlinedSearchFormProps> = ({
   const [foodSpecialty, setFoodSpecialty] = useState('');
   const [drinkSpecialty, setDrinkSpecialty] = useState('');
   const [resultCount, setResultCount] = useState<number | 'All'>(5);
+  const [interfaceMode, setInterfaceMode] = useState<'voice' | 'touch'>('touch');
+  const { isListening, speak, startListening, stopListening, stopSpeaking, processVoiceCommand } = useVoiceInterface();
   
   // City request dialog state
   const [showCityRequest, setShowCityRequest] = useState(false);
@@ -277,6 +281,38 @@ export const StreamlinedSearchForm: React.FC<StreamlinedSearchFormProps> = ({
     }
   };
 
+  const handleModeChange = (mode: 'voice' | 'touch') => {
+    setInterfaceMode(mode);
+    if (mode === 'voice') {
+      speak("Voice mode activated for criteria search. Try saying 'Find Italian restaurants in Paris'");
+    } else {
+      speak("Touch mode activated for criteria search.");
+    }
+  };
+
+  const handleVoiceSearch = () => {
+    if (interfaceMode === 'voice') {
+      speak("Listening for your search criteria...");
+      startListening((command) => {
+        processVoiceCommand(
+          command,
+          (params) => onSearch(params as SearchFilters),
+          () => {} // Not used for criteria search
+        );
+      });
+    }
+  };
+
+  const handleStopVoice = () => {
+    stopListening();
+    stopSpeaking();
+    try {
+      if (window.speechSynthesis.speaking) {
+        window.speechSynthesis.cancel();
+      }
+    } catch {}
+  };
+
   return (
     <Card className="w-full max-w-4xl mx-auto">
       <CardHeader className="text-center space-y-4">
@@ -292,6 +328,47 @@ export const StreamlinedSearchForm: React.FC<StreamlinedSearchFormProps> = ({
           <p className="text-muted-foreground">
             Choose your selection method and discover exactly what you're looking for
           </p>
+          
+          {/* Voice/Touch Toggle */}
+          <div className="flex justify-center pt-2">
+            <VoiceTouchToggle 
+              onModeChange={handleModeChange}
+              className="scale-90"
+            />
+          </div>
+          
+          {/* Voice Controls */}
+          {interfaceMode === 'voice' && (
+            <div className="flex flex-col items-center gap-2 pt-2">
+              <div className="flex items-center gap-2 p-2 bg-background rounded-lg border">
+                <Button
+                  onClick={handleVoiceSearch}
+                  disabled={isListening || isLoading}
+                  size="sm"
+                  className="flex items-center gap-2 h-8 bg-green-600 hover:bg-green-700 text-white font-bold"
+                >
+                  <div className={`w-2 h-2 rounded-full ${isListening ? 'bg-white animate-pulse' : 'bg-white'}`}></div>
+                  <span className="text-xs font-bold">{isListening ? 'Listening...' : 'Start'}</span>
+                </Button>
+                <Button
+                  onClick={handleStopVoice}
+                  disabled={!isListening}
+                  size="sm"
+                  className="flex items-center gap-2 h-8 bg-red-600 hover:bg-red-700 text-white font-bold disabled:bg-red-300"
+                >
+                  <div className="w-2 h-2 bg-white rounded-full"></div>
+                  <span className="text-xs font-bold">Stop</span>
+                </Button>
+              </div>
+              
+              {isListening && (
+                <div className="inline-flex items-center gap-2 px-3 py-1.5 bg-primary/5 border border-primary/20 rounded-full">
+                  <div className="w-1.5 h-1.5 bg-primary rounded-full animate-pulse"></div>
+                  <span className="text-xs text-primary font-medium">Listening...</span>
+                </div>
+              )}
+            </div>
+          )}
         </div>
       </CardHeader>
 

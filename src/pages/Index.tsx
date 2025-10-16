@@ -266,60 +266,14 @@ const Index: React.FC = () => {
         
         {/* Main content */}
         <div className="relative z-10 min-h-screen flex flex-col">
-          {/* Voice Controls - centered when voice mode active */}
-          {interfaceMode === 'voice' && (
-            <div className="flex flex-col items-center pt-4 px-4">
-              <div className="flex items-center gap-2 p-2 bg-card rounded-lg border">
-                <div className="flex items-center gap-1 bg-muted rounded-md p-1 flex-1">
-                  <Button
-                    onClick={handleVoiceSearch}
-                    disabled={isListening}
-                    size="sm"
-                    className="flex items-center gap-2 h-8 flex-1 bg-green-600 hover:bg-green-700 text-white font-bold transition-all duration-200"
-                  >
-                    <div className={`w-2 h-2 rounded-full ${isListening ? 'bg-white animate-pulse' : 'bg-white'}`}></div>
-                    <span className="text-xs font-bold">{isListening ? 'Listening...' : 'Start'}</span>
-                  </Button>
-                  <Button
-                    onClick={handleStopVoice}
-                    disabled={!isListening}
-                    size="sm"
-                    className="flex items-center gap-2 h-8 flex-1 bg-red-600 hover:bg-red-700 text-white font-bold transition-all duration-200 disabled:bg-red-300"
-                  >
-                    <div className="w-2 h-2 bg-white rounded-full"></div>
-                    <span className="text-xs font-bold">Stop</span>
-                  </Button>
-                </div>
-              </div>
-              
-              {/* Voice status indicator */}
-              {isListening && (
-                <div className="mt-3">
-                  <div className="inline-flex items-center gap-2 px-3 py-1.5 bg-primary/5 border border-primary/20 rounded-full">
-                    <div className="w-1.5 h-1.5 bg-primary rounded-full animate-pulse"></div>
-                    <span className="text-xs text-primary font-medium">Listening for your command...</span>
-                  </div>
-                </div>
-              )}
-            </div>
-          )}
-          
           {/* Form Section */}
-          <div className="flex-1 flex items-center justify-center px-4 pt-4 pb-8">
+          <div className="flex-1 flex items-center justify-center px-4 pt-8 pb-8">
             <div className="w-full max-w-md space-y-6">
               {/* Business Name Search */}
-              <div className="space-y-3">
-                <BusinessNameSearch
-                  onSearch={handleNameSearch}
-                  isLoading={isNameSearchLoading}
-                />
-                <div className="flex justify-center">
-                  <VoiceTouchToggle 
-                    onModeChange={handleModeChange}
-                    className="scale-90"
-                  />
-                </div>
-              </div>
+              <BusinessNameSearch
+                onSearch={handleNameSearch}
+                isLoading={isNameSearchLoading}
+              />
               
               {/* OR Separator */}
               <div className="relative">
