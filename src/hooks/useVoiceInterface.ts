@@ -293,13 +293,18 @@ export const useVoiceInterface = () => {
       
       // Work with original command to preserve case
       const beforeCityOriginal = originalCommand.split(/\s+in\s+/i)[0];
-      const beforeCityLower = lowerCommand.split(/\s+in\s+/)[0];
-      
-      // Remove common command words and phrases while preserving case
-      businessName = beforeCityOriginal
-        .replace(/^(find|search for|show me|look for|get me|locate|where is|for)\s+/i, '')
-        .replace(/^(the\s+)?(business\s+)?(name\s+)?(called\s+)?/i, '')
+
+      // Normalize and strip common fillers, pronouns, and punctuation
+      const cleanedPrefix = beforeCityOriginal
+        .replace(/^[\s"'“”‘’]+/, '')
+        .replace(/^(find|search(?:\s+for)?|show\s+me|look(?:\s+for)?|get\s+me|locate|where\s+is|what(?:'s|\s+is)|tell\s+me|give\s+me|for)\s+/i, '')
+        .replace(/^(his|her|their)\s+/i, '')
+        .replace(/^(the\s+)?(business|restaurant|place)\s+(name\s*)?[?:\-]?\s*/i, '')
+        .replace(/^(called|named)\s+/i, '')
         .trim();
+
+      // Remove trailing punctuation from the remaining text
+      businessName = cleanedPrefix.replace(/[\s"'\.,!?;:]+$/g, '').trim();
       
       console.log('Voice command processing:', { 
         original: command, 
