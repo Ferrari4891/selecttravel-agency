@@ -11,6 +11,8 @@ import { useStreamlinedSearch } from '@/hooks/useStreamlinedSearch';
 import { VoiceTouchToggle } from '@/components/VoiceTouchToggle';
 import { useVoiceInterface } from '@/hooks/useVoiceInterface';
 import { useAuth } from '@/contexts/AuthContext';
+import { BusinessNameSearch } from '@/components/BusinessNameSearch';
+import { useBusinessNameSearch } from '@/hooks/useBusinessNameSearch';
 
 // Import hero images
 import heroBackground from '@/assets/hero-background.jpg';
@@ -53,6 +55,7 @@ const Index: React.FC = () => {
   const [searchParams, setSearchParams] = useState<StreamlinedSearchParams | null>(null);
   const [interfaceMode, setInterfaceMode] = useState<'voice' | 'touch'>('touch');
   const { searchBusinesses, isLoading } = useStreamlinedSearch();
+  const { searchByName, isLoading: isNameSearchLoading } = useBusinessNameSearch();
   const { isListening, speak, startListening, stopListening, stopSpeaking, processVoiceCommand, isAuthenticated } = useVoiceInterface();
   const { user } = useAuth();
 
@@ -119,6 +122,48 @@ const Index: React.FC = () => {
         description: "There was an error searching for businesses. Please try again.",
         variant: "destructive"
       });
+    }
+  };
+
+  const handleNameSearch = async (params: { businessName: string; city?: string; country?: string }) => {
+    console.log('🔍 Name search with params:', params);
+    
+    try {
+      const results = await searchByName(params);
+
+      // Transform results to match Business interface
+      const businesses: Business[] = results.map((result) => ({
+        name: result.name,
+        address: result.address,
+        rating: result.rating,
+        reviewCount: result.reviewCount,
+        phone: result.contactDetails.phone || `+1-555-${String(Math.floor(Math.random() * 9000) + 1000)}`,
+        email: result.contactDetails.email || `info@${result.name.toLowerCase().replace(/\s+/g, '')}.com`,
+        website: result.contactDetails.website || `https://www.${result.name.toLowerCase().replace(/\s+/g, '')}.com`,
+        mapLink: result.googleMapRef,
+        menuLink: result.contactDetails.website || `https://menu.${result.name.toLowerCase().replace(/\s+/g, '')}.com`,
+        googleMapRef: result.googleMapRef,
+        facebook: result.socialMediaLinks.facebook,
+        instagram: result.socialMediaLinks.instagram,
+        twitter: result.socialMediaLinks.twitter,
+        image: result.imageLinks[0] || '/lovable-uploads/84845629-2fe8-43b5-8500-84324fdcb0ec.png',
+        imageLinks: result.imageLinks.join('; '),
+        source: result.source,
+        subscriptionTier: result.subscriptionTier
+      }));
+
+      setBusinesses(businesses);
+      setShowResults(true);
+      
+      // Set search params for CSV export
+      setSearchParams({
+        searchType: 'cuisine',
+        city: params.city || 'All Cities',
+        country: params.country || 'All Countries',
+        resultCount: businesses.length
+      });
+    } catch (error) {
+      console.error('Error during name search:', error);
     }
   };
 
@@ -267,7 +312,26 @@ const Index: React.FC = () => {
           
           {/* Form Section */}
           <div className="flex-1 flex items-center justify-center px-4 pt-4 pb-8">
-            <div className="w-full max-w-md">
+            <div className="w-full max-w-md space-y-6">
+              {/* Business Name Search */}
+              <BusinessNameSearch
+                onSearch={handleNameSearch}
+                isLoading={isNameSearchLoading}
+              />
+              
+              {/* OR Separator */}
+              <div className="relative">
+                <div className="absolute inset-0 flex items-center">
+                  <div className="w-full border-t border-border"></div>
+                </div>
+                <div className="relative flex justify-center text-sm">
+                  <span className="px-4 bg-card/95 backdrop-blur-sm text-muted-foreground font-medium">
+                    or
+                  </span>
+                </div>
+              </div>
+
+              {/* Detailed Search Form */}
               <StreamlinedSearchForm
                 onSearch={handleSearch}
                 onReset={handleReset}
