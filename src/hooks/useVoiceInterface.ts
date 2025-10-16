@@ -294,8 +294,25 @@ export const useVoiceInterface = () => {
       // Work with original command to preserve case
       const beforeCityOriginal = originalCommand.split(/\s+in\s+/i)[0];
 
+      // Try to capture trailing "City Country" without using 'in' (e.g., "Bounce Beach Hamilton New Zealand")
+      const toTitleCase = (s: string) =>
+        s.replace(/\w\S*/g, (t) => t.charAt(0).toUpperCase() + t.slice(1).toLowerCase());
+
+      let candidatePrefix = beforeCityOriginal.trim();
+
+      const countrySuffixPattern = /(.*?)[,\s]+([A-Za-z][A-Za-z\s\-']+)\s*,?\s*(new zealand|united states|usa|canada|australia|united kingdom|england|scotland|wales|ireland|mexico|france|germany|spain|italy|netherlands|japan|china|india|south africa|brazil|argentina)\s*$/i;
+
+      const suffixMatch = candidatePrefix.match(countrySuffixPattern);
+      if (suffixMatch) {
+        candidatePrefix = suffixMatch[1].trim();
+        const detectedCity = suffixMatch[2].trim();
+        const detectedCountryRaw = suffixMatch[3].trim();
+        city = toTitleCase(detectedCity);
+        country = /usa/i.test(detectedCountryRaw) ? 'United States' : toTitleCase(detectedCountryRaw);
+      }
+
       // Normalize and strip common fillers, pronouns, and punctuation
-      const cleanedPrefix = beforeCityOriginal
+      const cleanedPrefix = candidatePrefix
         .replace(/^[\s"'“”‘’]+/, '')
         .replace(/^(find|search(?:\s+for)?|show\s+me|look(?:\s+for)?|get\s+me|locate|where\s+is|what(?:'s|\s+is)|tell\s+me|give\s+me|for)\s+/i, '')
         .replace(/^(his|her|their)\s+/i, '')
