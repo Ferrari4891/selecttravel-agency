@@ -177,9 +177,9 @@ const Index: React.FC = () => {
     setInterfaceMode(mode);
     
     if (mode === 'voice') {
-      speak("You can now use voice to GET WHAT YOU WANT! Try saying 'Find Italian restaurants in Paris' or 'Show me budget restaurants in Tokyo'");
+      speak("You can now use voice to SMART SEARCH! Try saying 'Find Italian restaurants in Paris' or 'Show me budget restaurants in Tokyo'");
     } else {
-      speak("You can now use touch to GET WHAT YOU WANT!");
+      speak("You can now use touch to SMART SEARCH!");
     }
   };
 
