@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
-import { Search } from 'lucide-react';
+import { Search, X } from 'lucide-react';
 import { EnhancedCityInput } from '@/components/EnhancedCityInput';
 import { getAllRegions, getCountriesForRegion, getCitiesForCountry } from '@/utils/locationUtils';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
@@ -33,6 +33,13 @@ export const BusinessNameSearch: React.FC<BusinessNameSearchProps> = ({ onSearch
     });
   };
 
+  const handleReset = () => {
+    setBusinessName('');
+    setSelectedRegion('');
+    setSelectedCountry('');
+    setSelectedCity('');
+  };
+
   const handleKeyPress = (e: React.KeyboardEvent) => {
     if (e.key === 'Enter') {
       handleSearch();
@@ -41,6 +48,10 @@ export const BusinessNameSearch: React.FC<BusinessNameSearchProps> = ({ onSearch
 
   return (
     <div className="w-full space-y-4 p-6 bg-card/95 backdrop-blur-sm border border-border">
+      <div className="text-center mb-4">
+        <h2 className="text-2xl font-bold text-green-600">GET WHAT YOU WANT!</h2>
+      </div>
+      
       <div className="space-y-4">
         <div className="space-y-2">
           <label className="text-sm font-medium text-foreground">Business Name</label>
@@ -122,14 +133,25 @@ export const BusinessNameSearch: React.FC<BusinessNameSearchProps> = ({ onSearch
           </div>
         </div>
 
-        <Button
-          onClick={handleSearch}
-          disabled={isLoading || !businessName.trim()}
-          className="w-full"
-        >
-          <Search className="mr-2 h-4 w-4" />
-          {isLoading ? 'Searching...' : 'Search by Name'}
-        </Button>
+        <div className="grid grid-cols-2 gap-2">
+          <Button
+            onClick={handleSearch}
+            disabled={isLoading || !businessName.trim()}
+            className="bg-green-600 hover:bg-green-700 text-white"
+          >
+            <Search className="mr-2 h-4 w-4" />
+            {isLoading ? 'Searching...' : 'Search'}
+          </Button>
+          
+          <Button
+            onClick={handleReset}
+            variant="outline"
+            disabled={isLoading}
+          >
+            <X className="mr-2 h-4 w-4" />
+            Reset
+          </Button>
+        </div>
       </div>
     </div>
   );
