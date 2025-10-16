@@ -293,12 +293,22 @@ export const useVoiceInterface = () => {
       // Try to extract business name before location
       const beforeCity = lowerCommand.split(/\s+in\s+/)[0];
       
-      // Remove common command words
+      // Remove common command words (find, search, etc.)
       businessName = beforeCity
         .replace(/^(find|search for|show me|look for|get me)\s+/i, '')
         .trim();
       
-      if (businessName) {
+      console.log('Voice command processing:', { 
+        original: command, 
+        lowerCommand, 
+        beforeCity, 
+        businessName,
+        city,
+        country,
+        hasNameSearchCallback: !!onNameSearch 
+      });
+      
+      if (businessName && onNameSearch) {
         const nameSearchParams: any = {
           businessName: businessName
         };
@@ -306,13 +316,15 @@ export const useVoiceInterface = () => {
         if (city) nameSearchParams.city = city;
         if (country) nameSearchParams.country = country;
         
-        if (onNameSearch) {
-          const locationText = city ? ` in ${city}, ${country}` : '';
-          speak(`Searching for ${businessName}${locationText}`);
-          onNameSearch(nameSearchParams);
-        }
-      } else {
+        const locationText = city ? ` in ${city}, ${country}` : '';
+        speak(`Searching for ${businessName}${locationText}`);
+        console.log('Calling name search with params:', nameSearchParams);
+        onNameSearch(nameSearchParams);
+      } else if (!businessName) {
         speak("I didn't understand that. Please say the business name or specify what type of restaurant you're looking for. For example, 'Find Starbucks in New York' or 'Find Italian restaurants in Paris'");
+      } else if (!onNameSearch) {
+        console.error('Name search callback not provided');
+        speak("Unable to perform name search. Please try using the touch interface.");
       }
     }
   }, [speak]);
