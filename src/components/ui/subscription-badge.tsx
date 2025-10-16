@@ -1,5 +1,5 @@
 import React from 'react';
-import { Crown, Star, Circle, Clock } from 'lucide-react';
+import { Crown, Briefcase, DollarSign, Clock } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
 interface SubscriptionBadgeProps {
@@ -22,20 +22,22 @@ export const SubscriptionBadge: React.FC<SubscriptionBadgeProps> = ({
           label: 'First Class'
         };
       case 'premium':
+      case 'business':
         return {
-          icon: Star,
+          icon: Briefcase,
           color: 'text-purple-600',
           bgColor: 'bg-purple-50',
           borderColor: 'border-purple-200',
-          label: 'Premium'
+          label: 'Business Class'
         };
       case 'basic':
+      case 'economy':
         return {
-          icon: Circle,
+          icon: DollarSign,
           color: 'text-blue-600',
           bgColor: 'bg-blue-50',
           borderColor: 'border-blue-200',
-          label: 'Basic'
+          label: 'Economy Class'
         };
       default:
         return {
