@@ -195,6 +195,7 @@ export const useVoiceInterface = () => {
     onNameSearch?: (params: any) => void
   ) => {
     const lowerCommand = command.toLowerCase();
+    const originalCommand = command; // Keep original case for business names
     
     // Extract location first (needed for both search types)
     let city = '';
@@ -287,14 +288,15 @@ export const useVoiceInterface = () => {
         speak("Please specify a city for your search. For example, say 'Find Italian restaurants in Paris'");
       }
     } else {
-      // Try to extract business name - everything before "in [city]" or the whole command
+      // Try to extract business name - preserve original case for better matching
       let businessName = '';
       
-      // Try to extract business name before location
-      const beforeCity = lowerCommand.split(/\s+in\s+/)[0];
+      // Work with original command to preserve case
+      const beforeCityOriginal = originalCommand.split(/\s+in\s+/i)[0];
+      const beforeCityLower = lowerCommand.split(/\s+in\s+/)[0];
       
-      // Remove common command words and phrases - be more aggressive with natural speech patterns
-      businessName = beforeCity
+      // Remove common command words and phrases while preserving case
+      businessName = beforeCityOriginal
         .replace(/^(find|search for|show me|look for|get me|locate|where is|for)\s+/i, '')
         .replace(/^(the\s+)?(business\s+)?(name\s+)?(called\s+)?/i, '')
         .trim();
@@ -302,7 +304,7 @@ export const useVoiceInterface = () => {
       console.log('Voice command processing:', { 
         original: command, 
         lowerCommand, 
-        beforeCity, 
+        beforeCityOriginal, 
         businessName,
         city,
         country,
