@@ -14,6 +14,7 @@ import { VoucherManagement } from '@/components/business/VoucherManagement';
 import { BusinessVoucherQR } from '@/components/business/BusinessVoucherQR';
 import { BusinessQRScanner } from '@/components/business/BusinessQRScanner';
 import { BusinessVisitDashboard } from '@/components/business/BusinessVisitDashboard';
+import { APIKeyManagement } from '@/components/business/APIKeyManagement';
 import { useToast } from '@/hooks/use-toast';
 import { Home } from 'lucide-react';
 import MobileContainer from '@/components/MobileContainer';
@@ -125,6 +126,7 @@ const Dashboard = () => {
               <TabsTrigger value="analytics" className="w-full text-sm md:text-base font-medium px-4 py-3 border border-border rounded data-[state=active]:bg-primary data-[state=active]:text-primary-foreground">Analytics</TabsTrigger>
               <TabsTrigger value="vouchers" className="w-full text-sm md:text-base font-medium px-4 py-3 border border-border rounded data-[state=active]:bg-primary data-[state=active]:text-primary-foreground">Vouchers</TabsTrigger>
               <TabsTrigger value="subscription" className="w-full text-sm md:text-base font-medium px-4 py-3 border border-border rounded data-[state=active]:bg-primary data-[state=active]:text-primary-foreground">Subscription</TabsTrigger>
+              <TabsTrigger value="api" className="w-full text-sm md:text-base font-medium px-4 py-3 border border-border rounded data-[state=active]:bg-primary data-[state=active]:text-primary-foreground">API Access</TabsTrigger>
             </TabsList>
 
             <TabsContent value="profile" className="space-y-4">
@@ -215,6 +217,23 @@ const Dashboard = () => {
                 </CardHeader>
                 <CardContent className="p-4">
                   <SubscriptionManagement business={business} />
+                </CardContent>
+              </Card>
+            </TabsContent>
+
+            <TabsContent value="api" className="space-y-4">
+              <Card className="border shadow-md bg-background">
+                <CardHeader className="bg-background p-4">
+                  <CardTitle className="text-center border-b border-border pb-2 text-xl md:text-2xl font-bold">API Access</CardTitle>
+                  <CardDescription className="text-sm md:text-base text-center text-muted-foreground">
+                    Generate API keys and integrate your business data.
+                  </CardDescription>
+                </CardHeader>
+                <CardContent className="p-4">
+                  <APIKeyManagement 
+                    businessId={business.id} 
+                    subscriptionTier={business.subscription_tier || 'trial'} 
+                  />
                 </CardContent>
               </Card>
             </TabsContent>

@@ -50,6 +50,54 @@ export type Database = {
         }
         Relationships: []
       }
+      api_keys: {
+        Row: {
+          business_id: string
+          created_at: string
+          id: string
+          is_active: boolean
+          key_hash: string
+          last_used_at: string | null
+          name: string
+          rate_limit_per_minute: number
+        }
+        Insert: {
+          business_id: string
+          created_at?: string
+          id?: string
+          is_active?: boolean
+          key_hash: string
+          last_used_at?: string | null
+          name: string
+          rate_limit_per_minute?: number
+        }
+        Update: {
+          business_id?: string
+          created_at?: string
+          id?: string
+          is_active?: boolean
+          key_hash?: string
+          last_used_at?: string | null
+          name?: string
+          rate_limit_per_minute?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "api_keys_business_id_fkey"
+            columns: ["business_id"]
+            isOneToOne: false
+            referencedRelation: "business_analytics_overview"
+            referencedColumns: ["business_id"]
+          },
+          {
+            foreignKeyName: "api_keys_business_id_fkey"
+            columns: ["business_id"]
+            isOneToOne: false
+            referencedRelation: "businesses"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       blocked_users: {
         Row: {
           blocked_by: string | null
