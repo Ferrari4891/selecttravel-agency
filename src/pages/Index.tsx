@@ -187,7 +187,7 @@ const Index: React.FC = () => {
     if (interfaceMode === 'voice') {
       speak("Listening for your restaurant search...");
       startListening((command) => {
-        processVoiceCommand(command, handleSearch);
+        processVoiceCommand(command, handleSearch, handleNameSearch);
       });
     }
   };

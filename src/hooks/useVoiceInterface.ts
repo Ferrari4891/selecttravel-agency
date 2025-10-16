@@ -188,57 +188,15 @@ export const useVoiceInterface = () => {
     speechSynthesis.speak(utterance);
   }, [i18n.language]);
 
-  // Process voice commands for restaurant search
-  const processVoiceCommand = useCallback((command: string, onSearch?: (params: any) => void) => {
+  // Process voice commands for restaurant search - intelligently routes between name and criteria search
+  const processVoiceCommand = useCallback((
+    command: string, 
+    onCriteriaSearch?: (params: any) => void,
+    onNameSearch?: (params: any) => void
+  ) => {
     const lowerCommand = command.toLowerCase();
     
-    // Extract search parameters from voice command
-    const searchParams: any = {
-      searchType: 'cuisine',
-      resultCount: 10
-    };
-
-    // Extract cuisine types
-    if (lowerCommand.includes('italian')) searchParams.cuisineType = 'Italian';
-    else if (lowerCommand.includes('chinese')) searchParams.cuisineType = 'Chinese';
-    else if (lowerCommand.includes('french')) searchParams.cuisineType = 'French';
-    else if (lowerCommand.includes('japanese')) searchParams.cuisineType = 'Japanese';
-    else if (lowerCommand.includes('mexican')) searchParams.cuisineType = 'Mexican';
-    else if (lowerCommand.includes('indian')) searchParams.cuisineType = 'Indian';
-    else if (lowerCommand.includes('thai')) searchParams.cuisineType = 'Thai';
-    else if (lowerCommand.includes('american')) searchParams.cuisineType = 'American';
-
-    // Extract price levels
-    if (lowerCommand.includes('budget') || lowerCommand.includes('cheap')) {
-      searchParams.searchType = 'price';
-      searchParams.priceLevel = 'Budget';
-    } else if (lowerCommand.includes('expensive') || lowerCommand.includes('fine dining')) {
-      searchParams.searchType = 'price';
-      searchParams.priceLevel = 'Premium';
-    }
-
-    // Extract food specialties
-    if (lowerCommand.includes('pizza')) {
-      searchParams.searchType = 'food';
-      searchParams.foodSpecialty = 'Pizza';
-    } else if (lowerCommand.includes('burger')) {
-      searchParams.searchType = 'food';
-      searchParams.foodSpecialty = 'Burger';
-    } else if (lowerCommand.includes('steak')) {
-      searchParams.searchType = 'food';
-      searchParams.foodSpecialty = 'Steak';
-    }
-
-    // Extract drink specialties
-    if (lowerCommand.includes('wine') || lowerCommand.includes('wine bar')) {
-      searchParams.searchType = 'drink';
-      searchParams.drinkSpecialty = 'Wine';
-    } else if (lowerCommand.includes('cocktail') || lowerCommand.includes('bar')) {
-      searchParams.searchType = 'drink';
-      searchParams.drinkSpecialty = 'Cocktails';
-    }
-
-    // Extract location
+    // Extract location first (needed for both search types)
     let city = '';
     let country = '';
     
@@ -263,16 +221,99 @@ export const useVoiceInterface = () => {
       }
     }
 
-    if (city && country) {
-      searchParams.city = city;
-      searchParams.country = country;
-      
-      if (onSearch) {
-        speak(`Searching for ${searchParams.cuisineType || searchParams.priceLevel || searchParams.foodSpecialty || searchParams.drinkSpecialty || 'restaurants'} in ${city}, ${country}`);
-        onSearch(searchParams);
+    // Check for cuisine, price, food, or drink keywords to determine search type
+    const hasCuisine = /italian|chinese|french|japanese|mexican|indian|thai|american/i.test(lowerCommand);
+    const hasPrice = /budget|cheap|expensive|fine dining|premium/i.test(lowerCommand);
+    const hasFood = /pizza|burger|steak|pasta|sushi/i.test(lowerCommand);
+    const hasDrink = /wine|cocktail|bar|beer|coffee/i.test(lowerCommand);
+    
+    // If command has specific criteria, use criteria search
+    if (hasCuisine || hasPrice || hasFood || hasDrink) {
+      const searchParams: any = {
+        searchType: 'cuisine',
+        resultCount: 10
+      };
+
+      // Extract cuisine types
+      if (lowerCommand.includes('italian')) searchParams.cuisineType = 'Italian';
+      else if (lowerCommand.includes('chinese')) searchParams.cuisineType = 'Chinese';
+      else if (lowerCommand.includes('french')) searchParams.cuisineType = 'French';
+      else if (lowerCommand.includes('japanese')) searchParams.cuisineType = 'Japanese';
+      else if (lowerCommand.includes('mexican')) searchParams.cuisineType = 'Mexican';
+      else if (lowerCommand.includes('indian')) searchParams.cuisineType = 'Indian';
+      else if (lowerCommand.includes('thai')) searchParams.cuisineType = 'Thai';
+      else if (lowerCommand.includes('american')) searchParams.cuisineType = 'American';
+
+      // Extract price levels
+      if (lowerCommand.includes('budget') || lowerCommand.includes('cheap')) {
+        searchParams.searchType = 'price';
+        searchParams.priceLevel = 'Budget';
+      } else if (lowerCommand.includes('expensive') || lowerCommand.includes('fine dining')) {
+        searchParams.searchType = 'price';
+        searchParams.priceLevel = 'Premium';
+      }
+
+      // Extract food specialties
+      if (lowerCommand.includes('pizza')) {
+        searchParams.searchType = 'food';
+        searchParams.foodSpecialty = 'Pizza';
+      } else if (lowerCommand.includes('burger')) {
+        searchParams.searchType = 'food';
+        searchParams.foodSpecialty = 'Burger';
+      } else if (lowerCommand.includes('steak')) {
+        searchParams.searchType = 'food';
+        searchParams.foodSpecialty = 'Steak';
+      }
+
+      // Extract drink specialties
+      if (lowerCommand.includes('wine') || lowerCommand.includes('wine bar')) {
+        searchParams.searchType = 'drink';
+        searchParams.drinkSpecialty = 'Wine';
+      } else if (lowerCommand.includes('cocktail') || lowerCommand.includes('bar')) {
+        searchParams.searchType = 'drink';
+        searchParams.drinkSpecialty = 'Cocktails';
+      }
+
+      if (city && country) {
+        searchParams.city = city;
+        searchParams.country = country;
+        
+        if (onCriteriaSearch) {
+          const criteria = searchParams.cuisineType || searchParams.priceLevel || searchParams.foodSpecialty || searchParams.drinkSpecialty || 'restaurants';
+          speak(`Searching for ${criteria} in ${city}, ${country}`);
+          onCriteriaSearch(searchParams);
+        }
+      } else {
+        speak("Please specify a city for your search. For example, say 'Find Italian restaurants in Paris'");
       }
     } else {
-      speak("Please specify a city for your search. For example, say 'Find Italian restaurants in Paris'");
+      // Try to extract business name - everything before "in [city]" or the whole command
+      let businessName = '';
+      
+      // Try to extract business name before location
+      const beforeCity = lowerCommand.split(/\s+in\s+/)[0];
+      
+      // Remove common command words
+      businessName = beforeCity
+        .replace(/^(find|search for|show me|look for|get me)\s+/i, '')
+        .trim();
+      
+      if (businessName) {
+        const nameSearchParams: any = {
+          businessName: businessName
+        };
+        
+        if (city) nameSearchParams.city = city;
+        if (country) nameSearchParams.country = country;
+        
+        if (onNameSearch) {
+          const locationText = city ? ` in ${city}, ${country}` : '';
+          speak(`Searching for ${businessName}${locationText}`);
+          onNameSearch(nameSearchParams);
+        }
+      } else {
+        speak("I didn't understand that. Please say the business name or specify what type of restaurant you're looking for. For example, 'Find Starbucks in New York' or 'Find Italian restaurants in Paris'");
+      }
     }
   }, [speak]);
 
