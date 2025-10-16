@@ -266,15 +266,9 @@ const Index: React.FC = () => {
         
         {/* Main content */}
         <div className="relative z-10 min-h-screen flex flex-col">
-          {/* Voice/Touch Toggle */}
-          <div className="flex flex-col items-center pt-4 px-4">
-            <VoiceTouchToggle 
-              onModeChange={handleModeChange}
-              className="mb-4"
-            />
-            
-            {/* Voice Controls - directly under toggle */}
-            {interfaceMode === 'voice' && (
+          {/* Voice Controls - centered when voice mode active */}
+          {interfaceMode === 'voice' && (
+            <div className="flex flex-col items-center pt-4 px-4">
               <div className="flex items-center gap-2 p-2 bg-card rounded-lg border">
                 <div className="flex items-center gap-1 bg-muted rounded-md p-1 flex-1">
                   <Button
@@ -297,27 +291,35 @@ const Index: React.FC = () => {
                   </Button>
                 </div>
               </div>
-            )}
-            
-            {/* Voice status indicator */}
-            {interfaceMode === 'voice' && isListening && (
-              <div className="mt-3">
-                <div className="inline-flex items-center gap-2 px-3 py-1.5 bg-primary/5 border border-primary/20 rounded-full">
-                  <div className="w-1.5 h-1.5 bg-primary rounded-full animate-pulse"></div>
-                  <span className="text-xs text-primary font-medium">Listening for your command...</span>
+              
+              {/* Voice status indicator */}
+              {isListening && (
+                <div className="mt-3">
+                  <div className="inline-flex items-center gap-2 px-3 py-1.5 bg-primary/5 border border-primary/20 rounded-full">
+                    <div className="w-1.5 h-1.5 bg-primary rounded-full animate-pulse"></div>
+                    <span className="text-xs text-primary font-medium">Listening for your command...</span>
+                  </div>
                 </div>
-              </div>
-            )}
-          </div>
+              )}
+            </div>
+          )}
           
           {/* Form Section */}
           <div className="flex-1 flex items-center justify-center px-4 pt-4 pb-8">
             <div className="w-full max-w-md space-y-6">
               {/* Business Name Search */}
-              <BusinessNameSearch
-                onSearch={handleNameSearch}
-                isLoading={isNameSearchLoading}
-              />
+              <div className="relative">
+                <div className="absolute top-2 right-2 z-10">
+                  <VoiceTouchToggle 
+                    onModeChange={handleModeChange}
+                    className="scale-75"
+                  />
+                </div>
+                <BusinessNameSearch
+                  onSearch={handleNameSearch}
+                  isLoading={isNameSearchLoading}
+                />
+              </div>
               
               {/* OR Separator */}
               <div className="relative">
@@ -332,11 +334,19 @@ const Index: React.FC = () => {
               </div>
 
               {/* Detailed Search Form */}
-              <StreamlinedSearchForm
-                onSearch={handleSearch}
-                onReset={handleReset}
-                isLoading={isLoading}
-              />
+              <div className="relative">
+                <div className="absolute top-2 right-2 z-10">
+                  <VoiceTouchToggle 
+                    onModeChange={handleModeChange}
+                    className="scale-75"
+                  />
+                </div>
+                <StreamlinedSearchForm
+                  onSearch={handleSearch}
+                  onReset={handleReset}
+                  isLoading={isLoading}
+                />
+              </div>
               
             </div>
           </div>
