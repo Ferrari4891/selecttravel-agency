@@ -230,10 +230,14 @@ const Dashboard = () => {
                   </CardDescription>
                 </CardHeader>
                 <CardContent className="p-4">
-                  <APIKeyManagement 
-                    businessId={business.id} 
-                    subscriptionTier={business.subscription_tier || 'trial'} 
-                  />
+                  {business.subscription_tier === 'firstclass' ? (
+                    <APIKeyManagement businessId={business.id} />
+                  ) : (
+                    <div className="text-center text-muted-foreground py-8">
+                      <p>API access is only available for First Class subscribers.</p>
+                      <p className="text-sm mt-2">Upgrade your subscription to access this feature.</p>
+                    </div>
+                  )}
                 </CardContent>
               </Card>
             </TabsContent>

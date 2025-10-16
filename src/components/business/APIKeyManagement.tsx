@@ -3,20 +3,11 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
+import { Badge } from '@/components/ui/badge';
 import { useToast } from '@/hooks/use-toast';
 import { supabase } from '@/integrations/supabase/client';
-import { Copy, Eye, EyeOff, Trash2, Plus, Key } from 'lucide-react';
-import { Badge } from '@/components/ui/badge';
-import {
-  AlertDialog,
-  AlertDialogAction,
-  AlertDialogCancel,
-  AlertDialogContent,
-  AlertDialogDescription,
-  AlertDialogFooter,
-  AlertDialogHeader,
-  AlertDialogTitle,
-} from "@/components/ui/alert-dialog";
+import { Copy, Eye, EyeOff, Key, Trash2, Plus } from 'lucide-react';
+import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 
 interface APIKey {
   id: string;
@@ -30,50 +21,44 @@ interface APIKey {
 
 interface APIKeyManagementProps {
   businessId: string;
-  subscriptionTier: string;
 }
 
-const APIKeyManagement: React.FC<APIKeyManagementProps> = ({ businessId, subscriptionTier }) => {
+export const APIKeyManagement: React.FC<APIKeyManagementProps> = ({ businessId }) => {
   const [apiKeys, setApiKeys] = useState<APIKey[]>([]);
+  const [loading, setLoading] = useState(true);
   const [newKeyName, setNewKeyName] = useState('');
-  const [showNewKey, setShowNewKey] = useState(false);
-  const [newlyCreatedKey, setNewlyCreatedKey] = useState<string>('');
+  const [showNewKeyDialog, setShowNewKeyDialog] = useState(false);
+  const [newGeneratedKey, setNewGeneratedKey] = useState('');
   const [visibleKeys, setVisibleKeys] = useState<Set<string>>(new Set());
-  const [deleteKeyId, setDeleteKeyId] = useState<string | null>(null);
   const { toast } = useToast();
 
   useEffect(() => {
-    if (subscriptionTier === 'firstclass') {
-      fetchAPIKeys();
-    }
-  }, [businessId, subscriptionTier]);
+    fetchAPIKeys();
+  }, [businessId]);
 
   const fetchAPIKeys = async () => {
-    const { data, error } = await supabase
-      .from('api_keys')
-      .select('*')
-      .eq('business_id', businessId)
-      .order('created_at', { ascending: false });
+    try {
+      const { data, error } = await supabase
+        .from('api_keys')
+        .select('*')
+        .eq('business_id', businessId)
+        .order('created_at', { ascending: false });
 
-    if (error) {
+      if (error) throw error;
+      setApiKeys(data || []);
+    } catch (error) {
+      console.error('Error fetching API keys:', error);
       toast({
         title: "Error",
         description: "Failed to load API keys",
         variant: "destructive",
       });
-      return;
+    } finally {
+      setLoading(false);
     }
-
-    setApiKeys(data || []);
   };
 
-  const generateAPIKey = () => {
-    const array = new Uint8Array(32);
-    crypto.getRandomValues(array);
-    return Array.from(array, byte => byte.toString(16).padStart(2, '0')).join('');
-  };
-
-  const createAPIKey = async () => {
+  const generateAPIKey = async () => {
     if (!newKeyName.trim()) {
       toast({
         title: "Error",
@@ -83,56 +68,85 @@ const APIKeyManagement: React.FC<APIKeyManagementProps> = ({ businessId, subscri
       return;
     }
 
-    const newKey = generateAPIKey();
+    try {
+      // Generate a secure random API key
+      const array = new Uint8Array(32);
+      crypto.getRandomValues(array);
+      const apiKey = 'sk_' + Array.from(array, byte => byte.toString(16).padStart(2, '0')).join('');
 
-    const { error } = await supabase
-      .from('api_keys')
-      .insert({
-        business_id: businessId,
-        name: newKeyName,
-        key_hash: newKey,
+      // Hash the key for storage
+      const encoder = new TextEncoder();
+      const data = encoder.encode(apiKey);
+      const hashBuffer = await crypto.subtle.digest('SHA-256', data);
+      const hashArray = Array.from(new Uint8Array(hashBuffer));
+      const keyHash = hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
+
+      const { error } = await supabase
+        .from('api_keys')
+        .insert([{
+          business_id: businessId,
+          name: newKeyName,
+          key_hash: keyHash,
+        }]);
+
+      if (error) throw error;
+
+      setNewGeneratedKey(apiKey);
+      setShowNewKeyDialog(true);
+      setNewKeyName('');
+      fetchAPIKeys();
+
+      toast({
+        title: "Success",
+        description: "API key generated successfully",
       });
-
-    if (error) {
+    } catch (error) {
+      console.error('Error generating API key:', error);
       toast({
         title: "Error",
-        description: "Failed to create API key",
+        description: "Failed to generate API key",
         variant: "destructive",
       });
-      return;
     }
-
-    setNewlyCreatedKey(newKey);
-    setShowNewKey(true);
-    setNewKeyName('');
-    fetchAPIKeys();
-
-    toast({
-      title: "Success",
-      description: "API key created successfully",
-    });
   };
 
   const deleteAPIKey = async (keyId: string) => {
-    const { error } = await supabase
-      .from('api_keys')
-      .delete()
-      .eq('id', keyId);
+    if (!confirm('Are you sure you want to delete this API key? This action cannot be undone.')) {
+      return;
+    }
 
-    if (error) {
+    try {
+      const { error } = await supabase
+        .from('api_keys')
+        .delete()
+        .eq('id', keyId);
+
+      if (error) throw error;
+
+      fetchAPIKeys();
+      toast({
+        title: "Success",
+        description: "API key deleted successfully",
+      });
+    } catch (error) {
+      console.error('Error deleting API key:', error);
       toast({
         title: "Error",
         description: "Failed to delete API key",
         variant: "destructive",
       });
-      return;
     }
+  };
 
-    fetchAPIKeys();
-    setDeleteKeyId(null);
-    toast({
-      title: "Success",
-      description: "API key deleted",
+  const toggleKeyVisibility = (keyId: string) => {
+    setVisibleKeys(prev => {
+      const newSet = new Set(prev);
+      if (newSet.has(keyId)) {
+        newSet.delete(keyId);
+      } else {
+        newSet.add(keyId);
+      }
+      return newSet;
     });
   };
 
@@ -144,162 +158,93 @@ const APIKeyManagement: React.FC<APIKeyManagementProps> = ({ businessId, subscri
     });
   };
 
-  const toggleKeyVisibility = (keyId: string) => {
-    const newVisible = new Set(visibleKeys);
-    if (newVisible.has(keyId)) {
-      newVisible.delete(keyId);
-    } else {
-      newVisible.add(keyId);
-    }
-    setVisibleKeys(newVisible);
-  };
-
-  const maskKey = (key: string) => {
-    return key.substring(0, 8) + '•'.repeat(48) + key.substring(key.length - 8);
-  };
-
-  if (subscriptionTier !== 'firstclass') {
-    return (
-      <Card>
-        <CardHeader>
-          <CardTitle>API Access</CardTitle>
-          <CardDescription>Upgrade to First Class to access the API</CardDescription>
-        </CardHeader>
-        <CardContent>
-          <p className="text-muted-foreground">
-            API access is only available for First Class subscribers. Upgrade your plan to generate API keys and integrate your business data with external systems.
-          </p>
-        </CardContent>
-      </Card>
-    );
+  if (loading) {
+    return <div className="p-6">Loading API keys...</div>;
   }
 
   return (
     <div className="space-y-6">
-      {showNewKey && newlyCreatedKey && (
-        <Card className="border-primary">
-          <CardHeader>
-            <CardTitle className="flex items-center gap-2">
-              <Key className="h-5 w-5" />
-              New API Key Created
-            </CardTitle>
-            <CardDescription>
-              Copy this key now. You won't be able to see it again!
-            </CardDescription>
-          </CardHeader>
-          <CardContent className="space-y-4">
-            <div className="flex gap-2">
-              <Input
-                value={newlyCreatedKey}
-                readOnly
-                className="font-mono text-sm"
-              />
-              <Button onClick={() => copyToClipboard(newlyCreatedKey)}>
-                <Copy className="h-4 w-4" />
-              </Button>
-            </div>
-            <Button variant="outline" onClick={() => setShowNewKey(false)} className="w-full">
-              I've Saved My Key
-            </Button>
-          </CardContent>
-        </Card>
-      )}
-
       <Card>
         <CardHeader>
-          <CardTitle>Create New API Key</CardTitle>
+          <CardTitle className="flex items-center gap-2">
+            <Key className="h-5 w-5" />
+            API Access
+          </CardTitle>
           <CardDescription>
-            Generate a new API key for your integrations
+            Manage API keys for programmatic access to your business data
           </CardDescription>
         </CardHeader>
         <CardContent className="space-y-4">
-          <div className="space-y-2">
-            <Label htmlFor="keyName">Key Name</Label>
-            <Input
-              id="keyName"
-              placeholder="e.g., Production App, Analytics Dashboard"
-              value={newKeyName}
-              onChange={(e) => setNewKeyName(e.target.value)}
-            />
+          <div className="flex flex-col md:flex-row gap-2">
+            <div className="flex-1">
+              <Label htmlFor="keyName">API Key Name</Label>
+              <Input
+                id="keyName"
+                placeholder="e.g., Production Server, Mobile App"
+                value={newKeyName}
+                onChange={(e) => setNewKeyName(e.target.value)}
+              />
+            </div>
+            <div className="flex items-end">
+              <Button onClick={generateAPIKey}>
+                <Plus className="h-4 w-4 mr-2" />
+                Generate Key
+              </Button>
+            </div>
           </div>
-          <Button onClick={createAPIKey} className="w-full">
-            <Plus className="h-4 w-4 mr-2" />
-            Create API Key
-          </Button>
-        </CardContent>
-      </Card>
 
-      <Card>
-        <CardHeader>
-          <CardTitle>Your API Keys</CardTitle>
-          <CardDescription>
-            Manage your existing API keys
-          </CardDescription>
-        </CardHeader>
-        <CardContent>
           {apiKeys.length === 0 ? (
-            <p className="text-muted-foreground text-center py-8">
-              No API keys yet. Create one to get started.
+            <p className="text-sm text-muted-foreground">
+              No API keys yet. Generate one to get started.
             </p>
           ) : (
-            <div className="space-y-4">
+            <div className="space-y-3">
               {apiKeys.map((key) => (
                 <Card key={key.id}>
-                  <CardContent className="pt-6">
-                    <div className="space-y-4">
-                      <div className="flex items-start justify-between">
-                        <div className="space-y-1">
+                  <CardContent className="pt-4">
+                    <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
+                      <div className="flex-1">
+                        <div className="flex items-center gap-2 mb-1">
                           <h4 className="font-medium">{key.name}</h4>
-                          <p className="text-sm text-muted-foreground">
-                            Created: {new Date(key.created_at).toLocaleDateString()}
-                          </p>
-                          {key.last_used_at && (
-                            <p className="text-sm text-muted-foreground">
-                              Last used: {new Date(key.last_used_at).toLocaleDateString()}
-                            </p>
-                          )}
+                          <Badge variant={key.is_active ? 'default' : 'secondary'}>
+                            {key.is_active ? 'Active' : 'Inactive'}
+                          </Badge>
                         </div>
-                        <Badge variant={key.is_active ? "default" : "secondary"}>
-                          {key.is_active ? 'Active' : 'Inactive'}
-                        </Badge>
-                      </div>
-
-                      <div className="flex gap-2">
-                        <Input
-                          value={visibleKeys.has(key.id) ? key.key_hash : maskKey(key.key_hash)}
-                          readOnly
-                          className="font-mono text-sm"
-                        />
-                        <Button
-                          variant="outline"
-                          size="icon"
-                          onClick={() => toggleKeyVisibility(key.id)}
-                        >
-                          {visibleKeys.has(key.id) ? (
-                            <EyeOff className="h-4 w-4" />
-                          ) : (
-                            <Eye className="h-4 w-4" />
+                        <div className="flex items-center gap-2 mb-2">
+                          <code className="text-xs bg-muted px-2 py-1">
+                            {visibleKeys.has(key.id) 
+                              ? key.key_hash.substring(0, 16) + '...' 
+                              : '••••••••••••••••'}
+                          </code>
+                          <Button
+                            variant="ghost"
+                            size="sm"
+                            onClick={() => toggleKeyVisibility(key.id)}
+                          >
+                            {visibleKeys.has(key.id) ? (
+                              <EyeOff className="h-4 w-4" />
+                            ) : (
+                              <Eye className="h-4 w-4" />
+                            )}
+                          </Button>
+                        </div>
+                        <div className="text-xs text-muted-foreground space-y-1">
+                          <p>Created: {new Date(key.created_at).toLocaleDateString()}</p>
+                          {key.last_used_at && (
+                            <p>Last used: {new Date(key.last_used_at).toLocaleDateString()}</p>
                           )}
-                        </Button>
+                          <p>Rate limit: {key.rate_limit_per_minute} requests/minute</p>
+                        </div>
+                      </div>
+                      <div className="flex gap-2">
                         <Button
                           variant="outline"
-                          size="icon"
-                          onClick={() => copyToClipboard(key.key_hash)}
-                        >
-                          <Copy className="h-4 w-4" />
-                        </Button>
-                        <Button
-                          variant="outline"
-                          size="icon"
-                          onClick={() => setDeleteKeyId(key.id)}
+                          size="sm"
+                          onClick={() => deleteAPIKey(key.id)}
                         >
                           <Trash2 className="h-4 w-4" />
                         </Button>
                       </div>
-
-                      <p className="text-xs text-muted-foreground">
-                        Rate limit: {key.rate_limit_per_minute} requests per minute
-                      </p>
                     </div>
                   </CardContent>
                 </Card>
@@ -312,88 +257,90 @@ const APIKeyManagement: React.FC<APIKeyManagementProps> = ({ businessId, subscri
       <Card>
         <CardHeader>
           <CardTitle>API Documentation</CardTitle>
-          <CardDescription>
-            Available endpoints and usage examples
-          </CardDescription>
         </CardHeader>
         <CardContent className="space-y-4">
-          <div className="space-y-2">
-            <h4 className="font-medium">Base URL:</h4>
-            <code className="block bg-muted p-2 text-sm">
-              {import.meta.env.VITE_SUPABASE_URL}/functions/v1/business-api
+          <div>
+            <h4 className="font-medium mb-2">Base URL</h4>
+            <code className="text-sm bg-muted px-2 py-1 block break-all">
+              https://urczlhjnztiaxdsatueu.supabase.co/functions/v1/business-api
             </code>
           </div>
 
-          <div className="space-y-2">
-            <h4 className="font-medium">Authentication:</h4>
-            <p className="text-sm text-muted-foreground">
-              Include your API key in the <code>X-API-Key</code> header
+          <div>
+            <h4 className="font-medium mb-2">Authentication</h4>
+            <p className="text-sm text-muted-foreground mb-2">
+              Include your API key in the request header:
             </p>
+            <code className="text-sm bg-muted px-2 py-1 block">
+              x-api-key: your_api_key_here
+            </code>
           </div>
 
-          <div className="space-y-3">
-            <h4 className="font-medium">Endpoints:</h4>
-            
-            <div className="space-y-1">
-              <code className="block bg-muted p-2 text-sm">GET /business</code>
-              <p className="text-sm text-muted-foreground">Get your business profile data</p>
-            </div>
-
-            <div className="space-y-1">
-              <code className="block bg-muted p-2 text-sm">GET /analytics?days=30</code>
-              <p className="text-sm text-muted-foreground">Get analytics summary</p>
-            </div>
-
-            <div className="space-y-1">
-              <code className="block bg-muted p-2 text-sm">GET /vouchers</code>
-              <p className="text-sm text-muted-foreground">List all vouchers</p>
-            </div>
-
-            <div className="space-y-1">
-              <code className="block bg-muted p-2 text-sm">POST /vouchers</code>
-              <p className="text-sm text-muted-foreground">Create a new voucher</p>
-            </div>
-
-            <div className="space-y-1">
-              <code className="block bg-muted p-2 text-sm">GET /gift-cards</code>
-              <p className="text-sm text-muted-foreground">List all gift cards</p>
-            </div>
-
-            <div className="space-y-1">
-              <code className="block bg-muted p-2 text-sm">GET /visits</code>
-              <p className="text-sm text-muted-foreground">Get member visit history</p>
+          <div>
+            <h4 className="font-medium mb-2">Available Endpoints</h4>
+            <div className="space-y-3 text-sm">
+              <div className="border-l-2 border-primary pl-3">
+                <code className="font-medium">GET /business</code>
+                <p className="text-muted-foreground mt-1">Get your business profile data</p>
+              </div>
+              <div className="border-l-2 border-primary pl-3">
+                <code className="font-medium">GET /analytics?days=30</code>
+                <p className="text-muted-foreground mt-1">Get analytics summary (optional: days parameter)</p>
+              </div>
+              <div className="border-l-2 border-primary pl-3">
+                <code className="font-medium">GET /vouchers</code>
+                <p className="text-muted-foreground mt-1">List all vouchers</p>
+              </div>
+              <div className="border-l-2 border-primary pl-3">
+                <code className="font-medium">POST /vouchers</code>
+                <p className="text-muted-foreground mt-1">Create a new voucher</p>
+              </div>
+              <div className="border-l-2 border-primary pl-3">
+                <code className="font-medium">PATCH /vouchers/:id</code>
+                <p className="text-muted-foreground mt-1">Update a voucher</p>
+              </div>
+              <div className="border-l-2 border-primary pl-3">
+                <code className="font-medium">GET /gift-cards</code>
+                <p className="text-muted-foreground mt-1">List all gift cards</p>
+              </div>
             </div>
           </div>
 
-          <div className="space-y-2">
-            <h4 className="font-medium">Example Request:</h4>
-            <pre className="bg-muted p-3 text-xs overflow-x-auto">
+          <div>
+            <h4 className="font-medium mb-2">Example Request</h4>
+            <pre className="text-xs bg-muted p-3 overflow-x-auto">
 {`curl -X GET \\
-  ${import.meta.env.VITE_SUPABASE_URL}/functions/v1/business-api/business \\
-  -H "X-API-Key: YOUR_API_KEY_HERE"`}
+  https://urczlhjnztiaxdsatueu.supabase.co/functions/v1/business-api/analytics \\
+  -H "x-api-key: your_api_key_here"`}
             </pre>
           </div>
         </CardContent>
       </Card>
 
-      <AlertDialog open={deleteKeyId !== null} onOpenChange={() => setDeleteKeyId(null)}>
-        <AlertDialogContent>
-          <AlertDialogHeader>
-            <AlertDialogTitle>Delete API Key?</AlertDialogTitle>
-            <AlertDialogDescription>
-              This will permanently delete this API key. Any applications using this key will stop working.
-            </AlertDialogDescription>
-          </AlertDialogHeader>
-          <AlertDialogFooter>
-            <AlertDialogCancel>Cancel</AlertDialogCancel>
-            <AlertDialogAction onClick={() => deleteKeyId && deleteAPIKey(deleteKeyId)}>
-              Delete
-            </AlertDialogAction>
-          </AlertDialogFooter>
-        </AlertDialogContent>
-      </AlertDialog>
+      <Dialog open={showNewKeyDialog} onOpenChange={setShowNewKeyDialog}>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>API Key Generated</DialogTitle>
+            <DialogDescription>
+              Save this API key now. You won't be able to see it again!
+            </DialogDescription>
+          </DialogHeader>
+          <div className="space-y-4">
+            <div>
+              <Label>Your API Key</Label>
+              <div className="flex gap-2 mt-2">
+                <Input value={newGeneratedKey} readOnly className="font-mono text-sm" />
+                <Button onClick={() => copyToClipboard(newGeneratedKey)}>
+                  <Copy className="h-4 w-4" />
+                </Button>
+              </div>
+            </div>
+            <p className="text-sm text-muted-foreground">
+              This key provides full access to your business data via the API. Keep it secure and never share it publicly.
+            </p>
+          </div>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 };
-
-export { APIKeyManagement };
