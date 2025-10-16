@@ -16,14 +16,27 @@ export const useBusinessNameSearch = () => {
     setIsLoading(true);
     
     try {
-      // Build the base query
+      // Build the base query with tolerant name matching
       let query = supabase
         .from('businesses')
         .select('*')
-        .eq('status', 'approved')
-        .ilike('business_name', `%${filters.businessName}%`);
+        .eq('status', 'approved');
 
-      // Add optional location filters
+      // Prepare tokenized OR filter to handle minor STT errors (e.g., "speech" vs "beach")
+      const rawName = (filters.businessName || '').toString().trim().slice(0, 100);
+      const tokens = rawName.split(/[^a-zA-Z0-9']+/).filter(t => t.length >= 3);
+      const uniqueTokens = Array.from(new Set(tokens.map(t => t.toLowerCase())));
+
+      if (uniqueTokens.length > 0) {
+        const orFilter = uniqueTokens
+          .map(t => `business_name.ilike.%${t}%`)
+          .join(',');
+        query = query.or(orFilter);
+      } else if (rawName) {
+        query = query.ilike('business_name', `%${rawName}%`);
+      }
+
+      // Add optional location filters (exact match)
       if (filters.city) {
         query = query.eq('city', filters.city);
       }

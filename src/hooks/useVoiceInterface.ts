@@ -300,7 +300,7 @@ export const useVoiceInterface = () => {
 
       let candidatePrefix = beforeCityOriginal.trim();
 
-      const countrySuffixPattern = /(.*?)[,\s]+([A-Za-z][A-Za-z\s\-']+)\s*,?\s*(new zealand|united states|usa|canada|australia|united kingdom|england|scotland|wales|ireland|mexico|france|germany|spain|italy|netherlands|japan|china|india|south africa|brazil|argentina)\s*$/i;
+      const countrySuffixPattern = /(.*?)[,\s]+([A-Za-z][A-Za-z\s\-']+)\s*,?\s*(new zealand|united states|usa|canada|australia|united kingdom|england|scotland|wales|ireland|mexico|france|germany|spain|italy|netherlands|japan|china|india|south africa|brazil|argentina)\s*[\.,!?;:]*$/i;
 
       const suffixMatch = candidatePrefix.match(countrySuffixPattern);
       if (suffixMatch) {
