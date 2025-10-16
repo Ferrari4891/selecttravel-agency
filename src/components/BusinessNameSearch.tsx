@@ -48,8 +48,11 @@ export const BusinessNameSearch: React.FC<BusinessNameSearchProps> = ({ onSearch
 
   return (
     <div className="w-full space-y-4 p-6 bg-card/95 backdrop-blur-sm border border-border">
-      <div className="text-center mb-4">
-        <h2 className="text-2xl font-bold text-green-600">FIND BY NAME</h2>
+      <div className="text-center mb-4 space-y-2">
+        <h2 className="text-2xl font-bold text-green-600">SEARCH BY NAME</h2>
+        <p className="text-muted-foreground text-sm">
+          Search for a specific business by name
+        </p>
       </div>
       
       <div className="space-y-4">

@@ -308,17 +308,17 @@ const Index: React.FC = () => {
           <div className="flex-1 flex items-center justify-center px-4 pt-4 pb-8">
             <div className="w-full max-w-md space-y-6">
               {/* Business Name Search */}
-              <div className="relative">
-                <div className="absolute top-2 right-2 z-10">
-                  <VoiceTouchToggle 
-                    onModeChange={handleModeChange}
-                    className="scale-75"
-                  />
-                </div>
+              <div className="space-y-3">
                 <BusinessNameSearch
                   onSearch={handleNameSearch}
                   isLoading={isNameSearchLoading}
                 />
+                <div className="flex justify-center">
+                  <VoiceTouchToggle 
+                    onModeChange={handleModeChange}
+                    className="scale-90"
+                  />
+                </div>
               </div>
               
               {/* OR Separator */}
@@ -334,19 +334,11 @@ const Index: React.FC = () => {
               </div>
 
               {/* Detailed Search Form */}
-              <div className="relative">
-                <div className="absolute top-2 right-2 z-10">
-                  <VoiceTouchToggle 
-                    onModeChange={handleModeChange}
-                    className="scale-75"
-                  />
-                </div>
-                <StreamlinedSearchForm
-                  onSearch={handleSearch}
-                  onReset={handleReset}
-                  isLoading={isLoading}
-                />
-              </div>
+              <StreamlinedSearchForm
+                onSearch={handleSearch}
+                onReset={handleReset}
+                isLoading={isLoading}
+              />
               
             </div>
           </div>

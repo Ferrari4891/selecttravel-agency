@@ -287,7 +287,7 @@ export const StreamlinedSearchForm: React.FC<StreamlinedSearchFormProps> = ({
             className="h-20 w-auto"
           />
         </div>
-        <div>
+        <div className="space-y-3">
           <h1 className="text-2xl font-bold text-green-600">GET WHAT YOU WANT!</h1>
           <p className="text-muted-foreground">
             Choose your selection method and discover exactly what you're looking for
