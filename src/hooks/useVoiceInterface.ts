@@ -293,9 +293,10 @@ export const useVoiceInterface = () => {
       // Try to extract business name before location
       const beforeCity = lowerCommand.split(/\s+in\s+/)[0];
       
-      // Remove common command words (find, search, etc.)
+      // Remove common command words and phrases - be more aggressive with natural speech patterns
       businessName = beforeCity
-        .replace(/^(find|search for|show me|look for|get me)\s+/i, '')
+        .replace(/^(find|search for|show me|look for|get me|locate|where is|for)\s+/i, '')
+        .replace(/^(the\s+)?(business\s+)?(name\s+)?(called\s+)?/i, '')
         .trim();
       
       console.log('Voice command processing:', { 
