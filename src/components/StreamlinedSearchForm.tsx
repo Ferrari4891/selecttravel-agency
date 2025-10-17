@@ -631,7 +631,7 @@ export const StreamlinedSearchForm: React.FC<StreamlinedSearchFormProps> = ({
                   key={option.value}
                   variant={priceLevel === option.value ? "default" : "outline"}
                   onClick={() => setPriceLevel(option.value)}
-                  className="flex flex-col items-center justify-center gap-1 h-auto p-3 w-full"
+                  className="flex flex-col items-center justify-center gap-1 h-auto p-3 w-full transition-colors hover:bg-green-50 hover:text-green-600"
                 >
                   <span className="text-lg font-bold">{option.label}</span>
                   <span className="text-xs text-center">{option.description}</span>
