@@ -7,7 +7,7 @@ import { Label } from '@/components/ui/label';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { supabase } from '@/integrations/supabase/client';
 import { useToast } from '@/hooks/use-toast';
-import { Loader2, Wand2, Upload, Save, Image as ImageIcon } from 'lucide-react';
+import { Loader2, Wand2, Save, Download } from 'lucide-react';
 import { AspectRatio } from '@/components/ui/aspect-ratio';
 
 interface AIImageGeneratorProps {
@@ -96,7 +96,7 @@ export const AIImageGenerator: React.FC<AIImageGeneratorProps> = ({ businessId }
     }
   };
 
-  const saveImage = async () => {
+  const saveAndDownloadImage = async () => {
     if (!generatedImage) {
       toast({
         title: 'No image to save',
@@ -117,23 +117,26 @@ export const AIImageGenerator: React.FC<AIImageGeneratorProps> = ({ businessId }
       const file = new File([blob], fileName, { type: 'image/png' });
 
       // Upload to business-media bucket
+      const filePath = `${businessId}/original/${Date.now()}-${fileName}`;
       const { error: uploadError } = await supabase.storage
         .from('business-media')
-        .upload(`${businessId}/${fileName}`, file, {
+        .upload(filePath, file, {
           cacheControl: '3600',
           upsert: false
         });
 
       if (uploadError) throw uploadError;
 
-      // Get public URL
-      const { data: { publicUrl } } = supabase.storage
-        .from('business-media')
-        .getPublicUrl(`${businessId}/${fileName}`);
+      // Also download to user's device
+      const link = document.createElement('a');
+      link.href = generatedImage;
+      link.download = fileName;
+      link.click();
 
       toast({
         title: 'Image saved',
-        description: 'Your AI-generated image has been saved to your business media'
+        description: 'Image saved to storage and downloaded. You can now add it to your carousel in the Media tab.',
+        duration: 5000
       });
 
       // Reset form
@@ -162,7 +165,7 @@ export const AIImageGenerator: React.FC<AIImageGeneratorProps> = ({ businessId }
           AI Image Generator
         </CardTitle>
         <CardDescription>
-          Generate or edit images with AI (16:9 aspect ratio)
+          Generate or edit images with AI (16:9 aspect ratio). Images are saved to storage and can be added to your carousel.
         </CardDescription>
       </CardHeader>
       <CardContent className="space-y-4">
@@ -264,7 +267,7 @@ export const AIImageGenerator: React.FC<AIImageGeneratorProps> = ({ businessId }
               />
             </AspectRatio>
             <Button 
-              onClick={saveImage} 
+              onClick={saveAndDownloadImage} 
               disabled={isSaving}
               className="w-full"
               variant="default"
@@ -277,10 +280,15 @@ export const AIImageGenerator: React.FC<AIImageGeneratorProps> = ({ businessId }
               ) : (
                 <>
                   <Save className="mr-2 h-4 w-4" />
-                  Save to Business Media
+                  <Download className="mr-2 h-4 w-4" />
+                  Save to Storage & Download
                 </>
               )}
             </Button>
+            <p className="text-xs text-muted-foreground">
+              The image will be saved to your business storage and downloaded to your device. 
+              After that, go to the <strong>Media</strong> tab and upload it to your carousel or single image display.
+            </p>
           </div>
         )}
       </CardContent>
