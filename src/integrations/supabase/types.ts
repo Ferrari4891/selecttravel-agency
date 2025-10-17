@@ -50,6 +50,63 @@ export type Database = {
         }
         Relationships: []
       }
+      analytics_report_settings: {
+        Row: {
+          business_id: string
+          created_at: string
+          frequency: string
+          id: string
+          is_active: boolean
+          last_sent_at: string | null
+          recipient_email: string
+          send_date: number | null
+          send_day: string | null
+          send_time: string
+          updated_at: string
+        }
+        Insert: {
+          business_id: string
+          created_at?: string
+          frequency: string
+          id?: string
+          is_active?: boolean
+          last_sent_at?: string | null
+          recipient_email: string
+          send_date?: number | null
+          send_day?: string | null
+          send_time?: string
+          updated_at?: string
+        }
+        Update: {
+          business_id?: string
+          created_at?: string
+          frequency?: string
+          id?: string
+          is_active?: boolean
+          last_sent_at?: string | null
+          recipient_email?: string
+          send_date?: number | null
+          send_day?: string | null
+          send_time?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "analytics_report_settings_business_id_fkey"
+            columns: ["business_id"]
+            isOneToOne: true
+            referencedRelation: "business_analytics_overview"
+            referencedColumns: ["business_id"]
+          },
+          {
+            foreignKeyName: "analytics_report_settings_business_id_fkey"
+            columns: ["business_id"]
+            isOneToOne: true
+            referencedRelation: "businesses"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       api_keys: {
         Row: {
           business_id: string
@@ -1701,6 +1758,48 @@ export type Database = {
           },
         ]
       }
+      scheduled_voucher_logs: {
+        Row: {
+          error_message: string | null
+          id: string
+          schedule_id: string
+          status: string
+          triggered_at: string
+          voucher_id: string | null
+        }
+        Insert: {
+          error_message?: string | null
+          id?: string
+          schedule_id: string
+          status: string
+          triggered_at?: string
+          voucher_id?: string | null
+        }
+        Update: {
+          error_message?: string | null
+          id?: string
+          schedule_id?: string
+          status?: string
+          triggered_at?: string
+          voucher_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "scheduled_voucher_logs_schedule_id_fkey"
+            columns: ["schedule_id"]
+            isOneToOne: false
+            referencedRelation: "voucher_schedules"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "scheduled_voucher_logs_voucher_id_fkey"
+            columns: ["voucher_id"]
+            isOneToOne: false
+            referencedRelation: "business_vouchers"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       simple_members: {
         Row: {
           created_at: string
@@ -1739,6 +1838,172 @@ export type Database = {
           updated_at?: string
         }
         Relationships: []
+      }
+      social_media_auto_post_settings: {
+        Row: {
+          auto_post_enabled: boolean
+          business_id: string
+          created_at: string
+          id: string
+          include_business_link: boolean
+          include_voucher_code: boolean
+          platforms: string[]
+          post_template: string
+          updated_at: string
+        }
+        Insert: {
+          auto_post_enabled?: boolean
+          business_id: string
+          created_at?: string
+          id?: string
+          include_business_link?: boolean
+          include_voucher_code?: boolean
+          platforms?: string[]
+          post_template?: string
+          updated_at?: string
+        }
+        Update: {
+          auto_post_enabled?: boolean
+          business_id?: string
+          created_at?: string
+          id?: string
+          include_business_link?: boolean
+          include_voucher_code?: boolean
+          platforms?: string[]
+          post_template?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "social_media_auto_post_settings_business_id_fkey"
+            columns: ["business_id"]
+            isOneToOne: true
+            referencedRelation: "business_analytics_overview"
+            referencedColumns: ["business_id"]
+          },
+          {
+            foreignKeyName: "social_media_auto_post_settings_business_id_fkey"
+            columns: ["business_id"]
+            isOneToOne: true
+            referencedRelation: "businesses"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      social_media_connections: {
+        Row: {
+          access_token: string
+          account_id: string
+          account_name: string
+          business_id: string
+          connected_at: string
+          created_at: string
+          id: string
+          is_active: boolean
+          platform: string
+          token_expires_at: string | null
+          updated_at: string
+        }
+        Insert: {
+          access_token: string
+          account_id: string
+          account_name: string
+          business_id: string
+          connected_at?: string
+          created_at?: string
+          id?: string
+          is_active?: boolean
+          platform: string
+          token_expires_at?: string | null
+          updated_at?: string
+        }
+        Update: {
+          access_token?: string
+          account_id?: string
+          account_name?: string
+          business_id?: string
+          connected_at?: string
+          created_at?: string
+          id?: string
+          is_active?: boolean
+          platform?: string
+          token_expires_at?: string | null
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "social_media_connections_business_id_fkey"
+            columns: ["business_id"]
+            isOneToOne: false
+            referencedRelation: "business_analytics_overview"
+            referencedColumns: ["business_id"]
+          },
+          {
+            foreignKeyName: "social_media_connections_business_id_fkey"
+            columns: ["business_id"]
+            isOneToOne: false
+            referencedRelation: "businesses"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      social_media_posts: {
+        Row: {
+          business_id: string
+          error_message: string | null
+          id: string
+          platform: string
+          post_content: string
+          post_id: string | null
+          posted_at: string
+          status: string
+          voucher_id: string | null
+        }
+        Insert: {
+          business_id: string
+          error_message?: string | null
+          id?: string
+          platform: string
+          post_content: string
+          post_id?: string | null
+          posted_at?: string
+          status: string
+          voucher_id?: string | null
+        }
+        Update: {
+          business_id?: string
+          error_message?: string | null
+          id?: string
+          platform?: string
+          post_content?: string
+          post_id?: string | null
+          posted_at?: string
+          status?: string
+          voucher_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "social_media_posts_business_id_fkey"
+            columns: ["business_id"]
+            isOneToOne: false
+            referencedRelation: "business_analytics_overview"
+            referencedColumns: ["business_id"]
+          },
+          {
+            foreignKeyName: "social_media_posts_business_id_fkey"
+            columns: ["business_id"]
+            isOneToOne: false
+            referencedRelation: "businesses"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "social_media_posts_voucher_id_fkey"
+            columns: ["voucher_id"]
+            isOneToOne: false
+            referencedRelation: "business_vouchers"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       subscription_plans: {
         Row: {
@@ -1967,6 +2232,63 @@ export type Database = {
           updated_at?: string
         }
         Relationships: []
+      }
+      voucher_schedules: {
+        Row: {
+          business_id: string
+          created_at: string
+          id: string
+          is_active: boolean
+          last_triggered_at: string | null
+          next_trigger_at: string | null
+          recurrence_details: Json
+          recurrence_pattern: string
+          schedule_name: string
+          updated_at: string
+          voucher_template: Json
+        }
+        Insert: {
+          business_id: string
+          created_at?: string
+          id?: string
+          is_active?: boolean
+          last_triggered_at?: string | null
+          next_trigger_at?: string | null
+          recurrence_details?: Json
+          recurrence_pattern: string
+          schedule_name: string
+          updated_at?: string
+          voucher_template: Json
+        }
+        Update: {
+          business_id?: string
+          created_at?: string
+          id?: string
+          is_active?: boolean
+          last_triggered_at?: string | null
+          next_trigger_at?: string | null
+          recurrence_details?: Json
+          recurrence_pattern?: string
+          schedule_name?: string
+          updated_at?: string
+          voucher_template?: Json
+        }
+        Relationships: [
+          {
+            foreignKeyName: "voucher_schedules_business_id_fkey"
+            columns: ["business_id"]
+            isOneToOne: false
+            referencedRelation: "business_analytics_overview"
+            referencedColumns: ["business_id"]
+          },
+          {
+            foreignKeyName: "voucher_schedules_business_id_fkey"
+            columns: ["business_id"]
+            isOneToOne: false
+            referencedRelation: "businesses"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       voucher_usage: {
         Row: {

@@ -15,6 +15,10 @@ import { BusinessVoucherQR } from '@/components/business/BusinessVoucherQR';
 import { BusinessQRScanner } from '@/components/business/BusinessQRScanner';
 import { BusinessVisitDashboard } from '@/components/business/BusinessVisitDashboard';
 import { APIKeyManagement } from '@/components/business/APIKeyManagement';
+import VoucherScheduler from '@/components/business/VoucherScheduler';
+import AnalyticsReportSettings from '@/components/business/AnalyticsReportSettings';
+import SocialMediaConnect from '@/components/business/SocialMediaConnect';
+import SocialMediaAutoPostSettings from '@/components/business/SocialMediaAutoPostSettings';
 import { useToast } from '@/hooks/use-toast';
 import { Home } from 'lucide-react';
 import MobileContainer from '@/components/MobileContainer';
@@ -125,6 +129,9 @@ const Dashboard = () => {
               )}
               <TabsTrigger value="analytics" className="w-full text-sm md:text-base font-medium px-4 py-3 border border-border rounded data-[state=active]:bg-primary data-[state=active]:text-primary-foreground">Analytics</TabsTrigger>
               <TabsTrigger value="vouchers" className="w-full text-sm md:text-base font-medium px-4 py-3 border border-border rounded data-[state=active]:bg-primary data-[state=active]:text-primary-foreground">Vouchers</TabsTrigger>
+              {business.subscription_tier === 'firstclass' && (
+                <TabsTrigger value="automation" className="w-full text-sm md:text-base font-medium px-4 py-3 border border-border rounded data-[state=active]:bg-primary data-[state=active]:text-primary-foreground">Automation</TabsTrigger>
+              )}
               <TabsTrigger value="subscription" className="w-full text-sm md:text-base font-medium px-4 py-3 border border-border rounded data-[state=active]:bg-primary data-[state=active]:text-primary-foreground">Subscription</TabsTrigger>
               <TabsTrigger value="api" className="w-full text-sm md:text-base font-medium px-4 py-3 border border-border rounded data-[state=active]:bg-primary data-[state=active]:text-primary-foreground">API Access</TabsTrigger>
             </TabsList>
@@ -206,6 +213,25 @@ const Dashboard = () => {
                 </CardContent>
               </Card>
             </TabsContent>
+
+            {business.subscription_tier === 'firstclass' && (
+              <TabsContent value="automation" className="space-y-4">
+                <Card className="border shadow-md bg-background">
+                  <CardHeader className="bg-background p-4">
+                    <CardTitle className="text-center border-b border-border pb-2 text-xl md:text-2xl font-bold">Automation Features</CardTitle>
+                    <CardDescription className="text-sm md:text-base text-center text-muted-foreground">
+                      Automate your business operations with scheduled vouchers, reports, and social media posts.
+                    </CardDescription>
+                  </CardHeader>
+                  <CardContent className="p-4 space-y-6">
+                    <VoucherScheduler businessId={business.id} />
+                    <AnalyticsReportSettings businessId={business.id} />
+                    <SocialMediaConnect businessId={business.id} />
+                    <SocialMediaAutoPostSettings businessId={business.id} />
+                  </CardContent>
+                </Card>
+              </TabsContent>
+            )}
 
             <TabsContent value="subscription" className="space-y-4">
               <Card className="border shadow-md bg-background">
