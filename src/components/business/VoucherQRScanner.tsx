@@ -3,6 +3,10 @@ import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Camera, X, CheckCircle, AlertCircle, Ticket } from "lucide-react";
+import { Switch } from "@/components/ui/switch";
+import { Label } from "@/components/ui/label";
+import { Badge } from "@/components/ui/badge";
+import { useToast } from "@/hooks/use-toast";
 import jsQR from "jsqr";
 
 interface VoucherQRScannerProps {
@@ -17,11 +21,17 @@ interface VoucherQRPayload {
 }
 
 export function VoucherQRScanner({ businessId }: VoucherQRScannerProps) {
+  const { toast } = useToast();
+  const [isTestMode, setIsTestMode] = useState(() => {
+    const saved = localStorage.getItem("voucherScannerTestMode");
+    return saved === "true";
+  });
   const [isScanning, setIsScanning] = useState(false);
   const [result, setResult] = useState<{
     title: string;
     code: string;
     uses: number;
+    isTestScan: boolean;
   } | null>(null);
   const [error, setError] = useState<string | null>(null);
   const videoRef = useRef<HTMLVideoElement>(null);
@@ -103,25 +113,66 @@ export function VoucherQRScanner({ businessId }: VoucherQRScannerProps) {
         throw new Error("Voucher is not valid (inactive, expired, or maxed)");
       }
 
-      // Record redemption
+      // In TEST MODE: Skip database writes
+      if (isTestMode) {
+        setResult({ 
+          title: voucher.title, 
+          code: payload.code, 
+          uses: (voucher.current_uses || 0) + 1, 
+          isTestScan: true 
+        });
+        toast({
+          title: "Test Scan Complete",
+          description: "Voucher validated successfully. No data recorded.",
+        });
+        return;
+      }
+
+      // In LIVE MODE: Record redemption and increment uses
       const { error: useErr } = await supabase.from("voucher_usage").insert({
         voucher_id: voucher.id,
-        amount_saved: 0, // optional: compute at checkout
+        amount_saved: 0,
       });
       if (useErr) throw useErr;
 
-      // Increment uses
       const { error: updErr } = await supabase
         .from("business_vouchers")
         .update({ current_uses: (voucher.current_uses || 0) + 1 })
         .eq("id", voucher.id);
       if (updErr) throw updErr;
 
-      setResult({ title: voucher.title, code: payload.code, uses: (voucher.current_uses || 0) + 1 });
+      setResult({ 
+        title: voucher.title, 
+        code: payload.code, 
+        uses: (voucher.current_uses || 0) + 1, 
+        isTestScan: false 
+      });
+      toast({
+        title: "Voucher Redeemed",
+        description: "Redemption recorded successfully.",
+      });
     } catch (err) {
       console.error("Voucher QR error:", err);
       setError(err instanceof Error ? err.message : "Failed to process voucher QR");
     }
+  };
+
+  const handleTestModeToggle = (checked: boolean) => {
+    if (!checked && isTestMode) {
+      // Switching from TEST to LIVE
+      if (!confirm("Switch to LIVE MODE? All scans will be recorded permanently.")) {
+        return;
+      }
+    }
+    setIsTestMode(checked);
+    localStorage.setItem("voucherScannerTestMode", checked.toString());
+    toast({
+      title: checked ? "Test Mode Enabled" : "Live Mode Enabled",
+      description: checked 
+        ? "Scans will validate but not record data." 
+        : "Scans will now be recorded permanently.",
+      variant: checked ? "default" : "destructive",
+    });
   };
 
   useEffect(() => () => stopCamera(), []);
@@ -131,18 +182,28 @@ export function VoucherQRScanner({ businessId }: VoucherQRScannerProps) {
       <Card>
         <CardHeader>
           <CardTitle className="flex items-center gap-2">
-            <CheckCircle className="h-5 w-5" /> Voucher Redeemed
+            <CheckCircle className="h-5 w-5" /> 
+            {result.isTestScan ? "Test Scan Complete" : "Voucher Redeemed"}
           </CardTitle>
-          <CardDescription>Redemption recorded successfully.</CardDescription>
+          <CardDescription>
+            {result.isTestScan 
+              ? "Voucher validated successfully. No data was recorded." 
+              : "Redemption recorded successfully."}
+          </CardDescription>
         </CardHeader>
         <CardContent className="space-y-3">
+          <Badge variant={result.isTestScan ? "secondary" : "default"} className="w-fit">
+            {result.isTestScan ? "🟡 TEST SCAN" : "🔴 LIVE REDEMPTION"}
+          </Badge>
           <div className="text-sm text-muted-foreground">Voucher</div>
           <div className="font-medium flex items-center gap-2">
             <Ticket className="h-4 w-4" /> {result.title}
           </div>
           <div className="text-sm text-muted-foreground">Code</div>
           <div className="font-mono text-sm">{result.code}</div>
-          <div className="text-sm text-muted-foreground">Total Uses</div>
+          <div className="text-sm text-muted-foreground">
+            {result.isTestScan ? "Total Uses (Would be)" : "Total Uses"}
+          </div>
           <div className="text-2xl font-bold">{result.uses}</div>
           <Button onClick={() => setResult(null)} className="w-full">Scan Another Voucher</Button>
         </CardContent>
@@ -157,6 +218,23 @@ export function VoucherQRScanner({ businessId }: VoucherQRScannerProps) {
         <CardDescription>Scan a voucher QR to redeem and record usage.</CardDescription>
       </CardHeader>
       <CardContent className="space-y-4">
+        <div className="flex items-center justify-between p-3 border rounded-lg bg-muted/30">
+          <div className="flex items-center gap-3">
+            <Switch 
+              id="test-mode" 
+              checked={isTestMode} 
+              onCheckedChange={handleTestModeToggle}
+            />
+            <Label htmlFor="test-mode" className="cursor-pointer">
+              <div className="font-medium">
+                {isTestMode ? "🟡 TEST MODE" : "🔴 LIVE MODE"}
+              </div>
+              <div className="text-xs text-muted-foreground">
+                {isTestMode ? "Scans will not record data" : "Scans will be recorded"}
+              </div>
+            </Label>
+          </div>
+        </div>
         {error && (
           <div className="flex items-center gap-2 p-3 bg-destructive/10 border border-destructive/20 rounded-lg text-destructive">
             <AlertCircle className="h-4 w-4 flex-shrink-0" />
