@@ -1,239 +1,222 @@
-import { useEffect, useMemo, useState } from "react";
-import { useParams } from "react-router-dom";
-import { supabase } from "@/integrations/supabase/client";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
-import { Separator } from "@/components/ui/separator";
-import { Badge } from "@/components/ui/badge";
-import { Calendar, Percent, DollarSign, Gift, Ticket, QrCode } from "lucide-react";
-import QRCode from "qrcode";
-import voucherBase from "@/assets/voucher-base.png";
-import placeholderQR from "@/assets/placeholder-qr.png";
-import { useToast } from "@/hooks/use-toast";
-import { Navigation } from "@/components/Navigation";
+import { useEffect, useState } from 'react';
+import { useParams } from 'react-router-dom';
+import { supabase } from '@/integrations/supabase/client';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { Badge } from '@/components/ui/badge';
+import { useToast } from '@/hooks/use-toast';
+import { Loader2, Tag, Calendar, Gift, Copy } from 'lucide-react';
+import { Button } from '@/components/ui/button';
 
 interface Voucher {
   id: string;
   title: string;
   description: string | null;
-  voucher_type: "percentage_discount" | "fixed_amount" | "buy_one_get_one";
-  discount_value: number;
-  end_date: string;
   voucher_code: string | null;
-  qr_code_data: string | null;
+  voucher_type: string;
+  discount_value: number;
+  start_date: string;
+  end_date: string;
+  max_uses: number | null;
+  current_uses: number;
+  is_active: boolean;
 }
 
-export default function BusinessVouchers() {
-  const { id } = useParams();
-  const businessId = id as string;
-  const [businessName, setBusinessName] = useState<string>("");
+interface Business {
+  business_name: string;
+  description: string | null;
+  logo_url: string | null;
+}
+
+const BusinessVouchers = () => {
+  const { id: businessId } = useParams<{ id: string }>();
   const [vouchers, setVouchers] = useState<Voucher[]>([]);
-  const [qrMap, setQrMap] = useState<Record<string, string>>({});
+  const [business, setBusiness] = useState<Business | null>(null);
+  const [loading, setLoading] = useState(true);
   const { toast } = useToast();
 
   useEffect(() => {
-    document.title = businessName ? `${businessName} Vouchers | 55plus` : "Business Vouchers | 55plus";
-    // Meta description (best effort in SPA)
-    const meta = document.querySelector('meta[name="description"]');
-    if (meta) meta.setAttribute("content", `Active discount vouchers for ${businessName || "business"}.`);
-  }, [businessName]);
-
-  useEffect(() => {
-    const load = async () => {
-      // Fetch business public name (only approved are public)
-      const { data: biz } = await supabase
-        .from("businesses")
-        .select("business_name")
-        .eq("id", businessId)
-        .maybeSingle();
-      setBusinessName(biz?.business_name || "");
-
-      const { data: vs } = await supabase
-        .from("business_vouchers")
-        .select("id, title, description, voucher_type, discount_value, end_date, voucher_code, qr_code_data")
-        .eq("business_id", businessId)
-        .gt("end_date", new Date().toISOString())
-        .eq("is_active", true);
-      
-      // Pre-generate QR codes for all vouchers
-      if (vs) {
-        const qrCodes: Record<string, string> = {};
-        for (const v of vs) {
-          if (v.qr_code_data) {
-            try {
-              const dataUrl = await QRCode.toDataURL(v.qr_code_data, { margin: 1, scale: 4 });
-              qrCodes[v.id] = dataUrl;
-            } catch (e) {
-              console.error("QR generation error", e);
-            }
-          }
-        }
-        setQrMap(qrCodes);
-      }
-      
-      setVouchers(vs || []);
-    };
-    if (businessId) load();
+    fetchData();
   }, [businessId]);
 
-  const getIcon = (type: Voucher["voucher_type"]) => {
-    switch (type) {
-      case "percentage_discount":
-        return <Percent className="h-4 w-4" />;
-      case "fixed_amount":
-        return <DollarSign className="h-4 w-4" />;
-      case "buy_one_get_one":
-        return <Gift className="h-4 w-4" />;
+  const fetchData = async () => {
+    if (!businessId) return;
+
+    try {
+      // Fetch business info
+      const { data: businessData, error: businessError } = await supabase
+        .from('businesses')
+        .select('business_name, description, logo_url')
+        .eq('id', businessId)
+        .eq('status', 'approved')
+        .single();
+
+      if (businessError) throw businessError;
+      setBusiness(businessData);
+
+      // Fetch active vouchers
+      const { data: vouchersData, error: vouchersError } = await supabase
+        .from('business_vouchers')
+        .select('*')
+        .eq('business_id', businessId)
+        .eq('is_active', true)
+        .lte('start_date', new Date().toISOString())
+        .gte('end_date', new Date().toISOString())
+        .order('created_at', { ascending: false });
+
+      if (vouchersError) throw vouchersError;
+      setVouchers(vouchersData || []);
+    } catch (error) {
+      console.error('Error fetching data:', error);
+      toast({
+        title: 'Error',
+        description: 'Failed to load vouchers',
+        variant: 'destructive',
+      });
+    } finally {
+      setLoading(false);
     }
   };
 
+  const copyVoucherCode = (code: string) => {
+    navigator.clipboard.writeText(code);
+    toast({
+      title: 'Copied!',
+      description: 'Voucher code copied to clipboard',
+    });
+  };
 
-  return (
-    <>
-      <Navigation />
-      <main className="container mx-auto px-4 py-6 space-y-6">
-        <header className="space-y-1">
-          <h1 className="text-xl font-bold">{businessName || "Business"} Discount Vouchers</h1>
-          <p className="text-muted-foreground text-sm">Show the QR or code at checkout to redeem.</p>
-        </header>
-        <Separator />
+  const formatDiscount = (voucher: Voucher) => {
+    if (voucher.voucher_type === 'percentage') {
+      return `${voucher.discount_value}% OFF`;
+    } else if (voucher.voucher_type === 'fixed') {
+      return `$${voucher.discount_value} OFF`;
+    } else if (voucher.voucher_type === 'bogo') {
+      return 'BUY ONE GET ONE FREE';
+    }
+    return 'SPECIAL OFFER';
+  };
 
-      {vouchers.length === 0 ? (
-        <Card>
-          <CardContent className="py-8 text-center text-muted-foreground">
-            No active vouchers at the moment.
+  if (loading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-primary/10 to-secondary/10">
+        <Loader2 className="h-12 w-12 animate-spin text-primary" />
+      </div>
+    );
+  }
+
+  if (!business) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-primary/10 to-secondary/10">
+        <Card className="max-w-md">
+          <CardContent className="pt-6">
+            <p className="text-center text-muted-foreground">Business not found</p>
           </CardContent>
         </Card>
-      ) : (
-        <section className="space-y-4">
-          {vouchers.map((v) => {
-            const isExpired = new Date(v.end_date) < new Date();
-            return (
-              <Card key={v.id} className="overflow-hidden">
-                {/* Mobile-First Compact Layout */}
-                <div className="relative w-full bg-gradient-to-br from-emerald-600 to-emerald-800">
-                  <img 
-                    src={voucherBase} 
-                    alt="Voucher background" 
-                    className="absolute inset-0 w-full h-full object-cover opacity-30"
-                  />
-                  
-                  <div className="relative p-4 space-y-4">
-                    {/* Header */}
-                    <div className="flex items-center justify-between">
-                      <div className="flex items-center gap-2">
-                        <div className="bg-white/20 p-2 rounded">
-                          {getIcon(v.voucher_type)}
-                        </div>
-                        <div>
-                          <h3 className="text-sm font-bold text-white uppercase">
-                            {businessName}
-                          </h3>
-                        </div>
+      </div>
+    );
+  }
+
+  return (
+    <div className="min-h-screen bg-gradient-to-br from-primary/10 via-secondary/5 to-accent/10 py-12 px-4">
+      <div className="max-w-4xl mx-auto space-y-8">
+        {/* Business Header */}
+        <Card className="border-2">
+          <CardHeader className="text-center">
+            {business.logo_url && (
+              <div className="flex justify-center mb-4">
+                <img 
+                  src={business.logo_url} 
+                  alt={business.business_name}
+                  className="h-20 w-20 object-contain"
+                />
+              </div>
+            )}
+            <CardTitle className="text-3xl font-bold">{business.business_name}</CardTitle>
+            {business.description && (
+              <CardDescription className="text-lg mt-2">{business.description}</CardDescription>
+            )}
+          </CardHeader>
+        </Card>
+
+        {/* Vouchers Section */}
+        <div className="space-y-4">
+          <div className="flex items-center gap-2">
+            <Gift className="h-6 w-6 text-primary" />
+            <h2 className="text-2xl font-bold">Current Special Offers</h2>
+          </div>
+
+          {vouchers.length === 0 ? (
+            <Card>
+              <CardContent className="pt-6 text-center">
+                <p className="text-muted-foreground">No active vouchers at the moment. Check back soon!</p>
+              </CardContent>
+            </Card>
+          ) : (
+            <div className="grid gap-4">
+              {vouchers.map((voucher) => (
+                <Card 
+                  key={voucher.id} 
+                  className="border-2 hover:shadow-lg transition-shadow bg-gradient-to-br from-primary/5 to-secondary/5"
+                >
+                  <CardHeader>
+                    <div className="flex flex-col md:flex-row md:items-start md:justify-between gap-4">
+                      <div className="flex-1">
+                        <CardTitle className="text-xl mb-2">{voucher.title}</CardTitle>
+                        {voucher.description && (
+                          <CardDescription className="text-base">
+                            {voucher.description}
+                          </CardDescription>
+                        )}
                       </div>
-                      <Badge variant="secondary" className="bg-yellow-400 text-gray-900 font-bold text-xs px-2 py-0.5">
-                        {isExpired ? "EXPIRED" : "ACTIVE"}
+                      <Badge variant="default" className="text-lg px-4 py-2 whitespace-nowrap w-full md:w-auto text-center">
+                        {formatDiscount(voucher)}
                       </Badge>
                     </div>
-
-                    {/* Main Offer */}
-                    <div className="text-center py-4">
-                      <h2 className="text-xl font-bold text-white mb-2">
-                        {v.title}
-                      </h2>
-                      
-                      <div className="inline-block bg-white/10 backdrop-blur-md border-2 border-white/30 rounded-lg px-6 py-3">
-                        <div className="text-5xl font-black text-yellow-300">
-                          {v.voucher_type === "percentage_discount" && `${v.discount_value}%`}
-                          {v.voucher_type === "fixed_amount" && `$${v.discount_value}`}
-                          {v.voucher_type === "buy_one_get_one" && "BUY 1"}
-                        </div>
-                        <div className="text-lg font-bold text-white">
-                          {v.voucher_type === "percentage_discount" && "OFF"}
-                          {v.voucher_type === "fixed_amount" && "OFF"}
-                          {v.voucher_type === "buy_one_get_one" && "GET 1 FREE"}
-                        </div>
-                      </div>
-                      
-                      {v.description && (
-                        <p className="text-sm text-white/90 mt-3 px-4">
-                          {v.description}
-                        </p>
-                      )}
-                    </div>
-
-                    {/* QR and Code Section */}
-                    <div className="bg-white rounded-lg p-4 space-y-3">
-                      <h4 className="text-center font-bold text-gray-900 text-sm uppercase">
-                        Scan or Enter Code
-                      </h4>
-                      
-                      <div className="flex items-center justify-center">
-                        <div className="relative w-full aspect-square bg-white rounded-lg border-4 border-emerald-600 p-2">
-                          <img 
-                            src={qrMap[v.id] || placeholderQR} 
-                            alt={`QR code for ${v.title}`} 
-                            className="w-full h-full object-contain"
-                          />
-                        </div>
-                      </div>
-
-                      <div className="text-center">
-                        <div className="text-xs font-semibold text-gray-500 uppercase">
-                          Voucher Code
-                        </div>
-                        <div className="font-mono text-xl font-bold text-gray-900 my-1">
-                          {v.voucher_code || "DEMO1234"}
+                  </CardHeader>
+                  <CardContent className="space-y-4">
+                    {voucher.voucher_code && (
+                      <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-2 p-3 bg-background/50 border-2 border-dashed">
+                        <div className="flex items-center gap-2 flex-1">
+                          <Tag className="h-5 w-5 text-primary" />
+                          <code className="text-lg font-mono font-bold">
+                            {voucher.voucher_code}
+                          </code>
                         </div>
                         <Button
-                          variant="secondary"
+                          variant="outline"
                           size="sm"
-                          className="rounded-none w-full"
-                          disabled={!v.voucher_code}
-                          onClick={() => {
-                            if (v.voucher_code) {
-                              navigator.clipboard.writeText(v.voucher_code);
-                              toast({ title: "Code copied!" });
-                            }
-                          }}
+                          onClick={() => copyVoucherCode(voucher.voucher_code!)}
+                          className="w-full sm:w-auto"
                         >
-                          Copy Code
+                          <Copy className="h-4 w-4 mr-2" />
+                          Copy
                         </Button>
-                        <p className="text-xs text-gray-600 mt-2 font-medium">
-                          Staff: Scan QR or type code at POS
-                        </p>
                       </div>
-                    </div>
+                    )}
 
-                    {/* Expiry */}
-                    <div className="flex items-center justify-center gap-2 text-white text-sm">
-                      <Calendar className="h-4 w-4" />
-                      <span>Valid until {new Date(v.end_date).toLocaleDateString()}</span>
+                    <div className="flex flex-col sm:flex-row gap-4 text-sm text-muted-foreground">
+                      <div className="flex items-center gap-1">
+                        <Calendar className="h-4 w-4" />
+                        <span>Valid until {new Date(voucher.end_date).toLocaleDateString()}</span>
+                      </div>
+                      {voucher.max_uses && (
+                        <div className="flex items-center gap-1">
+                          <Gift className="h-4 w-4" />
+                          <span>
+                            {voucher.max_uses - voucher.current_uses} remaining
+                          </span>
+                        </div>
+                      )}
                     </div>
-
-                    {/* Terms */}
-                    <div className="bg-white/10 backdrop-blur-sm rounded-lg p-3">
-                      <h5 className="text-xs font-bold text-white uppercase mb-2">
-                        Terms & Conditions
-                      </h5>
-                      <ul className="text-xs text-white/90 space-y-1">
-                        <li>• One-time use only</li>
-                        <li>• Cannot be combined with other offers</li>
-                        <li>• Present before payment</li>
-                        <li>• No cash value • Non-transferable</li>
-                        {v.voucher_type === "percentage_discount" && (
-                          <li>• Discount applies to eligible items</li>
-                        )}
-                      </ul>
-                    </div>
-                  </div>
-                </div>
-              </Card>
-            );
-          })}
-        </section>
-      )}
-      </main>
-    </>
+                  </CardContent>
+                </Card>
+              ))}
+            </div>
+          )}
+        </div>
+      </div>
+    </div>
   );
-}
+};
+
+export default BusinessVouchers;
