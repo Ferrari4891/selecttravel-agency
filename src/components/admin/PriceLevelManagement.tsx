@@ -130,7 +130,7 @@ export const PriceLevelManagement: React.FC = () => {
           {settings.map((setting) => (
             <div key={setting.id} className="border rounded-lg p-4">
               <div className="flex items-center justify-between mb-3">
-                <div className={`inline-flex items-center px-3 py-1 rounded-full text-sm font-medium ${getPriceLevelColor(setting.level)}`}>
+                <div className={`inline-flex items-center px-3 py-1 rounded-full text-sm font-medium transition-colors hover:bg-green-50 hover:text-green-600 ${getPriceLevelColor(setting.level)}`}>
                   {setting.level} Level
                 </div>
                 {editingId !== setting.id && (
