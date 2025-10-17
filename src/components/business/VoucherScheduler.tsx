@@ -32,15 +32,20 @@ export default function VoucherScheduler({ businessId }: { businessId: string })
     schedule_name: "",
     title: "",
     description: "",
-    voucher_type: "percentage",
+    voucher_type: "bogo",
     discount_value: "",
     min_purchase_amount: "",
+    spend_amount: "",
+    get_back_amount: "",
     max_uses: "",
     duration_days: "7",
     recurrence_pattern: "weekly",
     time: "09:00",
     day_of_week: "monday",
     day_of_month: "1",
+    exclusions: "",
+    terms: "",
+    blackout_days: "",
   });
 
   useEffect(() => {
@@ -81,18 +86,32 @@ export default function VoucherScheduler({ businessId }: { businessId: string })
 
       const nextTrigger = calculateNextTrigger(formData.recurrence_pattern, recurrenceDetails);
 
+      const voucherTemplate: any = {
+        title: formData.title,
+        description: formData.description,
+        voucher_type: formData.voucher_type,
+        max_uses: formData.max_uses ? parseInt(formData.max_uses) : null,
+        duration_days: parseInt(formData.duration_days),
+        exclusions: formData.exclusions,
+        terms: formData.terms,
+        blackout_days: formData.blackout_days,
+      };
+
+      // Add type-specific fields
+      if (formData.voucher_type === "bogo") {
+        // BOGO doesn't need additional fields
+      } else if (formData.voucher_type === "percentage") {
+        voucherTemplate.discount_value = parseFloat(formData.discount_value);
+        voucherTemplate.min_purchase_amount = formData.min_purchase_amount ? parseFloat(formData.min_purchase_amount) : 0;
+      } else if (formData.voucher_type === "spend_get") {
+        voucherTemplate.spend_amount = parseFloat(formData.spend_amount);
+        voucherTemplate.get_back_amount = parseFloat(formData.get_back_amount);
+      }
+
       const { error } = await supabase.from("voucher_schedules").insert({
         business_id: businessId,
         schedule_name: formData.schedule_name,
-        voucher_template: {
-          title: formData.title,
-          description: formData.description,
-          voucher_type: formData.voucher_type,
-          discount_value: parseFloat(formData.discount_value),
-          min_purchase_amount: formData.min_purchase_amount ? parseFloat(formData.min_purchase_amount) : 0,
-          max_uses: formData.max_uses ? parseInt(formData.max_uses) : null,
-          duration_days: parseInt(formData.duration_days),
-        },
+        voucher_template: voucherTemplate,
         recurrence_pattern: formData.recurrence_pattern,
         recurrence_details: recurrenceDetails,
         next_trigger_at: nextTrigger.toISOString(),
@@ -170,15 +189,20 @@ export default function VoucherScheduler({ businessId }: { businessId: string })
       schedule_name: "",
       title: "",
       description: "",
-      voucher_type: "percentage",
+      voucher_type: "bogo",
       discount_value: "",
       min_purchase_amount: "",
+      spend_amount: "",
+      get_back_amount: "",
       max_uses: "",
       duration_days: "7",
       recurrence_pattern: "weekly",
       time: "09:00",
       day_of_week: "monday",
       day_of_month: "1",
+      exclusions: "",
+      terms: "",
+      blackout_days: "",
     });
   };
 
@@ -272,46 +296,74 @@ export default function VoucherScheduler({ businessId }: { businessId: string })
                     />
                   </div>
 
-                  <div className="grid grid-cols-2 gap-4">
-                    <div>
-                      <Label>Discount Type</Label>
-                      <Select
-                        value={formData.voucher_type}
-                        onValueChange={(value) => setFormData({ ...formData, voucher_type: value })}
-                      >
-                        <SelectTrigger>
-                          <SelectValue />
-                        </SelectTrigger>
-                        <SelectContent>
-                          <SelectItem value="percentage">Percentage (%)</SelectItem>
-                          <SelectItem value="fixed">Fixed Amount ($)</SelectItem>
-                        </SelectContent>
-                      </Select>
-                    </div>
-
-                    <div>
-                      <Label>Discount Value</Label>
-                      <Input
-                        type="number"
-                        value={formData.discount_value}
-                        onChange={(e) => setFormData({ ...formData, discount_value: e.target.value })}
-                        placeholder="e.g., 20"
-                        required
-                      />
-                    </div>
+                  <div>
+                    <Label>Voucher Type</Label>
+                    <Select
+                      value={formData.voucher_type}
+                      onValueChange={(value) => setFormData({ ...formData, voucher_type: value })}
+                    >
+                      <SelectTrigger>
+                        <SelectValue />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="bogo">BOGO (Buy One Get One)</SelectItem>
+                        <SelectItem value="percentage">% Off with Minimum Purchase</SelectItem>
+                        <SelectItem value="spend_get">Spend Amount, Get Amount Back</SelectItem>
+                      </SelectContent>
+                    </Select>
                   </div>
 
-                  <div className="grid grid-cols-2 gap-4">
-                    <div>
-                      <Label>Min Purchase (optional)</Label>
-                      <Input
-                        type="number"
-                        value={formData.min_purchase_amount}
-                        onChange={(e) => setFormData({ ...formData, min_purchase_amount: e.target.value })}
-                        placeholder="e.g., 50"
-                      />
+                  {formData.voucher_type === "percentage" && (
+                    <div className="grid grid-cols-2 gap-4">
+                      <div>
+                        <Label>Discount Percentage</Label>
+                        <Input
+                          type="number"
+                          value={formData.discount_value}
+                          onChange={(e) => setFormData({ ...formData, discount_value: e.target.value })}
+                          placeholder="e.g., 20"
+                          required
+                        />
+                      </div>
+                      <div>
+                        <Label>Min Purchase Amount</Label>
+                        <Input
+                          type="number"
+                          value={formData.min_purchase_amount}
+                          onChange={(e) => setFormData({ ...formData, min_purchase_amount: e.target.value })}
+                          placeholder="e.g., 50"
+                          required
+                        />
+                      </div>
                     </div>
+                  )}
 
+                  {formData.voucher_type === "spend_get" && (
+                    <div className="grid grid-cols-2 gap-4">
+                      <div>
+                        <Label>Spend Amount ($)</Label>
+                        <Input
+                          type="number"
+                          value={formData.spend_amount}
+                          onChange={(e) => setFormData({ ...formData, spend_amount: e.target.value })}
+                          placeholder="e.g., 100"
+                          required
+                        />
+                      </div>
+                      <div>
+                        <Label>Get Back Amount ($)</Label>
+                        <Input
+                          type="number"
+                          value={formData.get_back_amount}
+                          onChange={(e) => setFormData({ ...formData, get_back_amount: e.target.value })}
+                          placeholder="e.g., 20"
+                          required
+                        />
+                      </div>
+                    </div>
+                  )}
+
+                  <div className="grid grid-cols-2 gap-4">
                     <div>
                       <Label>Max Uses (optional)</Label>
                       <Input
@@ -321,15 +373,42 @@ export default function VoucherScheduler({ businessId }: { businessId: string })
                         placeholder="e.g., 100"
                       />
                     </div>
+
+                    <div>
+                      <Label>Voucher Duration (days)</Label>
+                      <Input
+                        type="number"
+                        value={formData.duration_days}
+                        onChange={(e) => setFormData({ ...formData, duration_days: e.target.value })}
+                        required
+                      />
+                    </div>
                   </div>
 
                   <div>
-                    <Label>Voucher Duration (days)</Label>
-                    <Input
-                      type="number"
-                      value={formData.duration_days}
-                      onChange={(e) => setFormData({ ...formData, duration_days: e.target.value })}
-                      required
+                    <Label>Exclusions (optional)</Label>
+                    <Textarea
+                      value={formData.exclusions}
+                      onChange={(e) => setFormData({ ...formData, exclusions: e.target.value })}
+                      placeholder="e.g., Not valid with other offers"
+                    />
+                  </div>
+
+                  <div>
+                    <Label>Terms & Conditions (optional)</Label>
+                    <Textarea
+                      value={formData.terms}
+                      onChange={(e) => setFormData({ ...formData, terms: e.target.value })}
+                      placeholder="e.g., Valid for dine-in only"
+                    />
+                  </div>
+
+                  <div>
+                    <Label>Blackout Days (optional)</Label>
+                    <Textarea
+                      value={formData.blackout_days}
+                      onChange={(e) => setFormData({ ...formData, blackout_days: e.target.value })}
+                      placeholder="e.g., Not valid on holidays"
                     />
                   </div>
 
@@ -422,19 +501,25 @@ export default function VoucherScheduler({ businessId }: { businessId: string })
                           variant="outline"
                           size="sm"
                           onClick={() => {
+                            const template = schedule.voucher_template;
                             setFormData({
                               schedule_name: schedule.schedule_name,
-                              title: schedule.voucher_template.title,
-                              description: schedule.voucher_template.description,
-                              voucher_type: schedule.voucher_template.voucher_type,
-                              discount_value: schedule.voucher_template.discount_value.toString(),
-                              min_purchase_amount: schedule.voucher_template.min_purchase_amount?.toString() || "",
-                              max_uses: schedule.voucher_template.max_uses?.toString() || "",
-                              duration_days: schedule.voucher_template.duration_days.toString(),
+                              title: template.title,
+                              description: template.description,
+                              voucher_type: template.voucher_type,
+                              discount_value: template.discount_value?.toString() || "",
+                              min_purchase_amount: template.min_purchase_amount?.toString() || "",
+                              spend_amount: template.spend_amount?.toString() || "",
+                              get_back_amount: template.get_back_amount?.toString() || "",
+                              max_uses: template.max_uses?.toString() || "",
+                              duration_days: template.duration_days.toString(),
                               recurrence_pattern: schedule.recurrence_pattern,
                               time: schedule.recurrence_details.time,
                               day_of_week: schedule.recurrence_details.day_of_week || "monday",
                               day_of_month: schedule.recurrence_details.day_of_month?.toString() || "1",
+                              exclusions: template.exclusions || "",
+                              terms: template.terms || "",
+                              blackout_days: template.blackout_days || "",
                             });
                             setDialogOpen(true);
                           }}
