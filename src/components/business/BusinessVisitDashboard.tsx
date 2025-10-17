@@ -140,12 +140,12 @@ export function BusinessVisitDashboard({ businessId }: { businessId: string }) {
       {/* Recent Visits Table */}
       <Card>
         <CardHeader>
-          <div className="flex items-center justify-between">
+          <div className="flex flex-col gap-4">
             <div>
               <CardTitle>Recent Visits</CardTitle>
               <CardDescription>Last 50 member visits to your business</CardDescription>
             </div>
-            <Button onClick={exportToCSV} variant="outline" size="sm">
+            <Button onClick={exportToCSV} variant="outline" size="sm" className="w-full">
               <Download className="h-4 w-4 mr-2" />
               Export CSV
             </Button>
