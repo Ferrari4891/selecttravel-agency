@@ -232,7 +232,7 @@ export default function VoucherScheduler({ businessId }: { businessId: string })
               <DialogTrigger asChild>
                 <Button>
                   <Plus className="mr-2 h-4 w-4" />
-                  New Schedule
+                  NEW
                 </Button>
               </DialogTrigger>
               <DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto">
@@ -441,6 +441,29 @@ export default function VoucherScheduler({ businessId }: { businessId: string })
                       </div>
 
                       <div className="flex items-center gap-2">
+                        <Button
+                          variant="outline"
+                          size="sm"
+                          onClick={() => {
+                            setFormData({
+                              schedule_name: schedule.schedule_name,
+                              title: schedule.voucher_template.title,
+                              description: schedule.voucher_template.description,
+                              voucher_type: schedule.voucher_template.voucher_type,
+                              discount_value: schedule.voucher_template.discount_value.toString(),
+                              min_purchase_amount: schedule.voucher_template.min_purchase_amount?.toString() || "",
+                              max_uses: schedule.voucher_template.max_uses?.toString() || "",
+                              duration_days: schedule.voucher_template.duration_days.toString(),
+                              recurrence_pattern: schedule.recurrence_pattern,
+                              time: schedule.recurrence_details.time,
+                              day_of_week: schedule.recurrence_details.day_of_week || "monday",
+                              day_of_month: schedule.recurrence_details.day_of_month?.toString() || "1",
+                            });
+                            setDialogOpen(true);
+                          }}
+                        >
+                          <Edit className="h-4 w-4" />
+                        </Button>
                         <Button
                           variant="outline"
                           size="sm"
