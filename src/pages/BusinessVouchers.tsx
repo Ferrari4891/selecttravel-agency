@@ -48,9 +48,15 @@ const BusinessVouchers = () => {
         .select('business_name, description, logo_url')
         .eq('id', businessId)
         .eq('status', 'approved')
-        .single();
+        .maybeSingle();
 
       if (businessError) throw businessError;
+      
+      if (!businessData) {
+        setLoading(false);
+        return;
+      }
+      
       setBusiness(businessData);
 
       // Fetch active vouchers
