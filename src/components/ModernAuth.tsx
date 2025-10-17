@@ -155,7 +155,7 @@ const ModernAuth: React.FC<ModernAuthProps> = ({
       <Card className="w-full max-w-lg shadow-2xl border-0 bg-white">
         <CardHeader className="text-center pb-6">
           <CardTitle className="text-2xl font-bold text-gray-900 mb-2">
-            It's FREE! to join seniorstravelagency.com
+            It's FREE! to join mysmartguide.online
           </CardTitle>
           <CardDescription className="text-lg text-gray-600">
             {mode === 'signup' 

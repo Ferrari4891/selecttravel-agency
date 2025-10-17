@@ -43,7 +43,7 @@ const HowTo = () => {
             </div>
 
             <div className="text-center space-y-4">
-              <h2 className="font-bold text-black text-2xl">How to Use seniorstravelagency.com</h2>
+              <h2 className="font-bold text-black text-2xl">How to Use mysmartguide.online</h2>
               <p className="text-muted-foreground text-base">Your step-by-step guide to discovering top rated businesses in many categories in thousands of cities worldwide in 60 seconds or less with NO typing!!</p>
               <div className="mt-6 pt-4 border-t max-w-md mx-auto">
                 <AudioPlayer src="how-to-intro.wav" className="w-full" />

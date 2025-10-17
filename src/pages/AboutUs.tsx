@@ -37,7 +37,7 @@ const AboutUs = () => {
             </div>
 
             <div className="text-center space-y-4">
-              <h2 className="font-bold text-black text-2xl">About seniorstravelagency.com</h2>
+              <h2 className="font-bold text-black text-2xl">About mysmartguide.online</h2>
               <p className="text-base font-medium text-black">Get what you want or need when you travel in 60 seconds or less with NO typing!!</p>
             </div>
 
@@ -48,7 +48,7 @@ const AboutUs = () => {
                   <CardDescription className="text-base font-semibold text-white">Why we enjoy making Smart Guides</CardDescription>
                 </CardHeader>
                 <CardContent className="flex flex-col flex-1 justify-between space-y-4">
-                  <p className="text-muted-foreground">At seniorstravelagency.com , we believe that your time is valuable and when you travel should be stress free. Our mission is to help you discover top rated restaurants in a variety of categories worldwide. By combining data from trusted sources like TripAdvisor, Yelp, and Google Reviews to give you a choice between 1, 5, 10 or all the restaurants listed in our database.</p>
+                  <p className="text-muted-foreground">At mysmartguide.online , we believe that your time is valuable and when you travel should be stress free. Our mission is to help you discover top rated restaurants in a variety of categories worldwide. By combining data from trusted sources like TripAdvisor, Yelp, and Google Reviews to give you a choice between 1, 5, 10 or all the restaurants listed in our database.</p>
                   <div className="mt-auto">
                     <AudioPlayer src="our-mission.wav" />
                   </div>
@@ -58,11 +58,11 @@ const AboutUs = () => {
               <Card className="rounded-none flex flex-col h-full">
                 <CardHeader className="bg-black">
                   <CardTitle className="text-xl text-white font-bold">Our Story</CardTitle>
-                  <CardDescription className="text-base font-semibold text-white">seniorstravelagency.com</CardDescription>
+                  <CardDescription className="text-base font-semibold text-white">mysmartguide.online</CardDescription>
                 </CardHeader>
                 <CardContent className="flex flex-col flex-1 justify-between space-y-4">
                   <p className="text-muted-foreground">
-                    Founded by seniors for seniors, seniorstravelagency was born from the frustration of spending hours researching credible businesses when traveling. We wanted to create a simple, reliable way to find the best rated businesses in any location, backed by real reviews from real people and comprehensive data.
+                    Founded by seniors for seniors, mysmartguide was born from the frustration of spending hours researching credible businesses when traveling. We wanted to create a simple, reliable way to find the best rated businesses in any location, backed by real reviews from real people and comprehensive data.
                   </p>
                   <div className="mt-auto">
                     <AudioPlayer src="our-story.wav" />
