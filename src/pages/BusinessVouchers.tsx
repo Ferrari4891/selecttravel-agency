@@ -10,6 +10,7 @@ import QRCode from "qrcode";
 import voucherBase from "@/assets/voucher-base.png";
 import placeholderQR from "@/assets/placeholder-qr.png";
 import { useToast } from "@/hooks/use-toast";
+import { Navigation } from "@/components/Navigation";
 
 interface Voucher {
   id: string;
@@ -88,12 +89,14 @@ export default function BusinessVouchers() {
 
 
   return (
-    <main className="container mx-auto px-4 py-6 space-y-6">
-      <header className="space-y-1">
-        <h1 className="text-xl font-bold">{businessName || "Business"} Discount Vouchers</h1>
-        <p className="text-muted-foreground text-sm">Show the QR or code at checkout to redeem.</p>
-      </header>
-      <Separator />
+    <>
+      <Navigation />
+      <main className="container mx-auto px-4 py-6 space-y-6">
+        <header className="space-y-1">
+          <h1 className="text-xl font-bold">{businessName || "Business"} Discount Vouchers</h1>
+          <p className="text-muted-foreground text-sm">Show the QR or code at checkout to redeem.</p>
+        </header>
+        <Separator />
 
       {vouchers.length === 0 ? (
         <Card>
@@ -230,6 +233,7 @@ export default function BusinessVouchers() {
           })}
         </section>
       )}
-    </main>
+      </main>
+    </>
   );
 }
