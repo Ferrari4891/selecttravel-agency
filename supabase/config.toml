@@ -3,6 +3,9 @@ project_id = "urczlhjnztiaxdsatueu"
 [functions.send-invitation-emails]
 verify_jwt = false
 
+[functions.generate-business-image]
+verify_jwt = false
+
 [functions.business-api]
 verify_jwt = false
 

@@ -19,6 +19,7 @@ import VoucherScheduler from '@/components/business/VoucherScheduler';
 import AnalyticsReportSettings from '@/components/business/AnalyticsReportSettings';
 import SocialMediaConnect from '@/components/business/SocialMediaConnect';
 import SocialMediaAutoPostSettings from '@/components/business/SocialMediaAutoPostSettings';
+import { AIImageGenerator } from '@/components/business/AIImageGenerator';
 import { useToast } from '@/hooks/use-toast';
 import { Home } from 'lucide-react';
 import MobileContainer from '@/components/MobileContainer';
@@ -125,6 +126,9 @@ const Dashboard = () => {
               <TabsTrigger value="profile" className="w-full text-sm md:text-base font-medium px-4 py-3 border border-border rounded data-[state=active]:bg-primary data-[state=active]:text-primary-foreground">Business Profile</TabsTrigger>
               <TabsTrigger value="media" className="w-full text-sm md:text-base font-medium px-4 py-3 border border-border rounded data-[state=active]:bg-primary data-[state=active]:text-primary-foreground">Media</TabsTrigger>
               {business.subscription_tier === 'firstclass' && (
+                <TabsTrigger value="ai-images" className="w-full text-sm md:text-base font-medium px-4 py-3 border border-border rounded data-[state=active]:bg-primary data-[state=active]:text-primary-foreground">AI Images</TabsTrigger>
+              )}
+              {business.subscription_tier === 'firstclass' && (
                 <TabsTrigger value="visits" className="w-full text-sm md:text-base font-medium px-4 py-3 border border-border rounded data-[state=active]:bg-primary data-[state=active]:text-primary-foreground">Visit Tracking</TabsTrigger>
               )}
               <TabsTrigger value="analytics" className="w-full text-sm md:text-base font-medium px-4 py-3 border border-border rounded data-[state=active]:bg-primary data-[state=active]:text-primary-foreground">Analytics</TabsTrigger>
@@ -164,6 +168,22 @@ const Dashboard = () => {
                 </CardContent>
               </Card>
             </TabsContent>
+
+            {business.subscription_tier === 'firstclass' && (
+              <TabsContent value="ai-images" className="space-y-4">
+                <Card className="border shadow-md bg-background">
+                  <CardHeader className="bg-background p-4">
+                    <CardTitle className="text-center border-b border-border pb-2 text-xl md:text-2xl font-bold">AI Image Generator</CardTitle>
+                    <CardDescription className="text-sm md:text-base text-center text-muted-foreground">
+                      Generate or edit images with AI in 16:9 aspect ratio.
+                    </CardDescription>
+                  </CardHeader>
+                  <CardContent className="p-4">
+                    <AIImageGenerator businessId={business.id} />
+                  </CardContent>
+                </Card>
+              </TabsContent>
+            )}
 
             <TabsContent value="analytics" className="space-y-4">
               <Card className="border shadow-md bg-background">
