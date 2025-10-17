@@ -231,7 +231,6 @@ export default function VoucherScheduler({ businessId }: { businessId: string })
             <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
               <DialogTrigger asChild>
                 <Button>
-                  <Plus className="mr-2 h-4 w-4" />
                   NEW
                 </Button>
               </DialogTrigger>
@@ -417,29 +416,7 @@ export default function VoucherScheduler({ businessId }: { businessId: string })
               {schedules.map((schedule) => (
                 <Card key={schedule.id}>
                   <CardContent className="pt-6">
-                    <div className="flex justify-between items-start">
-                      <div className="flex-1">
-                        <h3 className="font-semibold">{schedule.schedule_name}</h3>
-                        <p className="text-sm text-muted-foreground mt-1">
-                          {schedule.voucher_template.title}
-                        </p>
-                        <div className="flex items-center gap-4 mt-2 text-sm text-muted-foreground">
-                          <span className="flex items-center gap-1">
-                            <Calendar className="h-4 w-4" />
-                            {schedule.recurrence_pattern}
-                          </span>
-                          <span className="flex items-center gap-1">
-                            <Clock className="h-4 w-4" />
-                            Next: {new Date(schedule.next_trigger_at).toLocaleString()}
-                          </span>
-                        </div>
-                        {schedule.last_triggered_at && (
-                          <p className="text-xs text-muted-foreground mt-1">
-                            Last run: {new Date(schedule.last_triggered_at).toLocaleString()}
-                          </p>
-                        )}
-                      </div>
-
+                    <div className="space-y-4">
                       <div className="flex items-center gap-2">
                         <Button
                           variant="outline"
@@ -482,6 +459,28 @@ export default function VoucherScheduler({ businessId }: { businessId: string })
                         >
                           <Trash2 className="h-4 w-4" />
                         </Button>
+                      </div>
+                      
+                      <div>
+                        <h3 className="font-semibold">{schedule.schedule_name}</h3>
+                        <p className="text-sm text-muted-foreground mt-1">
+                          {schedule.voucher_template.title}
+                        </p>
+                        <div className="flex items-center gap-4 mt-2 text-sm text-muted-foreground">
+                          <span className="flex items-center gap-1">
+                            <Calendar className="h-4 w-4" />
+                            {schedule.recurrence_pattern}
+                          </span>
+                          <span className="flex items-center gap-1">
+                            <Clock className="h-4 w-4" />
+                            Next: {new Date(schedule.next_trigger_at).toLocaleString()}
+                          </span>
+                        </div>
+                        {schedule.last_triggered_at && (
+                          <p className="text-xs text-muted-foreground mt-1">
+                            Last run: {new Date(schedule.last_triggered_at).toLocaleString()}
+                          </p>
+                        )}
                       </div>
                     </div>
                   </CardContent>
